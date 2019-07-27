@@ -3,6 +3,11 @@ import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
 
+// Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
+// See post by megahertz: https://github.com/megahertz/electron-log/issues/60
+// "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
+import log from 'electron-log';
+
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
@@ -13,17 +18,17 @@ function createWindow() {
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   // Load the previous state with fallback to defaults
-  let mainWindowState = windowStateKeeper({
+  let windowState = windowStateKeeper({
     defaultWidth: 850,
     defaultHeight: 600
   });
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
+    x: windowState.x,
+    y: windowState.y,
+    width: windowState.width,
+    height: windowState.height,
     backgroundColor: '#fff',
     frame: false,
     show: false,
@@ -31,6 +36,8 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+
+  windowState.manage(win);
 
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -78,6 +85,7 @@ function createWindow() {
 }
 
 try {
+  log.info(`+++ Starting +++`);
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
@@ -86,11 +94,12 @@ try {
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
+    log.info(`+++ Stopping +++`);
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
+    // if (process.platform !== 'darwin') {
+    //   app.quit();
+    // }
   });
 
   app.on('activate', () => {

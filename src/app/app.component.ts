@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
+import log from 'electron-log';
+import { ProductInformation } from './core/productInformation';
 
 @Component({
   selector: 'app-root',
@@ -22,5 +24,9 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+  }
+
+  public ngOnInit(): void {
+    log.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
   }
 }
