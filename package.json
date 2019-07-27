@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "6.0.1",
-  "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "Dopamine",
+  "version": "3.0.0-preview.1",
+  "description": "Audio player",
+  "homepage": "https://github.com/digimezzo/dopamine-electron",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Digimezzo",
+    "email": "info@digimezzo.com"
   },
   "keywords": [
     "angular",
