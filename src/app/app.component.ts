@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import log from 'electron-log';
 import { ProductInformation } from './core/productInformation';
-import { LoggerService } from './providers/logger.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,8 @@ import { LoggerService } from './providers/logger.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService, private translate: TranslateService, private logger: LoggerService) {
+  constructor(public electronService: ElectronService,
+    private translate: TranslateService) {
 
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
@@ -27,6 +27,6 @@ export class AppComponent {
   }
 
   public ngOnInit(): void {
-    this.logger.info("AppComponent", "ngOnInit", `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
+    log.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
   }
 }
