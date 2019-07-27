@@ -82,5 +82,12 @@
   },
   "engines": {
     "node": ">=10.9.0"
+  },
+  "dependencies": {
+    "electron-log": "^3.0.6",
+    "electron-store": "^4.0.0",
+    "electron-window-state": "^5.0.3",
+    "fs-extra": "^8.1.0",
+    "moment": "^2.24.0"
   }
 }

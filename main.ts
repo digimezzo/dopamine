@@ -1,6 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import * as windowStateKeeper from 'electron-window-state';
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -11,12 +12,21 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 850,
+    defaultHeight: 600
+  });
+
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    backgroundColor: '#fff',
+    frame: false,
+    show: false,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -47,6 +57,24 @@ function createWindow() {
     win = null;
   });
 
+  // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work. 
+  // See: https://github.com/electron/electron/issues/7779
+  win.on('ready-to-show', function () {
+    win.show();
+    win.focus();
+  });
+
+  // Makes links open in external browser
+  var handleRedirect = (e, url) => {
+    // Check that the requested url is not the current page
+    if (url != win.webContents.getURL()) {
+      e.preventDefault()
+      require('electron').shell.openExternal(url)
+    }
+  }
+
+  win.webContents.on('will-navigate', handleRedirect)
+  win.webContents.on('new-window', handleRedirect)
 }
 
 try {
