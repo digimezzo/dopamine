@@ -7,6 +7,9 @@
     "name": "Digimezzo",
     "email": "info@digimezzo.com"
   },
+  "browser": {
+    "fs": false
+  },
   "keywords": [
     "angular",
     "angular 8",
