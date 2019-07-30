@@ -17,8 +17,6 @@ export class AppComponent {
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
-    this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
-
     if (electronService.isElectron()) {
       console.log('Mode electron');
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
