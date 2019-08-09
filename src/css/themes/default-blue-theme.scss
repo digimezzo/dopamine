@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$default-blue-palette: (
+  50 : #e4effa,
+  100 : #bbd8f2,
+  200 : #8ebeea,
+  300 : #61a4e1,
+  400 : #3f91da,
+  500 : #1d7dd4,
+  600 : #1a75cf,
+  700 : #156ac9,
+  800 : #1160c3,
+  900 : #0a4db9,
+  A100 : #e5edff,
+  A200 : #b2ccff,
+  A400 : #7faaff,
+  A700 : #6599ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$default-blue-theme-primary: mat-palette($default-blue-palette);
+$default-blue-theme-accent: mat-palette($default-blue-palette);
+$default-blue-theme-warn: mat-palette($default-blue-palette);
+$default-blue-theme: mat-light-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);

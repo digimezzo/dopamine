@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$material-yellow-palette: (
+  50 : #FFFDE7,
+  100 : #FFF9C4,
+  200 : #FFF59D,
+  300 : #FFF176,
+  400 : #FFEE58,
+  500 : #FFEB3B,
+  600 : #FDD835,
+  700 : #FBC02D,
+  800 : #F9A825,
+  900 : #F57F17,
+  A100 : #FFFF8D,
+  A200 : #FFFF00,
+  A400 : #FFEA00,
+  A700 : #FFD600,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$material-yellow-theme-primary: mat-palette($material-yellow-palette);
+$material-yellow-theme-accent: mat-palette($material-yellow-palette);
+$material-yellow-theme-warn: mat-palette($material-yellow-palette);
+$material-yellow-theme: mat-light-theme($material-yellow-theme-primary, $material-yellow-theme-accent, $material-yellow-theme-warn);

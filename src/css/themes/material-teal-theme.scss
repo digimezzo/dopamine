@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$material-teal-palette: (
+  50 : #E0F2F1,
+  100 : #B2DFDB,
+  200 : #80CBC4,
+  300 : #4DB6AC,
+  400 : #26A69A,
+  500 : #009688,
+  600 : #00897B,
+  700 : #00796B,
+  800 : #00695C,
+  900 : #004D40,
+  A100 : #A7FFEB,
+  A200 : #64FFDA,
+  A400 : #1DE9B6,
+  A700 : #00BFA5,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$material-teal-theme-primary: mat-palette($material-teal-palette);
+$material-teal-theme-accent: mat-palette($material-teal-palette);
+$material-teal-theme-warn: mat-palette($material-teal-palette);
+$material-teal-theme: mat-light-theme($material-teal-theme-primary, $material-teal-theme-accent, $material-teal-theme-warn);

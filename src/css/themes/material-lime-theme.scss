@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$material-lime-palette: (
+  50 : #F9FBE7,
+  100 : #F0F4C3,
+  200 : #E6EE9C,
+  300 : #DCE775,
+  400 : #D4E157,
+  500 : #CDDC39,
+  600 : #C0CA33,
+  700 : #AFB42B,
+  800 : #9E9D24,
+  900 : #827717,
+  A100 : #F4FF81,
+  A200 : #EEFF41,
+  A400 : #C6FF00,
+  A700 : #AEEA00,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$material-lime-theme-primary: mat-palette($material-lime-palette);
+$material-lime-theme-accent: mat-palette($material-lime-palette);
+$material-lime-theme-warn: mat-palette($material-lime-palette);
+$material-lime-theme: mat-light-theme($material-lime-theme-primary, $material-lime-theme-accent, $material-lime-theme-warn);

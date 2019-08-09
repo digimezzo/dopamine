@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$material-indigo-palette: (
+  50 : #E8EAF6,
+  100 : #C5CAE9,
+  200 : #9FA8DA,
+  300 : #7986CB,
+  400 : #5C6BC0,
+  500 : #3F51B5,
+  600 : #3949AB,
+  700 : #303F9F,
+  800 : #283593,
+  900 : #1A237E,
+  A100 : #8C9EFF,
+  A200 : #536DFE,
+  A400 : #3D5AFE,
+  A700 : #304FFE,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$material-indigo-theme-primary: mat-palette($material-indigo-palette);
+$material-indigo-theme-accent: mat-palette($material-indigo-palette);
+$material-indigo-theme-warn: mat-palette($material-indigo-palette);
+$material-indigo-theme: mat-light-theme($material-indigo-theme-primary, $material-indigo-theme-accent, $material-indigo-theme-warn);

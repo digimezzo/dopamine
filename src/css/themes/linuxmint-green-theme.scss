@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$linuxmint-green-palette: (
+  50 : #f1f6eb,
+  100 : #dce8cd,
+  200 : #c5d8ac,
+  300 : #aec88a,
+  400 : #9cbd71,
+  500 : #8bb158,
+  600 : #83aa50,
+  700 : #78a147,
+  800 : #6e983d,
+  900 : #5b882d,
+  A100 : #e6ffce,
+  A200 : #ccff9b,
+  A400 : #b2ff68,
+  A700 : #a5ff4e,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$linuxmint-green-theme-primary: mat-palette($linuxmint-green-palette);
+$linuxmint-green-theme-accent: mat-palette($linuxmint-green-palette);
+$linuxmint-green-theme-warn: mat-palette($linuxmint-green-palette);
+$linuxmint-green-theme: mat-light-theme($linuxmint-green-theme-primary, $linuxmint-green-theme-accent, $linuxmint-green-theme-warn);

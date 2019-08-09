@@ -1,0 +1,56 @@
+@import "variables.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  outline: none; // Removes yellow outline on elements
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Roboto, Ubuntu, "Segoe UI", sans-serif;
+  background: #fff;
+  color: #000;
+  overflow-y: hidden;
+}
+
+h1 {
+  @extend .color-primary;
+  font-size: 24px !important;
+}
+
+h2 {
+  color: #748393;
+  font-size: 20px !important;
+}
+
+h3 {
+  color: #748393;
+  font-size: 24px !important;
+}
+
+a {
+  @extend .color-primary;
+  outline: none; // Removes yellow outline on links
+}
+
+hr {
+  border-bottom: 1px solid #dedede;
+}

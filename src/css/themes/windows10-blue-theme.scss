@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$windows10-blue-palette: (
+    50 : #e0effa,
+    100 : #b3d7f3,
+    200 : #80bceb,
+    300 : #4da1e3,
+    400 : #268cdd,
+    500 : #0078d7,
+    600 : #0070d3,
+    700 : #0065cd,
+    800 : #005bc7,
+    900 : #0048be,
+    A100 : #e6eeff,
+    A200 : #b3cbff,
+    A400 : #80a8ff,
+    A700 : #6796ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$windows10-blue-theme-primary: mat-palette($windows10-blue-palette);
+$windows10-blue-theme-accent: mat-palette($windows10-blue-palette);
+$windows10-blue-theme-warn: mat-palette($windows10-blue-palette);
+$windows10-blue-theme: mat-light-theme($windows10-blue-theme-primary, $windows10-blue-theme-accent, $windows10-blue-theme-warn);

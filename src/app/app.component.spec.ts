@@ -2,9 +2,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { ElectronService } from './providers/electron.service';
-import { LoggerMock } from './providers/logger/logger.mock';
-import { LoggerService } from './providers/logger/logger.service';
+import { ElectronService } from './services/electron.service';
+import { LoggerMock } from './services/logger/logger.mock';
+import { LoggerService } from './services/logger/logger.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

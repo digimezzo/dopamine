@@ -1,0 +1,38 @@
+// Created with: http://mcg.mbitson.com/
+$manjaro-green-palette: (
+  50 : #E3F4F0,
+  100 : #B9E3DA,
+  200 : #8BD0C2,
+  300 : #5CBDAA,
+  400 : #39AE97,
+  500 : #16A085,
+  600 : #13987D,
+  700 : #108E72,
+  800 : #0C8468,
+  900 : #067355,
+  A100 : #A2FFE2,
+  A200 : #6FFFD2,
+  A400 : #3CFFC2,
+  A700 : #23FFBA,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$manjaro-green-theme-primary: mat-palette($manjaro-green-palette);
+$manjaro-green-theme-accent: mat-palette($manjaro-green-palette);
+$manjaro-green-theme-warn: mat-palette($manjaro-green-palette);
+$manjaro-green-theme: mat-light-theme($manjaro-green-theme-primary, $manjaro-green-theme-accent, $manjaro-green-theme-warn);
