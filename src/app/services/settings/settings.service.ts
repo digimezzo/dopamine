@@ -15,7 +15,7 @@ export class SettingsService {
     return 'en';
   }
 
-  // language
+  // Language
   public get language(): string {
     return this.settings.get('language');
   }
@@ -24,7 +24,7 @@ export class SettingsService {
     this.settings.set('language', v);
   }
 
-  // theme
+  // Theme
   public get theme(): string {
     return this.settings.get('theme');
   }
@@ -33,6 +33,16 @@ export class SettingsService {
     this.settings.set('theme', v);
   }
 
+  // Show welcome
+  public get showWelcome(): boolean {
+    return this.settings.get('showWelcome');
+  }
+
+  public set showWelcome(v: boolean) {
+    this.settings.set('showWelcome', v);
+  }
+
+  // Initialize
   public initialize(): void {
     // storageDirectory and activeCollection cannot be initialized here.
     // Their value is set later, depending on user action.
@@ -54,16 +64,8 @@ export class SettingsService {
       }
     }
 
-    if (!this.settings.has('closeNotesWithEscape')) {
-      this.settings.set('closeNotesWithEscape', true);
-    }
-
-    if (!this.settings.has('fontSizeInNotes')) {
-      this.settings.set('fontSizeInNotes', 14);
-    }
-
-    if (!this.settings.has('showExactDatesInTheNotesList')) {
-      this.settings.set('showExactDatesInTheNotesList', false);
+    if (!this.settings.has('showWelcome')) {
+      this.settings.set('showWelcome', true);
     }
   }
 }
