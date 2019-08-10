@@ -4,3 +4,44 @@
     background-color: var(--color-window-background);
     padding: 64px;
 }
+
+.loading-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-content-foreground {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.loading-content-foreground-text {
+    font-size: 16px;
+    color: #9fa2a5;
+    max-width: 600px;
+}
+
+.loading-content-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.loading-content-background-pen {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.025;
+}

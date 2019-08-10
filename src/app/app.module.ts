@@ -26,6 +26,9 @@ import { CollectionComponent } from './components/collection/collection.componen
 import { SettingsComponent } from './components/settings/settings.component';
 import { InformationComponent } from './components/information/information.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
+import { LogoFullComponent } from './components/logo-full/logo-full.component';
+
+import { MatProgressSpinnerModule } from '@angular/material';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,9 +44,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     CollectionComponent,
     SettingsComponent,
     InformationComponent,
-    WindowControlsComponent
+    WindowControlsComponent,
+    LogoFullComponent
   ],
   imports: [
+    MatProgressSpinnerModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
