@@ -1,6 +1,6 @@
 // Dark theme colors
 :root {
-  --color-window-background: black;
+  --color-window-background: #1A1A1A;
   // $color-darkgrey: #272e36;
   // $color-grey: #aaaaaa;
   // $color-lightergrey: #f0f0f0;
@@ -11,7 +11,7 @@
 }
 
 [data-theme="light"] {
-  --color-window-background: white;
+  --color-window-background: #F5F5F5;
 }
 
 // Font sizes
