@@ -1,0 +1,12 @@
+@import 'css/font-faces.scss';
+@import 'css/theming.scss';
+
+.window-controls {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.window-controls .close-button:hover {
+    @extend .background-color-primary;
+}

@@ -145,18 +145,3 @@
   @include angular-material-theme($material-deep-orange-theme);
   @include set-primary-color($material-deep-orange-theme-primary);
 }
-
-// .blue-theme {
-//   @include angular-material-theme($blue-theme);
-//   @include set-primary-color($blue-theme-primary);
-// }
-
-// .pink-theme {
-//   @include angular-material-theme($pink-theme);
-//   @include set-primary-color($pink-theme-primary);
-// }
-
-// .deep-orange-theme {
-//   @include angular-material-theme($deep-orange-theme);
-//   @include set-primary-color($deep-orange-theme-primary);
-// }

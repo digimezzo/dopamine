@@ -1,11 +1,18 @@
-// Our own colors
-$color-darkgrey: #272e36;
-$color-grey: #aaaaaa;
-$color-lightergrey: #f0f0f0;
-$color-lightgrey: #dedede;
-$color-grey-icon: #727272;
-$color-hover: rgba(0, 0, 0, 0.05);
-$color-selected: rgba(0, 0, 0, 0.08);
+// Dark theme colors
+:root {
+  --color-window-background: black;
+  // $color-darkgrey: #272e36;
+  // $color-grey: #aaaaaa;
+  // $color-lightergrey: #f0f0f0;
+  // $color-lightgrey: #dedede;
+  // $color-grey-icon: #727272;
+  // $color-hover: rgba(0, 0, 0, 0.05);
+  // $color-selected: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] {
+  --color-window-background: white;
+}
 
 // Font sizes
 $fontsize-normal: 14px;

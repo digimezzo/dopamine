@@ -25,6 +25,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { InformationComponent } from './components/information/information.component';
+import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -39,7 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WelcomeComponent,
     CollectionComponent,
     SettingsComponent,
-    InformationComponent
+    InformationComponent,
+    WindowControlsComponent
   ],
   imports: [
     BrowserModule,

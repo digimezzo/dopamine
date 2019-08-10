@@ -12,7 +12,7 @@
 .window-frame-titlebar {
   width: 100%;
   height: $titlebar-height;
-  background-color: $color-darkgrey;
+  background-color: var(--color-window-background);
   display: flex;
   flex-direction: row;
 }

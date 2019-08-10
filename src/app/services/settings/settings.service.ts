@@ -44,9 +44,6 @@ export class SettingsService {
 
   // Initialize
   public initialize(): void {
-    // storageDirectory and activeCollection cannot be initialized here.
-    // Their value is set later, depending on user action.
-
     if (!this.settings.has('language')) {
       this.settings.set('language', 'en');
     }

@@ -1,0 +1,14 @@
+<div class="window-controls">
+  <div class="window-button min-button" (click)="minButtonClick()">
+    <span>&#xE921;</span>
+  </div>
+  <div class="window-button max-button" (click)="maxRestoreClick()" *ngIf="canMaximize">
+    <span>&#xE922;</span>
+  </div>
+  <div class="window-button restore-button" (click)="maxRestoreClick()" *ngIf="!canMaximize">
+    <span>&#xE923;</span>
+  </div>
+  <div class="window-button close-button" (click)="closeButtonClick()">
+    <span>&#xE8BB;</span>
+  </div>
+</div>
