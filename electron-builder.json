@@ -1,38 +1,26 @@
 {
-  "productName": "angular-electron",
+  "appId": "com.digimezzo.dopamine",
+  "productName": "Dopamine",
   "directories": {
-    "output": "release/"
+    "output": "release"
   },
-    "files": [
-        "**/*",
-        "!**/*.ts",
-        "!*.code-workspace",
-        "!LICENSE.md",
-        "!package.json",
-        "!package-lock.json",
-        "!src/",
-        "!e2e/",
-        "!hooks/",
-        "!angular.json",
-        "!_config.yml",
-        "!karma.conf.js",
-        "!tsconfig.json",
-        "!tslint.json"
-    ],
+  "files": [
+    "**/*"
+  ],
+  "extraResources": [
+    "LICENSE"
+  ],
   "win": {
-    "icon": "dist",
     "target": [
-      "portable"
+      "nsis"
     ]
   },
   "mac": {
-    "icon": "dist",
     "target": [
       "dmg"
     ]
   },
   "linux": {
-    "icon": "dist",
     "target": [
       "AppImage"
     ]
