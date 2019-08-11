@@ -11,9 +11,10 @@
 }
 
 .logo-text {
+  padding-bottom: 8px;
   flex-grow: 1;
   margin: auto 0px auto 20px;
-  font-family: roboto-thin;
+  font-family: monoglyceride;
   font-size: 48px;
 }
 
@@ -22,13 +23,13 @@
   width: 64px;
   min-width: 64px;
   height: 64px;
-  border-radius: 32px;
+  border-radius: 32px 0px 32px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.logo-icon-pen {
-  width: 32px;
-  height: 32px;
+.logo-icon-content {
+  width: 44px;
+  height: 44px;
 }

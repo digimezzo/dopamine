@@ -1,7 +1,7 @@
 {
-  "PAGES": {
-      "HOME": {
-          "TITLE": "App works !"
+  "pages": {
+      "loading": {
+          "loading": "Loading..."
       }
   }
 }

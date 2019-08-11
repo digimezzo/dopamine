@@ -26,23 +26,13 @@ body {
 
 body {
   font-family: Roboto, Ubuntu, "Segoe UI", sans-serif;
-  background: #fff;
-  color: #000;
+  background: var(--color-window-background);
+  color: var(--color-text-primary);
   overflow-y: hidden;
 }
 
 h1 {
   @extend .color-primary;
-  font-size: 24px !important;
-}
-
-h2 {
-  color: #748393;
-  font-size: 20px !important;
-}
-
-h3 {
-  color: #748393;
   font-size: 24px !important;
 }
 

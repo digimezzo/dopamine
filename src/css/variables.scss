@@ -1,17 +1,16 @@
 // Dark theme colors
 :root {
   --color-window-background: #1A1A1A;
-  // $color-darkgrey: #272e36;
-  // $color-grey: #aaaaaa;
-  // $color-lightergrey: #f0f0f0;
-  // $color-lightgrey: #dedede;
-  // $color-grey-icon: #727272;
-  // $color-hover: rgba(0, 0, 0, 0.05);
-  // $color-selected: rgba(0, 0, 0, 0.08);
+  --color-text-primary: #E2E2E2;
+  --color-text-secondary: #5E5E5E;
+  --color-separator: #2F2F2F;
 }
 
 [data-theme="light"] {
   --color-window-background: #F5F5F5;
+  --color-text-primary: #111111;
+  --color-text-secondary: #838383;
+  --color-separator: #D8D8D8;
 }
 
 // Font sizes
