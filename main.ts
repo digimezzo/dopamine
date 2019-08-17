@@ -12,6 +12,15 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+// Workaround: Global does not allow setting custom properties.
+// We need to cast it to "any" first.
+const globalAny: any = global;
+
+// Workaround to send messages between Electron windows
+const EventEmitter = require('events');
+class GlobalEventEmitter extends EventEmitter { };
+globalAny.globalEmitter = new GlobalEventEmitter();
+
 function createWindow() {
 
   const electronScreen = screen;

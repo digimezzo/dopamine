@@ -90,6 +90,7 @@
     "@angular/animations": "^8.2.1",
     "@angular/cdk": "^8.1.2",
     "@angular/material": "^8.1.2",
+    "bluebird": "^3.5.5",
     "electron-log": "^3.0.6",
     "electron-store": "^4.0.0",
     "electron-window-state": "^5.0.3",

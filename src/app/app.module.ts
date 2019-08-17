@@ -29,6 +29,7 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 
 import { MatProgressSpinnerModule } from '@angular/material';
+import { TrackRepository } from './data/entities/trackRepository';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -65,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     LoggerService,
     IndexingService,
-    SettingsService
+    SettingsService,
+    TrackRepository
   ],
   bootstrap: [AppComponent]
 })

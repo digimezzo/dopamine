@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
@@ -11,6 +24,20 @@ var electron_log_1 = require("electron-log");
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
+// Workaround: Global does not allow setting custom properties.
+// We need to cast it to "any" first.
+var globalAny = global;
+// Workaround to send messages between Electron windows
+var EventEmitter = require('events');
+var GlobalEventEmitter = /** @class */ (function (_super) {
+    __extends(GlobalEventEmitter, _super);
+    function GlobalEventEmitter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return GlobalEventEmitter;
+}(EventEmitter));
+;
+globalAny.globalEmitter = new GlobalEventEmitter();
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;

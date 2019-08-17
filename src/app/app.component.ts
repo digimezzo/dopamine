@@ -9,6 +9,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { SettingsService } from './services/settings/settings.service';
 import { Router } from '@angular/router';
 import { Constants } from './core/constants';
+import { TrackRepository } from './data/entities/trackRepository';
 
 @Component({
   selector: 'app-root',
@@ -36,17 +37,17 @@ export class AppComponent {
     this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
 
     this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
-    
-    let showWelcome: boolean = this.settingsService.showWelcome;
 
-    if (showWelcome) {
-      // this.settingsService.showWelcome = false;
-      this.router.navigate(['/welcome']);
-    }
+    // let showWelcome: boolean = this.settingsService.showWelcome;
+
+    // if (showWelcome) {
+    //   this.settingsService.showWelcome = false;
+    //   this.router.navigate(['/welcome']);
+    // }
   }
 
   private applyTheme(themeName: string): void {
