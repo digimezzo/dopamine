@@ -11,32 +11,27 @@
 }
 
 .welcome-stepper {
-  //background: red !important;
   background: transparent !important;
   flex: 1;
-}
-
-.welcome-stepper-step {
   width: 100%;
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
+  max-width: 400px;
 }
 
-.welcome-stepper-step-content {
-  width: 100%;
-  /* Found no other way to strech the content vertically. 
-  Must be due to the sliding animation which is injected by BrowserAnimationsModule. 
-  Uncomment the RGB colors to adjust height if nevcessary */
-  height: calc(100vh - 368px);
-  // background: blue;
-}
-
-.welcome-stepper-step-buttons {
+.welcome-stepper-buttons {
   display: flex;
   flex-direction: row;
-  //background: green;
-  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.welcome-stepper-buttons-icon {
+  font-family: segoe;
+  font-size: 32px;
+  @extend .color-primary;
+}
+
+.welcome-stepper-buttons-separator {
+  flex: 1;
 }
 
 .mat-horizontal-stepper-header-container {
@@ -45,19 +40,4 @@
 
 .mat-horizontal-content-container {
   padding: 0px !important;
-}
-
-.welcome-stepper-step-buttons-icon {
-  font-family: segoe;
-  font-size: 32px;
-  @extend .color-primary;
-}
-
-.welcome-title-text {
-  font-size: 40px;
-  @extend .color-primary;
-}
-
-.welcome-content-text {
-  font-size: 20px;
 }

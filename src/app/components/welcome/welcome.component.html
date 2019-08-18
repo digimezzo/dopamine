@@ -7,76 +7,69 @@
     <div class="window-frame-content">
         <div class="welcome">
             <app-logo-full></app-logo-full>
-            <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false">
+            <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false" #stepper>
                 <!-- Greeting -->
-                <mat-step class="welcome-stepper-step">
-                    <div class="welcome-stepper-step-content">
-                        <h1>
-                            Hi!
-                        </h1>
-                        <h4>
-                            Welcome to Dopamine, we think you'll love it!<br/>First, let's set things up.
-                        </h4>
-                    </div>
-                    <app-step-indicator class="my-4" [totalSteps]=5 [activeStep]=0></app-step-indicator>
-                    <div class="welcome-stepper-step-buttons">
-                        <button class="transparent-button" matStepperNext>
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE00F;
-                            </span>
-                        </button>
-                    </div>
+                <mat-step>
+                    <h1>
+                        Hi!
+                    </h1>
+                    <h4>
+                        Welcome to Dopamine, we think you'll love it! First, let's set things up.
+                    </h4>
                 </mat-step>
-                <mat-step class="welcome-stepper-step">
-                    <div class="welcome-stepper-step-content">
-
-                    </div>
-                    <app-step-indicator [totalSteps]=5 [activeStep]=1></app-step-indicator>
-                    <div class="welcome-stepper-step-buttons">
-                        <button class="transparent-button mr-4" matStepperPrevious>
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE00E;
-                            </span>
-                        </button>
-                        <button class="transparent-button ml-4" matStepperNext>
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE00F;
-                            </span>
-                        </button>
-                    </div>
+                <!-- Language -->
+                <mat-step>
+                    <h1>
+                        Language
+                    </h1>
                 </mat-step>
-                <mat-step class="welcome-stepper-step">
-                    <div class="welcome-stepper-step-content">
-
-                    </div>
-                    <app-step-indicator [totalSteps]=5 [activeStep]=2></app-step-indicator>
-                    <div class="welcome-stepper-step-buttons">
-                        <button class="transparent-button mr-4" matStepperPrevious>
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE00E;
-                            </span>
-                        </button>
-                        <button class="transparent-button ml-4" matStepperNext>
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE00F;
-                            </span>
-                        </button>
-                    </div>
+                <!-- Appearance -->
+                <mat-step>
+                    <h1>
+                        Appearance
+                    </h1>
                 </mat-step>
-                <mat-step class="welcome-stepper-step">
-                    <div class="welcome-stepper-step-content">
-
-                    </div>
-                    <app-step-indicator [totalSteps]=5 [activeStep]=3></app-step-indicator>
-                    <div class="welcome-stepper-step-buttons">
-                        <button class="transparent-button">
-                            <span class="welcome-stepper-step-buttons-icon">
-                                &#xE8FB;
-                            </span>
-                        </button>
-                    </div>
+                <!-- Music -->
+                <mat-step>
+                    <h1>
+                        Music
+                    </h1>
+                </mat-step>
+                <!-- Donate -->
+                <mat-step>
+                    <h1>
+                        Donate
+                    </h1>
+                </mat-step>
+                <!-- Done -->
+                <mat-step>
+                    <h1>
+                        Done
+                    </h1>
                 </mat-step>
             </mat-horizontal-stepper>
+            <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
+            <div class="welcome-stepper-buttons">
+                <button class="transparent-button no-select" (click)="goBack(stepper)"
+                    [ngClass]="{ 'hidden': currentStep < 1 || currentStep == totalSteps - 1 }">
+                    <span class=" welcome-stepper-buttons-icon">
+                        &#xE00E;
+                    </span>
+                </button>
+                <div class="welcome-stepper-buttons-separator"></div>
+                <button *ngIf="currentStep < totalSteps - 1" class="transparent-button no-select"
+                    (click)="goForward(stepper)">
+                    <span class=" welcome-stepper-buttons-icon">
+                        &#xE00F;
+                    </span>
+                </button>
+                <button *ngIf="currentStep == totalSteps - 1" class="transparent-button no-select"
+                    (click)="finish()">
+                    <span class=" welcome-stepper-buttons-icon">
+                        &#xE8FB;
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
