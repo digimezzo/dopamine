@@ -1,27 +1,40 @@
 <div class="window-frame">
-  <div class="window-frame-titlebar">
-      <div class="window-frame-titlebar-dragarea">
-      </div>
-      <window-controls></window-controls>
-  </div>
-  <div class="window-frame-content">
-      <div class="welcome">
-          <!-- <div class="welcome-content">
-              <div class="welcome-content-foreground">
-                  <logo-full [textColor]="'white'"></logo-full>
-                  <div class="welcome-content-foreground-title mt-4">{{ 'WelcomePage.Title' | translate }}</div>
-                  <div class="welcome-content-foreground-text mt-4">{{ 'WelcomePage.Text' | translate }}</div>
-                  <div class="mt-4">
-                      <button mat-raised-button color="primary" (click)="openDirectoryChooserAsync()" *ngIf="!isBusy">
-                          {{ 'WelcomePage.SelectButton' | translate }}
-                      </button>
-                      <mat-spinner *ngIf="isBusy" [diameter]="40"></mat-spinner>
-                  </div>
-              </div>
-              <div class="welcome-content-background">
-                  <img class="welcome-content-background-pen" src="./assets/images/pencil_256x256.svg">
-              </div>
-          </div> -->
-      </div>
-  </div>
+    <div class="window-frame-titlebar">
+        <div class="window-frame-titlebar-dragarea">
+        </div>
+        <window-controls></window-controls>
+    </div>
+    <div class="window-frame-content">
+        <div class="welcome">
+            <app-logo-full></app-logo-full>
+            <mat-horizontal-stepper class="welcome-stepper" [linear]="false">
+                <mat-step class="welcome-stepper-step">
+                    <div class="welcome-stepper-step-content">
+                        yo
+                    </div>
+                    <div class="welcome-stepper-step-buttons">
+                        <button mat-raised-button color="primary" matStepperNext>Next</button>
+                    </div>
+                </mat-step>
+                <mat-step class="welcome-stepper-step">
+                    <div class="welcome-stepper-step-content">
+
+                    </div>
+                    <div class="welcome-stepper-step-buttons">
+                        <button class="mr-4" mat-raised-button color="primary" matStepperPrevious>Back</button>
+                        <button class="ml-4" mat-raised-button color="primary" matStepperNext>Next</button>
+                    </div>
+                </mat-step>
+                <mat-step class="welcome-stepper-step">
+                    <div class="welcome-stepper-step-content">
+
+                    </div>
+                    <div class="welcome-stepper-step-buttons">
+                        <button class="mr-4" mat-raised-button color="primary" matStepperPrevious>Back</button>
+                        <button class="ml-4" mat-raised-button color="primary">Finish</button>
+                    </div>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </div>
+    </div>
 </div>

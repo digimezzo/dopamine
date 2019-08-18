@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +28,9 @@ import { InformationComponent } from './components/information/information.compo
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 
-import { MatProgressSpinnerModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import {MatStepperModule} from '@angular/material/stepper';
+
 import { TrackRepository } from './data/entities/trackRepository';
 
 // AoT requires an exported function for factories
@@ -50,8 +52,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     MatProgressSpinnerModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     TranslateModule.forRoot({

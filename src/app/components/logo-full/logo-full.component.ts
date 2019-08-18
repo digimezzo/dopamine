@@ -10,7 +10,6 @@ export class LogoFullComponent implements OnInit {
 
   constructor() { }
 
-  @Input() textColor: string;
   public applicationName: string = Constants.applicationName.toLowerCase();
 
   ngOnInit() {

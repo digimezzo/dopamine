@@ -1,6 +1,45 @@
 .welcome {
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-window-background);
-    padding: 64px;
+  width: 100%;
+  height: 100%;
+  padding: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-stepper {
+  margin-top: 64px;
+  width: 100%;
+  max-width: 600px;
+  // background: red !important;
+  background: transparent !important;
+  flex: 1;
+}
+
+.welcome-stepper-step {
+}
+
+.welcome-stepper-step-content {
+  width: 100%;
+  /* Found no other way to strech the content vertically. 
+  Must be due to the sliding animation which is injected by BrowserAnimationsModule. 
+  Uncomment the RGB colors to adjust height if nevcessary */
+  height: calc(100vh - 324px);
+  // background: blue;
+}
+
+.welcome-stepper-step-buttons {
+  display: flex;
+  flex-direction: row;
+  // background: green;
+  justify-content: center;
+}
+
+.mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+
+.mat-horizontal-content-container {
+  padding: 0px !important;
 }

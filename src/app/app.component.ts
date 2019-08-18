@@ -42,12 +42,12 @@ export class AppComponent {
 
     this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
 
-    // let showWelcome: boolean = this.settingsService.showWelcome;
+    let showWelcome: boolean = this.settingsService.showWelcome;
 
-    // if (showWelcome) {
-    //   this.settingsService.showWelcome = false;
-    //   this.router.navigate(['/welcome']);
-    // }
+    if (showWelcome) {
+      // this.settingsService.showWelcome = false;
+      this.router.navigate(['/welcome']);
+    }
   }
 
   private applyTheme(themeName: string): void {
