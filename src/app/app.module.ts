@@ -32,6 +32,7 @@ import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButton
 import {MatStepperModule} from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/trackRepository';
+import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SettingsComponent,
     InformationComponent,
     WindowControlsComponent,
-    LogoFullComponent
+    LogoFullComponent,
+    StepIndicatorComponent
   ],
   imports: [
     MatProgressSpinnerModule,

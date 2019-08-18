@@ -1,0 +1,6 @@
+<div class="step-indicator">
+  <div *ngFor="let step of totalStepsCollection">
+    <div *ngIf="step == activeStep" class="step-indicator-active-dot"></div>
+    <div *ngIf="step != activeStep" class="step-indicator-inactive-dot"></div>
+  </div>
+</div>

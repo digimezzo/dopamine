@@ -1,0 +1,22 @@
+@import "css/theming.scss";
+
+.step-indicator {
+  height: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.step-indicator-active-dot {
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  @extend .background-color-primary;
+}
+
+.step-indicator-inactive-dot {
+  opacity: 0.3;
+  @extend .step-indicator-active-dot;
+}

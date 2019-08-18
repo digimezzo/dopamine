@@ -11,8 +11,7 @@
 }
 
 .welcome-stepper {
-  margin-top: 64px;
-  // background: red !important;
+  //background: red !important;
   background: transparent !important;
   flex: 1;
 }
@@ -29,14 +28,14 @@
   /* Found no other way to strech the content vertically. 
   Must be due to the sliding animation which is injected by BrowserAnimationsModule. 
   Uncomment the RGB colors to adjust height if nevcessary */
-  height: calc(100vh - 324px);
+  height: calc(100vh - 368px);
   // background: blue;
 }
 
 .welcome-stepper-step-buttons {
   display: flex;
   flex-direction: row;
-  // background: green;
+  //background: green;
   justify-content: center;
 }
 
