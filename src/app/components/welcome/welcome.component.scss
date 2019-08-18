@@ -1,3 +1,5 @@
+@import "css/theming.scss";
+
 .welcome {
   width: 100%;
   height: 100%;
@@ -10,14 +12,16 @@
 
 .welcome-stepper {
   margin-top: 64px;
-  width: 100%;
-  max-width: 600px;
   // background: red !important;
   background: transparent !important;
   flex: 1;
 }
 
 .welcome-stepper-step {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
 }
 
 .welcome-stepper-step-content {
@@ -42,4 +46,19 @@
 
 .mat-horizontal-content-container {
   padding: 0px !important;
+}
+
+.welcome-stepper-step-buttons-icon {
+  font-family: segoe;
+  font-size: 32px;
+  @extend .color-primary;
+}
+
+.welcome-title-text {
+  font-size: 40px;
+  @extend .color-primary;
+}
+
+.welcome-content-text {
+  font-size: 20px;
 }

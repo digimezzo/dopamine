@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import "font-faces.scss";
 
 * {
   margin: 0;
@@ -25,7 +26,8 @@ body {
 }
 
 body {
-  font-family: Roboto, Ubuntu, "Segoe UI", sans-serif;
+  font-family: segoe;
+  font-weight: lighter;
   background: var(--color-window-background);
   color: var(--color-text-primary);
   overflow-y: hidden;

@@ -1,0 +1,25 @@
+.transparent-button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+  }
+  
+  .transparent-button:hover {
+    animation: pulse 1s infinite;
+    transition: .3s;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(.8);
+    }
+      100% {
+      transform: scale(1);
+    }
+  }

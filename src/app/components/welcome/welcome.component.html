@@ -8,12 +8,22 @@
         <div class="welcome">
             <app-logo-full></app-logo-full>
             <mat-horizontal-stepper class="welcome-stepper" [linear]="false">
+                <!-- Greeting -->
                 <mat-step class="welcome-stepper-step">
                     <div class="welcome-stepper-step-content">
-                        yo
+                        <span class="welcome-title-text">
+                            Hi!
+                        </span><br/>
+                        <span class="welcome-content-text">
+                            Welcome to Dopamine, we think you'll love it!<br/>First, let's set things up.
+                        </span>
                     </div>
                     <div class="welcome-stepper-step-buttons">
-                        <button mat-raised-button color="primary" matStepperNext>Next</button>
+                        <button class="transparent-button" matStepperNext>
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE00F;
+                            </span>
+                        </button>
                     </div>
                 </mat-step>
                 <mat-step class="welcome-stepper-step">
@@ -21,8 +31,16 @@
 
                     </div>
                     <div class="welcome-stepper-step-buttons">
-                        <button class="mr-4" mat-raised-button color="primary" matStepperPrevious>Back</button>
-                        <button class="ml-4" mat-raised-button color="primary" matStepperNext>Next</button>
+                        <button class="transparent-button mr-4" matStepperPrevious>
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE00E;
+                            </span>
+                        </button>
+                        <button class="transparent-button ml-4" matStepperNext>
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE00F;
+                            </span>
+                        </button>
                     </div>
                 </mat-step>
                 <mat-step class="welcome-stepper-step">
@@ -30,8 +48,28 @@
 
                     </div>
                     <div class="welcome-stepper-step-buttons">
-                        <button class="mr-4" mat-raised-button color="primary" matStepperPrevious>Back</button>
-                        <button class="ml-4" mat-raised-button color="primary">Finish</button>
+                        <button class="transparent-button mr-4" matStepperPrevious>
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE00E;
+                            </span>
+                        </button>
+                        <button class="transparent-button ml-4" matStepperNext>
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE00F;
+                            </span>
+                        </button>
+                    </div>
+                </mat-step>
+                <mat-step class="welcome-stepper-step">
+                    <div class="welcome-stepper-step-content">
+
+                    </div>
+                    <div class="welcome-stepper-step-buttons">
+                        <button class="transparent-button">
+                            <span class="welcome-stepper-step-buttons-icon">
+                                &#xE8FB;
+                            </span>
+                        </button>
                     </div>
                 </mat-step>
             </mat-horizontal-stepper>
