@@ -20,18 +20,12 @@
 .welcome-stepper-buttons {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 400px;
 }
 
 .welcome-stepper-buttons-icon {
   font-family: segoe;
   font-size: 32px;
   @extend .color-primary;
-}
-
-.welcome-stepper-buttons-separator {
-  flex: 1;
 }
 
 .mat-horizontal-stepper-header-container {
