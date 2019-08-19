@@ -1,8 +1,13 @@
 {
-    "pages": {
-        "loading": {
-            "loading": "Chargement..."
+    "Pages": {
+        "Loading": {
+            "Text": "Chargement..."
+        },
+        "Welcome": {
+            "Greeting": {
+                "Title": "Salut!",
+                "Text": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
+            }
         }
     }
-  }
-  
+}

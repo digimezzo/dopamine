@@ -1,7 +1,13 @@
 {
-  "pages": {
-      "loading": {
-          "loading": "Loading..."
+  "Pages": {
+    "Loading": {
+      "Text": "Loading..."
+    },
+    "Welcome": {
+      "Greeting": {
+        "Title": "Hi!",
+        "Text": "Welcome to Dopamine, we think you'll love it! First, let's set things up."
       }
+    }
   }
 }

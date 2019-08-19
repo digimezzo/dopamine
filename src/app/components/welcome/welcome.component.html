@@ -11,10 +11,10 @@
                 <!-- Greeting -->
                 <mat-step>
                     <h1>
-                        Hi!
+                        {{ 'Pages.Welcome.Greeting.Title' | translate }}
                     </h1>
                     <h4>
-                        Welcome to Dopamine, we think you'll love it! First, let's set things up.
+                        {{ 'Pages.Welcome.Greeting.Text' | translate }}
                     </h4>
                 </mat-step>
                 <!-- Language -->
@@ -60,8 +60,7 @@
                         &#xE00F;
                     </span>
                 </button>
-                <button *ngIf="canFinish" class="transparent-button no-select mx-4"
-                    (click)="finish()">
+                <button *ngIf="canFinish" class="transparent-button no-select mx-4" (click)="finish()">
                     <span class=" welcome-stepper-buttons-icon">
                         &#xE8FB;
                     </span>
