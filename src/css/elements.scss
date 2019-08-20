@@ -9,6 +9,10 @@
   outline: none; // Removes yellow outline on elements
 }
 
+* :not(.custom-font) {
+  font-family: opensans !important;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -32,20 +36,14 @@ body {
 }
 
 h1 {
-  font-family: opensans;
   font-weight: lighter;
   @extend .color-primary;
   font-size: 40px !important;
 }
 
-h4{
-  font-family: opensans;
+h4 {
   font-weight: lighter;
   font-size: 20px !important;
-}
-
-p{
-  font-family: opensans;
 }
 
 a {

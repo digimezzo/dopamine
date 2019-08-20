@@ -51,17 +51,17 @@
             <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
             <div class="welcome-stepper-buttons">
                 <button *ngIf="canGoBack" class="transparent-button no-select mx-4" (click)="goBack(stepper)">
-                    <span class=" welcome-stepper-buttons-icon">
+                    <span class=" welcome-stepper-buttons-icon custom-font">
                         &#xE00E;
                     </span>
                 </button>
                 <button *ngIf="canGoForward" class="transparent-button no-select mx-4" (click)="goForward(stepper)">
-                    <span class=" welcome-stepper-buttons-icon">
+                    <span class=" welcome-stepper-buttons-icon custom-font">
                         &#xE00F;
                     </span>
                 </button>
                 <button *ngIf="canFinish" class="transparent-button no-select mx-4" (click)="finish()">
-                    <span class=" welcome-stepper-buttons-icon">
+                    <span class=" welcome-stepper-buttons-icon custom-font">
                         &#xE8FB;
                     </span>
                 </button>

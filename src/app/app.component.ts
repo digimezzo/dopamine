@@ -46,7 +46,7 @@ export class AppComponent {
 
     if (showWelcome) {
       // this.settingsService.showWelcome = false;
-      this.router.navigate(['/welcome']);
+      //this.router.navigate(['/welcome']);
     }
   }
 
