@@ -11,10 +11,10 @@
                 <!-- Greeting -->
                 <mat-step>
                     <h1>
-                        Hi!
+                        {{ 'Pages.Welcome.Greeting.Title' | translate }}
                     </h1>
                     <h4>
-                        Welcome to Dopamine, we think you'll love it! First, let's set things up.
+                        {{ 'Pages.Welcome.Greeting.Text' | translate }}
                     </h4>
                 </mat-step>
                 <!-- Language -->
@@ -50,21 +50,17 @@
             </mat-horizontal-stepper>
             <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
             <div class="welcome-stepper-buttons">
-                <button class="transparent-button no-select" (click)="goBack(stepper)"
-                    [ngClass]="{ 'hidden': currentStep < 1 || currentStep == totalSteps - 1 }">
+                <button *ngIf="canGoBack" class="transparent-button no-select mx-4" (click)="goBack(stepper)">
                     <span class=" welcome-stepper-buttons-icon">
                         &#xE00E;
                     </span>
                 </button>
-                <div class="welcome-stepper-buttons-separator"></div>
-                <button *ngIf="currentStep < totalSteps - 1" class="transparent-button no-select"
-                    (click)="goForward(stepper)">
+                <button *ngIf="canGoForward" class="transparent-button no-select mx-4" (click)="goForward(stepper)">
                     <span class=" welcome-stepper-buttons-icon">
                         &#xE00F;
                     </span>
                 </button>
-                <button *ngIf="currentStep == totalSteps - 1" class="transparent-button no-select"
-                    (click)="finish()">
+                <button *ngIf="canFinish" class="transparent-button no-select mx-4" (click)="finish()">
                     <span class=" welcome-stepper-buttons-icon">
                         &#xE8FB;
                     </span>
