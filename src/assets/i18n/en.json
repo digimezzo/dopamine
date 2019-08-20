@@ -8,6 +8,22 @@
         "Title": "Hi!",
         "Text": "Welcome to Dopamine, we think you'll love it! First, let's set things up."
       }
+    },
+    "Language": {
+      "Title": "Language",
+      "Text": "Pick your language"
+    },
+    "Appearance": {
+      "Title": "Appearance",
+      "Text": "What should your Dopamine look like?"
+    },
+    "Music": {
+      "Title": "Music",
+      "Text": "Let's now set up your collection. Where do you store your music?"
+    },
+    "Donate": {
+      "Title": "Donate",
+      "Text": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!"
     }
   }
 }
