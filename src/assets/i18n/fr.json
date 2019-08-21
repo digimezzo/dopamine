@@ -7,23 +7,27 @@
             "Greeting": {
                 "Title": "Salut!",
                 "Text": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
-            }
-        },
-        "Language": {
-            "Title": "Langue",
-            "Text": "Choisissez votre langue"
-        },
-        "Appearance": {
-            "Title": "Apparence",
-            "Text": "Quelle apparence voulez-vous donner à Dopamine?"
-        },
-        "Music": {
-            "Title": "Musique",
-            "Text": "Maintenant, configurons votre collection. Où stockez-vous votre musique?"
-        },
-        "Donate": {
-            "Title": "Faire un don",
-            "Text": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!"
+            },
+            "Language": {
+                "Title": "Langue",
+                "Text": "Choisissez votre langue"
+            },
+            "Appearance": {
+                "Title": "Apparence",
+                "Text": "Quelle apparence voulez-vous donner à Dopamine?"
+            },
+            "Music": {
+                "Title": "Musique",
+                "Text": "Maintenant, configurons votre collection. Où stockez-vous votre musique?"
+            },
+            "Donate": {
+                "Title": "Faire un don",
+                "Text": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!"
+            },
+            "Done": {
+                "Title": "Prêt!",
+                "Text": "Nous sommes prêts. Maintenant, lançons Dopamine."
+              }
         }
     }
 }

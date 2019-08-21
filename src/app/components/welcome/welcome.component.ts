@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -9,7 +10,7 @@ import { MatStepper } from '@angular/material';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   public currentStep: number = 0;
   public totalSteps: number = 6;
@@ -44,6 +45,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   public finish(): void {
-
+    this.router.navigate(['/collection']);
   }
 }

@@ -20,32 +20,47 @@
                 <!-- Language -->
                 <mat-step>
                     <h1>
-                        Language
+                        {{ 'Pages.Welcome.Language.Title' | translate }}
                     </h1>
+                    <h4>
+                        {{ 'Pages.Welcome.Language.Text' | translate }}
+                    </h4>
                 </mat-step>
                 <!-- Appearance -->
                 <mat-step>
                     <h1>
-                        Appearance
+                        {{ 'Pages.Welcome.Appearance.Title' | translate }}
                     </h1>
+                    <h4>
+                        {{ 'Pages.Welcome.Appearance.Text' | translate }}
+                    </h4>
                 </mat-step>
                 <!-- Music -->
                 <mat-step>
                     <h1>
-                        Music
+                        {{ 'Pages.Welcome.Music.Title' | translate }}
                     </h1>
+                    <h4>
+                        {{ 'Pages.Welcome.Music.Text' | translate }}
+                    </h4>
                 </mat-step>
                 <!-- Donate -->
                 <mat-step>
                     <h1>
-                        Donate
+                        {{ 'Pages.Welcome.Donate.Title' | translate }}
                     </h1>
+                    <h4>
+                        {{ 'Pages.Welcome.Donate.Text' | translate }}
+                    </h4>
                 </mat-step>
                 <!-- Done -->
                 <mat-step>
                     <h1>
-                        Done
+                        {{ 'Pages.Welcome.Done.Title' | translate }}
                     </h1>
+                    <h4>
+                        {{ 'Pages.Welcome.Done.Text' | translate }}
+                    </h4>
                 </mat-step>
             </mat-horizontal-stepper>
             <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
