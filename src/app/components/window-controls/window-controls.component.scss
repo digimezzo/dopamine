@@ -1,5 +1,6 @@
 @import 'css/font-faces.scss';
 @import 'css/theming.scss';
+@import 'css/variables.scss';
 
 .window-controls {
     display: flex;
@@ -9,4 +10,5 @@
 
 .window-controls .close-button:hover {
     @extend .background-color-primary;
+    color: #FFF;
 }

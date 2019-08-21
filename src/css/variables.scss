@@ -4,6 +4,8 @@
   --color-text-primary: #E2E2E2;
   --color-text-secondary: #5E5E5E;
   --color-separator: #2F2F2F;
+  --color-window-button-text: #FFF;
+  --color-window-button-hover-background: rgba(255, 255, 255, 0.1);
 }
 
 [background-theme="light"] {
@@ -11,6 +13,8 @@
   --color-text-primary: #111111;
   --color-text-secondary: #838383;
   --color-separator: #D8D8D8;
+  --color-window-button-text: #000;
+  --color-window-button-hover-background: rgba(0, 0, 0, 0.1);
 }
 
 // Font sizes
