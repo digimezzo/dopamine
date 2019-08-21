@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as Store from 'electron-store';
-import { Constants } from '../../core/constants';
+import { Constants } from './constants';
+import { SettingsInterface } from './settingsInterface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
+export class Settings implements SettingsInterface {
   private settings: Store<any> = new Store();
 
-  constructor() { }
+  constructor() { 
+      this.initialize();
+  }
 
   // Default language
   public get defaultLanguage(): string {
@@ -43,7 +46,7 @@ export class SettingsService {
   }
 
   // Initialize
-  public initialize(): void {
+  private initialize(): void {
     if (!this.settings.has('language')) {
       this.settings.set('language', 'en');
     }

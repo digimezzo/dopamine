@@ -13,13 +13,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ElectronService } from './services/electron.service';
-import { LoggerService } from './services/logger/logger.service';
 import { IndexingService } from './services/indexing/indexing.service';
 
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
-import { SettingsService } from './services/settings/settings.service';
 import { LoadingComponent } from './components/loading/loading.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CollectionComponent } from './components/collection/collection.component';
@@ -33,6 +31,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/trackRepository';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
+import { Settings } from './core/settings';
+import { Logger } from './core/logger';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -74,9 +74,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     ElectronService,
-    LoggerService,
     IndexingService,
-    SettingsService,
+    Settings,
+    Logger,
     TrackRepository
   ],
   bootstrap: [AppComponent]

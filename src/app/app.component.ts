@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './services/electron.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AppConfig } from '../environments/environment';
 import { ProductInformation } from './core/productInformation';
-import { LoggerService } from './services/logger/logger.service';
 import { remote } from 'electron';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { SettingsService } from './services/settings/settings.service';
 import { Router } from '@angular/router';
 import { Constants } from './core/constants';
-import { TrackRepository } from './data/entities/trackRepository';
+import { Settings } from './core/settings';
+import { Logger } from './core/logger';
 
 @Component({
   selector: 'app-root',
@@ -20,15 +18,13 @@ export class AppComponent {
   private globalEmitter = remote.getGlobal('globalEmitter');
   private themeChangedListener: any = this.applyTheme.bind(this);
 
-  constructor(public electronService: ElectronService, private translateService: TranslateService, private settingsService: SettingsService,
-    private translate: TranslateService, private logger: LoggerService, private overlayContainer: OverlayContainer, public router: Router) {
+  constructor(public electronService: ElectronService, private translateService: TranslateService, private settings: Settings,
+    private translate: TranslateService, private logger: Logger, private overlayContainer: OverlayContainer, public router: Router) {
 
-      this.settingsService.initialize();
+    this.applyTheme(this.settings.theme);
 
-      this.applyTheme(this.settingsService.theme);
-  
-      this.translateService.setDefaultLang(this.settingsService.defaultLanguage);
-      this.translateService.use(this.settingsService.language);
+    this.translateService.setDefaultLang(this.settings.defaultLanguage);
+    this.translateService.use(this.settings.language);
   }
 
   public selectedTheme: string;
@@ -38,15 +34,17 @@ export class AppComponent {
   }
 
   public async ngOnInit(): Promise<void> {
-    this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`);
+    this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`, "AppComponent", "ngOnInit");
 
     this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
 
-    let showWelcome: boolean = this.settingsService.showWelcome;
+    let showWelcome: boolean = this.settings.showWelcome;
 
     if (showWelcome) {
       // this.settingsService.showWelcome = false;
-      //this.router.navigate(['/welcome']);
+      this.router.navigate(['/welcome']);
+    } else {
+      this.router.navigate(['/collection']);
     }
   }
 
