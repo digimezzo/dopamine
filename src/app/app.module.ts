@@ -26,7 +26,7 @@ import { InformationComponent } from './components/information/information.compo
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 
-import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule } from '@angular/material';
 import {MatStepperModule} from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/trackRepository';
@@ -59,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatSlideToggleModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,

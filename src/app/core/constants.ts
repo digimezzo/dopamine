@@ -1,5 +1,5 @@
 import { Language } from "./language";
-import { Theme } from "./theme";
+import { ColorTheme } from "./colorTheme";
 
 export class Constants {
     static readonly applicationName: string = require("../../../package.json").name;
@@ -10,14 +10,15 @@ export class Constants {
     static readonly twitterUrl = "https://twitter.com/digimezzo";
     static readonly githubUrl = "https://github.com/digimezzo";
 
-    static readonly themeChangedEvent: string = "f132f4ce-ae3c-4e1d-958a-a9cd28517b68";
+    static readonly colorThemeChangedEvent: string = "f132f4ce-ae3c-4e1d-958a-a9cd28517b68";
+    static readonly backgroundThemeChangedEvent: string = "75035cf8-4300-465e-beb9-2f1cf107052f";
 
     static readonly languages: Language[] = [
         { code: "en", name: "English" },
         { code: "fr", name: "Français" }
     ];
 
-    static readonly themes: Theme[] = [
+    static readonly colorThemes: ColorTheme[] = [
         { name: "default-blue-theme", displayName: "Default blue", color: "#1D7DD4" },
         { name: "ubuntu-orange-theme", displayName: "Ubuntu orange", color: "#E95420" },
         { name: "linuxmint-green-theme", displayName: "Linux Mint green", color: "#8bb158" },

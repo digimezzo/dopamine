@@ -1,33 +1,40 @@
 {
     "Pages": {
         "Loading": {
-            "Text": "Chargement..."
+            "Content": "Chargement..."
         },
         "Welcome": {
             "Greeting": {
                 "Title": "Salut!",
-                "Text": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
+                "Content": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
             },
             "Language": {
                 "Title": "Langue",
-                "Text": "Choisissez votre langue"
+                "Content": "Choisissez votre langue"
             },
             "Appearance": {
                 "Title": "Apparence",
-                "Text": "Quelle apparence voulez-vous donner à Dopamine?"
+                "Content": "Quelle apparence voulez-vous donner à Dopamine?",
+                "UseLightTheme": "Utiliser le thème clair"
             },
             "Music": {
                 "Title": "Musique",
-                "Text": "Maintenant, configurons votre collection. Où stockez-vous votre musique?"
+                "Content": "Maintenant, configurons votre collection. Où stockez-vous votre musique?"
             },
             "Donate": {
                 "Title": "Faire un don",
-                "Text": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!"
+                "Content": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!"
             },
             "Done": {
                 "Title": "Prêt!",
-                "Text": "Nous sommes prêts. Maintenant, lançons Dopamine."
+                "Content": "Nous sommes prêts. Maintenant, lançons Dopamine."
               }
+        }
+    },
+    "Common":{
+        "Choices":{
+            "Yes": "Oui",
+            "No": "Non"
         }
     }
 }

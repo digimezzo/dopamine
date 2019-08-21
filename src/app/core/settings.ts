@@ -28,12 +28,12 @@ export class Settings implements SettingsInterface {
   }
 
   // Theme
-  public get theme(): string {
-    return this.settings.get('theme');
+  public get colorTheme(): string {
+    return this.settings.get('colorTheme');
   }
 
-  public set theme(v: string) {
-    this.settings.set('theme', v);
+  public set colorTheme(v: string) {
+    this.settings.set('colorTheme', v);
   }
 
   // Show welcome
@@ -45,27 +45,40 @@ export class Settings implements SettingsInterface {
     this.settings.set('showWelcome', v);
   }
 
+  // Use light theme
+  public get useLightBackgroundTheme(): boolean {
+    return this.settings.get('useLightBackgroundTheme');
+  }
+
+  public set useLightBackgroundTheme(v: boolean) {
+    this.settings.set('useLightBackgroundTheme', v);
+  }
+
   // Initialize
   private initialize(): void {
     if (!this.settings.has('language')) {
       this.settings.set('language', 'en');
     }
 
-    if (!this.settings.has('theme')) {
-      this.settings.set('theme', "default-blue-theme");
+    if (!this.settings.has('colorTheme')) {
+      this.settings.set('colorTheme', "default-blue-theme");
     } else {
-      let settingsThemeName: string = this.settings.get('theme');
+      let settingsColorThemeName: string = this.settings.get('colorTheme');
 
-      // Check if the theme which is saved in the settings still exists 
-      // in the app (The themes might change between releases).
-      // If not, reset the theme setting to the default theme.
-      if (!Constants.themes.map(x => x.name).includes(settingsThemeName)) {
-        this.settings.set('theme', "default-blue-theme");
+      // Check if the color theme which is saved in the settings still exists 
+      // in the app (The color themes might change between releases).
+      // If not, reset the color theme setting to the default color theme.
+      if (!Constants.colorThemes.map(x => x.name).includes(settingsColorThemeName)) {
+        this.settings.set('colorTheme', "default-blue-theme");
       }
     }
 
     if (!this.settings.has('showWelcome')) {
       this.settings.set('showWelcome', true);
+    }
+
+    if (!this.settings.has('useLightBackgroundTheme')) {
+      this.settings.set('useLightBackgroundTheme', false);
     }
   }
 }

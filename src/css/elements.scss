@@ -10,7 +10,7 @@
 }
 
 * :not(.custom-font) {
-  font-family: opensans;
+  font-family: opensans !important;
   font-size: $fontsize-normal;
 }
 

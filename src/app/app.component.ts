@@ -16,27 +16,31 @@ import { Logger } from './core/logger';
 })
 export class AppComponent {
   private globalEmitter = remote.getGlobal('globalEmitter');
-  private themeChangedListener: any = this.applyTheme.bind(this);
+  private colorThemeChangedListener: any = this.applyColorTheme.bind(this);
+  private backgroundThemeChangedListener: any = this.applyBackgroundTheme.bind(this);
 
-  constructor(public electronService: ElectronService, private translateService: TranslateService, private settings: Settings,
-    private translate: TranslateService, private logger: Logger, private overlayContainer: OverlayContainer, public router: Router) {
+  constructor(public electronService: ElectronService, private translate: TranslateService, private settings: Settings,
+    private logger: Logger, private overlayContainer: OverlayContainer, public router: Router) {
 
-    this.applyTheme(this.settings.theme);
+    this.applyColorTheme(this.settings.colorTheme);
+    this.applyBackgroundTheme(this.settings.useLightBackgroundTheme);
 
-    this.translateService.setDefaultLang(this.settings.defaultLanguage);
-    this.translateService.use(this.settings.language);
+    this.translate.setDefaultLang(this.settings.defaultLanguage);
+    this.translate.use(this.settings.language);
   }
 
   public selectedTheme: string;
 
   public ngOnDestroy(): void {
-    this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
+    this.globalEmitter.remove(Constants.colorThemeChangedEvent, this.colorThemeChangedListener);
+    this.globalEmitter.remove(Constants.backgroundThemeChangedEvent, this.backgroundThemeChangedListener);
   }
 
   public async ngOnInit(): Promise<void> {
     this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`, "AppComponent", "ngOnInit");
 
-    this.globalEmitter.on(Constants.themeChangedEvent, this.themeChangedListener);
+    this.globalEmitter.on(Constants.colorThemeChangedEvent, this.colorThemeChangedListener);
+    this.globalEmitter.on(Constants.backgroundThemeChangedEvent, this.backgroundThemeChangedListener);
 
     let showWelcome: boolean = this.settings.showWelcome;
 
@@ -48,7 +52,7 @@ export class AppComponent {
     }
   }
 
-  private applyTheme(themeName: string): void {
+  private applyColorTheme(themeName: string): void {
     // Apply theme to app container
     this.selectedTheme = themeName;
 
@@ -62,5 +66,13 @@ export class AppComponent {
     }
 
     overlayContainerClasses.add(themeName);
+  }
+
+  private applyBackgroundTheme(useLightBackgroundTheme: boolean): void {
+    if (useLightBackgroundTheme) {
+      document.body.setAttribute('background-theme', 'light');
+    } else {
+      document.body.removeAttribute('background-theme');
+    }
   }
 }

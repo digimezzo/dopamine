@@ -14,7 +14,7 @@
                         {{ 'Pages.Welcome.Greeting.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Greeting.Text' | translate }}
+                        {{ 'Pages.Welcome.Greeting.Content' | translate }}
                     </h4>
                 </mat-step>
                 <!-- Language -->
@@ -23,9 +23,9 @@
                         {{ 'Pages.Welcome.Language.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Language.Text' | translate }}
+                        {{ 'Pages.Welcome.Language.Content' | translate }}
                     </h4>
-                    <mat-form-field>
+                    <mat-form-field class="mt-2">
                         <mat-select [(ngModel)]="selectedLanguage">
                             <mat-option *ngFor="let language of languages" [value]="language">
                                 {{ language.name }}
@@ -39,8 +39,10 @@
                         {{ 'Pages.Welcome.Appearance.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Appearance.Text' | translate }}
+                        {{ 'Pages.Welcome.Appearance.Content' | translate }}
                     </h4>
+                    <mat-slide-toggle class="mt-2" [(ngModel)]="useLightBackgroundTheme">
+                        {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
                 </mat-step>
                 <!-- Music -->
                 <mat-step>
@@ -48,7 +50,7 @@
                         {{ 'Pages.Welcome.Music.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Music.Text' | translate }}
+                        {{ 'Pages.Welcome.Music.Content' | translate }}
                     </h4>
                 </mat-step>
                 <!-- Donate -->
@@ -57,7 +59,7 @@
                         {{ 'Pages.Welcome.Donate.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Donate.Text' | translate }}
+                        {{ 'Pages.Welcome.Donate.Content' | translate }}
                     </h4>
                 </mat-step>
                 <!-- Done -->
@@ -66,7 +68,7 @@
                         {{ 'Pages.Welcome.Done.Title' | translate }}
                     </h1>
                     <h4>
-                        {{ 'Pages.Welcome.Done.Text' | translate }}
+                        {{ 'Pages.Welcome.Done.Content' | translate }}
                     </h4>
                 </mat-step>
             </mat-horizontal-stepper>

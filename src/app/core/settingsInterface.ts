@@ -1,6 +1,7 @@
 export interface SettingsInterface {
     defaultLanguage: string;
     language: string;
-    theme: string;
+    colorTheme: string;
     showWelcome: boolean;
+    useLightBackgroundTheme: boolean;
 }

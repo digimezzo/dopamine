@@ -5,6 +5,7 @@ import { Language } from '../../core/language';
 import { Constants } from '../../core/constants';
 import { Settings } from '../../core/settings';
 import { TranslateService } from '@ngx-translate/core';
+import { AppearanceService } from '../../services/appearance/appearance.service';
 
 @Component({
   selector: 'app-welcome',
@@ -14,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router, private settings: Settings, private translate: TranslateService) { }
+  constructor(public router: Router, private settings: Settings, private translate: TranslateService, private appearance: AppearanceService) { }
 
   public currentStep: number = 0;
   public totalSteps: number = 6;
@@ -37,10 +38,18 @@ export class WelcomeComponent implements OnInit {
     let languageCode: string = this.settings.language;
     return this.languages.find(x => x.code === languageCode);
   }
-  
+
   public set selectedLanguage(v: Language) {
     this.settings.language = v.code;
     this.translate.use(v.code);
+  }
+
+  public get useLightBackgroundTheme(): boolean {
+    return this.settings.useLightBackgroundTheme;
+  }
+  
+  public set useLightBackgroundTheme(v: boolean) {
+    this.appearance.setBackgroundTheme(v);
   }
 
   ngOnInit() {
