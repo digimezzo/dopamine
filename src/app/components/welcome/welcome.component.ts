@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
+import { Language } from '../../core/language';
+import { Constants } from '../../core/constants';
+import { Settings } from '../../core/settings';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-welcome',
@@ -10,10 +14,12 @@ import { Router } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private settings: Settings, private translate: TranslateService) { }
 
   public currentStep: number = 0;
   public totalSteps: number = 6;
+
+  public languages: Language[] = Constants.languages;
 
   public get canGoBack(): boolean {
     return this.currentStep > 0 && this.currentStep < this.totalSteps - 1;
@@ -25,6 +31,16 @@ export class WelcomeComponent implements OnInit {
 
   public get canFinish(): boolean {
     return this.currentStep == this.totalSteps - 1;
+  }
+
+  public get selectedLanguage(): Language {
+    let languageCode: string = this.settings.language;
+    return this.languages.find(x => x.code === languageCode);
+  }
+  
+  public set selectedLanguage(v: Language) {
+    this.settings.language = v.code;
+    this.translate.use(v.code);
   }
 
   ngOnInit() {

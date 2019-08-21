@@ -25,6 +25,13 @@
                     <h4>
                         {{ 'Pages.Welcome.Language.Text' | translate }}
                     </h4>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="selectedLanguage">
+                            <mat-option *ngFor="let language of languages" [value]="language">
+                                {{ language.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </mat-step>
                 <!-- Appearance -->
                 <mat-step>

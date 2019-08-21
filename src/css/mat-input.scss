@@ -1,0 +1,11 @@
+@import "variables.scss";
+
+// .mat-input-element {
+//   font-size: $fontsize-normal !important;
+//   line-height: $fontsize-normal !important;
+// }
+
+.mat-form-field {
+  line-height: unset !important;
+}
+

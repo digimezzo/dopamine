@@ -10,7 +10,8 @@
 }
 
 * :not(.custom-font) {
-  font-family: opensans !important;
+  font-family: opensans;
+  font-size: $fontsize-normal;
 }
 
 html {
@@ -36,14 +37,14 @@ body {
 }
 
 h1 {
-  font-weight: lighter;
   @extend .color-primary;
-  font-size: 40px !important;
+  font-weight: lighter !important;
+  font-size: $fontsize-largest !important;
 }
 
 h4 {
-  font-weight: lighter;
-  font-size: 20px !important;
+  font-weight: lighter !important;
+  font-size: $fontsize-larger !important;
 }
 
 a {

@@ -18,10 +18,6 @@ var path = require("path");
 var url = require("url");
 var windowStateKeeper = require("electron-window-state");
 var logger_1 = require("./src/app/core/logger");
-// Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
-// See post by megahertz: https://github.com/megahertz/electron-log/issues/60
-// "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
-var electron_log_1 = require("electron-log");
 // Create our own logger here. We don't have access to Angular injection here yet.
 var logger = new logger_1.Logger();
 var win, serve;
@@ -105,7 +101,7 @@ function createWindow() {
     win.webContents.on('new-window', handleRedirect);
 }
 try {
-    electron_log_1.default.info("+++ Starting +++", "Main", "");
+    logger.info("+++ Starting +++", "Main", "");
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
