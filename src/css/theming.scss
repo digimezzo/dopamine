@@ -46,6 +46,11 @@
   @include set-primary-color($default-blue-theme-primary);
 }
 
+.default-blue-theme-light {
+  @include angular-material-theme($default-blue-theme-light);
+  @include set-primary-color($default-blue-theme-primary);
+}
+
 .ubuntu-orange-theme {
   @include angular-material-theme($ubuntu-orange-theme);
   @include set-primary-color($ubuntu-orange-theme-primary);

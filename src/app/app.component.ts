@@ -59,7 +59,7 @@ export class AppComponent {
     // Apply theme to components in the overlay container
     // https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
     let overlayContainerClasses: DOMTokenList = this.overlayContainer.getContainerElement().classList;
-    let themeClassesToRemove: string[] = Array.from(overlayContainerClasses).filter((item: string) => item.includes('-theme'));
+    let themeClassesToRemove: string[] = Array.from(overlayContainerClasses).filter((item: string) => item.includes('-theme-'));
 
     if (themeClassesToRemove.length) {
       overlayContainerClasses.remove(...themeClassesToRemove);
@@ -70,8 +70,10 @@ export class AppComponent {
 
   private applyBackgroundTheme(useLightBackgroundTheme: boolean): void {
     if (useLightBackgroundTheme) {
+      this.applyColorTheme(`${this.settings.colorTheme}-light`);
       document.body.setAttribute('background-theme', 'light');
     } else {
+      this.applyColorTheme(this.settings.colorTheme);
       document.body.removeAttribute('background-theme');
     }
   }
