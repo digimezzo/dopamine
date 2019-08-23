@@ -10,16 +10,16 @@ export class AppearanceService {
 
     public setColorTheme(colorThemeName: string): void {
         this.settings.colorTheme = colorThemeName;
-        this.applySelectedTheme();
+        this.applyTheme();
     }
 
     public setBackgroundTheme(useLightBackgroundTheme: boolean): void {
         this.settings.useLightBackgroundTheme = useLightBackgroundTheme;
-        this.applySelectedTheme();
+        this.applyTheme();
     }
 
-    public applySelectedTheme(): void {
-        let theNameWithBackground: string = `${this.settings.colorTheme}-${this.settings.useLightBackgroundTheme ? "light" : "dark"}`;
+    public applyTheme(): void {
+        let themeNameWithBackground: string = `${this.settings.colorTheme}-${this.settings.useLightBackgroundTheme ? "light" : "dark"}`;
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
         let overlayContainerClasses: DOMTokenList = this.overlayContainer.getContainerElement().classList;
@@ -29,7 +29,7 @@ export class AppearanceService {
             overlayContainerClasses.remove(...overlayContainerClassesToRemove);
         }
 
-        overlayContainerClasses.add(theNameWithBackground);
+        overlayContainerClasses.add(themeNameWithBackground);
 
         // Apply theme to body
         let bodyClasses: DOMTokenList = document.body.classList;
@@ -39,6 +39,6 @@ export class AppearanceService {
             bodyClasses.remove(...bodyClassesToRemove);
         }
 
-        document.body.classList.add(theNameWithBackground);
+        document.body.classList.add(themeNameWithBackground);
     }
 }

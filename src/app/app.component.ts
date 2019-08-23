@@ -16,8 +16,7 @@ export class AppComponent {
   constructor(public electronService: ElectronService, private translate: TranslateService, private settings: Settings,
     private logger: Logger, private appearance: AppearanceService, public router: Router) {
 
-    this.appearance.applySelectedTheme();
-
+    this.appearance.applyTheme();
     this.translate.setDefaultLang(this.settings.defaultLanguage);
     this.translate.use(this.settings.language);
   }
@@ -28,9 +27,7 @@ export class AppComponent {
   public async ngOnInit(): Promise<void> {
     this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`, "AppComponent", "ngOnInit");
 
-    let showWelcome: boolean = this.settings.showWelcome;
-
-    if (showWelcome) {
+    if (this.settings.showWelcome) {
       // this.settingsService.showWelcome = false;
       this.router.navigate(['/welcome']);
     } else {
