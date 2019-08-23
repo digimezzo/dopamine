@@ -1,3 +1,5 @@
+@import "../custom-mat-dark-theme.scss";
+
 // Created with: http://mcg.mbitson.com/
 $default-blue-palette: (
   50: #e4effa,
@@ -36,5 +38,5 @@ $default-blue-theme-primary: mat-palette($default-blue-palette);
 $default-blue-theme-accent: mat-palette($default-blue-palette);
 $default-blue-theme-warn: mat-palette($default-blue-palette);
 
-$default-blue-theme: mat-dark-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);
+$default-blue-theme: custom-mat-dark-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);
 $default-blue-theme-light: mat-light-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);
