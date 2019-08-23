@@ -1,8 +1,13 @@
 $light-dividers: rgba(white, 0.12);
-$light-disabled-text: rgba(white, 0.5);
+$light-focused: rgba(white, 0.12);
+$light-primary-text: white;
 $light-secondary-text: rgba(white, 0.7);
-$dark-focused: rgba(black, 0.12);
+$light-disabled-text: rgba(white, 0.5);
+
+
 $dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$dark-primary-text: rgba(black, 0.87);
 $dark-secondary-text: rgba(black, 0.54);
 $dark-disabled-text: rgba(black, 0.38);
 
@@ -45,7 +50,7 @@ $custom-mat-dark-theme-background: (
   app-bar: map_get($mat-grey, 900),
   background: #303030,
   hover: rgba(white, 0.04),
-  // TODO(kara): check style with Material Design UX card: map_get($mat-grey, 800),
+  card: map_get($mat-grey, 800),
   dialog: map_get($mat-grey, 800),
   disabled-button: rgba(white, 0.12),
   raised-button: map-get($mat-grey, 800),
@@ -77,7 +82,7 @@ $custom-mat-dark-theme-foreground: (
 );
 
 // Background palette for light themes.
-$mat-light-theme-background: (
+$custom-mat-light-theme-background: (
   status-bar: map_get($mat-grey, 300),
   app-bar:    map_get($mat-grey, 100),
   background: map_get($mat-grey, 50),
@@ -95,7 +100,7 @@ $mat-light-theme-background: (
 );
 
 // Foreground palette for light themes.
-$mat-light-theme-foreground: (
+$custom-mat-light-theme-foreground: (
   base:              black,
   divider:           $dark-dividers,
   dividers:          $dark-dividers,
