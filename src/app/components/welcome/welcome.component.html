@@ -10,66 +10,78 @@
             <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false" #stepper>
                 <!-- Greeting -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Greeting.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Greeting.Content' | translate }}
-                    </h4>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Greeting.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Greeting.Content' | translate }}
+                        </h4>
+                    </div>
                 </mat-step>
                 <!-- Language -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Language.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Language.Content' | translate }}
-                    </h4>
-                    <mat-form-field class="mt-2">
-                        <mat-select [(ngModel)]="selectedLanguage">
-                            <mat-option *ngFor="let language of languages" [value]="language">
-                                {{ language.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Language.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Language.Content' | translate }}
+                        </h4>
+                        <mat-form-field class="mt-2">
+                            <mat-select [(ngModel)]="selectedLanguage">
+                                <mat-option *ngFor="let language of languages" [value]="language">
+                                    {{ language.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </mat-step>
                 <!-- Appearance -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Appearance.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Appearance.Content' | translate }}
-                    </h4>
-                    <mat-slide-toggle class="mt-2" [(ngModel)]="useLightBackgroundTheme">
-                        {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Appearance.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Appearance.Content' | translate }}
+                        </h4>
+                        <mat-slide-toggle class="mt-2" [(ngModel)]="useLightBackgroundTheme">
+                            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
+                    </div>
                 </mat-step>
                 <!-- Music -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Music.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Music.Content' | translate }}
-                    </h4>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Music.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Music.Content' | translate }}
+                        </h4>
+                    </div>
                 </mat-step>
                 <!-- Donate -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Donate.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Donate.Content' | translate }}
-                    </h4>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Donate.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Donate.Content' | translate }}
+                        </h4>
+                    </div>
                 </mat-step>
                 <!-- Done -->
                 <mat-step>
-                    <h1>
-                        {{ 'Pages.Welcome.Done.Title' | translate }}
-                    </h1>
-                    <h4>
-                        {{ 'Pages.Welcome.Done.Content' | translate }}
-                    </h4>
+                    <div class="p-2">
+                        <h1>
+                            {{ 'Pages.Welcome.Done.Title' | translate }}
+                        </h1>
+                        <h4>
+                            {{ 'Pages.Welcome.Done.Content' | translate }}
+                        </h4>
+                    </div>
                 </mat-step>
             </mat-horizontal-stepper>
             <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
