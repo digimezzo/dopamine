@@ -15,13 +15,13 @@ export class AppearanceService {
         this.settings.colorTheme = colorThemeName;
 
         // Global event because all windows need to be notified
-        this.globalEmitter.emit(Constants.colorThemeChangedEvent, colorThemeName);
+        this.globalEmitter.emit(Constants.themeChangedEvent, colorThemeName, this.settings.useLightBackgroundTheme);
     }
 
     public setBackgroundTheme(useLightBackgroundTheme: boolean): void {
       this.settings.useLightBackgroundTheme = useLightBackgroundTheme;
 
       // Global event because all windows need to be notified
-      this.globalEmitter.emit(Constants.backgroundThemeChangedEvent, useLightBackgroundTheme);
+      this.globalEmitter.emit(Constants.themeChangedEvent, this.settings.colorTheme, useLightBackgroundTheme);
   }
 }

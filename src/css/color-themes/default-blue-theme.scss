@@ -38,5 +38,5 @@ $default-blue-theme-primary: mat-palette($default-blue-palette);
 $default-blue-theme-accent: mat-palette($default-blue-palette);
 $default-blue-theme-warn: mat-palette($default-blue-palette);
 
-$default-blue-theme: custom-mat-dark-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);
+$default-blue-theme-dark: custom-mat-dark-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);
 $default-blue-theme-light: custom-mat-light-theme($default-blue-theme-primary, $default-blue-theme-accent, $default-blue-theme-warn);

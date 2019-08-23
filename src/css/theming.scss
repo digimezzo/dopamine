@@ -1,152 +1,44 @@
 @import "~@angular/material/theming";
 @include mat-core();
 
-@import 'color-themes/default-blue-theme.scss';
-@import 'color-themes/ubuntu-orange-theme.scss';
-@import 'color-themes/linuxmint-green-theme.scss';
-@import 'color-themes/manjaro-green-theme.scss';
-@import 'color-themes/windows10-blue-theme.scss';
-@import 'color-themes/material-red-theme.scss';
-@import 'color-themes/material-pink-theme.scss';
-@import 'color-themes/material-purple-theme.scss';
-@import 'color-themes/material-deep-purple-theme.scss';
-@import 'color-themes/material-indigo-theme.scss';
-@import 'color-themes/material-blue-theme.scss';
-@import 'color-themes/material-light-blue-theme.scss';
-@import 'color-themes/material-cyan-theme.scss';
-@import 'color-themes/material-teal-theme.scss';
-@import 'color-themes/material-green-theme.scss';
-@import 'color-themes/material-light-green-theme.scss';
-@import 'color-themes/material-lime-theme.scss';
-@import 'color-themes/material-yellow-theme.scss';
-@import 'color-themes/material-amber-theme.scss';
-@import 'color-themes/material-orange-theme.scss';
-@import 'color-themes/material-deep-orange-theme.scss';
+@import "color-themes/default-blue-theme.scss";
 
-@mixin set-primary-color($theme-primary) {
+@mixin set-colors($theme) {
+  $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
   .color-primary {
-    color: mat-color($theme-primary) !important;
+    color: mat-color($primary) !important;
   }
 
   .background-color-primary {
-    background-color: mat-color($theme-primary) !important;
+    background-color: mat-color($primary) !important;
   }
 
   .drop-background-color-primary {
-    background-color: mat-color($theme-primary, 0.2) !important;
+    background-color: mat-color($primary, 0.2) !important;
+  }
+
+  .color-base{
+    color: mat-color($foreground, base);
+  }
+
+  .background-color-hover{
+    background-color: mat-color($background, hover) !important;
   }
 }
 
 // Default
-@include angular-material-theme($default-blue-theme);
-@include set-primary-color($default-blue-theme-primary);
+@include angular-material-theme($default-blue-theme-dark);
+@include set-colors($default-blue-theme-dark);
 
-.default-blue-theme {
-  @include angular-material-theme($default-blue-theme);
-  @include set-primary-color($default-blue-theme-primary);
+.default-blue-theme-dark {
+  @include angular-material-theme($default-blue-theme-dark);
+  @include set-colors($default-blue-theme-dark);
 }
 
 .default-blue-theme-light {
   @include angular-material-theme($default-blue-theme-light);
-  @include set-primary-color($default-blue-theme-primary);
-}
-
-.ubuntu-orange-theme {
-  @include angular-material-theme($ubuntu-orange-theme);
-  @include set-primary-color($ubuntu-orange-theme-primary);
-}
-
-.linuxmint-green-theme {
-  @include angular-material-theme($linuxmint-green-theme);
-  @include set-primary-color($linuxmint-green-theme-primary);
-}
-
-.manjaro-green-theme {
-  @include angular-material-theme($manjaro-green-theme);
-  @include set-primary-color($manjaro-green-theme-primary);
-}
-
-.windows10-blue-theme {
-  @include angular-material-theme($windows10-blue-theme);
-  @include set-primary-color($windows10-blue-theme-primary);
-}
-
-.material-red-theme {
-  @include angular-material-theme($material-red-theme);
-  @include set-primary-color($material-red-theme-primary);
-}
-
-.material-pink-theme {
-  @include angular-material-theme($material-pink-theme);
-  @include set-primary-color($material-pink-theme-primary);
-}
-
-.material-purple-theme {
-  @include angular-material-theme($material-purple-theme);
-  @include set-primary-color($material-purple-theme-primary);
-}
-
-.material-deep-purple-theme {
-  @include angular-material-theme($material-deep-purple-theme);
-  @include set-primary-color($material-deep-purple-theme-primary);
-}
-
-.material-indigo-theme {
-  @include angular-material-theme($material-indigo-theme);
-  @include set-primary-color($material-indigo-theme-primary);
-}
-
-.material-blue-theme {
-  @include angular-material-theme($material-blue-theme);
-  @include set-primary-color($material-blue-theme-primary);
-}
-
-.material-light-blue-theme {
-  @include angular-material-theme($material-light-blue-theme);
-  @include set-primary-color($material-light-blue-theme-primary);
-}
-
-.material-cyan-theme {
-  @include angular-material-theme($material-cyan-theme);
-  @include set-primary-color($material-cyan-theme-primary);
-}
-
-.material-teal-theme {
-  @include angular-material-theme($material-teal-theme);
-  @include set-primary-color($material-teal-theme-primary);
-}
-
-.material-green-theme {
-  @include angular-material-theme($material-green-theme);
-  @include set-primary-color($material-green-theme-primary);
-}
-
-.material-light-green-theme {
-  @include angular-material-theme($material-light-green-theme);
-  @include set-primary-color($material-light-green-theme-primary);
-}
-
-.material-lime-theme {
-  @include angular-material-theme($material-lime-theme);
-  @include set-primary-color($material-lime-theme-primary);
-}
-
-.material-yellow-theme {
-  @include angular-material-theme($material-yellow-theme);
-  @include set-primary-color($material-yellow-theme-primary);
-}
-
-.material-amber-theme {
-  @include angular-material-theme($material-amber-theme);
-  @include set-primary-color($material-amber-theme-primary);
-}
-
-.material-orange-theme {
-  @include angular-material-theme($material-orange-theme);
-  @include set-primary-color($material-orange-theme-primary);
-}
-
-.material-deep-orange-theme {
-  @include angular-material-theme($material-deep-orange-theme);
-  @include set-primary-color($material-deep-orange-theme-primary);
+  @include set-colors($default-blue-theme-light);
 }

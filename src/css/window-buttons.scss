@@ -1,5 +1,5 @@
-@import "variables.scss";
 .window-button {
+    @extend .color-base;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,13 +8,12 @@
     user-select: none;
     cursor: default;
     opacity: 0.8;
-    color: var(--color-window-button-text);
     font-family: segoe !important;
     font-size: 10px;
     -webkit-app-region: no-drag;
 }
 
 .window-button:hover {
-    background: var(--color-window-button-hover-background);
+    @extend .background-color-hover;
     opacity: 1;
 }
