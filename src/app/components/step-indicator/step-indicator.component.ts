@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-step-indicator',
   templateUrl: './step-indicator.component.html',
-  styleUrls: ['./step-indicator.component.scss']
+  styleUrls: ['./step-indicator.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StepIndicatorComponent implements OnInit {
 

@@ -30,7 +30,7 @@ import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButton
 import {MatStepperModule} from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/trackRepository';
-import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
+import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
 
