@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Logger } from '../../core/logger';
+import { ColorTheme } from '../../core/colorTheme';
+import { Constants } from '../../core/constants';
 
 @Injectable({
     providedIn: 'root',
@@ -9,13 +11,23 @@ import { Logger } from '../../core/logger';
 export class AppearanceService {
     constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) { }
 
-    public setColorTheme(colorThemeName: string): void {
-        this.settings.colorTheme = colorThemeName;
+    public colorThemes: ColorTheme[] = Constants.colorThemes;
+
+    public get useLightBackgroundTheme(): boolean {
+        return this.settings.useLightBackgroundTheme;
+      }
+      
+      public set useLightBackgroundTheme(v: boolean) {
+        this.settings.useLightBackgroundTheme = v;
         this.applyTheme();
+      }
+
+    public get selectedColorTheme(): ColorTheme {
+        return this.colorThemes.find(x => x.name === this.settings.colorTheme);
     }
 
-    public setBackgroundTheme(useLightBackgroundTheme: boolean): void {
-        this.settings.useLightBackgroundTheme = useLightBackgroundTheme;
+    public set selectedColorTheme(v: ColorTheme) {
+        this.settings.colorTheme = v.name;
         this.applyTheme();
     }
 

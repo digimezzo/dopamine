@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './services/electron.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ProductInformation } from './core/productInformation';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
 import { AppearanceService } from './services/appearance/appearance.service';
+import { TranslatorService } from './services/translator/translator.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +13,11 @@ import { AppearanceService } from './services/appearance/appearance.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService, private translate: TranslateService, private settings: Settings,
+  constructor(public electronService: ElectronService, private translator: TranslatorService, private settings: Settings,
     private logger: Logger, private appearance: AppearanceService, public router: Router) {
 
     this.appearance.applyTheme();
-    this.translate.setDefaultLang(this.settings.defaultLanguage);
-    this.translate.use(this.settings.language);
+    this.translator.applyLanguage();
   }
 
   public ngOnDestroy(): void {

@@ -33,6 +33,7 @@ import { TrackRepository } from './data/entities/trackRepository';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
+import { TranslatorService } from './services/translator/translator.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -77,6 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     ElectronService,
     IndexingService,
+    TranslatorService,
     Settings,
     Logger,
     TrackRepository

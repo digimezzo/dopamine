@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { Language } from '../../core/language';
 import { Constants } from '../../core/constants';
 import { Settings } from '../../core/settings';
-import { TranslateService } from '@ngx-translate/core';
 import { AppearanceService } from '../../services/appearance/appearance.service';
+import { ColorTheme } from '../../core/colorTheme';
+import { TranslatorService } from '../../services/translator/translator.service';
 
 @Component({
   selector: 'app-welcome',
@@ -15,12 +16,11 @@ import { AppearanceService } from '../../services/appearance/appearance.service'
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router, private settings: Settings, private translate: TranslateService, private appearance: AppearanceService) { }
+  constructor(public router: Router, private settings: Settings, private translator: TranslatorService, 
+    private appearance: AppearanceService) { }
 
-  public currentStep: number = 0;
+  public currentStep: number = 0;f
   public totalSteps: number = 6;
-
-  public languages: Language[] = Constants.languages;
 
   public get canGoBack(): boolean {
     return this.currentStep > 0 && this.currentStep < this.totalSteps - 1;
@@ -32,24 +32,6 @@ export class WelcomeComponent implements OnInit {
 
   public get canFinish(): boolean {
     return this.currentStep == this.totalSteps - 1;
-  }
-
-  public get selectedLanguage(): Language {
-    let languageCode: string = this.settings.language;
-    return this.languages.find(x => x.code === languageCode);
-  }
-
-  public set selectedLanguage(v: Language) {
-    this.settings.language = v.code;
-    this.translate.use(v.code);
-  }
-
-  public get useLightBackgroundTheme(): boolean {
-    return this.settings.useLightBackgroundTheme;
-  }
-  
-  public set useLightBackgroundTheme(v: boolean) {
-    this.appearance.setBackgroundTheme(v);
   }
 
   ngOnInit() {
