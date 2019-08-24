@@ -3,6 +3,7 @@ import { remote, BrowserWindow } from 'electron';
 
 @Component({
     selector: 'window-controls',
+    host: { 'style': 'display: block' },
     templateUrl: './window-controls.component.html',
     styleUrls: ['./window-controls.component.scss'],
     encapsulation: ViewEncapsulation.None

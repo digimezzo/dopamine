@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-step-indicator',
+  host: { 'style': 'display: block' },
   templateUrl: './step-indicator.component.html',
   styleUrls: ['./step-indicator.component.scss'],
   encapsulation: ViewEncapsulation.None

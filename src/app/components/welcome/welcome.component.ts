@@ -10,6 +10,7 @@ import { TranslatorService } from '../../services/translator/translator.service'
 
 @Component({
   selector: 'app-welcome',
+  host: { 'style': 'display: block' },
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
   encapsulation: ViewEncapsulation.None

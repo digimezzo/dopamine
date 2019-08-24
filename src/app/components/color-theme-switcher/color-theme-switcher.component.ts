@@ -4,6 +4,7 @@ import { ColorTheme } from '../../core/colorTheme';
 
 @Component({
   selector: 'app-color-theme-switcher',
+  host: { 'style': 'display: block' },
   templateUrl: './color-theme-switcher.component.html',
   styleUrls: ['./color-theme-switcher.component.scss'],
   encapsulation: ViewEncapsulation.None
