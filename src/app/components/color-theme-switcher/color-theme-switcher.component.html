@@ -1,0 +1,13 @@
+<div class="color-theme-switcher">
+    <div *ngFor="let colorTheme of appearance.colorThemes">
+        <div class="color-theme-switcher-button mr-1 mb-1">
+            <div class="color-theme-switcher-button-selector custom-font"
+                *ngIf="colorTheme.name === appearance.selectedColorTheme.name">
+                &#xE8FB;
+            </div>
+            <div class="color-theme-switcher-button-color" [ngStyle]="{'background-color': colorTheme.color}"
+                matTooltip="{{ colorTheme.displayName }}" (click)="setColorTheme(colorTheme)">
+            </div>
+        </div>
+    </div>
+</div>

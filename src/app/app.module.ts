@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ElectronService } from './services/electron.service';
 import { IndexingService } from './services/indexing/indexing.service';
+import { TranslatorService } from './services/translator/translator.service';
 
 import { WebviewDirective } from './directives/webview.directive';
 
@@ -25,15 +26,17 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { InformationComponent } from './components/information/information.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
+import { ColorThemeSwitcherComponent } from './components/color-theme-switcher/color-theme-switcher.component';
+import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 
-import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
 import {MatStepperModule} from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/trackRepository';
-import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
+
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { TranslatorService } from './services/translator/translator.service';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,7 +54,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InformationComponent,
     WindowControlsComponent,
     LogoFullComponent,
-    StepIndicatorComponent
+    StepIndicatorComponent,
+    ColorThemeSwitcherComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -61,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,

@@ -1,0 +1,31 @@
+@import "css/font-faces.scss";
+
+.color-theme-switcher {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.color-theme-switcher-button {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.color-theme-switcher-button-selector {
+  font-family: segoe;
+  font-size: 20px;
+  color: white;
+  z-index: 1;
+}
+
+.color-theme-switcher-button-color {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  z-index: 0;
+}

@@ -16,8 +16,8 @@ import { TranslatorService } from '../../services/translator/translator.service'
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router, private settings: Settings, private translator: TranslatorService, 
-    private appearance: AppearanceService) { }
+  constructor(public router: Router, private settings: Settings, public translator: TranslatorService, 
+    public appearance: AppearanceService) { }
 
   public currentStep: number = 0;f
   public totalSteps: number = 6;
