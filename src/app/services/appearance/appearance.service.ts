@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Logger } from '../../core/logger';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AppearanceService {
-    constructor(private settings: Settings, private overlayContainer: OverlayContainer) { }
+    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) { }
 
     public setColorTheme(colorThemeName: string): void {
         this.settings.colorTheme = colorThemeName;
@@ -40,5 +41,7 @@ export class AppearanceService {
         }
 
         document.body.classList.add(themeNameWithBackground);
+
+        this.logger.info(`Applied theme '${themeNameWithBackground}'`, "AppearanceService", "applyTheme");
     }
 }
