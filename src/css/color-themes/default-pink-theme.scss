@@ -1,0 +1,50 @@
+@import "../custom-mat-themes.scss";
+
+// Created with: http://mcg.mbitson.com/
+$default-pink-palette: (
+  50: #fde4ec,
+  100: #fabccf,
+  200: #f790af,
+  300: #f3638e,
+  400: #f14176,
+  500: #ee205e,
+  600: #ec1c56,
+  700: #e9184c,
+  800: #e71342,
+  900: #e20b31,
+  A100: #ffffff,
+  A200: #ffdadf,
+  A400: #ffa7b3,
+  A700: #ff8d9d,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$default-pink-theme-primary: mat-palette($default-pink-palette);
+$default-pink-theme-accent: mat-palette($default-pink-palette);
+$default-pink-theme-warn: mat-palette($default-pink-palette);
+
+$default-pink-theme-dark: custom-mat-dark-theme(
+  $default-pink-theme-primary,
+  $default-pink-theme-accent,
+  $default-pink-theme-warn
+);
+$default-pink-theme-light: custom-mat-light-theme(
+  $default-pink-theme-primary,
+  $default-pink-theme-accent,
+  $default-pink-theme-warn
+);

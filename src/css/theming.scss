@@ -2,6 +2,10 @@
 @include mat-core();
 
 @import "color-themes/default-blue-theme.scss";
+@import "color-themes/default-green-theme.scss";
+@import "color-themes/default-yellow-theme.scss";
+@import "color-themes/default-purple-theme.scss";
+@import "color-themes/default-pink-theme.scss";
 
 @mixin set-colors($theme) {
   $primary: map-get($theme, primary);
@@ -29,7 +33,7 @@
   }
 }
 
-// Default
+// Default blue
 @include angular-material-theme($default-blue-theme-dark);
 @include set-colors($default-blue-theme-dark);
 
@@ -41,4 +45,60 @@
 .default-blue-theme-light {
   @include angular-material-theme($default-blue-theme-light);
   @include set-colors($default-blue-theme-light);
+}
+
+// Default green
+@include angular-material-theme($default-green-theme-dark);
+@include set-colors($default-green-theme-dark);
+
+.default-green-theme-dark {
+  @include angular-material-theme($default-green-theme-dark);
+  @include set-colors($default-green-theme-dark);
+}
+
+.default-green-theme-light {
+  @include angular-material-theme($default-green-theme-light);
+  @include set-colors($default-green-theme-light);
+}
+
+// Default yellow
+@include angular-material-theme($default-yellow-theme-dark);
+@include set-colors($default-yellow-theme-dark);
+
+.default-yellow-theme-dark {
+  @include angular-material-theme($default-yellow-theme-dark);
+  @include set-colors($default-yellow-theme-dark);
+}
+
+.default-yellow-theme-light {
+  @include angular-material-theme($default-yellow-theme-light);
+  @include set-colors($default-yellow-theme-light);
+}
+
+// Default purple
+@include angular-material-theme($default-purple-theme-dark);
+@include set-colors($default-purple-theme-dark);
+
+.default-purple-theme-dark {
+  @include angular-material-theme($default-purple-theme-dark);
+  @include set-colors($default-purple-theme-dark);
+}
+
+.default-purple-theme-light {
+  @include angular-material-theme($default-purple-theme-light);
+  @include set-colors($default-purple-theme-light);
+}
+
+// Default pink
+@include angular-material-theme($default-pink-theme-dark);
+@include set-colors($default-pink-theme-dark);
+
+.default-pink-theme-dark {
+  @include angular-material-theme($default-pink-theme-dark);
+  @include set-colors($default-pink-theme-dark);
+}
+
+.default-pink-theme-light {
+  @include angular-material-theme($default-pink-theme-light);
+  @include set-colors($default-pink-theme-light);
 }

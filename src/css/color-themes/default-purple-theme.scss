@@ -1,0 +1,50 @@
+@import "../custom-mat-themes.scss";
+
+// Created with: http://mcg.mbitson.com/
+$default-purple-palette: (
+  50: #efe9f7,
+  100: #d7c9ea,
+  200: #bda5dd,
+  300: #a280cf,
+  400: #8e65c4,
+  500: #7a4aba,
+  600: #7243b3,
+  700: #673aab,
+  800: #5d32a3,
+  900: #4a2294,
+  A100: #e0d1ff,
+  A200: #be9eff,
+  A400: #9b6bff,
+  A700: #8a52ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff
+  )
+);
+
+$default-purple-theme-primary: mat-palette($default-purple-palette);
+$default-purple-theme-accent: mat-palette($default-purple-palette);
+$default-purple-theme-warn: mat-palette($default-purple-palette);
+
+$default-purple-theme-dark: custom-mat-dark-theme(
+  $default-purple-theme-primary,
+  $default-purple-theme-accent,
+  $default-purple-theme-warn
+);
+$default-purple-theme-light: custom-mat-light-theme(
+  $default-purple-theme-primary,
+  $default-purple-theme-accent,
+  $default-purple-theme-warn
+);

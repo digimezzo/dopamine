@@ -1,0 +1,50 @@
+@import "../custom-mat-themes.scss";
+
+// Created with: http://mcg.mbitson.com/
+$default-yellow-palette: (
+  50: #fff2e5,
+  100: #ffe0be,
+  200: #ffcb93,
+  300: #ffb667,
+  400: #ffa647,
+  500: #ff9626,
+  600: #ff8e22,
+  700: #ff831c,
+  800: #ff7917,
+  900: #ff680d,
+  A100: #ffffff,
+  A200: #fff9f6,
+  A400: #ffd7c3,
+  A700: #ffc6aa,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$default-yellow-theme-primary: mat-palette($default-yellow-palette);
+$default-yellow-theme-accent: mat-palette($default-yellow-palette);
+$default-yellow-theme-warn: mat-palette($default-yellow-palette);
+
+$default-yellow-theme-dark: custom-mat-dark-theme(
+  $default-yellow-theme-primary,
+  $default-yellow-theme-accent,
+  $default-yellow-theme-warn
+);
+$default-yellow-theme-light: custom-mat-light-theme(
+  $default-yellow-theme-primary,
+  $default-yellow-theme-accent,
+  $default-yellow-theme-warn
+);
