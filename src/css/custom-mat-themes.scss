@@ -45,10 +45,26 @@ $mat-grey: (
 );
 
 // Background palette for dark themes.
+// $custom-mat-dark-theme-background: (
+//   status-bar: black,
+//   app-bar: map_get($mat-grey, 900),
+//   background: #303030,
+//   hover: rgba(white, 0.04),
+//   card: map_get($mat-grey, 800),
+//   dialog: map_get($mat-grey, 800),
+//   disabled-button: rgba(white, 0.12),
+//   raised-button: map-get($mat-grey, 800),
+//   focused-button: $light-focused,
+//   selected-button: map_get($mat-grey, 900),
+//   selected-disabled-button: map_get($mat-grey, 800),
+//   disabled-button-toggle: black,
+//   unselected-chip: map_get($mat-grey, 700),
+//   disabled-list-option: black
+// );
 $custom-mat-dark-theme-background: (
   status-bar: black,
   app-bar: map_get($mat-grey, 900),
-  background: #303030,
+  background: #1A1A1A,
   hover: rgba(white, 0.04),
   card: map_get($mat-grey, 800),
   dialog: map_get($mat-grey, 800),
@@ -82,10 +98,26 @@ $custom-mat-dark-theme-foreground: (
 );
 
 // Background palette for light themes.
+// $custom-mat-light-theme-background: (
+//   status-bar: map_get($mat-grey, 300),
+//   app-bar:    map_get($mat-grey, 100),
+//   background: map_get($mat-grey, 50),
+//   hover:      rgba(black, 0.04),
+//   card:       white,
+//   dialog:     white,
+//   disabled-button: rgba(black, 0.12),
+//   raised-button: white,
+//   focused-button: $dark-focused,
+//   selected-button: map_get($mat-grey, 300),
+//   selected-disabled-button: map_get($mat-grey, 400),
+//   disabled-button-toggle: map_get($mat-grey, 200),
+//   unselected-chip: map_get($mat-grey, 300),
+//   disabled-list-option: map_get($mat-grey, 200),
+// );
 $custom-mat-light-theme-background: (
   status-bar: map_get($mat-grey, 300),
   app-bar:    map_get($mat-grey, 100),
-  background: map_get($mat-grey, 50),
+  background: #F5F5F5,
   hover:      rgba(black, 0.04),
   card:       white,
   dialog:     white,
