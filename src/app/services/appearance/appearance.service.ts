@@ -9,25 +9,31 @@ import { Constants } from '../../core/constants';
     providedIn: 'root',
 })
 export class AppearanceService {
-    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) { }
+    private _selectedColorTheme: ColorTheme;
+
+    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
+        this.initialize();
+    }
 
     public colorThemes: ColorTheme[] = Constants.colorThemes;
 
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
-      }
-      
-      public set useLightBackgroundTheme(v: boolean) {
+    }
+
+    public set useLightBackgroundTheme(v: boolean) {
         this.settings.useLightBackgroundTheme = v;
         this.applyTheme();
-      }
+    }
 
     public get selectedColorTheme(): ColorTheme {
-        return this.colorThemes.find(x => x.name === this.settings.colorTheme);
+        return this._selectedColorTheme;
     }
 
     public set selectedColorTheme(v: ColorTheme) {
+        this._selectedColorTheme = v;
         this.settings.colorTheme = v.name;
+
         this.applyTheme();
     }
 
@@ -55,5 +61,10 @@ export class AppearanceService {
         document.body.classList.add(themeNameWithBackground);
 
         this.logger.info(`Applied theme '${themeNameWithBackground}'`, "AppearanceService", "applyTheme");
+    }
+
+    private initialize(): void {
+        this._selectedColorTheme = this.colorThemes.find(x => x.name === this.settings.colorTheme);
+        this.applyTheme();
     }
 }
