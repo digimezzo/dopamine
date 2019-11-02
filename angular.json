@@ -29,7 +29,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/css"
+                "src/css",
+                "src/css-build"
               ]
             },
             "scripts": []
@@ -101,7 +102,8 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/css"
+                "src/css",
+                "src/css-test"
               ]
             },
             "styles": [
