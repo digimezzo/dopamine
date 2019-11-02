@@ -3,7 +3,7 @@ import {SpectronClient} from 'spectron';
 
 import commonSetup from './common-setup';
 
-describe('angular-electron App', function () {
+describe('dopamine-electron App', function () {
   commonSetup.apply(this);
 
   let browser: any;

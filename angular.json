@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-electron": {
+    "dopamine-electron": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -69,21 +69,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "dopamine-electron:build"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "angular-electron:build:dev"
+              "browserTarget": "dopamine-electron:build:dev"
             },
             "production": {
-              "browserTarget": "angular-electron:build:production"
+              "browserTarget": "dopamine-electron:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "dopamine-electron:build"
           }
         },
         "test": {
@@ -121,7 +121,7 @@
         }
       }
     },
-    "angular-electron-e2e": {
+    "dopamine-electron-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -139,7 +139,7 @@
       }
     }
   },
-  "defaultProject": "angular-electron",
+  "defaultProject": "dopamine-electron",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

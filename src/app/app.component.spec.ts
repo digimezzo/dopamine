@@ -3,8 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './services/electron.service';
-import { LoggerMock } from './services/logger/logger.mock';
-import { LoggerService } from './services/logger/logger.service';
+import { Logger } from './core/logger';
+import { LoggerMock } from './core/loggerMock';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,7 +14,7 @@ describe('AppComponent', () => {
       ],
       providers: [
         ElectronService,
-        { provide: LoggerService, useClass: LoggerMock }
+        { provide: Logger, useClass: LoggerMock }
       ],
       imports: [
         RouterTestingModule,

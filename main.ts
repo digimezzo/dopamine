@@ -2,15 +2,11 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
-import { Logger } from './src/app/core/logger';
 
 // Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
 // See post by megahertz: https://github.com/megahertz/electron-log/issues/60
 // "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
 import log from 'electron-log';
-
-// Create our own logger here. We don't have access to Angular injection here yet.
-let logger: Logger = new Logger();
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -99,7 +95,7 @@ function createWindow() {
 }
 
 try {
-  logger.info("+++ Starting +++", "Main", "");
+  log.info("[Main] [] +++ Starting +++");
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
@@ -108,7 +104,7 @@ try {
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    logger.info("+++ Stopping +++", "App", "window-all-closed'");
+    log.info("[App] [window-all-closed] +++ Stopping +++");
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     // if (process.platform !== 'darwin') {
