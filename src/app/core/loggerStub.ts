@@ -4,7 +4,7 @@ import { LoggerInterface } from './loggerInterface';
 @Injectable({
     providedIn: 'root'
 })
-export class LoggerMock implements LoggerInterface {
+export class LoggerStub implements LoggerInterface {
     constructor() { }
 
     public info(message: string, callerClass: string, callerMethod: string): void {
