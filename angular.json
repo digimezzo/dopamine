@@ -27,6 +27,11 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/css"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -94,6 +99,11 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/css"
+              ]
+            },
             "styles": [
               "src/styles.scss"
             ],
