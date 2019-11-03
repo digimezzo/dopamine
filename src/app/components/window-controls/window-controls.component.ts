@@ -15,29 +15,37 @@ export class WindowControlsComponent implements OnInit {
     public canMaximize: boolean = false;
 
     public ngOnInit(): void {
-        let window: BrowserWindow = remote.getCurrentWindow();
-        this.canMaximize = !window.isMaximized();
+        if (remote != null) {
+            let window: BrowserWindow = remote.getCurrentWindow();
+            this.canMaximize = !window.isMaximized();
+        }
     }
 
     public minButtonClick(): void {
-        let window: BrowserWindow = remote.getCurrentWindow();
-        window.minimize();
+        if (remote != null) {
+            let window: BrowserWindow = remote.getCurrentWindow();
+            window.minimize();
+        }
     }
 
     public maxRestoreClick(): void {
-        let window: BrowserWindow = remote.getCurrentWindow();
+        if (remote != null) {
+            let window: BrowserWindow = remote.getCurrentWindow();
 
-        if (window.isMaximized()) {
-            window.unmaximize();
-            this.canMaximize = true;
-        } else {
-            window.maximize();
-            this.canMaximize = false;
+            if (window.isMaximized()) {
+                window.unmaximize();
+                this.canMaximize = true;
+            } else {
+                window.maximize();
+                this.canMaximize = false;
+            }
         }
     }
 
     public closeButtonClick(): void {
-        let window: BrowserWindow = remote.getCurrentWindow();
-        window.close();
+        if (remote != null) {
+            let window: BrowserWindow = remote.getCurrentWindow();
+            window.close();
+        }
     }
 }

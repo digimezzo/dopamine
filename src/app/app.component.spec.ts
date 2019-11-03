@@ -5,6 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './services/electron.service';
 import { Logger } from './core/logger';
 import { LoggerStub } from './core/loggerStub';
+import { TranslatorService } from './services/translator/translator.service';
+import { TranslatorServiceStub } from './services/translator/translatorServiceStub';
+import { SettingsStub } from './core/settingsStub';
+import { Settings } from './core/settings';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,7 +18,9 @@ describe('AppComponent', () => {
       ],
       providers: [
         ElectronService,
-        { provide: Logger, useClass: LoggerStub }
+        { provide: Settings, useClass: SettingsStub },
+        { provide: Logger, useClass: LoggerStub },
+        { provide: TranslatorService, useClass: TranslatorServiceStub }
       ],
       imports: [
         RouterTestingModule,

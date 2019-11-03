@@ -13,6 +13,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ElectronService } from './services/electron.service';
+import { AppearanceService } from './services/appearance/appearance.service';
 import { IndexingService } from './services/indexing/indexing.service';
 import { TranslatorService } from './services/translator/translator.service';
 
@@ -82,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     ElectronService,
+    AppearanceService,
     IndexingService,
     TranslatorService,
     Settings,

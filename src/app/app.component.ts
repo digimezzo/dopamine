@@ -4,7 +4,7 @@ import { ProductInformation } from './core/productInformation';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { AppearanceService } from './services/appearance/appearance.service';
+// import { AppearanceService } from './services/appearance/appearance.service';
 import { TranslatorService } from './services/translator/translator.service';
 
 @Component({
@@ -13,10 +13,10 @@ import { TranslatorService } from './services/translator/translator.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService, private translator: TranslatorService, private settings: Settings,
-    private logger: Logger, private appearance: AppearanceService, public router: Router) {
-
-    this.appearance.applyTheme();
+  // constructor(public electronService: ElectronService, private translator: TranslatorService, private settings: Settings,
+  //   private logger: Logger, private appearance: AppearanceService, public router: Router) {
+      constructor(public electronService: ElectronService, private translator: TranslatorService, private settings: Settings, private logger: Logger, public router: Router) {
+    // this.appearance.applyTheme();
     this.translator.applyLanguage();
   }
 
@@ -27,10 +27,10 @@ export class AppComponent {
     this.logger.info(`+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`, "AppComponent", "ngOnInit");
 
     if (this.settings.showWelcome) {
-      // this.settingsService.showWelcome = false;
-      this.router.navigate(['/welcome']);
+      // this.settings.showWelcome = false;
+      //this.router.navigate(['/welcome']);
     } else {
-      this.router.navigate(['/collection']);
+      //this.router.navigate(['/collection']);
     }
   }
 }

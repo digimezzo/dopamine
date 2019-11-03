@@ -1,9 +1,5 @@
-import { Injectable } from '@angular/core';
 import { LoggerInterface } from './loggerInterface';
 
-@Injectable({
-    providedIn: 'root'
-})
 export class LoggerStub implements LoggerInterface {
     constructor() { }
 

@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core';
-import * as Store from 'electron-store';
 import { SettingsInterface } from './settingsInterface';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class SettingsStub implements SettingsInterface {
   // Default language
   public get defaultLanguage(): string {

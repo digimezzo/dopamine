@@ -4,11 +4,12 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Logger } from '../../core/logger';
 import { ColorTheme } from '../../core/colorTheme';
 import { Constants } from '../../core/constants';
+import { AppearanceServiceInterface } from './appearanceServiceInterface';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AppearanceService {
+export class AppearanceService implements AppearanceServiceInterface {
     private _selectedColorTheme: ColorTheme;
 
     constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
