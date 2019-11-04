@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class IndexingService {
 
   constructor() { }
+
+  public myTest(): string {
+    return "Hello";
+  }
 }
