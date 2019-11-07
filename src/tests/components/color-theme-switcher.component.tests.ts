@@ -5,17 +5,20 @@ import { ColorThemeSwitcherComponent } from '../../app/components/color-theme-sw
 import { AppearanceService } from '../../app/services/appearance/appearance.service';
 import { ColorTheme } from '../../app/core/colorTheme';
 
-describe('setColorTheme', () => {
-    it('should change the selected color theme', () => {
-        // Arrange
-        var appearanceServiceMock = TypeMoq.Mock.ofType<AppearanceService>();
-        let colorThemeSwitcher: ColorThemeSwitcherComponent = new ColorThemeSwitcherComponent(appearanceServiceMock.object);
 
-        // Act
-        let blueColorTheme: ColorTheme = new ColorTheme("default-blue-theme", "Blue" , "#1d7dd4");
-        colorThemeSwitcher.setColorTheme(blueColorTheme);
+describe('ColorThemeSwitcherComponent', () => {
+    describe('setColorTheme', () => {
+        it('Should change the selected color theme', () => {
+            // Arrange
+            var appearanceServiceMock = TypeMoq.Mock.ofType<AppearanceService>();
+            let colorThemeSwitcher: ColorThemeSwitcherComponent = new ColorThemeSwitcherComponent(appearanceServiceMock.object);
 
-        // Assert
-        appearanceServiceMock.verify(x => x.selectedColorTheme = blueColorTheme, Times.atLeastOnce());
+            // Act
+            let blueColorTheme: ColorTheme = new ColorTheme("default-blue-theme", "Blue", "#1d7dd4");
+            colorThemeSwitcher.setColorTheme(blueColorTheme);
+
+            // Assert
+            appearanceServiceMock.verify(x => x.selectedColorTheme = blueColorTheme, Times.atLeastOnce());
+        });
     });
 });
