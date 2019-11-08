@@ -10,8 +10,6 @@ export class Constants {
     static readonly twitterUrl = "https://twitter.com/digimezzo";
     static readonly githubUrl = "https://github.com/digimezzo";
 
-    static readonly themeChangedEvent: string = "f132f4ce-ae3c-4e1d-958a-a9cd28517b68";
-
     static readonly languages: Language[] = [
         { code: "en", name: "English" },
         { code: "fr", name: "Français" }

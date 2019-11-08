@@ -5,7 +5,6 @@ import { ColorThemeSwitcherComponent } from '../../app/components/color-theme-sw
 import { AppearanceService } from '../../app/services/appearance/appearance.service';
 import { ColorTheme } from '../../app/core/colorTheme';
 
-
 describe('ColorThemeSwitcherComponent', () => {
     describe('setColorTheme', () => {
         it('Should change the selected color theme', () => {
