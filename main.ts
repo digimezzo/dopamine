@@ -12,15 +12,6 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-// Workaround: Global does not allow setting custom properties.
-// We need to cast it to "any" first.
-const globalAny: any = global;
-
-// Workaround to send messages between Electron windows
-const EventEmitter = require('events');
-class GlobalEventEmitter extends EventEmitter { };
-globalAny.globalEmitter = new GlobalEventEmitter();
-
 function createWindow() {
 
   const electronScreen = screen;
@@ -107,9 +98,9 @@ try {
     log.info("[App] [window-all-closed] +++ Stopping +++");
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    // if (process.platform !== 'darwin') {
-    //   app.quit();
-    // }
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
   });
 
   app.on('activate', () => {
