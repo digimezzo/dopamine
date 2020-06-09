@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Dopamine
+Exec=dopamine
+Terminal=false
+Type=Application
+Icon=dopamine
+StartupWMClass=Dopamine
+Comment=The audio player that keeps it simple
+Categories=Utility;

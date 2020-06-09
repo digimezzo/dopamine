@@ -22,7 +22,11 @@
   },
   "linux": {
     "target": [
-      "AppImage"
+      "AppImage",
+      "deb",
+      "rpm",
+      "pacman",
+      "snap"
     ]
   }
 }

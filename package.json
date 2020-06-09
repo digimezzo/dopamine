@@ -12,7 +12,6 @@
   },
   "keywords": [
     "angular",
-    "angular 8",
     "electron",
     "typescript",
     "sass"
@@ -36,7 +35,8 @@
     "electron:linux": "npm run build:prod && electron-builder build --linux",
     "electron:windows": "npm run build:prod && electron-builder build --windows",
     "electron:mac": "npm run build:prod && electron-builder build --mac",
-    "test": "npm run postinstall:web && ng test",
+    "ngtest": "npm run postinstall:web && ng test",
+    "test": "mocha --require ts-node/register 'src/spec/**/*.spec.ts'",
     "e2e": "npm run build:prod && mocha --timeout 300000 --require ts-node/register e2e/**/*.spec.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "unittest": "mocha --require ts-node/register 'src/spec/**/*.spec.ts'"
@@ -64,7 +64,7 @@
     "conventional-changelog-cli": "2.0.11",
     "core-js": "2.6.1",
     "electron": "^4.0.8",
-    "electron-builder": "20.33.2",
+    "electron-builder": "22.5.1",
     "electron-reload": "1.4.0",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",
