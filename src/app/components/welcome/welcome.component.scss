@@ -27,7 +27,7 @@
 .welcome-stepper-buttons-icon {
   font-family: segoe;
   font-size: 32px;
-  @extend .color-primary;
+  color: var(--primary-color);
 }
 
 .mat-horizontal-stepper-header-container {

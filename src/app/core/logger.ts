@@ -19,7 +19,7 @@ export class Logger {
         log.error(this.formattedMessage(message, callerClass, callerMethod));
     }
 
-    private formattedMessage(message: string, callerClass: string, callerMethod: string) {
+    private formattedMessage(message: string, callerClass: string, callerMethod: string): string {
         return `[${callerClass}] [${callerMethod}] ${message}`;
     }
 }

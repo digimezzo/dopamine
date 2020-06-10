@@ -7,6 +7,6 @@
 }
 
 .window-controls .close-button:hover {
-    @extend .background-color-primary;
+    background-color: var(--primary-color);
     color: #FFF;
 }

@@ -1,104 +1,12 @@
-@import "~@angular/material/theming";
-@include mat-core();
+@import '~angular-material-css-vars/main';
 
-@import "color-themes/default-blue-theme.scss";
-@import "color-themes/default-green-theme.scss";
-@import "color-themes/default-yellow-theme.scss";
-@import "color-themes/default-purple-theme.scss";
-@import "color-themes/default-pink-theme.scss";
+// Optional
+$mat-css-dark-theme-selector: '.isDarkTheme';
+$mat-css-light-theme-selector: '.isLightTheme';
 
-@mixin set-colors($theme) {
-  $primary: map-get($theme, primary);
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
-
-  .color-primary {
-    color: mat-color($primary) !important;
-  }
-
-  .background-color-primary {
-    background-color: mat-color($primary) !important;
-  }
-
-  .background-color-primary-0-6 {
-    background-color: mat-color($primary, 0.6) !important;
-  }
-
-  .color-base{
-    color: mat-color($foreground, base);
-  }
-
-  .background-color-hover{
-    background-color: mat-color($background, hover) !important;
-  }
-}
-
-// Default blue
-@include angular-material-theme($default-blue-theme-dark);
-@include set-colors($default-blue-theme-dark);
-
-.default-blue-theme-dark {
-  @include angular-material-theme($default-blue-theme-dark);
-  @include set-colors($default-blue-theme-dark);
-}
-
-.default-blue-theme-light {
-  @include angular-material-theme($default-blue-theme-light);
-  @include set-colors($default-blue-theme-light);
-}
-
-// Default green
-@include angular-material-theme($default-green-theme-dark);
-@include set-colors($default-green-theme-dark);
-
-.default-green-theme-dark {
-  @include angular-material-theme($default-green-theme-dark);
-  @include set-colors($default-green-theme-dark);
-}
-
-.default-green-theme-light {
-  @include angular-material-theme($default-green-theme-light);
-  @include set-colors($default-green-theme-light);
-}
-
-// Default yellow
-@include angular-material-theme($default-yellow-theme-dark);
-@include set-colors($default-yellow-theme-dark);
-
-.default-yellow-theme-dark {
-  @include angular-material-theme($default-yellow-theme-dark);
-  @include set-colors($default-yellow-theme-dark);
-}
-
-.default-yellow-theme-light {
-  @include angular-material-theme($default-yellow-theme-light);
-  @include set-colors($default-yellow-theme-light);
-}
-
-// Default purple
-@include angular-material-theme($default-purple-theme-dark);
-@include set-colors($default-purple-theme-dark);
-
-.default-purple-theme-dark {
-  @include angular-material-theme($default-purple-theme-dark);
-  @include set-colors($default-purple-theme-dark);
-}
-
-.default-purple-theme-light {
-  @include angular-material-theme($default-purple-theme-light);
-  @include set-colors($default-purple-theme-light);
-}
-
-// Default pink
-@include angular-material-theme($default-pink-theme-dark);
-@include set-colors($default-pink-theme-dark);
-
-.default-pink-theme-dark {
-  @include angular-material-theme($default-pink-theme-dark);
-  @include set-colors($default-pink-theme-dark);
-}
-
-.default-pink-theme-light {
-  @include angular-material-theme($default-pink-theme-light);
-  @include set-colors($default-pink-theme-light);
-}
+// Init theme
+@include init-material-css-vars() {
+    // If your app has any theme mixins, call them here. 
+    // $mat-css-theme gets set to an appropriate value before this content is called.
+    // @include your-custom-component-theme($mat-css-theme);
+  };

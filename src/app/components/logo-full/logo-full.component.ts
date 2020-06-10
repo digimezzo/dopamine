@@ -14,7 +14,7 @@ export class LogoFullComponent implements OnInit {
 
   public applicationName: string = Constants.applicationName.toLowerCase();
 
-  ngOnInit() {
+  public ngOnInit(): void {
   }
 
 }

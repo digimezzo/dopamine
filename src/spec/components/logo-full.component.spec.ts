@@ -5,10 +5,10 @@ describe('LogoFullComponent', () => {
     describe('applicationName', () => {
         it('Should provide correct application name', () => {
             // Arrange & Act
-            let logoFullComponent: LogoFullComponent = new LogoFullComponent();
+            const logoFullComponent: LogoFullComponent = new LogoFullComponent();
 
             // Assert
-            assert.equal(logoFullComponent.applicationName, "dopamine");
+            assert.strictEqual(logoFullComponent.applicationName, 'dopamine');
         });
     });
 });

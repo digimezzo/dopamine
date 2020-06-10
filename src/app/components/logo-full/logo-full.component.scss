@@ -20,7 +20,7 @@
 }
 
 .logo-icon {
-  @extend .background-color-primary;
+  background-color: var(--primary-color);
   width: 64px;
   min-width: 64px;
   height: 64px;

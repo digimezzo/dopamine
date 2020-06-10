@@ -13,7 +13,7 @@ export class ColorThemeSwitcherComponent implements OnInit {
 
   constructor(public appearance: AppearanceService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
   }
 
   public setColorTheme(colorTheme: ColorTheme): void {

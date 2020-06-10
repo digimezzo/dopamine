@@ -13,7 +13,7 @@
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  @extend .background-color-primary;
+  background-color: var(--primary-color);
 }
 
 .step-indicator-inactive-dot {

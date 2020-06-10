@@ -12,13 +12,13 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-function createWindow() {
+function createWindow(): void {
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   // Load the previous state with fallback to defaults
-  let windowState = windowStateKeeper({
+  const windowState = windowStateKeeper({
     defaultWidth: 850,
     defaultHeight: 600
   });
@@ -54,7 +54,7 @@ function createWindow() {
   }
 
   if (serve) {
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
@@ -65,28 +65,28 @@ function createWindow() {
     win = null;
   });
 
-  // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work. 
+  // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
   // See: https://github.com/electron/electron/issues/7779
-  win.on('ready-to-show', function () {
+  win.on('ready-to-show', () => {
     win.show();
     win.focus();
   });
 
   // Makes links open in external browser
-  var handleRedirect = (e, url) => {
+  const handleRedirect = (e: any, localUrl: string) => {
     // Check that the requested url is not the current page
-    if (url != win.webContents.getURL()) {
-      e.preventDefault()
-      require('electron').shell.openExternal(url)
+    if (localUrl !== win.webContents.getURL()) {
+      e.preventDefault();
+      require('electron').shell.openExternal(localUrl);
     }
-  }
+  };
 
-  win.webContents.on('will-navigate', handleRedirect)
-  win.webContents.on('new-window', handleRedirect)
+  win.webContents.on('will-navigate', handleRedirect);
+  win.webContents.on('new-window', handleRedirect);
 }
 
 try {
-  log.info("[Main] [] +++ Starting +++");
+  log.info('[Main] [] +++ Starting +++');
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
@@ -95,7 +95,7 @@ try {
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    log.info("[App] [window-all-closed] +++ Stopping +++");
+    log.info('[App] [window-all-closed] +++ Stopping +++');
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {

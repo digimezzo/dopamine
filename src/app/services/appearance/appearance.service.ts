@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
-import { OverlayContainer } from '@angular/cdk/overlay';
 import { Logger } from '../../core/logger';
 import { ColorTheme } from '../../core/colorTheme';
 import { Constants } from '../../core/constants';
+import { MaterialCssVarsService } from 'angular-material-css-vars';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +11,7 @@ import { Constants } from '../../core/constants';
 export class AppearanceService {
     private _selectedColorTheme: ColorTheme;
 
-    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
+    constructor(private settings: Settings, private logger: Logger, public materialCssVarsService: MaterialCssVarsService) {
         this.initialize();
     }
 
@@ -38,29 +38,18 @@ export class AppearanceService {
     }
 
     public applyTheme(): void {
-        let themeNameWithBackground: string = `${this.settings.colorTheme}-${this.settings.useLightBackgroundTheme ? "light" : "dark"}`;
+        const primaryColor = '#d65db1';
+        const secondaryColor = '#ff6f91';
 
-        // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
-        let overlayContainerClasses: DOMTokenList = this.overlayContainer.getContainerElement().classList;
-        let overlayContainerClassesToRemove: string[] = Array.from(overlayContainerClasses).filter((item: string) => item.includes('-theme-'));
+        // Angular Material elements
+        this.materialCssVarsService.setDarkTheme(true);
+        this.materialCssVarsService.setPrimaryColor(primaryColor);
+        this.materialCssVarsService.setAccentColor(secondaryColor);
 
-        if (overlayContainerClassesToRemove.length) {
-            overlayContainerClasses.remove(...overlayContainerClassesToRemove);
-        }
-
-        overlayContainerClasses.add(themeNameWithBackground);
-
-        // Apply theme to body
-        let bodyClasses: DOMTokenList = document.body.classList;
-        let bodyClassesToRemove: string[] = Array.from(bodyClasses).filter((item: string) => item.includes('-theme-'));
-
-        if (bodyClassesToRemove.length) {
-            bodyClasses.remove(...bodyClassesToRemove);
-        }
-
-        document.body.classList.add(themeNameWithBackground);
-
-        this.logger.info(`Applied theme '${themeNameWithBackground}'`, "AppearanceService", "applyTheme");
+        // Other elements
+        const element = document.documentElement;
+        element.style.setProperty('--primary-color', primaryColor);
+        element.style.setProperty('--secondary-color', secondaryColor);
     }
 
     private initialize(): void {

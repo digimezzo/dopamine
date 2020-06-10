@@ -5,3 +5,11 @@ $fontsize-largest: 40px;
 
 // Sizes
 $titlebar-height: 32px;
+
+// Colors
+:root {
+    --primary-color: #1d7dd4;
+    --secondary-color: #7f6cba;
+    --button-foreground-color: #fff;
+    --button-hover-color: rgba(255, 255, 255, 0.1);
+}

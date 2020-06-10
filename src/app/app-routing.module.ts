@@ -7,10 +7,10 @@ import { CollectionComponent } from './components/collection/collection.componen
 import { InformationComponent } from './components/information/information.component';
 
 const routes: Routes = [
-    { 
-        path: '', 
-        redirectTo: '/loading', 
-        pathMatch: 'full' 
+    {
+        path: '',
+        redirectTo: '/loading',
+        pathMatch: 'full'
     },
     {
         path: 'loading',

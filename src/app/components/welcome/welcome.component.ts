@@ -27,10 +27,10 @@ export class WelcomeComponent implements OnInit {
   }
 
   public get canFinish(): boolean {
-    return this.currentStep == this.totalSteps - 1;
+    return this.currentStep === this.totalSteps - 1;
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
   }
 
   public goBack(stepper: MatStepper): void {

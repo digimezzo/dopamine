@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {MaterialCssVarsModule, MaterialCssVarsService} from 'angular-material-css-vars';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -40,7 +41,7 @@ import { Logger } from './core/logger';
 
 
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -79,10 +80,17 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    MaterialCssVarsModule.forRoot({
+      // All optional
+      isAutoContrast: true,
+      darkThemeClass: 'isDarkTheme',
+      lightThemeClass: 'isLightTheme',
+    }),
   ],
   providers: [
     ElectronService,
+    MaterialCssVarsService,
     AppearanceService,
     IndexingService,
     TranslatorService,

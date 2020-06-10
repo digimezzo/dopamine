@@ -48,7 +48,7 @@ function createWindow() {
         }));
     }
     if (serve) {
-        // win.webContents.openDevTools();
+        win.webContents.openDevTools();
     }
     // Emitted when the window is closed.
     win.on('closed', function () {
@@ -57,32 +57,32 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
-    // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work. 
+    // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
     win.on('ready-to-show', function () {
         win.show();
         win.focus();
     });
     // Makes links open in external browser
-    var handleRedirect = function (e, url) {
+    var handleRedirect = function (e, localUrl) {
         // Check that the requested url is not the current page
-        if (url != win.webContents.getURL()) {
+        if (localUrl !== win.webContents.getURL()) {
             e.preventDefault();
-            require('electron').shell.openExternal(url);
+            require('electron').shell.openExternal(localUrl);
         }
     };
     win.webContents.on('will-navigate', handleRedirect);
     win.webContents.on('new-window', handleRedirect);
 }
 try {
-    electron_log_1.default.info("[Main] [] +++ Starting +++");
+    electron_log_1.default.info('[Main] [] +++ Starting +++');
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     electron_1.app.on('ready', createWindow);
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {
-        electron_log_1.default.info("[App] [window-all-closed] +++ Stopping +++");
+        electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
         // On OS X it is common for applications and their menu bar
         // to stay active until the user quits explicitly with Cmd + Q
         if (process.platform !== 'darwin') {

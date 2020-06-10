@@ -9,15 +9,15 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 })
 export class StepIndicatorComponent implements OnInit {
 
-  constructor() { 
+  constructor() {
   }
-  
+
   public totalStepsCollection: number[];
 
   @Input() public totalSteps: number;
   @Input() public currentStep: number;
 
-  ngOnInit() {
-    this.totalStepsCollection = Array(this.totalSteps).fill(1).map((x,i)=>i);
+  public ngOnInit(): void {
+    this.totalStepsCollection = Array(this.totalSteps).fill(1).map((x, i) => i);
   }
 }

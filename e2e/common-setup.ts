@@ -2,8 +2,8 @@ const Application = require('spectron').Application;
 const electronPath = require('electron'); // Require Electron from the binaries included in node_modules.
 const path = require('path');
 
-export default function setup() {
-  beforeEach(async function () {
+export default function setup(): void {
+  beforeEach(async () => {
     this.app = new Application({
       // Your electron path can be any binary
       // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
@@ -33,7 +33,7 @@ export default function setup() {
     browser.timeouts('script', 15000);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
