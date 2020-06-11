@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ElectronService } from './services/electron.service';
-import { ProductInformation } from './core/productInformation';
+import { ProductInformation } from './core/product-information';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
-import { ColorTheme } from '../../core/colorTheme';
+import { ColorTheme } from '../../core/color-theme';
 import { Constants } from '../../core/constants';
 import { MaterialCssVarsService } from 'angular-material-css-vars';
 

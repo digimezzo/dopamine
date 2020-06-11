@@ -3,7 +3,7 @@ import * as TypeMoq from 'typemoq';
 import { Times } from 'typemoq';
 import { ColorThemeSwitcherComponent } from '../../app/components/color-theme-switcher/color-theme-switcher.component';
 import { AppearanceService } from '../../app/services/appearance/appearance.service';
-import { ColorTheme } from '../../app/core/colorTheme';
+import { ColorTheme } from '../../app/core/color-theme';
 
 describe('ColorThemeSwitcherComponent', () => {
     describe('setColorTheme', () => {

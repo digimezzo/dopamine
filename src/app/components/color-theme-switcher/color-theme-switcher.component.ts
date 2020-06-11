@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppearanceService } from '../../services/appearance/appearance.service';
-import { ColorTheme } from '../../core/colorTheme';
+import { ColorTheme } from '../../core/color-theme';
 
 @Component({
   selector: 'app-color-theme-switcher',

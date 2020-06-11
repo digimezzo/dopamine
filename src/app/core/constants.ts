@@ -1,5 +1,5 @@
 import { Language } from './language';
-import { ColorTheme } from './colorTheme';
+import { ColorTheme } from './color-theme';
 
 export class Constants {
     public static readonly applicationName: string = require('../../../package.json').name;
