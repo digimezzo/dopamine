@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
-import { Constants } from '../../core/constants';
 import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { Appearance } from './appearance';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AppearanceService {
+export class AppearanceService implements Appearance {
     private _selectedColorScheme: ColorScheme;
 
     constructor(private settings: Settings, private logger: Logger, public materialCssVarsService: MaterialCssVarsService) {

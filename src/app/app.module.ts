@@ -3,9 +3,9 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {MaterialCssVarsModule, MaterialCssVarsService} from 'angular-material-css-vars';
+import { MaterialCssVarsModule, MaterialCssVarsService } from 'angular-material-css-vars';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -32,12 +32,15 @@ import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 
 import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/track-repository';
 
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
+import { Appearance } from './services/appearance/appearance';
+import { Translator } from './services/translator/translator';
+import { Indexing } from './services/indexing/indexing';
 
 
 // AoT requires an exported function for factories
@@ -91,9 +94,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [
     ElectronService,
     MaterialCssVarsService,
-    AppearanceService,
-    IndexingService,
-    TranslatorService,
+    { provide: Appearance, useClass: AppearanceService },
+    { provide: Indexing, useClass: IndexingService },
+    { provide: Translator, useClass: TranslatorService },
     Settings,
     Logger,
     TrackRepository

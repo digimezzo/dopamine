@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
 import { AppearanceService } from './services/appearance/appearance.service';
-import { TranslatorService } from './services/translator/translator.service';
+import { Translator } from './services/translator/translator';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { TranslatorService } from './services/translator/translator.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(public electronService: ElectronService, private translator: TranslatorService, private settings: Settings,
+  constructor(public electronService: ElectronService, private translator: Translator, private settings: Settings,
     private logger: Logger, private appearance: AppearanceService, public router: Router) {
 
     this.appearance.applyTheme();
