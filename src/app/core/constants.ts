@@ -1,5 +1,4 @@
 import { Language } from './language';
-import { ColorTheme } from './color-theme';
 
 export class Constants {
     public static readonly applicationName: string = require('../../../package.json').name;
@@ -11,15 +10,7 @@ export class Constants {
     public static readonly githubUrl: string = 'https://github.com/digimezzo';
 
     public static readonly languages: Language[] = [
-        { code: 'en', name: 'English' },
-        { code: 'fr', name: 'Français' }
-    ];
-
-    public static readonly colorThemes: ColorTheme[] = [
-        { name: 'default-blue-theme', displayName: 'Blue', color: '#1d7dd4' },
-        { name: 'default-green-theme', displayName: 'Green', color: '#1db853' },
-        { name: 'default-yellow-theme', displayName: 'Yellow', color: '#ff9626' },
-        { name: 'default-purple-theme', displayName: 'Purple', color: '#7a4aba' },
-        { name: 'default-pink-theme', displayName: 'Pink', color: '#ee205e' },
+        new Language('en', 'English'),
+        new Language('fr', 'Français')
     ];
 }

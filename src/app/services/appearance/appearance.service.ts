@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
-import { ColorTheme } from '../../core/color-theme';
+import { ColorScheme } from '../../core/color-scheme';
 import { Constants } from '../../core/constants';
 import { MaterialCssVarsService } from 'angular-material-css-vars';
 
@@ -9,13 +9,13 @@ import { MaterialCssVarsService } from 'angular-material-css-vars';
     providedIn: 'root',
 })
 export class AppearanceService {
-    private _selectedColorTheme: ColorTheme;
+    private _selectedColorScheme: ColorScheme;
 
     constructor(private settings: Settings, private logger: Logger, public materialCssVarsService: MaterialCssVarsService) {
         this.initialize();
     }
 
-    public colorThemes: ColorTheme[] = Constants.colorThemes;
+    public colorSchemes: ColorScheme[] = [];
 
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
@@ -26,13 +26,13 @@ export class AppearanceService {
         this.applyTheme();
     }
 
-    public get selectedColorTheme(): ColorTheme {
-        return this._selectedColorTheme;
+    public get selectedColorScheme(): ColorScheme {
+        return this._selectedColorScheme;
     }
 
-    public set selectedColorTheme(v: ColorTheme) {
-        this._selectedColorTheme = v;
-        this.settings.colorTheme = v.name;
+    public set selectedColorScheme(v: ColorScheme) {
+        this._selectedColorScheme = v;
+        this.settings.colorScheme = v.name;
 
         this.applyTheme();
     }
@@ -53,7 +53,7 @@ export class AppearanceService {
     }
 
     private initialize(): void {
-        this._selectedColorTheme = this.colorThemes.find(x => x.name === this.settings.colorTheme);
+        // this._selectedColorTheme = this.colorThemes.find(x => x.name === this.settings.colorTheme);
         this.applyTheme();
     }
 }

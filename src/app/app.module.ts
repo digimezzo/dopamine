@@ -28,7 +28,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { InformationComponent } from './components/information/information.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
-import { ColorThemeSwitcherComponent } from './components/color-theme-switcher/color-theme-switcher.component';
+import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 
 import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
@@ -57,7 +57,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     WindowControlsComponent,
     LogoFullComponent,
     StepIndicatorComponent,
-    ColorThemeSwitcherComponent
+    ColorSchemeSwitcherComponent
   ],
   imports: [
     MatProgressSpinnerModule,
