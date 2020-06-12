@@ -60,7 +60,7 @@ export class Settings {
     }
 
     if (!this.settings.has('colorScheme')) {
-      this.settings.set('colorScheme', 'default');
+      this.settings.set('colorScheme', 'Default');
     }
 
     if (!this.settings.has('showWelcome')) {

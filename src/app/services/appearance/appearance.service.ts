@@ -15,7 +15,7 @@ export class AppearanceService implements Appearance {
         this.initialize();
     }
 
-    public colorSchemes: ColorScheme[] = [];
+    public colorSchemes: ColorScheme[] = [new ColorScheme('Default', '#6260e3', '#3fdcdd')];
 
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
@@ -38,22 +38,25 @@ export class AppearanceService implements Appearance {
     }
 
     public applyTheme(): void {
-        const primaryColor = '#d65db1';
-        const secondaryColor = '#ff6f91';
-
         // Angular Material elements
         this.materialCssVarsService.setDarkTheme(true);
-        this.materialCssVarsService.setPrimaryColor(primaryColor);
-        this.materialCssVarsService.setAccentColor(secondaryColor);
+        this.materialCssVarsService.setPrimaryColor(this.selectedColorScheme.primaryColor);
+        this.materialCssVarsService.setAccentColor(this.selectedColorScheme.secondaryColor);
 
         // Other elements
         const element = document.documentElement;
-        element.style.setProperty('--primary-color', primaryColor);
-        element.style.setProperty('--secondary-color', secondaryColor);
+        element.style.setProperty('--primary-color', this.selectedColorScheme.primaryColor);
+        element.style.setProperty('--secondary-color', this.selectedColorScheme.secondaryColor);
     }
 
     private initialize(): void {
-        // this._selectedColorTheme = this.colorThemes.find(x => x.name === this.settings.colorTheme);
+        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
+
+        if (!colorSchemeFromSettings) {
+            colorSchemeFromSettings = this.colorSchemes[0];
+        }
+
+        this._selectedColorScheme = colorSchemeFromSettings;
         this.applyTheme();
     }
 }
