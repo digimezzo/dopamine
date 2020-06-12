@@ -2,7 +2,6 @@ import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
 import { Times } from 'typemoq';
 import { ColorSchemeSwitcherComponent } from '../../app/components/color-scheme-switcher/color-scheme-switcher.component';
-import { AppearanceService } from '../../app/services/appearance/appearance.service';
 import { ColorScheme } from '../../app/core/color-scheme';
 import { Appearance } from '../../app/services/appearance/appearance';
 
