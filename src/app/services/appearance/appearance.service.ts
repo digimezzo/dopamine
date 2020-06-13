@@ -62,15 +62,13 @@ export class AppearanceService implements Appearance {
             element.style.setProperty('--button-hover-color', 'rgba(0, 0, 0, 0.1)');
         }
 
-        const themeNameWithBackground: string = `default-theme-${this.settings.useLightBackgroundTheme ? 'light' : 'dark'}`;
-
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
-        this.applyThemeClasses(this.overlayContainer.getContainerElement(), themeNameWithBackground);
+        this.applyThemeClasses(this.overlayContainer.getContainerElement(), themeName);
 
         // Apply theme to body
-        this.applyThemeClasses(document.body, themeNameWithBackground);
+        this.applyThemeClasses(document.body, themeName);
 
-        this.logger.info(`Applied theme '${themeNameWithBackground}'`, 'AppearanceService', 'applyTheme');
+        this.logger.info(`Applied theme '${themeName}'`, 'AppearanceService', 'applyTheme');
     }
 
     private initialize(): void {
