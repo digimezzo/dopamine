@@ -7,6 +7,7 @@
   border: 0;
   vertical-align: baseline;
   outline: none; // Removes yellow outline on elements
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 * :not(.custom-font) {
