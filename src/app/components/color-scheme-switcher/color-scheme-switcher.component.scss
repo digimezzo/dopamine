@@ -1,11 +1,11 @@
 @import "font-faces";
 
-.color-theme-switcher {
+.color-scheme-switcher {
   display: flex;
   flex-wrap: wrap;
 }
 
-.color-theme-switcher-button {
+.color-scheme-switcher-button {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -15,14 +15,14 @@
   position: relative;
 }
 
-.color-theme-switcher-button-selector {
+.color-scheme-switcher-button-selector {
   font-family: segoe;
   font-size: 20px;
   color: white;
   z-index: 1;
 }
 
-.color-theme-switcher-button-color {
+.color-scheme-switcher-button-color {
   width: 40px;
   height: 40px;
   border-radius: 20px;

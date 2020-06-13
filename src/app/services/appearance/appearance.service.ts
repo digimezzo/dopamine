@@ -15,7 +15,10 @@ export class AppearanceService implements Appearance {
         this.initialize();
     }
 
-    public colorSchemes: ColorScheme[] = [new ColorScheme('Default', '#6260e3', '#3fdcdd')];
+    public colorSchemes: ColorScheme[] = [
+        new ColorScheme('Default', '#6260e3', '#3fdcdd'),
+        new ColorScheme('Summer', '#ff6f91', '#ffc75f')
+    ];
 
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
