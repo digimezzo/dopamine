@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { MaterialCssVarsModule, MaterialCssVarsService } from 'angular-material-css-vars';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -84,16 +83,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    MaterialCssVarsModule.forRoot({
-      // All optional
-      isAutoContrast: true,
-      darkThemeClass: 'isDarkTheme',
-      lightThemeClass: 'isLightTheme',
-    }),
   ],
   providers: [
     ElectronService,
-    MaterialCssVarsService,
     { provide: Appearance, useClass: AppearanceService },
     { provide: Indexing, useClass: IndexingService },
     { provide: Translator, useClass: TranslatorService },
