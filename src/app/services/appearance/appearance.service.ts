@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
-import { MaterialCssVarsService } from 'angular-material-css-vars';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Appearance } from './appearance';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { Appearance } from './appearance';
 export class AppearanceService implements Appearance {
     private _selectedColorScheme: ColorScheme;
 
-    constructor(private settings: Settings, private logger: Logger, public materialCssVarsService: MaterialCssVarsService) {
+    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
         this.initialize();
     }
 
@@ -37,16 +37,30 @@ export class AppearanceService implements Appearance {
         this.applyTheme();
     }
 
-    public applyTheme(): void {
-        // Angular Material elements
-        this.materialCssVarsService.setDarkTheme(true);
-        this.materialCssVarsService.setPrimaryColor(this.selectedColorScheme.primaryColor);
-        this.materialCssVarsService.setAccentColor(this.selectedColorScheme.secondaryColor);
+    private applyThemeClasses(element: HTMLElement, themeName: string): void {
+        const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
 
-        // Other elements
+        if (classesToRemove.length) {
+            element.classList.remove(...classesToRemove);
+        }
+
+        element.classList.add(themeName);
+    }
+
+    public applyTheme(): void {
         const element = document.documentElement;
         element.style.setProperty('--primary-color', this.selectedColorScheme.primaryColor);
         element.style.setProperty('--secondary-color', this.selectedColorScheme.secondaryColor);
+
+        const themeNameWithBackground: string = `default-theme-${this.settings.useLightBackgroundTheme ? 'light' : 'dark'}`;
+
+        // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
+        this.applyThemeClasses(this.overlayContainer.getContainerElement(), themeNameWithBackground);
+
+        // Apply theme to body
+        this.applyThemeClasses(document.body, themeNameWithBackground);
+
+        this.logger.info(`Applied theme '${themeNameWithBackground}'`, 'AppearanceService', 'applyTheme');
     }
 
     private initialize(): void {

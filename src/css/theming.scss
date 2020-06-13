@@ -1,12 +1,53 @@
-@import '~angular-material-css-vars/main';
+@import "~@angular/material/theming";
+@import "custom-mat-themes.scss";
+@include mat-core();
 
-// Optional
-$mat-css-dark-theme-selector: '.isDarkTheme';
-$mat-css-light-theme-selector: '.isLightTheme';
+$default-palette: (
+  50: var(--primary-color),
+  100: var(--primary-color),
+  200: var(--primary-color),
+  300: var(--primary-color),
+  400: var(--primary-color),
+  500: var(--primary-color),
+  600: var(--primary-color),
+  700: var(--primary-color),
+  800: var(--primary-color),
+  900: var(--primary-color),
+  A100: var(--primary-color),
+  A200: var(--primary-color),
+  A400: var(--primary-color),
+  A700: var(--primary-color),
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
 
-// Init theme
-@include init-material-css-vars() {
-    // If your app has any theme mixins, call them here. 
-    // $mat-css-theme gets set to an appropriate value before this content is called.
-    // @include your-custom-component-theme($mat-css-theme);
-  };
+$default-theme-primary: mat-palette($default-palette);
+$default-theme-accent: mat-palette($default-palette);
+$default-theme-warn: mat-palette($default-palette);
+
+$default-theme-dark: custom-mat-dark-theme($default-theme-primary, $default-theme-accent, $default-theme-warn);
+$default-theme-light: custom-mat-light-theme($default-theme-primary, $default-theme-accent, $default-theme-warn);
+
+@include angular-material-theme($default-theme-dark);
+
+.default-theme-dark {
+  @include angular-material-theme($default-theme-dark);
+}
+
+.default-theme-light {
+  @include angular-material-theme($default-theme-light);
+}
