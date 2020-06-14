@@ -27,7 +27,7 @@ import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 
-import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule, MatSnackBarModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/track-repository';
@@ -68,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatSelectModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    MatSnackBarModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
