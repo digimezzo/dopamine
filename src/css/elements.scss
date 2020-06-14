@@ -12,7 +12,7 @@
 
 * :not(.custom-font) {
   font-family: opensans !important;
-  font-size: $fontsize-normal;
+  font-size: var(--fontsize-normal);
 }
 
 html {
@@ -38,12 +38,12 @@ body {
 h1 {
   color: var(--accent-color);
   font-weight: lighter !important;
-  font-size: $fontsize-largest !important;
+  font-size: var(--fontsize-largest) !important;
 }
 
 h4 {
   font-weight: lighter !important;
-  font-size: $fontsize-larger !important;
+  font-size: var(--fontsize-larger) !important;
 }
 
 a {

@@ -5,4 +5,5 @@ export abstract class Appearance {
     public abstract useLightBackgroundTheme: boolean;
     public abstract selectedColorScheme: ColorScheme;
     public abstract applyTheme(): void;
+    public abstract applyFontSize(): void;
 }

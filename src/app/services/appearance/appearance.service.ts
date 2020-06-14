@@ -6,6 +6,8 @@ import { ColorScheme } from '../../core/color-scheme';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Appearance } from './appearance';
 import { ProductInformation } from '../../core/product-information';
+import { FontSize } from '../../core/font-size';
+import { Constants } from '../../core/constants';
 
 @Injectable({
     providedIn: 'root',
@@ -13,9 +15,17 @@ import { ProductInformation } from '../../core/product-information';
 export class AppearanceService implements Appearance {
     private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');
     private _selectedColorScheme: ColorScheme;
+    private _selectedFontSize: FontSize;
 
     constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
-        this.initialize();
+        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
+
+        if (!colorSchemeFromSettings) {
+            colorSchemeFromSettings = this.colorSchemes[0];
+        }
+
+        this._selectedColorScheme = colorSchemeFromSettings;
+        this._selectedFontSize = this.fontSizes.find(x => x.normalSize === this.settings.fontSize);
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -26,6 +36,8 @@ export class AppearanceService implements Appearance {
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#fe3065')
     ];
+
+    public fontSizes: FontSize[] = Constants.fontSizes;
 
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
@@ -45,6 +57,17 @@ export class AppearanceService implements Appearance {
         this.settings.colorScheme = v.name;
 
         this.applyTheme();
+    }
+
+    public get selectedFontSize(): FontSize {
+        return this._selectedFontSize;
+    }
+
+    public set selectedFontSize(v: FontSize) {
+        this._selectedFontSize = v;
+        this.settings.fontSize = v.normalSize;
+
+        this.applyFontSize();
     }
 
     private applyThemeClasses(element: HTMLElement, themeName: string): void {
@@ -82,14 +105,10 @@ export class AppearanceService implements Appearance {
         this.logger.info(`Applied theme '${themeName}'`, 'AppearanceService', 'applyTheme');
     }
 
-    private initialize(): void {
-        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
-
-        if (!colorSchemeFromSettings) {
-            colorSchemeFromSettings = this.colorSchemes[0];
-        }
-
-        this._selectedColorScheme = colorSchemeFromSettings;
-        this.applyTheme();
+    public applyFontSize(): void {
+        const element = document.documentElement;
+        element.style.setProperty('--fontsize-normal', this._selectedFontSize.normalSize + 'px');
+        element.style.setProperty('--fontsize-larger', this._selectedFontSize.largerSize + 'px');
+        element.style.setProperty('--fontsize-largest', this._selectedFontSize.largestSize + 'px');
     }
 }

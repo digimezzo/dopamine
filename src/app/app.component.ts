@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private logger: Logger, private appearance: Appearance, public router: Router) {
 
     this.appearance.applyTheme();
+    this.appearance.applyFontSize();
     this.translator.applyLanguage();
   }
 

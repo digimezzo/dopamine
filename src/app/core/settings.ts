@@ -44,6 +44,15 @@ export class Settings {
     this.settings.set('useCustomTitleBar', v);
   }
 
+  // FontSize
+  public get fontSize(): number {
+    return this.settings.get('fontSize');
+  }
+
+  public set fontSize(v: number) {
+    this.settings.set('fontSize', v);
+  }
+
   // Color scheme
   public get colorScheme(): string {
     return this.settings.get('colorScheme');
@@ -87,6 +96,10 @@ export class Settings {
       } else {
         this.settings.set('useCustomTitleBar', false);
       }
+    }
+
+    if (!this.settings.has('fontSize')) {
+      this.settings.set('fontSize', 13);
     }
 
     if (!this.settings.has('colorScheme')) {
