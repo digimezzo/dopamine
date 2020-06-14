@@ -1,8 +1,9 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, Menu, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
 import * as os from 'os';
+import * as Store from 'electron-store';
 
 app.commandLine.appendSwitch('disable-color-correct-rendering');
 
@@ -24,9 +25,25 @@ if (process.env.NODE_ENV !== 'development') {
   globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
+function windowhasFrame(): boolean {
+  const settings: Store<any> = new Store();
+
+  if (!settings.has('useCustomTitleBar')) {
+    if (os.platform() === 'win32') {
+      settings.set('useCustomTitleBar', true);
+    } else {
+      settings.set('useCustomTitleBar', false);
+    }
+  }
+
+  return !settings.get('useCustomTitleBar');
+}
+
 function createWindow(): void {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
+  Menu.setApplicationMenu(null);
 
   // Load the previous state with fallback to defaults
   const windowState = windowStateKeeper({
@@ -41,10 +58,12 @@ function createWindow(): void {
     width: windowState.width,
     height: windowState.height,
     backgroundColor: '#fff',
-    frame: false,
+    frame: windowhasFrame(),
     icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
     show: false,
   });
+
+  globalAny.windowHasFrame = windowhasFrame();
 
   windowState.manage(win);
 

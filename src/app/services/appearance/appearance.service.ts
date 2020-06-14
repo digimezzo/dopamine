@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { remote } from 'electron';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
@@ -10,10 +11,15 @@ import { Constants } from '../../core/constants';
     providedIn: 'root',
 })
 export class AppearanceService implements Appearance {
+    private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');
     private _selectedColorScheme: ColorScheme;
 
     constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
         this.initialize();
+    }
+
+    public get windowHasNativeTitleBar(): boolean {
+        return this.windowHasFrame;
     }
 
     public colorSchemes: ColorScheme[] = [

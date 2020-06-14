@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Store from 'electron-store';
-import { Constants } from './constants';
+import * as os from 'os';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class Settings {
   private settings: Store<any> = new Store();
 
   constructor() {
-      this.initialize();
+    this.initialize();
   }
 
   // Default language
@@ -24,6 +24,15 @@ export class Settings {
 
   public set language(v: string) {
     this.settings.set('language', v);
+  }
+
+  // Use custom title bar
+  public get useCustomTitleBar(): boolean {
+    return this.settings.get('useCustomTitleBar');
+  }
+
+  public set useCustomTitleBar(v: boolean) {
+    this.settings.set('useCustomTitleBar', v);
   }
 
   // Color scheme
@@ -57,6 +66,14 @@ export class Settings {
   private initialize(): void {
     if (!this.settings.has('language')) {
       this.settings.set('language', 'en');
+    }
+
+    if (!this.settings.has('useCustomTitleBar')) {
+      if (os.platform() === 'win32') {
+        this.settings.set('useCustomTitleBar', true);
+      } else {
+        this.settings.set('useCustomTitleBar', false);
+      }
     }
 
     if (!this.settings.has('colorScheme')) {

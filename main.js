@@ -5,6 +5,7 @@ var path = require("path");
 var url = require("url");
 var windowStateKeeper = require("electron-window-state");
 var os = require("os");
+var Store = require("electron-store");
 electron_1.app.commandLine.appendSwitch('disable-color-correct-rendering');
 // Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
 // See post by megahertz: https://github.com/megahertz/electron-log/issues/60
@@ -20,9 +21,22 @@ var globalAny = global;
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
+function windowhasFrame() {
+    var settings = new Store();
+    if (!settings.has('useCustomTitleBar')) {
+        if (os.platform() === 'win32') {
+            settings.set('useCustomTitleBar', true);
+        }
+        else {
+            settings.set('useCustomTitleBar', false);
+        }
+    }
+    return !settings.get('useCustomTitleBar');
+}
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
+    electron_1.Menu.setApplicationMenu(null);
     // Load the previous state with fallback to defaults
     var windowState = windowStateKeeper({
         defaultWidth: 850,
@@ -35,10 +49,11 @@ function createWindow() {
         width: windowState.width,
         height: windowState.height,
         backgroundColor: '#fff',
-        frame: false,
+        frame: windowhasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         show: false,
     });
+    globalAny.windowHasFrame = windowhasFrame();
     windowState.manage(win);
     if (serve) {
         require('electron-reload')(__dirname, {

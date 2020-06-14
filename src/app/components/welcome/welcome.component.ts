@@ -48,6 +48,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   public finish(): void {
-    this.router.navigate(['/collection']);
+    this.router.navigate(['/main']);
   }
 }

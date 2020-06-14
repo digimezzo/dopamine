@@ -20,11 +20,8 @@ import { TranslatorService } from './services/translator/translator.service';
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
-import { LoadingComponent } from './components/loading/loading.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { CollectionComponent } from './components/collection/collection.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { InformationComponent } from './components/information/information.component';
+import { MainComponent } from './components/main/main.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
@@ -51,11 +48,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent,
     WebviewDirective,
-    LoadingComponent,
     WelcomeComponent,
-    CollectionComponent,
-    SettingsComponent,
-    InformationComponent,
+    MainComponent,
     WindowControlsComponent,
     LogoFullComponent,
     StepIndicatorComponent,
