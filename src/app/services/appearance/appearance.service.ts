@@ -4,6 +4,7 @@ import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Appearance } from './appearance';
+import { Constants } from '../../core/constants';
 
 @Injectable({
     providedIn: 'root',
@@ -16,8 +17,8 @@ export class AppearanceService implements Appearance {
     }
 
     public colorSchemes: ColorScheme[] = [
-        new ColorScheme('Default', '#6260e3', '#3fdcdd'),
-        new ColorScheme('Summer', '#ff6f91', '#ffc75f')
+        new ColorScheme(Constants.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
+        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#ed008c')
     ];
 
     public get useLightBackgroundTheme(): boolean {
@@ -54,6 +55,7 @@ export class AppearanceService implements Appearance {
         const element = document.documentElement;
         element.style.setProperty('--primary-color', this.selectedColorScheme.primaryColor);
         element.style.setProperty('--secondary-color', this.selectedColorScheme.secondaryColor);
+        element.style.setProperty('--accent-color', this.selectedColorScheme.accentColor);
 
         let themeName: string = 'default-theme-dark';
         element.style.setProperty('--button-foreground-color', '#FFF');

@@ -11,11 +11,11 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
   border-radius: 3px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
 }
