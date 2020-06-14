@@ -4,7 +4,7 @@
             (click)="setColorScheme(colorScheme)">
             <div class="color-scheme-switcher-button-selector custom-font"
                 *ngIf="colorScheme.name === appearance.selectedColorScheme.name">
-                &#xE8FB;
+                <i class="custom-font las la-check"></i>
             </div>
             <div class="color-scheme-switcher-button-color"
                 [ngStyle]="{'background': 'linear-gradient(45deg, ' + colorScheme.primaryColor + ' 30%, ' + colorScheme.secondaryColor + ' 100%)'}">
