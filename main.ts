@@ -2,6 +2,9 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
+import * as os from 'os';
+
+app.commandLine.appendSwitch('disable-color-correct-rendering');
 
 // Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
 // See post by megahertz: https://github.com/megahertz/electron-log/issues/60
@@ -12,8 +15,16 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-function createWindow(): void {
+// Workaround: Global does not allow setting custom properties.
+// We need to cast it to "any" first.
+const globalAny: any = global;
 
+// Static folder is not detected correctly in production
+if (process.env.NODE_ENV !== 'development') {
+  globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
+}
+
+function createWindow(): void {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
@@ -31,11 +42,8 @@ function createWindow(): void {
     height: windowState.height,
     backgroundColor: '#fff',
     frame: false,
-    icon: path.join(__dirname, 'build/icon/icon.png'),
+    icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
     show: false,
-    webPreferences: {
-      nodeIntegration: true,
-    },
   });
 
   windowState.manage(win);
