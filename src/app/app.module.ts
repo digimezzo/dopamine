@@ -37,6 +37,10 @@ import { Logger } from './core/logger';
 import { Appearance } from './services/appearance/appearance';
 import { Translator } from './services/translator/translator';
 import { Indexing } from './services/indexing/indexing';
+import { Update } from './services/update/update';
+import { UpdateService } from './services/update/update.service';
+import { SnackBar } from './services/snack-bar/snack-bar';
+import { SnackBarService } from './services/snack-bar/snack-bar.service';
 
 
 // AoT requires an exported function for factories
@@ -83,6 +87,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: Appearance, useClass: AppearanceService },
     { provide: Indexing, useClass: IndexingService },
     { provide: Translator, useClass: TranslatorService },
+    { provide: Update, useClass: UpdateService },
+    { provide: SnackBar, useClass: SnackBarService },
     Settings,
     Logger,
     TrackRepository

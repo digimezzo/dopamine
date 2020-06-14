@@ -4,8 +4,8 @@ import { ProductInformation } from './core/product-information';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { AppearanceService } from './services/appearance/appearance.service';
 import { Translator } from './services/translator/translator';
+import { Appearance } from './services/appearance/appearance';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { Translator } from './services/translator/translator';
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(public electronService: ElectronService, private translator: Translator, private settings: Settings,
-    private logger: Logger, private appearance: AppearanceService, public router: Router) {
+    private logger: Logger, private appearance: Appearance, public router: Router) {
 
     this.appearance.applyTheme();
     this.translator.applyLanguage();

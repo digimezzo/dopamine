@@ -9,7 +9,6 @@ import { Translator } from './translator';
   providedIn: 'root'
 })
 export class TranslatorService implements Translator {
-
   constructor(private translate: TranslateService, private settings: Settings) {
     this.translate.setDefaultLang(this.settings.defaultLanguage);
   }
@@ -22,10 +21,14 @@ export class TranslatorService implements Translator {
 
   public set selectedLanguage(v: Language) {
     this.settings.language = v.code;
-    this.applyLanguage();
+    this.translate.use(v.code);
   }
 
   public applyLanguage(): void {
     this.translate.use(this.settings.language);
+  }
+
+  public getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {
+    return this.translate.get(key, interpolateParams).toPromise();
   }
 }

@@ -8,10 +8,4 @@ import { Indexing } from './indexing';
 export class IndexingService implements Indexing {
 
   constructor(private settings: Settings) { }
-
-  public myTest(): string {
-    const shouldShowWelcome: boolean = this.settings.showWelcome;
-
-    return 'Hello!';
-  }
 }

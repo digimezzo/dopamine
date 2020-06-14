@@ -1,0 +1,38 @@
+{
+    "Pages": {
+        "Welcome": {
+            "Greeting": {
+                "Title": "Hallo!",
+                "Content": "Welkom bij Dopamine, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen."
+            },
+            "Language": {
+                "Title": "Taal",
+                "Content": "Kies je taal"
+            },
+            "Appearance": {
+                "Title": "Uitzicht",
+                "Content": "Hoe wil je dat Dopamine eruit ziet?",
+                "UseLightTheme": "Gebruik een licht thema"
+            },
+            "Music": {
+                "Title": "Muziek",
+                "Content": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?",
+                "AddFolder": "Voeg een map toe"
+            },
+            "Donate": {
+                "Title": "Doneer",
+                "Content": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!"
+            },
+            "Done": {
+                "Title": "Klaar!",
+                "Content": "Helemaal klaar. Laat ons Dopamine opstarten."
+            }
+        }
+    },
+    "SnackBarMessages": {
+        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}"
+    },
+    "SnackBarActions": {
+        "Ok": "OK"
+    }
+}

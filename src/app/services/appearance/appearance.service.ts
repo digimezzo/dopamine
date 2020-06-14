@@ -5,7 +5,7 @@ import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Appearance } from './appearance';
-import { Constants } from '../../core/constants';
+import { ProductInformation } from '../../core/product-information';
 
 @Injectable({
     providedIn: 'root',
@@ -23,7 +23,7 @@ export class AppearanceService implements Appearance {
     }
 
     public colorSchemes: ColorScheme[] = [
-        new ColorScheme(Constants.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
+        new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#fe3065')
     ];
 

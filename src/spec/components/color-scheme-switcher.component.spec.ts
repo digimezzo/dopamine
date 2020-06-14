@@ -13,7 +13,7 @@ describe('ColorSchemeSwitcherComponent', () => {
             const colorThemeSwitcher: ColorSchemeSwitcherComponent = new ColorSchemeSwitcherComponent(appearanceMock.object);
 
             // Act
-            const defaultColorScheme: ColorScheme = new ColorScheme('default', '#1d7dd4', '#1d7dd4');
+            const defaultColorScheme: ColorScheme = new ColorScheme('Default', '#fff', '#fff', '#fff');
             colorThemeSwitcher.setColorScheme(defaultColorScheme);
 
             // Assert

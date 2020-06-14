@@ -1,8 +1,5 @@
 {
   "Pages": {
-    "Loading": {
-      "Content": "Loading..."
-    },
     "Welcome": {
       "Greeting": {
         "Title": "Hi!",
@@ -32,10 +29,10 @@
       }
     }
   },
-  "Common": {
-    "Choices": {
-      "Yes": "Yes",
-      "No": "No"
-    }
+  "SnackBarMessages": {
+    "NewVersionAvailable": "A new version is available: {{version}}"
+  },
+  "SnackBarActions": {
+    "Ok": "OK"
   }
 }

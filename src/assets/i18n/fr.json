@@ -1,8 +1,5 @@
 {
     "Pages": {
-        "Loading": {
-            "Content": "Chargement..."
-        },
         "Welcome": {
             "Greeting": {
                 "Title": "Salut!",
@@ -29,13 +26,13 @@
             "Done": {
                 "Title": "Prêt!",
                 "Content": "Nous sommes prêts. Maintenant, lançons Dopamine."
-              }
+            }
         }
     },
-    "Common":{
-        "Choices":{
-            "Yes": "Oui",
-            "No": "Non"
-        }
+    "SnackBarMessages": {
+        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}"
+    },
+    "SnackBarActions": {
+        "Ok": "OK"
     }
 }
