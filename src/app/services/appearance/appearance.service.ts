@@ -18,7 +18,7 @@ export class AppearanceService implements Appearance {
 
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(Constants.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
-        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#ed008c')
+        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#fe3065')
     ];
 
     public get useLightBackgroundTheme(): boolean {

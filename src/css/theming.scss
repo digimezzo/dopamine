@@ -1,5 +1,5 @@
-@import "~@angular/material/theming";
-@import "custom-mat-themes.scss";
+@import '~@angular/material/theming';
+@import 'custom-mat-themes';
 @include mat-core();
 
 $default-palette: (
