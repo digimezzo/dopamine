@@ -34,7 +34,7 @@ export class AppearanceService implements Appearance {
 
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
-        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#fe3065')
+        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f')
     ];
 
     public fontSizes: FontSize[] = Constants.fontSizes;
