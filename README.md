@@ -8,3 +8,5 @@ Dopamine icons created by Sharlee.
 [![Release](https://img.shields.io/github/release/digimezzo/dopamine-electron.svg?style=flat-square)](https://github.com/digimezzo/dopamine-electron/releases/latest)
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine-electron.svg?style=flat-square)](https://github.com/digimezzo/dopamine-electron/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
+
+<a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
