@@ -1,4 +1,4 @@
-@import 'variables';
+@import "variables";
 
 .no-select {
   user-select: none;
@@ -6,4 +6,27 @@
 
 .hidden {
   visibility: hidden;
+}
+
+.link-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--accent-color);
+}
+
+.link-button:hover {
+  opacity: 0.8;
+}
+
+.link-button > a {
+  text-decoration: none;
+}
+
+.link-button-icon {
+  font-size: var(--fontsize-larger);
+}
+
+.link-button-text {
+  font-size: var(--fontsize-normal);
 }

@@ -71,7 +71,10 @@
                         <h4 class="mb-2">
                             {{ 'Pages.Welcome.Donate.Content' | translate }}
                         </h4>
-                        <a href="{{ donateUrl }}">{{ 'Pages.Welcome.Donate.DonateNow' | translate }}</a>
+                        <div class="link-button">
+                            <i class="link-button-icon custom-font mr-1 lar la-heart"></i>
+                            <a href="{{ donateUrl }}">{{ 'Pages.Welcome.Donate.DonateNow' | translate }}</a>
+                        </div>
                     </div>
                 </mat-step>
                 <!-- Done -->
