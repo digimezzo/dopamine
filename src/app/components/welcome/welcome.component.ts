@@ -3,6 +3,7 @@ import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { Appearance } from '../../services/appearance/appearance';
 import { Translator } from '../../services/translator/translator';
+import { ContactInformation } from '../../core/contact-information';
 
 @Component({
   selector: 'app-welcome',
@@ -17,6 +18,7 @@ export class WelcomeComponent implements OnInit {
 
   public currentStep: number = 0;
   public totalSteps: number = 6;
+  public donateUrl: string = ContactInformation.donateUrl;
 
   public get canGoBack(): boolean {
     return this.currentStep > 0 && this.currentStep < this.totalSteps - 1;

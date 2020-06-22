@@ -21,7 +21,8 @@
             },
             "Donate": {
                 "Title": "Faire un don",
-                "Content": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!"
+                "Content": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!",
+                "DonateNow": "Faire un don maintenant"
             },
             "Done": {
                 "Title": "Prêt!",

@@ -86,5 +86,23 @@ describe('WelcomeComponent', () => {
             // Assert
             assert.strictEqual(welcomeComponent.canFinish, false);
         });
+
+        it('Should provide correct donate url', () => {
+            // Arrange
+            const appearanceMock = TypeMoq.Mock.ofType<Appearance>();
+            const translatorMock = TypeMoq.Mock.ofType<Translator>();
+            const routerMock = TypeMoq.Mock.ofType<Router>();
+
+            // Act
+            const welcomeComponent: WelcomeComponent = new WelcomeComponent(
+                routerMock.object,
+                translatorMock.object,
+                appearanceMock.object);
+
+            // Assert
+            assert.strictEqual(
+                welcomeComponent.donateUrl,
+                'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+        });
     });
 });

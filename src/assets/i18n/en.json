@@ -21,7 +21,8 @@
       },
       "Donate": {
         "Title": "Donate",
-        "Content": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!"
+        "Content": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!",
+        "DonateNow": "Donate now"
       },
       "Done": {
         "Title": "Done!",

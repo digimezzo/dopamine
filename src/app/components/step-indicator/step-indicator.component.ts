@@ -14,8 +14,10 @@ export class StepIndicatorComponent implements OnInit {
 
   public totalStepsCollection: number[];
 
-  @Input() public totalSteps: number;
-  @Input() public currentStep: number;
+  @Input()
+  public totalSteps: number;
+  @Input()
+  public currentStep: number;
 
   public ngOnInit(): void {
     this.totalStepsCollection = Array(this.totalSteps).fill(1).map((x, i) => i);

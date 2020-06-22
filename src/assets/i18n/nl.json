@@ -21,7 +21,8 @@
             },
             "Donate": {
                 "Title": "Doneer",
-                "Content": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!"
+                "Content": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!",
+                "DonateNow": "Nu doneren"
             },
             "Done": {
                 "Title": "Klaar!",
