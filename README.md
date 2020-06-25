@@ -30,7 +30,7 @@ sudo apt install wine rpm libarchive-tools
 
 ```bash
 $ git clone https://github.com/digimezzo/dopamine.git
-$ cd knowte
+$ cd dopamine
 $ npm install            # Download dependencies
 $ npm start              # Start Dopamine
 $ npm run electron:windows   # Build for Windows
