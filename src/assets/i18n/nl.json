@@ -32,7 +32,8 @@
         }
     },
     "SnackBarMessages": {
-        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}"
+        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}",
+        "FolderAlreadyAdded": "Deze map werd al toegevoegd"
     },
     "SnackBarActions": {
         "Ok": "OK"

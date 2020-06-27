@@ -5,16 +5,19 @@ import { FolderRepository } from '../../app/data/entities/folder-repository';
 import { FolderService } from '../../app/services/folder/folder.service';
 import { Logger } from '../../app/core/logger';
 import { Folder } from '../../app/data/entities/folder';
+import { SnackbarServiceBase as SnackBarServiceBase } from '../../app/services/snack-bar/snack-bar-service-base';
 
 describe('FolderService', () => {
     describe('addFolderAsync', () => {
         it('Should add a new folder with the selected path to the database', async () => {
             // Arrange
             const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
                 folderRepositoryMock.object,
-                loggerMock.object);
+                loggerMock.object,
+                snackBarServiceMock.object);
 
             folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => null);
 
@@ -28,10 +31,12 @@ describe('FolderService', () => {
         it('Should not add an existing folder with the selected path to the database', async () => {
             // Arrange
             const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
                 folderRepositoryMock.object,
-                loggerMock.object);
+                loggerMock.object,
+                snackBarServiceMock.object);
 
             folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => new Folder('/home/me/Music'));
 
@@ -40,6 +45,25 @@ describe('FolderService', () => {
 
             // Assert
             folderRepositoryMock.verify(x => x.addFolderAsync('/home/me/Music'), Times.never());
+        });
+
+        it('Should notify the user if a folder was already added', async () => {
+            // Arrange
+            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
+            const loggerMock = TypeMoq.Mock.ofType<Logger>();
+            const folderService: FolderService = new FolderService(
+                folderRepositoryMock.object,
+                loggerMock.object,
+                snackBarServiceMock.object);
+
+            folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => new Folder('/home/me/Music'));
+
+            // Act
+            await folderService.addNewFolderAsync('/home/me/Music');
+
+            // Assert
+            snackBarServiceMock.verify(x => x.notifyFolderAlreadyAddedAsync(), Times.exactly(1));
         });
     });
 });

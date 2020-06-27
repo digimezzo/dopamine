@@ -32,7 +32,8 @@
         }
     },
     "SnackBarMessages": {
-        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}"
+        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}",
+        "FolderAlreadyAdded": "Ce dossier a déjà été ajouté"
     },
     "SnackBarActions": {
         "Ok": "OK"

@@ -1,0 +1,10 @@
+@import 'variables';
+
+.accent-snackbar {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.mat-simple-snackbar > span {
+  overflow-wrap: anywhere;
+}
