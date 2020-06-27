@@ -4,7 +4,7 @@
 
 Dopamine is an audio player which tries to make organizing and listening to music as simple and pretty as possible. This version is written using Electron, Angular and Typescript. The original Dopamine (for Windows), which is written in WPF and C#, remains available <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
 
-Dopamine icons created by Sharlee.
+Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 [![Release](https://img.shields.io/github/release/digimezzo/dopamine-electron.svg?style=flat-square)](https://github.com/digimezzo/dopamine-electron/releases/latest)
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine-electron.svg?style=flat-square)](https://github.com/digimezzo/dopamine-electron/issues)
@@ -30,7 +30,7 @@ sudo apt install wine rpm libarchive-tools
 
 ```bash
 $ git clone https://github.com/digimezzo/dopamine.git
-$ cd knowte
+$ cd dopamine
 $ npm install            # Download dependencies
 $ npm start              # Start Dopamine
 $ npm run electron:windows   # Build for Windows
