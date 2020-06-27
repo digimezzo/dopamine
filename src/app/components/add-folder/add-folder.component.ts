@@ -22,7 +22,7 @@ export class AddFolderComponent implements OnInit {
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 
         if (selectedFolderPath) {
-            await this.folderService.addFolderAsync(selectedFolderPath);
+            await this.folderService.addNewFolderAsync(selectedFolderPath);
         }
     }
 }

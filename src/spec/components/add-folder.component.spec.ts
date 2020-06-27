@@ -55,7 +55,7 @@ describe('AddFolderComponent', () => {
              await addFolderComponent.addFolderAsync();
 
              // Assert
-             folderServiceMock.verify(x => x.addFolderAsync('/home/me/Music'), Times.exactly(1));
+             folderServiceMock.verify(x => x.addNewFolderAsync('/home/me/Music'), Times.exactly(1));
         });
 
         it('Should not add a folder with the selected path to the database if the path is empty', async () => {
@@ -73,7 +73,7 @@ describe('AddFolderComponent', () => {
             await addFolderComponent.addFolderAsync();
 
             // Assert
-            folderServiceMock.verify(x => x.addFolderAsync(It.isAnyString()), Times.never());
+            folderServiceMock.verify(x => x.addNewFolderAsync(It.isAnyString()), Times.never());
        });
     });
 });
