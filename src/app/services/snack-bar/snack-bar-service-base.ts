@@ -1,3 +1,3 @@
-export abstract class SnackBar {
+export abstract class SnackbarServiceBase {
     public async abstract notifyOfNewVersionAsync(version: string): Promise<void>;
 }

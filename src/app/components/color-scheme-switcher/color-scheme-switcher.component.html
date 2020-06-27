@@ -1,9 +1,9 @@
 <div class="color-scheme-switcher">
-    <div *ngFor="let colorScheme of appearance.colorSchemes">
+    <div *ngFor="let colorScheme of appearanceService.colorSchemes">
         <div class="color-scheme-switcher-button mr-1 mb-1" matTooltip="{{ colorScheme.name }}"
             (click)="setColorScheme(colorScheme)">
             <div class="color-scheme-switcher-button-selector custom-font"
-                *ngIf="colorScheme.name === appearance.selectedColorScheme.name">
+                *ngIf="colorScheme.name === appearanceService.selectedColorScheme.name">
                 <i class="custom-font las la-check"></i>
             </div>
             <div class="color-scheme-switcher-button-color"

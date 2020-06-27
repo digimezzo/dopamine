@@ -1,10 +1,10 @@
 <div class="window-frame">
   <div class="window-frame-titlebar">
-      <div class="window-frame-titlebar-dragarea" *ngIf="!appearance.windowHasNativeTitleBar">
+      <div class="window-frame-titlebar-dragarea" *ngIf="!appearanceService.windowHasNativeTitleBar">
       </div>
-      <app-window-controls *ngIf="!appearance.windowHasNativeTitleBar"></app-window-controls>
+      <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
-  <div class="window-frame-content" [ngStyle]="{'top': appearance.windowHasNativeTitleBar ? '0px' : '32px' }">
+  <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '32px' }">
     Main works!
   </div>
 </div>

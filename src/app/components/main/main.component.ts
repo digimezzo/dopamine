@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Appearance } from '../../services/appearance/appearance';
-import { Update } from '../../services/update/update';
+import { AppearanceServiceBase } from '../../services/appearance/appearance-service-base';
+import { UpdateServiceBase } from '../../services/update/update-service-base';
 
 @Component({
   selector: 'app-main',
@@ -11,10 +11,10 @@ import { Update } from '../../services/update/update';
 })
 export class MainComponent implements OnInit {
 
-  constructor(public appearance: Appearance, private update: Update) { }
+  constructor(public appearanceService: AppearanceServiceBase, private updateService: UpdateServiceBase) { }
 
   public ngOnInit(): void {
     // Check for updates (don't await)
-    this.update.checkForUpdatesAsync();
+    this.updateService.checkForUpdatesAsync();
   }
 }

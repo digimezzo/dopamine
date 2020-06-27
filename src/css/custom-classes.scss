@@ -21,6 +21,8 @@
 
 .link-button > a {
   text-decoration: none;
+  cursor: pointer;
+  user-select: none;
 }
 
 .link-button-icon {

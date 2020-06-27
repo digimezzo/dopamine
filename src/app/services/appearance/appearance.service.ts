@@ -4,7 +4,7 @@ import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
 import { ColorScheme } from '../../core/color-scheme';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Appearance } from './appearance';
+import { AppearanceServiceBase } from './appearance-service-base';
 import { ProductInformation } from '../../core/product-information';
 import { FontSize } from '../../core/font-size';
 import { Constants } from '../../core/constants';
@@ -12,7 +12,7 @@ import { Constants } from '../../core/constants';
 @Injectable({
     providedIn: 'root',
 })
-export class AppearanceService implements Appearance {
+export class AppearanceService implements AppearanceServiceBase {
     private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');
     private _selectedColorScheme: ColorScheme;
     private _selectedFontSize: FontSize;

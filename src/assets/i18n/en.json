@@ -17,7 +17,8 @@
       "Music": {
         "Title": "Music",
         "Content": "Let's now set up your collection. Where do you store your music?",
-        "AddFolder": "Add a folder"
+        "AddFolder": "Add a folder",
+        "SelectFolder": "Select a folder"
       },
       "Donate": {
         "Title": "Donate",

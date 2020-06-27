@@ -18,10 +18,7 @@ export class FolderRepository {
     }
 
     public async addFolderAsync(path: string): Promise<void> {
-        const folder: Folder = new Folder();
-        folder.name = '/my/path5'; // TODO: generate name from path
-        folder.path = path;
-
+        const folder: Folder = new Folder('/my/path5');
         this.folderModel.saveAsync(folder);
     }
 }

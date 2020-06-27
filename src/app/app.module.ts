@@ -34,13 +34,17 @@ import { TrackRepository } from './data/entities/track-repository';
 
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { Appearance } from './services/appearance/appearance';
-import { Translator } from './services/translator/translator';
-import { Indexing } from './services/indexing/indexing';
-import { Update } from './services/update/update';
+import { AppearanceServiceBase } from './services/appearance/appearance-service-base';
+import { TranslatorServiceBase } from './services/translator/translator-service-base';
+import { IndexingServiceBase } from './services/indexing/indexing-service-base';
+import { UpdateServiceBase } from './services/update/update-service-base';
 import { UpdateService } from './services/update/update.service';
-import { SnackBar } from './services/snack-bar/snack-bar';
+import { SnackbarServiceBase } from './services/snack-bar/snack-bar-service-base';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
+import { AddFolderComponent } from './components/add-folder/add-folder.component';
+import { Desktop } from './core/desktop';
+import { FolderServiceBase } from './services/folder/folder-service-base';
+import { FolderService } from './services/folder/folder.service';
 
 
 // AoT requires an exported function for factories
@@ -57,7 +61,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     WindowControlsComponent,
     LogoFullComponent,
     StepIndicatorComponent,
-    ColorSchemeSwitcherComponent
+    ColorSchemeSwitcherComponent,
+    AddFolderComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -85,11 +90,13 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   providers: [
     ElectronService,
-    { provide: Appearance, useClass: AppearanceService },
-    { provide: Indexing, useClass: IndexingService },
-    { provide: Translator, useClass: TranslatorService },
-    { provide: Update, useClass: UpdateService },
-    { provide: SnackBar, useClass: SnackBarService },
+    Desktop,
+    { provide: AppearanceServiceBase, useClass: AppearanceService },
+    { provide: FolderServiceBase, useClass: FolderService },
+    { provide: IndexingServiceBase, useClass: IndexingService },
+    { provide: TranslatorServiceBase, useClass: TranslatorService },
+    { provide: UpdateServiceBase, useClass: UpdateService },
+    { provide: SnackbarServiceBase, useClass: SnackBarService },
     Settings,
     Logger,
     TrackRepository

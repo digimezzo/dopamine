@@ -1,10 +1,10 @@
 <div class="window-frame">
     <div class="window-frame-titlebar">
-        <div class="window-frame-titlebar-dragarea" *ngIf="!appearance.windowHasNativeTitleBar">
+        <div class="window-frame-titlebar-dragarea" *ngIf="!appearanceService.windowHasNativeTitleBar">
         </div>
-        <app-window-controls *ngIf="!appearance.windowHasNativeTitleBar"></app-window-controls>
+        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame-content" [ngStyle]="{'top': appearance.windowHasNativeTitleBar ? '0px' : '32px' }">
+    <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '32px' }">
         <div class="welcome">
             <app-logo-full></app-logo-full>
             <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false" #stepper>
@@ -29,8 +29,8 @@
                             {{ 'Pages.Welcome.Language.Content' | translate }}
                         </h4>
                         <mat-form-field class="mt-2">
-                            <mat-select [(ngModel)]="translator.selectedLanguage">
-                                <mat-option *ngFor="let language of translator.languages" [value]="language">
+                            <mat-select [(ngModel)]="translatorService.selectedLanguage">
+                                <mat-option *ngFor="let language of translatorService.languages" [value]="language">
                                     {{ language.name }}
                                 </mat-option>
                             </mat-select>
@@ -46,7 +46,7 @@
                         <h4>
                             {{ 'Pages.Welcome.Appearance.Content' | translate }}
                         </h4>
-                        <mat-slide-toggle class="mt-2" [(ngModel)]="appearance.useLightBackgroundTheme">
+                        <mat-slide-toggle class="mt-2" [(ngModel)]="appearanceService.useLightBackgroundTheme">
                             {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
                         <app-color-scheme-switcher class="mt-2"></app-color-scheme-switcher>
                     </div>
@@ -60,6 +60,7 @@
                         <h4>
                             {{ 'Pages.Welcome.Music.Content' | translate }}
                         </h4>
+                        <app-add-folder class="mt-2"></app-add-folder>
                     </div>
                 </mat-step>
                 <!-- Donate -->
@@ -68,10 +69,10 @@
                         <h1>
                             {{ 'Pages.Welcome.Donate.Title' | translate }}
                         </h1>
-                        <h4 class="mb-2">
+                        <h4>
                             {{ 'Pages.Welcome.Donate.Content' | translate }}
                         </h4>
-                        <div class="link-button">
+                        <div class="link-button mt-2">
                             <i class="link-button-icon custom-font mr-1 lar la-heart"></i>
                             <a href="{{ donateUrl }}">{{ 'Pages.Welcome.Donate.DonateNow' | translate }}</a>
                         </div>

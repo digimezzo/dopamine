@@ -4,8 +4,8 @@ import { ProductInformation } from './core/product-information';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { Translator } from './services/translator/translator';
-import { Appearance } from './services/appearance/appearance';
+import { TranslatorServiceBase } from './services/translator/translator-service-base';
+import { AppearanceServiceBase } from './services/appearance/appearance-service-base';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +13,8 @@ import { Appearance } from './services/appearance/appearance';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(public electronService: ElectronService, private translator: Translator, private settings: Settings,
-    private logger: Logger, private appearance: Appearance, public router: Router) {
+  constructor(public electronService: ElectronService, private translator: TranslatorServiceBase, private settings: Settings,
+    private logger: Logger, private appearance: AppearanceServiceBase, public router: Router) {
 
     this.appearance.applyTheme();
     this.appearance.applyFontSize();
