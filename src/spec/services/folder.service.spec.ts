@@ -66,4 +66,23 @@ describe('FolderService', () => {
             snackBarServiceMock.verify(x => x.notifyFolderAlreadyAddedAsync(), Times.exactly(1));
         });
     });
+
+    describe('getFoldersAsync', () => {
+        it('Should get folders from the database', async () => {
+            // Arrange
+            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
+            const loggerMock = TypeMoq.Mock.ofType<Logger>();
+            const folderService: FolderService = new FolderService(
+                folderRepositoryMock.object,
+                loggerMock.object,
+                snackBarServiceMock.object);
+
+            // Act
+            await folderService.getFoldersAsync();
+
+            // Assert
+            folderRepositoryMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
+        });
+    });
 });

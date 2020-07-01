@@ -4,6 +4,10 @@
   user-select: none;
 }
 
+.selected-item {
+  background-color: var(--button-select-color);
+}
+
 .hidden {
   visibility: hidden;
 }

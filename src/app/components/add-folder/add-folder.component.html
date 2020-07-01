@@ -3,4 +3,13 @@
         <i class="link-button-icon custom-font mr-1 las la-plus"></i>
         <a (click)="addFolderAsync()">{{ 'Pages.Welcome.Music.AddFolder' | translate }}</a>
     </div>
+    <ul class="mt-2">
+        <li *ngFor="let folder of folders" matRipple matTooltip="{{ folder.path }}"
+            [ngClass]="{'selected-item': folder === selectedFolder }" (click)="setSelectedFolder(folder)">
+            <div class="folder-item no-select">
+                <i class="folder-item-icon custom-font mr-1 lar la-folder"></i>
+                <p class="folder-item-path">{{ folder.path }}</p>
+            </div>
+        </li>
+    </ul>
 </div>

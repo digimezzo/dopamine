@@ -26,4 +26,8 @@ export class FolderService implements FolderServiceBase {
       this.logger.info(`Could not add folder with path '${path}'. Error: ${error}`, 'FolderService', 'addNewFolderAsync');
     }
   }
+
+  public async getFoldersAsync(): Promise<Folder[]> {
+    return await this.folderRepository.getFoldersAsync();
+  }
 }

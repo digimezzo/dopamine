@@ -2,6 +2,7 @@ import { ViewEncapsulation, Component, OnInit } from '@angular/core';
 import { Desktop } from '../../core/desktop';
 import { TranslatorServiceBase } from '../../services/translator/translator-service-base';
 import { FolderServiceBase } from '../../services/folder/folder-service-base';
+import { Folder } from '../../data/entities/folder';
 
 @Component({
     selector: 'app-add-folder',
@@ -13,7 +14,11 @@ import { FolderServiceBase } from '../../services/folder/folder-service-base';
 export class AddFolderComponent implements OnInit {
     constructor(private desktop: Desktop, private translatorService: TranslatorServiceBase, private folderService: FolderServiceBase) { }
 
-    public ngOnInit(): void {
+    public selectedFolder: Folder;
+    public folders: Folder[] = [];
+
+    public async ngOnInit(): Promise<void> {
+        await this.getFoldersAsync();
     }
 
     public async addFolderAsync(): Promise<void> {
@@ -24,5 +29,13 @@ export class AddFolderComponent implements OnInit {
         if (selectedFolderPath) {
             await this.folderService.addNewFolderAsync(selectedFolderPath);
         }
+    }
+
+    public async getFoldersAsync(): Promise<void> {
+        this.folders = await this.folderService.getFoldersAsync();
+    }
+
+    public setSelectedFolder(folder: Folder): void {
+        this.selectedFolder = folder;
     }
 }

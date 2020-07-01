@@ -1,4 +1,26 @@
-.add-folder{
+.add-folder {
     display: flex;
     flex-direction: column;
+}
+
+.folder-item {
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.folder-item:hover {
+    background: var(--button-hover-color);
+}
+
+.folder-item-icon {
+    font-size: var(--fontsize-larger);
+    color: var(--accent-color);
+}
+
+.folder-item-path {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
