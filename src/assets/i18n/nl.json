@@ -18,7 +18,8 @@
                 "Title": "Muziek",
                 "Content": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?",
                 "AddFolder": "Voeg een map toe",
-                "SelectFolder": "Map selecteren"
+                "SelectFolder": "Map selecteren",
+                "DeleteFolder": "Map verwijderen"
             },
             "Donate": {
                 "Title": "Doneer",

@@ -18,7 +18,8 @@
                 "Title": "Musique",
                 "Content": "Maintenant, configurons votre collection. Où stockez-vous votre musique?",
                 "AddFolder": "Ajouter un dossier",
-                "SelectFolder": "Sélectionnez un dossier"
+                "SelectFolder": "Sélectionnez un dossier",
+                "DeleteFolder": "Supprimer folder"
             },
             "Donate": {
                 "Title": "Faire un don",

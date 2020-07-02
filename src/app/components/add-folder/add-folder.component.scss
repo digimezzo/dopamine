@@ -23,4 +23,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1;
+}
+
+.folder-item-action {
+    font-size: var(--fontsize-larger);
+    opacity: 0.4;
+    cursor: pointer;
+    display: none;
+}
+
+.folder-item:hover .folder-item-action {
+    background: var(--button-hover-color);
+    display: block !important;
 }

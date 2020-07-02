@@ -106,4 +106,21 @@ describe('AddFolderComponent', () => {
             folderServiceMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
         });
     });
+
+    describe('ngOnInit', () => {
+        it('Should get folders from the database', async () => {
+            // Arrange
+            const desktopMock = TypeMoq.Mock.ofType<Desktop>();
+            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
+            const addFolderComponent: AddFolderComponent
+                = new AddFolderComponent(desktopMock.object, translatorMock.object, folderServiceMock.object);
+
+            // Act
+            await addFolderComponent.ngOnInit();
+
+            // Assert
+            folderServiceMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
+        });
+    });
 });

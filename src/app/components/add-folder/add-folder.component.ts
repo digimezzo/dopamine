@@ -38,4 +38,8 @@ export class AddFolderComponent implements OnInit {
     public setSelectedFolder(folder: Folder): void {
         this.selectedFolder = folder;
     }
+
+    public async deleteFolderAsync(folder: Folder): Promise<void> {
+
+    }
 }
