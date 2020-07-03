@@ -38,5 +38,9 @@
   },
   "SnackBarActions": {
     "Ok": "OK"
+  },
+  "Buttons": {
+    "Yes": "YES",
+    "No": "NO"
   }
 }

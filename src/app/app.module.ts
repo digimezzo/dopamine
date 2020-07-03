@@ -27,7 +27,7 @@ import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 
-import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule, MatSnackBarModule, MatRippleModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule, MatSnackBarModule, MatRippleModule, MatDialogModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { TrackRepository } from './data/entities/track-repository';
@@ -45,6 +45,8 @@ import { AddFolderComponent } from './components/add-folder/add-folder.component
 import { Desktop } from './core/desktop';
 import { FolderServiceBase } from './services/folder/folder-service-base';
 import { FolderService } from './services/folder/folder.service';
+import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -62,7 +64,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     LogoFullComponent,
     StepIndicatorComponent,
     ColorSchemeSwitcherComponent,
-    AddFolderComponent
+    AddFolderComponent,
+    DialogHeaderComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -75,6 +79,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatTooltipModule,
     MatSnackBarModule,
     MatRippleModule,
+    MatDialogModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
@@ -102,6 +107,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     Logger,
     TrackRepository
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
 })
 export class AppModule { }

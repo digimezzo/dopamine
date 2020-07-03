@@ -1,0 +1,8 @@
+<app-dialog-header [titleText]=data.dialogTitle></app-dialog-header>
+<mat-dialog-content>
+    {{ data.dialogText }}
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="true">{{ 'Buttons.Yes' | translate }}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'Buttons.No' | translate }}</button>
+</mat-dialog-actions>
