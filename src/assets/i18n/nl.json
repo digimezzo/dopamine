@@ -40,7 +40,13 @@
         "Ok": "OK"
     },
     "Buttons": {
-      "Yes": "JA",
-      "No": "NEE"
+        "Yes": "JA",
+        "No": "NEE"
+    },
+    "DialogTitles": {
+        "ConfirmDeleteFolder": "Map verwijderen?"
+    },
+    "DialogTexts": {
+        "ConfirmDeleteFolder": "Weet u zeker dat u de map '{{folderPath}}' wilt verwijderen?"
     }
 }

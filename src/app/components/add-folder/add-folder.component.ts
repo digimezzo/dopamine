@@ -3,6 +3,8 @@ import { Desktop } from '../../core/desktop';
 import { TranslatorServiceBase } from '../../services/translator/translator-service-base';
 import { FolderServiceBase } from '../../services/folder/folder-service-base';
 import { Folder } from '../../data/entities/folder';
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MatDialogRef, MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-add-folder',
@@ -12,7 +14,8 @@ import { Folder } from '../../data/entities/folder';
     encapsulation: ViewEncapsulation.None
 })
 export class AddFolderComponent implements OnInit {
-    constructor(private desktop: Desktop, private translatorService: TranslatorServiceBase, private folderService: FolderServiceBase) { }
+    constructor(private dialog: MatDialog, private desktop: Desktop, private translatorService: TranslatorServiceBase,
+        private folderService: FolderServiceBase) { }
 
     public selectedFolder: Folder;
     public folders: Folder[] = [];
@@ -40,6 +43,24 @@ export class AddFolderComponent implements OnInit {
     }
 
     public async deleteFolderAsync(folder: Folder): Promise<void> {
+        const title: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
+        const text: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
 
+        const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, {
+            width: '450px', data: { dialogTitle: title, dialogText: text }
+        });
+
+        dialogRef.afterClosed().subscribe(async (result: any) => {
+            if (result) {
+                // const operation: Operation = await this.collection.deleteNotebooksAsync(this.selectionWatcher.selectedItems.map(x => x.id));
+
+                // if (operation === Operation.Error) {
+                //     const errorText: string = (await this.translator.getAsync('ErrorTexts.DeleteNotebooksError'));
+                //     this.dialog.open(ErrorDialogComponent, {
+                //         width: '450px', data: { errorText: errorText }
+                //     });
+                // }
+            }
+        });
     }
 }

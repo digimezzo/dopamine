@@ -1,6 +1,19 @@
-@import 'variables';
+@import "variables";
 
-.dialog-header{
+.dialog-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dialog-header-icon {
+    background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 16px 0px 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
 }

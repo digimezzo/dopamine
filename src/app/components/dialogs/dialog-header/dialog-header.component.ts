@@ -10,6 +10,7 @@ export class DialogHeaderComponent implements OnInit {
     constructor() {
     }
 
+    @Input() public iconClasses: string;
     @Input() public titleText: string;
 
     public ngOnInit(): void {

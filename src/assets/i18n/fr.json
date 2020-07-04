@@ -40,7 +40,13 @@
         "Ok": "OK"
     },
     "Buttons": {
-      "Yes": "OUI",
-      "No": "NON"
+        "Yes": "OUI",
+        "No": "NON"
+    },
+    "DialogTitles": {
+        "ConfirmDeleteFolder": "Supprimer dossier?"
+    },
+    "DialogTexts": {
+        "ConfirmDeleteFolder": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?"
     }
 }
