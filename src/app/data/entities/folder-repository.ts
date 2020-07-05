@@ -18,9 +18,9 @@ export class FolderRepository {
         Bluebird.promisifyAll(this.folderModel);
     }
 
-    public async addFolderAsync(path: string): Promise<void> {
-        const folder: Folder = new Folder(path);
-        this.folderModel.saveAsync(folder);
+    public async addFolderAsync(folderPath: string): Promise<void> {
+        const folder: Folder = new Folder(folderPath);
+        await this.folderModel.saveAsync(folder);
     }
 
     public async getFoldersAsync(): Promise<Folder[]> {
@@ -30,8 +30,13 @@ export class FolderRepository {
     }
 
     public async getFolderAsync(folderPath: string): Promise<Folder> {
-        const folders: Folder = await this.folderModel.findOneAsync({ path: folderPath });
+        const folder: Folder = await this.folderModel.findOneAsync({ path: folderPath });
 
-        return folders;
+        return folder;
+    }
+
+    public async deleteFolderAsync(folderPath: string): Promise<void> {
+        const folder: Folder = await this.getFolderAsync(folderPath);
+        await this.folderModel.removeAsync(folder);
     }
 }

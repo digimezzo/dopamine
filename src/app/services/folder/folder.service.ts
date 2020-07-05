@@ -30,4 +30,7 @@ export class FolderService implements FolderServiceBase {
   public async getFoldersAsync(): Promise<Folder[]> {
     return await this.folderRepository.getFoldersAsync();
   }
+  public async deleteFolderAsync(folder: Folder): Promise<void> {
+    await this.folderRepository.deleteFolderAsync(folder.path);
+  }
 }

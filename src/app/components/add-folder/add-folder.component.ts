@@ -5,6 +5,7 @@ import { FolderServiceBase } from '../../services/folder/folder-service-base';
 import { Folder } from '../../data/entities/folder';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogRef, MatDialog } from '@angular/material';
+import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 
 @Component({
     selector: 'app-add-folder',
@@ -18,19 +19,27 @@ export class AddFolderComponent implements OnInit {
         private folderService: FolderServiceBase) { }
 
     public selectedFolder: Folder;
-    public folders: Folder[] = [];
+    public folders: Folder[];
 
     public async ngOnInit(): Promise<void> {
         await this.getFoldersAsync();
     }
 
-    public async addFolderAsync(): Promise<void> {
+    public async addFolderAsync (): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('Pages.Welcome.Music.SelectFolder');
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 
         if (selectedFolderPath) {
-            await this.folderService.addNewFolderAsync(selectedFolderPath);
+            try {
+                await this.folderService.addNewFolderAsync(selectedFolderPath);
+                await this.getFoldersAsync();
+            } catch (error) {
+                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
+                this.dialog.open(ErrorDialogComponent, {
+                    width: '450px', data: { errorText: errorText }
+                });
+            }
         }
     }
 
@@ -52,14 +61,15 @@ export class AddFolderComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(async (result: any) => {
             if (result) {
-                // const operation: Operation = await this.collection.deleteNotebooksAsync(this.selectionWatcher.selectedItems.map(x => x.id));
-
-                // if (operation === Operation.Error) {
-                //     const errorText: string = (await this.translator.getAsync('ErrorTexts.DeleteNotebooksError'));
-                //     this.dialog.open(ErrorDialogComponent, {
-                //         width: '450px', data: { errorText: errorText }
-                //     });
-                // }
+                try {
+                    await this.folderService.deleteFolderAsync(folder);
+                    await this.getFoldersAsync();
+                } catch (error) {
+                    const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
+                    this.dialog.open(ErrorDialogComponent, {
+                        width: '450px', data: { errorText: errorText }
+                    });
+                }
             }
         });
     }

@@ -41,12 +41,20 @@
   },
   "Buttons": {
     "Yes": "YES",
-    "No": "NO"
+    "No": "NO",
+    "Ok": "OK",
+    "ViewLog": "VIEW LOG"
   },
   "DialogTitles": {
-    "ConfirmDeleteFolder": "Delete folder?"
+    "ConfirmDeleteFolder": "Delete folder?",
+    "Error": "Error"
   },
   "DialogTexts": {
     "ConfirmDeleteFolder": "Are you sure you want to delete the folder '{{folderPath}}'?"
+  },
+  "ErrorTexts": {
+    "DeleteFolderError": "An error occurred while deleting the folder. Please verify the log if you need more information.",
+    "AddFolderError": "An error occurred while adding the folder. Please verify the log if you need more information.",
+    "GlobalError": "An error has occurred which will cause the application to close. Please verify the log if you need more information."
   }
 }

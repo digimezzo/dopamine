@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -47,7 +47,9 @@ import { FolderServiceBase } from './services/folder/folder-service-base';
 import { FolderService } from './services/folder/folder.service';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 
+import { GlobalErrorHandler } from './globalErrorHandler';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -66,7 +68,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ColorSchemeSwitcherComponent,
     AddFolderComponent,
     DialogHeaderComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -105,11 +108,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: SnackbarServiceBase, useClass: SnackBarService },
     Settings,
     Logger,
-    TrackRepository
+    TrackRepository,
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent, ErrorDialogComponent
   ],
 })
 export class AppModule { }

@@ -41,12 +41,20 @@
     },
     "Buttons": {
         "Yes": "OUI",
-        "No": "NON"
+        "No": "NON",
+        "Ok": "OK",
+        "ViewLog": "VÉRIFIER LOG"
     },
     "DialogTitles": {
-        "ConfirmDeleteFolder": "Supprimer dossier?"
+        "ConfirmDeleteFolder": "Supprimer dossier?",
+        "Error": "Erreur"
     },
     "DialogTexts": {
         "ConfirmDeleteFolder": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?"
+    },
+    "ErrorTexts": {
+        "DeleteFolderError": "Une erreur s'est produite lors de la suppression du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+        "AddFolderError": "Une erreur s'est produite lors de l'ajout du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+        "GlobalError": "Une erreur s'est produite qui entraînera la fermeture de l'application. Veuillez vérifier le log si vous avez besoin de plus d'informations."
     }
 }
