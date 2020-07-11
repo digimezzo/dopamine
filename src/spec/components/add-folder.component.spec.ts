@@ -8,6 +8,24 @@ import { FolderServiceBase } from '../../app/services/folder/folder-service-base
 import { MatDialog } from '@angular/material';
 
 describe('AddFolderComponent', () => {
+    describe('constructor', () => {
+        it('Should provide a list of folders', () => {
+            // Arrange
+            const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
+            const desktopMock = TypeMoq.Mock.ofType<Desktop>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
+
+            // Act
+            // Assert
+            assert.ok(addFolderComponent.folders);
+        });
+    });
     describe('addFolderAsync', () => {
         it('Should get translated text for the open folder dialog', async () => {
             // Arrange
@@ -15,8 +33,11 @@ describe('AddFolderComponent', () => {
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
             const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorServiceMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
             // Act
             await addFolderComponent.addFolderAsync();
@@ -29,15 +50,18 @@ describe('AddFolderComponent', () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolder: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
-            translatorMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+            translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
 
             // Act
-            await addFolder.addFolderAsync();
+            await addFolderComponent.addFolderAsync();
 
             // Assert
             desktopMock.verify(x => x.showSelectFolderDialogAsync('Select a folder'), Times.exactly(1));
@@ -47,12 +71,15 @@ describe('AddFolderComponent', () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
-            translatorMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+            translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/me/Music');
 
             // Act
@@ -66,12 +93,15 @@ describe('AddFolderComponent', () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
-            translatorMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+            translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '');
 
             // Act
@@ -81,18 +111,49 @@ describe('AddFolderComponent', () => {
             folderServiceMock.verify(x => x.addNewFolderAsync(It.isAnyString()), Times.never());
         });
 
-        it('Should provide a list of folders', () => {
+        it('Should get all folders from the database if adding a folder succeeds', async () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
+
+            translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+            desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
 
             // Act
+            await addFolderComponent.addFolderAsync();
+
             // Assert
-            assert.ok(addFolderComponent.folders);
+            folderServiceMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
+        });
+
+        it('Should not get all folders from the database if adding a folder fails', async () => {
+            // Arrange
+            const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
+            const desktopMock = TypeMoq.Mock.ofType<Desktop>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
+
+            translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+            desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            folderServiceMock.setup(x => x.addNewFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
+
+            // Act
+            await addFolderComponent.addFolderAsync();
+
+            // Assert
+            folderServiceMock.verify(x => x.getFoldersAsync(), Times.never());
         });
     });
 
@@ -101,10 +162,13 @@ describe('AddFolderComponent', () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
             // Act
             await addFolderComponent.getFoldersAsync();
@@ -119,16 +183,59 @@ describe('AddFolderComponent', () => {
             // Arrange
             const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
             const desktopMock = TypeMoq.Mock.ofType<Desktop>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
             const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
-            const addFolderComponent: AddFolderComponent
-                = new AddFolderComponent(matDialogMock.object, desktopMock.object, translatorMock.object, folderServiceMock.object);
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
 
             // Act
             await addFolderComponent.ngOnInit();
 
             // Assert
             folderServiceMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
+        });
+    });
+
+    describe('deleteFolderAsync', () => {
+        it('Should get translated text for the delete folder confirmation dialog title', async () => {
+            // Arrange
+            const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
+            const desktopMock = TypeMoq.Mock.ofType<Desktop>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
+
+            // Act
+            await addFolderComponent.deleteFolderAsync();
+
+            // Assert
+            translatorServiceMock.verify(x => x.getAsync('Pages.Welcome.Music.SelectFolder'), Times.exactly(1));
+        });
+
+        it('Should get translated text for the delete folder confirmation dialog text', async () => {
+            // Arrange
+            const matDialogMock = TypeMoq.Mock.ofType<MatDialog>();
+            const desktopMock = TypeMoq.Mock.ofType<Desktop>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const folderServiceMock = TypeMoq.Mock.ofType<FolderServiceBase>();
+            const addFolderComponent: AddFolderComponent = new AddFolderComponent(
+                matDialogMock.object,
+                desktopMock.object,
+                translatorServiceMock.object,
+                folderServiceMock.object);
+
+            // Act
+            await addFolderComponent.deleteFolderAsync();
+
+            // Assert
+            translatorServiceMock.verify(x => x.getAsync('Pages.Welcome.Music.SelectFolder'), Times.exactly(1));
         });
     });
 });

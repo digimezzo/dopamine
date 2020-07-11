@@ -3,9 +3,7 @@ import { Desktop } from '../../core/desktop';
 import { TranslatorServiceBase } from '../../services/translator/translator-service-base';
 import { FolderServiceBase } from '../../services/folder/folder-service-base';
 import { Folder } from '../../data/entities/folder';
-import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
-import { MatDialogRef, MatDialog } from '@angular/material';
-import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
+import { DialogServiceBase } from '../../services/dialog/dialog-service.base';
 
 @Component({
     selector: 'app-add-folder',
@@ -15,17 +13,17 @@ import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.compo
     encapsulation: ViewEncapsulation.None
 })
 export class AddFolderComponent implements OnInit {
-    constructor(private dialog: MatDialog, private desktop: Desktop, private translatorService: TranslatorServiceBase,
-        private folderService: FolderServiceBase) { }
+    constructor(private desktop: Desktop, private translatorService: TranslatorServiceBase,
+        private folderService: FolderServiceBase, private dialogService: DialogServiceBase) { }
 
     public selectedFolder: Folder;
-    public folders: Folder[];
+    public folders: Folder[] = [];
 
     public async ngOnInit(): Promise<void> {
         await this.getFoldersAsync();
     }
 
-    public async addFolderAsync (): Promise<void> {
+    public async addFolderAsync(): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('Pages.Welcome.Music.SelectFolder');
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
@@ -36,9 +34,7 @@ export class AddFolderComponent implements OnInit {
                 await this.getFoldersAsync();
             } catch (error) {
                 const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
-                this.dialog.open(ErrorDialogComponent, {
-                    width: '450px', data: { errorText: errorText }
-                });
+                this.dialogService.showErrorDialog(errorText);
             }
         }
     }
@@ -52,25 +48,19 @@ export class AddFolderComponent implements OnInit {
     }
 
     public async deleteFolderAsync(folder: Folder): Promise<void> {
-        const title: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
-        const text: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
+        const dialogTitle: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
+        const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
 
-        const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, {
-            width: '450px', data: { dialogTitle: title, dialogText: text }
-        });
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
 
-        dialogRef.afterClosed().subscribe(async (result: any) => {
-            if (result) {
-                try {
-                    await this.folderService.deleteFolderAsync(folder);
-                    await this.getFoldersAsync();
-                } catch (error) {
-                    const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
-                    this.dialog.open(ErrorDialogComponent, {
-                        width: '450px', data: { errorText: errorText }
-                    });
-                }
+        if (userHasConfirmed) {
+            try {
+                await this.folderService.deleteFolderAsync(folder);
+                await this.getFoldersAsync();
+            } catch (error) {
+                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
+                this.dialogService.showErrorDialog(errorText);
             }
-        });
+        }
     }
 }

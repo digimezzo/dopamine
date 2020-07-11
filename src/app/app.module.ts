@@ -50,6 +50,8 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 
 import { GlobalErrorHandler } from './globalErrorHandler';
+import { DialogService } from './services/dialog/dialog.service';
+import { DialogServiceBase } from './services/dialog/dialog-service.base';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -106,6 +108,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: TranslatorServiceBase, useClass: TranslatorService },
     { provide: UpdateServiceBase, useClass: UpdateService },
     { provide: SnackbarServiceBase, useClass: SnackBarService },
+    { provide: DialogServiceBase, useClass: DialogService },
     Settings,
     Logger,
     TrackRepository,
