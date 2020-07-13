@@ -17,7 +17,11 @@ export class AppearanceService implements AppearanceServiceBase {
     private _selectedColorScheme: ColorScheme;
     private _selectedFontSize: FontSize;
 
-    constructor(private settings: Settings, private logger: Logger, private overlayContainer: OverlayContainer) {
+    constructor(
+        private settings: Settings,
+        private logger: Logger,
+        private overlayContainer: OverlayContainer
+        ) {
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
 
         if (!colorSchemeFromSettings) {

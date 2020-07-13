@@ -99,7 +99,7 @@
     "level-js": "^4.0.1",
     "line-awesome": "^1.3.0",
     "linvodb3": "^3.26.0",
-    "moment": "^2.24.0",
+    "moment": "^2.27.0",
     "typemoq": "^2.1.0"
   }
 }

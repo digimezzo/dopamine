@@ -17,23 +17,23 @@ export class TrackRepository {
         Bluebird.promisifyAll(this.trackModel);
     }
 
-    public async addTrackAsync(): Promise<void> {
-        const track: Track = new Track();
-        track.path = '/my/path5';
-        track.title = 'my title 5';
+    // public async addTrackAsync(): Promise<void> {
+    //     const track: Track = new Track();
+    //     track.path = '/my/path5';
+    //     track.title = 'my title 5';
 
-        this.trackModel.saveAsync(track);
-    }
+    //     this.trackModel.saveAsync(track);
+    // }
 
-    public async getAllTracksAsync(): Promise<Track[]> {
-        let allTracks: Track[] = [];
+    // public async getAllTracksAsync(): Promise<Track[]> {
+    //     let allTracks: Track[] = [];
 
-        allTracks = await this.trackModel.findAsync({});
+    //     allTracks = await this.trackModel.findAsync({});
 
-        for (const track of allTracks) {
-            console.log('track.path=' + track.path);
-        }
+    //     for (const track of allTracks) {
+    //         console.log('track.path=' + track.path);
+    //     }
 
-        return allTracks;
-    }
+    //     return allTracks;
+    // }
 }
