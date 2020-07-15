@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
 import { Times } from 'typemoq';
-import { FolderRepository } from '../../app/data/entities/folder-repository';
+import { FolderRepository } from '../../app/data/repositories/folder-repository';
 import { FolderService } from '../../app/services/folder/folder.service';
 import { Logger } from '../../app/core/logger';
 import { Folder } from '../../app/data/entities/folder';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import LinvoDB from 'linvodb3';
-import { Track } from './track';
+import { Track } from '../entities/track';
 import * as Bluebird from 'bluebird';
 
 @Injectable({

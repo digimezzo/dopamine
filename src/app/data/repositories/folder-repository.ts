@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import LinvoDB from 'linvodb3';
 import * as Bluebird from 'bluebird';
-import { Folder } from './folder';
+import { Folder } from '../entities/folder';
 
 @Injectable({
     providedIn: 'root'

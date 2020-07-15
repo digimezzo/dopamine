@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FolderServiceBase } from './folder-service-base';
-import { FolderRepository } from '../../data/entities/folder-repository';
+import { FolderRepository } from '../../data/repositories/folder-repository';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
 import { SnackbarServiceBase } from '../snack-bar/snack-bar-service-base';
