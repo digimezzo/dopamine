@@ -1,6 +1,7 @@
 import { ColorScheme } from '../../core/color-scheme';
 
 export abstract class BaseAppearanceService {
+    public abstract get windowHasNativeTitleBar(): boolean;
     public abstract colorSchemes: ColorScheme[];
     public abstract useLightBackgroundTheme: boolean;
     public abstract selectedColorScheme: ColorScheme;

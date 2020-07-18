@@ -16,9 +16,8 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 The code in this repository is the base for Dopamine 3. It is still work in progress and building it, doesn't yet provide you with a functional audio player. The code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
 
-## Build prerequisites
+## Build prerequisites for GNU/Linux
 
-- wine: required to build Windows package
 - rpm: required to build rpm package
 - libarchive-tools: contains bsdtar, which is required to build pacman package.
 
@@ -26,14 +25,27 @@ The code in this repository is the base for Dopamine 3. It is still work in prog
 
 sudo apt install wine rpm libarchive-tools
 
+## Build prerequisites for Windows
+
+npm install --global --production windows-build-tools --vs2015
+
 ## Build instructions
+
+Due to the native dependency better-sqlite3, this project cannot be built for all platforms on GNU/Linux. The GNU/Linux packages must be built on GNU/Linux. The Windows package must be built on Windows. For mac, you're on your own. I have no means to test it out.
 
 ```bash
 $ git clone https://github.com/digimezzo/dopamine.git
 $ cd dopamine
 $ npm install            # Download dependencies
+$ npm run rebuild-sqlite  # Rebuild better-sqlite3 for the version of node.js which is used by the version of Electron which is being used
 $ npm start              # Start Dopamine
 $ npm run electron:windows   # Build for Windows
 $ npm run electron:linux     # Build for Linux
 $ npm run electron:mac       # Build for Mac
 ```
+
+## Pacman installation notes
+
+The pacman package contains a dependency to package libappindicator-sharp, which is no longer distributed with Arch Linux. I cannot remove this dependency for now, because it is an issue in electron-builder (the packaging tool which is used in this project). It is, however, possible to install Knowte on Arch Linux or Manjaro using this command (replace x.y.z with the correct version number): 
+
+`$ sudo pacman -U Knowte-x.y.z.pacman --assume-installed libappindicator-sharp`
