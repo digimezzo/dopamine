@@ -1,17 +1,17 @@
 import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
 import { Times } from 'typemoq';
-import { FolderRepository } from '../../app/data/repositories/folder-repository';
 import { FolderService } from '../../app/services/folder/folder.service';
 import { Logger } from '../../app/core/logger';
 import { Folder } from '../../app/data/entities/folder';
-import { SnackbarServiceBase as SnackBarServiceBase } from '../../app/services/snack-bar/snack-bar-service-base';
+import { BaseSnackbarService as SnackBarServiceBase } from '../../app/services/snack-bar/base-snack-bar.service';
+import { BaseFolderRepository } from '../../app/data/repositories/base-folder-repository';
 
 describe('FolderService', () => {
     describe('addFolderAsync', () => {
         it('Should add a new folder with the selected path to the database', async () => {
             // Arrange
-            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const folderRepositoryMock = TypeMoq.Mock.ofType<BaseFolderRepository>();
             const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
@@ -19,18 +19,18 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => null);
+            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => null);
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(x => x.addFolderAsync('/home/me/Music'), Times.exactly(1));
+            folderRepositoryMock.verify(x => x.addFolder('/home/me/Music'), Times.exactly(1));
         });
 
         it('Should not add an existing folder with the selected path to the database', async () => {
             // Arrange
-            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const folderRepositoryMock = TypeMoq.Mock.ofType<BaseFolderRepository>();
             const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
@@ -38,18 +38,18 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => new Folder('/home/me/Music'));
+            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(x => x.addFolderAsync('/home/me/Music'), Times.never());
+            folderRepositoryMock.verify(x => x.addFolder('/home/me/Music'), Times.never());
         });
 
         it('Should notify the user if a folder was already added', async () => {
             // Arrange
-            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const folderRepositoryMock = TypeMoq.Mock.ofType<BaseFolderRepository>();
             const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
@@ -57,7 +57,7 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolderAsync('/home/me/Music')).returns(async () => new Folder('/home/me/Music'));
+            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');
@@ -68,9 +68,9 @@ describe('FolderService', () => {
     });
 
     describe('getFoldersAsync', () => {
-        it('Should get folders from the database', async () => {
+        it('Should get folders from the database', () => {
             // Arrange
-            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const folderRepositoryMock = TypeMoq.Mock.ofType<BaseFolderRepository>();
             const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
@@ -79,17 +79,17 @@ describe('FolderService', () => {
                 snackBarServiceMock.object);
 
             // Act
-            await folderService.getFoldersAsync();
+            folderService.getFolders();
 
             // Assert
-            folderRepositoryMock.verify(x => x.getFoldersAsync(), Times.exactly(1));
+            folderRepositoryMock.verify(x => x.getFolders(), Times.exactly(1));
         });
     });
 
     describe('deleteFolderAsync', () => {
-        it('Should delete a folder from the database', async () => {
+        it('Should delete a folder from the database', () => {
             // Arrange
-            const folderRepositoryMock = TypeMoq.Mock.ofType<FolderRepository>();
+            const folderRepositoryMock = TypeMoq.Mock.ofType<BaseFolderRepository>();
             const snackBarServiceMock = TypeMoq.Mock.ofType<SnackBarServiceBase>();
             const loggerMock = TypeMoq.Mock.ofType<Logger>();
             const folderService: FolderService = new FolderService(
@@ -100,10 +100,10 @@ describe('FolderService', () => {
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
             // Act
-            await folderService.deleteFolderAsync(folderToDelete);
+            folderService.deleteFolder(folderToDelete);
 
             // Assert
-            folderRepositoryMock.verify(x => x.deleteFolderAsync('/home/user/Music'), Times.exactly(1));
+            folderRepositoryMock.verify(x => x.deleteFolder('/home/user/Music'), Times.exactly(1));
         });
     });
 });

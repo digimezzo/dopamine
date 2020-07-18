@@ -1,13 +1,13 @@
-import { SnackbarServiceBase as SnackBarServiceBase } from './snack-bar-service-base';
+import { BaseSnackbarService as SnackBarServiceBase } from './base-snack-bar.service';
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { TranslatorServiceBase } from '../translator/translator-service-base';
+import { BaseTranslatorService } from '../translator/base-translator.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SnackBarService implements SnackBarServiceBase {
-    constructor(private zone: NgZone, private matSnackBar: MatSnackBar, private translator: TranslatorServiceBase) {
+    constructor(private zone: NgZone, private matSnackBar: MatSnackBar, private translator: BaseTranslatorService) {
     }
 
     public async notifyOfNewVersionAsync(version: string): Promise<void> {

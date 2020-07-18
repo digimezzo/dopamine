@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
-import { AppearanceServiceBase } from '../../services/appearance/appearance-service-base';
-import { TranslatorServiceBase } from '../../services/translator/translator-service-base';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { ContactInformation } from '../../core/contact-information';
 
 @Component({
@@ -14,7 +14,7 @@ import { ContactInformation } from '../../core/contact-information';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router, public translatorService: TranslatorServiceBase, public appearanceService: AppearanceServiceBase) { }
+  constructor(public router: Router, public translatorService: BaseTranslatorService, public appearanceService: BaseAppearanceService) { }
 
   public currentStep: number = 0;
   public totalSteps: number = 6;

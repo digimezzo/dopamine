@@ -30,20 +30,18 @@ import { StepIndicatorComponent } from './components/step-indicator/step-indicat
 import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule, MatSnackBarModule, MatRippleModule, MatDialogModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 
-import { TrackRepository } from './data/repositories/track-repository';
-
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { AppearanceServiceBase } from './services/appearance/appearance-service-base';
-import { TranslatorServiceBase } from './services/translator/translator-service-base';
-import { IndexingServiceBase } from './services/indexing/indexing-service-base';
-import { UpdateServiceBase } from './services/update/update-service-base';
+import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { BaseTranslatorService } from './services/translator/base-translator.service';
+import { BaseIndexingService } from './services/indexing/base-indexing.service';
+import { BaseUpdateService } from './services/update/base-update.service';
 import { UpdateService } from './services/update/update.service';
-import { SnackbarServiceBase } from './services/snack-bar/snack-bar-service-base';
+import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { Desktop } from './core/desktop';
-import { FolderServiceBase } from './services/folder/folder-service-base';
+import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -51,7 +49,12 @@ import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-di
 
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { DialogService } from './services/dialog/dialog.service';
-import { DialogServiceBase } from './services/dialog/dialog-service.base';
+import { BaseDialogService } from './services/dialog/base-dialog.service';
+import { DatabaseFactory } from './data/database-factory';
+import { FileSystem } from './core/file-system';
+import { FolderRepository } from './data/repositories/folder-repository';
+import { DatabaseMigrator } from './data/database-migrator';
+import { BaseFolderRepository } from './data/repositories/base-folder-repository';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -102,16 +105,19 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [
     ElectronService,
     Desktop,
-    { provide: AppearanceServiceBase, useClass: AppearanceService },
-    { provide: FolderServiceBase, useClass: FolderService },
-    { provide: IndexingServiceBase, useClass: IndexingService },
-    { provide: TranslatorServiceBase, useClass: TranslatorService },
-    { provide: UpdateServiceBase, useClass: UpdateService },
-    { provide: SnackbarServiceBase, useClass: SnackBarService },
-    { provide: DialogServiceBase, useClass: DialogService },
+    DatabaseFactory,
+    FileSystem,
+    DatabaseMigrator,
+    { provide: BaseFolderRepository, useClass: FolderRepository },
+    { provide: BaseAppearanceService, useClass: AppearanceService },
+    { provide: BaseFolderService, useClass: FolderService },
+    { provide: BaseIndexingService, useClass: IndexingService },
+    { provide: BaseTranslatorService, useClass: TranslatorService },
+    { provide: BaseUpdateService, useClass: UpdateService },
+    { provide: BaseSnackbarService, useClass: SnackBarService },
+    { provide: BaseDialogService, useClass: DialogService },
     Settings,
     Logger,
-    TrackRepository,
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler

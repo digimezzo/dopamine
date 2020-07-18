@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ColorScheme } from '../../core/color-scheme';
-import { AppearanceServiceBase } from '../../services/appearance/appearance-service-base';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({
   selector: 'app-color-scheme-switcher',
@@ -10,7 +10,7 @@ import { AppearanceServiceBase } from '../../services/appearance/appearance-serv
   encapsulation: ViewEncapsulation.None
 })
 export class ColorSchemeSwitcherComponent implements OnInit {
-  constructor(public appearanceService: AppearanceServiceBase) { }
+  constructor(public appearanceService: BaseAppearanceService) { }
 
   public ngOnInit(): void {
   }

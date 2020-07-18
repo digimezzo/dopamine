@@ -1,9 +1,9 @@
 import { ViewEncapsulation, Component, OnInit } from '@angular/core';
 import { Desktop } from '../../core/desktop';
-import { TranslatorServiceBase } from '../../services/translator/translator-service-base';
-import { FolderServiceBase } from '../../services/folder/folder-service-base';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { Folder } from '../../data/entities/folder';
-import { DialogServiceBase } from '../../services/dialog/dialog-service.base';
+import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 
 @Component({
     selector: 'app-add-folder',
@@ -13,14 +13,14 @@ import { DialogServiceBase } from '../../services/dialog/dialog-service.base';
     encapsulation: ViewEncapsulation.None
 })
 export class AddFolderComponent implements OnInit {
-    constructor(private desktop: Desktop, private translatorService: TranslatorServiceBase,
-        private folderService: FolderServiceBase, private dialogService: DialogServiceBase) { }
+    constructor(private desktop: Desktop, private translatorService: BaseTranslatorService,
+        private folderService: BaseFolderService, private dialogService: BaseDialogService) { }
 
     public selectedFolder: Folder;
     public folders: Folder[] = [];
 
-    public async ngOnInit(): Promise<void> {
-        await this.getFoldersAsync();
+    public ngOnInit(): void {
+        this.getFolders();
     }
 
     public async addFolderAsync(): Promise<void> {
@@ -31,7 +31,7 @@ export class AddFolderComponent implements OnInit {
         if (selectedFolderPath) {
             try {
                 await this.folderService.addNewFolderAsync(selectedFolderPath);
-                await this.getFoldersAsync();
+                await this.getFolders();
             } catch (error) {
                 const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
                 this.dialogService.showErrorDialog(errorText);
@@ -39,8 +39,8 @@ export class AddFolderComponent implements OnInit {
         }
     }
 
-    public async getFoldersAsync(): Promise<void> {
-        this.folders = await this.folderService.getFoldersAsync();
+    public getFolders(): void {
+        this.folders = this.folderService.getFolders();
     }
 
     public setSelectedFolder(folder: Folder): void {
@@ -55,8 +55,8 @@ export class AddFolderComponent implements OnInit {
 
         if (userHasConfirmed) {
             try {
-                await this.folderService.deleteFolderAsync(folder);
-                await this.getFoldersAsync();
+                this.folderService.deleteFolder(folder);
+                this.getFolders();
             } catch (error) {
                 const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
                 this.dialogService.showErrorDialog(errorText);

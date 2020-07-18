@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { IndexingServiceBase } from './indexing-service-base';
+import { BaseIndexingService } from './base-indexing.service';
 import { Logger } from '../../core/logger';
 import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IndexingService implements IndexingServiceBase {
+export class IndexingService implements BaseIndexingService {
   private isIndexing: boolean;
 
   constructor(

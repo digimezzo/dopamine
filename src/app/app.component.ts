@@ -4,8 +4,9 @@ import { ProductInformation } from './core/product-information';
 import { Router } from '@angular/router';
 import { Settings } from './core/settings';
 import { Logger } from './core/logger';
-import { TranslatorServiceBase } from './services/translator/translator-service-base';
-import { AppearanceServiceBase } from './services/appearance/appearance-service-base';
+import { BaseTranslatorService } from './services/translator/base-translator.service';
+import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { DatabaseMigrator } from './data/database-migrator';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,9 @@ import { AppearanceServiceBase } from './services/appearance/appearance-service-
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(public electronService: ElectronService, private translator: TranslatorServiceBase, private settings: Settings,
-    private logger: Logger, private appearance: AppearanceServiceBase, public router: Router) {
+  constructor(public electronService: ElectronService, private translator: BaseTranslatorService, private settings: Settings,
+    private logger: Logger, private appearance: BaseAppearanceService, public router: Router,
+    private databaseMigrator: DatabaseMigrator) {
 
     this.appearance.applyTheme();
     this.appearance.applyFontSize();
@@ -29,6 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
       `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
       'AppComponent',
       'ngOnInit');
+
+    this.databaseMigrator.createDatabaseIfNotExists();
 
     if (this.settings.showWelcome) {
       // this.settings.showWelcome = false;

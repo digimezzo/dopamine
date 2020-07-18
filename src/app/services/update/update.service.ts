@@ -1,17 +1,17 @@
-import { UpdateServiceBase } from './update-service-base';
+import { BaseUpdateService } from './base-update.service';
 import { Injectable } from '@angular/core';
 import { Settings } from '../../core/settings';
 import { Logger } from '../../core/logger';
 import { VersionComparer } from '../../core/version-comparer';
 import { GitHubApi } from '../../core/github-api';
 import { ProductInformation } from '../../core/product-information';
-import { SnackbarServiceBase } from '../snack-bar/snack-bar-service-base';
+import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
   })
-export class UpdateService implements UpdateServiceBase {
-    constructor(private snackBar: SnackbarServiceBase, private settings: Settings, private logger: Logger,
+export class UpdateService implements BaseUpdateService {
+    constructor(private snackBar: BaseSnackbarService, private settings: Settings, private logger: Logger,
         private gitHub: GitHubApi) {
     }
 

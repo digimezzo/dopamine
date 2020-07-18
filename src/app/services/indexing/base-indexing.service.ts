@@ -1,3 +1,3 @@
-export abstract class IndexingServiceBase {
+export abstract class BaseIndexingService {
     public abstract startIndexing(): void;
 }

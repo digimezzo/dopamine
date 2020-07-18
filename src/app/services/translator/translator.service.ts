@@ -3,12 +3,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { Settings } from '../../core/settings';
 import { Language } from '../../core/language';
 import { Constants } from '../../core/constants';
-import { TranslatorServiceBase } from './translator-service-base';
+import { BaseTranslatorService } from './base-translator.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TranslatorService implements TranslatorServiceBase {
+export class TranslatorService implements BaseTranslatorService {
   constructor(private translate: TranslateService, private settings: Settings) {
     this.translate.setDefaultLang(this.settings.defaultLanguage);
   }

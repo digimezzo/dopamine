@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AppearanceServiceBase } from '../../services/appearance/appearance-service-base';
-import { UpdateServiceBase } from '../../services/update/update-service-base';
-import { IndexingServiceBase } from '../../services/indexing/indexing-service-base';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseUpdateService } from '../../services/update/base-update.service';
+import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 
 @Component({
   selector: 'app-main',
@@ -13,9 +13,9 @@ import { IndexingServiceBase } from '../../services/indexing/indexing-service-ba
 export class MainComponent implements OnInit {
 
   constructor(
-    public appearanceService: AppearanceServiceBase,
-    private updateService: UpdateServiceBase,
-    private indexingService: IndexingServiceBase) { }
+    public appearanceService: BaseAppearanceService,
+    private updateService: BaseUpdateService,
+    private indexingService: BaseIndexingService) { }
 
   public ngOnInit(): void {
     // Check for updates (don't await)

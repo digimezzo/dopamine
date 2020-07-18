@@ -1,17 +1,17 @@
 import * as assert from 'assert';
 import { Times, It, Mock } from 'typemoq';
 import { MainComponent } from '../../app/components/main/main.component';
-import { AppearanceServiceBase } from '../../app/services/appearance/appearance-service-base';
-import { UpdateServiceBase } from '../../app/services/update/update-service-base';
-import { IndexingServiceBase } from '../../app/services/indexing/indexing-service-base';
+import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
+import { BaseUpdateService } from '../../app/services/update/base-update.service';
+import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 
 describe('MainComponent', () => {
     describe('ngOnInit', () => {
         it('Should check for updates', () => {
             // Arrange
-            const appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
-            const updateServiceMock = Mock.ofType<UpdateServiceBase>();
-            const indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+            const appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+            const updateServiceMock = Mock.ofType<BaseUpdateService>();
+            const indexingServiceMock = Mock.ofType<BaseIndexingService>();
 
             const mainComponent: MainComponent = new MainComponent(
                 appearanceServiceMock.object,
@@ -27,9 +27,9 @@ describe('MainComponent', () => {
 
         it('Should start indexing', () => {
              // Arrange
-             const appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
-             const updateServiceMock = Mock.ofType<UpdateServiceBase>();
-             const indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+             const appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+             const updateServiceMock = Mock.ofType<BaseUpdateService>();
+             const indexingServiceMock = Mock.ofType<BaseIndexingService>();
 
              const mainComponent: MainComponent = new MainComponent(
                  appearanceServiceMock.object,

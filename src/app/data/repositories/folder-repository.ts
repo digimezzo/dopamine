@@ -1,42 +1,53 @@
 import { Injectable } from '@angular/core';
-import LinvoDB from 'linvodb3';
-import * as Bluebird from 'bluebird';
 import { Folder } from '../entities/folder';
+import { DatabaseFactory } from '../database-factory';
+import { BaseFolderRepository } from './base-folder-repository';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FolderRepository {
+export class FolderRepository implements BaseFolderRepository {
     private folderModel: any;
 
-    constructor() {
-        LinvoDB.defaults.store = { db: require('level-js') };
-        // LinvoDB.dbPath = remote.app.getPath("userData"); // This is ignored when using level-js
-        this.folderModel = new LinvoDB('folders', {});
-
-        // Examples of promosification: https://github.com/Ivshti/linvodb3/issues/38
-        Bluebird.promisifyAll(this.folderModel);
+    constructor(private databaseFactory: DatabaseFactory) {
     }
 
-    public async addFolderAsync(folderPath: string): Promise<void> {
-        const folder: Folder = new Folder(folderPath);
-        await this.folderModel.saveAsync(folder);
+    public addFolder(folderPath: string): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare('INSERT INTO Folder (Path, SafePath, ShowInCollection) VALUES (?, ?, ?)');
+        statement.run(folderPath, folderPath, 1);
     }
 
-    public async getFoldersAsync(): Promise<Folder[]> {
-        const folders: Folder[] = await this.folderModel.findAsync({});
+    public getFolders(): Folder[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT FolderID as folderID, Path as path, ShowInCollection as showInCollection
+            FROM Folder`);
+
+        const folders: Folder[] = statement.all();
 
         return folders;
     }
 
-    public async getFolderAsync(folderPath: string): Promise<Folder> {
-        const folder: Folder = await this.folderModel.findOneAsync({ path: folderPath });
+    public getFolder(folderPath: string): Folder {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT FolderID as folderID, Path as path, ShowInCollection as showInCollection
+            FROM Folder
+            WHERE Path=?`);
+
+        const folder: Folder = statement.get(folderPath);
 
         return folder;
     }
 
-    public async deleteFolderAsync(folderPath: string): Promise<void> {
-        const folder: Folder = await this.getFolderAsync(folderPath);
-        await this.folderModel.removeAsync(folder);
+    public deleteFolder(folderPath: string): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare('DELETE FROM Folder WHERE Path=?');
+        statement.run(folderPath);
     }
 }

@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { FolderServiceBase } from './folder-service-base';
-import { FolderRepository } from '../../data/repositories/folder-repository';
+import { BaseFolderService } from './base-folder.service';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
-import { SnackbarServiceBase } from '../snack-bar/snack-bar-service-base';
+import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FolderService implements FolderServiceBase {
-  constructor(private folderRepository: FolderRepository, private logger: Logger, private snackbarService: SnackbarServiceBase) { }
+export class FolderService implements BaseFolderService {
+  constructor(private folderRepository: BaseFolderRepository, private logger: Logger, private snackbarService: BaseSnackbarService) { }
 
   public async addNewFolderAsync(path: string): Promise<void> {
     try {
-      const existingFolder: Folder = await this.folderRepository.getFolderAsync(path);
+      const existingFolder: Folder = this.folderRepository.getFolder(path);
 
       if (!existingFolder) {
-        await this.folderRepository.addFolderAsync(path);
+        await this.folderRepository.addFolder(path);
         this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
       } else {
         await this.snackbarService.notifyFolderAlreadyAddedAsync();
@@ -27,10 +27,10 @@ export class FolderService implements FolderServiceBase {
     }
   }
 
-  public async getFoldersAsync(): Promise<Folder[]> {
-    return await this.folderRepository.getFoldersAsync();
+  public getFolders(): Folder[] {
+    return this.folderRepository.getFolders();
   }
-  public async deleteFolderAsync(folder: Folder): Promise<void> {
-    await this.folderRepository.deleteFolderAsync(folder.path);
+  public deleteFolder(folder: Folder): void {
+    this.folderRepository.deleteFolder(folder.path);
   }
 }

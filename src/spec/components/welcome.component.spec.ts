@@ -2,15 +2,15 @@ import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
 import { Router } from '@angular/router';
 import { WelcomeComponent } from '../../app/components/welcome/welcome.component';
-import { AppearanceServiceBase } from '../../app/services/appearance/appearance-service-base';
-import { TranslatorServiceBase } from '../../app/services/translator/translator-service-base';
+import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
+import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
 
 describe('WelcomeComponent', () => {
     describe('constructor', () => {
         it('Should start at step 0', () => {
             // Arrange
-            const appearanceServiceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorServiceMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceServiceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorServiceMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act
@@ -25,8 +25,8 @@ describe('WelcomeComponent', () => {
 
         it('Should have 6 steps', () => {
             // Arrange
-            const appearanceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act
@@ -41,8 +41,8 @@ describe('WelcomeComponent', () => {
 
         it('Cannot go back', () => {
             // Arrange
-            const appearanceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act
@@ -57,8 +57,8 @@ describe('WelcomeComponent', () => {
 
         it('Can go forward', () => {
             // Arrange
-            const appearanceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act
@@ -73,8 +73,8 @@ describe('WelcomeComponent', () => {
 
         it('Cannot finish', () => {
             // Arrange
-            const appearanceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act
@@ -89,8 +89,8 @@ describe('WelcomeComponent', () => {
 
         it('Should provide correct donate url', () => {
             // Arrange
-            const appearanceMock = TypeMoq.Mock.ofType<AppearanceServiceBase>();
-            const translatorMock = TypeMoq.Mock.ofType<TranslatorServiceBase>();
+            const appearanceMock = TypeMoq.Mock.ofType<BaseAppearanceService>();
+            const translatorMock = TypeMoq.Mock.ofType<BaseTranslatorService>();
             const routerMock = TypeMoq.Mock.ofType<Router>();
 
             // Act

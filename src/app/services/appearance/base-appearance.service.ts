@@ -1,6 +1,6 @@
 import { ColorScheme } from '../../core/color-scheme';
 
-export abstract class AppearanceServiceBase {
+export abstract class BaseAppearanceService {
     public abstract colorSchemes: ColorScheme[];
     public abstract useLightBackgroundTheme: boolean;
     public abstract selectedColorScheme: ColorScheme;
