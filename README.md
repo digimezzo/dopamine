@@ -23,11 +23,13 @@ The code in this repository is the base for Dopamine 3. It is still work in prog
 
 **To install the prerequisites on Ubuntu:**
 
-sudo apt install wine rpm libarchive-tools
+`sudo apt install wine rpm libarchive-tools`
 
 ## Build prerequisites for Windows
 
-npm install --global --production windows-build-tools --vs2015
+Open a PowerShell prompt as Administrator and run this command to instal the Windows build tools:
+
+`npm install --global --production windows-build-tools --vs2015`
 
 ## Build instructions
 
