@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
       'AppComponent',
       'ngOnInit');
 
-    this.databaseMigrator.createDatabaseIfNotExists();
+    await this.databaseMigrator.migrateAsync();
 
     if (this.settings.showWelcome) {
       // this.settings.showWelcome = false;
