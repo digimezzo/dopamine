@@ -50,6 +50,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   public finish(): void {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/loading']);
   }
 }

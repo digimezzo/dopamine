@@ -30,6 +30,9 @@
                 "Title": "Prêt!",
                 "Content": "Nous sommes prêts. Maintenant, lançons Dopamine."
             }
+        },
+        "Loading": {
+          "Text": "Chargement..."
         }
     },
     "SnackBarMessages": {

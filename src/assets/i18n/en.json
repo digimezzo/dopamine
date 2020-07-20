@@ -30,6 +30,9 @@
         "Title": "Done!",
         "Content": "All done. Let's now start up Dopamine."
       }
+    },
+    "Loading": {
+      "Text": "Loading..."
     }
   },
   "SnackBarMessages": {

@@ -6,7 +6,6 @@ import { Settings } from './core/settings';
 import { Logger } from './core/logger';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
-import { DatabaseMigrator } from './data/database-migrator';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +14,7 @@ import { DatabaseMigrator } from './data/database-migrator';
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(public electronService: ElectronService, private translator: BaseTranslatorService, private settings: Settings,
-    private logger: Logger, private appearance: BaseAppearanceService, public router: Router,
-    private databaseMigrator: DatabaseMigrator) {
+    private logger: Logger, private appearance: BaseAppearanceService, public router: Router) {
 
     this.appearance.applyTheme();
     this.appearance.applyFontSize();
@@ -32,13 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
       'AppComponent',
       'ngOnInit');
 
-    await this.databaseMigrator.migrateAsync();
-
     if (this.settings.showWelcome) {
       // this.settings.showWelcome = false;
       this.router.navigate(['/welcome']);
     } else {
-      this.router.navigate(['/collection']);
+      this.router.navigate(['/loading']);
     }
   }
 }

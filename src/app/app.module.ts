@@ -55,6 +55,8 @@ import { FileSystem } from './core/file-system';
 import { FolderRepository } from './data/repositories/folder-repository';
 import { DatabaseMigrator } from './data/database-migrator';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
+import { LoadingComponent } from './components/loading/loading.component';
+import { BaseDatabaseMigrator } from './data/base-database-migrator';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -74,7 +76,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AddFolderComponent,
     DialogHeaderComponent,
     ConfirmationDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    LoadingComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -107,7 +110,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     Desktop,
     DatabaseFactory,
     FileSystem,
-    DatabaseMigrator,
+    { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
     { provide: BaseFolderRepository, useClass: FolderRepository },
     { provide: BaseAppearanceService, useClass: AppearanceService },
     { provide: BaseFolderService, useClass: FolderService },
