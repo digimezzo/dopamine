@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
 import { LoadingComponent } from '../../app/components/loading/loading.component';
 import { BaseDatabaseMigrator } from '../../app/data/base-database-migrator';
-import { Settings } from '../../app/core/settings';
+import { SettingsMock } from '../mocking/settings-mock';
 
 describe('LoadingComponent', () => {
     describe('ngOnInit', () => {
@@ -13,13 +13,13 @@ describe('LoadingComponent', () => {
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
             const routerMock: IMock<Router> = Mock.ofType<Router>();
-            const settingsMock: IMock<Settings> = Mock.ofType<Settings>();
+            const settingsMock: SettingsMock = new SettingsMock(false);
 
             const loadingComponent: LoadingComponent = new LoadingComponent(
                 routerMock.object,
                 databaseMigratorMock.object,
                 appearanceServiceMock.object,
-                settingsMock.object);
+                settingsMock);
 
             // Act
             await loadingComponent.ngOnInit();
@@ -33,15 +33,13 @@ describe('LoadingComponent', () => {
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
             const routerMock: IMock<Router> = Mock.ofType<Router>();
-            const settingsMock: IMock<Settings> = Mock.ofType<Settings>();
-
-            settingsMock.setup(x => x.showWelcome).returns(() => true);
+            const settingsMock: SettingsMock = new SettingsMock(true);
 
             const loadingComponent: LoadingComponent = new LoadingComponent(
                 routerMock.object,
                 databaseMigratorMock.object,
                 appearanceServiceMock.object,
-                settingsMock.object);
+                settingsMock);
 
             // Act
             await loadingComponent.ngOnInit();
@@ -55,15 +53,13 @@ describe('LoadingComponent', () => {
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
             const routerMock: IMock<Router> = Mock.ofType<Router>();
-            const settingsMock: IMock<Settings> = Mock.ofType<Settings>();
-
-            settingsMock.setup(x => x.showWelcome).returns(() => false);
+            const settingsMock: SettingsMock = new SettingsMock(false);
 
             const loadingComponent: LoadingComponent = new LoadingComponent(
                 routerMock.object,
                 databaseMigratorMock.object,
                 appearanceServiceMock.object,
-                settingsMock.object);
+                settingsMock);
 
             // Act
             await loadingComponent.ngOnInit();
@@ -77,21 +73,19 @@ describe('LoadingComponent', () => {
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
             const routerMock: IMock<Router> = Mock.ofType<Router>();
-            const settingsMock: IMock<Settings> = Mock.ofType<Settings>();
-
-            settingsMock.setup(x => x.showWelcome).returns(() => true);
+            const settingsMock: SettingsMock = new SettingsMock(true);
 
             const loadingComponent: LoadingComponent = new LoadingComponent(
                 routerMock.object,
                 databaseMigratorMock.object,
                 appearanceServiceMock.object,
-                settingsMock.object);
+                settingsMock);
 
             // Act
             await loadingComponent.ngOnInit();
 
             // Assert
-            settingsMock.verify(x => x.showWelcome = false, Times.exactly(1));
+            assert.strictEqual(settingsMock.showWelcome, false);
         });
     });
 });

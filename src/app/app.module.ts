@@ -57,6 +57,7 @@ import { DatabaseMigrator } from './data/database-migrator';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
 import { LoadingComponent } from './components/loading/loading.component';
 import { BaseDatabaseMigrator } from './data/base-database-migrator';
+import { BaseSettings } from './core/base-settings';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -111,6 +112,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DatabaseFactory,
     FileSystem,
     Settings,
+    { provide: BaseSettings, useClass: Settings },
     { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
     { provide: BaseFolderRepository, useClass: FolderRepository },
     { provide: BaseAppearanceService, useClass: AppearanceService },

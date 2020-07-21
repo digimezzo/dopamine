@@ -5,14 +5,14 @@ import { VersionComparer } from '../../core/version-comparer';
 import { GitHubApi } from '../../core/github-api';
 import { ProductInformation } from '../../core/product-information';
 import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
-import { Settings } from '../../core/settings';
+import { BaseSettings } from '../../core/base-settings';
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class UpdateService implements BaseUpdateService {
     constructor(
         private snackBar: BaseSnackbarService,
-        private settings: Settings,
+        private settings: BaseSettings,
         private logger: Logger,
         private gitHub: GitHubApi) {
     }
@@ -35,7 +35,7 @@ export class UpdateService implements BaseUpdateService {
                         `Latest (${latestRelease}) > Current (${currentRelease}). Notifying user.`,
                         'UpdateService',
                         'checkForUpdatesAsync');
-                        await this.snackBar.notifyOfNewVersionAsync(latestRelease);
+                    await this.snackBar.notifyOfNewVersionAsync(latestRelease);
                 } else {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,

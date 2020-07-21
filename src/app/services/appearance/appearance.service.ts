@@ -7,7 +7,7 @@ import { BaseAppearanceService } from './base-appearance.service';
 import { ProductInformation } from '../../core/product-information';
 import { FontSize } from '../../core/font-size';
 import { Constants } from '../../core/constants';
-import { Settings } from '../../core/settings';
+import { BaseSettings } from '../../core/base-settings';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +18,7 @@ export class AppearanceService implements BaseAppearanceService {
     private _selectedFontSize: FontSize;
 
     constructor(
-        private settings: Settings,
+        private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer
         ) {
