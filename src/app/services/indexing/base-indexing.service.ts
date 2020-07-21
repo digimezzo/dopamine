@@ -1,3 +1,3 @@
 export abstract class BaseIndexingService {
-    public abstract startIndexing(): void;
+    public abstract async startIndexingAsync(): Promise<void>;
 }

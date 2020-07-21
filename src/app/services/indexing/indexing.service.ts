@@ -7,17 +7,11 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class IndexingService implements BaseIndexingService {
-  private isIndexing: boolean;
-
   constructor(
     private logger: Logger
   ) { }
 
-  public startIndexing(): void {
-    if (this.isIndexing) {
-      return;
-    }
-
+  public async startIndexingAsync(): Promise<void> {
     this.logger.info('+++ STARTED INDEXING +++', 'IndexingService', 'startIndexing');
 
     const startedMilliseconds: number = moment().valueOf();

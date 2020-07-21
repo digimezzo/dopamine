@@ -21,7 +21,7 @@ export class MainComponent implements OnInit {
     // Check for updates (don't await)
     this.updateService.checkForUpdatesAsync();
 
-    // Start indexing
-    this.indexingService.startIndexing();
+    // Start indexing (don't await)
+    this.indexingService.startIndexingAsync();
   }
 }

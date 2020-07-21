@@ -1,4 +1,4 @@
-import { Language } from '../../core/language';
+import { Language } from '../../core/base/language';
 
 export abstract class BaseTranslatorService {
     public abstract languages: Language[];

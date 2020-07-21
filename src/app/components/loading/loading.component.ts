@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
-import { BaseSettings } from '../../core/base-settings';
+import { BaseSettings } from '../../core/settings/base-settings';
 
 @Component({
     selector: 'app-loading',

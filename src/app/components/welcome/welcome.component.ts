@@ -3,7 +3,7 @@ import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
-import { ContactInformation } from '../../core/contact-information';
+import { ContactInformation } from '../../core/base/contact-information';
 
 @Component({
   selector: 'app-welcome',

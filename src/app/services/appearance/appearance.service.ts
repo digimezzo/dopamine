@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import { Logger } from '../../core/logger';
-import { ColorScheme } from '../../core/color-scheme';
+import { ColorScheme } from './color-scheme';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { BaseAppearanceService } from './base-appearance.service';
-import { ProductInformation } from '../../core/product-information';
-import { FontSize } from '../../core/font-size';
-import { Constants } from '../../core/constants';
-import { BaseSettings } from '../../core/base-settings';
+import { ProductInformation } from '../../core/base/product-information';
+import { FontSize } from '../../core/base/font-size';
+import { Constants } from '../../core/base/constants';
+import { BaseSettings } from '../../core/settings/base-settings';
 
 @Injectable({
     providedIn: 'root',

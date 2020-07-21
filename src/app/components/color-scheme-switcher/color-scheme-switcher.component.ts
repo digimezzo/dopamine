@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ColorScheme } from '../../core/color-scheme';
+import { ColorScheme } from '../../services/appearance/color-scheme';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({

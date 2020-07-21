@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ElectronService } from './services/electron.service';
-import { ProductInformation } from './core/product-information';
+import { ProductInformation } from './core/base/product-information';
 import { Router } from '@angular/router';
-import { Settings } from './core/settings';
+import { Settings } from './core/settings/settings';
 import { Logger } from './core/logger';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';

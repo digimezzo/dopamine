@@ -1,4 +1,4 @@
-import { BaseSettings } from '../../app/core/base-settings';
+import { BaseSettings } from '../../app/core/settings/base-settings';
 
 export class SettingsMock implements BaseSettings {
     constructor(public showWelcome: boolean) {

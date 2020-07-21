@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Database from 'better-sqlite3';
-import { FileSystem } from '../core/file-system';
+import { FileSystem } from '../core/io/file-system';
 import * as path from 'path';
 
 @Injectable({

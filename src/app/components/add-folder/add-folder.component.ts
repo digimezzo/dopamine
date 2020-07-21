@@ -1,9 +1,9 @@
 import { ViewEncapsulation, Component, OnInit } from '@angular/core';
-import { Desktop } from '../../core/desktop';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
+import { Desktop } from '../../core/io/desktop';
 
 @Component({
     selector: 'app-add-folder',
@@ -13,8 +13,11 @@ import { BaseDialogService } from '../../services/dialog/base-dialog.service';
     encapsulation: ViewEncapsulation.None
 })
 export class AddFolderComponent implements OnInit {
-    constructor(private desktop: Desktop, private translatorService: BaseTranslatorService,
-        private folderService: BaseFolderService, private dialogService: BaseDialogService) { }
+    constructor(
+        private desktop: Desktop,
+        private translatorService: BaseTranslatorService,
+        private folderService: BaseFolderService,
+        private dialogService: BaseDialogService) { }
 
     public selectedFolder: Folder;
     public folders: Folder[] = [];

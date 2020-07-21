@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';
-import { FileSystem } from '../core/file-system';
+import { FileSystem } from '../core/io/file-system';
 import { Logger } from '../core/logger';
 import { InitialMigration } from './migrations/001-initial';
 

@@ -1,11 +1,11 @@
 import { BaseUpdateService } from './base-update.service';
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
-import { VersionComparer } from '../../core/version-comparer';
-import { GitHubApi } from '../../core/github-api';
-import { ProductInformation } from '../../core/product-information';
+import { VersionComparer } from './version-comparer';
+import { GitHubApi } from './github-api';
+import { ProductInformation } from '../../core/base/product-information';
 import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
-import { BaseSettings } from '../../core/base-settings';
+import { BaseSettings } from '../../core/settings/base-settings';
 @Injectable({
     providedIn: 'root'
 })
