@@ -13,7 +13,7 @@ import { BaseAppearanceService } from './services/appearance/base-appearance.ser
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(public electronService: ElectronService, private translator: BaseTranslatorService, private settings: Settings,
+  constructor(public electronService: ElectronService, private translator: BaseTranslatorService,
     private logger: Logger, private appearance: BaseAppearanceService, public router: Router) {
 
     this.appearance.applyTheme();
@@ -30,11 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
       'AppComponent',
       'ngOnInit');
 
-    if (this.settings.showWelcome) {
-      // this.settings.showWelcome = false;
-      this.router.navigate(['/welcome']);
-    } else {
-      this.router.navigate(['/loading']);
-    }
+    this.router.navigate(['/loading']);
   }
 }

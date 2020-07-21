@@ -110,6 +110,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     Desktop,
     DatabaseFactory,
     FileSystem,
+    Settings,
     { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
     { provide: BaseFolderRepository, useClass: FolderRepository },
     { provide: BaseAppearanceService, useClass: AppearanceService },
@@ -119,7 +120,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseUpdateService, useClass: UpdateService },
     { provide: BaseSnackbarService, useClass: SnackBarService },
     { provide: BaseDialogService, useClass: DialogService },
-    Settings,
     Logger,
     {
       provide: ErrorHandler,

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Settings } from '../../core/settings';
 import { Language } from '../../core/language';
 import { Constants } from '../../core/constants';
 import { BaseTranslatorService } from './base-translator.service';
+import { Settings } from '../../core/settings';
 
 @Injectable({
   providedIn: 'root'

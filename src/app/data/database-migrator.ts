@@ -42,19 +42,27 @@ export class DatabaseMigrator {
 
         for (const migration of migrationsToApply) {
             try {
-                let migrationQuery: string = migration.up;
                 let newDatabaseVersion: number = migration.id;
                 let migrationAction: string = 'Applying migration';
 
                 if (mustRevert) {
-                    migrationQuery = migration.down;
+                    migration.down();
                     newDatabaseVersion = migration.id - 1;
                     migrationAction = 'Reverting migration';
+                } else {
+                    migration.up();
                 }
 
                 this.logger.info(`${migrationAction} ${migration.name}`, 'DatabaseMigrator', 'migrateAsync');
-                database.prepare(migrationQuery).run();
+
+                database.prepare('BEGIN TRANSACTION;').run();
+
+                for (const statement of migration.statements) {
+                    database.prepare(statement).run();
+                }
+
                 database.prepare(`PRAGMA user_version = ${newDatabaseVersion};`).run();
+                database.prepare('COMMIT;').run();
 
                 this.logger.info(`Migration ${migration.name} success`, 'DatabaseMigrator', 'migrateAsync');
             } catch (error) {
