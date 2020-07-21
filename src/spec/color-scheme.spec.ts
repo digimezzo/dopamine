@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
-import { ColorScheme } from '../../app/services/appearance/color-scheme';
+import { ColorScheme } from '../app/services/appearance/color-scheme';
 
 describe('ColorScheme', () => {
     describe('constructor', () => {

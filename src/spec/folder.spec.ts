@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
-import { Folder } from '../../app/data/entities/folder';
+import { Folder } from '../app/data/entities/folder';
 
 describe('Folder', () => {
     describe('constructor', () => {

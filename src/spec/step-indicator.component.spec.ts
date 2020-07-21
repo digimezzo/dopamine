@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { StepIndicatorComponent } from '../../app/components/step-indicator/step-indicator.component';
+import { StepIndicatorComponent } from '../app/components/step-indicator/step-indicator.component';
 
 describe('StepIndicatorComponent', () => {
     describe('ngOnInit', () => {

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { VersionComparer } from '../../app/services/update/version-comparer';
+import { VersionComparer } from '../app/services/update/version-comparer';
 
 describe('VersionComparer', () => {
     describe('isNewerVersion', () => {

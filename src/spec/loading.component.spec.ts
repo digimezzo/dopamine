@@ -1,10 +1,10 @@
 import * as assert from 'assert';
 import { Times, It, Mock, IMock } from 'typemoq';
 import { Router } from '@angular/router';
-import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
-import { LoadingComponent } from '../../app/components/loading/loading.component';
-import { BaseDatabaseMigrator } from '../../app/data/base-database-migrator';
-import { SettingsMock } from '../mocking/settings-mock';
+import { BaseAppearanceService } from '../app/services/appearance/base-appearance.service';
+import { LoadingComponent } from '../app/components/loading/loading.component';
+import { BaseDatabaseMigrator } from '../app/data/base-database-migrator';
+import { SettingsMock } from './mocking/settings-mock';
 
 describe('LoadingComponent', () => {
     describe('ngOnInit', () => {

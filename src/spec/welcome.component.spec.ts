@@ -1,9 +1,9 @@
 import * as assert from 'assert';
 import { Times, It, Mock, IMock } from 'typemoq';
 import { Router } from '@angular/router';
-import { WelcomeComponent } from '../../app/components/welcome/welcome.component';
-import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
-import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
+import { WelcomeComponent } from '../app/components/welcome/welcome.component';
+import { BaseAppearanceService } from '../app/services/appearance/base-appearance.service';
+import { BaseTranslatorService } from '../app/services/translator/base-translator.service';
 
 describe('WelcomeComponent', () => {
     describe('constructor', () => {

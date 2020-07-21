@@ -1,11 +1,11 @@
 import * as assert from 'assert';
 import * as TypeMoq from 'typemoq';
 import { Times } from 'typemoq';
-import { FolderService } from '../../app/services/folder/folder.service';
-import { Logger } from '../../app/core/logger';
-import { Folder } from '../../app/data/entities/folder';
-import { BaseSnackbarService as SnackBarServiceBase } from '../../app/services/snack-bar/base-snack-bar.service';
-import { BaseFolderRepository } from '../../app/data/repositories/base-folder-repository';
+import { FolderService } from '../app/services/folder/folder.service';
+import { Logger } from '../app/core/logger';
+import { Folder } from '../app/data/entities/folder';
+import { BaseSnackbarService as SnackBarServiceBase } from '../app/services/snack-bar/base-snack-bar.service';
+import { BaseFolderRepository } from '../app/data/repositories/base-folder-repository';
 
 describe('FolderService', () => {
     describe('addFolderAsync', () => {

@@ -1,9 +1,9 @@
 import * as assert from 'assert';
 import { Times, It, Mock } from 'typemoq';
-import { MainComponent } from '../../app/components/main/main.component';
-import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
-import { BaseUpdateService } from '../../app/services/update/base-update.service';
-import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
+import { MainComponent } from '../app/components/main/main.component';
+import { BaseAppearanceService } from '../app/services/appearance/base-appearance.service';
+import { BaseUpdateService } from '../app/services/update/base-update.service';
+import { BaseIndexingService } from '../app/services/indexing/base-indexing.service';
 
 describe('MainComponent', () => {
     describe('ngOnInit', () => {

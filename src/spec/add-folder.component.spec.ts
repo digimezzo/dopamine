@@ -1,11 +1,11 @@
 import * as assert from 'assert';
 import { Times, It, Mock } from 'typemoq';
-import { Desktop } from '../../app/core/desktop';
-import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
-import { AddFolderComponent } from '../../app/components/add-folder/add-folder.component';
-import { BaseFolderService } from '../../app/services/folder/base-folder.service';
-import { BaseDialogService } from '../../app/services/dialog/base-dialog.service';
-import { Folder } from '../../app/data/entities/folder';
+import { BaseTranslatorService } from '../app/services/translator/base-translator.service';
+import { AddFolderComponent } from '../app/components/add-folder/add-folder.component';
+import { BaseFolderService } from '../app/services/folder/base-folder.service';
+import { BaseDialogService } from '../app/services/dialog/base-dialog.service';
+import { Folder } from '../app/data/entities/folder';
+import { Desktop } from '../app/core/io/desktop';
 
 describe('AddFolderComponent', () => {
     describe('constructor', () => {
