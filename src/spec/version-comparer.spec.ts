@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import { Times, It, Mock, IMock } from 'typemoq';
 import { VersionComparer } from '../app/services/update/version-comparer';
 
 describe('VersionComparer', () => {

@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import { Times, It, Mock, IMock } from 'typemoq';
 import { FontSize } from '../app/core/base/font-size';
 
 describe('FontSize', () => {

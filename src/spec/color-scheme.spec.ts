@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as TypeMoq from 'typemoq';
+import { Times, It, Mock, IMock } from 'typemoq';
 import { ColorScheme } from '../app/services/appearance/color-scheme';
 
 describe('ColorScheme', () => {

@@ -13,9 +13,19 @@ export class FileSystem {
     }
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<string[]> {
-        const fileNamesWithoutDirectory: string[] = await fs.readdir(directoryPath);
+        const fileNames: string[] = await fs.readdir(directoryPath);
 
-        return fileNamesWithoutDirectory.map(fileNameWithoutDirectory => path.join(directoryPath, fileNameWithoutDirectory));
+        return fileNames
+        .filter(fileName => (fs.lstatSync(path.join(directoryPath, fileName)).isFile()))
+        .map(fileName => path.join(directoryPath, fileName));
+    }
+
+    public async getDirectoriesInDirectoryAsync(directoryPath: string): Promise<string[]> {
+        const directoryNames: string[] = await fs.readdir(directoryPath);
+
+        return directoryNames
+        .filter(directoryName => (fs.lstatSync(path.join(directoryPath, directoryName)).isDirectory()))
+        .map(directoryName => path.join(directoryPath, directoryName));
     }
 
     public async readFileContentsAsync(filePath: string): Promise<string> {

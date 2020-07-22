@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import { Times, It, Mock, IMock } from 'typemoq';
 import { ProductInformation } from '../app/core/base/product-information';
 
 describe('ProductInformation', () => {
