@@ -4,6 +4,9 @@ import { Logger } from '../../core/logger';
 import * as moment from 'moment';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { FileSystem } from '../../core/io/file-system';
+import { Folder } from '../../data/entities/folder';
+import { FileFormats } from '../../core/base/file-formats';
+import { IndexablePath } from './indexable-path';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +22,11 @@ export class IndexingService implements BaseIndexingService {
 
     const startedMilliseconds: number = moment().valueOf();
 
-    // TODO
+    const fetcher: IndexablePathFetcher = new IndexablePathFetcher(this.fileSystem, this.logger);
+    const indexablePaths: IndexablePath[] = await fetcher.getIndexAblePathsInFolderAsync(
+      new Folder('/home/raphael/Music'),
+      FileFormats.supportedAudioExtensions
+      );
 
     const finishedMilliseconds: number = moment().valueOf();
 
