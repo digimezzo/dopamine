@@ -3,9 +3,11 @@ import { FileSystem } from '../../core/io/file-system';
 import { IndexablePath } from './indexable-path';
 import { Logger } from '../../core/logger';
 import { DateTime } from '../../core/date-time';
+import { FolderRepository } from '../../data/repositories/folder-repository';
 
 export class IndexablePathFetcher {
     constructor(private fileSystem: FileSystem, private logger: Logger) { }
+
     public async getIndexAblePathsInFolderAsync(folder: Folder, validFileExtensions: string[]): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
 

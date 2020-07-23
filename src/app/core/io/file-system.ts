@@ -41,4 +41,8 @@ export class FileSystem {
 
         return stat.mtime;
     }
+
+    public pathExists(pathToCheck: string): boolean {
+        return fs.existsSync(pathToCheck);
+    }
 }
