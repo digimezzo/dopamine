@@ -40,7 +40,7 @@ describe('MainComponent', () => {
             mainComponent.ngOnInit();
 
             // Assert
-            indexingServiceMock.verify(x => x.startIndexingAsync(), Times.exactly(1));
+            indexingServiceMock.verify(x => x.indexCollectionIfNeeded(), Times.exactly(1));
         });
     });
 });

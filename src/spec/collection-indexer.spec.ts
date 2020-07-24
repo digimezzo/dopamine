@@ -1,8 +1,8 @@
 import * as assert from 'assert';
 import { Times, It, Mock, IMock } from 'typemoq';
 
-describe('IndexingService', () => {
-    describe('indexCollectionIfNeeded', () => {
+describe('CollectionIndexer', () => {
+    describe('indexCollectionAsync', () => {
         it('Should', async () => {
             // Arrange
 

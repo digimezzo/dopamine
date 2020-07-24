@@ -1,3 +1,3 @@
 export abstract class BaseIndexingService {
-    public abstract async startIndexingAsync(): Promise<void>;
+    public abstract async indexCollectionIfNeeded(): Promise<void>;
 }

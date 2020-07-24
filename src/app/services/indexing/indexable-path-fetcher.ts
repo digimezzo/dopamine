@@ -3,29 +3,62 @@ import { FileSystem } from '../../core/io/file-system';
 import { IndexablePath } from './indexable-path';
 import { Logger } from '../../core/logger';
 import { DateTime } from '../../core/date-time';
-import { FolderRepository } from '../../data/repositories/folder-repository';
+import { FileFormats } from '../../core/base/file-formats';
+import { Injectable } from '@angular/core';
+import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
+import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { DirectoryWalker } from './directory-walker';
+import { DirectoryWalkResult } from './directory-walk-result';
 
-export class IndexablePathFetcher {
-    constructor(private fileSystem: FileSystem, private logger: Logger) { }
+@Injectable({
+    providedIn: 'root'
+  })
+export class IndexablePathFetcher implements BaseIndexablePathFetcher {
+    constructor(
+        private fileSystem: FileSystem,
+        private directoryWalker: DirectoryWalker,
+        private logger: Logger,
+        private folderRepository: BaseFolderRepository) { }
 
-    public async getIndexAblePathsInFolderAsync(folder: Folder, validFileExtensions: string[]): Promise<IndexablePath[]> {
+    public async getIndexablePathsForAllFoldersAsync(): Promise<IndexablePath[]> {
+        const indexablePaths: IndexablePath[] = [];
+        const folders: Folder[] = this.folderRepository.getFolders();
+
+        for (const folder of folders) {
+            if (this.fileSystem.pathExists(folder.path)) {
+                try {
+                    const indexablePathsForFolder: IndexablePath[] = await this.getIndexablePathsForSingleFolderAsync(
+                        folder,
+                        FileFormats.supportedAudioExtensions);
+
+                    indexablePaths.push(...indexablePathsForFolder);
+                } catch (error) {
+                    this.logger.error(
+                        `Could not get indexable paths for folder '${folder.path}'`,
+                        'IndexablePathFetcher',
+                        'getIndexablePathsForAllFoldersAsync');
+                }
+            }
+        }
+
+        return indexablePaths;
+    }
+
+    private async getIndexablePathsForSingleFolderAsync(folder: Folder, validFileExtensions: string[]): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
 
         try {
-            const filePaths: string[] = [];
-            const errors: Error[] = [];
+            const directoryWalkResult: DirectoryWalkResult = await this.directoryWalker.getFilesInDirectoryAsync(folder.path);
 
-            await this.recursivelyGetFilesinDirectoryAsync(folder.path, filePaths, errors);
-
-            for (const error of errors) {
+            for (const error of directoryWalkResult.errors) {
                 this.logger.error(
                     `Error occurred while getting files recursively. Error ${error}`,
                     'IndexablePathFetcher',
-                    'getIndexAblePathsInFolderAsync'
+                    'getIndexablePathsForSingleFolderAsync'
                 );
             }
 
-            for (const filePath of filePaths) {
+            for (const filePath of directoryWalkResult.filePaths) {
                 try {
                     const fileExtension: string = this.fileSystem.getFileExtension(filePath);
 
@@ -37,7 +70,7 @@ export class IndexablePathFetcher {
                     this.logger.error(
                         `Error occurred while getting indexable path for file '${filePath}'. Error ${error}`,
                         'IndexablePathFetcher',
-                        'getIndexAblePathsInFolderAsync'
+                        'getIndexablePathsForSingleFolderAsync'
                     );
                 }
             }
@@ -45,54 +78,10 @@ export class IndexablePathFetcher {
             this.logger.error(
                 `An error occurred while fetching indexable paths. Error ${error}`,
                 'IndexablePathFetcher',
-                'getIndexAblePathsInFolderAsync'
+                'getIndexablePathsForSingleFolderAsync'
             );
         }
 
         return indexablePaths;
-    }
-
-    private async recursivelyGetFilesinDirectoryAsync(directoryPath: string, filePaths: string[], errors: Error[]): Promise<void> {
-        try {
-            // Process the files found in the directory
-            let filePathsInDirectory: string[];
-
-            try {
-                filePathsInDirectory = await this.fileSystem.getFilesInDirectoryAsync(directoryPath);
-            } catch (error) {
-                errors.push(error);
-            }
-
-            if (filePathsInDirectory !== null && filePathsInDirectory.length > 0) {
-                for (const filePath of filePathsInDirectory) {
-                    try {
-                        filePaths.push(filePath);
-                    } catch (error) {
-                        errors.push(error);
-                    }
-                }
-            }
-
-            // Recurse into subdirectories in this directory
-            let subdirectoryPathsInDirectory: string[];
-
-            try {
-                subdirectoryPathsInDirectory = await this.fileSystem.getDirectoriesInDirectoryAsync(directoryPath);
-            } catch (error) {
-                errors.push(error);
-            }
-
-            if (subdirectoryPathsInDirectory !== null && subdirectoryPathsInDirectory.length > 0) {
-                for (const subdirectoryPath of subdirectoryPathsInDirectory) {
-                    try {
-                        await this.recursivelyGetFilesinDirectoryAsync(subdirectoryPath, filePaths, errors);
-                    } catch (error) {
-                        errors.push(error);
-                    }
-                }
-            }
-        } catch (error) {
-            errors.push(error);
-        }
     }
 }

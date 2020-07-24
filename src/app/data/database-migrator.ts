@@ -75,9 +75,9 @@ export class DatabaseMigrator {
         let sortedMigrations: Migration[] = [];
 
         if (inDescendingOrder) {
-            sortedMigrations = this.migrations.sort((a, b) => a.id < b.id ? 1 : 0);
+            sortedMigrations = this.migrations.sort((a, b) => a.id > b.id ? -1 : 1);
         } else {
-            sortedMigrations = this.migrations.sort((a, b) => a.id > b.id ? 1 : 0);
+            sortedMigrations = this.migrations.sort((a, b) => a.id > b.id ? 1 : -1);
         }
 
         return sortedMigrations;
@@ -95,7 +95,7 @@ export class DatabaseMigrator {
             return 0;
         }
 
-        const migrationsSortedByIdDescending: Migration[] = this.migrations.sort((a, b) => a.id < b.id ? 1 : 0);
+        const migrationsSortedByIdDescending: Migration[] = this.migrations.sort((a, b) => a.id > b.id ? -1 : 1);
 
         return migrationsSortedByIdDescending[0].id;
     }

@@ -60,6 +60,12 @@ import { BaseDatabaseMigrator } from './data/base-database-migrator';
 import { BaseSettings } from './core/settings/base-settings';
 import { BaseTrackRepository } from './data/repositories/base-track-repository';
 import { TrackRepository } from './data/repositories/track-repository';
+import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
+import { CollectionChecker } from './services/indexing/collection-checker';
+import { CollectionIndexer } from './services/indexing/collection-indexer';
+import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
+import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
+import { DirectoryWalker } from './services/indexing/directory-walker';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -114,6 +120,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DatabaseFactory,
     FileSystem,
     Settings,
+    CollectionIndexer,
+    DirectoryWalker,
+    { provide: BaseCollectionChecker, useClass: CollectionChecker },
+    { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },
     { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
     { provide: BaseFolderRepository, useClass: FolderRepository },
