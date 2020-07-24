@@ -97,12 +97,13 @@ describe('FolderService', () => {
                 snackBarServiceMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
+            folderToDelete.folderId = 1;
 
             // Act
             folderService.deleteFolder(folderToDelete);
 
             // Assert
-            folderRepositoryMock.verify(x => x.deleteFolder('/home/user/Music'), Times.exactly(1));
+            folderRepositoryMock.verify(x => x.deleteFolder(folderToDelete.folderId), Times.exactly(1));
         });
     });
 });

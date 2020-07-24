@@ -2,7 +2,6 @@ export class Folder {
     constructor(public path: string) {
     }
 
-    public folderID: number;
-    public safePath: string;
+    public folderId: number;
     public showInCollection: number;
 }

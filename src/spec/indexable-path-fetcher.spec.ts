@@ -26,13 +26,11 @@ describe('IndexablePathFetcher', () => {
             );
 
             const folder1: Folder = new Folder('/home/user/Music');
-            folder1.folderID = 1;
-            folder1.safePath = folder1.path;
+            folder1.folderId = 1;
             folder1.showInCollection = 1;
 
             const folder2: Folder = new Folder('/home/user/Downloads');
-            folder2.folderID = 2;
-            folder2.safePath = folder2.path;
+            folder2.folderId = 2;
             folder2.showInCollection = 1;
 
             folderRepositoryMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);
@@ -99,13 +97,11 @@ describe('IndexablePathFetcher', () => {
             );
 
             const folder1: Folder = new Folder('/home/user/Music');
-            folder1.folderID = 1;
-            folder1.safePath = folder1.path;
+            folder1.folderId = 1;
             folder1.showInCollection = 1;
 
             const folder2: Folder = new Folder('/home/user/Downloads');
-            folder2.folderID = 2;
-            folder2.safePath = folder2.path;
+            folder2.folderId = 2;
             folder2.showInCollection = 1;
 
             folderRepositoryMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);

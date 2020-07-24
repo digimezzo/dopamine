@@ -31,6 +31,6 @@ export class FolderService implements BaseFolderService {
     return this.folderRepository.getFolders();
   }
   public deleteFolder(folder: Folder): void {
-    this.folderRepository.deleteFolder(folder.path);
+    this.folderRepository.deleteFolder(folder.folderId);
   }
 }

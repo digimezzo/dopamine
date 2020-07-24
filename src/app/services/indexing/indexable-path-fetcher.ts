@@ -64,7 +64,7 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
 
                     if (validFileExtensions.includes(fileExtension.toLowerCase())) {
                         const dateModified: Date = await this.fileSystem.getDateModifiedAsync(filePath);
-                        indexablePaths.push(new IndexablePath(filePath, DateTime.getTicks(dateModified), folder.folderID));
+                        indexablePaths.push(new IndexablePath(filePath, DateTime.getTicks(dateModified), folder.folderId));
                     }
                 } catch (error) {
                     this.logger.error(

@@ -23,7 +23,7 @@ export class FolderRepository implements BaseFolderRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `SELECT FolderID as folderID, Path as path, ShowInCollection as showInCollection
+            `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
             FROM Folder`);
 
         const folders: Folder[] = statement.all();
@@ -35,7 +35,7 @@ export class FolderRepository implements BaseFolderRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `SELECT FolderID as folderID, Path as path, ShowInCollection as showInCollection
+            `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
             FROM Folder
             WHERE Path=?`);
 
@@ -44,10 +44,10 @@ export class FolderRepository implements BaseFolderRepository {
         return folder;
     }
 
-    public deleteFolder(folderPath: string): void {
+    public deleteFolder(folderId: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('DELETE FROM Folder WHERE Path=?');
-        statement.run(folderPath);
+        const statement = database.prepare('DELETE FROM Folder WHERE FolderID=?');
+        statement.run(folderId);
     }
 }
