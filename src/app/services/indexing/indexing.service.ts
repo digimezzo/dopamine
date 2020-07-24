@@ -16,7 +16,7 @@ export class IndexingService implements BaseIndexingService {
     private collectionIndexer: CollectionIndexer
   ) { }
 
-  public async indexCollectionIfNeeded(): Promise<void> {
+  public async indexCollectionIfNeededAsync(): Promise<void> {
     this.logger.info('+++ STARTED INDEXING +++', 'IndexingService', 'startIndexing');
 
     const startedMilliseconds: number = moment().valueOf();
