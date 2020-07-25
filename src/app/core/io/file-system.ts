@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import { DateTime } from '../date-time';
 
 @Injectable()
 export class FileSystem {
@@ -36,13 +37,21 @@ export class FileSystem {
         return path.extname(fileNameOrPath);
     }
 
-    public async getDateModifiedAsync(fileOrDirectory: string): Promise<Date> {
+    public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
+        const dateModified: Date = stat.mtime;
 
-        return stat.mtime;
+        return DateTime.getTicks(dateModified);
     }
 
     public pathExists(pathToCheck: string): boolean {
         return fs.existsSync(pathToCheck);
+    }
+
+    public getFilesizeInBytes(filePath: string): number {
+        const stats = fs.statSync(filePath);
+        const fileSizeInBytes = stats.size;
+
+        return fileSizeInBytes;
     }
 }

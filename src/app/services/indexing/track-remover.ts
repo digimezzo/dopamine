@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
 import { Track } from '../../data/entities/track';
-import { FileSystem } from '../../core/io/file-system';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 
 @Injectable({

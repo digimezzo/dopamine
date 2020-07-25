@@ -1,74 +1,65 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatRippleModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule, MatTooltipModule } from '@angular/material';
+import { MatStepperModule } from '@angular/material/stepper';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import 'reflect-metadata';
 import '../polyfills';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
-
-// NG Translate
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { ElectronService } from './services/electron.service';
-import { AppearanceService } from './services/appearance/appearance.service';
-import { IndexingService } from './services/indexing/indexing.service';
-import { TranslatorService } from './services/translator/translator.service';
-
-import { WebviewDirective } from './directives/webview.directive';
-
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { MainComponent } from './components/main/main.component';
-import { WindowControlsComponent } from './components/window-controls/window-controls.component';
-import { LogoFullComponent } from './components/logo-full/logo-full.component';
-import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
-import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
-
-import { MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule, MatSnackBarModule, MatRippleModule, MatDialogModule } from '@angular/material';
-import { MatStepperModule } from '@angular/material/stepper';
-
-import { Settings } from './core/settings/settings';
-import { Logger } from './core/logger';
-import { BaseAppearanceService } from './services/appearance/base-appearance.service';
-import { BaseTranslatorService } from './services/translator/base-translator.service';
-import { BaseIndexingService } from './services/indexing/base-indexing.service';
-import { BaseUpdateService } from './services/update/base-update.service';
-import { UpdateService } from './services/update/update.service';
-import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
-import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
-import { Desktop } from './core/io/desktop';
-import { BaseFolderService } from './services/folder/base-folder.service';
-import { FolderService } from './services/folder/folder.service';
-import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
-
-import { GlobalErrorHandler } from './globalErrorHandler';
-import { DialogService } from './services/dialog/dialog.service';
-import { BaseDialogService } from './services/dialog/base-dialog.service';
-import { DatabaseFactory } from './data/database-factory';
+import { LoadingComponent } from './components/loading/loading.component';
+import { LogoFullComponent } from './components/logo-full/logo-full.component';
+import { MainComponent } from './components/main/main.component';
+import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { WindowControlsComponent } from './components/window-controls/window-controls.component';
+import { Desktop } from './core/io/desktop';
 import { FileSystem } from './core/io/file-system';
-import { FolderRepository } from './data/repositories/folder-repository';
+import { Logger } from './core/logger';
+import { BaseSettings } from './core/settings/base-settings';
+import { Settings } from './core/settings/settings';
+import { BaseDatabaseMigrator } from './data/base-database-migrator';
+import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
-import { LoadingComponent } from './components/loading/loading.component';
-import { BaseDatabaseMigrator } from './data/base-database-migrator';
-import { BaseSettings } from './core/settings/base-settings';
 import { BaseTrackRepository } from './data/repositories/base-track-repository';
+import { FolderRepository } from './data/repositories/folder-repository';
 import { TrackRepository } from './data/repositories/track-repository';
-import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
+import { WebviewDirective } from './directives/webview.directive';
+import { GlobalErrorHandler } from './globalErrorHandler';
+import { AppearanceService } from './services/appearance/appearance.service';
+import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { BaseDialogService } from './services/dialog/base-dialog.service';
+import { DialogService } from './services/dialog/dialog.service';
+import { ElectronService } from './services/electron.service';
+import { BaseFolderService } from './services/folder/base-folder.service';
+import { FolderService } from './services/folder/folder.service';
+import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
+import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
+import { BaseIndexingService } from './services/indexing/base-indexing.service';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { CollectionIndexer } from './services/indexing/collection-indexer';
-import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
-import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
+import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
+import { IndexingService } from './services/indexing/indexing.service';
 import { TrackRemover } from './services/indexing/track-remover';
+import { TrackUpdater } from './services/indexing/track-updater';
+import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
+import { SnackBarService } from './services/snack-bar/snack-bar.service';
+import { BaseTranslatorService } from './services/translator/base-translator.service';
+import { TranslatorService } from './services/translator/translator.service';
+import { BaseUpdateService } from './services/update/base-update.service';
+import { UpdateService } from './services/update/update.service';
 
-// AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -124,6 +115,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CollectionIndexer,
     DirectoryWalker,
     TrackRemover,
+    TrackUpdater,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },

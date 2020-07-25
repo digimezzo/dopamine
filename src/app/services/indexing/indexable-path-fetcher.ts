@@ -1,14 +1,13 @@
-import { Folder } from '../../data/entities/folder';
-import { FileSystem } from '../../core/io/file-system';
-import { IndexablePath } from './indexable-path';
-import { Logger } from '../../core/logger';
-import { DateTime } from '../../core/date-time';
-import { FileFormats } from '../../core/base/file-formats';
 import { Injectable } from '@angular/core';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
+import { FileFormats } from '../../core/base/file-formats';
+import { FileSystem } from '../../core/io/file-system';
+import { Logger } from '../../core/logger';
+import { Folder } from '../../data/entities/folder';
 import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
-import { DirectoryWalker } from './directory-walker';
+import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { DirectoryWalkResult } from './directory-walk-result';
+import { DirectoryWalker } from './directory-walker';
+import { IndexablePath } from './indexable-path';
 
 @Injectable({
     providedIn: 'root'
@@ -63,8 +62,8 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
                     const fileExtension: string = this.fileSystem.getFileExtension(filePath);
 
                     if (validFileExtensions.includes(fileExtension.toLowerCase())) {
-                        const dateModified: Date = await this.fileSystem.getDateModifiedAsync(filePath);
-                        indexablePaths.push(new IndexablePath(filePath, DateTime.getTicks(dateModified), folder.folderId));
+                        const dateModifiedInTicks: number = await this.fileSystem.getDateModifiedInTicksAsync(filePath);
+                        indexablePaths.push(new IndexablePath(filePath, dateModifiedInTicks, folder.folderId));
                     }
                 } catch (error) {
                     this.logger.error(

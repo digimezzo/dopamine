@@ -1,13 +1,13 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
-import { BaseFolderRepository } from '../app/data/repositories/base-folder-repository';
+import { IMock, It, Mock } from 'typemoq';
 import { FileSystem } from '../app/core/io/file-system';
 import { Logger } from '../app/core/logger';
-import { IndexablePathFetcher } from '../app/services/indexing/indexable-path-fetcher';
-import { IndexablePath } from '../app/services/indexing/indexable-path';
 import { Folder } from '../app/data/entities/folder';
-import { DirectoryWalker } from '../app/services/indexing/directory-walker';
+import { BaseFolderRepository } from '../app/data/repositories/base-folder-repository';
 import { DirectoryWalkResult } from '../app/services/indexing/directory-walk-result';
+import { DirectoryWalker } from '../app/services/indexing/directory-walker';
+import { IndexablePath } from '../app/services/indexing/indexable-path';
+import { IndexablePathFetcher } from '../app/services/indexing/indexable-path-fetcher';
 
 describe('IndexablePathFetcher', () => {
     describe('getIndexablePathsForAllFoldersAsync', () => {
@@ -70,7 +70,7 @@ describe('IndexablePathFetcher', () => {
             fileSystemMock.setup(x => x.getFileExtension('/home/user/Downloads/Image 2')).returns(() => '');
             fileSystemMock.setup(x => x.pathExists('/home/user/Music')).returns(() => true);
             fileSystemMock.setup(x => x.pathExists('/home/user/Downloads')).returns(() => true);
-            fileSystemMock.setup(x => x.getDateModifiedAsync(It.isAny())).returns(async () => new Date());
+            fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(It.isAny())).returns(async () => 100);
 
             // Act
             const indexablePaths: IndexablePath[] = await indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
@@ -141,7 +141,7 @@ describe('IndexablePathFetcher', () => {
             fileSystemMock.setup(x => x.getFileExtension('/home/user/Downloads/Image 2')).returns(() => '');
             fileSystemMock.setup(x => x.pathExists('/home/user/Music')).returns(() => true);
             fileSystemMock.setup(x => x.pathExists('/home/user/Downloads')).returns(() => true);
-            fileSystemMock.setup(x => x.getDateModifiedAsync(It.isAny())).returns(async () => new Date());
+            fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(It.isAny())).returns(async () => 100);
 
             // Act
             const indexablePaths: IndexablePath[] = await indexablePathFetcher.getIndexablePathsForAllFoldersAsync();

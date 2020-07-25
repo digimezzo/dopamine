@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BaseTrackRepository } from './base-track-repository';
 import { DatabaseFactory } from '../database-factory';
 import { Track } from '../entities/track';
+import { BaseTrackRepository } from './base-track-repository';
 
 @Injectable({
     providedIn: 'root'
@@ -101,5 +101,46 @@ export class TrackRepository implements BaseTrackRepository {
         const tracks: Track[] = statement.all();
 
         return tracks;
+    }
+
+    public updateTrack(track: Track): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `UPDATE Track
+                SET Artists='${track.artists}',
+                Genres='${track.genres}',
+                AlbumTitle='${track.albumTitle}',
+                AlbumArtists='${track.albumArtists}',
+                AlbumKey='${track.albumKey}',
+                Path='${track.path}',
+                FileName='${track.fileName}',
+                MimeType='${track.mimeType}',
+                FileSize=${track.fileSize},
+                BitRate=${track.bitRate},
+                SampleRate=${track.sampleRate},
+                TrackTitle='${track.trackTitle}',
+                TrackNumber=${track.trackNumber},
+                TrackCount=${track.trackCount},
+                DiscNumber=${track.discNumber},
+                DiscCount=${track.discCount},
+                Duration=${track.duration},
+                Year=${track.year},
+                HasLyrics=${track.hasLyrics},
+                DateAdded=${track.dateAdded},
+                DateFileCreated=${track.dateFileCreated},
+                DateLastSynced=${track.dateLastSynced},
+                DateFileModified=${track.dateFileModified},
+                NeedsAlbumArtworkIndexing=${track.needsAlbumArtworkIndexing},
+                IndexingSuccess=${track.indexingSuccess},
+                IndexingFailureReason='${track.indexingFailureReason}',
+                Rating=${track.rating},
+                Love=${track.love},
+                PlayCount=${track.playCount},
+                SkipCount=${track.skipCount},
+                DateLastPlayed=${track.dateLastPlayed}
+                WHERE TrackID=?`);
+
+        statement.run(track.trackId);
     }
 }

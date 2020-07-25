@@ -1,8 +1,8 @@
-import { IndexablePath } from './indexable-path';
-import { Logger } from '../../core/logger';
 import { Injectable } from '@angular/core';
+import { Logger } from '../../core/logger';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
+import { IndexablePath } from './indexable-path';
 
 @Injectable({
     providedIn: 'root'

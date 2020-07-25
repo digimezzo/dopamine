@@ -1,14 +1,18 @@
-import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
-import { TrackRemover } from '../app/services/indexing/track-remover';
+import { IMock, Mock, Times } from 'typemoq';
 import { CollectionIndexer } from '../app/services/indexing/collection-indexer';
+import { TrackRemover } from '../app/services/indexing/track-remover';
+import { TrackUpdater } from '../app/services/indexing/track-updater';
 
 describe('CollectionIndexer', () => {
     describe('indexCollectionAsync', () => {
         it('Should remove tracks which are not part of a collection folder', () => {
             // Arrange
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(trackRemoverMock.object);
+            const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
+            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+                trackRemoverMock.object,
+                trackUpdaterMock.object
+            );
 
             // Act
             collectionIndexer.indexCollectionAsync();
@@ -18,15 +22,35 @@ describe('CollectionIndexer', () => {
         });
 
         it('Should remove tracks which are not found on disk', () => {
-             // Arrange
-             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
-             const collectionIndexer: CollectionIndexer = new CollectionIndexer(trackRemoverMock.object);
+            // Arrange
+            const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
+            const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
+            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+                trackRemoverMock.object,
+                trackUpdaterMock.object
+            );
 
-             // Act
-             collectionIndexer.indexCollectionAsync();
+            // Act
+            collectionIndexer.indexCollectionAsync();
 
-             // Assert
-             trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDisk(), Times.exactly(1));
+            // Assert
+            trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDisk(), Times.exactly(1));
+        });
+
+        it('Should update tracks which are out of date', () => {
+            // Arrange
+            const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
+            const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
+            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+                trackRemoverMock.object,
+                trackUpdaterMock.object
+            );
+
+            // Act
+            collectionIndexer.indexCollectionAsync();
+
+            // Assert
+            trackUpdaterMock.verify(x => x.updateTracksThatAreOutOfDate(), Times.exactly(1));
         });
     });
 });
