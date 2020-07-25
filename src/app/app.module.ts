@@ -66,6 +66,7 @@ import { CollectionIndexer } from './services/indexing/collection-indexer';
 import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
 import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
+import { TrackRemover } from './services/indexing/track-remover';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -122,6 +123,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     Settings,
     CollectionIndexer,
     DirectoryWalker,
+    TrackRemover,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },
