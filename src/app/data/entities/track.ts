@@ -26,6 +26,7 @@ export class Track {
     public dateFileCreated: number;
     public dateLastSynced: number;
     public dateFileModified: number;
+    public needsIndexing: number;
     public needsAlbumArtworkIndexing: number;
     public indexingSuccess: number;
     public indexingFailureReason: string;
