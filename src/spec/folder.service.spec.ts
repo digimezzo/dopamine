@@ -1,10 +1,9 @@
-import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
-import { FolderService } from '../app/services/folder/folder.service';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { Logger } from '../app/core/logger';
 import { Folder } from '../app/data/entities/folder';
-import { BaseSnackbarService as SnackBarServiceBase } from '../app/services/snack-bar/base-snack-bar.service';
 import { BaseFolderRepository } from '../app/data/repositories/base-folder-repository';
+import { FolderService } from '../app/services/folder/folder.service';
+import { BaseSnackbarService as SnackBarServiceBase } from '../app/services/snack-bar/base-snack-bar.service';
 
 describe('FolderService', () => {
     describe('addFolderAsync', () => {
@@ -18,13 +17,13 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => null);
+            folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => null);
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(x => x.addFolder('/home/me/Music'), Times.exactly(1));
+            folderRepositoryMock.verify(x => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.exactly(1));
         });
 
         it('Should not add an existing folder with the selected path to the database', async () => {
@@ -37,13 +36,13 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
+            folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(x => x.addFolder('/home/me/Music'), Times.never());
+            folderRepositoryMock.verify(x => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.never());
         });
 
         it('Should notify the user if a folder was already added', async () => {
@@ -56,7 +55,7 @@ describe('FolderService', () => {
                 loggerMock.object,
                 snackBarServiceMock.object);
 
-            folderRepositoryMock.setup(x => x.getFolder('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
+            folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
             await folderService.addNewFolderAsync('/home/me/Music');

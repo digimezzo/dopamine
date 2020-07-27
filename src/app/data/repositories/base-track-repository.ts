@@ -8,4 +8,5 @@ export abstract class BaseTrackRepository {
     public abstract deleteTrack(trackId: number): void;
     public abstract getTracks(): Track[];
     public abstract updateTrack(track: Track): void;
+    public abstract addTrack(track: Track): void;
 }

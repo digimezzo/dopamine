@@ -7,4 +7,5 @@ export abstract class BaseSettings {
     public abstract colorScheme: string;
     public abstract showWelcome: boolean;
     public abstract useLightBackgroundTheme: boolean;
+    public abstract ignoreRemovedFiles: boolean;
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseFolderService } from './base-folder.service';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
-import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { BaseFolderService } from './base-folder.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,11 @@ export class FolderService implements BaseFolderService {
 
   public async addNewFolderAsync(path: string): Promise<void> {
     try {
-      const existingFolder: Folder = this.folderRepository.getFolder(path);
+      const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
 
       if (!existingFolder) {
-        await this.folderRepository.addFolder(path);
+        const newFolder: Folder = new Folder(path);
+        await this.folderRepository.addFolder(newFolder);
         this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
       } else {
         await this.snackbarService.notifyFolderAlreadyAddedAsync();

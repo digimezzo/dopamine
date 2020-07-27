@@ -81,6 +81,15 @@ export class Settings implements BaseSettings {
     this.settings.set('useLightBackgroundTheme', v);
   }
 
+  // Ignore removed files
+  public get ignoreRemovedFiles(): boolean {
+    return this.settings.get('ignoreRemovedFiles');
+  }
+
+  public set ignoreRemovedFiles(v: boolean) {
+    this.settings.set('ignoreRemovedFiles', v);
+  }
+
   // Initialize
   private initialize(): void {
     if (!this.settings.has('language')) {
@@ -113,6 +122,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('useLightBackgroundTheme')) {
       this.settings.set('useLightBackgroundTheme', false);
+    }
+
+    if (!this.settings.has('ignoreRemovedFiles')) {
+      this.settings.set('ignoreRemovedFiles', false);
     }
   }
 }

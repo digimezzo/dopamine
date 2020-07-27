@@ -75,7 +75,7 @@ describe('CollectionIndexer', () => {
             await collectionIndexer.indexCollectionAsync();
 
             // Assert
-            trackAdderMock.verify(x => x.addTracksThatAreNotInTheDatabase(), Times.exactly(1));
+            trackAdderMock.verify(x => x.addTracksThatAreNotInTheDatabaseAsync(), Times.exactly(1));
         });
     });
 });

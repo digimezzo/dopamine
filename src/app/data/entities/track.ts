@@ -1,5 +1,5 @@
 export class Track {
-    constructor() {
+    constructor(public path: string) {
     }
 
     public trackId: number;
@@ -8,7 +8,6 @@ export class Track {
     public albumTitle: string;
     public albumArtists: string;
     public albumKey: string;
-    public path: string;
     public fileName: string;
     public mimeType: string;
     public fileSize: number;

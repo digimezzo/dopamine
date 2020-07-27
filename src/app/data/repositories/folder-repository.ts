@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Folder } from '../entities/folder';
 import { DatabaseFactory } from '../database-factory';
+import { Folder } from '../entities/folder';
 import { BaseFolderRepository } from './base-folder-repository';
 
 @Injectable({
@@ -12,11 +12,11 @@ export class FolderRepository implements BaseFolderRepository {
     constructor(private databaseFactory: DatabaseFactory) {
     }
 
-    public addFolder(folderPath: string): void {
+    public addFolder(folder: Folder): void {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('INSERT INTO Folder (Path, SafePath, ShowInCollection) VALUES (?, ?, ?)');
-        statement.run(folderPath, folderPath, 1);
+        statement.run(folder.path, folder.path, folder.showInCollection);
     }
 
     public getFolders(): Folder[] {
@@ -31,7 +31,7 @@ export class FolderRepository implements BaseFolderRepository {
         return folders;
     }
 
-    public getFolder(folderPath: string): Folder {
+    public getFolderByPath(folderPath: string): Folder {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(

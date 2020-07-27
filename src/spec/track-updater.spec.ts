@@ -18,16 +18,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 0;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -56,16 +54,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 0;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -94,16 +90,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -132,16 +126,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -170,16 +162,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -208,16 +198,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 0;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -246,16 +234,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 1;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;
@@ -284,16 +270,14 @@ describe('TrackUpdater', () => {
                 loggerMock.object
             );
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
             track1.dateFileModified = 100;
             track1.fileSize = 10;
             track1.needsIndexing = 1;
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.path = '/home/user/Music/Track 2.mp3';
             track2.dateFileModified = 200;
             track2.fileSize = 20;
             track2.needsIndexing = 0;

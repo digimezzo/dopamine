@@ -1,9 +1,9 @@
-import { ViewEncapsulation, Component, OnInit } from '@angular/core';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
-import { BaseFolderService } from '../../services/folder/base-folder.service';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Desktop } from '../../core/io/desktop';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { Desktop } from '../../core/io/desktop';
+import { BaseFolderService } from '../../services/folder/base-folder.service';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
     selector: 'app-add-folder',

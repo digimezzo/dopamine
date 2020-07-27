@@ -1,10 +1,9 @@
-import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
-import { TrackRepository } from '../app/data/repositories/track-repository';
+import { IMock, Mock, Times } from 'typemoq';
 import { FileSystem } from '../app/core/io/file-system';
 import { Logger } from '../app/core/logger';
-import { TrackRemover } from '../app/services/indexing/track-remover';
 import { Track } from '../app/data/entities/track';
+import { TrackRepository } from '../app/data/repositories/track-repository';
+import { TrackRemover } from '../app/services/indexing/track-remover';
 
 describe('Trackremover', () => {
     describe('removeTracksThatDoNoNotBelongToFolders', () => {
@@ -40,13 +39,11 @@ describe('Trackremover', () => {
                 fileSystemMock.object,
                 loggerMock.object);
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
-            track2.path = '/home/user/Music/Track 2.mp3';
 
             trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
             fileSystemMock.setup(x => x.pathExists(track1.path)).returns(() => true);
@@ -69,13 +66,11 @@ describe('Trackremover', () => {
                 fileSystemMock.object,
                 loggerMock.object);
 
-            const track1: Track = new Track();
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            track1.path = '/home/user/Music/Track 1.mp3';
 
-            const track2: Track = new Track();
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
-            track2.path = '/home/user/Music/Track 2.mp3';
 
             trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
             fileSystemMock.setup(x => x.pathExists(track1.path)).returns(() => true);

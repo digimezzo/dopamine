@@ -17,6 +17,6 @@ export class CollectionIndexer {
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
         this.trackRemover.removeTracksThatAreNotFoundOnDisk();
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
-        this.trackAdder.addTracksThatAreNotInTheDatabase();
+        await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
     }
 }

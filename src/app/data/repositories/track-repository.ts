@@ -145,4 +145,79 @@ export class TrackRepository implements BaseTrackRepository {
 
         statement.run(track.trackId);
     }
+
+    public addTrack(track: Track): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `INSERT INTO Track(
+                    Artists,
+                    Genres,
+                    AlbumTitle,
+                    AlbumArtists,
+                    AlbumKey,
+                    Path,
+                    FileName,
+                    MimeType,
+                    FileSize,
+                    BitRate,
+                    SampleRate,
+                    TrackTitle,
+                    TrackNumber,
+                    TrackCount,
+                    DiscNumber,
+                    DiscCount,
+                    Duration,
+                    Year,
+                    HasLyrics,
+                    DateAdded,
+                    DateFileCreated,
+                    DateLastSynced,
+                    DateFileModified,
+                    NeedsIndexing,
+                    NeedsAlbumArtworkIndexing,
+                    IndexingSuccess,
+                    IndexingFailureReason,
+                    Rating,
+                    Love,
+                    PlayCount,
+                    SkipCountSkipCount,
+                    DateLastPlayed
+                ) VALUES (
+                    '${track.artists}',
+                    '${track.genres}',
+                    '${track.albumTitle}',
+                    '${track.albumArtists}',
+                    '${track.albumKey}',
+                    '${track.path}',
+                    '${track.fileName}',
+                    '${track.mimeType}',
+                    ${track.fileSize},
+                    ${track.bitRate},
+                    ${track.sampleRate},
+                    '${track.trackTitle}',
+                    ${track.trackNumber},
+                    ${track.trackCount},
+                    ${track.discNumber},
+                    ${track.discCount},
+                    ${track.duration},
+                    ${track.year},
+                    ${track.hasLyrics},
+                    ${track.dateAdded},
+                    ${track.dateFileCreated},
+                    ${track.dateLastSynced},
+                    ${track.dateFileModified},
+                    ${track.needsIndexing},
+                    ${track.needsAlbumArtworkIndexing},
+                    ${track.indexingSuccess},
+                    '${track.indexingFailureReason}',
+                    ${track.rating},
+                    ${track.love},
+                    ${track.playCount},
+                    ${track.skipCount},
+                    ${track.dateLastPlayed}
+                )`);
+
+        statement.run();
+    }
 }
