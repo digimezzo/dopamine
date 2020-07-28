@@ -26,6 +26,37 @@ export class TrackAdder {
                 try {
                     const newTrack: Track = new Track(indexablePath.path);
                     newTrack.dateFileModified = indexablePath.dateModifiedTicks;
+                    newTrack.artists = '';
+                    newTrack.genres = '';
+                    newTrack.albumTitle = '';
+                    newTrack.albumArtists = '';
+                    newTrack.albumKey = '';
+                    newTrack.fileName = '';
+                    newTrack.mimeType = '';
+                    newTrack.fileSize = 0;
+                    newTrack.bitRate = 0;
+                    newTrack.sampleRate = 0;
+                    newTrack.trackTitle = '';
+                    newTrack.trackNumber = 0;
+                    newTrack.trackCount = 0;
+                    newTrack.discNumber = 0;
+                    newTrack.discCount = 0;
+                    newTrack.duration = 0;
+                    newTrack.year = 0;
+                    newTrack.hasLyrics = 0;
+                    newTrack.dateAdded = 0;
+                    newTrack.dateFileCreated = 0;
+                    newTrack.dateLastSynced = 0;
+                    newTrack.dateFileModified = 0;
+                    newTrack.needsIndexing = 0;
+                    newTrack.needsAlbumArtworkIndexing = 0;
+                    newTrack.indexingSuccess = 1;
+                    newTrack.indexingFailureReason = '';
+                    newTrack.rating = 0;
+                    newTrack.love = 0;
+                    newTrack.playCount = 0;
+                    newTrack.skipCount = 0;
+                    newTrack.dateLastPlayed = 0;
 
                     this.trackrepository.addTrack(newTrack);
                 } catch (error) {

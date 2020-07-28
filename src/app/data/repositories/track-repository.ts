@@ -181,7 +181,7 @@ export class TrackRepository implements BaseTrackRepository {
                     Rating,
                     Love,
                     PlayCount,
-                    SkipCountSkipCount,
+                    SkipCount,
                     DateLastPlayed
                 ) VALUES (
                     '${track.artists}',
