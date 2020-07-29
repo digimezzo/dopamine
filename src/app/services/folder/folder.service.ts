@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
 import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderService } from './base-folder.service';
 
@@ -9,7 +10,11 @@ import { BaseFolderService } from './base-folder.service';
   providedIn: 'root'
 })
 export class FolderService implements BaseFolderService {
-  constructor(private folderRepository: BaseFolderRepository, private logger: Logger, private snackbarService: BaseSnackbarService) { }
+  constructor(
+    private folderRepository: BaseFolderRepository,
+    private folderTrackRepository: BaseFolderTrackRepository,
+    private logger: Logger,
+    private snackbarService: BaseSnackbarService) { }
 
   public async addNewFolderAsync(path: string): Promise<void> {
     try {
@@ -33,5 +38,6 @@ export class FolderService implements BaseFolderService {
   }
   public deleteFolder(folder: Folder): void {
     this.folderRepository.deleteFolder(folder.folderId);
+    this.folderTrackRepository.deleteFolderTrackByFolderId(folder.folderId);
   }
 }

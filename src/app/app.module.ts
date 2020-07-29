@@ -31,9 +31,11 @@ import { BaseDatabaseMigrator } from './data/base-database-migrator';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
+import { BaseFolderTrackRepository } from './data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from './data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from './data/repositories/base-track-repository';
 import { FolderRepository } from './data/repositories/folder-repository';
+import { FolderTrackRepository } from './data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './data/repositories/removed-track-repository';
 import { TrackRepository } from './data/repositories/track-repository';
 import { WebviewDirective } from './directives/webview.directive';
@@ -125,6 +127,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseFolderRepository, useClass: FolderRepository },
     { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
     { provide: BaseTrackRepository, useClass: TrackRepository },
+    { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
     { provide: BaseAppearanceService, useClass: AppearanceService },
     { provide: BaseFolderService, useClass: FolderService },
     { provide: BaseIndexingService, useClass: IndexingService },

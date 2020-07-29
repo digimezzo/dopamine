@@ -1,7 +1,10 @@
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Logger } from '../app/core/logger';
 import { BaseSettings } from '../app/core/settings/base-settings';
+import { FolderTrack } from '../app/data/entities/folder-track';
 import { RemovedTrack } from '../app/data/entities/removed-track';
 import { Track } from '../app/data/entities/track';
+import { BaseFolderTrackRepository } from '../app/data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../app/data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../app/data/repositories/base-track-repository';
 import { IndexablePath } from '../app/services/indexing/indexable-path';
@@ -13,14 +16,18 @@ describe('TrackAdder', () => {
         it('Should add tracks that are not in the database', async () => {
             // Arrange
             const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+            const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
                 trackRepositoryMock.object,
+                folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                settingsMock.object
+                settingsMock.object,
+                loggerMock.object
             );
 
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -50,17 +57,60 @@ describe('TrackAdder', () => {
             trackRepositoryMock.verify(x => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })), Times.exactly(1));
         });
 
-        it('Should add tracks that were previously removed, when removed tracks should not be ignored.', async () => {
+        it('Should add a folderTrack when adding a track to the database', async () => {
             // Arrange
             const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+            const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
                 trackRepositoryMock.object,
+                folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                settingsMock.object
+                settingsMock.object,
+                loggerMock.object
+            );
+
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
+            track1.trackId = 1;
+
+            trackRepositoryMock.setup(x => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup(x => x.getTrackByPath('/home/user/Music/Track 1.mp3')).returns(() => track1);
+            removedTrackRepositoryMock.setup(x => x.getRemovedTracks()).returns(() => []);
+
+            const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/Track 1.mp3', 123, 1);
+
+            indexablePathFetcherMock.setup(x => x.getIndexablePathsForAllFoldersAsync()).returns(async () => [
+                indexablePath1
+            ]);
+
+            // Act
+            await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
+
+            // Assert
+            folderTrackRepositoryMock.verify(
+                x => x.addFolderTrack(It.isObjectWith<FolderTrack>({ folderId: 1, trackId: track1.trackId })),
+                Times.exactly(1));
+        });
+
+        it('Should add tracks that were previously removed, when removed tracks should not be ignored.', async () => {
+            // Arrange
+            const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+            const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
+            const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
+            const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
+            const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const trackAdder: TrackAdder = new TrackAdder(
+                trackRepositoryMock.object,
+                folderTrackRepositoryMock.object,
+                removedTrackRepositoryMock.object,
+                indexablePathFetcherMock.object,
+                settingsMock.object,
+                loggerMock.object
             );
 
             settingsMock.setup(x => x.ignoreRemovedFiles).returns(() => false);
@@ -97,14 +147,18 @@ describe('TrackAdder', () => {
         it('Should not add tracks that were previously removed, when removed tracks should be ignored.', async () => {
             // Arrange
             const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+            const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
                 trackRepositoryMock.object,
+                folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                settingsMock.object
+                settingsMock.object,
+                loggerMock.object
             );
 
             settingsMock.setup(x => x.ignoreRemovedFiles).returns(() => true);

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { Timer } from '../../core/timer';
+import { FolderTrack } from '../../data/entities/folder-track';
 import { Track } from '../../data/entities/track';
+import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { IndexablePath } from './indexable-path';
@@ -13,6 +16,7 @@ import { IndexablePathFetcher } from './indexable-path-fetcher';
 export class TrackAdder {
     constructor(
         private trackrepository: BaseTrackRepository,
+        private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
         private indexablePathFetcher: IndexablePathFetcher,
         private settings: BaseSettings,
@@ -20,12 +24,16 @@ export class TrackAdder {
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
         try {
+            const timer: Timer = new Timer();
+            timer.start();
+
             const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.ignoreRemovedFiles);
+
+            let numberOfAddedTracks: number = 0;
 
             for (const indexablePath of indexablePaths) {
                 try {
                     const newTrack: Track = new Track(indexablePath.path);
-                    newTrack.dateFileModified = indexablePath.dateModifiedTicks;
                     newTrack.artists = '';
                     newTrack.genres = '';
                     newTrack.albumTitle = '';
@@ -47,7 +55,7 @@ export class TrackAdder {
                     newTrack.dateAdded = 0;
                     newTrack.dateFileCreated = 0;
                     newTrack.dateLastSynced = 0;
-                    newTrack.dateFileModified = 0;
+                    newTrack.dateFileModified = indexablePath.dateModifiedTicks;
                     newTrack.needsIndexing = 0;
                     newTrack.needsAlbumArtworkIndexing = 0;
                     newTrack.indexingSuccess = 1;
@@ -59,6 +67,11 @@ export class TrackAdder {
                     newTrack.dateLastPlayed = 0;
 
                     this.trackrepository.addTrack(newTrack);
+                    const addedTrack: Track = this.trackrepository.getTrackByPath(newTrack.path);
+
+                    this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
+
+                    numberOfAddedTracks++;
                 } catch (error) {
                     this.logger.error(
                         `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${error}`,
@@ -66,6 +79,13 @@ export class TrackAdder {
                         'addTracksThatAreNotInTheDatabaseAsync');
                 }
             }
+
+            timer.stop();
+
+            this.logger.info(
+                `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
+                'TrackAdder',
+                'addTracksThatAreNotInTheDatabaseAsync');
         } catch (error) {
             this.logger.error(
                 `A problem occurred while adding tracks. Error: ${error}`,

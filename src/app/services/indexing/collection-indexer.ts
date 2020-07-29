@@ -16,6 +16,7 @@ export class CollectionIndexer {
     public async indexCollectionAsync(): Promise<void> {
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
         this.trackRemover.removeTracksThatAreNotFoundOnDisk();
+        this.trackRemover.removeOrphanedFolderTracks();
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
     }

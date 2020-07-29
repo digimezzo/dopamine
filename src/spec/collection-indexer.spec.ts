@@ -42,6 +42,24 @@ describe('CollectionIndexer', () => {
             trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDisk(), Times.exactly(1));
         });
 
+        it('Should remove orphaned folderTracks', async() => {
+            // Arrange
+            const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
+            const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
+            const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
+            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+                trackRemoverMock.object,
+                trackUpdaterMock.object,
+                trackAdderMock.object
+            );
+
+            // Act
+            await collectionIndexer.indexCollectionAsync();
+
+            // Assert
+            trackRemoverMock.verify(x => x.removeOrphanedFolderTracks(), Times.exactly(1));
+        });
+
         it('Should update tracks that are out of date', async() => {
             // Arrange
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();

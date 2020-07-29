@@ -19,11 +19,11 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
         statement.run(removedTrack.trackId, removedTrack.path, removedTrack.path, removedTrack.dateRemoved);
     }
 
-    public deleteRemovedTrack(removedTrack: RemovedTrack): void {
+    public deleteRemovedTrackByTrackId(trackId: number): void {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('DELETE FROM RemovedTrack WHERE TrackID=?');
-        statement.run(removedTrack.trackId);
+        statement.run(trackId);
     }
 
     public getRemovedTracks(): RemovedTrack[] {
