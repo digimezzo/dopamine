@@ -7,6 +7,7 @@ import { Track } from '../../data/entities/track';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 
@@ -19,6 +20,7 @@ export class TrackAdder {
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
         private indexablePathFetcher: IndexablePathFetcher,
+        private fileMetadataFactory: FileMetadataFactory,
         private settings: BaseSettings,
         private logger: Logger) { }
 

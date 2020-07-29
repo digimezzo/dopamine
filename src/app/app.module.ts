@@ -40,6 +40,7 @@ import { RemovedTrackRepository } from './data/repositories/removed-track-reposi
 import { TrackRepository } from './data/repositories/track-repository';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
+import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -120,6 +121,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DirectoryWalker,
     TrackRemover,
     TrackUpdater,
+    FileMetadataFactory,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },

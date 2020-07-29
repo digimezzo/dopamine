@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { DatabaseFactory } from './database-factory';
-import { Migration } from './migration';
 import { FileSystem } from '../core/io/file-system';
 import { Logger } from '../core/logger';
+import { BaseDatabaseMigrator } from './base-database-migrator';
+import { DatabaseFactory } from './database-factory';
+import { Migration } from './migration';
 import { InitialMigration } from './migrations/001-initial';
 
 @Injectable({
     providedIn: 'root'
 })
-export class DatabaseMigrator {
+export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new InitialMigration()];
 
     constructor(private databaseFactory: DatabaseFactory, private fileSystem: FileSystem, private logger: Logger) {

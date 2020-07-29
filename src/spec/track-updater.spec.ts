@@ -3,6 +3,7 @@ import { FileSystem } from '../app/core/io/file-system';
 import { Logger } from '../app/core/logger';
 import { Track } from '../app/data/entities/track';
 import { TrackRepository } from '../app/data/repositories/track-repository';
+import { FileMetadataFactory } from '../app/metadata/file-metadata-factory';
 import { TrackUpdater } from '../app/services/indexing/track-updater';
 
 describe('TrackUpdater', () => {
@@ -10,10 +11,12 @@ describe('TrackUpdater', () => {
         it('Should update tracks that have a file size of 0', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -46,10 +49,12 @@ describe('TrackUpdater', () => {
         it('Should not update tracks that have a file size larger than 0', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -82,10 +87,12 @@ describe('TrackUpdater', () => {
         it('Should update tracks that have a file size that is different than the file size on disk', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -118,10 +125,12 @@ describe('TrackUpdater', () => {
         it('Should not update tracks that have a file size that is equal to the file size on disk', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -154,10 +163,12 @@ describe('TrackUpdater', () => {
         it('Should update tracks that have a date modified that is different than the date modified on disk', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -190,10 +201,12 @@ describe('TrackUpdater', () => {
         it('Should not update tracks that have a date modified that is equal to the date modified on disk', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -226,10 +239,12 @@ describe('TrackUpdater', () => {
         it('Should update tracks that needs indexing', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );
@@ -262,10 +277,12 @@ describe('TrackUpdater', () => {
         it('Should not update tracks that do not need indexing', async () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
+            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackUpdater: TrackUpdater = new TrackUpdater(
                 trackRepositoryMock.object,
+                fileMetadataFactoryMock.object,
                 fileSystemMock.object,
                 loggerMock.object
             );

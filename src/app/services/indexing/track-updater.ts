@@ -4,6 +4,7 @@ import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
 import { Track } from '../../data/entities/track';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { BaseTrackRepository } from '../../data/repositories/base-track-reposito
 export class TrackUpdater {
     constructor(
         private trackRepository: BaseTrackRepository,
+        private fileMetadataFactory: FileMetadataFactory,
         private fileSystem: FileSystem,
         private logger: Logger) { }
 
