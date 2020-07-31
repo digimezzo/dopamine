@@ -7,9 +7,9 @@ import { Track } from '../../data/entities/track';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
-import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
+import { TrackFiller } from './track-filler';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class TrackAdder {
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
         private indexablePathFetcher: IndexablePathFetcher,
-        private fileMetadataFactory: FileMetadataFactory,
+        private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger) { }
 
@@ -35,38 +35,8 @@ export class TrackAdder {
 
             for (const indexablePath of indexablePaths) {
                 try {
-                    const newTrack: Track = new Track(indexablePath.path);
-                    newTrack.artists = '';
-                    newTrack.genres = '';
-                    newTrack.albumTitle = '';
-                    newTrack.albumArtists = '';
-                    newTrack.albumKey = '';
-                    newTrack.fileName = '';
-                    newTrack.mimeType = '';
-                    newTrack.fileSize = 0;
-                    newTrack.bitRate = 0;
-                    newTrack.sampleRate = 0;
-                    newTrack.trackTitle = '';
-                    newTrack.trackNumber = 0;
-                    newTrack.trackCount = 0;
-                    newTrack.discNumber = 0;
-                    newTrack.discCount = 0;
-                    newTrack.duration = 0;
-                    newTrack.year = 0;
-                    newTrack.hasLyrics = 0;
-                    newTrack.dateAdded = 0;
-                    newTrack.dateFileCreated = 0;
-                    newTrack.dateLastSynced = 0;
-                    newTrack.dateFileModified = indexablePath.dateModifiedTicks;
-                    newTrack.needsIndexing = 0;
-                    newTrack.needsAlbumArtworkIndexing = 0;
-                    newTrack.indexingSuccess = 1;
-                    newTrack.indexingFailureReason = '';
-                    newTrack.rating = 0;
-                    newTrack.love = 0;
-                    newTrack.playCount = 0;
-                    newTrack.skipCount = 0;
-                    newTrack.dateLastPlayed = 0;
+                    let newTrack: Track = new Track(indexablePath.path);
+                    newTrack = await this.trackFiller.addFileMetadataToTrackAsync(newTrack);
 
                     this.trackrepository.addTrack(newTrack);
                     const addedTrack: Track = this.trackrepository.getTrackByPath(newTrack.path);
@@ -104,8 +74,15 @@ export class TrackAdder {
         const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map(x => x.path);
 
         for (const indexablePath of allIndexablePaths) {
-            if (!trackPaths.includes(indexablePath.path) && ignoreRemovedFiles ? !removedTrackPaths.includes(indexablePath.path) : true) {
-                indexablePaths.push(indexablePath);
+            const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);
+            const isTrackThatWasPreviouslyRemoved: boolean = removedTrackPaths.includes(indexablePath.path);
+            const allowReAddingRemovedTracks: boolean = !ignoreRemovedFiles;
+            const isTrackThatWasPreviouslyRemovedAndCanBeReAdded: boolean = isTrackThatWasPreviouslyRemoved && allowReAddingRemovedTracks;
+
+            if (!isTrackInDatabase) {
+                if (!isTrackThatWasPreviouslyRemoved || isTrackThatWasPreviouslyRemovedAndCanBeReAdded) {
+                    indexablePaths.push(indexablePath);
+                }
             }
         }
 

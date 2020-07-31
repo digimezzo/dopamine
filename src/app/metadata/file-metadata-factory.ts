@@ -6,7 +6,7 @@ import { ReadOnlyFileMetadata } from './read-only-file-metadata';
     providedIn: 'root'
 })
 export class FileMetadataFactory {
-    public createReadOnly(path: string): FileMetadata {
-        return new ReadOnlyFileMetadata(path);
+    public async createReadOnlyAsync(path: string): Promise<FileMetadata> {
+        return await ReadOnlyFileMetadata.createAsync(path);
     }
 }

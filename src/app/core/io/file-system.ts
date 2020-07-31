@@ -37,11 +37,22 @@ export class FileSystem {
         return path.extname(fileNameOrPath);
     }
 
+    public getFileName(fileNameOrPath: string): string {
+        return path.parse(fileNameOrPath).name;
+    }
+
     public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
         const dateModified: Date = stat.mtime;
 
         return DateTime.getTicks(dateModified);
+    }
+
+    public async getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number> {
+        const stat = await fs.stat(fileOrDirectory);
+        const dateCreated: Date = stat.birthtime;
+
+        return DateTime.getTicks(dateCreated);
     }
 
     public pathExists(pathToCheck: string): boolean {

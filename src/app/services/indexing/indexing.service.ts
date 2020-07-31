@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseIndexingService } from './base-indexing.service';
 import { Logger } from '../../core/logger';
-import { CollectionIndexer } from './collection-indexer';
-import { BaseCollectionChecker } from './base-collection-checker';
 import { Timer } from '../../core/timer';
+import { BaseCollectionChecker } from './base-collection-checker';
+import { BaseIndexingService } from './base-indexing.service';
+import { CollectionIndexer } from './collection-indexer';
 
 @Injectable({
   providedIn: 'root'

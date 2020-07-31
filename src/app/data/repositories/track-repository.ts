@@ -45,7 +45,7 @@ export class TrackRepository implements BaseTrackRepository {
 
     public deleteTracksThatDoNotBelongFolders(): number {
         const database: any = this.databaseFactory.create();
-        const statement: any = database.prepare(`DELETE FROM Track WHERE TrackID NOT IN (
+        const statement: any = database.prepare(`DELETE FROM Track WHERE TrackID IN (
                                                  SELECT TrackID
                                                  FROM FolderTrack
                                                  WHERE FolderID NOT IN (SELECT FolderID FROM Folder))`);
@@ -109,42 +109,78 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(
             `UPDATE Track
-                SET Artists='${track.artists}',
-                Genres='${track.genres}',
-                AlbumTitle='${track.albumTitle}',
-                AlbumArtists='${track.albumArtists}',
-                AlbumKey='${track.albumKey}',
-                Path='${track.path}',
-                SafePath='${track.path}',
-                FileName='${track.fileName}',
-                MimeType='${track.mimeType}',
-                FileSize=${track.fileSize},
-                BitRate=${track.bitRate},
-                SampleRate=${track.sampleRate},
-                TrackTitle='${track.trackTitle}',
-                TrackNumber=${track.trackNumber},
-                TrackCount=${track.trackCount},
-                DiscNumber=${track.discNumber},
-                DiscCount=${track.discCount},
-                Duration=${track.duration},
-                Year=${track.year},
-                HasLyrics=${track.hasLyrics},
-                DateAdded=${track.dateAdded},
-                DateFileCreated=${track.dateFileCreated},
-                DateLastSynced=${track.dateLastSynced},
-                DateFileModified=${track.dateFileModified},
-                NeedsIndexing=${track.needsIndexing},
-                NeedsAlbumArtworkIndexing=${track.needsAlbumArtworkIndexing},
-                IndexingSuccess=${track.indexingSuccess},
-                IndexingFailureReason='${track.indexingFailureReason}',
-                Rating=${track.rating},
-                Love=${track.love},
-                PlayCount=${track.playCount},
-                SkipCount=${track.skipCount},
-                DateLastPlayed=${track.dateLastPlayed}
-                WHERE TrackID=?`);
+                SET Artists=@artists,
+                Genres=@genres,
+                AlbumTitle=@albumTitle,
+                AlbumArtists=@albumArtists,
+                AlbumKey=@albumKey,
+                Path=@path,
+                SafePath=@path,
+                FileName=@fileName,
+                MimeType=@mimeType,
+                FileSize=@fileSize,
+                BitRate=@bitRate,
+                SampleRate=@sampleRate,
+                TrackTitle=@trackTitle,
+                TrackNumber=@trackNumber,
+                TrackCount=@trackCount,
+                DiscNumber=@discNumber,
+                DiscCount=@discCount,
+                Duration=@duration,
+                Year=@year,
+                HasLyrics=@hasLyrics,
+                DateAdded=@dateAdded,
+                DateFileCreated=@dateFileCreated,
+                DateLastSynced=@dateLastSynced,
+                DateFileModified=@dateFileModified,
+                NeedsIndexing=@needsIndexing,
+                NeedsAlbumArtworkIndexing=@needsAlbumArtworkIndexing,
+                IndexingSuccess=@indexingSuccess,
+                IndexingFailureReason=@indexingFailureReason,
+                Rating=@rating,
+                Love=@love,
+                PlayCount=@playCount,
+                SkipCount=@skipCount,
+                DateLastPlayed=@dateLastPlayed
+                WHERE TrackID=@trackId`);
 
-        statement.run(track.trackId);
+                statement.run(
+                    {
+                        trackId: track.trackId,
+                        artists: track.artists,
+                        genres: track.genres,
+                        albumTitle: track.albumTitle,
+                        albumArtists: track.albumArtists,
+                        albumKey: track.albumKey,
+                        path: track.path,
+                        safePath: track.path,
+                        fileName: track.fileName,
+                        mimeType: track.mimeType,
+                        fileSize: track.fileSize,
+                        bitRate: track.bitRate,
+                        sampleRate: track.sampleRate,
+                        trackTitle: track.trackTitle,
+                        trackNumber: track.trackNumber,
+                        trackCount: track.trackCount,
+                        discNumber: track.discNumber,
+                        discCount: track.discCount,
+                        duration: track.duration,
+                        year: track.year,
+                        hasLyrics: track.hasLyrics,
+                        dateAdded: track.dateAdded,
+                        dateFileCreated: track.dateFileCreated,
+                        dateLastSynced: track.dateLastSynced,
+                        dateFileModified: track.dateFileModified,
+                        needsIndexing: track.needsIndexing,
+                        needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
+                        indexingSuccess: track.indexingSuccess,
+                        indexingFailureReason: track.indexingFailureReason,
+                        rating: track.rating,
+                        love: track.love,
+                        playCount: track.playCount,
+                        skipCount: track.skipCount,
+                        dateLastPlayed: track.dateLastPlayed
+                });
     }
 
     public addTrack(track: Track): void {

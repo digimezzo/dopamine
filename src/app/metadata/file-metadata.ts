@@ -7,16 +7,16 @@ export interface FileMetadata {
     mimeType: string;
     title: string;
     album: string;
-    albumArtists: string;
-    artists: string;
-    genres: string;
+    albumArtists: string[];
+    artists: string[];
+    genres: string[];
     comment: string;
     grouping: string;
     year: number;
     trackNumber: number;
     trackCount: number;
     discNumber: number;
-    discCount:  number;
+    discCount: number;
     rating: number;
     lyrics: string;
 }

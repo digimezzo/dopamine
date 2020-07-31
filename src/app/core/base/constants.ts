@@ -1,5 +1,5 @@
-import { Language } from './language';
 import { FontSize } from './font-size';
+import { Language } from './language';
 
 export class Constants {
     public static readonly donateUrl: string = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8';

@@ -7,10 +7,10 @@ import { Track } from '../app/data/entities/track';
 import { BaseFolderTrackRepository } from '../app/data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../app/data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../app/data/repositories/base-track-repository';
-import { FileMetadataFactory } from '../app/metadata/file-metadata-factory';
 import { IndexablePath } from '../app/services/indexing/indexable-path';
 import { IndexablePathFetcher } from '../app/services/indexing/indexable-path-fetcher';
 import { TrackAdder } from '../app/services/indexing/track-adder';
+import { TrackFiller } from '../app/services/indexing/track-filler';
 
 describe('TrackAdder', () => {
     describe('addTracksThatAreNotInTheDatabase', () => {
@@ -20,7 +20,7 @@ describe('TrackAdder', () => {
             const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
-            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
+            const trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
@@ -28,7 +28,7 @@ describe('TrackAdder', () => {
                 folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                fileMetadataFactoryMock.object,
+                trackFillerMock.object,
                 settingsMock.object,
                 loggerMock.object
             );
@@ -60,13 +60,13 @@ describe('TrackAdder', () => {
             trackRepositoryMock.verify(x => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })), Times.exactly(1));
         });
 
-        it('Should add a folderTrack when adding a track to the database', async () => {
+        it('Should not add tracks that are already in the database', async () => {
             // Arrange
             const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
             const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
-            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
+            const trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
@@ -74,7 +74,53 @@ describe('TrackAdder', () => {
                 folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                fileMetadataFactoryMock.object,
+                trackFillerMock.object,
+                settingsMock.object,
+                loggerMock.object
+            );
+
+            const track1: Track = new Track('/home/user/Music/Track 1.mp3');
+            track1.trackId = 1;
+
+            const track2: Track = new Track('/home/user/Music/Track 2.mp3');
+            track2.trackId = 2;
+
+            trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1]);
+
+            removedTrackRepositoryMock.setup(x => x.getRemovedTracks()).returns(() => []);
+
+            const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/Track 1.mp3', 123, 1);
+            const indexablePath2: IndexablePath = new IndexablePath('/home/user/Music/Track 2.mp3', 456, 1);
+            const indexablePath3: IndexablePath = new IndexablePath('/home/user/Music/Track 3.mp3', 789, 1);
+
+            indexablePathFetcherMock.setup(x => x.getIndexablePathsForAllFoldersAsync()).returns(async () => [
+                indexablePath1,
+                indexablePath2,
+                indexablePath3
+            ]);
+
+            // Act
+            await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
+
+            // Assert
+            trackRepositoryMock.verify(x => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })), Times.never());
+        });
+
+        it('Should add a folderTrack when adding a track to the database', async () => {
+            // Arrange
+            const trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+            const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
+            const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
+            const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
+            const trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
+            const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const trackAdder: TrackAdder = new TrackAdder(
+                trackRepositoryMock.object,
+                folderTrackRepositoryMock.object,
+                removedTrackRepositoryMock.object,
+                indexablePathFetcherMock.object,
+                trackFillerMock.object,
                 settingsMock.object,
                 loggerMock.object
             );
@@ -107,7 +153,7 @@ describe('TrackAdder', () => {
             const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
-            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
+            const trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
@@ -115,7 +161,7 @@ describe('TrackAdder', () => {
                 folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                fileMetadataFactoryMock.object,
+                trackFillerMock.object,
                 settingsMock.object,
                 loggerMock.object
             );
@@ -157,7 +203,7 @@ describe('TrackAdder', () => {
             const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
             const removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository> = Mock.ofType<BaseRemovedTrackRepository>();
             const indexablePathFetcherMock: IMock<IndexablePathFetcher> = Mock.ofType<IndexablePathFetcher>();
-            const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
+            const trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const trackAdder: TrackAdder = new TrackAdder(
@@ -165,7 +211,7 @@ describe('TrackAdder', () => {
                 folderTrackRepositoryMock.object,
                 removedTrackRepositoryMock.object,
                 indexablePathFetcherMock.object,
-                fileMetadataFactoryMock.object,
+                trackFillerMock.object,
                 settingsMock.object,
                 loggerMock.object
             );

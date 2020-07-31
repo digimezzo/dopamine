@@ -56,6 +56,7 @@ import { CollectionIndexer } from './services/indexing/collection-indexer';
 import { DirectoryWalker } from './services/indexing/directory-walker';
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
+import { TrackFiller } from './services/indexing/track-filler';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
@@ -121,6 +122,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DirectoryWalker,
     TrackRemover,
     TrackUpdater,
+    TrackFiller,
     FileMetadataFactory,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
