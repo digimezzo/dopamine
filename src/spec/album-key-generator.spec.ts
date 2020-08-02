@@ -1,12 +1,17 @@
 import * as assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
 import { AlbumkeyGenerator } from '../app/data/album-key-generator';
+import { DataDelimiter } from '../app/data/data-delimiter';
 
 describe('AlbumKeyGenerator', () => {
     describe('generateAlbumKey', () => {
         it('Should generate an empty album key if album title is null', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey(null, ['Artist 1', 'Artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey(null, ['Artist 1', 'Artist 2']);
 
             // Assert
             assert.strictEqual(albumKey, '');
@@ -14,8 +19,11 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an empty album key if album title is undefined', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey(undefined, ['Artist 1', 'Artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey(undefined, ['Artist 1', 'Artist 2']);
 
             // Assert
             assert.strictEqual(albumKey, '');
@@ -23,8 +31,11 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an empty album key if album title is empty', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('', ['Artist 1', 'Artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('', ['Artist 1', 'Artist 2']);
 
             // Assert
             assert.strictEqual(albumKey, '');
@@ -32,8 +43,11 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an empty album key if album title is a space', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey(' ', ['Artist 1', 'Artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey(' ', ['Artist 1', 'Artist 2']);
 
             // Assert
             assert.strictEqual(albumKey, '');
@@ -41,8 +55,11 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an empty album key if album title is a multiple spaces', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('    ', ['Artist 1', 'Artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('    ', ['Artist 1', 'Artist 2']);
 
             // Assert
             assert.strictEqual(albumKey, '');
@@ -50,8 +67,11 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an album key using only the album title if album artists is null', () => {
             // Arrange
+            const dataDelimiter: DataDelimiter = new DataDelimiter();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiter);
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('The album title', null);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', null);
 
             // Assert
             assert.strictEqual(albumKey, ';The album title;');
@@ -59,37 +79,67 @@ describe('AlbumKeyGenerator', () => {
 
         it('Should generate an album key using only the album title if album artists is undefined', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
+            dataDelimiterMock.setup(x => x.convertToDelimitedString(['The album title'])).returns(() => ';The album title;');
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('The album title', undefined);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', undefined);
 
             // Assert
+            dataDelimiterMock.verify(x => x.convertToDelimitedString(['The album title']), Times.exactly(1));
             assert.strictEqual(albumKey, ';The album title;');
         });
 
         it('Should generate an album key using only the album title if album artists is empty', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
+            dataDelimiterMock.setup(x => x.convertToDelimitedString(['The album title'])).returns(() => ';The album title;');
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('The album title', []);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', []);
 
             // Assert
+            dataDelimiterMock.verify(x => x.convertToDelimitedString(['The album title']), Times.exactly(1));
             assert.strictEqual(albumKey, ';The album title;');
         });
 
         it('Should generate an album key using album title and album artist given an album title and 1 album artist', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
+            dataDelimiterMock.setup(x => x.convertToDelimitedString(
+                ['The album title', 'Album artist 1']
+            )).returns(() => ';The album title;;Album artist 1;');
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1']);
 
             // Assert
+            dataDelimiterMock.verify(x => x.convertToDelimitedString(['The album title', 'Album artist 1']), Times.exactly(1));
             assert.strictEqual(albumKey, ';The album title;;Album artist 1;');
         });
 
         it('Should generate an album key using album title and album artists given an album title and multiple album artists', () => {
             // Arrange
+            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
+            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+
+            dataDelimiterMock.setup(x => x.convertToDelimitedString(
+                ['The album title', 'Album artist 1', 'Album artist 2']
+            )).returns(() => ';The album title;;Album artist 1;;Album artist 2;');
+
             // Act
-            const albumKey: string = AlbumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1', 'Album artist 2']);
+            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1', 'Album artist 2']);
 
             // Assert
+            dataDelimiterMock.verify(x => x.convertToDelimitedString(
+                ['The album title', 'Album artist 1', 'Album artist 2']
+            ), Times.exactly(1));
             assert.strictEqual(albumKey, ';The album title;;Album artist 1;;Album artist 2;');
         });
     });

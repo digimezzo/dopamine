@@ -27,7 +27,9 @@ import { FileSystem } from './core/io/file-system';
 import { Logger } from './core/logger';
 import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
+import { AlbumkeyGenerator } from './data/album-key-generator';
 import { BaseDatabaseMigrator } from './data/base-database-migrator';
+import { DataDelimiter } from './data/data-delimiter';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
@@ -56,6 +58,7 @@ import { CollectionIndexer } from './services/indexing/collection-indexer';
 import { DirectoryWalker } from './services/indexing/directory-walker';
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
+import { TrackFieldCreator } from './services/indexing/track-field-creator';
 import { TrackFiller } from './services/indexing/track-filler';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
@@ -124,6 +127,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TrackUpdater,
     TrackFiller,
     FileMetadataFactory,
+    TrackFieldCreator,
+    DataDelimiter,
+    AlbumkeyGenerator,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },

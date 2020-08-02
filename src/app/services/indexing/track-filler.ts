@@ -3,12 +3,11 @@ import { DateTime } from '../../core/date-time';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
 import { AlbumkeyGenerator } from '../../data/album-key-generator';
-import { DataDelimiting } from '../../data/data-delimiting';
 import { Track } from '../../data/entities/track';
 import { FileMetadata } from '../../metadata/file-metadata';
 import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
-import { MetadataFixing } from '../../metadata/metadata-joining';
 import { MimeTypes } from '../../metadata/mime-types';
+import { TrackFieldCreator } from './track-field-creator';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +15,8 @@ import { MimeTypes } from '../../metadata/mime-types';
 export class TrackFiller {
     constructor(
         private fileMetadataFactory: FileMetadataFactory,
+        private trackFieldCreator: TrackFieldCreator,
+        private albumKeygenerator: AlbumkeyGenerator,
         private fileSystem: FileSystem,
         private logger: Logger) { }
 
@@ -24,11 +25,11 @@ export class TrackFiller {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const dateNowTicks: number = DateTime.getTicks(new Date());
 
-            track.artists = this.prepareMetadataValues(fileMetadata.artists);
-            track.genres = this.prepareMetadataValues(fileMetadata.genres);
-            track.albumTitle = this.prepareMetadataValue(fileMetadata.album);
-            track.albumArtists = this.prepareMetadataValues(fileMetadata.albumArtists);
-            track.albumKey = AlbumkeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
+            track.artists = this.trackFieldCreator.convertToMultiValueField(fileMetadata.artists);
+            track.genres =  this.trackFieldCreator.convertToMultiValueField(fileMetadata.genres);
+            track.albumTitle = this.trackFieldCreator.convertToSingleValueField(fileMetadata.album);
+            track.albumArtists =  this.trackFieldCreator.convertToMultiValueField(fileMetadata.albumArtists);
+            track.albumKey = this.albumKeygenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
             track.fileSize = this.fileSystem.getFilesizeInBytes(track.path);
@@ -62,20 +63,6 @@ export class TrackFiller {
                 'addFileMetadataToTrackAsync'
             );
         }
-    }
-
-    private prepareMetadataValues(valueArray: string[]): string {
-        return DataDelimiting.convertToDelimitedString(
-            MetadataFixing.joinUnsplittableMetadata(valueArray)
-        );
-    }
-
-    private prepareMetadataValue(value: string): string {
-        if (!value) {
-            return '';
-        }
-
-        return value.trim();
     }
 
     private getMimeType(filePath: string): string {

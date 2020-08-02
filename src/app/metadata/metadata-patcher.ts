@@ -1,8 +1,12 @@
+import { Injectable } from '@angular/core';
 
-export class MetadataFixing {
-    private static unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
+@Injectable({
+    providedIn: 'root'
+})
+export class MetadataPatcher {
+    private unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 
-    public static joinUnsplittableMetadata(possiblySplittedMetadata: string[]): string[] {
+    public joinUnsplittableMetadata(possiblySplittedMetadata: string[]): string[] {
         if (!possiblySplittedMetadata) {
             return null;
         }
@@ -16,7 +20,7 @@ export class MetadataFixing {
         const firstPartOfUnsplittableMetadataItems: string[] = [];
         const secondPartOfUnsplittableMetadataItems: string[] = [];
 
-        for (const unsplittableMetadataItem of MetadataFixing.unsplittableMetadata) {
+        for (const unsplittableMetadataItem of this.unsplittableMetadata) {
             firstPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[0].toLowerCase());
             secondPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[1].toLowerCase());
         }

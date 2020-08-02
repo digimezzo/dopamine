@@ -1,7 +1,14 @@
-import { DataDelimiting } from './data-delimiting';
+import { Injectable } from '@angular/core';
+import { DataDelimiter } from './data-delimiter';
 
+@Injectable({
+    providedIn: 'root'
+})
 export class AlbumkeyGenerator {
-    public static generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
+    constructor(private dataDelimiter: DataDelimiter) {
+    }
+
+    public generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
         if (albumTitle && albumTitle.trim() !== '') {
             const albumKeyItems: string[] = [];
             albumKeyItems.push(albumTitle);
@@ -10,7 +17,7 @@ export class AlbumkeyGenerator {
                 albumKeyItems.push(...albumArtists);
             }
 
-            return DataDelimiting.convertToDelimitedString(albumKeyItems);
+            return this.dataDelimiter.convertToDelimitedString(albumKeyItems);
         }
 
         return '';
