@@ -24,10 +24,10 @@ export class TrackFiller {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const dateNowTicks: number = DateTime.getTicks(new Date());
 
-            track.artists = this.convertToDelimitedString(fileMetadata.artists);
-            track.genres = this.convertToDelimitedString(fileMetadata.genres);
-            track.albumTitle = fileMetadata.album;
-            track.albumArtists = this.convertToDelimitedString(fileMetadata.albumArtists);
+            track.artists = this.prepareMetadataValues(fileMetadata.artists);
+            track.genres = this.prepareMetadataValues(fileMetadata.genres);
+            track.albumTitle = this.prepareMetadataValue(fileMetadata.album);
+            track.albumArtists = this.prepareMetadataValues(fileMetadata.albumArtists);
             track.albumKey = AlbumkeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
@@ -64,10 +64,18 @@ export class TrackFiller {
         }
     }
 
-    private convertToDelimitedString(stringArray: string[]): string {
+    private prepareMetadataValues(valueArray: string[]): string {
         return DataDelimiting.convertToDelimitedString(
-            MetadataFixing.joinUnsplittableMetadata(stringArray)
+            MetadataFixing.joinUnsplittableMetadata(valueArray)
         );
+    }
+
+    private prepareMetadataValue(value: string): string {
+        if (!value) {
+            return '';
+        }
+
+        return value.trim();
     }
 
     private getMimeType(filePath: string): string {

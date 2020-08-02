@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { DataDelimiting } from '../app/data/data-delimiting';
 
-describe('Delimiting', () => {
+describe('DataDelimiting', () => {
     describe('convertToDelimitedString', () => {
         it('Should return an empty string if the array is null', () => {
             // Arrange

@@ -12,7 +12,7 @@ export class DataDelimiting {
             return '';
         }
 
-        const delimitedString: string = stringArray.map(x => `${DataDelimiting.delimiter}${x}${DataDelimiting.delimiter}`).join('');
+        const delimitedString: string = stringArray.map(x => this.addDelimiters(x)).join('');
 
         return delimitedString;
     }
