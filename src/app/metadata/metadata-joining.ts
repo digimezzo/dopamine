@@ -1,5 +1,5 @@
 
-export class MetadataJoining {
+export class MetadataFixing {
     private static unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 
     public static joinUnsplittableMetadata(possiblySplittedMetadata: string[]): string[] {
@@ -7,7 +7,7 @@ export class MetadataJoining {
             return null;
         }
 
-        if (possiblySplittedMetadata.length < 2) {
+        if (possiblySplittedMetadata.length <= 1) {
             return possiblySplittedMetadata;
         }
 
@@ -16,12 +16,9 @@ export class MetadataJoining {
         const firstPartOfUnsplittableMetadataItems: string[] = [];
         const secondPartOfUnsplittableMetadataItems: string[] = [];
 
-        for (const unsplittableMetadataItem of MetadataJoining.unsplittableMetadata) {
-            const firstPartOfUnsplittableMetadataItem: string = unsplittableMetadataItem.split('/')[0].toLowerCase();
-            firstPartOfUnsplittableMetadataItems.push(firstPartOfUnsplittableMetadataItem);
-
-            const secondPartOfUnsplittableMetadataItem: string = unsplittableMetadataItem.split('/')[1].toLowerCase();
-            secondPartOfUnsplittableMetadataItems.push(secondPartOfUnsplittableMetadataItem);
+        for (const unsplittableMetadataItem of MetadataFixing.unsplittableMetadata) {
+            firstPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[0].toLowerCase());
+            secondPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[1].toLowerCase());
         }
 
         for (let i: number = 0; i < possiblySplittedMetadata.length; i++) {

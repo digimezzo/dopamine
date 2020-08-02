@@ -1,14 +1,14 @@
 import * as assert from 'assert';
-import { MetadataJoining } from '../app/metadata/metadata-joining';
+import { MetadataFixing } from '../app/metadata/metadata-joining';
 
-describe('MetadataJoining', () => {
+describe('MetadataFixing', () => {
     describe('joinUnsplittableMetadata', () => {
         it('Should return null if the metadata collection is null', () => {
             // Arrange
             const possiblySplittedMetadata: string[] = null;
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.strictEqual(joinedMetadata, null);
@@ -19,7 +19,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = undefined;
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.strictEqual(joinedMetadata, null);
@@ -30,7 +30,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = [];
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.deepStrictEqual(joinedMetadata, []);
@@ -41,7 +41,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = ['Artist 1', 'Artist 2', 'Artist 3'];
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.deepStrictEqual(joinedMetadata, possiblySplittedMetadata);
@@ -52,7 +52,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = ['Artist 1'];
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.deepStrictEqual(joinedMetadata, possiblySplittedMetadata);
@@ -63,7 +63,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = ['Artist 1', 'AC', 'DC', 'Artist 2', 'De', 'Vision', 'Ghost', 'Light'];
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.deepStrictEqual(joinedMetadata, ['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light']);
@@ -74,7 +74,7 @@ describe('MetadataJoining', () => {
             const possiblySplittedMetadata: string[] = ['Artist 1', 'ac', 'dC', 'Artist 2', 'dE', 'viSion', 'ghOst', 'LigHt'];
 
             // Act
-            const joinedMetadata: string[] = MetadataJoining.joinUnsplittableMetadata(possiblySplittedMetadata);
+            const joinedMetadata: string[] = MetadataFixing.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
             assert.deepStrictEqual(joinedMetadata, ['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt']);
