@@ -10,7 +10,16 @@ export class TrackFieldCreator {
 
     }
 
-    public convertToSingleValueField(value: string): string {
+    public createNumberField(value: number): number {
+        if (!value) {
+            return 0;
+        }
+
+        return value;
+        return value;
+    }
+
+    public createTextField(value: string): string {
         if (!value) {
             return '';
         }
@@ -18,7 +27,11 @@ export class TrackFieldCreator {
         return value.trim();
     }
 
-    public convertToMultiValueField(valueArray: string[]): string {
+    public createMultiTextField(valueArray: string[]): string {
+        if (!valueArray) {
+            return '';
+        }
+
         return this.dataDelimiter.convertToDelimitedString(
             this.metadataPatcher.joinUnsplittableMetadata(valueArray)
         );

@@ -1,268 +1,190 @@
 import * as assert from 'assert';
-import { IMock, Mock } from 'typemoq';
-import { FileSystem } from '../app/core/io/file-system';
-import { Logger } from '../app/core/logger';
+import { Times } from 'typemoq';
 import { Track } from '../app/data/entities/track';
-import { FileMetadata } from '../app/metadata/file-metadata';
-import { FileMetadataFactory } from '../app/metadata/file-metadata-factory';
-import { TrackFiller } from '../app/services/indexing/track-filler';
 import { FileMetadataMock } from './mocking/file-metadata-mock';
+import { TrackFillerMockingHelper } from './mocking/track-filler-mocking-helper';
 
 describe('TrackFiller', () => {
-    function createTrackFiller(fileMetadata: FileMetadata): TrackFiller {
-        const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
-        const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-        const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-
-        fileMetadataFactoryMock.setup(
-            x => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3')
-        ).returns(async () => fileMetadata);
-
-        fileSystemMock.setup(x => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
-        fileSystemMock.setup(x => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup(x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3')).returns(() => 123);
-        fileSystemMock.setup(x => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
-        fileSystemMock.setup(x => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
-
-        const trackFiller: TrackFiller = new TrackFiller(
-            fileMetadataFactoryMock.object,
-            fileSystemMock.object,
-            loggerMock.object
-        );
-
-        return trackFiller;
-    }
-
     describe('addFileMetadataToTrackAsync', () => {
-        describe('artists', () => {
-            it('Should fill in empty artists if artists metadata is null', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.artists = null;
+        it('Should fill in track artists with a multi value track field', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            fileMetadataMock.artists = ['Artist 1', 'Artist 2'];
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.trackFieldCreatorMock.setup(
+                x => x.createMultiTextField(['Artist 1', 'Artist 2'])
+            ).returns(() => ';Artist 1;;Artist 2;');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.artists, '');
-            });
-
-            it('Should fill in empty artists if artists metadata is undefined', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.artists = undefined;
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.artists, '');
-            });
-
-            it('Should fill in empty artists if artists metadata is empty', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.artists = [];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.artists, '');
-            });
-
-            it('Should fill in a single artist if artists metadata has single artist', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.artists = ['Artist 1'];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.artists, ';Artist 1;');
-            });
-
-            it('Should fill in multiple artists if artists metadata has multiple artists', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.artists = ['Artist 1', 'Artist 2'];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.artists, ';Artist 1;;Artist 2;');
-            });
+            // Assert
+            trackFillerMockingHelper.trackFieldCreatorMock.verify(
+                x => x.createMultiTextField(fileMetadataMock.artists),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.artists, ';Artist 1;;Artist 2;');
         });
 
-        describe('genres', () => {
-            it('Should fill in empty genres if genres metadata is null', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.genres = null;
+        it('Should fill in track genres with a multi value track field', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            fileMetadataMock.genres = ['Genre 1', 'Genre 2'];
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.trackFieldCreatorMock.setup(
+                x => x.createMultiTextField(['Genre 1', 'Genre 2'])
+            ).returns(() => ';Genre 1;;Genre 2;');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.genres, '');
-            });
-
-            it('Should fill in empty genres if genres metadata is undefined', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.genres = undefined;
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.genres, '');
-            });
-
-            it('Should fill in empty genres if genres metadata is empty', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.genres = [];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.genres, '');
-            });
-
-            it('Should fill in a single genre if genres metadata has single genre', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.genres = ['Genre 1'];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.genres, ';Genre 1;');
-            });
-
-            it('Should fill in multiple genres if genres metadata has multiple genres', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.genres = ['Genre 1', 'Genre 2'];
-
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
-
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
-
-                // Assert
-                assert.strictEqual(track.genres, ';Genre 1;;Genre 2;');
-            });
+            // Assert
+            trackFillerMockingHelper.trackFieldCreatorMock.verify(
+                x => x.createMultiTextField(fileMetadataMock.genres),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.genres, ';Genre 1;;Genre 2;');
         });
 
-        describe('albumTitle', () => {
-            it('Should fill in empty albumTitle if album metadata is null', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.album = null;
+        it('Should fill in track albumTitle with a single value track field', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            fileMetadataMock.album = 'Album title';
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.trackFieldCreatorMock.setup(
+                x => x.createTextField('Album title')
+            ).returns(() => 'Album title');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.albumTitle, '');
-            });
+            // Assert
+            trackFillerMockingHelper.trackFieldCreatorMock.verify(
+                x => x.createTextField(fileMetadataMock.album),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.albumTitle, 'Album title');
+        });
 
-            it('Should fill in empty albumTitle if album metadata is undefined', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.album = undefined;
+        it('Should fill in track albumArtists with a multi value track field', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.trackFieldCreatorMock.setup(
+                x => x.createMultiTextField(['Album artist 1', 'Album artist 2'])
+            ).returns(() => ';Album artist 1;;Album artist 2;');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.albumTitle, '');
-            });
+            // Assert
+            trackFillerMockingHelper.trackFieldCreatorMock.verify(
+                x => x.createMultiTextField(fileMetadataMock.albumArtists),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.albumArtists, ';Album artist 1;;Album artist 2;');
+        });
 
-            it('Should fill in empty albumTitle if album metadata is empty', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.album = '';
+        it('Should fill in track albumKey with a generated album key', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            fileMetadataMock.album = 'Album title';
+            fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.albumKeyGeneratorMock.setup(
+                x => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2'])
+            ).returns(() => ';Album title;;Album artist 1;;Album artist 2;');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.albumTitle, '');
-            });
+            // Assert
+            trackFillerMockingHelper.albumKeyGeneratorMock.verify(
+                x => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.albumKey, ';Album title;;Album artist 1;;Album artist 2;');
+        });
 
-            it('Should fill in empty albumTitle if album metadata is one space', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.album = ' ';
+        it('Should fill in track fileName with the file name of the audio file', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.fileSystemMock.setup(
+                x => x.getFileName('/home/user/Music/Track 1.mp3')
+            ).returns(() => 'Track 1');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.albumTitle, '');
-            });
+            // Assert
+            trackFillerMockingHelper.fileSystemMock.verify(
+                x => x.getFileName('/home/user/Music/Track 1.mp3'),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.fileName, 'Track 1');
+        });
 
-            it('Should fill in empty albumTitle if album metadata is multiple spaces', async () => {
-                // Arrange
-                const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-                fileMetadataMock.album = '   ';
+        it('Should fill in track mimeType with the mime type of the audio file', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
 
-                const trackFiller: TrackFiller = createTrackFiller(fileMetadataMock);
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.fileSystemMock.setup(
+                x => x.getFileExtension('/home/user/Music/Track 1.mp3')
+            ).returns(() => '.mp3');
+            trackFillerMockingHelper.mimeTypesMock.setup(
+                x => x.getMimeTypeForFileExtension('.mp3')
+            ).returns(() => 'audio/mpeg');
 
-                // Act
-                const track: Track = new Track('/home/user/Music/Track 1.mp3');
-                await trackFiller.addFileMetadataToTrackAsync(track);
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
-                // Assert
-                assert.strictEqual(track.albumTitle, '');
-            });
+            // Assert
+            trackFillerMockingHelper.fileSystemMock.verify(
+                x => x.getFileExtension('/home/user/Music/Track 1.mp3'),
+                Times.exactly(1)
+            );
+            trackFillerMockingHelper.mimeTypesMock.verify(
+                x => x.getMimeTypeForFileExtension('.mp3'),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.mimeType, 'audio/mpeg');
+        });
+
+        it('Should fill in track fileSize with the file size of the audio file in bytes', async () => {
+            // Arrange
+            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+
+            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock);
+            trackFillerMockingHelper.fileSystemMock.setup(
+                x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3')
+            ).returns(() => 123);
+
+            // Act
+            const track: Track = new Track('/home/user/Music/Track 1.mp3');
+            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+
+            // Assert
+            trackFillerMockingHelper.fileSystemMock.verify(
+                x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3'),
+                Times.exactly(1)
+            );
+            assert.strictEqual(track.fileSize, 123);
         });
     });
 });

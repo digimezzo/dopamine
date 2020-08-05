@@ -4,7 +4,7 @@ import { DataDelimiter } from './data-delimiter';
 @Injectable({
     providedIn: 'root'
 })
-export class AlbumkeyGenerator {
+export class AlbumKeyGenerator {
     constructor(private dataDelimiter: DataDelimiter) {
     }
 

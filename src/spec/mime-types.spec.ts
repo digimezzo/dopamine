@@ -5,10 +5,10 @@ describe('MimeTypes', () => {
     describe('getMimeTypeForFileExtension', () => {
         it('Should return audio/mpeg for file extension .mp3', () => {
             // Arrange
-            const possiblySplittedMetadata: string[] = null;
+            const mimeTypes: MimeTypes = new MimeTypes();
 
             // Act
-            const mimeType: string = MimeTypes.getMimeTypeForFileExtension('.mp3');
+            const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.mp3');
 
             // Assert
             assert.strictEqual(mimeType, 'audio/mpeg');
@@ -16,10 +16,10 @@ describe('MimeTypes', () => {
 
         it('Should return an empty string for an unknown file extension', () => {
             // Arrange
-            const possiblySplittedMetadata: string[] = null;
+            const mimeTypes: MimeTypes = new MimeTypes();
 
             // Act
-            const mimeType: string = MimeTypes.getMimeTypeForFileExtension('.doc');
+            const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.doc');
 
             // Assert
             assert.strictEqual(mimeType, '');

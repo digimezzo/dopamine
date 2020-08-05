@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
-import { AlbumkeyGenerator } from '../app/data/album-key-generator';
+import { AlbumKeyGenerator } from '../app/data/album-key-generator';
 import { DataDelimiter } from '../app/data/data-delimiter';
 
 describe('AlbumKeyGenerator', () => {
@@ -8,7 +8,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an empty album key if album title is null', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey(null, ['Artist 1', 'Artist 2']);
@@ -20,7 +20,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an empty album key if album title is undefined', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey(undefined, ['Artist 1', 'Artist 2']);
@@ -32,7 +32,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an empty album key if album title is empty', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('', ['Artist 1', 'Artist 2']);
@@ -44,7 +44,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an empty album key if album title is a space', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey(' ', ['Artist 1', 'Artist 2']);
@@ -56,7 +56,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an empty album key if album title is a multiple spaces', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('    ', ['Artist 1', 'Artist 2']);
@@ -68,7 +68,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an album key using only the album title if album artists is null', () => {
             // Arrange
             const dataDelimiter: DataDelimiter = new DataDelimiter();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiter);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiter);
 
             // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', null);
@@ -80,7 +80,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an album key using only the album title if album artists is undefined', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             dataDelimiterMock.setup(x => x.convertToDelimitedString(['The album title'])).returns(() => ';The album title;');
 
@@ -95,7 +95,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an album key using only the album title if album artists is empty', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             dataDelimiterMock.setup(x => x.convertToDelimitedString(['The album title'])).returns(() => ';The album title;');
 
@@ -110,7 +110,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an album key using album title and album artist given an album title and 1 album artist', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             dataDelimiterMock.setup(x => x.convertToDelimitedString(
                 ['The album title', 'Album artist 1']
@@ -127,7 +127,7 @@ describe('AlbumKeyGenerator', () => {
         it('Should generate an album key using album title and album artists given an album title and multiple album artists', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumkeyGenerator = new AlbumkeyGenerator(dataDelimiterMock.object);
+            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
 
             dataDelimiterMock.setup(x => x.convertToDelimitedString(
                 ['The album title', 'Album artist 1', 'Album artist 2']

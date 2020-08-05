@@ -27,7 +27,7 @@ import { FileSystem } from './core/io/file-system';
 import { Logger } from './core/logger';
 import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
-import { AlbumkeyGenerator } from './data/album-key-generator';
+import { AlbumKeyGenerator } from './data/album-key-generator';
 import { BaseDatabaseMigrator } from './data/base-database-migrator';
 import { DataDelimiter } from './data/data-delimiter';
 import { DatabaseFactory } from './data/database-factory';
@@ -43,6 +43,7 @@ import { TrackRepository } from './data/repositories/track-repository';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
+import { MimeTypes } from './metadata/mime-types';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -129,7 +130,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FileMetadataFactory,
     TrackFieldCreator,
     DataDelimiter,
-    AlbumkeyGenerator,
+    AlbumKeyGenerator,
+    MimeTypes,
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },
