@@ -4,6 +4,7 @@ import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
 import { Track } from '../../data/entities/track';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { TrackFiller } from './track-filler';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { BaseTrackRepository } from '../../data/repositories/base-track-reposito
 export class TrackUpdater {
     constructor(
         private trackRepository: BaseTrackRepository,
+        private trackFiller: TrackFiller,
         private fileSystem: FileSystem,
         private logger: Logger) { }
 
@@ -26,6 +28,7 @@ export class TrackUpdater {
             for (const track of tracks) {
                 try {
                     if (await this.isTrackOutOfDateAsync(track) || track.needsIndexing) {
+                        await this.trackFiller.addFileMetadataToTrackAsync(track);
                         this.trackRepository.updateTrack(track);
                         numberOfUpdatedTracks++;
                     }
