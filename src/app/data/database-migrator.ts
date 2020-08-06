@@ -66,8 +66,11 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
                 database.prepare('COMMIT;').run();
 
                 this.logger.info(`Migration ${migration.name} success`, 'DatabaseMigrator', 'migrateAsync');
-            } catch (error) {
-                this.logger.error(`Could not perform migration: ${migration.name}. Error: ${error}`, 'DatabaseMigrator', 'migrateAsync');
+            } catch (e) {
+                this.logger.error(
+                    `Could not perform migration: ${migration.name}. Error: ${e.message}`,
+                    'DatabaseMigrator',
+                    'migrateAsync');
             }
         }
     }

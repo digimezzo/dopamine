@@ -44,9 +44,9 @@ export class TrackAdder {
                     this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
 
                     numberOfAddedTracks++;
-                } catch (error) {
+                } catch (e) {
                     this.logger.error(
-                        `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${error}`,
+                        `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,
                         'TrackAdder',
                         'addTracksThatAreNotInTheDatabaseAsync');
                 }
@@ -58,9 +58,9 @@ export class TrackAdder {
                 `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackAdder',
                 'addTracksThatAreNotInTheDatabaseAsync');
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `A problem occurred while adding tracks. Error: ${error}`,
+                `A problem occurred while adding tracks. Error: ${e.message}`,
                 'TrackAdder',
                 'addTracksThatAreNotInTheDatabaseAsync');
         }

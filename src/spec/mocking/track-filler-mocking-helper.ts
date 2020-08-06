@@ -16,42 +16,66 @@ export class TrackFillerMockingHelper {
         public mimeTypesMock: IMock<MimeTypes>,
         public fileSystemMock: IMock<FileSystem>) { }
 
-    public static create(fileMetadata: FileMetadata): TrackFillerMockingHelper {
+    public static create(fileMetadata: FileMetadata, shouldThrowError: boolean): TrackFillerMockingHelper {
         const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
         const trackFieldCreatorMock: IMock<TrackFieldCreator> = Mock.ofType<TrackFieldCreator>();
-        const albumkeyGeneratorMock: IMock<AlbumKeyGenerator> = Mock.ofType<AlbumKeyGenerator>();
+        const albumKeyGeneratorMock: IMock<AlbumKeyGenerator> = Mock.ofType<AlbumKeyGenerator>();
         const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-        const mimTypesMock: IMock<MimeTypes> = Mock.ofType<MimeTypes>();
+        const mimeTypesMock: IMock<MimeTypes> = Mock.ofType<MimeTypes>();
         const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
 
         fileMetadataFactoryMock.setup(
             x => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3')
         ).returns(async () => fileMetadata);
 
-        trackFieldCreatorMock.setup(x => x.createMultiTextField(['Artist 1', ' Artist 2'])).returns(() => ';Artist 1;;Artist 2;');
-        trackFieldCreatorMock.setup(x => x.createMultiTextField(['Genre 1', ' Genre 2'])).returns(() => ';Genre 1;;Genre 2;');
-        trackFieldCreatorMock.setup(x => x.createTextField('Album title  ')).returns(() => 'Album title');
+        trackFieldCreatorMock.setup(x => x.createMultiTextField(['Artist 1', 'Artist 2'])).returns(() => ';Artist 1;;Artist 2;');
+        trackFieldCreatorMock.setup(x => x.createMultiTextField(['Genre 1', 'Genre 2'])).returns(() => ';Genre 1;;Genre 2;');
+        trackFieldCreatorMock.setup(x => x.createTextField('Album title')).returns(() => 'Album title');
+        trackFieldCreatorMock.setup(x => x.createNumberField(320)).returns(() => 320);
+        trackFieldCreatorMock.setup(x => x.createNumberField(44)).returns(() => 44);
+        trackFieldCreatorMock.setup(x => x.createTextField('Track title')).returns(() => 'Track title');
+        trackFieldCreatorMock.setup(x => x.createNumberField(1)).returns(() => 1);
+        trackFieldCreatorMock.setup(x => x.createNumberField(2)).returns(() => 2);
+        trackFieldCreatorMock.setup(x => x.createNumberField(4)).returns(() => 4);
+        trackFieldCreatorMock.setup(x => x.createNumberField(15)).returns(() => 15);
+        trackFieldCreatorMock.setup(x => x.createNumberField(123456)).returns(() => 123456);
+        trackFieldCreatorMock.setup(x => x.createNumberField(2020)).returns(() => 2020);
+
+        trackFieldCreatorMock.setup(
+            x => x.createMultiTextField(['Album artist 1', 'Album artist 2'])
+        ).returns(() => ';Album artist 1;;Album artist 2;');
+
+        albumKeyGeneratorMock.setup(
+            x => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2'])
+        ).returns(() => ';Album title;;Album artist 1;;Album artist 2;');
 
         fileSystemMock.setup(x => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
         fileSystemMock.setup(x => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
         fileSystemMock.setup(x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3')).returns(() => 123);
         fileSystemMock.setup(x => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
-        fileSystemMock.setup(x => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+
+        if (shouldThrowError) {
+            fileSystemMock.setup(x => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
+        } else {
+            fileSystemMock.setup(x => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+        }
+
+        mimeTypesMock.setup(x => x.getMimeTypeForFileExtension('.mp3')).returns(() => 'audio/mpeg');
 
         const trackFiller: TrackFiller = new TrackFiller(
             fileMetadataFactoryMock.object,
             trackFieldCreatorMock.object,
-            albumkeyGeneratorMock.object,
+            albumKeyGeneratorMock.object,
             fileSystemMock.object,
-            mimTypesMock.object,
+            mimeTypesMock.object,
             loggerMock.object
         );
 
         return new TrackFillerMockingHelper(
             trackFiller,
             trackFieldCreatorMock,
-            albumkeyGeneratorMock,
-            mimTypesMock,
+            albumKeyGeneratorMock,
+            mimeTypesMock,
             fileSystemMock
         );
     }

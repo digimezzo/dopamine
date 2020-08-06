@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Desktop } from '../../core/io/desktop';
+import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
@@ -17,7 +18,8 @@ export class AddFolderComponent implements OnInit {
         private desktop: Desktop,
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
-        private dialogService: BaseDialogService) { }
+        private dialogService: BaseDialogService,
+        private logger: Logger) { }
 
     public selectedFolder: Folder;
     public folders: Folder[] = [];
@@ -35,7 +37,8 @@ export class AddFolderComponent implements OnInit {
             try {
                 await this.folderService.addNewFolderAsync(selectedFolderPath);
                 await this.getFolders();
-            } catch (error) {
+            } catch (e) {
+                this.logger.error(`An error occurred while adding the folder. Error: ${e.message}`, 'AddFolderComponent', 'addFolderAsync');
                 const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -60,7 +63,11 @@ export class AddFolderComponent implements OnInit {
             try {
                 this.folderService.deleteFolder(folder);
                 this.getFolders();
-            } catch (error) {
+            } catch (e) {
+                this.logger.error(
+                    `An error occurred while deleting the folder. Error: ${e.message}`,
+                    'AddFolderComponent',
+                    'deleteFolderAsync');
                 const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
                 this.dialogService.showErrorDialog(errorText);
             }

@@ -1,11 +1,11 @@
-import { BaseUpdateService } from './base-update.service';
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { VersionComparer } from './version-comparer';
-import { GitHubApi } from './github-api';
 import { ProductInformation } from '../../core/base/product-information';
-import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { BaseUpdateService } from './base-update.service';
+import { GitHubApi } from './github-api';
+import { VersionComparer } from './version-comparer';
 @Injectable({
     providedIn: 'root'
 })
@@ -42,8 +42,8 @@ export class UpdateService implements BaseUpdateService {
                         'UpdateService',
                         'checkForUpdatesAsync');
                 }
-            } catch (error) {
-                this.logger.error(`Could not check for updates. Cause: ${error}`, 'UpdateService', 'checkForUpdatesAsync');
+            } catch (e) {
+                this.logger.error(`Could not check for updates. Error: ${e.message}`, 'UpdateService', 'checkForUpdatesAsync');
             }
         } else {
             this.logger.info('Not checking for updates', 'UpdateService', 'checkForUpdatesAsync');

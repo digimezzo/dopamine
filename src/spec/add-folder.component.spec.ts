@@ -1,25 +1,28 @@
 import * as assert from 'assert';
-import { Times, It, Mock } from 'typemoq';
-import { BaseTranslatorService } from '../app/services/translator/base-translator.service';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AddFolderComponent } from '../app/components/add-folder/add-folder.component';
-import { BaseFolderService } from '../app/services/folder/base-folder.service';
-import { BaseDialogService } from '../app/services/dialog/base-dialog.service';
-import { Folder } from '../app/data/entities/folder';
 import { Desktop } from '../app/core/io/desktop';
+import { Logger } from '../app/core/logger';
+import { Folder } from '../app/data/entities/folder';
+import { BaseDialogService } from '../app/services/dialog/base-dialog.service';
+import { BaseFolderService } from '../app/services/folder/base-folder.service';
+import { BaseTranslatorService } from '../app/services/translator/base-translator.service';
 
 describe('AddFolderComponent', () => {
     describe('constructor', () => {
         it('Should provide a list of folders', () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             // Act
             // Assert
@@ -29,15 +32,17 @@ describe('AddFolderComponent', () => {
     describe('addFolderAsync', () => {
         it('Should get translated text for the open folder dialog', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             // Act
             await addFolderComponent.addFolderAsync();
@@ -48,15 +53,17 @@ describe('AddFolderComponent', () => {
 
         it('Should allow selecting for a folder on the computer', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
 
@@ -69,15 +76,17 @@ describe('AddFolderComponent', () => {
 
         it('Should add a folder with the selected path to the database if the path is not empty', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/me/Music');
@@ -91,15 +100,17 @@ describe('AddFolderComponent', () => {
 
         it('Should not add a folder with the selected path to the database if the path is empty', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '');
@@ -113,15 +124,17 @@ describe('AddFolderComponent', () => {
 
         it('Should get all folders from the database if adding a folder succeeds', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
@@ -135,15 +148,17 @@ describe('AddFolderComponent', () => {
 
         it('Should not get all folders from the database if adding a folder fails', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
@@ -158,15 +173,17 @@ describe('AddFolderComponent', () => {
 
         it('Should get the translation for the error dialog if adding a folder fails', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
@@ -181,15 +198,17 @@ describe('AddFolderComponent', () => {
 
         it('Should show an error dialog if adding a folder fails', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
             translatorServiceMock.setup(x => x.getAsync('ErrorTexts.AddFolderError')).returns(async () => 'Error while adding folder');
@@ -207,15 +226,17 @@ describe('AddFolderComponent', () => {
     describe('getFoldersAsync', () => {
         it('Should get folders from the database', () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             // Act
             addFolderComponent.getFolders();
@@ -228,15 +249,17 @@ describe('AddFolderComponent', () => {
     describe('ngOnInit', () => {
         it('Should get folders from the database', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             // Act
             await addFolderComponent.ngOnInit();
@@ -249,15 +272,17 @@ describe('AddFolderComponent', () => {
     describe('deleteFolderAsync', () => {
         it('Should get translated text for the delete folder confirmation dialog title', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -270,15 +295,17 @@ describe('AddFolderComponent', () => {
 
         it('Should get translated text for the delete folder confirmation dialog text', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -293,15 +320,17 @@ describe('AddFolderComponent', () => {
 
         it('Should show a confirmation dialog', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -321,15 +350,17 @@ describe('AddFolderComponent', () => {
 
         it('Should delete the folder if the user has confirmed deletion', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -351,15 +382,17 @@ describe('AddFolderComponent', () => {
 
         it('Should not delete the folder if the user has not confirmed deletion', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -381,15 +414,17 @@ describe('AddFolderComponent', () => {
 
         it('Should get all folders if the user has confirmed deletion', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -411,15 +446,17 @@ describe('AddFolderComponent', () => {
 
         it('Should not get all the folders if the user has not confirmed deletion', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -441,15 +478,17 @@ describe('AddFolderComponent', () => {
 
         it('Should get the translation for the error dialog if deleting a folder fails', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 
@@ -473,15 +512,17 @@ describe('AddFolderComponent', () => {
 
         it('Should show an error dialog if deleting a folder fails', async () => {
             // Arrange
-            const desktopMock = Mock.ofType<Desktop>();
-            const translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-            const folderServiceMock = Mock.ofType<BaseFolderService>();
-            const dialogServiceMock = Mock.ofType<BaseDialogService>();
+            const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
+            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
+            const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const addFolderComponent: AddFolderComponent = new AddFolderComponent(
                 desktopMock.object,
                 translatorServiceMock.object,
                 folderServiceMock.object,
-                dialogServiceMock.object);
+                dialogServiceMock.object,
+                loggerMock.object);
 
             const folderToDelete: Folder = new Folder('/home/user/Music');
 

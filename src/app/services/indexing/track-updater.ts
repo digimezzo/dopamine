@@ -29,9 +29,9 @@ export class TrackUpdater {
                         this.trackRepository.updateTrack(track);
                         numberOfUpdatedTracks++;
                     }
-                } catch (error) {
+                } catch (e) {
                     this.logger.error(
-                        `A problem occurred while updating track with path='${track.path}'. Error: ${error}`,
+                        `A problem occurred while updating track with path='${track.path}'. Error: ${e.message}`,
                         'TrackUpdater',
                         'updateTracksThatAreOutOfDateAsync');
                 }
@@ -44,9 +44,9 @@ export class TrackUpdater {
                 `Updated tracks: ${numberOfUpdatedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackUpdater',
                 'updateTracksThatAreOutOfDateAsync');
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `A problem occurred while updating tracks. Error: ${error}`,
+                `A problem occurred while updating tracks. Error: ${e.message}`,
                 'TrackUpdater',
                 'updateTracksThatAreOutOfDateAsync');
         }

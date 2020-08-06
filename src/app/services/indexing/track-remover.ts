@@ -30,9 +30,9 @@ export class TrackRemover {
                 `Tracks removed that do not belong to folders: ${numberOfRemovedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
                 'removeTracksThatDoNoNotBelongToFolders');
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `A problem occurred while removing tracks that do not belong to folders. Error: ${error}`,
+                `A problem occurred while removing tracks that do not belong to folders. Error: ${e.message}`,
                 'TrackRemover',
                 'removeTracksThatDoNoNotBelongToFolders');
         }
@@ -60,9 +60,9 @@ export class TrackRemover {
                 `Tracks removed that are not found on disk: ${numberOfRemovedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
                 'removeTracksThatAreNotFoundOnDisk');
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `A problem occurred while removing tracks that are not found on disk. Error: ${error}`,
+                `A problem occurred while removing tracks that are not found on disk. Error: ${e.message}`,
                 'TrackRemover',
                 'removeTracksThatAreNotFoundOnDisk');
         }
@@ -81,9 +81,9 @@ export class TrackRemover {
                 `Removed orphaned FolderTracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
                 'removeOrphanedFolderTracks');
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `A problem occurred while removing orphaned FolderTracks. Error: ${error}`,
+                `A problem occurred while removing orphaned FolderTracks. Error: ${e.message}`,
                 'TrackRemover',
                 'removeOrphanedFolderTracks');
         }

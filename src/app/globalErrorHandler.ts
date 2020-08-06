@@ -1,15 +1,15 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { ErrorHandler, Injectable, NgZone } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { BrowserWindow, remote } from 'electron';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
-import { remote, BrowserWindow } from 'electron';
 import { Logger } from './core/logger';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
     constructor(private logger: Logger, private dialog: MatDialog, private zone: NgZone) { }
 
-    public handleError(error: any): void {
-        this.logger.error(`Handling global error. Cause: ${error}.`, 'GlobalErrorHandler', 'handleError');
+    public handleError(e: Error): void {
+        this.logger.error(`Handling global error. Error: ${e.message}.`, 'GlobalErrorHandler', 'handleError');
         this.showGlobalErrorDialog();
     }
 

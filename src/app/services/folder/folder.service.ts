@@ -28,8 +28,8 @@ export class FolderService implements BaseFolderService {
         await this.snackbarService.notifyFolderAlreadyAddedAsync();
         this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
       }
-    } catch (error) {
-      this.logger.info(`Could not add folder with path '${path}'. Error: ${error}`, 'FolderService', 'addNewFolderAsync');
+    } catch (e) {
+      this.logger.info(`Could not add folder with path '${path}'. Error: ${e.message}`, 'FolderService', 'addNewFolderAsync');
     }
   }
 

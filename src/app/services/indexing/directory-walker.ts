@@ -24,16 +24,16 @@ export class DirectoryWalker {
 
             try {
                 filePathsInDirectory = await this.fileSystem.getFilesInDirectoryAsync(directoryPath);
-            } catch (error) {
-                errors.push(error);
+            } catch (e) {
+                errors.push(e);
             }
 
             if (filePathsInDirectory !== null && filePathsInDirectory.length > 0) {
                 for (const filePath of filePathsInDirectory) {
                     try {
                         filePaths.push(filePath);
-                    } catch (error) {
-                        errors.push(error);
+                    } catch (e) {
+                        errors.push(e);
                     }
                 }
             }
@@ -43,21 +43,21 @@ export class DirectoryWalker {
 
             try {
                 subdirectoryPathsInDirectory = await this.fileSystem.getDirectoriesInDirectoryAsync(directoryPath);
-            } catch (error) {
-                errors.push(error);
+            } catch (e) {
+                errors.push(e);
             }
 
             if (subdirectoryPathsInDirectory !== null && subdirectoryPathsInDirectory.length > 0) {
                 for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
                         await this.recursivelyGetFilesinDirectoryAsync(subdirectoryPath, filePaths, errors);
-                    } catch (error) {
-                        errors.push(error);
+                    } catch (e) {
+                        errors.push(e);
                     }
                 }
             }
-        } catch (error) {
-            errors.push(error);
+        } catch (e) {
+            errors.push(e);
         }
     }
 }

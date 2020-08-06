@@ -34,15 +34,15 @@ export class TrackFiller {
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
             track.fileSize = this.fileSystem.getFilesizeInBytes(track.path);
-            track.bitRate = fileMetadata.bitRate;
-            track.sampleRate = fileMetadata.sampleRate;
+            track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
+            track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);
             track.trackTitle = this.trackFieldCreator.createTextField(fileMetadata.title);
-            track.trackNumber = fileMetadata.trackNumber;
-            track.trackCount = fileMetadata.trackCount;
-            track.discNumber = fileMetadata.discNumber;
-            track.discCount = fileMetadata.discCount;
-            track.duration = fileMetadata.duration;
-            track.year = fileMetadata.year;
+            track.trackNumber = this.trackFieldCreator.createNumberField(fileMetadata.trackNumber);
+            track.trackCount = this.trackFieldCreator.createNumberField(fileMetadata.trackCount);
+            track.discNumber = this.trackFieldCreator.createNumberField(fileMetadata.discNumber);
+            track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
+            track.duration = this.trackFieldCreator.createNumberField(fileMetadata.duration);
+            track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
             track.hasLyrics = this.gethasLyrics(fileMetadata.lyrics);
             track.dateAdded = dateNowTicks;
             track.dateFileCreated = await this.fileSystem.getDateCreatedInTicksAsync(track.path);
@@ -50,16 +50,16 @@ export class TrackFiller {
             track.dateFileModified = await this.fileSystem.getDateModifiedInTicksAsync(track.path);
             track.needsIndexing = 0;
             track.needsAlbumArtworkIndexing = 1;
-            track.rating = fileMetadata.rating;
+            track.rating = this.trackFieldCreator.createNumberField(fileMetadata.rating);
 
             track.indexingSuccess = 1;
             track.indexingFailureReason = '';
-        } catch (error) {
+        } catch (e) {
             track.indexingSuccess = 0;
-            track.indexingFailureReason = error;
+            track.indexingFailureReason = e.message;
 
             this.logger.error(
-                `Error while retrieving tag information for file ${track.path}. Error: ${error}`,
+                `Error while retrieving tag information for file ${track.path}. Error: ${e.message}`,
                 'TrackFiller',
                 'addFileMetadataToTrackAsync'
             );
