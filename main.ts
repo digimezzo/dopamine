@@ -1,16 +1,16 @@
 import { app, BrowserWindow, Menu, screen } from 'electron';
-import * as path from 'path';
-import * as url from 'url';
-import * as windowStateKeeper from 'electron-window-state';
-import * as os from 'os';
-import * as Store from 'electron-store';
-
-app.commandLine.appendSwitch('disable-color-correct-rendering');
-
 // Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
 // See post by megahertz: https://github.com/megahertz/electron-log/issues/60
 // "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
 import log from 'electron-log';
+import * as Store from 'electron-store';
+import * as windowStateKeeper from 'electron-window-state';
+import * as os from 'os';
+import * as path from 'path';
+import * as url from 'url';
+
+app.commandLine.appendSwitch('disable-color-correct-rendering');
+
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -81,7 +81,7 @@ function createWindow(): void {
   }
 
   if (serve) {
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
