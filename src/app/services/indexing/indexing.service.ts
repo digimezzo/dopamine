@@ -1,35 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
+import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexingService } from './base-indexing.service';
-import { CollectionIndexer } from './collection-indexer';
+import { TrackIndexer } from './track-indexer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndexingService implements BaseIndexingService {
   constructor(
-    private logger: Logger,
     private collectionChecker: BaseCollectionChecker,
-    private collectionIndexer: CollectionIndexer
+    private trackIndexer: TrackIndexer,
+    private albumArtworkIndexer: AlbumArtworkIndexer
   ) { }
 
   public async indexCollectionIfNeededAsync(): Promise<void> {
-    this.logger.info('+++ STARTED INDEXING +++', 'IndexingService', 'startIndexing');
-
-    const timer: Timer = new Timer();
-    timer.start();
-
     if (await this.collectionChecker.collectionNeedsIndexingAsync()) {
-      await this.collectionIndexer.indexCollectionAsync();
+      await this.trackIndexer.indexTracksAsync();
     }
 
-    timer.stop();
-
-    this.logger.info(
-      `+++ FINISHED INDEXING (Time required: ${timer.elapsedMilliseconds}) +++`,
-      'IndexingService',
-      'startIndexing');
+    this.albumArtworkIndexer.indexAlbumArtworkAsync();
   }
 }

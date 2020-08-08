@@ -51,16 +51,17 @@ import { DialogService } from './services/dialog/dialog.service';
 import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
+import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
 import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
 import { BaseIndexingService } from './services/indexing/base-indexing.service';
 import { CollectionChecker } from './services/indexing/collection-checker';
-import { CollectionIndexer } from './services/indexing/collection-indexer';
 import { DirectoryWalker } from './services/indexing/directory-walker';
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
 import { TrackFieldCreator } from './services/indexing/track-field-creator';
 import { TrackFiller } from './services/indexing/track-filler';
+import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DatabaseFactory,
     FileSystem,
     Settings,
-    CollectionIndexer,
+    TrackIndexer,
+    AlbumArtworkIndexer,
     DirectoryWalker,
     TrackRemover,
     TrackUpdater,

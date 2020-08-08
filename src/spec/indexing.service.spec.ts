@@ -1,22 +1,21 @@
-import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
-import { IndexingService } from '../app/services/indexing/indexing.service';
-import { Logger } from '../app/core/logger';
+import { IMock, Mock, Times } from 'typemoq';
+import { AlbumArtworkIndexer } from '../app/services/indexing/album-artwork-indexer';
 import { CollectionChecker } from '../app/services/indexing/collection-checker';
-import { CollectionIndexer } from '../app/services/indexing/collection-indexer';
+import { IndexingService } from '../app/services/indexing/indexing.service';
+import { TrackIndexer } from '../app/services/indexing/track-indexer';
 
 describe('IndexingService', () => {
     describe('indexCollectionIfNeeded', () => {
-        it('Should index the collection if needed', async () => {
+        it('Should index the tracks if needed', async () => {
             // Arrange
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const collectionCheckerMock: IMock<CollectionChecker> = Mock.ofType<CollectionChecker>();
-            const collectionIndexerMock: IMock<CollectionIndexer> = Mock.ofType<CollectionIndexer>();
+            const trackIndexerMock: IMock<TrackIndexer> = Mock.ofType<TrackIndexer>();
+            const albumArtworkIndexerMock: IMock<AlbumArtworkIndexer> = Mock.ofType<AlbumArtworkIndexer>();
 
             const indexingService: IndexingService = new IndexingService(
-                loggerMock.object,
                 collectionCheckerMock.object,
-                collectionIndexerMock.object
+                trackIndexerMock.object,
+                albumArtworkIndexerMock.object
             );
 
             collectionCheckerMock.setup(x => x.collectionNeedsIndexingAsync()).returns(async () => true);
@@ -25,19 +24,19 @@ describe('IndexingService', () => {
             await indexingService.indexCollectionIfNeededAsync();
 
             // Assert
-            collectionIndexerMock.verify(x => x.indexCollectionAsync(), Times.exactly(1));
+            trackIndexerMock.verify(x => x.indexTracksAsync(), Times.exactly(1));
         });
 
-        it('Should not index the collection if not needed', async () => {
+        it('Should not index the tracks if not needed', async () => {
             // Arrange
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const collectionCheckerMock: IMock<CollectionChecker> = Mock.ofType<CollectionChecker>();
-            const collectionIndexerMock: IMock<CollectionIndexer> = Mock.ofType<CollectionIndexer>();
+            const trackIndexerMock: IMock<TrackIndexer> = Mock.ofType<TrackIndexer>();
+            const albumArtworkIndexerMock: IMock<AlbumArtworkIndexer> = Mock.ofType<AlbumArtworkIndexer>();
 
             const indexingService: IndexingService = new IndexingService(
-                loggerMock.object,
                 collectionCheckerMock.object,
-                collectionIndexerMock.object
+                trackIndexerMock.object,
+                albumArtworkIndexerMock.object
             );
 
             collectionCheckerMock.setup(x => x.collectionNeedsIndexingAsync()).returns(async () => false);
@@ -46,7 +45,49 @@ describe('IndexingService', () => {
             await indexingService.indexCollectionIfNeededAsync();
 
             // Assert
-            collectionIndexerMock.verify(x => x.indexCollectionAsync(), Times.never());
+            trackIndexerMock.verify(x => x.indexTracksAsync(), Times.never());
+        });
+
+        it('Should index album artwork when tracks need indexing', async () => {
+            // Arrange
+            const collectionCheckerMock: IMock<CollectionChecker> = Mock.ofType<CollectionChecker>();
+            const trackIndexerMock: IMock<TrackIndexer> = Mock.ofType<TrackIndexer>();
+            const albumArtworkIndexerMock: IMock<AlbumArtworkIndexer> = Mock.ofType<AlbumArtworkIndexer>();
+
+            const indexingService: IndexingService = new IndexingService(
+                collectionCheckerMock.object,
+                trackIndexerMock.object,
+                albumArtworkIndexerMock.object
+            );
+
+            collectionCheckerMock.setup(x => x.collectionNeedsIndexingAsync()).returns(async () => true);
+
+            // Act
+            await indexingService.indexCollectionIfNeededAsync();
+
+            // Assert
+            albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('Should index album artwork even when tracks no not need indexing', async () => {
+            // Arrange
+            const collectionCheckerMock: IMock<CollectionChecker> = Mock.ofType<CollectionChecker>();
+            const trackIndexerMock: IMock<TrackIndexer> = Mock.ofType<TrackIndexer>();
+            const albumArtworkIndexerMock: IMock<AlbumArtworkIndexer> = Mock.ofType<AlbumArtworkIndexer>();
+
+            const indexingService: IndexingService = new IndexingService(
+                collectionCheckerMock.object,
+                trackIndexerMock.object,
+                albumArtworkIndexerMock.object
+            );
+
+            collectionCheckerMock.setup(x => x.collectionNeedsIndexingAsync()).returns(async () => false);
+
+            // Act
+            await indexingService.indexCollectionIfNeededAsync();
+
+            // Assert
+            albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
 });

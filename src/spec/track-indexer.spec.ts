@@ -1,24 +1,27 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { CollectionIndexer } from '../app/services/indexing/collection-indexer';
+import { Logger } from '../app/core/logger';
 import { TrackAdder } from '../app/services/indexing/track-adder';
+import { TrackIndexer } from '../app/services/indexing/track-indexer';
 import { TrackRemover } from '../app/services/indexing/track-remover';
 import { TrackUpdater } from '../app/services/indexing/track-updater';
 
-describe('CollectionIndexer', () => {
-    describe('indexCollectionAsync', () => {
+describe('TrackIndexer', () => {
+    describe('indexTracksAsync', () => {
         it('Should remove tracks that are not part of a collection folder', async() => {
             // Arrange
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
             const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
             const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const collectionIndexer: TrackIndexer = new TrackIndexer(
                 trackRemoverMock.object,
                 trackUpdaterMock.object,
-                trackAdderMock.object
+                trackAdderMock.object,
+                loggerMock.object
             );
 
             // Act
-            await collectionIndexer.indexCollectionAsync();
+            await collectionIndexer.indexTracksAsync();
 
             // Assert
             trackRemoverMock.verify(x => x.removeTracksThatDoNoNotBelongToFolders(), Times.exactly(1));
@@ -29,14 +32,16 @@ describe('CollectionIndexer', () => {
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
             const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
             const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const collectionIndexer: TrackIndexer = new TrackIndexer(
                 trackRemoverMock.object,
                 trackUpdaterMock.object,
-                trackAdderMock.object
+                trackAdderMock.object,
+                loggerMock.object
             );
 
             // Act
-            await collectionIndexer.indexCollectionAsync();
+            await collectionIndexer.indexTracksAsync();
 
             // Assert
             trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDisk(), Times.exactly(1));
@@ -47,14 +52,16 @@ describe('CollectionIndexer', () => {
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
             const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
             const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const collectionIndexer: TrackIndexer = new TrackIndexer(
                 trackRemoverMock.object,
                 trackUpdaterMock.object,
-                trackAdderMock.object
+                trackAdderMock.object,
+                loggerMock.object
             );
 
             // Act
-            await collectionIndexer.indexCollectionAsync();
+            await collectionIndexer.indexTracksAsync();
 
             // Assert
             trackRemoverMock.verify(x => x.removeOrphanedFolderTracks(), Times.exactly(1));
@@ -65,14 +72,16 @@ describe('CollectionIndexer', () => {
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
             const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
             const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const collectionIndexer: TrackIndexer = new TrackIndexer(
                 trackRemoverMock.object,
                 trackUpdaterMock.object,
-                trackAdderMock.object
+                trackAdderMock.object,
+                loggerMock.object
             );
 
             // Act
-            await collectionIndexer.indexCollectionAsync();
+            await collectionIndexer.indexTracksAsync();
 
             // Assert
             trackUpdaterMock.verify(x => x.updateTracksThatAreOutOfDateAsync(), Times.exactly(1));
@@ -83,14 +92,16 @@ describe('CollectionIndexer', () => {
             const trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
             const trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
             const trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
-            const collectionIndexer: CollectionIndexer = new CollectionIndexer(
+            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const collectionIndexer: TrackIndexer = new TrackIndexer(
                 trackRemoverMock.object,
                 trackUpdaterMock.object,
-                trackAdderMock.object
+                trackAdderMock.object,
+                loggerMock.object
             );
 
             // Act
-            await collectionIndexer.indexCollectionAsync();
+            await collectionIndexer.indexTracksAsync();
 
             // Assert
             trackAdderMock.verify(x => x.addTracksThatAreNotInTheDatabaseAsync(), Times.exactly(1));
