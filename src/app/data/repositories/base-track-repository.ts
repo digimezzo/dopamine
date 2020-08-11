@@ -12,4 +12,5 @@ export abstract class BaseTrackRepository {
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
+    public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
 }

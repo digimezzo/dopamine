@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
+import * as path from 'path';
+import * as sharp from 'sharp';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
-
 @Injectable({
     providedIn: 'root',
 })
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(private fileSystem: FileSystem, private logger: Logger) {
-        this.createDirectories();
+        this.createCoverArtCacheOnDisk();
     }
 
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
@@ -21,10 +22,14 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             return null;
         }
 
-        return AlbumArtworkCacheId.createNew();
+        const albumArtworkCacheId: AlbumArtworkCacheId = AlbumArtworkCacheId.createNew();
+        const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
+        await sharp(data).toFile(cachedArtworkFilePath);
+
+        return albumArtworkCacheId;
     }
 
-    private createDirectories(): void {
+    private createCoverArtCacheOnDisk(): void {
         try {
             this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.fileSystem.coverArtCacheFullPath());
         } catch (error) {
@@ -33,6 +38,9 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
                 'AlbumArtworkCacheService',
                 'createDirectories'
             );
+
+            // We cannot proceed if the above fails
+            throw error;
         }
     }
 }

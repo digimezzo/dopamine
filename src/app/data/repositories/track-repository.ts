@@ -355,4 +355,49 @@ export class TrackRepository implements BaseTrackRepository {
 
         return albumData;
     }
+
+    public getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT TrackID AS trackId,
+                    Artists AS artists,
+                    Genres AS genres,
+                    AlbumTitle AS albumTitle,
+                    AlbumArtists AS albumArtists,
+                    AlbumKey AS albumKey,
+                    Path AS path,
+                    FileName AS fileName,
+                    MimeType AS mimeType,
+                    FileSize AS fileSize,
+                    BitRate AS bitRate,
+                    SampleRate AS sampleRate,
+                    TrackTitle AS trackTitle,
+                    TrackNumber AS trackNumber,
+                    TrackCount AS trackCount,
+                    DiscNumber AS discNumber,
+                    DiscCount AS discCount,
+                    Duration AS duration,
+                    Year AS year,
+                    HasLyrics AS hasLyrics,
+                    DateAdded AS dateAdded,
+                    DateFileCreated AS dateFileCreated,
+                    DateLastSynced AS dateLastSynced,
+                    DateFileModified AS dateFileModified,
+                    NeedsIndexing AS needsIndexing,
+                    NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
+                    IndexingSuccess AS indexingSuccess,
+                    IndexingFailureReason AS indexingFailureReason,
+                    Rating AS rating,
+                    Love AS love,
+                    PlayCount AS playCount,
+                    SkipCount AS skipCount,
+                    DateLastPlayed AS dateLastPlayed
+                    FROM Track
+                    WHERE AlbumKey=?;`);
+
+        const track: Track = statement.get(albumKey);
+
+        return track;
+    }
 }

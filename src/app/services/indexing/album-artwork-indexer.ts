@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
 import { AlbumData } from '../../data/album-data';
+import { Track } from '../../data/entities/track';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { FileMetadata } from '../../metadata/file-metadata';
+import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 
 @Injectable({
@@ -14,6 +17,7 @@ export class AlbumArtworkIndexer {
         private trackRepository: BaseTrackRepository,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private albumArtworkCacheService: BaseAlbumArtworkCacheService,
+        private fileMetadataFactory: FileMetadataFactory,
         private logger: Logger
     ) { }
 
@@ -27,6 +31,9 @@ export class AlbumArtworkIndexer {
 
         for (const albumData of albumDataThatNeedsIndexing) {
             this.albumArtworkRepository.deleteAlbumArtwork(albumData.albumKey);
+            const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumData.albumKey);
+            const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            await this.albumArtworkCacheService.addArtworkDataToCacheAsync(fileMetadata.picture);
         }
 
         timer.stop();
