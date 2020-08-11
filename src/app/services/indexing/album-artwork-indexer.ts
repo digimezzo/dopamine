@@ -27,8 +27,6 @@ export class AlbumArtworkIndexer {
 
         for (const albumData of albumDataThatNeedsIndexing) {
             this.albumArtworkRepository.deleteAlbumArtwork(albumData.albumKey);
-
-            this.albumArtworkCacheService.addArtworkDataToCacheAsync(null);
         }
 
         timer.stop();

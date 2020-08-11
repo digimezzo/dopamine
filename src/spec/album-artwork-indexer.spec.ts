@@ -3,6 +3,7 @@ import { Logger } from '../app/core/logger';
 import { AlbumData } from '../app/data/album-data';
 import { AlbumArtworkRepository } from '../app/data/repositories/album-artwork-repository';
 import { TrackRepository } from '../app/data/repositories/track-repository';
+import { AlbumArtworkCacheService } from '../app/services/album-artwork-cache/album-artwork-cache.service';
 import { AlbumArtworkIndexer } from '../app/services/indexing/album-artwork-indexer';
 
 describe('AlbumArtworkIndexer', () => {
@@ -11,10 +12,12 @@ describe('AlbumArtworkIndexer', () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
             const albumArtworkRepositoryMock: IMock<AlbumArtworkRepository> = Mock.ofType<AlbumArtworkRepository>();
+            const albumArtworkCacheServiceMock: IMock<AlbumArtworkCacheService> = Mock.ofType<AlbumArtworkCacheService>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const albumArtworkIndexer: AlbumArtworkIndexer = new AlbumArtworkIndexer(
                 trackRepositoryMock.object,
                 albumArtworkRepositoryMock.object,
+                albumArtworkCacheServiceMock.object,
                 loggerMock.object
             );
 
@@ -31,10 +34,12 @@ describe('AlbumArtworkIndexer', () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
             const albumArtworkRepositoryMock: IMock<AlbumArtworkRepository> = Mock.ofType<AlbumArtworkRepository>();
+            const albumArtworkCacheServiceMock: IMock<AlbumArtworkCacheService> = Mock.ofType<AlbumArtworkCacheService>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const albumArtworkIndexer: AlbumArtworkIndexer = new AlbumArtworkIndexer(
                 trackRepositoryMock.object,
                 albumArtworkRepositoryMock.object,
+                albumArtworkCacheServiceMock.object,
                 loggerMock.object
             );
 
@@ -51,10 +56,12 @@ describe('AlbumArtworkIndexer', () => {
             // Arrange
             const trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();
             const albumArtworkRepositoryMock: IMock<AlbumArtworkRepository> = Mock.ofType<AlbumArtworkRepository>();
+            const albumArtworkCacheServiceMock: IMock<AlbumArtworkCacheService> = Mock.ofType<AlbumArtworkCacheService>();
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const albumArtworkIndexer: AlbumArtworkIndexer = new AlbumArtworkIndexer(
                 trackRepositoryMock.object,
                 albumArtworkRepositoryMock.object,
+                albumArtworkCacheServiceMock.object,
                 loggerMock.object
             );
 
