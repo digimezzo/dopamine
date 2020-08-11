@@ -15,14 +15,14 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
     public addFolderTrack(folderTrack: FolderTrack): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('INSERT INTO FolderTrack (FolderID, TrackID) VALUES (?, ?)');
+        const statement = database.prepare('INSERT INTO FolderTrack (FolderID, TrackID) VALUES (?, ?);');
         statement.run(folderTrack.folderId, folderTrack.trackId);
     }
 
     public deleteFolderTrackByFolderId(folderId: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('DELETE FROM FolderTrack WHERE FolderID=?');
+        const statement = database.prepare('DELETE FROM FolderTrack WHERE FolderID=?;');
         statement.run(folderId);
     }
 

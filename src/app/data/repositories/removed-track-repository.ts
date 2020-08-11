@@ -15,14 +15,14 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
     public addRemovedTrack(removedTrack: RemovedTrack): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('INSERT INTO RemovedTrack (TrackID, Path, SafePath, DateRemoved) VALUES (?, ?, ?, ?)');
+        const statement = database.prepare('INSERT INTO RemovedTrack (TrackID, Path, SafePath, DateRemoved) VALUES (?, ?, ?, ?);');
         statement.run(removedTrack.trackId, removedTrack.path, removedTrack.path, removedTrack.dateRemoved);
     }
 
     public deleteRemovedTrackByTrackId(trackId: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('DELETE FROM RemovedTrack WHERE TrackID=?');
+        const statement = database.prepare('DELETE FROM RemovedTrack WHERE TrackID=?;');
         statement.run(trackId);
     }
 
@@ -30,7 +30,7 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack`);
+            `SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack;`);
 
         const removedTracks: RemovedTrack[] = statement.all();
 

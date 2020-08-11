@@ -3,8 +3,6 @@ export interface FileMetadata {
     bitRate: number;
     sampleRate: number;
     duration: number;
-    type: string;
-    mimeType: string;
     title: string;
     album: string;
     albumArtists: string[];
@@ -19,4 +17,5 @@ export interface FileMetadata {
     discCount: number;
     rating: number;
     lyrics: string;
+    picture: Buffer;
 }

@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
+import { AlbumData } from '../../data/album-data';
+import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AlbumArtworkIndexer {
     constructor(
+        private trackRepository: BaseTrackRepository,
+        private albumArtworkRepository: BaseAlbumArtworkRepository,
         private logger: Logger
     ) { }
 
@@ -16,7 +21,11 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-       // TODO
+        const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
+
+        for (const albumData of albumDataThatNeedsIndexing) {
+            this.albumArtworkRepository.deleteAlbumArtwork(albumData.albumKey);
+        }
 
         timer.stop();
 

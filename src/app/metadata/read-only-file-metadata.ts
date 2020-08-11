@@ -9,8 +9,6 @@ export class ReadOnlyFileMetadata implements FileMetadata {
     public bitRate: number;
     public sampleRate: number;
     public duration: number;
-    public type: string; // TODO
-    public mimeType: string; // TODO
     public title: string;
     public album: string;
     public albumArtists: string[];
@@ -25,6 +23,7 @@ export class ReadOnlyFileMetadata implements FileMetadata {
     public discCount: number;
     public rating: number;
     public lyrics: string;
+    public picture: Buffer;
 
     public static async createAsync(path: string): Promise<ReadOnlyFileMetadata> {
         const readOnlyFileMetadata: ReadOnlyFileMetadata = new ReadOnlyFileMetadata(path);
@@ -125,6 +124,12 @@ export class ReadOnlyFileMetadata implements FileMetadata {
         if (audioMetadata.common.lyrics) {
             if (audioMetadata.common.lyrics.length > 0) {
                 this.lyrics = audioMetadata.common.lyrics[0];
+            }
+        }
+
+        if (audioMetadata.common.picture) {
+            if (audioMetadata.common.picture.length > 0) {
+                this.picture = audioMetadata.common.picture[0].data;
             }
         }
     }

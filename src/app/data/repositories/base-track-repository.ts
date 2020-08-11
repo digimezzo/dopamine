@@ -1,3 +1,4 @@
+import { AlbumData } from '../album-data';
 import { Track } from '../entities/track';
 
 export abstract class BaseTrackRepository {
@@ -10,4 +11,5 @@ export abstract class BaseTrackRepository {
     public abstract updateTrack(track: Track): void;
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
+    public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
 }
