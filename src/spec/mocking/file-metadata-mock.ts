@@ -21,4 +21,5 @@ export class FileMetadataMock implements FileMetadata {
     public discCount: number;
     public rating: number;
     public lyrics: string;
+    public picture: Buffer;
 }

@@ -4,6 +4,7 @@ import { Timer } from '../../core/timer';
 import { AlbumData } from '../../data/album-data';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ export class AlbumArtworkIndexer {
     constructor(
         private trackRepository: BaseTrackRepository,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
+        private albumArtworkCacheService: BaseAlbumArtworkCacheService,
         private logger: Logger
     ) { }
 
@@ -25,6 +27,8 @@ export class AlbumArtworkIndexer {
 
         for (const albumData of albumDataThatNeedsIndexing) {
             this.albumArtworkRepository.deleteAlbumArtwork(albumData.albumKey);
+
+            this.albumArtworkCacheService.addArtworkDataToCacheAsync(null);
         }
 
         timer.stop();

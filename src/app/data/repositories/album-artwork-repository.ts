@@ -1,6 +1,10 @@
+import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { BaseAlbumArtworkRepository } from './base-album-artwork-repository';
 
+@Injectable({
+    providedIn: 'root'
+})
 export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
     constructor(private databaseFactory: DatabaseFactory) {
     }

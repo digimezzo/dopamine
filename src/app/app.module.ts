@@ -32,6 +32,8 @@ import { BaseDatabaseMigrator } from './data/base-database-migrator';
 import { DataDelimiter } from './data/data-delimiter';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
+import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
+import { BaseAlbumArtworkRepository } from './data/repositories/base-album-artwork-repository';
 import { BaseFolderRepository } from './data/repositories/base-folder-repository';
 import { BaseFolderTrackRepository } from './data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from './data/repositories/base-removed-track-repository';
@@ -44,6 +46,8 @@ import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
+import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
+import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -134,6 +138,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataDelimiter,
     AlbumKeyGenerator,
     MimeTypes,
+    { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
+    { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
     { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
     { provide: BaseSettings, useClass: Settings },

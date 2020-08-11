@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import { ApplicationPaths } from '../base/application-paths';
 import { DateTime } from '../date-time';
 
 @Injectable()
 export class FileSystem {
-    constructor() {
-    }
-
     public applicationDataDirectory(): string {
         return remote.app.getPath('userData');
+    }
+
+    public coverArtCacheFullPath(): string {
+        return path.join(this.applicationDataDirectory(), ApplicationPaths.cacheFolder, ApplicationPaths.CoverArtCacheFolder);
     }
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<string[]> {
@@ -64,5 +66,11 @@ export class FileSystem {
         const fileSizeInBytes = stats.size;
 
         return fileSizeInBytes;
+    }
+
+    public createFullDirectoryPathIfDoesNotExist(directoryPath: string): void {
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath, { recursive: true });
+        }
     }
 }
