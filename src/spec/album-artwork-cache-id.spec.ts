@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { AlbumArtworkCacheId } from '../app/services/artwork-cache/album-artwork-cache-id';
+import { AlbumArtworkCacheId } from '../app/services/album-artwork-cache/album-artwork-cache-id';
 
 
 describe('AlbumArtworkCacheId', () => {

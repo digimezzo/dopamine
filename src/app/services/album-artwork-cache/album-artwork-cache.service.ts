@@ -3,6 +3,14 @@ import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service
 
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
-        return null;
+        if (!data) {
+            return null;
+        }
+
+        if (data.length === 0) {
+            return null;
+        }
+
+        return AlbumArtworkCacheId.createNew();
     }
 }
