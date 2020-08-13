@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import * as path from 'path';
-import * as sharp from 'sharp';
+import { ImageProcessor } from '../../core/image-processor';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
+import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
+
 @Injectable({
     providedIn: 'root',
 })
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
-    constructor(private fileSystem: FileSystem, private logger: Logger) {
+    constructor(
+        private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
+        private imageProcessor: ImageProcessor,
+        private fileSystem: FileSystem,
+        private logger: Logger
+    ) {
         this.createCoverArtCacheOnDisk();
     }
 
@@ -22,9 +29,9 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             return null;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId = AlbumArtworkCacheId.createNew();
+        const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
         const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
-        await sharp(data).toFile(cachedArtworkFilePath);
+        await this.imageProcessor.saveDataToFile(data, cachedArtworkFilePath);
 
         return albumArtworkCacheId;
     }

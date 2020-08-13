@@ -22,6 +22,7 @@ import { MainComponent } from './components/main/main.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
+import { ImageProcessor } from './core/image-processor';
 import { Desktop } from './core/io/desktop';
 import { FileSystem } from './core/io/file-system';
 import { Logger } from './core/logger';
@@ -46,6 +47,7 @@ import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
+import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
 import { AppearanceService } from './services/appearance/appearance.service';
@@ -138,6 +140,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataDelimiter,
     AlbumKeyGenerator,
     MimeTypes,
+    AlbumArtworkCacheIdFactory,
+    ImageProcessor,
     { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
     { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
     { provide: BaseCollectionChecker, useClass: CollectionChecker },

@@ -400,4 +400,11 @@ export class TrackRepository implements BaseTrackRepository {
 
         return track;
     }
+
+    public disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void {
+        const database: any = this.databaseFactory.create();
+        const statement: any = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
+
+        statement.run(albumKey);
+    }
 }

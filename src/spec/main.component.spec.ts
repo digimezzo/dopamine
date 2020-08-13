@@ -1,13 +1,12 @@
-import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { MainComponent } from '../app/components/main/main.component';
 import { BaseAppearanceService } from '../app/services/appearance/base-appearance.service';
-import { BaseUpdateService } from '../app/services/update/base-update.service';
 import { BaseIndexingService } from '../app/services/indexing/base-indexing.service';
+import { BaseUpdateService } from '../app/services/update/base-update.service';
 
 describe('MainComponent', () => {
     describe('ngOnInit', () => {
-        it('Should check for updates', () => {
+        it('Should check for updates', async () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const updateServiceMock: IMock<BaseUpdateService> = Mock.ofType<BaseUpdateService>();
@@ -19,13 +18,13 @@ describe('MainComponent', () => {
                 indexingServiceMock.object);
 
             // Act
-            mainComponent.ngOnInit();
+            await mainComponent.ngOnInit();
 
             // Assert
             updateServiceMock.verify(x => x.checkForUpdatesAsync(), Times.exactly(1));
         });
 
-        it('Should start indexing', () => {
+        it('Should start indexing', async () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const updateServiceMock: IMock<BaseUpdateService> = Mock.ofType<BaseUpdateService>();
@@ -37,7 +36,7 @@ describe('MainComponent', () => {
                 indexingServiceMock.object);
 
             // Act
-            mainComponent.ngOnInit();
+            await mainComponent.ngOnInit();
 
             // Assert
             indexingServiceMock.verify(x => x.indexCollectionIfNeededAsync(), Times.exactly(1));
