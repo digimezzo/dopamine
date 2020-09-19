@@ -57,7 +57,9 @@ import { DialogService } from './services/dialog/dialog.service';
 import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
+import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
+import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
 import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
 import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
 import { BaseIndexingService } from './services/indexing/base-indexing.service';
@@ -142,6 +144,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MimeTypes,
     AlbumArtworkCacheIdFactory,
     ImageProcessor,
+    AlbumArtworkIndexer,
+    AlbumArtworkAdder,
+    AlbumArtworkRemover,
     { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
     { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
