@@ -29,25 +29,35 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             return null;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-        const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
-        await this.imageProcessor.saveDataToFile(data, cachedArtworkFilePath);
+        try {
+            const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
+            const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
+            await this.imageProcessor.saveDataToFile(data, cachedArtworkFilePath);
 
-        return albumArtworkCacheId;
+            return albumArtworkCacheId;
+        } catch (e) {
+            this.logger.error(
+                `Could not add artwork dat to cache. Error: ${e.message}`,
+                'AlbumArtworkCacheService',
+                'addArtworkDataToCacheAsync'
+            );
+        }
+
+        return null;
     }
 
     private createCoverArtCacheOnDisk(): void {
         try {
             this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.fileSystem.coverArtCacheFullPath());
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
-                `Could not create artwork cache directory. Error: ${error.message}`,
+                `Could not create artwork cache directory. Error: ${e.message}`,
                 'AlbumArtworkCacheService',
                 'createDirectories'
             );
 
             // We cannot proceed if the above fails
-            throw error;
+            throw(e);
         }
     }
 }

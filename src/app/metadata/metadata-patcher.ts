@@ -8,7 +8,7 @@ export class MetadataPatcher {
 
     public joinUnsplittableMetadata(possiblySplittedMetadata: string[]): string[] {
         if (!possiblySplittedMetadata) {
-            return null;
+            return [];
         }
 
         if (possiblySplittedMetadata.length <= 1) {

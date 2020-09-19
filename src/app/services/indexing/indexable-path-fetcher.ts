@@ -11,7 +11,7 @@ import { IndexablePath } from './indexable-path';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class IndexablePathFetcher implements BaseIndexablePathFetcher {
     constructor(
         private fileSystem: FileSystem,
@@ -21,7 +21,17 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
 
     public async getIndexablePathsForAllFoldersAsync(): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
-        const folders: Folder[] = this.folderRepository.getFolders();
+        let folders: Folder[] = [];
+
+        try {
+            folders = this.folderRepository.getFolders();
+        } catch (e) {
+            this.logger.error(
+                `An error occurred while getting folders. Error ${e.message}`,
+                'IndexablePathFetcher',
+                'getIndexablePathsForAllFoldersAsync'
+            );
+        }
 
         for (const folder of folders) {
             if (this.fileSystem.pathExists(folder.path)) {
@@ -75,7 +85,7 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
             }
         } catch (e) {
             this.logger.error(
-                `An error occurred while fetching indexable paths. Error ${e.message}`,
+                `An error occurred while fetching indexable paths for single folder. Error ${e.message}`,
                 'IndexablePathFetcher',
                 'getIndexablePathsForSingleFolderAsync'
             );

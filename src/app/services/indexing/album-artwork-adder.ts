@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Logger } from '../../core/logger';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { Track } from '../../data/entities/track';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
@@ -16,27 +17,32 @@ export class AlbumArtworkAdder {
         private albumArtworkCacheService: BaseAlbumArtworkCacheService,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,
-        private fileMetadataFactory: FileMetadataFactory
+        private fileMetadataFactory: FileMetadataFactory,
+        private logger: Logger
     ) {
     }
 
     public async addAlbumArtworkAsync(albumKey: string): Promise<void> {
-        const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
+        try {
+            const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
 
-        if (track === null) {
-            return;
+            if (!track) {
+                return;
+            }
+
+            const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            const albumArtworkCacheId: AlbumArtworkCacheId =
+                await this.albumArtworkCacheService.addArtworkDataToCacheAsync(fileMetadata.picture);
+
+            if (!albumArtworkCacheId) {
+                return;
+            }
+
+            await this.trackRepository.disableNeedsAlbumArtworkIndexingAsync(albumKey);
+            const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId.id);
+            this.albumArtworkRepository.addAlbumArtwork(newAlbumArtwork);
+        } catch (e) {
+            this.logger.error(`Could not add album artwork for albumKey=${albumKey}`, 'AlbumArtworkAdder', 'addAlbumArtworkAsync');
         }
-
-        const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
-        const albumArtworkCacheId: AlbumArtworkCacheId =
-        await this.albumArtworkCacheService.addArtworkDataToCacheAsync(fileMetadata.picture);
-
-        if (albumArtworkCacheId === null) {
-            return;
-        }
-
-        await this.trackRepository.disableNeedsAlbumArtworkIndexingAsync(albumKey);
-        const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId.id);
-        this.albumArtworkRepository.addAlbumArtwork(newAlbumArtwork);
     }
 }

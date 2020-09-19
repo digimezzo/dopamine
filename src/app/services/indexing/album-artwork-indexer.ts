@@ -23,11 +23,18 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
+        try {
+            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
 
-        for (const albumData of albumDataThatNeedsIndexing) {
-            this.albumArtworkRemover.removeAlbumArtwork(albumData.albumKey);
-            await this.albumArtworkAdder.addAlbumArtworkAsync(albumData.albumKey);
+            for (const albumData of albumDataThatNeedsIndexing) {
+                const couldRemoveAlbumArtwork: boolean = this.albumArtworkRemover.tryRemoveAlbumArtwork(albumData.albumKey);
+
+                if (couldRemoveAlbumArtwork) {
+                    await this.albumArtworkAdder.addAlbumArtworkAsync(albumData.albumKey);
+                }
+            }
+        } catch (e) {
+            this.logger.info(`Could not index album artwork. Error: ${e.message}`, 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
         }
 
         timer.stop();
