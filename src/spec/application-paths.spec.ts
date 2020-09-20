@@ -5,6 +5,7 @@ describe('ApplicationPaths', () => {
     describe('generateAlbumKey', () => {
         it('Should return the cache folder', () => {
             // Arrange
+
             // Act
             const cacheFolder: string = ApplicationPaths.cacheFolder;
 
@@ -14,6 +15,7 @@ describe('ApplicationPaths', () => {
 
         it('Should return the cover art cache folder', () => {
             // Arrange
+
             // Act
             const coverArtCacheFolder: string = ApplicationPaths.CoverArtCacheFolder;
 
