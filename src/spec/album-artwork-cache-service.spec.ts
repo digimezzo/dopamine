@@ -1,34 +1,22 @@
 import * as assert from 'assert';
 import * as path from 'path';
-import { IMock, Mock, Times } from 'typemoq';
-import { ImageProcessor } from '../app/core/image-processor';
-import { FileSystem } from '../app/core/io/file-system';
-import { Logger } from '../app/core/logger';
+import { Times } from 'typemoq';
 import { AlbumArtworkCacheId } from '../app/services/album-artwork-cache/album-artwork-cache-id';
-import { AlbumArtworkCacheIdFactory } from '../app/services/album-artwork-cache/album-artwork-cache-id-factory';
-import { AlbumArtworkCacheService } from '../app/services/album-artwork-cache/album-artwork-cache.service';
+import { AlbumArtworkCacheServiceMock } from './mocking/album-artwork-cache-service-mock';
 
 describe('AlbumArtworkCacheService', () => {
     describe('constructor', () => {
         it('Should create the full directory path to the artwork cache if it does not exist', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
 
-            fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            mock.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
 
             // Act
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
+           mock.callAlbumArtworkCacheServiceConstructor();
 
             // Assert
-            fileSystemMock.verify(
+            mock.fileSystemMock.verify(
                 x => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Cache/CoverArt'),
                 Times.exactly(1)
             );
@@ -38,20 +26,10 @@ describe('AlbumArtworkCacheService', () => {
     describe('addArtworkDataToCacheAsync', () => {
         it('Should return null when the data is null', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(null);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await mock.albumArtworkCacheService.addArtworkDataToCacheAsync(null);
 
             // Assert
             assert.strictEqual(albumArtworkCacheId, null);
@@ -59,20 +37,11 @@ describe('AlbumArtworkCacheService', () => {
 
         it('Should return null when the data is undefined', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
 
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(undefined);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await mock.albumArtworkCacheService.addArtworkDataToCacheAsync(undefined);
 
             // Assert
             assert.strictEqual(albumArtworkCacheId, null);
@@ -80,22 +49,12 @@ describe('AlbumArtworkCacheService', () => {
 
         it('Should return null when the data is empty', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
 
             const data = Buffer.alloc(0);
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await mock.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
             assert.strictEqual(albumArtworkCacheId, null);
@@ -103,26 +62,16 @@ describe('AlbumArtworkCacheService', () => {
 
         it('Should return a valid AlbumArtworkCacheId when the data is not empty', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
 
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
-            albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
-
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
+            mock.albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            mock.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
             const data = Buffer.from([1, 2, 3]);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await mock.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
             assert.strictEqual(albumArtworkCacheIdToCreate.id, albumArtworkCacheIdToReturn.id);
@@ -130,31 +79,22 @@ describe('AlbumArtworkCacheService', () => {
 
         it('Should save data to file when the data is not empty', async () => {
             // Arrange
-            const albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
-            const imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+            const mock: AlbumArtworkCacheServiceMock = new AlbumArtworkCacheServiceMock();
+
+            mock.albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            mock.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
-            albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
-
-            const albumArtworkCacheService: AlbumArtworkCacheService = new AlbumArtworkCacheService(
-                albumArtworkCacheIdFactoryMock.object,
-                imageProcessorMock.object,
-                fileSystemMock.object,
-                loggerMock.object
-            );
 
             const data = Buffer.from([1, 2, 3]);
 
-            const imagePath = path.join(fileSystemMock.object.coverArtCacheFullPath(), `${albumArtworkCacheIdToCreate.id}.jpg`);
+            const imagePath = path.join(mock.fileSystemMock.object.coverArtCacheFullPath(), `${albumArtworkCacheIdToCreate.id}.jpg`);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await mock.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
-            imageProcessorMock.verify(x => x.saveDataToFile(data, imagePath), Times.exactly(1));
+            mock.imageProcessorMock.verify(x => x.saveDataToFile(data, imagePath), Times.exactly(1));
         });
     });
 });

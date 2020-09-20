@@ -5,6 +5,7 @@ describe('AlbumArtworkCacheId', () => {
     describe('constructor', () => {
         it('Should create an identifier which is not null or undefined', () => {
             // Arrange
+
             // Act
             const albumArtworkCacheId: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
@@ -14,6 +15,7 @@ describe('AlbumArtworkCacheId', () => {
 
         it('Should create an identifier which starts with album-', () => {
             // Arrange
+
             // Act
             const albumArtworkCacheId: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
@@ -23,6 +25,7 @@ describe('AlbumArtworkCacheId', () => {
 
         it('Should create an identifier which has a length of 42 characters', () => {
             // Arrange
+
             // Act
             const albumArtworkCacheId: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
@@ -32,6 +35,7 @@ describe('AlbumArtworkCacheId', () => {
 
         it('Should create unique identifiers', () => {
             // Arrange
+
             // Act
             const albumArtworkCacheId1: AlbumArtworkCacheId = new AlbumArtworkCacheId();
             const albumArtworkCacheId2: AlbumArtworkCacheId = new AlbumArtworkCacheId();
