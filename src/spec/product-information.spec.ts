@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
 import { ProductInformation } from '../app/core/base/product-information';
 
 describe('ProductInformation', () => {
     describe('name', () => {
         it('Should provide application name', async () => {
             // Arrange
+
             // Act
             const applicationName: string = ProductInformation.applicationName;
 
@@ -17,6 +17,7 @@ describe('ProductInformation', () => {
     describe('version', () => {
         it('Should provide application version', async () => {
             // Arrange
+
             // Act
             const applicationVersion: string = ProductInformation.applicationVersion;
 
@@ -28,6 +29,7 @@ describe('ProductInformation', () => {
     describe('copyright', () => {
         it('Should provide application copyright', async () => {
             // Arrange
+
             // Act
             const applicationCopyright: string = ProductInformation.applicationCopyright;
 

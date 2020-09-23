@@ -1,5 +1,4 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
 import { ColorScheme } from '../app/services/appearance/color-scheme';
 
 describe('ColorScheme', () => {
@@ -9,6 +8,7 @@ describe('ColorScheme', () => {
             const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
+
             // Assert
             assert.ok(colorScheme.name === 'MyColorScheme');
         });
@@ -18,6 +18,7 @@ describe('ColorScheme', () => {
             const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
+
             // Assert
             assert.ok(colorScheme.primaryColor === '#ffffff');
         });
@@ -27,6 +28,7 @@ describe('ColorScheme', () => {
             const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
+
             // Assert
             assert.ok(colorScheme.secondaryColor === '#000000');
         });
@@ -36,6 +38,7 @@ describe('ColorScheme', () => {
             const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
+
             // Assert
             assert.ok(colorScheme.accentColor === '#ff0000');
         });

@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
 import { FontSize } from '../app/core/base/font-size';
 
 describe('FontSize', () => {
     describe('constructor', () => {
         it('Should have normal size', () => {
             // Arrange
+
             // Act
             const fontSize = new FontSize(14);
 
@@ -15,6 +15,7 @@ describe('FontSize', () => {
 
         it('Should have larger size', () => {
             // Arrange
+
             // Act
             const fontSize = new FontSize(14);
 
@@ -24,6 +25,7 @@ describe('FontSize', () => {
 
         it('Should have largest size', () => {
             // Arrange
+
             // Act
             const fontSize = new FontSize(14);
 
