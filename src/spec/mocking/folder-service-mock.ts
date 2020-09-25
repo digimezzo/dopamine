@@ -7,15 +7,11 @@ import { BaseSnackbarService } from '../../app/services/snack-bar/base-snack-bar
 
 export class FolderServiceMock {
     constructor() {
-        const folderRepositoryMock: IMock<BaseFolderRepository> = Mock.ofType<BaseFolderRepository>();
-        const folderTrackRepositoryMock: IMock<BaseFolderTrackRepository> = Mock.ofType<BaseFolderTrackRepository>();
-        const snackBarServiceMock: IMock<BaseSnackbarService> = Mock.ofType<BaseSnackbarService>();
-        const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
         this.folderService = new FolderService(
-            folderRepositoryMock.object,
-            folderTrackRepositoryMock.object,
-            loggerMock.object,
-            snackBarServiceMock.object);
+            this.folderRepositoryMock.object,
+            this.folderTrackRepositoryMock.object,
+            this.loggerMock.object,
+            this.snackBarServiceMock.object);
     }
 
     public folderRepositoryMock: IMock<BaseFolderRepository> = Mock.ofType<BaseFolderRepository>();
