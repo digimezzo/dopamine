@@ -5,7 +5,7 @@ import { AlbumArtworkAdder } from '../../app/services/indexing/album-artwork-add
 import { AlbumArtworkIndexer } from '../../app/services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from '../../app/services/indexing/album-artwork-remover';
 
-export class AlbumArtworkIndexerMock {
+export class AlbumArtworkIndexerMocker {
     constructor() {
         this.albumArtworkIndexer = new AlbumArtworkIndexer(
             this.trackRepositoryMock.object,

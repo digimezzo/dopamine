@@ -3,7 +3,7 @@ import { Times } from 'typemoq';
 import { DateTime } from '../app/core/date-time';
 import { Track } from '../app/data/entities/track';
 import { FileMetadataMock } from './mocking/file-metadata-mock';
-import { TrackFillerMockingHelper } from './mocking/track-filler-mocking-helper';
+import { TrackFillerMocker } from './mocking/track-filler-mocker';
 
 describe('TrackFiller', () => {
     describe('addFileMetadataToTrackAsync', () => {
@@ -12,17 +12,14 @@ describe('TrackFiller', () => {
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.artists = ['Artist 1', 'Artist 2'];
 
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createMultiTextField(fileMetadataMock.artists),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.artists), Times.exactly(1));
             assert.strictEqual(track.artists, ';Artist 1;;Artist 2;');
         });
 
@@ -31,17 +28,14 @@ describe('TrackFiller', () => {
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.genres = ['Genre 1', 'Genre 2'];
 
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createMultiTextField(fileMetadataMock.genres),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.genres), Times.exactly(1));
             assert.strictEqual(track.genres, ';Genre 1;;Genre 2;');
         });
 
@@ -50,17 +44,14 @@ describe('TrackFiller', () => {
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.album = 'Album title';
 
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createTextField(fileMetadataMock.album),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createTextField(fileMetadataMock.album), Times.exactly(1));
             assert.strictEqual(track.albumTitle, 'Album title');
         });
 
@@ -69,17 +60,14 @@ describe('TrackFiller', () => {
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createMultiTextField(fileMetadataMock.albumArtists),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.albumArtists), Times.exactly(1));
             assert.strictEqual(track.albumArtists, ';Album artist 1;;Album artist 2;');
         });
 
@@ -89,14 +77,14 @@ describe('TrackFiller', () => {
             fileMetadataMock.album = 'Album title';
             fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.albumKeyGeneratorMock.verify(
+            mocker.albumKeyGeneratorMock.verify(
                 x => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']),
                 Times.exactly(1)
             );
@@ -106,55 +94,44 @@ describe('TrackFiller', () => {
         it('Should fill in track fileName with the file name of the audio file', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.fileSystemMock.verify(
-                x => x.getFileName('/home/user/Music/Track 1.mp3'),
-                Times.exactly(1)
-            );
+            mocker.fileSystemMock.verify(x => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
             assert.strictEqual(track.fileName, 'Track 1');
         });
 
         it('Should fill in track mimeType with the mime type of the audio file', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.fileSystemMock.verify(
-                x => x.getFileExtension('/home/user/Music/Track 1.mp3'),
-                Times.exactly(1)
-            );
-            trackFillerMockingHelper.mimeTypesMock.verify(
-                x => x.getMimeTypeForFileExtension('.mp3'),
-                Times.exactly(1)
-            );
+            mocker.fileSystemMock.verify(x => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            mocker.mimeTypesMock.verify(x => x.getMimeTypeForFileExtension('.mp3'), Times.exactly(1));
             assert.strictEqual(track.mimeType, 'audio/mpeg');
         });
 
         it('Should fill in track fileSize with the file size of the audio file in bytes', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.fileSystemMock.verify(
-                x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3'),
-                Times.exactly(1)
-            );
+            mocker.fileSystemMock.verify(x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+
             assert.strictEqual(track.fileSize, 123);
         });
 
@@ -162,17 +139,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.bitRate = 320;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const trackFillerMockingHelper: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(320),
-                Times.exactly(1)
-            );
+            trackFillerMockingHelper.trackFieldCreatorMock.verify(x => x.createNumberField(320), Times.exactly(1));
             assert.strictEqual(track.bitRate, 320);
         });
 
@@ -180,17 +154,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.sampleRate = 44;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(44),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(44), Times.exactly(1));
             assert.strictEqual(track.sampleRate, 44);
         });
 
@@ -198,17 +169,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.title = 'Track title';
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createTextField(fileMetadataMock.title),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createTextField(fileMetadataMock.title), Times.exactly(1));
             assert.strictEqual(track.trackTitle, 'Track title');
         });
 
@@ -216,17 +184,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.trackNumber = 1;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(1),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(1), Times.exactly(1));
             assert.strictEqual(track.trackNumber, 1);
         });
 
@@ -234,17 +199,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.trackCount = 15;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(15),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(15), Times.exactly(1));
             assert.strictEqual(track.trackCount, 15);
         });
 
@@ -252,17 +214,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.discNumber = 1;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(1),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(1), Times.exactly(1));
             assert.strictEqual(track.discNumber, 1);
         });
 
@@ -270,17 +229,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.discCount = 2;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(2),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(2), Times.exactly(1));
             assert.strictEqual(track.discCount, 2);
         });
 
@@ -288,17 +244,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.duration = 123456;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(123456),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(123456), Times.exactly(1));
             assert.strictEqual(track.duration, 123456);
         });
 
@@ -306,17 +259,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.year = 2020;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
-                x => x.createNumberField(2020),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(2020), Times.exactly(1));
             assert.strictEqual(track.year, 2020);
         });
 
@@ -324,11 +274,11 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.lyrics = null;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.hasLyrics, 0);
@@ -338,11 +288,11 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.lyrics = undefined;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.hasLyrics, 0);
@@ -352,11 +302,11 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.lyrics = '';
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.hasLyrics, 0);
@@ -366,11 +316,11 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.lyrics = 'Blabla';
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.hasLyrics, 1);
@@ -379,12 +329,12 @@ describe('TrackFiller', () => {
         it('Should fill in track dateAdded wit hthe current date and time in ticks', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             const dateTicksBefore: number = DateTime.getTicks(new Date());
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
             const dateTicksAfter: number = DateTime.getTicks(new Date());
 
             // Assert
@@ -394,11 +344,11 @@ describe('TrackFiller', () => {
         it('Should fill in track dateFileCreated with the date that the file was created in ticks', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
             assert.strictEqual(track.dateFileCreated, 456);
@@ -407,12 +357,12 @@ describe('TrackFiller', () => {
         it('Should fill in track dateLastSynced wit hthe current date and time in ticks', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             const dateTicksBefore: number = DateTime.getTicks(new Date());
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
             const dateTicksAfter: number = DateTime.getTicks(new Date());
 
             // Assert
@@ -422,11 +372,11 @@ describe('TrackFiller', () => {
         it('Should fill in track dateFileModified with the date that the file was modified in ticks', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
             assert.strictEqual(track.dateFileModified, 789);
@@ -435,11 +385,11 @@ describe('TrackFiller', () => {
         it('Should fill in track needsIndexing with 0', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
             assert.strictEqual(track.needsIndexing, 0);
@@ -448,11 +398,11 @@ describe('TrackFiller', () => {
         it('Should fill in track needsAlbumArtworkIndexing with 1', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
             assert.strictEqual(track.needsAlbumArtworkIndexing, 1);
@@ -462,14 +412,14 @@ describe('TrackFiller', () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
             fileMetadataMock.rating = 4;
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(
+            mocker.trackFieldCreatorMock.verify(
                 x => x.createNumberField(4),
                 Times.exactly(1)
             );
@@ -479,11 +429,11 @@ describe('TrackFiller', () => {
         it('Should fill in track indexingSuccess with 1 if no errors occur', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.indexingSuccess, 1);
@@ -492,11 +442,11 @@ describe('TrackFiller', () => {
         it('Should fill in an empty track indexingFailureReason if no errors occur', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, false);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.indexingFailureReason, '');
@@ -505,11 +455,11 @@ describe('TrackFiller', () => {
         it('Should fill in track indexingSuccess with 0 if errors occur', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, true);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, true);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.indexingSuccess, 0);
@@ -518,11 +468,11 @@ describe('TrackFiller', () => {
         it('Should fill in track indexingFailureReason with the error text if an error occur', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            const trackFillerMockingHelper: TrackFillerMockingHelper = TrackFillerMockingHelper.create(fileMetadataMock, true);
+            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, true);
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
+            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
             assert.strictEqual(track.indexingFailureReason, 'The error text');

@@ -5,7 +5,7 @@ import { Logger } from '../../app/core/logger';
 import { AlbumArtworkCacheIdFactory } from '../../app/services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from '../../app/services/album-artwork-cache/album-artwork-cache.service';
 
-export class AlbumArtworkCacheServiceMock {
+export class AlbumArtworkCacheServiceMocker {
     constructor() {
         this.albumArtworkCacheService = new AlbumArtworkCacheService(
             this.albumArtworkCacheIdFactoryMock.object,

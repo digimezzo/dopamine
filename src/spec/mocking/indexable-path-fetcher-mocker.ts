@@ -7,7 +7,7 @@ import { DirectoryWalkResult } from '../../app/services/indexing/directory-walk-
 import { DirectoryWalker } from '../../app/services/indexing/directory-walker';
 import { IndexablePathFetcher } from '../../app/services/indexing/indexable-path-fetcher';
 
-export class IndexablePathFetcherMock {
+export class IndexablePathFetcherMocker {
     constructor() {
         this.indexablePathFetcher = new IndexablePathFetcher(
             this.fileSystemMock.object,

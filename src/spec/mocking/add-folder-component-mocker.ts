@@ -7,7 +7,7 @@ import { BaseDialogService } from '../../app/services/dialog/base-dialog.service
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
 
-export class AddFolderComponentMock {
+export class AddFolderComponentMocker {
     constructor(private folderToDelete?: Folder) {
         this.translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
         this.translatorServiceMock.setup(x => x.getAsync(

@@ -5,7 +5,7 @@ import { BaseDatabaseMigrator } from '../../app/data/base-database-migrator';
 import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
 import { SettingsMock } from './settings-mock';
 
-export class LoadingComponentMock {
+export class LoadingComponentMocker {
     constructor(private showWelcome: boolean) {
         this.loadingComponent = new LoadingComponent(
             this.routerMock.object,

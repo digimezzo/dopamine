@@ -7,7 +7,7 @@ import { FileMetadataFactory } from '../../app/metadata/file-metadata-factory';
 import { BaseAlbumArtworkCacheService } from '../../app/services/album-artwork-cache/base-album-artwork-cache.service';
 import { AlbumArtworkAdder } from '../../app/services/indexing/album-artwork-adder';
 
-export class AlbumArtworkAdderMock {
+export class AlbumArtworkAdderMocker {
     constructor() {
         this.albumArtworkAdder = new AlbumArtworkAdder(
             this.albumArtworkCacheServiceMock.object,

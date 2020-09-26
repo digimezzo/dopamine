@@ -1,15 +1,15 @@
 import * as assert from 'assert';
 import { IndexablePath } from '../app/services/indexing/indexable-path';
-import { IndexablePathFetcherMock } from './mocking/indexable-path-fetcher-mock';
+import { IndexablePathFetcherMocker } from './mocking/indexable-path-fetcher-mocker';
 
 describe('IndexablePathFetcher', () => {
     describe('getIndexablePathsForAllFoldersAsync', () => {
         it('Should collect supported audio files for all folders', async () => {
             // Arrange
-            const mock: IndexablePathFetcherMock = new IndexablePathFetcherMock();
+            const mocker: IndexablePathFetcherMocker = new IndexablePathFetcherMocker();
 
             // Act
-            const indexablePaths: IndexablePath[] = await mock.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
+            const indexablePaths: IndexablePath[] = await mocker.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
 
             // Assert
             assert.ok(indexablePaths.map(x => x.path).includes('/home/user/Music/Track 1.mp3'));
@@ -20,10 +20,10 @@ describe('IndexablePathFetcher', () => {
 
         it('Should not collect unsupported audio files for all folders', async () => {
             // Arrange
-            const mock: IndexablePathFetcherMock = new IndexablePathFetcherMock();
+            const mocker: IndexablePathFetcherMocker = new IndexablePathFetcherMocker();
 
             // Act
-            const indexablePaths: IndexablePath[] = await mock.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
+            const indexablePaths: IndexablePath[] = await mocker.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
 
             // Assert
             assert.ok(!indexablePaths.map(x => x.path).includes('/home/user/Music/Image 1.png'));

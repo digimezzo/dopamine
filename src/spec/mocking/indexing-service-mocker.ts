@@ -4,7 +4,7 @@ import { CollectionChecker } from '../../app/services/indexing/collection-checke
 import { IndexingService } from '../../app/services/indexing/indexing.service';
 import { TrackIndexer } from '../../app/services/indexing/track-indexer';
 
-export class IndexingServiceMock {
+export class IndexingServiceMocker {
     constructor() {
         this.indexingService = new IndexingService(
             this.collectionCheckerMock.object,

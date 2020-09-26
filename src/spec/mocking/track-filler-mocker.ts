@@ -8,7 +8,7 @@ import { MimeTypes } from '../../app/metadata/mime-types';
 import { TrackFieldCreator } from '../../app/services/indexing/track-field-creator';
 import { TrackFiller } from '../../app/services/indexing/track-filler';
 
-export class TrackFillerMockingHelper {
+export class TrackFillerMocker {
     private constructor(
         public trackFiller: TrackFiller,
         public trackFieldCreatorMock: IMock<TrackFieldCreator>,
@@ -16,7 +16,7 @@ export class TrackFillerMockingHelper {
         public mimeTypesMock: IMock<MimeTypes>,
         public fileSystemMock: IMock<FileSystem>) { }
 
-    public static create(fileMetadata: FileMetadata, shouldThrowError: boolean): TrackFillerMockingHelper {
+    public static create(fileMetadata: FileMetadata, shouldThrowError: boolean): TrackFillerMocker {
         const fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
         const trackFieldCreatorMock: IMock<TrackFieldCreator> = Mock.ofType<TrackFieldCreator>();
         const albumKeyGeneratorMock: IMock<AlbumKeyGenerator> = Mock.ofType<AlbumKeyGenerator>();
@@ -71,7 +71,7 @@ export class TrackFillerMockingHelper {
             loggerMock.object
         );
 
-        return new TrackFillerMockingHelper(
+        return new TrackFillerMocker(
             trackFiller,
             trackFieldCreatorMock,
             albumKeyGeneratorMock,

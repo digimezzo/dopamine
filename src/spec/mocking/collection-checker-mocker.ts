@@ -5,7 +5,7 @@ import { CollectionChecker } from '../../app/services/indexing/collection-checke
 import { IndexablePath } from '../../app/services/indexing/indexable-path';
 import { IndexablePathFetcher } from '../../app/services/indexing/indexable-path-fetcher';
 
-export class CollectionCheckerMock {
+export class CollectionCheckerMocker {
     constructor() {
         const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/track1.mp3', 10, 1);
         const indexablePath2: IndexablePath = new IndexablePath('/home/user/Music/track2.mp3', 20, 1);
