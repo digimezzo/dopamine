@@ -58,6 +58,7 @@ import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
 import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
+import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
 import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
@@ -132,7 +133,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FileSystem,
     Settings,
     TrackIndexer,
-    AlbumArtworkIndexer,
     DirectoryWalker,
     TrackRemover,
     TrackUpdater,
@@ -144,6 +144,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MimeTypes,
     AlbumArtworkCacheIdFactory,
     ImageProcessor,
+    AlbumArtworkGetter,
     AlbumArtworkIndexer,
     AlbumArtworkAdder,
     AlbumArtworkRemover,

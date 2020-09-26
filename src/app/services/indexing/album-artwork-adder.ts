@@ -8,6 +8,7 @@ import { FileMetadata } from '../../metadata/file-metadata';
 import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
+import { AlbumArtworkGetter } from './album-artwork-getter';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,8 @@ export class AlbumArtworkAdder {
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,
         private fileMetadataFactory: FileMetadataFactory,
-        private logger: Logger
+        private logger: Logger,
+        private albumArtworkGetter: AlbumArtworkGetter
     ) {
     }
 
@@ -31,8 +33,14 @@ export class AlbumArtworkAdder {
             }
 
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            const albumArtwork: Buffer = this.albumArtworkGetter.getAlbumArtwork(fileMetadata);
+
+            if (!albumArtwork) {
+                return;
+            }
+
             const albumArtworkCacheId: AlbumArtworkCacheId =
-                await this.albumArtworkCacheService.addArtworkDataToCacheAsync(fileMetadata.picture);
+                await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
             if (!albumArtworkCacheId) {
                 return;

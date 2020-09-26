@@ -6,6 +6,7 @@ import { BaseTrackRepository } from '../../app/data/repositories/base-track-repo
 import { FileMetadataFactory } from '../../app/metadata/file-metadata-factory';
 import { BaseAlbumArtworkCacheService } from '../../app/services/album-artwork-cache/base-album-artwork-cache.service';
 import { AlbumArtworkAdder } from '../../app/services/indexing/album-artwork-adder';
+import { AlbumArtworkGetter } from '../../app/services/indexing/album-artwork-getter';
 
 export class AlbumArtworkAdderMocker {
     constructor() {
@@ -14,7 +15,8 @@ export class AlbumArtworkAdderMocker {
             this.albumArtworkRepositoryMock.object,
             this.trackRepositoryMock.object,
             this.fileMetadataFactoryMock.object,
-            this.loggerMock.object);
+            this.loggerMock.object,
+            this.albumArtworkGetter.object);
     }
 
     public desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -23,5 +25,6 @@ export class AlbumArtworkAdderMocker {
     public trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
     public fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+    public albumArtworkGetter: IMock<AlbumArtworkGetter> = Mock.ofType<AlbumArtworkGetter>();
     public albumArtworkAdder: AlbumArtworkAdder;
 }

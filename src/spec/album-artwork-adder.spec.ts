@@ -20,19 +20,56 @@ describe('AlbumArtworkAdder', () => {
             mocker.albumArtworkCacheServiceMock.verify(x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({})), Times.never());
         });
 
-        it('Should add embedded artwork to the cache if a track is found for the given album key', async () => {
+        it('Should get album artwork if a track is found for the given album key', async () => {
             // Arrange
             const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
 
             const track1: Track = new Track('dummyPath');
             const fileMetadata1: FileMetadataMock = new FileMetadataMock();
-            fileMetadata1.path = track1.path;
-            fileMetadata1.picture = Buffer.from([1, 2, 3]);
 
-            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async() => fileMetadata1);
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
             mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
             mocker.albumArtworkCacheServiceMock.setup(
-                x => x.addArtworkDataToCacheAsync(fileMetadata1.picture)).returns(async() => new AlbumArtworkCacheId());
+                x => x.addArtworkDataToCacheAsync(fileMetadata1.picture)).returns(async () => new AlbumArtworkCacheId());
+
+            // Act
+            await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
+
+            // Assert
+            mocker.albumArtworkGetter.verify(x => x.getAlbumArtwork(fileMetadata1), Times.exactly(1));
+        });
+
+        it('Should not get album artwork if a track is found for the given album key', async () => {
+            // Arrange
+            const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
+
+            const track1: Track = new Track('dummyPath');
+            const fileMetadata1: FileMetadataMock = new FileMetadataMock();
+
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
+            mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => null);
+            mocker.albumArtworkCacheServiceMock.setup(
+                x => x.addArtworkDataToCacheAsync(fileMetadata1.picture)).returns(async () => new AlbumArtworkCacheId());
+
+            // Act
+            await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
+
+            // Assert
+            mocker.albumArtworkGetter.verify(x => x.getAlbumArtwork(fileMetadata1), Times.never());
+        });
+
+        it('Should add artwork to the cache if album artwork was found', async () => {
+            // Arrange
+            const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
+
+            const track1: Track = new Track('dummyPath');
+            const fileMetadata1: FileMetadataMock = new FileMetadataMock();
+
+            mocker.albumArtworkGetter.setup(x => x.getAlbumArtwork(fileMetadata1)).returns(() => Buffer.from([1, 2, 3]));
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
+            mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
+            mocker.albumArtworkCacheServiceMock.setup(
+                x => x.addArtworkDataToCacheAsync(fileMetadata1.picture)).returns(async () => new AlbumArtworkCacheId());
 
             // Act
             await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
@@ -41,26 +78,44 @@ describe('AlbumArtworkAdder', () => {
             mocker.albumArtworkCacheServiceMock.verify(x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({})), Times.exactly(1));
         });
 
+        it('Should not add artwork to the cache if no album artwork was found', async () => {
+            // Arrange
+            const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
+
+            const track1: Track = new Track('dummyPath');
+            const fileMetadata1: FileMetadataMock = new FileMetadataMock();
+
+            mocker.albumArtworkGetter.setup(x => x.getAlbumArtwork(fileMetadata1)).returns(() => null);
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
+            mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
+            mocker.albumArtworkCacheServiceMock.setup(
+                x => x.addArtworkDataToCacheAsync(fileMetadata1.picture)).returns(async () => new AlbumArtworkCacheId());
+
+            // Act
+            await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
+
+            // Assert
+            mocker.albumArtworkCacheServiceMock.verify(x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({})), Times.never());
+        });
+
         it('Should not disable album artwork indexing for the track if no artwork was added to the cache', async () => {
-              // Arrange
-              const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
+            // Arrange
+            const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
 
-              const track1: Track = new Track('dummyPath');
-              const fileMetadata1: FileMetadataMock = new FileMetadataMock();
-              fileMetadata1.path = track1.path;
-              fileMetadata1.picture = Buffer.from([1, 2, 3]);
+            const track1: Track = new Track('dummyPath');
+            const fileMetadata1: FileMetadataMock = new FileMetadataMock();
 
-              mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async() => fileMetadata1);
-              mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
-              mocker.albumArtworkCacheServiceMock.setup(
-                  x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({}))
-                  ).returns(async() => null);
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
+            mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
+            mocker.albumArtworkCacheServiceMock.setup(
+                x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({}))
+            ).returns(async () => null);
 
-              // Act
-              await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
+            // Act
+            await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
 
-              // Assert
-              mocker.trackRepositoryMock.verify(x => x.disableNeedsAlbumArtworkIndexingAsync('dummyAlbumKey'), Times.never());
+            // Assert
+            mocker.trackRepositoryMock.verify(x => x.disableNeedsAlbumArtworkIndexingAsync('dummyAlbumKey'), Times.never());
         });
 
         it('Should not add album artwork information to the database if no artwork was added to the cache', async () => {
@@ -69,36 +124,34 @@ describe('AlbumArtworkAdder', () => {
 
             const track1: Track = new Track('dummyPath');
             const fileMetadata1: FileMetadataMock = new FileMetadataMock();
-            fileMetadata1.path = track1.path;
-            fileMetadata1.picture = Buffer.from([1, 2, 3]);
 
-            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async() => fileMetadata1);
+            mocker.albumArtworkGetter.setup(x => x.getAlbumArtwork(fileMetadata1)).returns(() => Buffer.from([1, 2, 3]));
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
             mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
             mocker.albumArtworkCacheServiceMock.setup(
                 x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({}))
-                ).returns(async() => null);
+            ).returns(async () => null);
 
             // Act
             await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
 
             // Assert
             mocker.albumArtworkRepositoryMock.verify(x => x.addAlbumArtwork(It.isObjectWith<AlbumArtwork>({})), Times.never());
-      });
+        });
 
-        it('Should add album artwork information to the database', async () => {
+        it('Should add album artwork information to the database if artwork was added to the cache', async () => {
             // Arrange
             const mocker: AlbumArtworkAdderMocker = new AlbumArtworkAdderMocker();
 
             const track1: Track = new Track('dummyPath');
             const fileMetadata1: FileMetadataMock = new FileMetadataMock();
-            fileMetadata1.path = track1.path;
-            fileMetadata1.picture = Buffer.from([1, 2, 3]);
 
-            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async() => fileMetadata1);
+            mocker.albumArtworkGetter.setup(x => x.getAlbumArtwork(fileMetadata1)).returns(() => Buffer.from([1, 2, 3]));
+            mocker.fileMetadataFactoryMock.setup(x => x.createReadOnlyAsync('dummyPath')).returns(async () => fileMetadata1);
             mocker.trackRepositoryMock.setup(x => x.getLastModifiedTrackForAlbumKeyAsync('dummyAlbumKey')).returns(() => track1);
             mocker.albumArtworkCacheServiceMock.setup(
                 x => x.addArtworkDataToCacheAsync(It.isObjectWith<Buffer>({}))
-                ).returns(async() => new AlbumArtworkCacheId());
+            ).returns(async () => new AlbumArtworkCacheId());
 
             // Act
             await mocker.albumArtworkAdder.addAlbumArtworkAsync('dummyAlbumKey');
