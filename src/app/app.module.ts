@@ -66,6 +66,7 @@ import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-pat
 import { BaseIndexingService } from './services/indexing/base-indexing.service';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
+import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-path-getter';
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
 import { TrackFieldCreator } from './services/indexing/track-field-creator';
@@ -148,6 +149,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AlbumArtworkIndexer,
     AlbumArtworkAdder,
     AlbumArtworkRemover,
+    ExternalArtworkPathGetter,
     { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
     { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
     { provide: BaseCollectionChecker, useClass: CollectionChecker },

@@ -33,7 +33,7 @@ export class AlbumArtworkAdder {
             }
 
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
-            const albumArtwork: Buffer = this.albumArtworkGetter.getAlbumArtwork(fileMetadata);
+            const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata);
 
             if (!albumArtwork) {
                 return;
@@ -50,7 +50,10 @@ export class AlbumArtworkAdder {
             const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId.id);
             this.albumArtworkRepository.addAlbumArtwork(newAlbumArtwork);
         } catch (e) {
-            this.logger.error(`Could not add album artwork for albumKey=${albumKey}`, 'AlbumArtworkAdder', 'addAlbumArtworkAsync');
+            this.logger.error(
+                `Could not add album artwork for albumKey=${albumKey}. Error: ${e.message}`,
+                'AlbumArtworkAdder',
+                'addAlbumArtworkAsync');
         }
     }
 }

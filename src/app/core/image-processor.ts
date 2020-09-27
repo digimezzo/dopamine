@@ -3,7 +3,13 @@ import * as sharp from 'sharp';
 
 @Injectable()
 export class ImageProcessor {
-    public async saveDataToFile(data: Buffer, imagePath: string): Promise<void> {
+    public async convertDataToFileAsync(data: Buffer, imagePath: string): Promise<void> {
         await sharp(data).toFile(imagePath);
+    }
+
+    public async convertFileToDataAsync(imagePath: string): Promise<Buffer> {
+        const data: Buffer = await sharp(imagePath).toBuffer();
+
+        return data;
     }
 }

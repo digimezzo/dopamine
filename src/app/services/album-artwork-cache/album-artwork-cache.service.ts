@@ -32,7 +32,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
             const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
-            await this.imageProcessor.saveDataToFile(data, cachedArtworkFilePath);
+            await this.imageProcessor.convertDataToFileAsync(data, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
         } catch (e) {

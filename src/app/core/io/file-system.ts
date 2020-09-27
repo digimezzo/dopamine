@@ -43,6 +43,11 @@ export class FileSystem {
         return path.parse(fileNameOrPath).name;
     }
 
+    public getFileNameWithoutExtension(fileNameOrPath: string): string {
+        const extension: string =  path.extname(fileNameOrPath);
+        return path.basename(fileNameOrPath, extension);
+    }
+
     public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
         const dateModified: Date = stat.mtime;
@@ -72,5 +77,9 @@ export class FileSystem {
         if (!fs.existsSync(directoryPath)) {
             fs.mkdirSync(directoryPath, { recursive: true });
         }
+    }
+
+    public getDirectoryPath(filePath: string): string {
+        return path.dirname(filePath);
     }
 }

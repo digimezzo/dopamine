@@ -94,7 +94,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await mocker.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
-            mocker.imageProcessorMock.verify(x => x.saveDataToFile(data, imagePath), Times.exactly(1));
+            mocker.imageProcessorMock.verify(x => x.convertDataToFileAsync(data, imagePath), Times.exactly(1));
         });
     });
 });
