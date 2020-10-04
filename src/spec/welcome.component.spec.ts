@@ -1,5 +1,8 @@
 import * as assert from 'assert';
 import { Times } from 'typemoq';
+import { LastfmAlbum } from '../app/core/api/lastfm/lastfm-album';
+import { LastfmApi } from '../app/core/api/lastfm/lastfm-api';
+import { LastfmArtist } from '../app/core/api/lastfm/lastfm-artist';
 import { WelcomeComponentMocker } from './mocking/welcome-component-mocker';
 
 describe('WelcomeComponent', () => {
@@ -67,7 +70,7 @@ describe('WelcomeComponent', () => {
         });
     });
     describe('finish', () => {
-        it('Should navigate to loading component', () => {
+        it('Should navigate to loading component', async () => {
             // Arrange
             const mocker: WelcomeComponentMocker = new WelcomeComponentMocker();
 
@@ -75,6 +78,9 @@ describe('WelcomeComponent', () => {
             mocker.welcomeComponent.finish();
 
             // Assert
+            const lastfmArtist: LastfmArtist = await LastfmApi.getArtistInfoAsync('Madonna', false, '');
+            const lastfmAlbum: LastfmAlbum = await LastfmApi.getAlbumInfoAsync('Madonna', 'Like a Virgin', false, '');
+            const sessionKey: string = await LastfmApi.getMobileSessionAsync('digimezzo', '$$trustno1');
             mocker.routerMock.verify(x => x.navigate(['/loading']), Times.exactly(1));
         });
     });
