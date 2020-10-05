@@ -9,7 +9,6 @@ export class LastfmApi {
     public static async getMobileSessionAsync(username: string, password: string): Promise<string> {
         const method: string = 'auth.getMobileSession';
         const parameters: Map<string, string> = new Map<string, string>([
-            ['method', method],
             ['username', username],
             ['password', password],
             ['api_key', SensitiveInformation.lastfmApiKey],
@@ -30,7 +29,6 @@ export class LastfmApi {
     public static async getArtistInfoAsync(artist: string, autoCorrect: boolean, languageCode: string): Promise<LastfmArtist> {
         const method: string = 'artist.getInfo';
         const parameters: Map<string, string> = new Map<string, string>([
-            ['method', method],
             ['artist', artist],
             ['autocorrect', autoCorrect ? '1' : '0'],
             ['api_key', SensitiveInformation.lastfmApiKey],
@@ -84,7 +82,6 @@ export class LastfmApi {
     public static async getAlbumInfoAsync(artist: string, album: string, autoCorrect: boolean, languageCode: string): Promise<LastfmAlbum> {
         const method: string = 'album.getInfo';
         const parameters: Map<string, string> = new Map<string, string>([
-            ['method', method],
             ['artist', artist],
             ['album', album],
             ['autocorrect', autoCorrect ? '1' : '0'],
