@@ -1,9 +1,9 @@
-import {expect, assert} from 'chai';
-import {SpectronClient} from 'spectron';
-
+import { expect } from 'chai';
+import { SpectronClient } from 'spectron';
 import commonSetup from './common-setup';
 
-describe('dopamine-electron App', () => {
+
+describe('dopamine App', () => {
   commonSetup.apply(this);
 
   let browser: any;

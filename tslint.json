@@ -109,8 +109,7 @@
       "always"
     ],
     "triple-equals": [
-      true,
-      "allow-null-check"
+      true
     ],
     "typedef": [
       true,
@@ -139,6 +138,9 @@
       "check-operator",
       "check-separator",
       "check-type"
+    ],
+    "strict-boolean-expressions": [
+      true
     ]
   }
 }

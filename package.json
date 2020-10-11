@@ -2,7 +2,7 @@
   "name": "Dopamine",
   "version": "3.0.0-preview.1",
   "description": "Audio player",
-  "homepage": "https://github.com/digimezzo/dopamine-electron",
+  "homepage": "https://github.com/digimezzo/dopamine",
   "author": {
     "name": "Digimezzo",
     "email": "info@digimezzo.com"
