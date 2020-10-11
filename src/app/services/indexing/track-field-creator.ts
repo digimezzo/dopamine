@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ConfirmThat } from '../../core/confirm-that';
 import { DataDelimiter } from '../../data/data-delimiter';
 import { MetadataPatcher } from '../../metadata/metadata-patcher';
 
@@ -11,16 +12,15 @@ export class TrackFieldCreator {
     }
 
     public createNumberField(value: number): number {
-        if (!value) {
+        if (ConfirmThat.isNull(value)) {
             return 0;
         }
 
         return value;
-        return value;
     }
 
     public createTextField(value: string): string {
-        if (!value) {
+        if (ConfirmThat.isNullOrWhiteSpace(value)) {
             return '';
         }
 
@@ -28,7 +28,7 @@ export class TrackFieldCreator {
     }
 
     public createMultiTextField(valueArray: string[]): string {
-        if (!valueArray) {
+        if (ConfirmThat.isNull(valueArray)) {
             return '';
         }
 

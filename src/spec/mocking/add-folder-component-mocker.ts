@@ -1,5 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { AddFolderComponent } from '../../app/components/add-folder/add-folder.component';
+import { ConfirmThat } from '../../app/core/confirm-that';
 import { Desktop } from '../../app/core/io/desktop';
 import { Logger } from '../../app/core/logger';
 import { Folder } from '../../app/data/entities/folder';
@@ -13,7 +14,7 @@ export class AddFolderComponentMocker {
         this.translatorServiceMock.setup(x => x.getAsync(
             'ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
 
-        if (folderToDelete) {
+        if (ConfirmThat.isNotNull(this.folderToDelete)) {
             this.translatorServiceMock.setup(x => x.getAsync('DialogTitles.ConfirmDeleteFolder')).returns(async () => 'Delete folder?');
             this.translatorServiceMock.setup(x => x.getAsync(
                 'DialogTexts.ConfirmDeleteFolder',

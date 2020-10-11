@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as path from 'path';
+import { ConfirmThat } from '../../core/confirm-that';
 import { ImageProcessor } from '../../core/image-processor';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
@@ -21,7 +22,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     }
 
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
-        if (!data) {
+        if (ConfirmThat.isNull(data)) {
             return null;
         }
 

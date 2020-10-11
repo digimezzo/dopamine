@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ConfirmThat } from '../../core/confirm-that';
 import { Logger } from '../../core/logger';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { Track } from '../../data/entities/track';
@@ -28,21 +29,21 @@ export class AlbumArtworkAdder {
         try {
             const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
 
-            if (!track) {
+            if (ConfirmThat.isNull(track)) {
                 return;
             }
 
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata);
 
-            if (!albumArtwork) {
+            if (ConfirmThat.isNull(albumArtwork)) {
                 return;
             }
 
             const albumArtworkCacheId: AlbumArtworkCacheId =
                 await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
-            if (!albumArtworkCacheId) {
+            if (ConfirmThat.isNull(albumArtworkCacheId)) {
                 return;
             }
 
