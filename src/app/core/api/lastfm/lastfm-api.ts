@@ -1,6 +1,7 @@
 import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../base/sensitive-information';
+import { DateTime } from '../../date-time';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
@@ -14,7 +15,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(parameters, method);
+        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
         const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, true);
@@ -42,6 +43,7 @@ export class LastfmApi {
         const lastfmArtist: LastfmArtist = new LastfmArtist();
 
         if (jsonResponse) {
+            // http://www.last.fm/api/show/artist.getInfo
             const artistImages: any[] = jsonResponse.artist.image;
 
             lastfmArtist.name = jsonResponse.artist.name;
@@ -96,6 +98,7 @@ export class LastfmApi {
         const lastfmAlbum: LastfmAlbum = new LastfmAlbum();
 
         if (jsonResponse) {
+            // http://www.last.fm/api/show/album.getInfo
             lastfmAlbum.artist = jsonResponse.album.artist;
             lastfmAlbum.name = jsonResponse.album.name;
             lastfmAlbum.url = jsonResponse.album.url;
@@ -109,6 +112,125 @@ export class LastfmApi {
         return lastfmAlbum;
     }
 
+    public static async ScrobbleTrackAsync(
+        sessionKey: string,
+        artist: string,
+        trackTitle: string,
+        albumTitle: string,
+        playbackStartTime: Date): Promise<boolean> {
+        let isScrobbleSuccessful: boolean = false;
+
+        const method: string = 'track.scrobble';
+
+        const parameters: Map<string, string> = new Map<string, string>([
+            ['artist', artist],
+            ['track', trackTitle],
+            ['timestamp', DateTime.convertToUnixTime(playbackStartTime).toString()],
+            ['api_key', SensitiveInformation.lastfmApiKey],
+            ['sk', sessionKey],
+        ]);
+
+        if (albumTitle) {
+            parameters.set('album', albumTitle);
+        }
+
+        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        parameters.set('api_sig', methodSignature);
+
+        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+
+        if (jsonResponse) {
+            isScrobbleSuccessful = true;
+        }
+
+        return isScrobbleSuccessful;
+    }
+
+    public static async UpdateTrackNowPlayingAsync(
+        sessionKey: string,
+        artist: string,
+        trackTitle: string,
+        albumTitle: string): Promise<boolean> {
+        let isNowPlayingUpdateSuccessful: boolean = false;
+
+        const method: string = 'track.updateNowPlaying';
+
+        const parameters: Map<string, string> = new Map<string, string>([
+            ['artist', artist],
+            ['track', trackTitle],
+            ['api_key', SensitiveInformation.lastfmApiKey],
+            ['sk', sessionKey],
+        ]);
+
+        if (albumTitle) {
+            parameters.set('album', albumTitle);
+        }
+
+        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        parameters.set('api_sig', methodSignature);
+
+        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+
+        if (jsonResponse) {
+            isNowPlayingUpdateSuccessful = true;
+        }
+
+        return isNowPlayingUpdateSuccessful;
+    }
+
+    public static async LoveTrackAsync(
+        sessionKey: string,
+        artist: string,
+        trackTitle: string): Promise<boolean> {
+        let isLoveTrackSuccessful: boolean = false;
+
+        const method: string = 'track.love';
+
+        const parameters: Map<string, string> = new Map<string, string>([
+            ['artist', artist],
+            ['track', trackTitle],
+            ['api_key', SensitiveInformation.lastfmApiKey],
+            ['sk', sessionKey],
+        ]);
+
+        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        parameters.set('api_sig', methodSignature);
+
+        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+
+        if (jsonResponse) {
+            isLoveTrackSuccessful = true;
+        }
+
+        return isLoveTrackSuccessful;
+    }
+
+    public static async UnloveTrackAsync(
+        sessionKey: string,
+        artist: string,
+        trackTitle: string): Promise<boolean> {
+        let isLoveTrackSuccessful: boolean = false;
+
+        const method: string = 'track.unlove';
+
+        const parameters: Map<string, string> = new Map<string, string>([
+            ['artist', artist],
+            ['track', trackTitle],
+            ['api_key', SensitiveInformation.lastfmApiKey],
+            ['sk', sessionKey],
+        ]);
+
+        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        parameters.set('api_sig', methodSignature);
+
+        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+
+        if (jsonResponse) {
+            isLoveTrackSuccessful = true;
+        }
+
+        return isLoveTrackSuccessful;
+    }
 
 
     private static async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
@@ -170,7 +292,7 @@ export class LastfmApi {
         return '';
     }
 
-    private static generateMethodSignature(parameters: Map<string, string>, method: string): string {
+    private static generateMethodSignature(method: string, parameters: Map<string, string>): string {
         let alphabeticalList: string[] = [];
 
         parameters.forEach((value: string, key: string) => {

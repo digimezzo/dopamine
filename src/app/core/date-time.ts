@@ -19,4 +19,8 @@ export class DateTime {
 
         return dotNetTicks;
     }
+
+    public static convertToUnixTime(date: Date): number {
+        return date.getTime() / 1000;
+    }
 }
