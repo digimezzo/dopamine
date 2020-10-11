@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
+import { StringComparison } from '../../core/string-comparison';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
@@ -33,7 +34,7 @@ export class AddFolderComponent implements OnInit {
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 
-        if (selectedFolderPath) {
+        if (!StringComparison.isNullOrWhiteSpace(selectedFolderPath)) {
             try {
                 await this.folderService.addNewFolderAsync(selectedFolderPath);
                 await this.getFolders();

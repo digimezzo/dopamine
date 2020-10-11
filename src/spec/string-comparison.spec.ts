@@ -63,4 +63,72 @@ describe('StringComparison', () => {
             assert.ok(areStringsEqual);
         });
     });
+
+    describe('isNullOrWhiteSpace', () => {
+        it('Should return true if the string to check is null', () => {
+            // Arrange
+            const stringToCheck: string = null;
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(stringToCheckIsNullOrWhiteSpace);
+        });
+
+        it('Should return true if the string to check is undefined', () => {
+            // Arrange
+            const stringToCheck: string = undefined;
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(stringToCheckIsNullOrWhiteSpace);
+        });
+
+        it('Should return true if the string to check is empty', () => {
+            // Arrange
+            const stringToCheck: string = '';
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(stringToCheckIsNullOrWhiteSpace);
+        });
+
+        it('Should return true if the string to check is a white space', () => {
+            // Arrange
+            const stringToCheck: string = ' ';
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(stringToCheckIsNullOrWhiteSpace);
+        });
+
+        it('Should return true if the string to check is multiple white spaces', () => {
+            // Arrange
+            const stringToCheck: string = '     ';
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(stringToCheckIsNullOrWhiteSpace);
+        });
+
+        it('Should return false if the string to check contains characters', () => {
+            // Arrange
+            const stringToCheck: string = 'myString 1';
+
+            // Act
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+
+            // Assert
+            assert.ok(!stringToCheckIsNullOrWhiteSpace);
+        });
+    });
 });

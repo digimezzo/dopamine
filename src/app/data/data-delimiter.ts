@@ -8,7 +8,7 @@ export class DataDelimiter {
     public doubleDelimiter: string = `;;`;
 
     public convertToDelimitedString(stringArray: string[]): string {
-        if (!stringArray) {
+        if (stringArray === null || stringArray === undefined) {
             return '';
         }
 

@@ -2,6 +2,7 @@ import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../base/sensitive-information';
 import { DateTime } from '../../date-time';
+import { StringComparison } from '../../string-comparison';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
@@ -35,7 +36,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (languageCode) {
+        if (!StringComparison.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -90,7 +91,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (languageCode) {
+        if (!StringComparison.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -130,7 +131,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (albumTitle) {
+        if (!StringComparison.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
@@ -162,7 +163,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (albumTitle) {
+        if (!StringComparison.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { remote, BrowserWindow } from 'electron';
+import { BrowserWindow, remote } from 'electron';
 
 @Component({
     selector: 'app-window-controls',
@@ -15,21 +15,21 @@ export class WindowControlsComponent implements OnInit {
     public canMaximize: boolean = false;
 
     public ngOnInit(): void {
-        if (remote != null) {
+        if (remote !== null && remote !== undefined) {
             const window: BrowserWindow = remote.getCurrentWindow();
             this.canMaximize = !window.isMaximized();
         }
     }
 
     public minButtonClick(): void {
-        if (remote != null) {
+        if (remote !== null && remote !== undefined) {
             const window: BrowserWindow = remote.getCurrentWindow();
             window.minimize();
         }
     }
 
     public maxRestoreClick(): void {
-        if (remote != null) {
+        if (remote !== null && remote !== undefined) {
             const window: BrowserWindow = remote.getCurrentWindow();
 
             if (window.isMaximized()) {
@@ -43,7 +43,7 @@ export class WindowControlsComponent implements OnInit {
     }
 
     public closeButtonClick(): void {
-        if (remote != null) {
+        if (remote !== null && remote !== undefined) {
             const window: BrowserWindow = remote.getCurrentWindow();
             window.close();
         }

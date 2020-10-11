@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { StringComparison } from '../core/string-comparison';
 import { DataDelimiter } from './data-delimiter';
 
 @Injectable({
@@ -9,11 +10,11 @@ export class AlbumKeyGenerator {
     }
 
     public generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
-        if (albumTitle && albumTitle.trim() !== '') {
+        if (!StringComparison.isNullOrWhiteSpace(albumTitle)) {
             const albumKeyItems: string[] = [];
             albumKeyItems.push(albumTitle);
 
-            if (albumArtists && albumArtists.length > 0) {
+            if (albumArtists !== null && albumArtists !== undefined && albumArtists.length > 0) {
                 albumKeyItems.push(...albumArtists);
             }
 

@@ -14,4 +14,20 @@ export class StringComparison {
 
         return string1.toLowerCase() === string2.toLowerCase();
     }
+
+    public static isNullOrWhiteSpace(stringToCheck: string): boolean {
+        if (stringToCheck === null) {
+            return true;
+        }
+
+        if (stringToCheck === undefined) {
+            return true;
+        }
+
+        if (stringToCheck.trim() === '') {
+            return true;
+        }
+
+        return false;
+    }
 }

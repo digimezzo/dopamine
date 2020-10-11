@@ -28,21 +28,21 @@ export class AlbumArtworkAdder {
         try {
             const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
 
-            if (!track) {
+            if (track === null || track === undefined) {
                 return;
             }
 
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata);
 
-            if (!albumArtwork) {
+            if (albumArtwork === null || albumArtwork === undefined) {
                 return;
             }
 
             const albumArtworkCacheId: AlbumArtworkCacheId =
                 await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
-            if (!albumArtworkCacheId) {
+            if (albumArtworkCacheId === null || albumArtworkCacheId === undefined) {
                 return;
             }
 

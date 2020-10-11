@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ImageProcessor } from '../../core/image-processor';
 import { Logger } from '../../core/logger';
+import { StringComparison } from '../../core/string-comparison';
 import { FileMetadata } from '../../metadata/file-metadata';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
@@ -15,19 +16,19 @@ export class AlbumArtworkGetter {
     }
 
     public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
-        if (!fileMetadata) {
+        if (fileMetadata === null || fileMetadata === undefined) {
             return null;
         }
 
         const embeddedArtwork: Buffer = this.getEmbeddedArtwork(fileMetadata);
 
-        if (embeddedArtwork) {
+        if (embeddedArtwork !== null && embeddedArtwork !== undefined) {
             return embeddedArtwork;
         }
 
         const externalArtwork: Buffer = await this.getExternalArtworkAsync(fileMetadata);
 
-        if (externalArtwork) {
+        if (externalArtwork !== null && externalArtwork !== undefined) {
             return externalArtwork;
         }
 
@@ -56,7 +57,7 @@ export class AlbumArtworkGetter {
         try {
             const externalArtworkPath: string = this.externalArtworkPathGetter.getExternalArtworkPath(fileMetadata.path);
 
-            if (externalArtworkPath) {
+            if (!StringComparison.isNullOrWhiteSpace(externalArtworkPath)) {
                 artworkData = await this.imageprocessor.convertFileToDataAsync(externalArtworkPath);
             }
         } catch (error) {

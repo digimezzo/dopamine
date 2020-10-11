@@ -7,7 +7,7 @@ export class MetadataPatcher {
     private unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 
     public joinUnsplittableMetadata(possiblySplittedMetadata: string[]): string[] {
-        if (!possiblySplittedMetadata) {
+        if (possiblySplittedMetadata === null || possiblySplittedMetadata === undefined) {
             return [];
         }
 

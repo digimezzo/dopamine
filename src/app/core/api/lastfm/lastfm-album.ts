@@ -1,3 +1,5 @@
+import { StringComparison } from '../../string-comparison';
+
 export class LastfmAlbum {
     public name: string;
     public artist: string;
@@ -9,23 +11,23 @@ export class LastfmAlbum {
     public imageMega: string;
 
     public largestImage(): string {
-        if (this.imageMega) {
+        if (!StringComparison.isNullOrWhiteSpace(this.imageMega)) {
             return this.imageMega;
         }
 
-        if (this.imageExtraLarge) {
+        if (!StringComparison.isNullOrWhiteSpace(this.imageExtraLarge)) {
             return this.imageExtraLarge;
         }
 
-        if (this.imageLarge) {
+        if (!StringComparison.isNullOrWhiteSpace(this.imageLarge)) {
             return this.imageLarge;
         }
 
-        if (this.imageMedium) {
+        if (!StringComparison.isNullOrWhiteSpace(this.imageMedium)) {
             return this.imageMedium;
         }
 
-        if (this.imageSmall) {
+        if (!StringComparison.isNullOrWhiteSpace(this.imageSmall)) {
             return this.imageSmall;
         }
 
