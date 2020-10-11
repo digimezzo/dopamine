@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BrowserWindow, remote } from 'electron';
-import { ConfirmThat } from '../../core/confirm-that';
+import { remote, BrowserWindow } from 'electron';
 
 @Component({
     selector: 'app-window-controls',
@@ -16,21 +15,21 @@ export class WindowControlsComponent implements OnInit {
     public canMaximize: boolean = false;
 
     public ngOnInit(): void {
-        if (ConfirmThat.isNotNull(remote)) {
+        if (remote != null) {
             const window: BrowserWindow = remote.getCurrentWindow();
             this.canMaximize = !window.isMaximized();
         }
     }
 
     public minButtonClick(): void {
-        if (ConfirmThat.isNotNull(remote)) {
+        if (remote != null) {
             const window: BrowserWindow = remote.getCurrentWindow();
             window.minimize();
         }
     }
 
     public maxRestoreClick(): void {
-        if (ConfirmThat.isNotNull(remote)) {
+        if (remote != null) {
             const window: BrowserWindow = remote.getCurrentWindow();
 
             if (window.isMaximized()) {
@@ -44,7 +43,7 @@ export class WindowControlsComponent implements OnInit {
     }
 
     public closeButtonClick(): void {
-        if (ConfirmThat.isNotNull(remote)) {
+        if (remote != null) {
             const window: BrowserWindow = remote.getCurrentWindow();
             window.close();
         }

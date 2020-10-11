@@ -1,5 +1,3 @@
-import { ConfirmThat } from '../../confirm-that';
-
 export class LastfmAlbum {
     public name: string;
     public artist: string;
@@ -11,23 +9,23 @@ export class LastfmAlbum {
     public imageMega: string;
 
     public largestImage(): string {
-        if (ConfirmThat.isNotNullOrWhiteSpace(this.imageMega)) {
+        if (this.imageMega) {
             return this.imageMega;
         }
 
-        if (ConfirmThat.isNotNullOrWhiteSpace(this.imageExtraLarge)) {
+        if (this.imageExtraLarge) {
             return this.imageExtraLarge;
         }
 
-        if (ConfirmThat.isNotNullOrWhiteSpace(this.imageLarge)) {
+        if (this.imageLarge) {
             return this.imageLarge;
         }
 
-        if (ConfirmThat.isNotNullOrWhiteSpace(this.imageMedium)) {
+        if (this.imageMedium) {
             return this.imageMedium;
         }
 
-        if (ConfirmThat.isNotNullOrWhiteSpace(this.imageSmall)) {
+        if (this.imageSmall) {
             return this.imageSmall;
         }
 

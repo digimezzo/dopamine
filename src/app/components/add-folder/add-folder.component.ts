@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ConfirmThat } from '../../core/confirm-that';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
@@ -34,7 +33,7 @@ export class AddFolderComponent implements OnInit {
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 
-        if (ConfirmThat.isNotNullOrWhiteSpace(selectedFolderPath)) {
+        if (selectedFolderPath) {
             try {
                 await this.folderService.addNewFolderAsync(selectedFolderPath);
                 await this.getFolders();

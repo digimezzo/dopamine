@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConfirmThat } from '../../core/confirm-that';
 import { ImageProcessor } from '../../core/image-processor';
 import { Logger } from '../../core/logger';
 import { FileMetadata } from '../../metadata/file-metadata';
@@ -16,19 +15,19 @@ export class AlbumArtworkGetter {
     }
 
     public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
-        if (ConfirmThat.isNull(fileMetadata)) {
+        if (!fileMetadata) {
             return null;
         }
 
         const embeddedArtwork: Buffer = this.getEmbeddedArtwork(fileMetadata);
 
-        if (ConfirmThat.isNotNull(embeddedArtwork)) {
+        if (embeddedArtwork) {
             return embeddedArtwork;
         }
 
         const externalArtwork: Buffer = await this.getExternalArtworkAsync(fileMetadata);
 
-        if (ConfirmThat.isNotNull(externalArtwork)) {
+        if (externalArtwork) {
             return externalArtwork;
         }
 
@@ -57,7 +56,7 @@ export class AlbumArtworkGetter {
         try {
             const externalArtworkPath: string = this.externalArtworkPathGetter.getExternalArtworkPath(fileMetadata.path);
 
-            if (ConfirmThat.isNotNullOrWhiteSpace(externalArtworkPath)) {
+            if (externalArtworkPath) {
                 artworkData = await this.imageprocessor.convertFileToDataAsync(externalArtworkPath);
             }
         } catch (error) {
