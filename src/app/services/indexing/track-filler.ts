@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DateTime } from '../../core/date-time';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
+import { StringComparison } from '../../core/string-comparison';
 import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { Track } from '../../data/entities/track';
 import { FileMetadata } from '../../metadata/file-metadata';
@@ -27,9 +28,9 @@ export class TrackFiller {
             const dateNowTicks: number = DateTime.getTicks(new Date());
 
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);
-            track.genres =  this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
+            track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
             track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
-            track.albumArtists =  this.trackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
+            track.albumArtists = this.trackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
             track.albumKey = this.albumKeygenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
@@ -73,7 +74,7 @@ export class TrackFiller {
     }
 
     private gethasLyrics(lyrics: string): number {
-        if (lyrics && lyrics.length > 0) {
+        if (!StringComparison.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }
 

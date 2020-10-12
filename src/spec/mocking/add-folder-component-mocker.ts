@@ -13,7 +13,7 @@ export class AddFolderComponentMocker {
         this.translatorServiceMock.setup(x => x.getAsync(
             'ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
 
-        if (folderToDelete) {
+        if (folderToDelete !== null && folderToDelete !== undefined) {
             this.translatorServiceMock.setup(x => x.getAsync('DialogTitles.ConfirmDeleteFolder')).returns(async () => 'Delete folder?');
             this.translatorServiceMock.setup(x => x.getAsync(
                 'DialogTexts.ConfirmDeleteFolder',

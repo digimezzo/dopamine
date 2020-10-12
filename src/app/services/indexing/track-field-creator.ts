@@ -7,20 +7,18 @@ import { MetadataPatcher } from '../../metadata/metadata-patcher';
 })
 export class TrackFieldCreator {
     constructor(private metadataPatcher: MetadataPatcher, private dataDelimiter: DataDelimiter) {
-
     }
 
     public createNumberField(value: number): number {
-        if (!value) {
+        if (value === null || value === undefined) {
             return 0;
         }
 
         return value;
-        return value;
     }
 
     public createTextField(value: string): string {
-        if (!value) {
+        if (value === null || value === undefined) {
             return '';
         }
 
@@ -28,7 +26,7 @@ export class TrackFieldCreator {
     }
 
     public createMultiTextField(valueArray: string[]): string {
-        if (!valueArray) {
+        if (valueArray === null || valueArray === undefined) {
             return '';
         }
 

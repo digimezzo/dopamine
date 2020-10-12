@@ -1,13 +1,13 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
 import { remote } from 'electron';
-import { Logger } from '../../core/logger';
-import { ColorScheme } from './color-scheme';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { BaseAppearanceService } from './base-appearance.service';
-import { ProductInformation } from '../../core/base/product-information';
-import { FontSize } from '../../core/base/font-size';
 import { Constants } from '../../core/base/constants';
+import { FontSize } from '../../core/base/font-size';
+import { ProductInformation } from '../../core/base/product-information';
+import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { BaseAppearanceService } from './base-appearance.service';
+import { ColorScheme } from './color-scheme';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +24,7 @@ export class AppearanceService implements BaseAppearanceService {
         ) {
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
 
-        if (!colorSchemeFromSettings) {
+        if (colorSchemeFromSettings === null || colorSchemeFromSettings === undefined) {
             colorSchemeFromSettings = this.colorSchemes[0];
         }
 
@@ -77,7 +77,7 @@ export class AppearanceService implements BaseAppearanceService {
     private applyThemeClasses(element: HTMLElement, themeName: string): void {
         const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
 
-        if (classesToRemove.length) {
+        if (classesToRemove.length > 0) {
             element.classList.remove(...classesToRemove);
         }
 
