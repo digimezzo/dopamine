@@ -27,7 +27,7 @@ export class TrackUpdater {
 
             for (const track of tracks) {
                 try {
-                    if (await this.isTrackOutOfDateAsync(track) || track.needsIndexing === 1) {
+                    if (await this.isTrackOutOfDateAsync(track) || this.trackNeedsIndexing(track)) {
                         await this.trackFiller.addFileMetadataToTrackAsync(track);
                         this.trackRepository.updateTrack(track);
                         numberOfUpdatedTracks++;
@@ -65,6 +65,26 @@ export class TrackUpdater {
         }
 
         if (track.dateFileModified !== await this.fileSystem.getDateModifiedInTicksAsync(track.path)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private trackNeedsIndexing(track: Track): boolean {
+        if (track.needsIndexing === null) {
+            return true;
+        }
+
+        if (track.needsIndexing === undefined) {
+            return true;
+        }
+
+        if (Number.isNaN(track.needsIndexing)) {
+            return true;
+        }
+
+        if (track.needsIndexing === 1) {
             return true;
         }
 

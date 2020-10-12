@@ -393,21 +393,48 @@ describe('TrackUpdater', () => {
 
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.dateFileModified = 200;
-            track2.fileSize = 20;
-            track2.needsIndexing = 0;
+            track2.dateFileModified = 100;
+            track2.fileSize = 10;
+            track2.needsIndexing = null;
 
-            mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
+            const track3: Track = new Track('/home/user/Music/Track 3.mp3');
+            track3.trackId = 1;
+            track3.dateFileModified = 100;
+            track3.fileSize = 10;
+            track3.needsIndexing = undefined;
+
+            const track4: Track = new Track('/home/user/Music/Track 4.mp3');
+            track4.trackId = 1;
+            track4.dateFileModified = 100;
+            track4.fileSize = 10;
+            track4.needsIndexing = NaN;
+
+            const track5: Track = new Track('/home/user/Music/Track 5.mp3');
+            track5.trackId = 1;
+            track5.dateFileModified = 200;
+            track5.fileSize = 20;
+            track5.needsIndexing = 0;
+
+            mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2, track3, track4, track5]);
             mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track3.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track4.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track5.path)).returns(() => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
-            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track3.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track4.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track5.path)).returns(async () => 200);
 
             // Act
             await mocker.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
             mocker.trackRepositoryMock.verify(x => x.updateTrack(track1), Times.exactly(1));
+            mocker.trackRepositoryMock.verify(x => x.updateTrack(track2), Times.exactly(1));
+            mocker.trackRepositoryMock.verify(x => x.updateTrack(track3), Times.exactly(1));
+            mocker.trackRepositoryMock.verify(x => x.updateTrack(track4), Times.exactly(1));
         });
 
         it('Should not update metadata for tracks that do not need indexing', async () => {
@@ -451,21 +478,46 @@ describe('TrackUpdater', () => {
 
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 1;
-            track2.dateFileModified = 200;
-            track2.fileSize = 20;
-            track2.needsIndexing = 0;
+            track2.dateFileModified = 100;
+            track2.fileSize = 10;
+            track2.needsIndexing = null;
 
-            mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
+            const track3: Track = new Track('/home/user/Music/Track 3.mp3');
+            track3.trackId = 1;
+            track3.dateFileModified = 100;
+            track3.fileSize = 10;
+            track3.needsIndexing = undefined;
+
+            const track4: Track = new Track('/home/user/Music/Track 4.mp3');
+            track4.trackId = 1;
+            track4.dateFileModified = 100;
+            track4.fileSize = 10;
+            track4.needsIndexing = NaN;
+
+            const track5: Track = new Track('/home/user/Music/Track 5.mp3');
+            track5.trackId = 1;
+            track5.dateFileModified = 200;
+            track5.fileSize = 20;
+            track5.needsIndexing = 0;
+
+            mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2, track3, track4, track5]);
             mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track3.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track4.path)).returns(() => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track5.path)).returns(() => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
-            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track3.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track4.path)).returns(async () => 100);
+            mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track5.path)).returns(async () => 200);
+
 
             // Act
             await mocker.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
-            mocker.trackRepositoryMock.verify(x => x.updateTrack(track2), Times.never());
+            mocker.trackRepositoryMock.verify(x => x.updateTrack(track5), Times.never());
         });
     });
 });

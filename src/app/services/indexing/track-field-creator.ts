@@ -10,7 +10,7 @@ export class TrackFieldCreator {
     }
 
     public createNumberField(value: number): number {
-        if (value === null || value === undefined) {
+        if (value === null || value === undefined || Number.isNaN(value)) {
             return 0;
         }
 

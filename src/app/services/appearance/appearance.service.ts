@@ -77,7 +77,7 @@ export class AppearanceService implements BaseAppearanceService {
     private applyThemeClasses(element: HTMLElement, themeName: string): void {
         const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
 
-        if (classesToRemove.length > 0) {
+        if (classesToRemove !== null && classesToRemove !== undefined && classesToRemove.length > 0) {
             element.classList.remove(...classesToRemove);
         }
 

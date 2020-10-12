@@ -4,6 +4,18 @@ import { TrackFieldCreatorMocker } from './mocking/track-field-creator-mocker';
 
 describe('TrackFieldCreator', () => {
     describe('createNumberField', () => {
+        it('Should return an 0 when the given value is NaN', () => {
+            // Arrange
+            const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
+
+            // Act
+            const field: number = mocker.trackFieldCreator.createNumberField(NaN); ;
+
+            // Assert
+            assert.strictEqual(field, 0);
+        });
+
+
         it('Should return an 0 when the given value is null', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();

@@ -43,15 +43,21 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             return;
         }
 
-        if (audioMetadata.format.bitrate !== null && audioMetadata.format.bitrate !== undefined) {
+        if (audioMetadata.format.bitrate !== null &&
+            audioMetadata.format.bitrate !== undefined &&
+            !Number.isNaN(audioMetadata.format.bitrate)) {
             this.bitRate = audioMetadata.format.bitrate;
         }
 
-        if (audioMetadata.format.sampleRate !== null && audioMetadata.format.sampleRate !== undefined) {
+        if (audioMetadata.format.sampleRate !== null &&
+            audioMetadata.format.sampleRate !== undefined &&
+            !Number.isNaN(audioMetadata.format.sampleRate)) {
             this.sampleRate = audioMetadata.format.sampleRate;
         }
 
-        if (audioMetadata.format.duration !== null && audioMetadata.format.duration !== undefined) {
+        if (audioMetadata.format.duration !== null &&
+            audioMetadata.format.duration !== undefined &&
+            !Number.isNaN(audioMetadata.format.duration)) {
             this.duration = audioMetadata.format.duration;
         }
 
@@ -91,26 +97,36 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             }
         }
 
-        if (audioMetadata.common.year !== null && audioMetadata.common.year !== undefined) {
+        if (audioMetadata.common.year !== null &&
+            audioMetadata.common.year !== undefined &&
+            !Number.isNaN(audioMetadata.common.year)) {
             this.year = audioMetadata.common.year;
         }
 
         if (audioMetadata.common.track !== null && audioMetadata.common.track !== undefined) {
-            if (audioMetadata.common.track.no !== null && audioMetadata.common.track.no !== undefined) {
+            if (audioMetadata.common.track.no !== null &&
+                audioMetadata.common.track.no !== undefined &&
+                !Number.isNaN(audioMetadata.common.track.no)) {
                 this.trackNumber = audioMetadata.common.track.no;
             }
 
-            if (audioMetadata.common.track.of !== null && audioMetadata.common.track.of !== undefined) {
+            if (audioMetadata.common.track.of !== null &&
+                audioMetadata.common.track.of !== undefined &&
+                !Number.isNaN(audioMetadata.common.track.of)) {
                 this.trackCount = audioMetadata.common.track.of;
             }
         }
 
         if (audioMetadata.common.disk !== null && audioMetadata.common.disk !== undefined) {
-            if (audioMetadata.common.disk.no !== null && audioMetadata.common.disk.no !== undefined) {
+            if (audioMetadata.common.disk.no !== null &&
+                audioMetadata.common.disk.no !== undefined &&
+                !Number.isNaN(audioMetadata.common.disk.no)) {
                 this.discNumber = audioMetadata.common.disk.no;
             }
 
-            if (audioMetadata.common.disk.of !== null && audioMetadata.common.disk.of !== undefined) {
+            if (audioMetadata.common.disk.of !== null &&
+                audioMetadata.common.disk.of !== undefined &&
+                !Number.isNaN(audioMetadata.common.disk.of)) {
                 this.discCount = audioMetadata.common.disk.of;
             }
         }
