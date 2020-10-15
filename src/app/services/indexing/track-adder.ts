@@ -11,9 +11,7 @@ import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class TrackAdder {
     constructor(
         private trackrepository: BaseTrackRepository,

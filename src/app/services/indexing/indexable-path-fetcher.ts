@@ -9,9 +9,7 @@ import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 import { IndexablePath } from './indexable-path';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class IndexablePathFetcher implements BaseIndexablePathFetcher {
     constructor(
         private fileSystem: FileSystem,

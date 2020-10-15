@@ -4,9 +4,7 @@ import { Defaults } from '../../core/base/defaults';
 import { FileSystem } from '../../core/io/file-system';
 import { StringComparison } from '../../core/string-comparison';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class ExternalArtworkPathGetter {
     constructor(private fileSystem: FileSystem) {
     }

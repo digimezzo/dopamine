@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BaseDialogService } from './base-dialog.service';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
+import { BaseDialogService } from './base-dialog.service';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class DialogService implements BaseDialogService {
     constructor(private dialog: MatDialog) {

@@ -5,9 +5,7 @@ import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class TrackIndexer {
     constructor(
         private trackRemover: TrackRemover,

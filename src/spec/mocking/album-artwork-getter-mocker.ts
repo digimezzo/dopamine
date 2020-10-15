@@ -1,20 +1,17 @@
 import { IMock, Mock } from 'typemoq';
-import { ImageProcessor } from '../../app/core/image-processor';
-import { Logger } from '../../app/core/logger';
 import { AlbumArtworkGetter } from '../../app/services/indexing/album-artwork-getter';
-import { ExternalArtworkPathGetter } from '../../app/services/indexing/external-artwork-path-getter';
+import { EmbeddedAlbumArtworkGetter } from '../../app/services/indexing/embedded-album-artwork-getter';
+import { ExternalAlbumArtworkGetter } from '../../app/services/indexing/external-album-artwork-getter';
 
 export class AlbumArtworkGetterMocker {
     constructor() {
         this.albumArtworkGetter = new AlbumArtworkGetter(
-            this.externalArtworkPathGetterMock.object,
-            this.imageProcessorMock.object,
-            this.loggerMock.object
+            this.embeddedAlbumArtworkGetterMock.object,
+            this.externalAlbumArtworkGetterMock.object
         );
     }
 
-    public externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
-    public imageProcessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-    public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+    public embeddedAlbumArtworkGetterMock: IMock<EmbeddedAlbumArtworkGetter> = Mock.ofType<EmbeddedAlbumArtworkGetter>();
+    public externalAlbumArtworkGetterMock: IMock<ExternalAlbumArtworkGetter> = Mock.ofType<ExternalAlbumArtworkGetter>();
     public albumArtworkGetter: AlbumArtworkGetter;
 }

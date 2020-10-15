@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileSystem } from '../../core/io/file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class DirectoryWalker {
     constructor(private fileSystem: FileSystem) { }
 

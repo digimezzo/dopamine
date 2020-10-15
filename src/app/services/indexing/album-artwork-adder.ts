@@ -10,9 +10,7 @@ import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { AlbumArtworkGetter } from './album-artwork-getter';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AlbumArtworkAdder {
     constructor(
         private albumArtworkCacheService: BaseAlbumArtworkCacheService,

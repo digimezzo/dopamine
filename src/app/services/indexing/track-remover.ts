@@ -6,9 +6,7 @@ import { Track } from '../../data/entities/track';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class TrackRemover {
     constructor(
         private trackRepository: BaseTrackRepository,

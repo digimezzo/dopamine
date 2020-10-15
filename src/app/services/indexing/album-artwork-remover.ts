@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AlbumArtworkRemover {
     constructor(private albumArtworkRepository: BaseAlbumArtworkRepository, private logger: Logger) {
     }

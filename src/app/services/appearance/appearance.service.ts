@@ -10,7 +10,7 @@ import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class AppearanceService implements BaseAppearanceService {
     private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');

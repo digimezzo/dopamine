@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock } from 'typemoq';
 import { FileMetadata } from '../app/metadata/file-metadata';
 import { AlbumArtworkGetterMocker } from './mocking/album-artwork-getter-mocker';
 
@@ -7,10 +7,10 @@ describe('AlbumArtworkGetter', () => {
     describe('getAlbumArtwork', () => {
         it('Should return null if fileMetaData is null', async () => {
             // Arrange
-            const mock: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+            const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
             // Act
-            const albumArtwork: Buffer = await mock.albumArtworkGetter.getAlbumArtworkAsync(null);
+            const albumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(null);
 
             // Assert
             assert.strictEqual(albumArtwork, null);
@@ -27,66 +27,90 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(albumArtwork, null);
         });
 
-        it('Should return embedded artwork if fileMetaData is not null', async () => {
+        it('Should return embedded artwork, when found, if fileMetaData is not null.', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
 
-            const embeddedAlbumArtwork = Buffer.from([1, 2, 3]);
-            fileMetaDataMock.setup(x => x.picture).returns(() => embeddedAlbumArtwork);
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => expectedAlbumArtwork);
 
             // Act
-            const albumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(albumArtwork, embeddedAlbumArtwork);
+            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return external artwork, if found, when no embedded artwork was found', async () => {
+        it('Should return external artwork, if found, when embedded artwork is null', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
 
-            const embeddedAlbumArtwork = Buffer.from([1, 2, 3]);
-            fileMetaDataMock.setup(x => x.picture).returns(() => null);
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
-
-            mocker.externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
-            ).returns(() => '/home/MyUser/Music/front.png');
-
-            mocker.imageProcessorMock.setup(
-                x => x.convertFileToDataAsync('/home/MyUser/Music/front.png')
-                ).returns(async () => embeddedAlbumArtwork);
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => null);
+            mocker.externalAlbumArtworkGetterMock.setup(
+                x => x.getExternalArtworkAsync(It.isAny())
+            ).returns(async () => expectedAlbumArtwork);
 
             // Act
-            const albumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(albumArtwork, embeddedAlbumArtwork);
+            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should not return external artwork, if none was found, when no embedded artwork was found', async () => {
+        it('Should return external artwork, if found, when embedded artwork is undefined', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
 
-            fileMetaDataMock.setup(x => x.picture).returns(() => null);
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
-
-            mocker.externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
-            ).returns(() => '/home/MyUser/Music/front.png');
-
-            mocker.imageProcessorMock.setup(
-                x => x.convertFileToDataAsync('/home/MyUser/Music/front.png')
-                ).returns(async () => null);
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
+            mocker.externalAlbumArtworkGetterMock.setup(
+                x => x.getExternalArtworkAsync(It.isAny())
+            ).returns(async () => expectedAlbumArtwork);
 
             // Act
-            const albumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(albumArtwork, null);
+            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+        });
+
+        it('Should return null when embedded artwork is null', async () => {
+            // Arrange
+            const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => null);
+            mocker.externalAlbumArtworkGetterMock.setup(x => x.getExternalArtworkAsync(It.isAny())).returns(async () => null);
+
+            // Act
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+
+            // Assert
+            assert.strictEqual(actualAlbumArtwork, null);
+        });
+
+        it('Should return null when embedded artwork is undefined', async () => {
+            // Arrange
+            const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => null);
+            mocker.externalAlbumArtworkGetterMock.setup(x => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
+
+            // Act
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+
+            // Assert
+            assert.strictEqual(actualAlbumArtwork, null);
         });
     });
 });

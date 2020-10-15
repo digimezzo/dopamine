@@ -8,7 +8,7 @@ import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(

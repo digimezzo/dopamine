@@ -5,9 +5,7 @@ import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class CollectionChecker implements BaseCollectionChecker {
     constructor(
         private indexablePathFetcher: BaseIndexablePathFetcher,

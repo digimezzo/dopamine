@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import log from 'electron-log';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class Logger {
     constructor() { }
 

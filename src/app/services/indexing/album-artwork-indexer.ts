@@ -6,9 +6,7 @@ import { BaseTrackRepository } from '../../data/repositories/base-track-reposito
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AlbumArtworkIndexer {
     constructor(
         private trackRepository: BaseTrackRepository,

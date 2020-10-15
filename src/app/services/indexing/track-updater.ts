@@ -6,9 +6,7 @@ import { Track } from '../../data/entities/track';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { TrackFiller } from './track-filler';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class TrackUpdater {
     constructor(
         private trackRepository: BaseTrackRepository,

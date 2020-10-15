@@ -10,9 +10,7 @@ import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { MimeTypes } from '../../metadata/mime-types';
 import { TrackFieldCreator } from './track-field-creator';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class TrackFiller {
     constructor(
         private fileMetadataFactory: FileMetadataFactory,
