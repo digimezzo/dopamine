@@ -8,11 +8,11 @@ export class EmbeddedAlbumArtworkGetter {
     }
 
     public getEmbeddedArtwork(fileMetadata: FileMetadata): Buffer {
-        if (fileMetadata === null || fileMetadata === undefined) {
-            return null;
+        if (fileMetadata == undefined) {
+            return undefined;
         }
 
-        let artworkData: Buffer = null;
+        let artworkData: Buffer;
 
         try {
             artworkData = fileMetadata.picture;

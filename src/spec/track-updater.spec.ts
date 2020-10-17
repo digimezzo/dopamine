@@ -395,7 +395,7 @@ describe('TrackUpdater', () => {
             track2.trackId = 1;
             track2.dateFileModified = 100;
             track2.fileSize = 10;
-            track2.needsIndexing = null;
+            track2.needsIndexing = undefined;
 
             const track3: Track = new Track('/home/user/Music/Track 3.mp3');
             track3.trackId = 1;
@@ -480,7 +480,7 @@ describe('TrackUpdater', () => {
             track2.trackId = 1;
             track2.dateFileModified = 100;
             track2.fileSize = 10;
-            track2.needsIndexing = null;
+            track2.needsIndexing = undefined;
 
             const track3: Track = new Track('/home/user/Music/Track 3.mp3');
             track3.trackId = 1;

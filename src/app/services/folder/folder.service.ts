@@ -20,7 +20,7 @@ export class FolderService implements BaseFolderService {
     try {
       const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
 
-      if (existingFolder === null || existingFolder === undefined) {
+      if (existingFolder == undefined) {
         const newFolder: Folder = new Folder(path);
         await this.folderRepository.addFolder(newFolder);
         this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');

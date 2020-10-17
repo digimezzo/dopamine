@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as path from 'path';
 import { Defaults } from '../../core/base/defaults';
 import { FileSystem } from '../../core/io/file-system';
-import { Strings } from '../../core/strings';
+import { StringCompare } from '../../core/string-compare';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
@@ -10,8 +10,8 @@ export class ExternalArtworkPathGetter {
     }
 
     public getExternalArtworkPath(audioFilePath: string): string {
-        if (Strings.isNullOrWhiteSpace(audioFilePath)) {
-            return null;
+        if (StringCompare.isNullOrWhiteSpace(audioFilePath)) {
+            return undefined;
         }
 
         const directory: string = this.fileSystem.getDirectoryPath(audioFilePath);
@@ -28,6 +28,6 @@ export class ExternalArtworkPathGetter {
             }
         }
 
-        return null;
+        return undefined;
     }
 }

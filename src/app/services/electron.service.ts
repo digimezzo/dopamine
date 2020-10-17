@@ -28,6 +28,6 @@ export class ElectronService {
   }
 
   public isElectron = () => {
-    return window !== null && window !== undefined && window.process && window.process.type;
+    return window != undefined && window.process && window.process.type;
   }
 }

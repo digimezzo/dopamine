@@ -8,7 +8,7 @@ export class TrackFieldCreator {
     }
 
     public createNumberField(value: number): number {
-        if (value === null || value === undefined || Number.isNaN(value)) {
+        if (value == undefined || Number.isNaN(value)) {
             return 0;
         }
 
@@ -16,7 +16,7 @@ export class TrackFieldCreator {
     }
 
     public createTextField(value: string): string {
-        if (value === null || value === undefined) {
+        if (value == undefined) {
             return '';
         }
 
@@ -24,7 +24,7 @@ export class TrackFieldCreator {
     }
 
     public createMultiTextField(valueArray: string[]): string {
-        if (valueArray === null || valueArray === undefined) {
+        if (valueArray == undefined) {
             return '';
         }
 

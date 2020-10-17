@@ -24,30 +24,17 @@ describe('AlbumArtworkCacheService', () => {
     });
 
     describe('addArtworkDataToCacheAsync', () => {
-        it('Should return null when the data is null', async () => {
+        it('Should return undefined when the data is undefined', async () => {
             // Arrange
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
-
-            // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await mocker.albumArtworkCacheService.addArtworkDataToCacheAsync(null);
-
-            // Assert
-            assert.strictEqual(albumArtworkCacheId, null);
-        });
-
-        it('Should return null when the data is undefined', async () => {
-            // Arrange
-            const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
-
 
             // Act
             const albumArtworkCacheId: AlbumArtworkCacheId = await mocker.albumArtworkCacheService.addArtworkDataToCacheAsync(undefined);
 
             // Assert
-            assert.strictEqual(albumArtworkCacheId, null);
+            assert.strictEqual(albumArtworkCacheId, undefined);
         });
-
-        it('Should return null when the data is empty', async () => {
+        it('Should return undefined when the data is empty', async () => {
             // Arrange
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
 
@@ -57,7 +44,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheId: AlbumArtworkCacheId = await mocker.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
-            assert.strictEqual(albumArtworkCacheId, null);
+            assert.strictEqual(albumArtworkCacheId, undefined);
         });
 
         it('Should return a valid AlbumArtworkCacheId when the data is not empty', async () => {

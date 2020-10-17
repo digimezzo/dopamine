@@ -5,18 +5,6 @@ import { DataDelimiter } from '../app/data/data-delimiter';
 
 describe('AlbumKeyGenerator', () => {
     describe('generateAlbumKey', () => {
-        it('Should generate an empty album key if album title is null', () => {
-            // Arrange
-            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
-
-            // Act
-            const albumKey: string = albumkeyGenerator.generateAlbumKey(null, ['Artist 1', 'Artist 2']);
-
-            // Assert
-            assert.strictEqual(albumKey, '');
-        });
-
         it('Should generate an empty album key if album title is undefined', () => {
             // Arrange
             const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
@@ -65,30 +53,15 @@ describe('AlbumKeyGenerator', () => {
             assert.strictEqual(albumKey, '');
         });
 
-        it('Should generate an album key using only the album title if album artists is null', () => {
+        it('Should generate an album key using only the album title if album artists is undefined', () => {
             // Arrange
             const dataDelimiter: DataDelimiter = new DataDelimiter();
             const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiter);
 
             // Act
-            const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', null);
-
-            // Assert
-            assert.strictEqual(albumKey, ';The album title;');
-        });
-
-        it('Should generate an album key using only the album title if album artists is undefined', () => {
-            // Arrange
-            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-            const albumkeyGenerator: AlbumKeyGenerator = new AlbumKeyGenerator(dataDelimiterMock.object);
-
-            dataDelimiterMock.setup(x => x.convertToDelimitedString(['The album title'])).returns(() => ';The album title;');
-
-            // Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', undefined);
 
             // Assert
-            dataDelimiterMock.verify(x => x.convertToDelimitedString(['The album title']), Times.exactly(1));
             assert.strictEqual(albumKey, ';The album title;');
         });
 

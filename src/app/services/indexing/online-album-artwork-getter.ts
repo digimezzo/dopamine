@@ -2,7 +2,7 @@ import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
 import { ImageProcessor } from '../../core/image-processor';
 import { Logger } from '../../core/logger';
-import { Strings } from '../../core/strings';
+import { StringCompare } from '../../core/string-compare';
 import { FileMetadata } from '../../metadata/file-metadata';
 
 export class OnlineAlbumArtworkGetter {
@@ -13,41 +13,37 @@ export class OnlineAlbumArtworkGetter {
     }
 
     public async getOnlineArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
-        if (fileMetadata === null) {
-            return null;
-        }
-
-        if (fileMetadata === undefined) {
-            return null;
+        if (fileMetadata == undefined) {
+            return undefined;
         }
 
         let title: string = '';
         const artists: string[] = [];
 
         // Title
-        if (!Strings.isNullOrWhiteSpace(fileMetadata.album)) {
+        if (!StringCompare.isNullOrWhiteSpace(fileMetadata.album)) {
             title = fileMetadata.album;
-        } else if (!Strings.isNullOrWhiteSpace(fileMetadata.title)) {
+        } else if (!StringCompare.isNullOrWhiteSpace(fileMetadata.title)) {
             title = fileMetadata.title;
         }
 
         // Artist
-        if (fileMetadata.albumArtists !== null && fileMetadata.albumArtists !== undefined && fileMetadata.albumArtists.length > 0) {
-            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter(x => !Strings.isNullOrWhiteSpace(x));
+        if (fileMetadata.albumArtists != undefined && fileMetadata.albumArtists.length > 0) {
+            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceAlbumArtists);
         }
 
-        if (fileMetadata.artists !== null && fileMetadata.artists !== undefined && fileMetadata.artists.length > 0) {
-            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter(x => !Strings.isNullOrWhiteSpace(x));
+        if (fileMetadata.artists != undefined && fileMetadata.artists.length > 0) {
+            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceTrackArtists);
         }
 
-        if (Strings.isNullOrWhiteSpace(title) || artists.length === 0) {
-            return null;
+        if (StringCompare.isNullOrWhiteSpace(title) || artists.length === 0) {
+            return undefined;
         }
 
         for (const artist of artists) {
-            let lastfmAlbum: LastfmAlbum = null;
+            let lastfmAlbum: LastfmAlbum;
 
             try {
                 lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
@@ -58,9 +54,9 @@ export class OnlineAlbumArtworkGetter {
                     'getOnlineArtworkAsync');
             }
 
-            if (lastfmAlbum !== null && lastfmAlbum !== undefined) {
-                if (!Strings.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
-                    let artworkData: Buffer = null;
+            if (lastfmAlbum != undefined) {
+                if (!StringCompare.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
+                    let artworkData: Buffer;
 
                     try {
                         artworkData = await this.imageprocessor.convertFileToDataAsync(lastfmAlbum.largestImage());
@@ -76,6 +72,6 @@ export class OnlineAlbumArtworkGetter {
             }
         }
 
-        return null;
+        return undefined;
     }
 }

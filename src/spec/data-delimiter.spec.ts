@@ -3,18 +3,6 @@ import { DataDelimiter } from '../app/data/data-delimiter';
 
 describe('DataDelimiter', () => {
     describe('convertToDelimitedString', () => {
-        it('Should return an empty string if the array is null', () => {
-            // Arrange
-            const dataDelimiter: DataDelimiter = new DataDelimiter();
-            const stringArray: string[] = null;
-
-            // Act
-            const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
-
-            // Assert
-            assert.strictEqual(delimitedString, '');
-        });
-
         it('Should return an empty string if the array is undefined', () => {
             // Arrange
             const dataDelimiter: DataDelimiter = new DataDelimiter();

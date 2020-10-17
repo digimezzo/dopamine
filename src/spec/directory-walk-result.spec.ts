@@ -1,9 +1,8 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
 import { DirectoryWalkResult } from '../app/services/indexing/directory-walk-result';
 
 describe('DirectoryWalkResult', () => {
-    describe('conectructor', () => {
+    describe('constructor', () => {
         it('Should set file paths', async () => {
             // Arrange
             const filePaths: string[] = [
@@ -23,7 +22,7 @@ describe('DirectoryWalkResult', () => {
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);
 
             // Assert
-            assert.ok(directoryWalkResult.filePaths !== null);
+            assert.ok(directoryWalkResult.filePaths);
             assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 1.mp3'));
             assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3'));
         });
@@ -47,7 +46,7 @@ describe('DirectoryWalkResult', () => {
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);
 
             // Assert
-            assert.ok(directoryWalkResult.errors !== null);
+            assert.ok(directoryWalkResult.errors);
             assert.ok(directoryWalkResult.errors.includes(error1));
             assert.ok(directoryWalkResult.errors.includes(error2));
         });

@@ -2,7 +2,7 @@ import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../base/sensitive-information';
 import { DateTime } from '../../date-time';
-import { Strings } from '../../strings';
+import { StringCompare } from '../../string-compare';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
@@ -36,7 +36,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(languageCode)) {
+        if (!StringCompare.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -91,7 +91,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(languageCode)) {
+        if (!StringCompare.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -131,7 +131,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
+        if (!StringCompare.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
@@ -163,7 +163,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
+        if (!StringCompare.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
@@ -254,7 +254,7 @@ export class LastfmApi {
             return jsonResponse;
         }
 
-        return null;
+        return undefined;
     }
 
     private async performPostRequestAsync(method: string, parameters: Map<string, string>, isSecure: boolean): Promise<any> {
@@ -278,7 +278,7 @@ export class LastfmApi {
             return jsonResponse;
         }
 
-        return null;
+        return undefined;
     }
 
     private getArtistImageOfSpecifiedSize(images: any[], imageSize: string): string {

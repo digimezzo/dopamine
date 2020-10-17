@@ -3,18 +3,6 @@ import { MetadataPatcher } from '../app/metadata/metadata-patcher';
 
 describe('MetadataPatcher', () => {
     describe('joinUnsplittableMetadata', () => {
-        it('Should return an empty collection if the metadata collection is null', () => {
-            // Arrange
-            const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = null;
-
-            // Act
-            const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
-
-            // Assert
-            assert.deepStrictEqual(joinedMetadata, []);
-        });
-
         it('Should return and empty collection if the metadata collection is undefined', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();

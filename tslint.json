@@ -3,6 +3,7 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "no-null-keyword": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
@@ -39,7 +40,7 @@
       true,
       {
         "limit": 140,
-        "ignore-pattern": "^import |^export {(.*?)}"
+        "ignore-pattern": "it\\(|^import |^export {(.*?)}"
       }
     ],
     "member-access": true,
@@ -109,7 +110,8 @@
       "always"
     ],
     "triple-equals": [
-      true
+      true,
+      "allow-undefined-check"
     ],
     "typedef": [
       true,

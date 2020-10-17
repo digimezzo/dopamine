@@ -6,19 +6,19 @@ import { ExternalArtworkPathGetter } from '../app/services/indexing/external-art
 
 describe('ExternalArtworkPathGetter', () => {
     describe('getExternalArtworkPath', () => {
-        it('Should return null if audio file path is null', () => {
+        it('Should return undefined if audio file path is undefined', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const externalArtworkPathGetter: ExternalArtworkPathGetter = new ExternalArtworkPathGetter(fileSystemMock.object);
 
             // Act
-            const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(null);
+            const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(undefined);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, null);
+            assert.strictEqual(externalArtworkPath, undefined);
         });
 
-        it('Should return null if there is no file that matches an external artwork pattern in the same directory', () => {
+        it('Should return undefined if there is no file that matches an external artwork pattern in the same directory', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             const externalArtworkPathGetter: ExternalArtworkPathGetter = new ExternalArtworkPathGetter(fileSystemMock.object);
@@ -32,7 +32,7 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, null);
+            assert.strictEqual(externalArtworkPath, undefined);
         });
 
         it('Should return a path if there is a file that matches a fixed external artwork pattern in the same directory', () => {

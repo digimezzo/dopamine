@@ -24,7 +24,7 @@ export class AppearanceService implements BaseAppearanceService {
         ) {
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
 
-        if (colorSchemeFromSettings === null || colorSchemeFromSettings === undefined) {
+        if (colorSchemeFromSettings == undefined) {
             colorSchemeFromSettings = this.colorSchemes[0];
         }
 
@@ -77,7 +77,7 @@ export class AppearanceService implements BaseAppearanceService {
     private applyThemeClasses(element: HTMLElement, themeName: string): void {
         const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
 
-        if (classesToRemove !== null && classesToRemove !== undefined && classesToRemove.length > 0) {
+        if (classesToRemove != undefined && classesToRemove.length > 0) {
             element.classList.remove(...classesToRemove);
         }
 

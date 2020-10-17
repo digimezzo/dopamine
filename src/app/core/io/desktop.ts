@@ -9,7 +9,7 @@ export class Desktop {
     public async showSelectFolderDialogAsync(dialogTitle: string): Promise<string> {
         const folderPaths: string[] = remote.dialog.showOpenDialog({ title: dialogTitle, properties: ['openDirectory'] });
 
-        if (folderPaths !== null && folderPaths !== undefined && folderPaths.length > 0) {
+        if (folderPaths != undefined && folderPaths.length > 0) {
             return folderPaths[0];
         }
 

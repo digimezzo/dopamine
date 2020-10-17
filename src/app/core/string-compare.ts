@@ -1,18 +1,14 @@
-export class Strings {
+export class StringCompare {
     public static equalsIgnoreCase(string1: string, string2: string): boolean {
-        if (string1 === null && string2 === null) {
+        if (string1 == undefined && string2 == undefined) {
             return true;
         }
 
-        if (string1 === null && string2 === undefined) {
+        if (string1 == undefined) {
             return false;
         }
 
-        if (string1 === undefined && string2 === null) {
-            return false;
-        }
-
-        if (string1 === undefined && string2 === undefined) {
+        if (string2 == undefined) {
             return false;
         }
 
@@ -20,11 +16,7 @@ export class Strings {
     }
 
     public static isNullOrWhiteSpace(stringToCheck: string): boolean {
-        if (stringToCheck === null) {
-            return true;
-        }
-
-        if (stringToCheck === undefined) {
+        if (stringToCheck == undefined) {
             return true;
         }
 

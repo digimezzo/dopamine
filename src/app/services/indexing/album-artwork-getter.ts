@@ -11,22 +11,22 @@ export class AlbumArtworkGetter {
     }
 
     public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
-        if (fileMetadata === null || fileMetadata === undefined) {
-            return null;
+        if (fileMetadata == undefined) {
+            return undefined;
         }
 
         const embeddedArtwork: Buffer = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
 
-        if (embeddedArtwork !== null && embeddedArtwork !== undefined) {
+        if (embeddedArtwork != undefined) {
             return embeddedArtwork;
         }
 
         const externalArtwork: Buffer = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
 
-        if (externalArtwork !== null && externalArtwork !== undefined) {
+        if (externalArtwork != undefined) {
             return externalArtwork;
         }
 
-        return null;
+        return undefined;
     }
 }

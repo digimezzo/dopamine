@@ -9,19 +9,7 @@ describe('TrackFieldCreator', () => {
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
             // Act
-            const field: number = mocker.trackFieldCreator.createNumberField(NaN); ;
-
-            // Assert
-            assert.strictEqual(field, 0);
-        });
-
-
-        it('Should return an 0 when the given value is null', () => {
-            // Arrange
-            const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
-
-            // Act
-            const field: number = mocker.trackFieldCreator.createNumberField(null);
+            const field: number = mocker.trackFieldCreator.createNumberField(NaN);
 
             // Assert
             assert.strictEqual(field, 0);
@@ -51,17 +39,6 @@ describe('TrackFieldCreator', () => {
     });
 
     describe('createTextField', () => {
-        it('Should return an empty string when the given value is null', () => {
-            // Arrange
-            const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
-
-            // Act
-            const field: string = mocker.trackFieldCreator.createTextField(null);
-
-            // Assert
-            assert.strictEqual(field, '');
-        });
-
         it('Should return an empty string when the given value is undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
@@ -108,17 +85,6 @@ describe('TrackFieldCreator', () => {
     });
 
     describe('createMultiTextField', () => {
-        it('Should return an empty string if the value array is null', () => {
-            // Arrange
-            const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
-
-            // Act
-            const field: string = mocker.trackFieldCreator.createMultiTextField(null);
-
-            // Assert
-            assert.strictEqual(field, '');
-        });
-
         it('Should return an empty string if the value array is undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();

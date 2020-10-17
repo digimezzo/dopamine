@@ -6,18 +6,6 @@ import { EmbeddedAlbumArtworkGetter } from '../app/services/indexing/embedded-al
 
 describe('EmbeddedAlbumArtworkGetter', () => {
     describe('getEmbeddedArtwork', () => {
-        it('Should return null if fileMetaData is null', () => {
-            // Arrange
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-            const embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter = new EmbeddedAlbumArtworkGetter(loggerMock.object);
-
-            // Act
-            const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(null);
-
-            // Assert
-            assert.strictEqual(actualArtwork, null);
-        });
-
         it('Should return null if fileMetaData is undefined', () => {
             // Arrange
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
@@ -27,10 +15,10 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(undefined);
 
             // Assert
-            assert.strictEqual(actualArtwork, null);
+            assert.strictEqual(actualArtwork, undefined);
         });
 
-        it('Should return embedded artwork if fileMetaData is not null or undefined', () => {
+        it('Should return embedded artwork if fileMetaData is not undefined', () => {
             // Arrange
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();

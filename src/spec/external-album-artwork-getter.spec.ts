@@ -8,24 +8,7 @@ import { ExternalArtworkPathGetter } from '../app/services/indexing/external-art
 
 describe('ExternalAlbumArtworkGetter', () => {
     describe('getExternalArtworkAsync', () => {
-        it('Should return null if fileMetaData is null', async () => {
-            // Arrange
-            const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
-            const imageprocessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
-            const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-            const externalAlbumArtworkGetter: ExternalAlbumArtworkGetter = new ExternalAlbumArtworkGetter(
-                externalArtworkPathGetterMock.object,
-                imageprocessorMock.object,
-                loggerMock.object);
-
-            // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(null);
-
-            // Assert
-            assert.strictEqual(actualArtwork, null);
-        });
-
-        it('Should return null if fileMetaData is undefined', async () => {
+        it('Should return undefined if fileMetaData is undefined', async () => {
             // Arrange
             const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
             const imageprocessorMock: IMock<ImageProcessor> = Mock.ofType<ImageProcessor>();
@@ -40,10 +23,10 @@ describe('ExternalAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(undefined);
 
             // Assert
-            assert.strictEqual(actualArtwork, null);
+            assert.strictEqual(actualArtwork, undefined);
         });
 
-        it('Should return null if fileMetaData is not null or undefined and external artwork path is null', async () => {
+        it('Should return undefined if fileMetaData is not undefined and external artwork path is undefined', async () => {
             // Arrange
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
@@ -58,16 +41,16 @@ describe('ExternalAlbumArtworkGetter', () => {
 
             externalArtworkPathGetterMock.setup(
                 x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
-            ).returns(() => null);
+            ).returns(() => undefined);
 
             // Act
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualArtwork, null);
+            assert.strictEqual(actualArtwork, undefined);
         });
 
-        it('Should return null if fileMetaData is not null or undefined and external artwork path is empty', async () => {
+        it('Should return undefined if fileMetaData is not undefined and external artwork path is empty', async () => {
             // Arrange
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
@@ -88,10 +71,10 @@ describe('ExternalAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualArtwork, null);
+            assert.strictEqual(actualArtwork, undefined);
         });
 
-        it('Should return null if fileMetaData is not null or undefined and external artwork path is space', async () => {
+        it('Should return undefined if fileMetaData is not undefined and external artwork path is space', async () => {
             // Arrange
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();
@@ -112,10 +95,10 @@ describe('ExternalAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualArtwork, null);
+            assert.strictEqual(actualArtwork, undefined);
         });
 
-        it('Should return external artwork if fileMetaData is not null or undefined and an external artwork path was found', async () => {
+        it('Should return external artwork if fileMetaData is not undefined and an external artwork path was found', async () => {
             // Arrange
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const externalArtworkPathGetterMock: IMock<ExternalArtworkPathGetter> = Mock.ofType<ExternalArtworkPathGetter>();

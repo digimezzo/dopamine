@@ -8,7 +8,7 @@ describe('FolderService', () => {
             // Arrange
             const mocker: FolderServiceMocker = new FolderServiceMocker();
 
-            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => null);
+            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
 
             // Act
             await mocker.folderService.addNewFolderAsync('/home/me/Music');

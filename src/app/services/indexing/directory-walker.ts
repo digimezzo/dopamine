@@ -26,7 +26,7 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (filePathsInDirectory !== null && filePathsInDirectory.length > 0) {
+            if (filePathsInDirectory != undefined && filePathsInDirectory.length > 0) {
                 for (const filePath of filePathsInDirectory) {
                     try {
                         filePaths.push(filePath);
@@ -45,7 +45,7 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (subdirectoryPathsInDirectory !== null && subdirectoryPathsInDirectory.length > 0) {
+            if (subdirectoryPathsInDirectory != undefined && subdirectoryPathsInDirectory.length > 0) {
                 for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
                         await this.recursivelyGetFilesinDirectoryAsync(subdirectoryPath, filePaths, errors);

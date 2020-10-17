@@ -270,20 +270,6 @@ describe('TrackFiller', () => {
             assert.strictEqual(track.year, 2020);
         });
 
-        it('Should fill in track hasLyrics with 0 if the audio file lyrics are null', async () => {
-            // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.lyrics = null;
-            const mocker: TrackFillerMocker = TrackFillerMocker.create(fileMetadataMock, false);
-
-            // Act
-            const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            await mocker.trackFiller.addFileMetadataToTrackAsync(track);
-
-            // Assert
-            assert.strictEqual(track.hasLyrics, 0);
-        });
-
         it('Should fill in track hasLyrics with 0 if the audio file lyrics are undefined', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();

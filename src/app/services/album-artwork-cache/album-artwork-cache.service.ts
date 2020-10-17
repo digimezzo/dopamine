@@ -21,12 +21,12 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     }
 
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
-        if (data === null || data === undefined) {
-            return null;
+        if (data == undefined) {
+            return undefined;
         }
 
         if (data.length === 0) {
-            return null;
+            return undefined;
         }
 
         try {
@@ -43,7 +43,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             );
         }
 
-        return null;
+        return undefined;
     }
 
     private createCoverArtCacheOnDisk(): void {

@@ -43,7 +43,7 @@ function createWindow(): void {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(undefined);
 
   // Load the previous state with fallback to defaults
   const windowState = windowStateKeeper({
@@ -89,7 +89,7 @@ function createWindow(): void {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    win = null;
+    win = undefined;
   });
 
   // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
@@ -133,7 +133,7 @@ try {
   app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (win === null) {
+    if (win == undefined) {
       createWindow();
     }
   });

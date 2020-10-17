@@ -70,11 +70,7 @@ export class TrackUpdater {
     }
 
     private trackNeedsIndexing(track: Track): boolean {
-        if (track.needsIndexing === null) {
-            return true;
-        }
-
-        if (track.needsIndexing === undefined) {
+        if (track.needsIndexing == undefined) {
             return true;
         }
 
