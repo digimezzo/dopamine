@@ -2,13 +2,13 @@ import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../base/sensitive-information';
 import { DateTime } from '../../date-time';
-import { StringComparison } from '../../string-comparison';
+import { Strings } from '../../strings';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
 
 export class LastfmApi {
-    public static async getMobileSessionAsync(username: string, password: string): Promise<string> {
+    public async getMobileSessionAsync(username: string, password: string): Promise<string> {
         const method: string = 'auth.getMobileSession';
         const parameters: Map<string, string> = new Map<string, string>([
             ['username', username],
@@ -16,10 +16,10 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        const methodSignature: string = this.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
-        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, true);
+        const jsonResponse: any = await this.performPostRequestAsync(method, parameters, true);
 
         if (jsonResponse) {
             return jsonResponse.session.key;
@@ -28,7 +28,7 @@ export class LastfmApi {
         return '';
     }
 
-    public static async getArtistInfoAsync(artist: string, autoCorrect: boolean, languageCode: string): Promise<LastfmArtist> {
+    public async getArtistInfoAsync(artist: string, autoCorrect: boolean, languageCode: string): Promise<LastfmArtist> {
         const method: string = 'artist.getInfo';
         const parameters: Map<string, string> = new Map<string, string>([
             ['artist', artist],
@@ -36,11 +36,11 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!StringComparison.isNullOrWhiteSpace(languageCode)) {
+        if (!Strings.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
-        const jsonResponse: any = await LastfmApi.performGetRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false);
         const lastfmArtist: LastfmArtist = new LastfmArtist();
 
         if (jsonResponse) {
@@ -50,11 +50,11 @@ export class LastfmApi {
             lastfmArtist.name = jsonResponse.artist.name;
             lastfmArtist.musicBrainzId = jsonResponse.artist.mbid;
             lastfmArtist.url = jsonResponse.artist.url;
-            lastfmArtist.imageSmall = LastfmApi.getArtistImageOfSpecifiedSize(artistImages, 'small');
-            lastfmArtist.imageMedium = LastfmApi.getArtistImageOfSpecifiedSize(artistImages, 'medium');
-            lastfmArtist.imageLarge = LastfmApi.getArtistImageOfSpecifiedSize(artistImages, 'large');
-            lastfmArtist.imageExtraLarge = LastfmApi.getArtistImageOfSpecifiedSize(artistImages, 'extralarge');
-            lastfmArtist.imageMega = LastfmApi.getArtistImageOfSpecifiedSize(artistImages, 'mega');
+            lastfmArtist.imageSmall = this.getArtistImageOfSpecifiedSize(artistImages, 'small');
+            lastfmArtist.imageMedium = this.getArtistImageOfSpecifiedSize(artistImages, 'medium');
+            lastfmArtist.imageLarge = this.getArtistImageOfSpecifiedSize(artistImages, 'large');
+            lastfmArtist.imageExtraLarge = this.getArtistImageOfSpecifiedSize(artistImages, 'extralarge');
+            lastfmArtist.imageMega = this.getArtistImageOfSpecifiedSize(artistImages, 'mega');
 
             for (let i = 0; i < jsonResponse.artist.similar.artist.length; i++) {
                 const similarArtistImages: any[] = jsonResponse.artist.similar.artist[i].image;
@@ -62,11 +62,11 @@ export class LastfmApi {
 
                 similarLastfmArtist.name = jsonResponse.artist.similar.artist[i].name;
                 similarLastfmArtist.url = jsonResponse.artist.similar.artist[i].url;
-                similarLastfmArtist.imageSmall = LastfmApi.getArtistImageOfSpecifiedSize(similarArtistImages, 'small');
-                similarLastfmArtist.imageMedium = LastfmApi.getArtistImageOfSpecifiedSize(similarArtistImages, 'medium');
-                similarLastfmArtist.imageLarge = LastfmApi.getArtistImageOfSpecifiedSize(similarArtistImages, 'large');
-                similarLastfmArtist.imageExtraLarge = LastfmApi.getArtistImageOfSpecifiedSize(similarArtistImages, 'extralarge');
-                similarLastfmArtist.imageMega = LastfmApi.getArtistImageOfSpecifiedSize(similarArtistImages, 'mega');
+                similarLastfmArtist.imageSmall = this.getArtistImageOfSpecifiedSize(similarArtistImages, 'small');
+                similarLastfmArtist.imageMedium = this.getArtistImageOfSpecifiedSize(similarArtistImages, 'medium');
+                similarLastfmArtist.imageLarge = this.getArtistImageOfSpecifiedSize(similarArtistImages, 'large');
+                similarLastfmArtist.imageExtraLarge = this.getArtistImageOfSpecifiedSize(similarArtistImages, 'extralarge');
+                similarLastfmArtist.imageMega = this.getArtistImageOfSpecifiedSize(similarArtistImages, 'mega');
 
                 lastfmArtist.similarArtists.push(similarLastfmArtist);
             }
@@ -82,7 +82,7 @@ export class LastfmApi {
         return lastfmArtist;
     }
 
-    public static async getAlbumInfoAsync(artist: string, album: string, autoCorrect: boolean, languageCode: string): Promise<LastfmAlbum> {
+    public async getAlbumInfoAsync(artist: string, album: string, autoCorrect: boolean, languageCode: string): Promise<LastfmAlbum> {
         const method: string = 'album.getInfo';
         const parameters: Map<string, string> = new Map<string, string>([
             ['artist', artist],
@@ -91,11 +91,11 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!StringComparison.isNullOrWhiteSpace(languageCode)) {
+        if (!Strings.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
-        const jsonResponse: any = await LastfmApi.performGetRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false);
         const lastfmAlbum: LastfmAlbum = new LastfmAlbum();
 
         if (jsonResponse) {
@@ -103,17 +103,17 @@ export class LastfmApi {
             lastfmAlbum.artist = jsonResponse.album.artist;
             lastfmAlbum.name = jsonResponse.album.name;
             lastfmAlbum.url = jsonResponse.album.url;
-            lastfmAlbum.imageSmall = LastfmApi.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'small');
-            lastfmAlbum.imageMedium = LastfmApi.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'medium');
-            lastfmAlbum.imageLarge = LastfmApi.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'large');
-            lastfmAlbum.imageExtraLarge = LastfmApi.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'extralarge');
-            lastfmAlbum.imageMega = LastfmApi.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'mega');
+            lastfmAlbum.imageSmall = this.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'small');
+            lastfmAlbum.imageMedium = this.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'medium');
+            lastfmAlbum.imageLarge = this.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'large');
+            lastfmAlbum.imageExtraLarge = this.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'extralarge');
+            lastfmAlbum.imageMega = this.getArtistImageOfSpecifiedSize(jsonResponse.album.image, 'mega');
         }
 
         return lastfmAlbum;
     }
 
-    public static async ScrobbleTrackAsync(
+    public async ScrobbleTrackAsync(
         sessionKey: string,
         artist: string,
         trackTitle: string,
@@ -131,14 +131,14 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!StringComparison.isNullOrWhiteSpace(albumTitle)) {
+        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        const methodSignature: string = this.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
-        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
         if (jsonResponse) {
             isScrobbleSuccessful = true;
@@ -147,7 +147,7 @@ export class LastfmApi {
         return isScrobbleSuccessful;
     }
 
-    public static async UpdateTrackNowPlayingAsync(
+    public async UpdateTrackNowPlayingAsync(
         sessionKey: string,
         artist: string,
         trackTitle: string,
@@ -163,14 +163,14 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!StringComparison.isNullOrWhiteSpace(albumTitle)) {
+        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        const methodSignature: string = this.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
-        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
         if (jsonResponse) {
             isNowPlayingUpdateSuccessful = true;
@@ -179,7 +179,7 @@ export class LastfmApi {
         return isNowPlayingUpdateSuccessful;
     }
 
-    public static async LoveTrackAsync(
+    public async LoveTrackAsync(
         sessionKey: string,
         artist: string,
         trackTitle: string): Promise<boolean> {
@@ -194,10 +194,10 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        const methodSignature: string = this.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
-        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
         if (jsonResponse) {
             isLoveTrackSuccessful = true;
@@ -206,7 +206,7 @@ export class LastfmApi {
         return isLoveTrackSuccessful;
     }
 
-    public static async UnloveTrackAsync(
+    public async UnloveTrackAsync(
         sessionKey: string,
         artist: string,
         trackTitle: string): Promise<boolean> {
@@ -221,10 +221,10 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        const methodSignature: string = LastfmApi.generateMethodSignature(method, parameters);
+        const methodSignature: string = this.generateMethodSignature(method, parameters);
         parameters.set('api_sig', methodSignature);
 
-        const jsonResponse: any = await LastfmApi.performPostRequestAsync(method, parameters, false);
+        const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
         if (jsonResponse) {
             isLoveTrackSuccessful = true;
@@ -234,18 +234,18 @@ export class LastfmApi {
     }
 
 
-    private static async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
+    private async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
         return `${isSecure ? 'https' : 'http'}://ws.audioscrobbler.com/2.0/?method=${method}`;
     }
 
-    private static async performGetRequestAsync(method: string, parameters: Map<string, string>, isSecure: boolean): Promise<any> {
+    private async performGetRequestAsync(method: string, parameters: Map<string, string>, isSecure: boolean): Promise<any> {
         const searchParams: URLSearchParams = new URLSearchParams();
         parameters.forEach((value: string, key: string) => {
             searchParams.append(key, value);
             searchParams.append('format', 'json');
         });
 
-        const url: string = `${await LastfmApi.getMethodUrl(method, isSecure)}&${searchParams.toString()}`;
+        const url: string = `${await this.getMethodUrl(method, isSecure)}&${searchParams.toString()}`;
         const response: Response = await fetch(url, { method: 'GET' });
 
         if (response.ok) {
@@ -257,8 +257,8 @@ export class LastfmApi {
         return null;
     }
 
-    private static async performPostRequestAsync(method: string, parameters: Map<string, string>, isSecure: boolean): Promise<any> {
-        const url: string = `${await LastfmApi.getMethodUrl(method, isSecure)}`;
+    private async performPostRequestAsync(method: string, parameters: Map<string, string>, isSecure: boolean): Promise<any> {
+        const url: string = `${await this.getMethodUrl(method, isSecure)}`;
 
         const searchParams: URLSearchParams = new URLSearchParams();
         parameters.forEach((value: string, key: string) => {
@@ -281,7 +281,7 @@ export class LastfmApi {
         return null;
     }
 
-    private static getArtistImageOfSpecifiedSize(images: any[], imageSize: string): string {
+    private getArtistImageOfSpecifiedSize(images: any[], imageSize: string): string {
         for (let i = 0; i < images.length; i++) {
             const size: string = images[i].size;
 
@@ -293,7 +293,7 @@ export class LastfmApi {
         return '';
     }
 
-    private static generateMethodSignature(method: string, parameters: Map<string, string>): string {
+    private generateMethodSignature(method: string, parameters: Map<string, string>): string {
         let alphabeticalList: string[] = [];
 
         parameters.forEach((value: string, key: string) => {

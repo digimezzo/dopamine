@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import { StringComparison } from '../app/core/string-comparison';
+import { Strings } from '../app/core/strings';
 
-describe('StringComparison', () => {
+describe('Strings', () => {
     describe('equalsIgnoreCase', () => {
         it('Should return true if string1 is null and string2 is null', () => {
             // Arrange
@@ -9,7 +9,7 @@ describe('StringComparison', () => {
             const string2: string = null;
 
             // Act
-            const areStringsEqual: boolean = StringComparison.equalsIgnoreCase(string1, string2);
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
             assert.ok(areStringsEqual);
@@ -21,7 +21,7 @@ describe('StringComparison', () => {
             const string2: string = undefined;
 
             // Act
-            const areStringsEqual: boolean = StringComparison.equalsIgnoreCase(string1, string2);
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
             assert.ok(!areStringsEqual);
@@ -33,7 +33,19 @@ describe('StringComparison', () => {
             const string2: string = null;
 
             // Act
-            const areStringsEqual: boolean = StringComparison.equalsIgnoreCase(string1, string2);
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+
+            // Assert
+            assert.ok(!areStringsEqual);
+        });
+
+        it('Should return false if string1 is undefined and string2 is undefined', () => {
+            // Arrange
+            const string1: string = undefined;
+            const string2: string = undefined;
+
+            // Act
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
             assert.ok(!areStringsEqual);
@@ -45,7 +57,7 @@ describe('StringComparison', () => {
             const string2: string = 'thisisastring';
 
             // Act
-            const areStringsEqual: boolean = StringComparison.equalsIgnoreCase(string1, string2);
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
             assert.ok(areStringsEqual);
@@ -57,7 +69,7 @@ describe('StringComparison', () => {
             const string2: string = 'THISISASTRING';
 
             // Act
-            const areStringsEqual: boolean = StringComparison.equalsIgnoreCase(string1, string2);
+            const areStringsEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
             assert.ok(areStringsEqual);
@@ -70,7 +82,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = null;
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(stringToCheckIsNullOrWhiteSpace);
@@ -81,7 +93,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = undefined;
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(stringToCheckIsNullOrWhiteSpace);
@@ -92,7 +104,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = '';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(stringToCheckIsNullOrWhiteSpace);
@@ -103,7 +115,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = ' ';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(stringToCheckIsNullOrWhiteSpace);
@@ -114,7 +126,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = '     ';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(stringToCheckIsNullOrWhiteSpace);
@@ -125,7 +137,7 @@ describe('StringComparison', () => {
             const stringToCheck: string = 'myString 1';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = StringComparison.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             assert.ok(!stringToCheckIsNullOrWhiteSpace);

@@ -1,4 +1,4 @@
-import { StringComparison } from '../../string-comparison';
+import { Strings } from '../../strings';
 import { LastfmBiography } from './lastfm-biography';
 
 export class LastfmArtist {
@@ -14,23 +14,23 @@ export class LastfmArtist {
     public biography: LastfmBiography;
 
     public largestImage(): string {
-        if (!StringComparison.isNullOrWhiteSpace(this.imageMega)) {
+        if (!Strings.isNullOrWhiteSpace(this.imageMega)) {
             return this.imageMega;
         }
 
-        if (!StringComparison.isNullOrWhiteSpace(this.imageExtraLarge)) {
+        if (!Strings.isNullOrWhiteSpace(this.imageExtraLarge)) {
             return this.imageExtraLarge;
         }
 
-        if (!StringComparison.isNullOrWhiteSpace(this.imageLarge)) {
+        if (!Strings.isNullOrWhiteSpace(this.imageLarge)) {
             return this.imageLarge;
         }
 
-        if (!StringComparison.isNullOrWhiteSpace(this.imageMedium)) {
+        if (!Strings.isNullOrWhiteSpace(this.imageMedium)) {
             return this.imageMedium;
         }
 
-        if (!StringComparison.isNullOrWhiteSpace(this.imageSmall)) {
+        if (!Strings.isNullOrWhiteSpace(this.imageSmall)) {
             return this.imageSmall;
         }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as path from 'path';
 import { Defaults } from '../../core/base/defaults';
 import { FileSystem } from '../../core/io/file-system';
-import { StringComparison } from '../../core/string-comparison';
+import { Strings } from '../../core/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
@@ -10,7 +10,7 @@ export class ExternalArtworkPathGetter {
     }
 
     public getExternalArtworkPath(audioFilePath: string): string {
-        if (StringComparison.isNullOrWhiteSpace(audioFilePath)) {
+        if (Strings.isNullOrWhiteSpace(audioFilePath)) {
             return null;
         }
 

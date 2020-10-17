@@ -5,7 +5,7 @@ import { AlbumArtworkGetterMocker } from './mocking/album-artwork-getter-mocker'
 
 describe('AlbumArtworkGetter', () => {
     describe('getAlbumArtwork', () => {
-        it('Should return null if fileMetaData is null', async () => {
+        it('Should return null when fileMetaData is null', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
@@ -16,7 +16,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(albumArtwork, null);
         });
 
-        it('Should return null if fileMetaData is undefined', async () => {
+        it('Should return null when fileMetaData is undefined', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
@@ -27,7 +27,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(albumArtwork, null);
         });
 
-        it('Should return embedded artwork, when found, if fileMetaData is not null.', async () => {
+        it('Should return embedded artwork when there is embedded artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
@@ -43,7 +43,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return external artwork, if found, when embedded artwork is null', async () => {
+        it('Should return external artwork when there is no embedded artwork but there is external artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
@@ -62,7 +62,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return external artwork, if found, when embedded artwork is undefined', async () => {
+        it('Should return external artwork when there is no embedded artwork but there is external artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 

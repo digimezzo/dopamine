@@ -90,6 +90,15 @@ export class Settings implements BaseSettings {
     this.settings.set('ignoreRemovedFiles', v);
   }
 
+  // Download missing album covers
+  public get downloadMissingAlbumCovers(): boolean {
+    return this.settings.get('downloadMissingAlbumCovers');
+  }
+
+  public set downloadMissingAlbumCovers(v: boolean) {
+    this.settings.set('downloadMissingAlbumCovers', v);
+  }
+
   // Initialize
   private initialize(): void {
     if (!this.settings.has('language')) {
@@ -126,6 +135,9 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('ignoreRemovedFiles')) {
       this.settings.set('ignoreRemovedFiles', false);
+    }
+    if (!this.settings.has('downloadMissingAlbumCovers')) {
+      this.settings.set('downloadMissingAlbumCovers', false);
     }
   }
 }

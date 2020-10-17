@@ -8,4 +8,5 @@ export abstract class BaseSettings {
     public abstract showWelcome: boolean;
     public abstract useLightBackgroundTheme: boolean;
     public abstract ignoreRemovedFiles: boolean;
+    public abstract downloadMissingAlbumCovers: boolean;
 }

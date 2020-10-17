@@ -1,4 +1,4 @@
-export class StringComparison {
+export class Strings {
     public static equalsIgnoreCase(string1: string, string2: string): boolean {
         if (string1 === null && string2 === null) {
             return true;
@@ -9,6 +9,10 @@ export class StringComparison {
         }
 
         if (string1 === undefined && string2 === null) {
+            return false;
+        }
+
+        if (string1 === undefined && string2 === undefined) {
             return false;
         }
 
