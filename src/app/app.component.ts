@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ElectronService } from './services/electron.service';
-import { ProductInformation } from './core/base/product-information';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Settings } from './core/settings/settings';
+import { ProductInformation } from './core/base/product-information';
 import { Logger } from './core/logger';
-import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { ElectronService } from './services/electron.service';
+import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 @Component({
   selector: 'app-root',
