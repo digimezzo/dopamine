@@ -21,7 +21,7 @@ export class LastfmApi {
 
         const jsonResponse: any = await this.performPostRequestAsync(method, parameters, true);
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             return jsonResponse.session.key;
         }
 
@@ -43,7 +43,7 @@ export class LastfmApi {
         const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false);
         const lastfmArtist: LastfmArtist = new LastfmArtist();
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             // http://www.last.fm/api/show/artist.getInfo
             const artistImages: any[] = jsonResponse.artist.image;
 
@@ -98,7 +98,7 @@ export class LastfmApi {
         const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false);
         const lastfmAlbum: LastfmAlbum = new LastfmAlbum();
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             // http://www.last.fm/api/show/album.getInfo
             lastfmAlbum.artist = jsonResponse.album.artist;
             lastfmAlbum.name = jsonResponse.album.name;
@@ -140,7 +140,7 @@ export class LastfmApi {
 
         const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             isScrobbleSuccessful = true;
         }
 
@@ -172,7 +172,7 @@ export class LastfmApi {
 
         const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             isNowPlayingUpdateSuccessful = true;
         }
 
@@ -199,7 +199,7 @@ export class LastfmApi {
 
         const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             isLoveTrackSuccessful = true;
         }
 
@@ -226,7 +226,7 @@ export class LastfmApi {
 
         const jsonResponse: any = await this.performPostRequestAsync(method, parameters, false);
 
-        if (jsonResponse) {
+        if (this.isJsonResponseValid(jsonResponse)) {
             isLoveTrackSuccessful = true;
         }
 
@@ -308,5 +308,9 @@ export class LastfmApi {
         const encryptedSignature: string = Md5.init(unEncryptedSignature);
 
         return encryptedSignature;
+    }
+
+    private isJsonResponseValid(jsonResponse: any): boolean {
+        return jsonResponse != undefined && jsonResponse.error == undefined;
     }
 }

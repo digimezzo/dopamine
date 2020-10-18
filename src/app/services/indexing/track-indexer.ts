@@ -29,7 +29,7 @@ export class TrackIndexer {
         timer.stop();
 
         this.logger.info(
-            `+++ FINISHED INDEXING TRACKS (Time required: ${timer.elapsedMilliseconds}) +++`,
+            `+++ FINISHED INDEXING TRACKS (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'TrackIndexer',
             'indexTracksAsync');
     }

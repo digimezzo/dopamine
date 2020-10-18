@@ -63,6 +63,11 @@ export class OnlineAlbumArtworkGetter {
                     try {
                         artworkData = await this.imageprocessor.convertFileToDataAsync(lastfmAlbum.largestImage());
 
+                        this.logger.info(
+                            `Downloaded online artwork for artist='${artist}' and title='${title}'`,
+                            'OnlineAlbumArtworkGetter',
+                            'getOnlineArtworkAsync');
+
                         return artworkData;
                     } catch (e) {
                         this.logger.error(

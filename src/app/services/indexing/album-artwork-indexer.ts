@@ -23,6 +23,10 @@ export class AlbumArtworkIndexer {
 
         try {
             const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
+            this.logger.info(
+                `Found ${albumDataThatNeedsIndexing.length} album data that needs indexing`,
+                'AlbumArtworkIndexer',
+                'indexAlbumArtworkAsync');
 
             for (const albumData of albumDataThatNeedsIndexing) {
                 const couldRemoveAlbumArtwork: boolean = this.albumArtworkRemover.tryRemoveAlbumArtwork(albumData.albumKey);
@@ -38,7 +42,7 @@ export class AlbumArtworkIndexer {
         timer.stop();
 
         this.logger.info(
-            `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds}) +++`,
+            `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'AlbumArtworkIndexer',
             'indexAlbumArtworkAsync');
     }

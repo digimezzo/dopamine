@@ -43,18 +43,15 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             return;
         }
 
-        if (audioMetadata.format.bitrate != undefined &&
-            !Number.isNaN(audioMetadata.format.bitrate)) {
+        if (audioMetadata.format.bitrate != undefined && !Number.isNaN(audioMetadata.format.bitrate)) {
             this.bitRate = audioMetadata.format.bitrate;
         }
 
-        if (audioMetadata.format.sampleRate != undefined &&
-            !Number.isNaN(audioMetadata.format.sampleRate)) {
+        if (audioMetadata.format.sampleRate != undefined && !Number.isNaN(audioMetadata.format.sampleRate)) {
             this.sampleRate = audioMetadata.format.sampleRate;
         }
 
-        if (audioMetadata.format.duration != undefined &&
-            !Number.isNaN(audioMetadata.format.duration)) {
+        if (audioMetadata.format.duration != undefined && !Number.isNaN(audioMetadata.format.duration)) {
             this.duration = audioMetadata.format.duration;
         }
 
@@ -66,7 +63,7 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             this.title = audioMetadata.common.title;
         }
 
-        if (audioMetadata.common.album == undefined) {
+        if (audioMetadata.common.album != undefined) {
             this.album = audioMetadata.common.album;
         }
 
@@ -82,16 +79,12 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             this.genres = audioMetadata.common.genre;
         }
 
-        if (audioMetadata.common.comment != undefined) {
-            if (audioMetadata.common.comment.length > 0) {
-                this.comment = audioMetadata.common.comment[0];
-            }
+        if (audioMetadata.common.comment != undefined && audioMetadata.common.comment.length > 0) {
+            this.comment = audioMetadata.common.comment[0];
         }
 
-        if (audioMetadata.common.grouping != undefined) {
-            if (audioMetadata.common.grouping.length > 0) {
-                this.grouping = audioMetadata.common.grouping[0];
-            }
+        if (audioMetadata.common.grouping != undefined && audioMetadata.common.grouping.length > 0) {
+            this.grouping = audioMetadata.common.grouping[0];
         }
 
         if (audioMetadata.common.year != undefined && !Number.isNaN(audioMetadata.common.year)) {
@@ -118,22 +111,16 @@ export class ReadOnlyFileMetadata implements FileMetadata {
             }
         }
 
-        if (audioMetadata.common.rating != undefined) {
-            if (audioMetadata.common.rating.length > 0) {
-                this.rating = audioMetadata.common.rating[0].rating;
-            }
+        if (audioMetadata.common.rating != undefined && audioMetadata.common.rating.length > 0) {
+            this.rating = audioMetadata.common.rating[0].rating;
         }
 
-        if (audioMetadata.common.lyrics != undefined) {
-            if (audioMetadata.common.lyrics.length > 0) {
-                this.lyrics = audioMetadata.common.lyrics[0];
-            }
+        if (audioMetadata.common.lyrics != undefined && audioMetadata.common.lyrics.length > 0) {
+            this.lyrics = audioMetadata.common.lyrics[0];
         }
 
-        if (audioMetadata.common.picture != undefined) {
-            if (audioMetadata.common.picture.length > 0) {
-                this.picture = audioMetadata.common.picture[0].data;
-            }
+        if (audioMetadata.common.picture != undefined && audioMetadata.common.picture.length > 0) {
+            this.picture = audioMetadata.common.picture[0].data;
         }
     }
 }
