@@ -15,4 +15,5 @@ export class SettingsMock implements BaseSettings {
     public colorScheme: string = '';
     public useLightBackgroundTheme: boolean = false;
     public ignoreRemovedFiles: boolean = false;
+    public downloadMissingAlbumCovers: boolean = false;
 }

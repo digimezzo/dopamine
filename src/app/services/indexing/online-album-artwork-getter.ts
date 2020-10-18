@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
 import { ImageProcessor } from '../../core/image-processor';
@@ -5,6 +6,7 @@ import { Logger } from '../../core/logger';
 import { StringCompare } from '../../core/string-compare';
 import { FileMetadata } from '../../metadata/file-metadata';
 
+@Injectable()
 export class OnlineAlbumArtworkGetter {
     constructor(
         private imageprocessor: ImageProcessor,
