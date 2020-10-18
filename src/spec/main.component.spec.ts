@@ -14,7 +14,18 @@ describe('MainComponent', () => {
             mocker.updateServiceMock.verify(x => x.checkForUpdatesAsync(), Times.exactly(1));
         });
 
-        it('Should start indexing', async () => {
+        it('Should wait 2 seconds before triggering indexing', async () => {
+            // Arrange
+            const mocker: MainComponentMocker = new MainComponentMocker();
+
+            // Act
+            await mocker.mainComponent.ngOnInit();
+
+            // Assert
+            mocker.schedulerMock.verify(x => x.sleepAsync(2000), Times.exactly(1));
+        });
+
+        it('Should trigger indexing', async () => {
             // Arrange
             const mocker: MainComponentMocker = new MainComponentMocker();
 

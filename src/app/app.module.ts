@@ -27,6 +27,8 @@ import { ImageProcessor } from './core/image-processor';
 import { Desktop } from './core/io/desktop';
 import { FileSystem } from './core/io/file-system';
 import { Logger } from './core/logger';
+import { BaseScheduler } from './core/scheduler/base-scheduler';
+import { Scheduler } from './core/scheduler/scheduler';
 import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
 import { AlbumKeyGenerator } from './data/album-key-generator';
@@ -160,6 +162,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AlbumArtworkRemover,
     ExternalArtworkPathGetter,
     LastfmApi,
+    Logger,
+    Scheduler,
     { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
     { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
     { provide: BaseCollectionChecker, useClass: CollectionChecker },
@@ -177,7 +181,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseUpdateService, useClass: UpdateService },
     { provide: BaseSnackbarService, useClass: SnackBarService },
     { provide: BaseDialogService, useClass: DialogService },
-    Logger,
+    { provide: BaseScheduler, useClass: Scheduler },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler
