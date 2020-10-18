@@ -17,6 +17,6 @@ export class LoadingComponentMocker {
     public appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
     public databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
     public routerMock: IMock<Router> = Mock.ofType<Router>();
-    public settingsMock: SettingsMock = new SettingsMock(this.showWelcome);
+    public settingsMock: SettingsMock = new SettingsMock(this.showWelcome, false);
     public loadingComponent: LoadingComponent;
 }
