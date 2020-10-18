@@ -51,7 +51,26 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return undefined when there is no embedded artwork and no external artwork', async () => {
+        it('Should return online artwork when there is no embedded and no external artwork but there is online artwork', async () => {
+            // Arrange
+            const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
+
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
+            const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+
+            mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
+            mocker.externalAlbumArtworkGetterMock.setup(x => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
+            mocker.onlineAlbumArtworkGetterMock.setup(x => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+
+            // Act
+            const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+
+            // Assert
+            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+        });
+
+
+        it('Should return undefined when there is no embedded and no external and no online artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker();
 
@@ -59,6 +78,7 @@ describe('AlbumArtworkGetter', () => {
 
             mocker.embeddedAlbumArtworkGetterMock.setup(x => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
             mocker.externalAlbumArtworkGetterMock.setup(x => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
+            mocker.onlineAlbumArtworkGetterMock.setup(x => x.getOnlineArtworkAsync(It.isAny())).returns(async () => undefined);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
