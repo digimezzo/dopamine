@@ -31,10 +31,10 @@ export class OnlineAlbumArtworkGetterMocker {
         }
 
         if (this.imageProcessorThrowsError) {
-            this.imageProcessorMock.setup(x => x.convertFileToDataAsync(It.isAnyString())).throws(new Error('An error occurred'));
+            this.imageProcessorMock.setup(x => x.convertLocalImageToBufferAsync(It.isAnyString())).throws(new Error('An error occurred'));
         } else {
             this.imageProcessorMock.setup(
-                x => x.convertFileToDataAsync('http://images.com/image.png')
+                x => x.convertLocalImageToBufferAsync('http://images.com/image.png')
             ).returns(async () => this.expectedAlbumData);
         }
     }

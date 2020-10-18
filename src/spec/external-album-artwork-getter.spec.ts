@@ -117,7 +117,7 @@ describe('ExternalAlbumArtworkGetter', () => {
             ).returns(() => '/home/MyUser/Music/front.png');
 
             imageProcessorMock.setup(
-                x => x.convertFileToDataAsync('/home/MyUser/Music/front.png')
+                x => x.convertLocalImageToBufferAsync('/home/MyUser/Music/front.png')
                 ).returns(async () => expectedArtwork);
 
             // Act

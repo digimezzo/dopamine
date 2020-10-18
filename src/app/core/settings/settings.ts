@@ -136,6 +136,7 @@ export class Settings implements BaseSettings {
     if (!this.settings.has('ignoreRemovedFiles')) {
       this.settings.set('ignoreRemovedFiles', false);
     }
+
     if (!this.settings.has('downloadMissingAlbumCovers')) {
       this.settings.set('downloadMissingAlbumCovers', true);
     }

@@ -61,7 +61,7 @@ export class OnlineAlbumArtworkGetter {
                     let artworkData: Buffer;
 
                     try {
-                        artworkData = await this.imageprocessor.convertFileToDataAsync(lastfmAlbum.largestImage());
+                        artworkData = await this.imageprocessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
 
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
