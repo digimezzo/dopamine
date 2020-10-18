@@ -73,6 +73,7 @@ import { ExternalArtworkPathGetter } from './services/indexing/external-artwork-
 import { IndexablePathFetcher } from './services/indexing/indexable-path-fetcher';
 import { IndexingService } from './services/indexing/indexing.service';
 import { OnlineAlbumArtworkGetter } from './services/indexing/online-album-artwork-getter';
+import { TrackAdder } from './services/indexing/track-adder';
 import { TrackFieldCreator } from './services/indexing/track-field-creator';
 import { TrackFiller } from './services/indexing/track-filler';
 import { TrackIndexer } from './services/indexing/track-indexer';
@@ -141,6 +142,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DirectoryWalker,
     TrackRemover,
     TrackUpdater,
+    TrackAdder,
     TrackFiller,
     FileMetadataFactory,
     TrackFieldCreator,

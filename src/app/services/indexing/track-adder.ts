@@ -7,8 +7,8 @@ import { Track } from '../../data/entities/track';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';
-import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TrackAdder {
         private trackrepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
-        private indexablePathFetcher: IndexablePathFetcher,
+        private indexablePathFetcher: BaseIndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger) { }
