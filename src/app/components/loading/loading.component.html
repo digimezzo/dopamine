@@ -4,7 +4,7 @@
         </div>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '32px' }">
+    <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '46px' }">
         <div class="loading">
             <app-logo-full></app-logo-full>
             <h4 class="mt-4">{{ 'Pages.Loading.Text' | translate }}</h4>

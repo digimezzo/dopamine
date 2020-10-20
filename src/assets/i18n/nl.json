@@ -46,7 +46,8 @@
         "Yes": "JA",
         "No": "NEE",
         "Ok": "OK",
-        "ViewLog": "BEKIJK LOG"
+        "ViewLog": "BEKIJK LOG",
+        "OpenMenu": "Open menu"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",

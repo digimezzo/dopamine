@@ -46,7 +46,8 @@
         "Yes": "OUI",
         "No": "NON",
         "Ok": "OK",
-        "ViewLog": "VÉRIFIER LOG"
+        "ViewLog": "VÉRIFIER LOG",
+        "OpenMenu": "Ouvrir menu"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",
