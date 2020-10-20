@@ -11,6 +11,7 @@ var os = require("os");
 var path = require("path");
 var url = require("url");
 electron_1.app.commandLine.appendSwitch('disable-color-correct-rendering');
+electron_1.app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
@@ -51,6 +52,7 @@ function createWindow() {
         backgroundColor: '#fff',
         frame: windowhasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+        webPreferences: { webSecurity: false },
         show: false,
     });
     globalAny.windowHasFrame = windowhasFrame();

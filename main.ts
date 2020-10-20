@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as url from 'url';
 
 app.commandLine.appendSwitch('disable-color-correct-rendering');
-
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -60,6 +60,7 @@ function createWindow(): void {
     backgroundColor: '#fff',
     frame: windowhasFrame(),
     icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+    webPreferences: { webSecurity: false },
     show: false,
   });
 
