@@ -5,13 +5,13 @@ import { BaseIndexingService } from '../../services/indexing/base-indexing.servi
 import { BaseUpdateService } from '../../services/update/base-update.service';
 
 @Component({
-  selector: 'app-main',
+  selector: 'app-collection',
   host: { 'style': 'display: block' },
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  templateUrl: './collection.component.html',
+  styleUrls: ['./collection.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MainComponent implements OnInit {
+export class CollectionComponent implements OnInit {
 
   constructor(
     public appearanceService: BaseAppearanceService,

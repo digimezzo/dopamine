@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { MainComponent } from './components/main/main.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { CollectionComponent } from './components/collection/collection.component';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/main',
+        redirectTo: '/collection',
         pathMatch: 'full'
     },
     {
@@ -15,8 +15,8 @@ const routes: Routes = [
         component: WelcomeComponent
     },
     {
-        path: 'main',
-        component: MainComponent
+        path: 'collection',
+        component: CollectionComponent
     },
     {
         path: 'loading',

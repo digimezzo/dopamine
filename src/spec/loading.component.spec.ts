@@ -26,7 +26,7 @@ describe('LoadingComponent', () => {
             mocker.routerMock.verify(x => x.navigate(['/welcome']), Times.exactly(1));
         });
 
-        it('Should navigate to main if welcome should not be shown', async () => {
+        it('Should navigate to collection if welcome should not be shown', async () => {
             // Arrange
             const mocker: LoadingComponentMocker = new LoadingComponentMocker(false);
 
@@ -34,7 +34,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.routerMock.verify(x => x.navigate(['/main']), Times.exactly(1));
+            mocker.routerMock.verify(x => x.navigate(['/collection']), Times.exactly(1));
         });
 
         it('Should prevent showing the welcome screen on a next start', async () => {

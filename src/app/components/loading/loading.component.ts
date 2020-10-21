@@ -26,7 +26,7 @@ export class LoadingComponent implements OnInit {
             this.settings.showWelcome = false;
             this.router.navigate(['/welcome']);
         } else {
-            this.router.navigate(['/main']);
+            this.router.navigate(['/collection']);
         }
     }
 }
