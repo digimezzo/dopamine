@@ -1,12 +1,13 @@
 <div class="window-frame">
   <div class="window-frame-titlebar">
-      <div class="window-frame-titlebar-dragarea" *ngIf="!appearanceService.windowHasNativeTitleBar">
-      </div>
-      <app-main-menu class="main-menu">
-      </app-main-menu>
-      <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+    <div class="window-frame-titlebar-dragarea" *ngIf="!appearanceService.windowHasNativeTitleBar">
+      <app-logo-small class="app-logo-small"></app-logo-small>
+    </div>
+    <app-main-menu class="main-menu">
+    </app-main-menu>
+    <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
   <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '46px' }">
-    Main works!
+    
   </div>
 </div>

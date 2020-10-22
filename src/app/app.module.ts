@@ -19,6 +19,7 @@ import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
+import { LogoSmallComponent } from './components/logo-small/logo-small.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -101,6 +102,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CollectionComponent,
     WindowControlsComponent,
     LogoFullComponent,
+    LogoSmallComponent,
     StepIndicatorComponent,
     ColorSchemeSwitcherComponent,
     AddFolderComponent,

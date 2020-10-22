@@ -1,0 +1,15 @@
+.logo-small-icon {
+    background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 15px 0px 15px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo-small-icon-content {
+    width: 30px;
+    height: 30px;
+  }
