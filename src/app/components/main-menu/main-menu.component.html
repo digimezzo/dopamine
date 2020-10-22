@@ -3,6 +3,16 @@
     <i class="custom-font las la-ellipsis-v"></i>
 </div>
 <mat-menu #menu="matMenu">
+    <button mat-menu-item >
+        {{ 'MainMenu.ManageCollection' | translate }}
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item >
+        {{ 'MainMenu.Settings' | translate }}
+    </button>
+    <button mat-menu-item >
+        {{ 'MainMenu.Information' | translate }}
+    </button>
     <!-- <button class="menu-button" mat-menu-item (click)="addCollectionAsync()">
         <i class="menu-icon custom-font las la-plus"></i>
         {{ 'CollectionSwitcher.AddCollection' | translate }}

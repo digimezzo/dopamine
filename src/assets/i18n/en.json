@@ -62,5 +62,10 @@
     "DeleteFolderError": "An error occurred while deleting the folder. Please verify the log if you need more information.",
     "AddFolderError": "An error occurred while adding the folder. Please verify the log if you need more information.",
     "GlobalError": "An error has occurred which will cause the application to close. Please verify the log if you need more information."
+  },
+  "MainMenu": {
+    "ManageCollection": "Manage collection...",
+    "Settings": "Settings",
+    "Information": "Information"
   }
 }

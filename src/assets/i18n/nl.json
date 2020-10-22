@@ -62,5 +62,10 @@
         "DeleteFolderError": "Er is een fout opgetreden bij het verwijderen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
         "AddFolderError": "Er is een fout opgetreden bij het toevoegen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
         "GlobalError": "Er is een fout opgetreden waardoor de toepassing wordt gesloten. Controleer het log bestand als u meer informatie nodig hebt."
+    },
+    "MainMenu": {
+        "ManageCollection": "Collectie beheren...",
+        "Settings": "Instellingen",
+        "Information": "Informatie"
     }
 }
