@@ -46,7 +46,9 @@
     "Yes": "YES",
     "No": "NO",
     "Ok": "OK",
-    "ViewLog": "VIEW LOG",
+    "ViewLog": "VIEW LOG"
+  },
+  "Tooltips": {
     "OpenMenu": "Open menu"
   },
   "DialogTitles": {

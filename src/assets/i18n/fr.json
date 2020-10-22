@@ -32,7 +32,7 @@
             }
         },
         "Loading": {
-          "Text": "Chargement..."
+            "Text": "Chargement..."
         }
     },
     "SnackBarMessages": {
@@ -46,7 +46,9 @@
         "Yes": "OUI",
         "No": "NON",
         "Ok": "OK",
-        "ViewLog": "VÉRIFIER LOG",
+        "ViewLog": "VÉRIFIER LOG"
+    },
+    "Tooltips": {
         "OpenMenu": "Ouvrir menu"
     },
     "DialogTitles": {

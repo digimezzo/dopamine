@@ -32,7 +32,7 @@
             }
         },
         "Loading": {
-          "Text": "Laden..."
+            "Text": "Laden..."
         }
     },
     "SnackBarMessages": {
@@ -46,7 +46,9 @@
         "Yes": "JA",
         "No": "NEE",
         "Ok": "OK",
-        "ViewLog": "BEKIJK LOG",
+        "ViewLog": "BEKIJK LOG"
+    },
+    "Tooltips": {
         "OpenMenu": "Open menu"
     },
     "DialogTitles": {
