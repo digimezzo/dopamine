@@ -33,6 +33,13 @@
         },
         "Loading": {
             "Text": "Laden..."
+        },
+        "Collection": {
+            "Artists": "Artiesten",
+            "Genres": "Genres",
+            "Albums": "Albums",
+            "Songs": "Nummers",
+            "Playlists": "Afspeellijsten"
         }
     },
     "SnackBarMessages": {

@@ -33,6 +33,13 @@
         },
         "Loading": {
             "Text": "Chargement..."
+        },
+        "Collection": {
+            "Artists": "Artistes",
+            "Genres": "Genres",
+            "Albums": "Albums",
+            "Songs": "Morceaux",
+            "Playlists": "Listes de lectures"
         }
     },
     "SnackBarMessages": {
@@ -67,5 +74,5 @@
         "ManageCollection": "Gérer la collection...",
         "Settings": "Paramètres",
         "Information": "Information"
-      }
+    }
 }

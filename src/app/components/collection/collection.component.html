@@ -8,6 +8,37 @@
     <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
   <div class="window-frame-content" [ngStyle]="{'top': appearanceService.windowHasNativeTitleBar ? '0px' : '46px' }">
-    
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Collection.Artists' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Collection.Genres' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Collection.Albums' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Collection.Songs' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Collection.Playlists' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
