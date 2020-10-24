@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-menu',
@@ -9,8 +10,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   public ngOnInit(): void {
+  }
+
+  public goToSettings(): void {
+    this.router.navigate(['/settings']);
+  }
+
+  public goToInformation(): void {
+    this.router.navigate(['/information']);
   }
 }

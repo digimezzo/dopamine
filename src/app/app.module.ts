@@ -12,15 +12,18 @@ import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { InformationComponent } from './components/information/information.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -110,7 +113,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     LoadingComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    BackButtonComponent,
+    SettingsComponent,
+    InformationComponent
   ],
   imports: [
     MatProgressSpinnerModule,

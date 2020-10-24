@@ -64,7 +64,8 @@
         "ViewLog": "VÉRIFIER LOG"
     },
     "Tooltips": {
-        "OpenMenu": "Ouvrir menu"
+        "OpenMenu": "Ouvrir menu",
+        "Back": "Retour"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",

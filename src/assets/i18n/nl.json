@@ -64,7 +64,8 @@
         "ViewLog": "BEKIJK LOG"
     },
     "Tooltips": {
-        "OpenMenu": "Open menu"
+        "OpenMenu": "Open menu",
+        "Back": "Terug"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",

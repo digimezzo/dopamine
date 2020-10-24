@@ -3,14 +3,14 @@
     <i class="custom-font las la-ellipsis-v"></i>
 </div>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item >
+    <button mat-menu-item>
         {{ 'MainMenu.ManageCollection' | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item >
+    <button mat-menu-item (click)="goToSettings()">
         {{ 'MainMenu.Settings' | translate }}
     </button>
-    <button mat-menu-item >
+    <button mat-menu-item (click)="goToInformation()">
         {{ 'MainMenu.Information' | translate }}
     </button>
 </mat-menu>

@@ -1,10 +1,19 @@
 .back-button-background {
-    background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
-    width: 30px;
-    min-width: 30px;
-    height: 30px;
-    border-radius: 15px 0px 15px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 15px 0px 15px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-app-region: no-drag;
+  font-size: 20px;
+  color: white;
+  -webkit-transition:font-size 0.15s;
+  cursor: pointer;
+}
+
+.back-button-background:hover {
+  font-size: 26px !important;
+}

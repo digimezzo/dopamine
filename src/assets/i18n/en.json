@@ -64,7 +64,8 @@
     "ViewLog": "VIEW LOG"
   },
   "Tooltips": {
-    "OpenMenu": "Open menu"
+    "OpenMenu": "Open menu",
+    "Back": "Back"
   },
   "DialogTitles": {
     "ConfirmDeleteFolder": "Delete folder?",
