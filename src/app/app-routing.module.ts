@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { RouterModule, Routes } from '@angular/router';
 import { CollectionComponent } from './components/collection/collection.component';
+import { InformationComponent } from './components/information/information.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
     {
         path: '',
         redirectTo: '/collection',
         pathMatch: 'full'
+    },
+    {
+        path: 'loading',
+        component: LoadingComponent
     },
     {
         path: 'welcome',
@@ -19,13 +25,17 @@ const routes: Routes = [
         component: CollectionComponent
     },
     {
-        path: 'loading',
-        component: LoadingComponent
+        path: 'settings',
+        component: SettingsComponent
+    },
+    {
+        path: 'information',
+        component: InformationComponent
     }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true})],
+    imports: [RouterModule.forRoot(routes, { useHash: true })],
     exports: [RouterModule]
 })
 

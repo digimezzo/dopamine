@@ -40,6 +40,14 @@
             "Albums": "Albums",
             "Songs": "Nummers",
             "Playlists": "Afspeellijsten"
+        },
+        "Settings": {
+            "Appearance": "Uiterlijk",
+            "Advanced": "Geavanceerd"
+        },
+        "Information": {
+            "Help": "Help",
+            "About": "Over"
         }
     },
     "SnackBarMessages": {

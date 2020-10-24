@@ -22,7 +22,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.logo-icon {
+.logo-background {
   background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
   width: 64px;
   min-width: 64px;
@@ -33,7 +33,7 @@
   justify-content: center;
 }
 
-.logo-icon-content {
+.logo-content {
   width: 64px;
   height: 64px;
 }

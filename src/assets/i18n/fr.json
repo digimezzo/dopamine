@@ -40,6 +40,14 @@
             "Albums": "Albums",
             "Songs": "Morceaux",
             "Playlists": "Listes de lectures"
+        },
+        "Settings": {
+            "Appearance": "Apparence",
+            "Advanced": "Avancé"
+        },
+        "Information": {
+            "Help": "Aide",
+            "About": "À propos"
         }
     },
     "SnackBarMessages": {

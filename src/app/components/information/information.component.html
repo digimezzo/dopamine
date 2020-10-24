@@ -1,0 +1,26 @@
+<div class="window-frame">
+    <div class="window-frame-titlebar">
+      <div class="window-frame-titlebar-dragarea">
+        <app-logo-small class="app-back-button"></app-logo-small>
+      </div>
+      <app-main-menu class="main-menu">
+      </app-main-menu>
+      <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+    </div>
+    <div class="window-frame-content">
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Information.Help' | translate }}
+          </ng-template>
+          <!-- Content -->
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Information.About' | translate }}
+          </ng-template>
+          <!-- Content -->
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>

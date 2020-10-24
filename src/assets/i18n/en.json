@@ -34,12 +34,20 @@
     "Loading": {
       "Text": "Loading..."
     },
-    "Collection":{
+    "Collection": {
       "Artists": "Artists",
       "Genres": "Genres",
       "Albums": "Albums",
       "Songs": "Songs",
       "Playlists": "Playlists"
+    },
+    "Settings": {
+      "Appearance": "Appearance",
+      "Advanced": "Advanced"
+    },
+    "Information": {
+      "Help": "Help",
+      "About": "About"
     }
   },
   "SnackBarMessages": {
