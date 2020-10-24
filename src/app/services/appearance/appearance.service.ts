@@ -114,6 +114,7 @@ export class AppearanceService implements BaseAppearanceService {
     public applyFontSize(): void {
         const element = document.documentElement;
         element.style.setProperty('--fontsize-normal', this._selectedFontSize.normalSize + 'px');
+        element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-larger', this._selectedFontSize.largerSize + 'px');
         element.style.setProperty('--fontsize-largest', this._selectedFontSize.largestSize + 'px');
     }

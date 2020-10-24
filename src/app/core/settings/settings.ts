@@ -37,12 +37,12 @@ export class Settings implements BaseSettings {
   }
 
   // Use custom title bar
-  public get useCustomTitleBar(): boolean {
-    return this.settings.get('useCustomTitleBar');
+  public get useSystemTitleBar(): boolean {
+    return this.settings.get('useSystemTitleBar');
   }
 
-  public set useCustomTitleBar(v: boolean) {
-    this.settings.set('useCustomTitleBar', v);
+  public set useSystemTitleBar(v: boolean) {
+    this.settings.set('useSystemTitleBar', v);
   }
 
   // FontSize
@@ -109,11 +109,11 @@ export class Settings implements BaseSettings {
       this.settings.set('checkForUpdates', true);
     }
 
-    if (!this.settings.has('useCustomTitleBar')) {
+    if (!this.settings.has('useSystemTitleBar')) {
       if (os.platform() === 'win32') {
-        this.settings.set('useCustomTitleBar', true);
+        this.settings.set('useSystemTitleBar', false);
       } else {
-        this.settings.set('useCustomTitleBar', false);
+        this.settings.set('useSystemTitleBar', true);
       }
     }
 

@@ -41,16 +41,18 @@ h1 {
   font-size: var(--fontsize-largest) !important;
 }
 
-h4 {
+h2 {
+  color: var(--accent-color);
   font-weight: lighter !important;
   font-size: var(--fontsize-larger) !important;
+}
+
+h4 {
+  font-weight: lighter !important;
+  font-size: var(--fontsize-large) !important;
 }
 
 a {
   color: var(--accent-color);
   outline: none; // Removes yellow outline on links
-}
-
-hr {
-  border-bottom: 1px solid #dedede;
 }

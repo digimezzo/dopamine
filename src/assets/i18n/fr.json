@@ -43,7 +43,10 @@
         },
         "Settings": {
             "Appearance": "Apparence",
-            "Advanced": "Avancé"
+            "Advanced": "Avancé",
+            "Theme": "Thème",
+            "TitleBar": "Barre de titre",
+            "UseSystemTitleBar": "Utiliser barre de titre système"
         },
         "Information": {
             "Help": "Aide",

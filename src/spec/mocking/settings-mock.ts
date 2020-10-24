@@ -10,7 +10,7 @@ export class SettingsMock implements BaseSettings {
 
     public language: string = '';
     public checkForUpdates: boolean = false;
-    public useCustomTitleBar: boolean = false;
+    public useSystemTitleBar: boolean = false;
     public fontSize: number = 0;
     public colorScheme: string = '';
     public useLightBackgroundTheme: boolean = false;

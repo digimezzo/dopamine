@@ -43,7 +43,10 @@
         },
         "Settings": {
             "Appearance": "Uiterlijk",
-            "Advanced": "Geavanceerd"
+            "Advanced": "Geavanceerd",
+            "Theme": "Thema",
+            "TitleBar": "Titelbalk",
+            "UseSystemTitleBar": "Systeem titelbalk gebruiken"
         },
         "Information": {
             "Help": "Help",

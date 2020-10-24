@@ -1,26 +1,26 @@
 <div class="window-frame">
-    <div class="window-frame-titlebar">
-      <div class="window-frame-titlebar-dragarea">
-        <app-back-button class="back-button"></app-back-button>
-      </div>
-      <app-main-menu class="main-menu">
-      </app-main-menu>
-      <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+  <div class="window-frame-titlebar">
+    <div class="window-frame-titlebar-dragarea">
+      <app-back-button class="back-button"></app-back-button>
     </div>
-    <div class="window-frame-content">
-      <mat-tab-group>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            {{ 'Pages.Settings.Appearance' | translate }}
-          </ng-template>
-          <!-- Content -->
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            {{ 'Pages.Settings.Advanced' | translate }}
-          </ng-template>
-          <!-- Content -->
-        </mat-tab>
-      </mat-tab-group>
-    </div>
+    <app-main-menu class="main-menu">
+    </app-main-menu>
+    <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
+  <div class="window-frame-content">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Settings.Appearance' | translate }}
+        </ng-template>
+        <app-appearance-settings></app-appearance-settings>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'Pages.Settings.Advanced' | translate }}
+        </ng-template>
+        <!-- Content -->
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

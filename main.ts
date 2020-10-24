@@ -28,15 +28,15 @@ if (process.env.NODE_ENV !== 'development') {
 function windowhasFrame(): boolean {
   const settings: Store<any> = new Store();
 
-  if (!settings.has('useCustomTitleBar')) {
+  if (!settings.has('useSystemTitleBar')) {
     if (os.platform() === 'win32') {
-      settings.set('useCustomTitleBar', true);
+      settings.set('useSystemTitleBar', true);
     } else {
-      settings.set('useCustomTitleBar', false);
+      settings.set('useSystemTitleBar', false);
     }
   }
 
-  return !settings.get('useCustomTitleBar');
+  return settings.get('useSystemTitleBar');
 }
 
 function createWindow(): void {
