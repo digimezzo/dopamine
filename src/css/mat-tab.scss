@@ -17,6 +17,12 @@ mat-tab-group {
     padding: 0 12px !important; 
     -webkit-app-region: no-drag;
     margin-top: 4px;
+    opacity: 1 !important;
+    color: var(--tab-text-color) !important;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  color: var(--tab-select-text-color) !important;
 }
 
 .mat-tab-header {

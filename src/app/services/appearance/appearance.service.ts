@@ -21,7 +21,7 @@ export class AppearanceService implements BaseAppearanceService {
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer
-        ) {
+    ) {
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
 
         if (colorSchemeFromSettings == undefined) {
@@ -94,12 +94,16 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--button-foreground-color', '#FFF');
         element.style.setProperty('--button-hover-color', 'rgba(255, 255, 255, 0.05)');
         element.style.setProperty('--button-select-color', 'rgba(255, 255, 255, 0.1)');
+        element.style.setProperty('--tab-text-color', '#666');
+        element.style.setProperty('--tab-select-text-color', '#FFF');
 
         if (this.settings.useLightBackgroundTheme) {
             themeName = 'default-theme-light';
             element.style.setProperty('--button-foreground-color', '#000');
             element.style.setProperty('--button-hover-color', 'rgba(0, 0, 0, 0.05)');
             element.style.setProperty('--button-select-color', 'rgba(0, 0, 0, 0.1)');
+            element.style.setProperty('--tab-text-color', '#909090');
+            element.style.setProperty('--tab-select-text-color', '#000');
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
