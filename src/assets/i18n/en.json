@@ -50,7 +50,9 @@
       "Language": "Language",
       "ChooseLanguage": "Choose a language",
       "TextSize": "Text size",
-      "ChooseTextSize": "Choose a text size"
+      "ChooseTextSize": "Choose a text size",
+      "Updates": "Updates",
+      "CheckForUpdates": "Check for updates"
     },
     "Information": {
       "Help": "Help",

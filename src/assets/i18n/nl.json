@@ -50,7 +50,9 @@
             "Language": "Taal",
             "ChooseLanguage": "Kies een taal",
             "TextSize": "Lettergrootte",
-            "ChooseTextSize": "Kies een lettergrootte"
+            "ChooseTextSize": "Kies een lettergrootte",
+            "Updates": "Updates",
+            "CheckForUpdates": "Controleren op updates"
         },
         "Information": {
             "Help": "Help",
