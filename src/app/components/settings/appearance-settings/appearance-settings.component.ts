@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 
 @Component({
   selector: 'app-appearance-settings',
@@ -11,7 +12,10 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 })
 export class AppearanceSettingsComponent implements OnInit {
 
-  constructor(public appearanceService: BaseAppearanceService, public settings: BaseSettings) { }
+  constructor(
+    public appearanceService: BaseAppearanceService,
+    public translatorService: BaseTranslatorService,
+    public settings: BaseSettings) { }
 
   public ngOnInit(): void {
   }

@@ -46,7 +46,11 @@
             "Advanced": "Avancé",
             "Theme": "Thème",
             "TitleBar": "Barre de titre",
-            "UseSystemTitleBar": "Utiliser barre de titre système"
+            "UseSystemTitleBar": "Utiliser barre de titre système (nécessite un redémarrage)",
+            "Language": "Langue",
+            "ChooseLanguage": "Choisissez une langue",
+            "TextSize": "Taille du texte",
+            "ChooseTextSize": "Choisissez une taille du texte"
         },
         "Information": {
             "Help": "Aide",

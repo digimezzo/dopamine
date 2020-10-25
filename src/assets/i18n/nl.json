@@ -46,7 +46,11 @@
             "Advanced": "Geavanceerd",
             "Theme": "Thema",
             "TitleBar": "Titelbalk",
-            "UseSystemTitleBar": "Systeem titelbalk gebruiken"
+            "UseSystemTitleBar": "Systeem titelbalk gebruiken (vereist een herstart)",
+            "Language": "Taal",
+            "ChooseLanguage": "Kies een taal",
+            "TextSize": "Lettergrootte",
+            "ChooseTextSize": "Kies een lettergrootte"
         },
         "Information": {
             "Help": "Help",

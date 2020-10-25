@@ -10,3 +10,27 @@
     <mat-slide-toggle class="mt-2" [(ngModel)]="settings.useSystemTitleBar">
         {{ 'Pages.Settings.UseSystemTitleBar' | translate }}</mat-slide-toggle>
 </div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2>{{ 'Pages.Settings.Language' | translate }}</h2>
+    <div class="mt-2">{{ 'Pages.Settings.ChooseLanguage' | translate }}</div>
+    <mat-form-field class="mt-2">
+        <mat-select [(ngModel)]="translatorService.selectedLanguage">
+            <mat-option *ngFor="let language of translatorService.languages" [value]="language">
+                {{ language.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2>{{ 'Pages.Settings.TextSize' | translate }}</h2>
+    <div class="mt-2">{{ 'Pages.Settings.ChooseTextSize' | translate }}</div>
+    <mat-form-field class="mt-2">
+        <mat-select [(ngModel)]="appearanceService.selectedFontSize">
+            <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize">
+                {{ fontSize.normalSize }} px
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

@@ -46,7 +46,11 @@
       "Advanced": "Advanced",
       "Theme": "Theme",
       "TitleBar": "Title bar",
-      "UseSystemTitleBar": "Use system title bar"
+      "UseSystemTitleBar": "Use system title bar (requires a restart)",
+      "Language": "Language",
+      "ChooseLanguage": "Choose a language",
+      "TextSize": "Text size",
+      "ChooseTextSize": "Choose a text size"
     },
     "Information": {
       "Help": "Help",
