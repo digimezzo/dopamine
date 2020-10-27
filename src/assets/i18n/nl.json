@@ -55,8 +55,19 @@
             "CheckForUpdates": "Controleren op updates"
         },
         "Information": {
-            "Help": "Help",
-            "About": "Over"
+            "About": "Over",
+            "Components": "Componenten",
+            "Version": "Versie",
+            "License": "Licentie",
+            "Donate": "Doneer",
+            "DonateInstructions": "Hou je van dopamine? Klik hier om te doneren. Dank je!",
+            "ContactUs": "Neem contact op",
+            "Thanks": "Dankjewel",
+            "ThanksToSharlee": "Aan Sharlee, voor zijn prachtige iconen!",
+            "ThanksToDonaters": "Aan iedereen die heeft gedoneerd.",
+            "ThanksToTranslators": "Aan de vertalers.",
+            "ThanksToDevelopers": "Aan de ontwikkelaars die de componenten hebben gemaakt die we gebruiken.",
+            "ThanksToNeowin": "Aan Neowin voor hun geweldige ideeën, testen en bugrapporten."
         }
     },
     "SnackBarMessages": {

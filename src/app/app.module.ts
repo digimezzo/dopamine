@@ -18,6 +18,8 @@ import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { AboutComponent } from './components/information/about/about.component';
+import { ComponentsComponent } from './components/information/components/components.component';
 import { InformationComponent } from './components/information/information.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
@@ -120,7 +122,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SettingsComponent,
     InformationComponent,
     AppearanceSettingsComponent,
-    AdvancedSettingsComponent
+    AdvancedSettingsComponent,
+    AboutComponent,
+    ComponentsComponent
   ],
   imports: [
     MatProgressSpinnerModule,

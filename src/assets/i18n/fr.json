@@ -55,8 +55,19 @@
             "CheckForUpdates": "Contrôler les mises à jour"
         },
         "Information": {
-            "Help": "Aide",
-            "About": "À propos"
+            "About": "À propos",
+            "Components": "Composants",
+            "Version": "Version",
+            "License": "Licence",
+            "Donate": "Faire un don",
+            "DonateInstructions": "Aimez-vous dopamine? Veuillez cliquer ici pour faire un don. Merci!",
+            "ContactUs": "Contactez-nous",
+            "Thanks": "Merci",
+            "ThanksToSharlee": "À Sharlee, pour ses superbes icônes!",
+            "ThanksToDonaters": "À ceux qui ont fait un don.",
+            "ThanksToTranslators": "Aux traducteurs.",
+            "ThanksToDevelopers": "Aux développeurs qui ont créé les composants que nous utilisons.",
+            "ThanksToNeowin": "À Neowin pour leurs excellentes idées, leurs tests et leurs rapports de bogues."
         }
     },
     "SnackBarMessages": {

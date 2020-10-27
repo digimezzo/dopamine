@@ -55,8 +55,19 @@
       "CheckForUpdates": "Check for updates"
     },
     "Information": {
-      "Help": "Help",
-      "About": "About"
+      "About": "About",
+      "Components": "Components",
+      "Version": "Version",
+      "License": "License",
+      "Donate": "Donate",
+      "DonateInstructions": "Do you like Dopamine? Please click here to donate. Thank you!",
+      "ContactUs": "Contact us",
+      "Thanks": "Thanks",
+      "ThanksToSharlee": "To Sharlee, for his gorgeous icons!",
+      "ThanksToDonaters": "To those who donated.",
+      "ThanksToTranslators": "To the translators.",
+      "ThanksToDevelopers": "To the developers who created the components which we use.",
+      "ThanksToNeowin": "To Neowin for their great ideas, testing and bug reports."
     }
   },
   "SnackBarMessages": {
