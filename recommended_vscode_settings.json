@@ -1,0 +1,44 @@
+{
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "mochaExplorer.files": "src/spec/**/*.spec.ts",
+    "mochaExplorer.require": "ts-node/register",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true,
+        "source.organizeImports": true
+    },
+    "editor.fontFamily": "'Droid Sans Mono',Consolas, 'Courier New', monospace",
+    "workbench.iconTheme": "vscode-icon-theme",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.js.map": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        }
+    },
+    "launch": {
+    
+
+
+        "configurations": [],
+        "compounds": []
+    },
+    "[jsonc]": {
+    
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    },
+    "editor.fontSize": 13,
+    "[json]": {
+    
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    }
+}

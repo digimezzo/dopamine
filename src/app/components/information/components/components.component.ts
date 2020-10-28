@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Constants } from '../../../core/base/constants';
+import { ExternalComponent } from '../../../core/base/external-component';
 
 @Component({
   selector: 'app-components',
@@ -12,7 +13,7 @@ export class ComponentsComponent implements OnInit {
 
   constructor() { }
 
-  public externalComponents: any[] = Constants.externalComponents;
+  public externalComponents: ExternalComponent[] = Constants.externalComponents;
 
   public ngOnInit(): void {
   }
