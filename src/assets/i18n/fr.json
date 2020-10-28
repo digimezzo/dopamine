@@ -82,7 +82,8 @@
         "Yes": "OUI",
         "No": "NON",
         "Ok": "OK",
-        "ViewLog": "VÉRIFIER LOG"
+        "ViewLog": "VÉRIFIER LOG",
+        "License": "LICENCE"
     },
     "Tooltips": {
         "OpenMenu": "Ouvrir menu",
@@ -90,7 +91,8 @@
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",
-        "Error": "Erreur"
+        "Error": "Erreur",
+        "License": "Licence"
     },
     "DialogTexts": {
         "ConfirmDeleteFolder": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?"

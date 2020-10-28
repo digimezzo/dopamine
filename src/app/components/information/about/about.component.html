@@ -6,4 +6,7 @@
         <strong> {{applicationVersion}}</strong>
         <br />{{applicationCopyright}}
     </div>
+    <button class="mt-2" mat-raised-button (click)="showLicenseDialog()">
+        {{ 'Buttons.License' | translate }}
+    </button>
 </div>

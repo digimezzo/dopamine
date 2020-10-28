@@ -82,7 +82,8 @@
     "Yes": "YES",
     "No": "NO",
     "Ok": "OK",
-    "ViewLog": "VIEW LOG"
+    "ViewLog": "VIEW LOG",
+    "License": "LICENSE"
   },
   "Tooltips": {
     "OpenMenu": "Open menu",
@@ -90,7 +91,8 @@
   },
   "DialogTitles": {
     "ConfirmDeleteFolder": "Delete folder?",
-    "Error": "Error"
+    "Error": "Error",
+    "License": "License"
   },
   "DialogTexts": {
     "ConfirmDeleteFolder": "Are you sure you want to delete the folder '{{folderPath}}'?"

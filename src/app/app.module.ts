@@ -18,6 +18,7 @@ import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
 import { AboutComponent } from './components/information/about/about.component';
 import { ComponentsComponent } from './components/information/components/components.component';
 import { InformationComponent } from './components/information/information.component';
@@ -116,6 +117,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DialogHeaderComponent,
     ConfirmationDialogComponent,
     ErrorDialogComponent,
+    LicenseDialogComponent,
     LoadingComponent,
     MainMenuComponent,
     BackButtonComponent,
@@ -210,7 +212,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmationDialogComponent, ErrorDialogComponent
+    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent
   ],
 })
 export class AppModule { }

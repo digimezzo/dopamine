@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../core/base/contact-information';
 import { ProductInformation } from '../../../core/base/product-information';
+import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 
 @Component({
   selector: 'app-about',
@@ -11,7 +12,7 @@ import { ProductInformation } from '../../../core/base/product-information';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialogService: BaseDialogService) { }
 
   public applicationVersion: string = ProductInformation.applicationVersion;
   public applicationCopyright: string = ProductInformation.applicationCopyright;
@@ -20,5 +21,9 @@ export class AboutComponent implements OnInit {
   public githubUrl: string = ContactInformation.githubUrl;
 
   public ngOnInit(): void {
+  }
+
+  public showLicenseDialog(): void {
+    this.dialogService.showLicenseDialog();
   }
 }

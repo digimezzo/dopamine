@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
+import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
 import { BaseDialogService } from './base-dialog.service';
 
 @Injectable({
@@ -28,6 +29,12 @@ export class DialogService implements BaseDialogService {
     public showErrorDialog(errorText: string): void {
         this.dialog.open(ErrorDialogComponent, {
             width: '450px', data: { errorText: errorText }
+        });
+    }
+
+    public showLicenseDialog(): void {
+        this.dialog.open(LicenseDialogComponent, {
+            width: '450px'
         });
     }
 }

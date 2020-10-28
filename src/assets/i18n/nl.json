@@ -82,7 +82,8 @@
         "Yes": "JA",
         "No": "NEE",
         "Ok": "OK",
-        "ViewLog": "BEKIJK LOG"
+        "ViewLog": "BEKIJK LOG",
+        "License": "LICENTIE"
     },
     "Tooltips": {
         "OpenMenu": "Open menu",
@@ -90,7 +91,8 @@
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",
-        "Error": "Fout"
+        "Error": "Fout",
+        "License": "Licentie"
     },
     "DialogTexts": {
         "ConfirmDeleteFolder": "Weet u zeker dat u de map '{{folderPath}}' wilt verwijderen?"
