@@ -29,7 +29,7 @@ export class AppearanceService implements BaseAppearanceService {
         }
 
         this._selectedColorScheme = colorSchemeFromSettings;
-        this._selectedFontSize = this.fontSizes.find(x => x.normalSize === this.settings.fontSize);
+        this._selectedFontSize = this.fontSizes.find(x => x.mediumSize === this.settings.fontSize);
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -69,7 +69,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set selectedFontSize(v: FontSize) {
         this._selectedFontSize = v;
-        this.settings.fontSize = v.normalSize;
+        this.settings.fontSize = v.mediumSize;
 
         this.applyFontSize();
     }
@@ -117,9 +117,9 @@ export class AppearanceService implements BaseAppearanceService {
 
     public applyFontSize(): void {
         const element = document.documentElement;
-        element.style.setProperty('--fontsize-normal', this._selectedFontSize.normalSize + 'px');
+        element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
-        element.style.setProperty('--fontsize-larger', this._selectedFontSize.largerSize + 'px');
-        element.style.setProperty('--fontsize-largest', this._selectedFontSize.largestSize + 'px');
+        element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
+        element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
     }
 }

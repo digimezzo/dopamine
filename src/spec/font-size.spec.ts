@@ -3,14 +3,14 @@ import { FontSize } from '../app/core/base/font-size';
 
 describe('FontSize', () => {
     describe('constructor', () => {
-        it('Should have normal size', () => {
+        it('Should have medium size', () => {
             // Arrange
 
             // Act
             const fontSize = new FontSize(14);
 
             // Assert
-            assert.ok(fontSize.normalSize === 14);
+            assert.ok(fontSize.mediumSize === 14);
         });
 
         it('Should have large size', () => {
@@ -24,24 +24,24 @@ describe('FontSize', () => {
         });
 
 
-        it('Should have larger size', () => {
+        it('Should have extra large size', () => {
             // Arrange
 
             // Act
             const fontSize = new FontSize(14);
 
             // Assert
-            assert.ok(fontSize.largerSize === 14 * 1.857);
+            assert.ok(fontSize.extraLargeSize === 14 * 1.857);
         });
 
-        it('Should have largest size', () => {
+        it('Should have mega size', () => {
             // Arrange
 
             // Act
             const fontSize = new FontSize(14);
 
             // Assert
-            assert.ok(fontSize.largestSize === 14 * 2.857);
+            assert.ok(fontSize.megaSize === 14 * 2.857);
         });
     });
 });

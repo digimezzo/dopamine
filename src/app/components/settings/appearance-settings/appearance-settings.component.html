@@ -29,7 +29,7 @@
     <mat-form-field class="mt-2">
         <mat-select [(ngModel)]="appearanceService.selectedFontSize">
             <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize">
-                {{ fontSize.normalSize }} px
+                {{ fontSize.mediumSize }} px
             </mat-option>
         </mat-select>
     </mat-form-field>

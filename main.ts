@@ -30,9 +30,9 @@ function windowhasFrame(): boolean {
 
   if (!settings.has('useSystemTitleBar')) {
     if (os.platform() === 'win32') {
-      settings.set('useSystemTitleBar', true);
-    } else {
       settings.set('useSystemTitleBar', false);
+    } else {
+      settings.set('useSystemTitleBar', true);
     }
   }
 

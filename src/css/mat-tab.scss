@@ -21,6 +21,10 @@ mat-tab-group {
     color: var(--tab-text-color) !important;
 }
 
+.mat-tab-label-content {
+   font-size: var(--fontsize-large) !important;
+}
+
 .mat-tab-label.mat-tab-label-active {
   color: var(--tab-select-text-color) !important;
 }
