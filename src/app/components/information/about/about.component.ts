@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../core/base/contact-information';
 import { ProductInformation } from '../../../core/base/product-information';
+import { Desktop } from '../../../core/io/desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private dialogService: BaseDialogService) { }
+  constructor(private dialogService: BaseDialogService, private desktop: Desktop) { }
 
   public applicationVersion: string = ProductInformation.applicationVersion;
   public applicationCopyright: string = ProductInformation.applicationCopyright;
@@ -25,5 +26,9 @@ export class AboutComponent implements OnInit {
 
   public showLicenseDialog(): void {
     this.dialogService.showLicenseDialog();
+  }
+
+  public browseToDonateLink(): void {
+    this.desktop.openLink(ContactInformation.donateUrl);
   }
 }

@@ -6,7 +6,42 @@
         <strong> {{applicationVersion}}</strong>
         <br />{{applicationCopyright}}
     </div>
-    <button class="mt-2" mat-raised-button (click)="showLicenseDialog()">
+    <button class="mt-2" mat-raised-button color="primary" (click)="showLicenseDialog()">
         {{ 'Buttons.License' | translate }}
     </button>
+
+</div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2 class="mb-2">{{ 'Pages.Information.Donate' | translate }}</h2>
+    <div>{{ 'Pages.Information.DonateInstructions' | translate }}</div>
+    <button class="mt-2" mat-raised-button color="primary" (click)="browseToDonateLink()">
+        {{ 'Buttons.Donate' | translate }}
+    </button>
+</div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2 class="mb-2">{{ 'Pages.Information.ContactUs' | translate }}</h2>
+    <div class="contact-item mb-1 mt-2">
+        <i class="contact-item-icon custom-font mr-1 las la-globe"></i>
+        <a href="{{ websiteUrl }}"
+            matTooltip="{{ websiteUrl }}">{{ 'Pages.Information.Website' | translate }}</a>
+    </div>
+    <div class="contact-item mb-1">
+        <i class="contact-item-icon custom-font mr-1 lab la-twitter"></i>
+        <a href="{{ twitterUrl }}" matTooltip="{{ twitterUrl }}">Twitter</a>
+    </div>
+    <div class="contact-item">
+        <i class="contact-item-icon custom-font mr-1 lab la-github"></i>
+        <a href="{{ githubUrl }}" matTooltip="{{ githubUrl }}">GitHub</a>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2 class="mb-2">{{ 'Pages.Information.Thanks' | translate }}</h2>
+    <div>{{ 'Pages.Information.ThanksToSharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/">Sharlee</a>)</div>
+    <div>{{ 'Pages.Information.ThanksToDonaters' | translate }}</div>
+    <div>{{ 'Pages.Information.ThanksToTranslators' | translate }}</div>
+    <div>{{ 'Pages.Information.ThanksToDevelopers' | translate }}</div>
+    <div>{{ 'Pages.Information.ThanksToNeowin' | translate }} (<a href="https://www.neowin.net/" matTooltip="https://www.neowin.net/">Neowin</a>)</div>
 </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { remote } from 'electron';
+import { remote, shell } from 'electron';
 
 @Injectable()
 export class Desktop {
@@ -14,5 +14,9 @@ export class Desktop {
         }
 
         return '';
+    }
+
+    public openLink(url: string): void {
+        shell.openExternal(url);
     }
 }

@@ -83,7 +83,8 @@
         "No": "NON",
         "Ok": "OK",
         "ViewLog": "VÉRIFIER LOG",
-        "License": "LICENCE"
+        "License": "LICENCE",
+        "Donate": "FAIRE UN DON"
     },
     "Tooltips": {
         "OpenMenu": "Ouvrir menu",

@@ -83,7 +83,8 @@
         "No": "NEE",
         "Ok": "OK",
         "ViewLog": "BEKIJK LOG",
-        "License": "LICENTIE"
+        "License": "LICENTIE",
+        "Donate": "DONEER"
     },
     "Tooltips": {
         "OpenMenu": "Open menu",
