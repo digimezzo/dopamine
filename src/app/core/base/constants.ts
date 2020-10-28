@@ -10,6 +10,7 @@ export class Constants {
     ];
 
     public static readonly fontSizes: FontSize[] = [
+        new FontSize(12),
         new FontSize(13),
         new FontSize(14),
         new FontSize(15)

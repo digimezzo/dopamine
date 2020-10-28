@@ -20,7 +20,7 @@ describe('FontSize', () => {
             const fontSize = new FontSize(14);
 
             // Assert
-            assert.ok(fontSize.largeSize === 14 * 1.429);
+            assert.ok(fontSize.largeSize === 14 * 1.143);
         });
 
 
@@ -41,7 +41,7 @@ describe('FontSize', () => {
             const fontSize = new FontSize(14);
 
             // Assert
-            assert.ok(fontSize.megaSize === 14 * 2.857);
+            assert.ok(fontSize.megaSize === 14 * 2.571);
         });
     });
 });
