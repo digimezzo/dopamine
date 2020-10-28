@@ -59,6 +59,12 @@ export class Constants {
             'https://github.com/goldfire/howler.js/blob/master/LICENSE.md'
         ),
         new ExternalComponent(
+            'Icons designed by Sharlee',
+            'Gorgeous Dopamine icons designed by Sharlee.',
+            'https://www.itssharl.ee/',
+            ''
+        ),
+        new ExternalComponent(
             'Icons8 Line Awesome',
             'Replace Font Awesome with modern line icons.',
             'https://github.com/icons8/line-awesome',

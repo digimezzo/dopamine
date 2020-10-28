@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Constants } from '../../../core/base/constants';
 
 @Component({
   selector: 'app-components',
@@ -10,6 +11,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class ComponentsComponent implements OnInit {
 
   constructor() { }
+
+  public externalComponents: any[] = Constants.externalComponents;
 
   public ngOnInit(): void {
   }
