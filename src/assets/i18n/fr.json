@@ -12,7 +12,8 @@
             "Appearance": {
                 "Title": "Apparence",
                 "Content": "Quelle apparence voulez-vous donner à Dopamine?",
-                "UseLightTheme": "Utiliser le thème clair"
+                "UseLightTheme": "Utiliser le thème clair",
+                "FollowSystemColor": "Suivez la couleur du système"
             },
             "Music": {
                 "Title": "Musique",

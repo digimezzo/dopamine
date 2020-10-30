@@ -30,6 +30,12 @@ export class AppearanceService implements BaseAppearanceService {
 
         this._selectedColorScheme = colorSchemeFromSettings;
         this._selectedFontSize = this.fontSizes.find(x => x.mediumSize === this.settings.fontSize);
+
+        if (remote.systemPreferences != undefined) {
+            remote.systemPreferences.on('accent-color-changed', (event: Electron.Event, newColor: string) => {
+                this.applyTheme();
+            });
+        }
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -49,6 +55,15 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set useLightBackgroundTheme(v: boolean) {
         this.settings.useLightBackgroundTheme = v;
+        this.applyTheme();
+    }
+
+    public get followSystemColor(): boolean {
+        return this.settings.followSystemColor;
+    }
+
+    public set followSystemColor(v: boolean) {
+        this.settings.followSystemColor = v;
         this.applyTheme();
     }
 
@@ -86,9 +101,27 @@ export class AppearanceService implements BaseAppearanceService {
 
     public applyTheme(): void {
         const element = document.documentElement;
-        element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
-        element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
-        element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
+
+        if (this.settings.followSystemColor) {
+            try {
+                const systemAccentColor: string = remote.systemPreferences.getAccentColor();
+                const systemAccentColorWithoutTransparency: string = '#' + systemAccentColor.substr(0, 6);
+
+                element.style.setProperty('--theme-primary-color', systemAccentColorWithoutTransparency);
+                element.style.setProperty('--theme-secondary-color', systemAccentColorWithoutTransparency);
+                element.style.setProperty('--theme-accent-color', systemAccentColorWithoutTransparency);
+            } catch (e) {
+                this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'applyTheme');
+
+                element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
+                element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
+                element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
+            }
+        } else {
+            element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
+            element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
+            element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
+        }
 
         let themeName: string = 'default-theme-dark';
         element.style.setProperty('--theme-window-button-foreground', '#5e5e5e');

@@ -36,7 +36,7 @@ export class Settings implements BaseSettings {
     this.settings.set('checkForUpdates', v);
   }
 
-  // Use custom title bar
+  // Use system title bar
   public get useSystemTitleBar(): boolean {
     return this.settings.get('useSystemTitleBar');
   }
@@ -79,6 +79,15 @@ export class Settings implements BaseSettings {
 
   public set useLightBackgroundTheme(v: boolean) {
     this.settings.set('useLightBackgroundTheme', v);
+  }
+
+  // Follow system color
+  public get followSystemColor(): boolean {
+    return this.settings.get('followSystemColor');
+  }
+
+  public set followSystemColor(v: boolean) {
+    this.settings.set('followSystemColor', v);
   }
 
   // Ignore removed files
@@ -131,6 +140,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('useLightBackgroundTheme')) {
       this.settings.set('useLightBackgroundTheme', false);
+    }
+
+    if (!this.settings.has('followSystemColor')) {
+      this.settings.set('followSystemColor', false);
     }
 
     if (!this.settings.has('ignoreRemovedFiles')) {

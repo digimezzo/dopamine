@@ -12,7 +12,8 @@
             "Appearance": {
                 "Title": "Uitzicht",
                 "Content": "Hoe wil je dat Dopamine eruit ziet?",
-                "UseLightTheme": "Gebruik een licht thema"
+                "UseLightTheme": "Gebruik een licht thema",
+                "FollowSystemColor": "Volg de systeemkleur"
             },
             "Music": {
                 "Title": "Muziek",

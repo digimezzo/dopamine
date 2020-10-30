@@ -36,3 +36,8 @@
 .link-button-text {
   font-size: var(--fontsize-medium);
 }
+
+.inactive {
+  pointer-events: none;
+  opacity: 0.5;
+}

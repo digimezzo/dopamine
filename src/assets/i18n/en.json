@@ -12,7 +12,8 @@
       "Appearance": {
         "Title": "Appearance",
         "Content": "What should your Dopamine look like?",
-        "UseLightTheme": "Use light theme"
+        "UseLightTheme": "Use light theme",
+        "FollowSystemColor": "Follow the system color"
       },
       "Music": {
         "Title": "Music",

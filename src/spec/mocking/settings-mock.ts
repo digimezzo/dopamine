@@ -14,5 +14,6 @@ export class SettingsMock implements BaseSettings {
     public fontSize: number = 0;
     public colorScheme: string = '';
     public useLightBackgroundTheme: boolean = false;
+    public followSystemColor: boolean = false;
     public ignoreRemovedFiles: boolean = false;
 }
