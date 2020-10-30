@@ -36,13 +36,13 @@ body {
 }
 
 h1 {
-  color: var(--accent-color);
+  color: var(--theme-accent-color);
   font-weight: lighter !important;
   font-size: var(--fontsize-mega) !important;
 }
 
 h2 {
-  color: var(--accent-color);
+  color: var(--theme-accent-color);
   font-weight: lighter !important;
   font-size: var(--fontsize-extra-large) !important;
 }
@@ -53,6 +53,6 @@ h3 {
 }
 
 a {
-  color: var(--accent-color);
+  color: var(--theme-accent-color);
   outline: none; // Removes yellow outline on links
 }

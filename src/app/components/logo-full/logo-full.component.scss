@@ -16,13 +16,13 @@
 
 .logo-text-suffix {
   font-size: 20px;
-  background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
+  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .logo-background {
-  background: linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 100%);
+  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
   width: 64px;
   min-width: 64px;
   height: 64px;

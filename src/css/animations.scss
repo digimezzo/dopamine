@@ -1,0 +1,32 @@
+// Fade in animation
+@keyframes animation-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.animation-fade-in {
+    animation-name: animation-fade-in;
+}
+
+// Durations
+.animation-duration-2s {
+    animation-duration: 2000ms;
+    animation-fill-mode: both;
+}
+
+// Delays
+.animation-delay-1s{
+    animation-delay: 1s;
+}
+
+.animation-delay-2s{
+    animation-delay: 2s;
+}
+
+.animation-delay-3s{
+    animation-delay: 3s;
+}

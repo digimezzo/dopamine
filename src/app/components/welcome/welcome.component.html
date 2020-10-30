@@ -6,15 +6,15 @@
     </div>
     <div class="window-frame-content">
         <div class="welcome">
-            <app-logo-full></app-logo-full>
+            <app-logo-full class="animation-fade-in animation-duration-2s animation-delay-1s"></app-logo-full>
             <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false" #stepper>
                 <!-- Greeting -->
                 <mat-step>
                     <div class="p-2">
-                        <h1 class="mb-1">
+                        <h1 class="mb-1 animation-fade-in animation-duration-2s animation-delay-2s">
                             {{ 'Pages.Welcome.Greeting.Title' | translate }}
                         </h1>
-                        <h3>
+                        <h3 class="mb-1 animation-fade-in animation-duration-2s animation-delay-2s">
                             {{ 'Pages.Welcome.Greeting.Content' | translate }}
                         </h3>
                     </div>
@@ -90,8 +90,8 @@
                     </div>
                 </mat-step>
             </mat-horizontal-stepper>
-            <app-step-indicator class="my-4" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
-            <div class="welcome-stepper-buttons">
+            <app-step-indicator class="my-4 animation-fade-in animation-duration-2s animation-delay-3s" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
+            <div class="welcome-stepper-buttons animation-fade-in animation-duration-2s animation-delay-3s">
                 <button *ngIf="canGoBack" class="transparent-button no-select mx-4" (click)="goBack(stepper)">
                     <i class="las la-angle-left welcome-stepper-buttons-icon custom-font"></i>
                 </button>

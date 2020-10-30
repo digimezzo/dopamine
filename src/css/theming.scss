@@ -1,22 +1,22 @@
-@import '~@angular/material/theming';
-@import 'custom-mat-themes';
+@import "~@angular/material/theming";
+@import "custom-mat-themes";
 @include mat-core();
 
 $default-palette: (
-  50: var(--accent-color),
-  100: var(--accent-color),
-  200: var(--accent-color),
-  300: var(--accent-color),
-  400: var(--accent-color),
-  500: var(--accent-color),
-  600: var(--accent-color),
-  700: var(--accent-color),
-  800: var(--accent-color),
-  900: var(--accent-color),
-  A100: var(--accent-color),
-  A200: var(--accent-color),
-  A400: var(--accent-color),
-  A700: var(--accent-color),
+  50: var(--theme-accent-color),
+  100: var(--theme-accent-color),
+  200: var(--theme-accent-color),
+  300: var(--theme-accent-color),
+  400: var(--theme-accent-color),
+  500: var(--theme-accent-color),
+  600: var(--theme-accent-color),
+  700: var(--theme-accent-color),
+  800: var(--theme-accent-color),
+  900: var(--theme-accent-color),
+  A100: var(--theme-accent-color),
+  A200: var(--theme-accent-color),
+  A400: var(--theme-accent-color),
+  A700: var(--theme-accent-color),
   contrast: (
     50: #000000,
     100: #000000,
@@ -50,4 +50,8 @@ $default-theme-light: custom-mat-light-theme($default-theme-primary, $default-th
 
 .default-theme-light {
   @include angular-material-theme($default-theme-light);
+}
+
+.theme-header-background {
+  background-color: var(--theme-header-background) !important;
 }

@@ -11,12 +11,12 @@
 }
 
 .folder-item:hover {
-    background: var(--button-hover-color);
+    background: var(--theme-item-hovered-background);
 }
 
 .folder-item-icon {
     font-size: var(--fontsize-large);
-    color: var(--accent-color);
+    color: var(--theme-accent-color);
 }
 
 .folder-item-path {
@@ -34,6 +34,6 @@
 }
 
 .folder-item:hover .folder-item-action {
-    background: var(--button-hover-color);
+    background: var(--theme-item-hovered-background);
     display: block !important;
 }

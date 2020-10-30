@@ -18,7 +18,7 @@ mat-tab-group {
     -webkit-app-region: no-drag;
     margin-top: 4px;
     opacity: 1 !important;
-    color: var(--tab-text-color) !important;
+    color: var(--theme-tab-text-foreground) !important;
 }
 
 .mat-tab-label-content {
@@ -26,7 +26,7 @@ mat-tab-group {
 }
 
 .mat-tab-label.mat-tab-label-active {
-  color: var(--tab-select-text-color) !important;
+  color: var(--theme-tab-selected-text-foreground) !important;
 }
 
 .mat-tab-header {

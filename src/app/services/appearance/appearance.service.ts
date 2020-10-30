@@ -86,24 +86,26 @@ export class AppearanceService implements BaseAppearanceService {
 
     public applyTheme(): void {
         const element = document.documentElement;
-        element.style.setProperty('--primary-color', this.selectedColorScheme.primaryColor);
-        element.style.setProperty('--secondary-color', this.selectedColorScheme.secondaryColor);
-        element.style.setProperty('--accent-color', this.selectedColorScheme.accentColor);
+        element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
+        element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
+        element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
 
         let themeName: string = 'default-theme-dark';
-        element.style.setProperty('--button-foreground-color', '#FFF');
-        element.style.setProperty('--button-hover-color', 'rgba(255, 255, 255, 0.05)');
-        element.style.setProperty('--button-select-color', 'rgba(255, 255, 255, 0.1)');
-        element.style.setProperty('--tab-text-color', '#666');
-        element.style.setProperty('--tab-select-text-color', '#FFF');
+        element.style.setProperty('--theme-window-button-foreground', '#5e5e5e');
+        element.style.setProperty('--theme-item-hovered-background', 'rgba(255, 255, 255, 0.05)');
+        element.style.setProperty('--theme-item-selected-background', 'rgba(255, 255, 255, 0.1)');
+        element.style.setProperty('--theme-tab-text-foreground', '#666');
+        element.style.setProperty('--theme-tab-selected-text-foreground', '#FFF');
+        element.style.setProperty('--theme-header-background', '#111');
 
         if (this.settings.useLightBackgroundTheme) {
             themeName = 'default-theme-light';
-            element.style.setProperty('--button-foreground-color', '#000');
-            element.style.setProperty('--button-hover-color', 'rgba(0, 0, 0, 0.05)');
-            element.style.setProperty('--button-select-color', 'rgba(0, 0, 0, 0.1)');
-            element.style.setProperty('--tab-text-color', '#909090');
-            element.style.setProperty('--tab-select-text-color', '#000');
+            element.style.setProperty('--theme-window-button-foreground', '#838383');
+            element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');
+            element.style.setProperty('--theme-item-selected-background', 'rgba(0, 0, 0, 0.1)');
+            element.style.setProperty('--theme-tab-text-foreground', '#909090');
+            element.style.setProperty('--theme-tab-selected-text-foreground', '#000');
+            element.style.setProperty('--theme-header-background', '#fdfdfd');
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
