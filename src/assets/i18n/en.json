@@ -12,8 +12,7 @@
       "Appearance": {
         "Title": "Appearance",
         "Content": "What should your Dopamine look like?",
-        "UseLightTheme": "Use light theme",
-        "FollowSystemColor": "Follow the system color"
+        "UseLightTheme": "Use light theme"
       },
       "Music": {
         "Title": "Music",
@@ -46,6 +45,9 @@
       "Appearance": "Appearance",
       "Advanced": "Advanced",
       "Theme": "Theme",
+      "UseLightTheme": "Use light theme",
+      "Color": "Color",
+      "FollowSystemColor": "Follow the system color",
       "TitleBar": "Title bar",
       "UseSystemTitleBar": "Use system title bar (requires a restart)",
       "Language": "Language",

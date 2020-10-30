@@ -102,26 +102,26 @@ export class AppearanceService implements BaseAppearanceService {
     public applyTheme(): void {
         const element = document.documentElement;
 
+        let primaryColor: string = this.selectedColorScheme.primaryColor;
+        let secondaryColor: string = this.selectedColorScheme.secondaryColor;
+        let accentColor: string = this.selectedColorScheme.accentColor;
+
         if (this.settings.followSystemColor) {
             try {
                 const systemAccentColor: string = remote.systemPreferences.getAccentColor();
                 const systemAccentColorWithoutTransparency: string = '#' + systemAccentColor.substr(0, 6);
 
-                element.style.setProperty('--theme-primary-color', systemAccentColorWithoutTransparency);
-                element.style.setProperty('--theme-secondary-color', systemAccentColorWithoutTransparency);
-                element.style.setProperty('--theme-accent-color', systemAccentColorWithoutTransparency);
+                primaryColor = systemAccentColorWithoutTransparency;
+                secondaryColor = systemAccentColorWithoutTransparency;
+                accentColor = systemAccentColorWithoutTransparency;
             } catch (e) {
                 this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'applyTheme');
-
-                element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
-                element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
-                element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
             }
-        } else {
-            element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
-            element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
-            element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
         }
+
+        element.style.setProperty('--theme-primary-color', primaryColor);
+        element.style.setProperty('--theme-secondary-color', secondaryColor);
+        element.style.setProperty('--theme-accent-color', accentColor);
 
         let themeName: string = 'default-theme-dark';
         element.style.setProperty('--theme-window-button-foreground', '#5e5e5e');

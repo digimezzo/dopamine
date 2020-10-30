@@ -12,8 +12,7 @@
             "Appearance": {
                 "Title": "Apparence",
                 "Content": "Quelle apparence voulez-vous donner à Dopamine?",
-                "UseLightTheme": "Utiliser le thème clair",
-                "FollowSystemColor": "Suivez la couleur du système"
+                "UseLightTheme": "Utiliser le thème clair"
             },
             "Music": {
                 "Title": "Musique",
@@ -46,6 +45,9 @@
             "Appearance": "Apparence",
             "Advanced": "Avancé",
             "Theme": "Thème",
+            "UseLightTheme": "Utiliser le thème clair",
+            "Color": "couleur",
+            "FollowSystemColor": "Suivre la couleur du système",
             "TitleBar": "Barre de titre",
             "UseSystemTitleBar": "Utiliser barre de titre système (nécessite un redémarrage)",
             "Language": "Langue",

@@ -2,11 +2,15 @@
     <h2>{{ 'Pages.Settings.Theme' | translate }}</h2>
     <div>
         <mat-slide-toggle class="mt-2" [(ngModel)]="appearanceService.useLightBackgroundTheme">
-            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
+            {{ 'Pages.Settings.UseLightTheme' | translate }}</mat-slide-toggle>
     </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-2">
+    <h2>{{ 'Pages.Settings.Color' | translate }}</h2>
     <div>
         <mat-slide-toggle class="mt-2" [(ngModel)]="appearanceService.followSystemColor">
-            {{ 'Pages.Welcome.Appearance.FollowSystemColor' | translate }}</mat-slide-toggle>
+            {{ 'Pages.Settings.FollowSystemColor' | translate }}</mat-slide-toggle>
     </div>
     <app-color-scheme-switcher class="mt-2" [ngClass]="{'inactive':appearanceService.followSystemColor}"></app-color-scheme-switcher>
 </div>

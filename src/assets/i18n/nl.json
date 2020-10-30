@@ -12,8 +12,7 @@
             "Appearance": {
                 "Title": "Uitzicht",
                 "Content": "Hoe wil je dat Dopamine eruit ziet?",
-                "UseLightTheme": "Gebruik een licht thema",
-                "FollowSystemColor": "Volg de systeemkleur"
+                "UseLightTheme": "Gebruik een licht thema"
             },
             "Music": {
                 "Title": "Muziek",
@@ -46,6 +45,9 @@
             "Appearance": "Uiterlijk",
             "Advanced": "Geavanceerd",
             "Theme": "Thema",
+            "UseLightTheme": "Gebruik een licht thema",
+            "Color": "Kleur",
+            "FollowSystemColor": "Volg de systeemkleur",
             "TitleBar": "Titelbalk",
             "UseSystemTitleBar": "Systeem titelbalk gebruiken (vereist een herstart)",
             "Language": "Taal",
