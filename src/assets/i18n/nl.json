@@ -45,6 +45,7 @@
             "Appearance": "Uiterlijk",
             "Advanced": "Geavanceerd",
             "Theme": "Thema",
+            "FollowSystemTheme": "Volg het systeem thema",
             "UseLightTheme": "Gebruik een licht thema",
             "Color": "Kleur",
             "FollowSystemColor": "Volg de systeemkleur",

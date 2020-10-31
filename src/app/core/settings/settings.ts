@@ -72,6 +72,15 @@ export class Settings implements BaseSettings {
     this.settings.set('showWelcome', v);
   }
 
+  // Follow system theme
+  public get followSystemTheme(): boolean {
+    return this.settings.get('followSystemTheme');
+  }
+
+  public set followSystemTheme(v: boolean) {
+    this.settings.set('followSystemTheme', v);
+  }
+
   // Use light theme
   public get useLightBackgroundTheme(): boolean {
     return this.settings.get('useLightBackgroundTheme');
@@ -136,6 +145,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('showWelcome')) {
       this.settings.set('showWelcome', true);
+    }
+
+    if (!this.settings.has('followSystemTheme')) {
+      this.settings.set('followSystemTheme', false);
     }
 
     if (!this.settings.has('useLightBackgroundTheme')) {
