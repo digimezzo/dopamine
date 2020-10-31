@@ -49,15 +49,6 @@ export class AppearanceService implements BaseAppearanceService {
 
     public fontSizes: FontSize[] = Constants.fontSizes;
 
-    public get followSystemTheme(): boolean {
-        return this.settings.followSystemTheme;
-    }
-
-    public set followSystemTheme(v: boolean) {
-        this.settings.followSystemTheme = v;
-        this.applyTheme();
-    }
-
     public get useLightBackgroundTheme(): boolean {
         return this.settings.useLightBackgroundTheme;
     }
@@ -140,15 +131,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-tab-selected-text-foreground', '#FFF');
         element.style.setProperty('--theme-header-background', '#111');
 
-        let systemIsUsingDarkMode: boolean = false;
-
-        try {
-            systemIsUsingDarkMode = remote.systemPreferences.isDarkMode();
-        } catch (e) {
-            this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'applyTheme');
-        }
-
-        if (this.settings.useLightBackgroundTheme && !systemIsUsingDarkMode) {
+        if (this.settings.useLightBackgroundTheme) {
             themeName = 'default-theme-light';
             element.style.setProperty('--theme-window-button-foreground', '#838383');
             element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');
