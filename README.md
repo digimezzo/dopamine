@@ -38,9 +38,9 @@ Due to the native dependency better-sqlite3, this project cannot be built for al
 ```bash
 $ git clone https://github.com/digimezzo/dopamine.git
 $ cd dopamine
-$ npm install            # Download dependencies
-$ npm run rebuild-sqlite  # Rebuild better-sqlite3 for the version of node.js which is used by the version of Electron which is being used
-$ npm start              # Start Dopamine
+$ npm install                # Install dependencies
+$ npm run rebuild            # Rebuild native modules (better-sqlite3, sharp) for the version of node.js which is used by Electron
+$ npm start                  # Start Dopamine
 $ npm run electron:windows   # Build for Windows
 $ npm run electron:linux     # Build for Linux
 $ npm run electron:mac       # Build for Mac
