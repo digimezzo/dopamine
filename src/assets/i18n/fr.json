@@ -45,6 +45,7 @@
             "Appearance": "Apparence",
             "Advanced": "Avancé",
             "Theme": "Thème",
+            "FollowSystemTheme": "Suivre le thème du système",
             "UseLightTheme": "Utiliser le thème clair",
             "Color": "couleur",
             "FollowSystemColor": "Suivre la couleur du système",
