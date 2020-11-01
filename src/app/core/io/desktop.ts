@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { remote, shell } from 'electron';
+import { OpenDialogReturnValue, remote } from 'electron';
 
 @Injectable()
 export class Desktop {
@@ -7,16 +7,24 @@ export class Desktop {
     }
 
     public async showSelectFolderDialogAsync(dialogTitle: string): Promise<string> {
-        const folderPaths: string[] = remote.dialog.showOpenDialog({ title: dialogTitle, properties: ['openDirectory'] });
+        const openDialogReturnValue: OpenDialogReturnValue = await remote.dialog.showOpenDialog(
+            { title: dialogTitle, properties: ['openDirectory'] }
+        );
 
-        if (folderPaths != undefined && folderPaths.length > 0) {
-            return folderPaths[0];
+        if (openDialogReturnValue != undefined &&
+            openDialogReturnValue.filePaths != undefined &&
+            openDialogReturnValue.filePaths.length > 0) {
+            return openDialogReturnValue.filePaths[0];
         }
 
         return '';
     }
 
     public openLink(url: string): void {
-        shell.openExternal(url);
+        remote.shell.openExternal(url);
+    }
+
+    public showFileInDirectory(filePath: string): void {
+        remote.shell.showItemInFolder(filePath);
     }
 }

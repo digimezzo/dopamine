@@ -60,7 +60,10 @@ function createWindow(): void {
     backgroundColor: '#fff',
     frame: windowhasFrame(),
     icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
-    webPreferences: { webSecurity: false },
+    webPreferences: {
+      webSecurity: false,
+      nodeIntegration: true
+    },
     show: false,
   });
 
