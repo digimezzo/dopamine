@@ -6,6 +6,7 @@ import { FontSize } from '../../core/base/font-size';
 import { ProductInformation } from '../../core/base/product-information';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { StringCompare } from '../../core/string-compare';
 import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
 
@@ -32,13 +33,11 @@ export class AppearanceService implements BaseAppearanceService {
         this._selectedFontSize = this.fontSizes.find(x => x.mediumSize === this.settings.fontSize);
 
         if (remote.systemPreferences != undefined) {
-            remote.systemPreferences.on('accent-color-changed', () => {
-                this.applyTheme();
-            });
+            remote.systemPreferences.on('accent-color-changed', () => this.applyTheme());
+        }
 
-            remote.nativeTheme.on('updated', () => {
-                this.applyTheme();
-            });
+        if (remote.nativeTheme != undefined) {
+            remote.nativeTheme.on('updated', () => this.applyTheme());
         }
     }
 
@@ -102,40 +101,25 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyFontSize();
     }
 
-    private applyThemeClasses(element: HTMLElement, themeName: string): void {
-        const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
-
-        if (classesToRemove != undefined && classesToRemove.length > 0) {
-            element.classList.remove(...classesToRemove);
-        }
-
-        element.classList.add(themeName);
-    }
-
     public applyTheme(): void {
         const element = document.documentElement;
 
-        let primaryColor: string = this.selectedColorScheme.primaryColor;
-        let secondaryColor: string = this.selectedColorScheme.secondaryColor;
-        let accentColor: string = this.selectedColorScheme.accentColor;
+        // Color
+        element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
+        element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
+        element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
 
         if (this.settings.followSystemColor) {
-            try {
-                const systemAccentColor: string = remote.systemPreferences.getAccentColor();
-                const systemAccentColorWithoutTransparency: string = '#' + systemAccentColor.substr(0, 6);
+            const systemAccentColor: string = this.getSystemAccentColor();
 
-                primaryColor = systemAccentColorWithoutTransparency;
-                secondaryColor = systemAccentColorWithoutTransparency;
-                accentColor = systemAccentColorWithoutTransparency;
-            } catch (e) {
-                this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'applyTheme');
+            if (!StringCompare.isNullOrWhiteSpace(systemAccentColor)) {
+                element.style.setProperty('--theme-primary-color', systemAccentColor);
+                element.style.setProperty('--theme-secondary-color', systemAccentColor);
+                element.style.setProperty('--theme-accent-color', systemAccentColor);
             }
         }
 
-        element.style.setProperty('--theme-primary-color', primaryColor);
-        element.style.setProperty('--theme-secondary-color', secondaryColor);
-        element.style.setProperty('--theme-accent-color', accentColor);
-
+        // Theme
         let themeName: string = 'default-theme-dark';
         element.style.setProperty('--theme-window-button-foreground', '#5e5e5e');
         element.style.setProperty('--theme-item-hovered-background', 'rgba(255, 255, 255, 0.05)');
@@ -144,17 +128,8 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-tab-selected-text-foreground', '#FFF');
         element.style.setProperty('--theme-header-background', '#111');
 
-        let systemIsUsingDarkMode: boolean = false;
-
-        if (this.settings.followSystemTheme) {
-            try {
-                systemIsUsingDarkMode = remote.nativeTheme.shouldUseDarkColors;
-            } catch (e) {
-                this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'applyTheme');
-            }
-        }
-
-        if (this.settings.useLightBackgroundTheme || (this.settings.followSystemTheme && !systemIsUsingDarkMode)) {
+        if ((!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
+            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())) {
             themeName = 'default-theme-light';
             element.style.setProperty('--theme-window-button-foreground', '#838383');
             element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');
@@ -179,5 +154,42 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
         element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
+    }
+
+    private isSystemUsingDarkTheme(): boolean {
+        let systemIsUsingDarkTheme: boolean = false;
+
+        if (this.settings.followSystemTheme) {
+            try {
+                systemIsUsingDarkTheme = remote.nativeTheme.shouldUseDarkColors;
+            } catch (e) {
+                this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'isSystemUsingDarkTheme');
+            }
+        }
+
+        return systemIsUsingDarkTheme;
+    }
+
+    private applyThemeClasses(element: HTMLElement, themeName: string): void {
+        const classesToRemove: string[] = Array.from(element.classList).filter((item: string) => item.includes('-theme-'));
+
+        if (classesToRemove != undefined && classesToRemove.length > 0) {
+            element.classList.remove(...classesToRemove);
+        }
+
+        element.classList.add(themeName);
+    }
+
+    private getSystemAccentColor(): string {
+        let systemAccentColor: string = '';
+
+        try {
+            const systemAccentColorWithTransparency: string = remote.systemPreferences.getAccentColor();
+            systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
+        } catch (e) {
+            this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'getSystemAccentColor');
+        }
+
+        return systemAccentColor;
     }
 }
