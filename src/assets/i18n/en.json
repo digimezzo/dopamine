@@ -35,9 +35,7 @@
       "Text": "Loading..."
     },
     "Collection": {
-      "Artists": "Artists",
-      "Genres": "Genres",
-      "Albums": "Albums",
+      "Explore": "Explore",
       "Songs": "Songs",
       "Playlists": "Playlists"
     },
