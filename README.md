@@ -14,9 +14,7 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ## About this repository
 
-The code in this repository is the base for Dopamine 3. It is still work in progress and building it, doesn't yet provide you with a functional audio player. The code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
-
-**IMPORTANT: Dopamine 3 is in very very early development. The code in this repository does NOT produce a working auido player. If you want an audio player, try Dopamine 2 instead: https://www.digimezzo.com/content/software/dopamine/**
+**IMPORTANT: the code in this repository is the base for Dopamine 3. It is still work in progress and building it, doesn't yet provide you with a functional audio player. The code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.**
 
 ## Build prerequisites for GNU/Linux
 
