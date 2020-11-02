@@ -26,6 +26,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -91,6 +92,8 @@ import { TrackFiller } from './services/indexing/track-filler';
 import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
+import { BaseNotificationService } from './services/notification/base-notifcation.service';
+import { NotificationService } from './services/notification/notification.service';
 import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
@@ -126,7 +129,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppearanceSettingsComponent,
     AdvancedSettingsComponent,
     AboutComponent,
-    ComponentsComponent
+    ComponentsComponent,
+    NotificationPanelComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -203,6 +207,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseTranslatorService, useClass: TranslatorService },
     { provide: BaseUpdateService, useClass: UpdateService },
     { provide: BaseSnackbarService, useClass: SnackBarService },
+    { provide: BaseNotificationService, useClass: NotificationService },
     { provide: BaseDialogService, useClass: DialogService },
     { provide: BaseScheduler, useClass: Scheduler },
     {
