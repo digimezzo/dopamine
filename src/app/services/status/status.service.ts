@@ -35,7 +35,7 @@ export class StatusService implements BaseStatusService {
         this.statusMessage.next(new StatusMessage(message));
     }
 
-    public async stopNotifyingAsync(): Promise<void> {
+    public async resetAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
         this.statusMessage.next(undefined);
     }

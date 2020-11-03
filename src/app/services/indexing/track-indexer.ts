@@ -39,6 +39,6 @@ export class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync');
 
-        await this.statusService.stopNotifyingAsync();
+        await this.statusService.resetAsync();
     }
 }

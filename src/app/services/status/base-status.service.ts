@@ -6,5 +6,5 @@ export abstract class BaseStatusService {
     public abstract removingSongsAsync(): Promise<void>;
     public abstract updatingSongsAsync(): Promise<void>;
     public abstract addedSongsAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void>;
-    public abstract stopNotifyingAsync(): Promise<void>;
+    public abstract resetAsync(): Promise<void>;
 }
