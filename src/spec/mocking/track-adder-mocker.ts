@@ -7,6 +7,7 @@ import { BaseTrackRepository } from '../../app/data/repositories/base-track-repo
 import { IndexablePathFetcher } from '../../app/services/indexing/indexable-path-fetcher';
 import { TrackAdder } from '../../app/services/indexing/track-adder';
 import { TrackFiller } from '../../app/services/indexing/track-filler';
+import { BaseStatusService } from '../../app/services/status/base-status.service';
 
 export class TrackAdderMocker {
     constructor() {
@@ -17,7 +18,8 @@ export class TrackAdderMocker {
             this.indexablePathFetcherMock.object,
             this.trackFillerMock.object,
             this.settingsMock.object,
-            this.loggerMock.object
+            this.loggerMock.object,
+            this.statusServiceMock.object
         );
     }
 
@@ -28,5 +30,6 @@ export class TrackAdderMocker {
     public trackFillerMock: IMock<TrackFiller> = Mock.ofType<TrackFiller>();
     public settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+    public statusServiceMock: IMock<BaseStatusService> = Mock.ofType<BaseStatusService>();
     public trackAdder: TrackAdder;
 }

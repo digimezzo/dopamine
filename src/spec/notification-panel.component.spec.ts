@@ -1,21 +1,21 @@
 import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
-import { NotificationPanelComponent } from '../app/components/notification-panel/notification-panel.component';
-import { BaseNotificationService } from '../app/services/notification/base-notifcation.service';
+import { StatusPanelComponent } from '../app/components/status-panel/status-panel.component';
+import { BaseStatusService } from '../app/services/status/base-status.service';
 
-describe('NotificationPanelComponent', () => {
+describe('StatusPanelComponent', () => {
     describe('constructor', () => {
-        it('Should set appearanceService', () => {
+        it('Should set statusService', () => {
             // Arrange
-            const notificationServiceMock: IMock<BaseNotificationService> = Mock.ofType<BaseNotificationService>();
+            const statusServiceMock: IMock<BaseStatusService> = Mock.ofType<BaseStatusService>();
 
             // Act
-            const notificationPanelComponent: NotificationPanelComponent = new NotificationPanelComponent(
-                notificationServiceMock.object,
+            const statusPanelComponent: StatusPanelComponent = new StatusPanelComponent(
+                statusServiceMock.object,
             );
 
             // Assert
-            assert.ok(notificationPanelComponent.notificationService != undefined);
+            assert.ok(statusPanelComponent.statusService != undefined);
         });
     });
 });

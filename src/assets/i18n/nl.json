@@ -109,5 +109,10 @@
         "ManageCollection": "Collectie beheren...",
         "Settings": "Instellingen",
         "Information": "Informatie"
+    },
+    "Status": {
+        "RemovingSongs": "Verwijderen van nummers",
+        "AddedSongs": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
+        "UpdatingSongs": "Bijwerken van nummers"
     }
 }

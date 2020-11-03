@@ -7,6 +7,7 @@ import { Track } from '../../data/entities/track';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseStatusService } from '../status/base-status.service';
 import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';
 import { TrackFiller } from './track-filler';
@@ -20,7 +21,8 @@ export class TrackAdder {
         private indexablePathFetcher: BaseIndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
-        private logger: Logger) { }
+        private logger: Logger,
+        private statusService: BaseStatusService) { }
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
         try {
@@ -42,6 +44,10 @@ export class TrackAdder {
                     this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
 
                     numberOfAddedTracks++;
+
+                    const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
+
+                    await this.statusService.addedSongsAsync(numberOfAddedTracks, percentageOfAddedTracks);
                 } catch (e) {
                     this.logger.error(
                         `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,

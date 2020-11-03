@@ -26,10 +26,10 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
-import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { StatusPanelComponent } from './components/status-panel/status-panel.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -92,10 +92,10 @@ import { TrackFiller } from './services/indexing/track-filler';
 import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
-import { BaseNotificationService } from './services/notification/base-notifcation.service';
-import { NotificationService } from './services/notification/notification.service';
 import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
+import { BaseStatusService } from './services/status/base-status.service';
+import { StatusService } from './services/status/status.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
 import { BaseUpdateService } from './services/update/base-update.service';
@@ -130,7 +130,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AdvancedSettingsComponent,
     AboutComponent,
     ComponentsComponent,
-    NotificationPanelComponent
+    StatusPanelComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -207,7 +207,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseTranslatorService, useClass: TranslatorService },
     { provide: BaseUpdateService, useClass: UpdateService },
     { provide: BaseSnackbarService, useClass: SnackBarService },
-    { provide: BaseNotificationService, useClass: NotificationService },
+    { provide: BaseStatusService, useClass: StatusService },
     { provide: BaseDialogService, useClass: DialogService },
     { provide: BaseScheduler, useClass: Scheduler },
     {
