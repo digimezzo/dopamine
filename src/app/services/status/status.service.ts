@@ -12,6 +12,9 @@ export class StatusService implements BaseStatusService {
     constructor(private translatorService: BaseTranslatorService, private scheduler: Scheduler) {
     }
 
+    private nonDismissableStatusMessage: StatusMessage;
+    private dismissableStatusMessages: StatusMessage[] = [];
+
     private statusMessage: Subject<StatusMessage> = new Subject<StatusMessage>();
     public statusMessage$: Observable<StatusMessage> = this.statusMessage.asObservable();
 
@@ -36,12 +39,32 @@ export class StatusService implements BaseStatusService {
         this.createStatusMessage(message, false);
     }
 
-    public async resetAsync(): Promise<void> {
+    public async dismissNonDismissableStatusMessageAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
-        this.statusMessage.next(undefined);
+        this.nonDismissableStatusMessage = undefined;
+
+        this.sendNextStatusMessage();
     }
 
     private createStatusMessage(message: string, isDismissable: boolean): void {
-        this.statusMessage.next(new StatusMessage(message, isDismissable));
+        const newStatusMessage: StatusMessage = new StatusMessage(message, isDismissable);
+
+        if (newStatusMessage.isDismissable) {
+            this.dismissableStatusMessages.push(newStatusMessage);
+        } else {
+            this.nonDismissableStatusMessage = newStatusMessage;
+        }
+
+        this.sendNextStatusMessage();
+    }
+
+    private sendNextStatusMessage(): void {
+        if (this.nonDismissableStatusMessage != undefined) {
+            this.statusMessage.next(this.nonDismissableStatusMessage);
+        } else if (this.dismissableStatusMessages.length > 0) {
+            this.statusMessage.next(this.dismissableStatusMessages[0]);
+        } else {
+            this.statusMessage.next(undefined);
+        }
     }
 }
