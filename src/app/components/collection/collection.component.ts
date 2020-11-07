@@ -20,12 +20,12 @@ export class CollectionComponent implements OnInit {
     private scheduler: BaseScheduler) { }
 
   public async ngOnInit(): Promise<void> {
-    await this.updateService.checkForUpdatesAsync();
-    this.indexCollectionInBackgroundAsync();
+    this.initializeAsync();
   }
 
-  private async indexCollectionInBackgroundAsync(): Promise<void> {
+  private async initializeAsync(): Promise<void> {
     await this.scheduler.sleepAsync(2000);
-    this.indexingService.indexCollectionIfNeededAsync();
+    await this.indexingService.indexCollectionIfNeededAsync();
+    await this.updateService.checkForUpdatesAsync();
   }
 }
