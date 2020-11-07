@@ -42,6 +42,6 @@ export class StatusService implements BaseStatusService {
     }
 
     private createStatusMessage(message: string, isDismissable: boolean): void {
-        this.statusMessage.next(new StatusMessage(message));
+        this.statusMessage.next(new StatusMessage(message, isDismissable));
     }
 }
