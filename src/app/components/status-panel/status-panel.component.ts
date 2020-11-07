@@ -29,7 +29,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   constructor(public statusService: BaseStatusService) { }
 
   public visibility: string = 'hidden';
-  public statusMessage: string;
+  public statusMessage: StatusMessage;
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -41,11 +41,11 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
   private processStatusMessage(statusMessage: StatusMessage): void {
     if (statusMessage != undefined) {
-      this.statusMessage = statusMessage.message;
+      this.statusMessage = statusMessage;
       this.visibility = 'visible';
     } else {
       this.visibility = 'hidden';
-      this.statusMessage = '';
+      this.statusMessage = undefined;
     }
   }
 }
