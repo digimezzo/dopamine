@@ -17,12 +17,12 @@ export class StatusService implements BaseStatusService {
 
     public async removingSongsAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('Status.RemovingSongs');
-        this.statusMessage.next(new StatusMessage(message));
+        this.createStatusMessage(message, false);
     }
 
     public async updatingSongsAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('Status.UpdatingSongs');
-        this.statusMessage.next(new StatusMessage(message));
+        this.createStatusMessage(message, false);
     }
 
     public async addedSongsAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
@@ -32,11 +32,16 @@ export class StatusService implements BaseStatusService {
                 numberOfAddedTracks: numberOfAddedTracks,
                 percentageOfAddedTracks: percentageOfAddedTracks
             });
-        this.statusMessage.next(new StatusMessage(message));
+
+        this.createStatusMessage(message, false);
     }
 
     public async resetAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
         this.statusMessage.next(undefined);
+    }
+
+    private createStatusMessage(message: string, isDismissable: boolean): void {
+        this.statusMessage.next(new StatusMessage(message));
     }
 }
