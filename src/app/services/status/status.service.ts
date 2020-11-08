@@ -63,7 +63,7 @@ export class StatusService implements BaseStatusService {
         const newStatusMessage: StatusMessage = new StatusMessage(message, isDismissable);
 
         if (newStatusMessage.isDismissable) {
-            this.dismissableStatusMessages.push(newStatusMessage);
+            this.dismissableStatusMessages.unshift(newStatusMessage);
         } else {
             this.nonDismissableStatusMessage = newStatusMessage;
         }
