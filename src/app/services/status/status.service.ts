@@ -39,6 +39,11 @@ export class StatusService implements BaseStatusService {
         this.createStatusMessage(message, false);
     }
 
+    public async newVersionAvailableAsync(version: string): Promise<void> {
+        const message: string = await this.translatorService.getAsync('Status.NewVersionAvailable', { version: version });
+        this.createStatusMessage(message, true);
+    }
+
     public async dismissNonDismissableStatusMessageAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
         this.nonDismissableStatusMessage = undefined;
