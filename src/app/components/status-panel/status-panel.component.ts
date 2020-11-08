@@ -39,6 +39,10 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
     this.subscription.add(this.statusService.statusMessage$.subscribe((statusMessage) => this.processStatusMessage(statusMessage)));
   }
 
+  public dismiss(statusMessage: StatusMessage): void {
+    this.statusService.dismissDismissableStatusMessage(statusMessage);
+  }
+
   private processStatusMessage(statusMessage: StatusMessage): void {
     if (statusMessage != undefined) {
       this.statusMessage = statusMessage;

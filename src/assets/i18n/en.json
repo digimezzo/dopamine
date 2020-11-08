@@ -90,7 +90,8 @@
   },
   "Tooltips": {
     "OpenMenu": "Open menu",
-    "Back": "Back"
+    "Back": "Back",
+    "Close": "Close"
   },
   "DialogTitles": {
     "ConfirmDeleteFolder": "Delete folder?",

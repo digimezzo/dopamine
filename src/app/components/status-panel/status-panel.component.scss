@@ -6,4 +6,12 @@
     display: flex;
     padding: 0 10px 0 10px;
     align-items: center;
+    justify-content: space-between;
+}
+
+.status-panel-close-button {
+    color: white;
+    font-size: var(--fontsize-large);
+    cursor: pointer;
+    margin-top: 1px;
 }

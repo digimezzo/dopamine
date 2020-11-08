@@ -7,4 +7,5 @@ export abstract class BaseStatusService {
     public abstract updatingSongsAsync(): Promise<void>;
     public abstract addedSongsAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void>;
     public abstract dismissNonDismissableStatusMessageAsync(): Promise<void>;
+    public abstract dismissDismissableStatusMessage(statusMessageToDismiss: StatusMessage): void;
 }

@@ -90,7 +90,8 @@
     },
     "Tooltips": {
         "OpenMenu": "Open menu",
-        "Back": "Terug"
+        "Back": "Terug",
+        "Close": "Sluiten"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",

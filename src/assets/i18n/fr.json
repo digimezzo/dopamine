@@ -90,7 +90,8 @@
     },
     "Tooltips": {
         "OpenMenu": "Ouvrir menu",
-        "Back": "Retour"
+        "Back": "Retour",
+        "Close": "Fermer"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",

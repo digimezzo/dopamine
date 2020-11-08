@@ -46,6 +46,14 @@ export class StatusService implements BaseStatusService {
         this.sendNextStatusMessage();
     }
 
+    public dismissDismissableStatusMessage(statusMessageToDismiss: StatusMessage): void {
+        if (this.dismissableStatusMessages.includes(statusMessageToDismiss)) {
+            this.dismissableStatusMessages.splice(this.dismissableStatusMessages.indexOf(statusMessageToDismiss), 1);
+        }
+
+        this.sendNextStatusMessage();
+    }
+
     private createStatusMessage(message: string, isDismissable: boolean): void {
         const newStatusMessage: StatusMessage = new StatusMessage(message, isDismissable);
 
