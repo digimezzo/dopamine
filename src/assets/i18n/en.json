@@ -74,7 +74,6 @@
     }
   },
   "SnackBarMessages": {
-    "NewVersionAvailable": "A new version is available: {{version}}",
     "FolderAlreadyAdded": "This folder was already added"
   },
   "SnackBarActions": {
@@ -114,6 +113,7 @@
   "Status": {
     "RemovingSongs": "Removing songs",
     "AddedSongs": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
-    "UpdatingSongs": "Updating songs"
+    "UpdatingSongs": "Updating songs",
+    "NewVersionAvailable": "A new version is available: {{version}}"
   }
 }

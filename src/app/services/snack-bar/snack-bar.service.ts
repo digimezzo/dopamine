@@ -1,7 +1,7 @@
-import { BaseSnackbarService as SnackBarServiceBase } from './base-snack-bar.service';
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { BaseTranslatorService } from '../translator/base-translator.service';
+import { BaseSnackbarService as SnackBarServiceBase } from './base-snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +40,7 @@ export class SnackBarService implements SnackBarServiceBase {
     private calculateDuration(message: string): number {
         // See: https://ux.stackexchange.com/questions/11203/how-long-should-a-temporary-notification-toast-appear
         // We assume a safe reading speed of 150 words per minute and an average of 5.8 characters per word in the English language.
-        // Then, approx. 1 character is read every 70 milliseconds. Adding a margin of 5 milliseconds, gives us 75 ms.
-        return Math.min(Math.max(message.length * 75, 2000), 7000);
+        // Then, approx. 1 character is read every 70 milliseconds. Adding a margin of 30 milliseconds, gives us 100 ms.
+        return Math.min(Math.max(message.length * 100, 2000), 7000);
     }
 }

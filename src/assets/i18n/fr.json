@@ -74,7 +74,6 @@
         }
     },
     "SnackBarMessages": {
-        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}",
         "FolderAlreadyAdded": "Ce dossier a déjà été ajouté"
     },
     "SnackBarActions": {
@@ -114,6 +113,7 @@
     "Status": {
         "RemovingSongs": "Suppression de morceaux",
         "AddedSongs": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
-        "UpdatingSongs": "Mise à jour des morceaux"
+        "UpdatingSongs": "Mise à jour des morceaux",
+        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}"
     }
 }

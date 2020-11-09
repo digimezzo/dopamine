@@ -74,7 +74,6 @@
         }
     },
     "SnackBarMessages": {
-        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}",
         "FolderAlreadyAdded": "Deze map werd al toegevoegd"
     },
     "SnackBarActions": {
@@ -114,6 +113,7 @@
     "Status": {
         "RemovingSongs": "Verwijderen van nummers",
         "AddedSongs": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
-        "UpdatingSongs": "Bijwerken van nummers"
+        "UpdatingSongs": "Bijwerken van nummers",
+        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}"
     }
 }
