@@ -54,7 +54,9 @@
             "TextSize": "Taille du texte",
             "ChooseTextSize": "Choisissez une taille du texte",
             "Updates": "Mises à jour",
-            "CheckForUpdates": "Contrôler les mises à jour"
+            "CheckForUpdates": "Contrôler les mises à jour",
+            "WelcomeScreen": "Ecran d'accueil",
+            "ShowWelcomeScreen": "Afficher l'écran d'accueil au prochain redémarrage"
         },
         "Information": {
             "About": "À propos",

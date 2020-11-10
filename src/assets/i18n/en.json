@@ -54,7 +54,9 @@
       "TextSize": "Text size",
       "ChooseTextSize": "Choose a text size",
       "Updates": "Updates",
-      "CheckForUpdates": "Check for updates"
+      "CheckForUpdates": "Check for updates",
+      "WelcomeScreen": "Welcome screen",
+      "ShowWelcomeScreen": "Show the welcome screen on the next restart"
     },
     "Information": {
       "About": "About",

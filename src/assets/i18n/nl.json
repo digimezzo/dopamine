@@ -54,7 +54,9 @@
             "TextSize": "Lettergrootte",
             "ChooseTextSize": "Kies een lettergrootte",
             "Updates": "Updates",
-            "CheckForUpdates": "Controleren op updates"
+            "CheckForUpdates": "Controleren op updates",
+            "WelcomeScreen": "Welkomstscherm",
+            "ShowWelcomeScreen": "Toon het welkomstscherm bij de volgende herstart"
         },
         "Information": {
             "About": "Over",
