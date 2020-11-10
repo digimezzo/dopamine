@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackbarService as SnackBarServiceBase } from './base-snack-bar.service';
 
@@ -10,12 +11,6 @@ export class SnackBarService implements SnackBarServiceBase {
     constructor(private zone: NgZone, private matSnackBar: MatSnackBar, private translator: BaseTranslatorService) {
     }
 
-    public async notifyOfNewVersionAsync(version: string): Promise<void> {
-        const message: string = await this.translator.getAsync('SnackBarMessages.NewVersionAvailable', { version: version });
-        const action: string = await this.translator.getAsync('SnackBarActions.Ok');
-        this.showActionSnackBar(message, action, true);
-    }
-
     public async notifyFolderAlreadyAddedAsync(): Promise<void> {
         const message: string = await this.translator.getAsync('SnackBarMessages.FolderAlreadyAdded');
         this.showActionLessSnackBar(message);
@@ -23,19 +18,23 @@ export class SnackBarService implements SnackBarServiceBase {
 
     private showActionLessSnackBar(message: string): void {
         this.zone.run(() => {
-            this.matSnackBar.open(message, '', { panelClass: ['accent-snackbar'], duration: this.calculateDuration(message) });
+            this.matSnackBar.openFromComponent(SnackBarComponent, {
+                data: { icon: 'las la-folder', message: message },
+                panelClass: ['accent-snackbar'],
+                duration: this.calculateDuration(message)
+            });
         });
     }
 
-    private showActionSnackBar(message: string, action: string, keepOpen: boolean): void {
-        let config: any = { panelClass: ['accent-snackbar'], duration: this.calculateDuration(message) };
+    // private showActionSnackBar(message: string, action: string, keepOpen: boolean): void {
+    //     let config: any = { panelClass: ['accent-snackbar'], duration: this.calculateDuration(message) };
 
-        if (keepOpen) {
-            config = { panelClass: ['accent-snackbar'] };
-        }
+    //     if (keepOpen) {
+    //         config = { panelClass: ['accent-snackbar'] };
+    //     }
 
-        this.matSnackBar.open(message, action, config);
-    }
+    //     this.matSnackBar.open(message, action, config);
+    // }
 
     private calculateDuration(message: string): number {
         // See: https://ux.stackexchange.com/questions/11203/how-long-should-a-temporary-notification-toast-appear

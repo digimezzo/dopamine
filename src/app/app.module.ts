@@ -29,6 +29,7 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StatusPanelComponent } from './components/status-panel/status-panel.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -130,7 +131,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AdvancedSettingsComponent,
     AboutComponent,
     ComponentsComponent,
-    StatusPanelComponent
+    StatusPanelComponent,
+    SnackBarComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -217,7 +219,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent
+    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent
   ],
 })
 export class AppModule { }
