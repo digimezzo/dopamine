@@ -47,5 +47,38 @@ describe('LoadingComponent', () => {
             // Assert
             assert.strictEqual(mocker.settingsMock.showWelcome, false);
         });
+
+        it('Should check for updates when navigating to collection', async () => {
+            // Arrange
+            const mocker: LoadingComponentMocker = new LoadingComponentMocker(false);
+
+            // Act
+            await mocker.loadingComponent.ngOnInit();
+
+            // Assert
+            mocker.updateServiceMock.verify(x => x.checkForUpdatesAsync(), Times.exactly(1));
+        });
+
+        it('Should wait 2 seconds before triggering indexing when navigating to collection', async () => {
+            // Arrange
+            const mocker: LoadingComponentMocker = new LoadingComponentMocker(false);
+
+            // Act
+            await mocker.loadingComponent.ngOnInit();
+
+            // Assert
+            mocker.schedulerMock.verify(x => x.sleepAsync(2000), Times.exactly(1));
+        });
+
+        it('Should trigger indexing when navigating to collection', async () => {
+            // Arrange
+            const mocker: LoadingComponentMocker = new LoadingComponentMocker(false);
+
+            // Act
+            await mocker.loadingComponent.ngOnInit();
+
+            // Assert
+            mocker.indexingServiceMock.verify(x => x.indexCollectionIfNeededAsync(), Times.exactly(1));
+        });
     });
 });

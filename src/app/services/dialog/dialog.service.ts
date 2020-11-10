@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
 import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
+import { ManageCollectionDialogComponent } from '../../components/dialogs/manage-collection-dialog/manage-collection-dialog.component';
 import { BaseDialogService } from './base-dialog.service';
 
 @Injectable({
@@ -34,6 +35,12 @@ export class DialogService implements BaseDialogService {
 
     public showLicenseDialog(): void {
         this.dialog.open(LicenseDialogComponent, {
+            width: '450px'
+        });
+    }
+
+    public showManageCollectionDialog(): void {
+        this.dialog.open(ManageCollectionDialogComponent, {
             width: '450px'
         });
     }

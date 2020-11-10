@@ -19,6 +19,7 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
+import { ManageCollectionDialogComponent } from './components/dialogs/manage-collection-dialog/manage-collection-dialog.component';
 import { AboutComponent } from './components/information/about/about.component';
 import { ComponentsComponent } from './components/information/components/components.component';
 import { InformationComponent } from './components/information/information.component';
@@ -122,6 +123,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     LicenseDialogComponent,
+    ManageCollectionDialogComponent,
     LoadingComponent,
     MainMenuComponent,
     BackButtonComponent,
@@ -219,7 +221,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent
+    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, ManageCollectionDialogComponent, SnackBarComponent
   ],
 })
 export class AppModule { }

@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseScheduler } from '../../core/scheduler/base-scheduler';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseUpdateService } from '../../services/update/base-update.service';
 
 @Component({
   selector: 'app-collection',
@@ -14,18 +11,8 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
 export class CollectionComponent implements OnInit {
 
   constructor(
-    public appearanceService: BaseAppearanceService,
-    private updateService: BaseUpdateService,
-    private indexingService: BaseIndexingService,
-    private scheduler: BaseScheduler) { }
+    public appearanceService: BaseAppearanceService) { }
 
   public async ngOnInit(): Promise<void> {
-    this.initializeAsync();
-  }
-
-  private async initializeAsync(): Promise<void> {
-    await this.scheduler.sleepAsync(2000);
-    await this.indexingService.indexCollectionIfNeededAsync();
-    await this.updateService.checkForUpdatesAsync();
   }
 }

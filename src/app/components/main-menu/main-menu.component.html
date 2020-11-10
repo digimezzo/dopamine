@@ -4,7 +4,7 @@
 </div>
 <mat-menu #menu="matMenu">
     <button mat-menu-item>
-        <div class="main-menu-item">{{ 'MainMenu.ManageCollection' | translate }}</div>
+        <div class="main-menu-item" (click)="showManageCollectionDialog()">{{ 'MainMenu.ManageCollection' | translate }}</div>
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="goToSettings()">

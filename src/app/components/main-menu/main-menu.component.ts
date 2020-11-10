@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -10,9 +11,13 @@ import { Router } from '@angular/router';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private dialogService: BaseDialogService) { }
 
   public ngOnInit(): void {
+  }
+
+  public showManageCollectionDialog(): void {
+    this.dialogService.showManageCollectionDialog();
   }
 
   public goToSettings(): void {
