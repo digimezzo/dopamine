@@ -41,7 +41,7 @@ export class DialogService implements BaseDialogService {
 
     public showManageCollectionDialog(): void {
         this.dialog.open(ManageCollectionDialogComponent, {
-            width: '450px'
+            width: '450px',
         });
     }
 }

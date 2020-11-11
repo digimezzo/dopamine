@@ -21,6 +21,10 @@ mat-tab-group {
     color: var(--theme-tab-text-foreground) !important;
 }
 
+.mat-tab-label-container {
+  align-self: flex-end; // Fixes an alignment issue when opening the development tools
+}
+
 .mat-tab-label-content {
    font-size: var(--fontsize-large) !important;
 }

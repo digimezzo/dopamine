@@ -73,9 +73,9 @@ function createWindow() {
             slashes: true
         }));
     }
-    if (serve) {
-        win.webContents.openDevTools();
-    }
+    // if (serve) {
+    //   win.webContents.openDevTools();
+    // }
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window
@@ -99,6 +99,14 @@ function createWindow() {
     };
     win.webContents.on('will-navigate', handleRedirect);
     win.webContents.on('new-window', handleRedirect);
+    win.webContents.on('before-input-event', function (event, input) {
+        if (input.key.toLowerCase() === 'f12') {
+            if (serve) {
+                win.webContents.toggleDevTools();
+            }
+            event.preventDefault();
+        }
+    });
 }
 try {
     electron_log_1.default.info('[Main] [] +++ Starting +++');
