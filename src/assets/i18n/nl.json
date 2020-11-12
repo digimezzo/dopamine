@@ -77,7 +77,9 @@
         "ManageCollection": {
             "Music": "Muziek",
             "Refresh": "Verversen",
-            "AlbumCovers": "Albumafbeeldingen"
+            "AlbumCovers": "Albumafbeeldingen",
+            "Folders": "Mappen",
+            "AddFoldersWithYourMusic": "Voeg mappen met jouw muziek toe aan jouw collectie"
         }
     },
     "SnackBarMessages": {
