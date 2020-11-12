@@ -3,8 +3,8 @@
     <i class="custom-font las la-bars"></i>
 </div>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="showManageCollectionDialog()">
-        <div class="main-menu-item">{{ 'MainMenu.ManageCollection' | translate }}</div>
+    <button mat-menu-item (click)="goToManageCollection()">
+        {{ 'MainMenu.ManageCollection' | translate }}
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="goToSettings()">

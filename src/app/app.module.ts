@@ -19,7 +19,6 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
-import { ManageCollectionDialogComponent } from './components/dialogs/manage-collection-dialog/manage-collection-dialog.component';
 import { AboutComponent } from './components/information/about/about.component';
 import { ComponentsComponent } from './components/information/components/components.component';
 import { InformationComponent } from './components/information/information.component';
@@ -27,6 +26,10 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { ManageAlbumCoversComponent } from './components/manage-collection/manage-album-covers/manage-album-covers.component';
+import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
+import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
+import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -123,7 +126,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ConfirmationDialogComponent,
     ErrorDialogComponent,
     LicenseDialogComponent,
-    ManageCollectionDialogComponent,
+    ManageCollectionComponent,
+    ManageMusicComponent,
+    ManageRefreshComponent,
+    ManageAlbumCoversComponent,
     LoadingComponent,
     MainMenuComponent,
     BackButtonComponent,
@@ -221,7 +227,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, ManageCollectionDialogComponent, SnackBarComponent
+    ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent
   ],
 })
 export class AppModule { }

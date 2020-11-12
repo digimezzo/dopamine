@@ -24,6 +24,20 @@ describe('MainMenuComponent', () => {
             const mainMenuComponent: MainMenuComponent = new MainMenuComponent(routerMock.object);
 
             // Act
+            mainMenuComponent.goToManageCollection();
+
+            // Assert
+            routerMock.verify(x => x.navigate(['/managecollection']), Times.exactly(1));
+        });
+    });
+
+    describe('goToSettings', () => {
+        it('Should navigate to settings', () => {
+            // Arrange
+            const routerMock: IMock<Router> = Mock.ofType<Router>();
+            const mainMenuComponent: MainMenuComponent = new MainMenuComponent(routerMock.object);
+
+            // Act
             mainMenuComponent.goToSettings();
 
             // Assert

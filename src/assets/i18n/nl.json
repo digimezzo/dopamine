@@ -73,6 +73,11 @@
             "ThanksToTranslators": "Aan de vertalers.",
             "ThanksToDevelopers": "Aan de ontwikkelaars die de componenten hebben gemaakt die we gebruiken.",
             "ThanksToNeowin": "Aan Neowin voor hun geweldige ideeën, testen en bugrapporten."
+        },
+        "ManageCollection": {
+            "Music": "Muziek",
+            "Refresh": "Verversen",
+            "AlbumCovers": "Albumafbeeldingen"
         }
     },
     "SnackBarMessages": {

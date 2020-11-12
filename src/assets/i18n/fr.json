@@ -73,6 +73,11 @@
             "ThanksToTranslators": "Aux traducteurs.",
             "ThanksToDevelopers": "Aux développeurs qui ont créé les composants que nous utilisons.",
             "ThanksToNeowin": "À Neowin pour leurs excellentes idées, leurs tests et leurs rapports de bogues."
+        },
+        "ManageCollection": {
+            "Music": "Musique",
+            "Refresh": "Actualisation",
+            "AlbumCovers": "Pochettes d'album"
         }
     },
     "SnackBarMessages": {

@@ -1,0 +1,29 @@
+<div class="window-frame">
+    <div class="window-frame-titlebar theme-header-background">
+        <div class="window-frame-titlebar-dragarea">
+            <app-back-button class="back-button"></app-back-button>
+        </div>
+        <app-main-menu class="main-menu">
+        </app-main-menu>
+        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+    </div>
+    <div class="window-frame-content">
+        <mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{ 'Pages.ManageCollection.Music' | translate }}
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{ 'Pages.ManageCollection.Refresh' | translate }}
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{ 'Pages.ManageCollection.AlbumCovers' | translate }}
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
