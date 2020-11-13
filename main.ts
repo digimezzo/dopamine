@@ -47,8 +47,8 @@ function createWindow(): void {
 
   // Load the previous state with fallback to defaults
   const windowState = windowStateKeeper({
-    defaultWidth: 850,
-    defaultHeight: 600
+    defaultWidth: 870,
+    defaultHeight: 620
   });
 
   // Create the browser window.

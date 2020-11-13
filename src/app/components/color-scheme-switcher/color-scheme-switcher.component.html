@@ -1,11 +1,9 @@
 <div class="color-scheme-switcher">
     <div *ngFor="let colorScheme of appearanceService.colorSchemes">
-        <div class="color-scheme-switcher-button mr-1 mb-1" matTooltip="{{ colorScheme.name }}"
+        <div class="color-scheme-switcher-button mr-2 mb-2" matTooltip="{{ colorScheme.name }}"
             (click)="setColorScheme(colorScheme)">
-            <div class="color-scheme-switcher-button-selector custom-font"
-                *ngIf="colorScheme.name === appearanceService.selectedColorScheme.name">
-                <i class="custom-font las la-check"></i>
-            </div>
+            <i class="color-scheme-switcher-button-selector las la-check"
+                *ngIf="colorScheme.name === appearanceService.selectedColorScheme.name"></i>
             <div class="color-scheme-switcher-button-color"
                 [ngStyle]="{'background': 'linear-gradient(45deg, ' + colorScheme.primaryColor + ' 30%, ' + colorScheme.secondaryColor + ' 100%)'}">
             </div>

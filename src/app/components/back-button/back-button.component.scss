@@ -8,12 +8,15 @@
   align-items: center;
   justify-content: center;
   -webkit-app-region: no-drag;
-  font-size: 20px;
-  color: white;
-  -webkit-transition:font-size 0.15s;
   cursor: pointer;
 }
 
-.back-button-background:hover {
+.back-button-icon {
+  font-size: 20px !important;
+  color: white;
+  -webkit-transition: font-size 0.15s;
+}
+
+.back-button-icon:hover {
   font-size: 26px !important;
 }

@@ -8,10 +8,6 @@
   vertical-align: baseline;
   outline: none; // Removes yellow outline on elements
   -webkit-font-smoothing: subpixel-antialiased;
-}
-
-* :not(.custom-font) {
-  font-family: opensans !important;
   font-size: var(--fontsize-medium);
 }
 
@@ -50,6 +46,7 @@ h2 {
 h3 {
   font-weight: lighter !important;
   font-size: var(--fontsize-large) !important;
+  //height: var(--fontsize-large) !important;
 }
 
 a {

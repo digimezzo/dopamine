@@ -1,6 +1,6 @@
-<div class="window-button main-menu-button" mat-icon-button [matMenuTriggerFor]="menu"
+<div class="window-button" mat-icon-button [matMenuTriggerFor]="menu"
     matTooltip="{{ 'Tooltips.OpenMenu' | translate }}">
-    <i class="custom-font las la-bars"></i>
+    <i class="main-menu-button-icon las la-bars"></i>
 </div>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="goToManageCollection()">
