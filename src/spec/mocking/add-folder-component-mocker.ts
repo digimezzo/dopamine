@@ -9,7 +9,7 @@ import { BaseTranslatorService } from '../../app/services/translator/base-transl
 
 export class AddFolderComponentMocker {
     constructor(private folderToDelete?: Folder) {
-        this.translatorServiceMock.setup(x => x.getAsync('Pages.Welcome.Music.SelectFolder')).returns(async () => 'Select a folder');
+        this.translatorServiceMock.setup(x => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
         this.translatorServiceMock.setup(x => x.getAsync(
             'ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
 

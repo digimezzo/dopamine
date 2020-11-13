@@ -16,10 +16,7 @@
       },
       "Music": {
         "Title": "Music",
-        "Content": "Let's now set up your collection. Where do you store your music?",
-        "AddFolder": "Add a folder",
-        "SelectFolder": "Select a folder",
-        "DeleteFolder": "Delete folder"
+        "Content": "Let's now set up your collection. Where do you store your music?"
       },
       "Donate": {
         "Title": "Donate",
@@ -79,7 +76,12 @@
       "Refresh": "Refresh",
       "AlbumCovers": "Album covers",
       "Folders": "Folders",
-      "AddFoldersWithYourMusic": "Add folders containing your music to your collection"
+      "AddFoldersWithYourMusic": "Add folders containing your music to your collection",
+      "AddFolder": "Add a folder",
+      "SelectFolder": "Select a folder",
+      "DeleteFolder": "Delete folder",
+      "ShowInTheCollection": "Show in the collection",
+      "ShowAllFoldersInTheCollection": "Show all folders in the collection"
     }
   },
   "SnackBarMessages": {
