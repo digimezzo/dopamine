@@ -15,6 +15,19 @@ describe('AddFolderComponent', () => {
             assert.ok(mock.addFolderComponent.folders);
         });
     });
+
+    describe('constructor', () => {
+        it('Should not show check boxes by default', () => {
+            // Arrange
+            const mock: AddFolderComponentMocker = new AddFolderComponentMocker();
+
+            // Act
+
+            // Assert
+            assert.strictEqual(mock.addFolderComponent.showCheckBoxes, false);
+        });
+    });
+
     describe('addFolderAsync', () => {
         it('Should get translated text for the open folder dialog', async () => {
             // Arrange
@@ -24,7 +37,7 @@ describe('AddFolderComponent', () => {
             await mocker.addFolderComponent.addFolderAsync();
 
             // Assert
-            mocker.translatorServiceMock.verify(x => x.getAsync('Pages.Welcome.Music.SelectFolder'), Times.exactly(1));
+            mocker.translatorServiceMock.verify(x => x.getAsync('Pages.ManageCollection.SelectFolder'), Times.exactly(1));
         });
 
         it('Should allow selecting for a folder on the computer', async () => {

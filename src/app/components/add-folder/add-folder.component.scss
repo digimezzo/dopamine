@@ -15,8 +15,9 @@
 }
 
 .folder-item-icon {
-    font-size: var(--fontsize-large);
+    font-size: 20px;
     color: var(--theme-accent-color);
+    transform: rotate(-90deg);
 }
 
 .folder-item-path {
@@ -27,7 +28,7 @@
 }
 
 .folder-item-action {
-    font-size: var(--fontsize-large);
+    font-size: 20px;
     opacity: 0.4;
     cursor: pointer;
     display: none;

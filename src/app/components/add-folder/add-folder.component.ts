@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { StringCompare } from '../../core/string-compare';
@@ -22,6 +22,7 @@ export class AddFolderComponent implements OnInit {
         private dialogService: BaseDialogService,
         private logger: Logger) { }
 
+    @Input() public showCheckBoxes: boolean = false;
     public selectedFolder: Folder;
     public folders: Folder[] = [];
 
@@ -30,7 +31,7 @@ export class AddFolderComponent implements OnInit {
     }
 
     public async addFolderAsync(): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('Pages.Welcome.Music.SelectFolder');
+        const dialogTitle: string = await this.translatorService.getAsync('Pages.ManageCollection.SelectFolder');
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 

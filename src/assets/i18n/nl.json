@@ -16,10 +16,7 @@
             },
             "Music": {
                 "Title": "Muziek",
-                "Content": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?",
-                "AddFolder": "Voeg een map toe",
-                "SelectFolder": "Map selecteren",
-                "DeleteFolder": "Map verwijderen"
+                "Content": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?"
             },
             "Donate": {
                 "Title": "Doneer",
@@ -79,7 +76,12 @@
             "Refresh": "Verversen",
             "AlbumCovers": "Albumafbeeldingen",
             "Folders": "Mappen",
-            "AddFoldersWithYourMusic": "Voeg mappen met jouw muziek toe aan jouw collectie"
+            "AddFoldersWithYourMusic": "Voeg mappen met jouw muziek toe aan jouw collectie",
+            "AddFolder": "Voeg een map toe",
+            "SelectFolder": "Map selecteren",
+            "DeleteFolder": "Map verwijderen",
+            "ShowInTheCollection": "Weergeven in de collectie",
+            "ShowAllFoldersInTheCollection": "Alle mappen weergeven in de collectie"
         }
     },
     "SnackBarMessages": {

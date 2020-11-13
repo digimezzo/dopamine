@@ -17,9 +17,6 @@
             "Music": {
                 "Title": "Musique",
                 "Content": "Maintenant, configurons votre collection. Où stockez-vous votre musique?",
-                "AddFolder": "Ajouter un dossier",
-                "SelectFolder": "Sélectionnez un dossier",
-                "DeleteFolder": "Supprimer folder"
             },
             "Donate": {
                 "Title": "Faire un don",
@@ -79,7 +76,12 @@
             "Refresh": "Actualisation",
             "AlbumCovers": "Pochettes d'album",
             "Folders": "Dossiers",
-            "AddFoldersWithYourMusic": "Ajoutez les dossiers contenant votre musique à votre collection"
+            "AddFoldersWithYourMusic": "Ajoutez les dossiers contenant votre musique à votre collection",
+            "AddFolder": "Ajouter un dossier",
+            "SelectFolder": "Sélectionnez un dossier",
+            "DeleteFolder": "Supprimer folder",
+            "ShowInTheCollection": "Afficher dans la collection",
+            "ShowAllFoldersInTheCollection": "Afficher tous les dossiers de la collection"
         }
     },
     "SnackBarMessages": {
