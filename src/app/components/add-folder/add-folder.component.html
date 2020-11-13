@@ -3,13 +3,17 @@
         <i class="link-button-icon custom-font mr-1 las la-plus"></i>
         <a (click)="addFolderAsync()">{{ 'Pages.Welcome.Music.AddFolder' | translate }}</a>
     </div>
+    <div class="mt-2">
+        <mat-checkbox [(ngModel)]="checked">Checked</mat-checkbox>
+    </div>
     <ul class="mt-2">
         <li *ngFor="let folder of folders" matRipple [ngClass]="{'selected-item': folder === selectedFolder }"
             (click)="setSelectedFolder(folder)">
             <div class="folder-item no-select">
+                <mat-checkbox class="mr-1" [(ngModel)]="checked"></mat-checkbox>
                 <i class="folder-item-icon custom-font mr-1 lar la-folder"></i>
                 <p class="folder-item-path" matTooltip="{{ folder.path }}">{{ folder.path }}</p>
-                <i class="folder-item-action custom-font ml-1 lar la-trash-alt"
+                <i class="folder-item-action custom-font ml-1 las la-times"
                     [ngStyle]="{'display': folder === selectedFolder ? 'block' : 'none' }"
                     matTooltip="{{ 'Pages.Welcome.Music.DeleteFolder' | translate }}" (click)="deleteFolderAsync(folder)"></i>
             </div>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatDividerModule, MatFormFieldModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatDialogModule, MatDividerModule, MatFormFieldModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatSelectModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatTooltipModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -157,6 +157,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatMenuModule,
     MatDividerModule,
     MatTabsModule,
+    MatCheckboxModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
