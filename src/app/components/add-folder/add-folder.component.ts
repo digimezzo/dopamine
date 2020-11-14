@@ -22,11 +22,8 @@ export class AddFolderComponent implements OnInit {
         private dialogService: BaseDialogService,
         private logger: Logger) { }
 
-<<<<<<< HEAD
     @Input() public showCheckBoxes: boolean = false;
-=======
-    @Input() public showCheckBoxes: string;
->>>>>>> master
+
     public selectedFolder: Folder;
     public folders: Folder[] = [];
 
