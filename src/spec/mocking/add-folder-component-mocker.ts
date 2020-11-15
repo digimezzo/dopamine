@@ -2,13 +2,15 @@ import { IMock, Mock } from 'typemoq';
 import { AddFolderComponent } from '../../app/components/add-folder/add-folder.component';
 import { Desktop } from '../../app/core/io/desktop';
 import { Logger } from '../../app/core/logger';
-import { Folder } from '../../app/data/entities/folder';
+import { BaseSettings } from '../../app/core/settings/base-settings';
 import { BaseDialogService } from '../../app/services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
+import { FolderModel } from '../../app/services/folder/folder-model';
 import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
+import { SettingsMock } from './settings-mock';
 
 export class AddFolderComponentMocker {
-    constructor(private folderToDelete?: Folder) {
+    constructor(private useSettingsStub: boolean, private folderToDelete?: FolderModel) {
         this.translatorServiceMock.setup(x => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
         this.translatorServiceMock.setup(x => x.getAsync(
             'ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
@@ -20,12 +22,24 @@ export class AddFolderComponentMocker {
                 { folderPath: folderToDelete.path })).returns(async () => 'Are you sure you want to delete this folder?');
         }
 
-        this.addFolderComponent = new AddFolderComponent(
-            this.desktopMock.object,
-            this.translatorServiceMock.object,
-            this.folderServiceMock.object,
-            this.dialogServiceMock.object,
-            this.loggerMock.object);
+        if (this.useSettingsStub) {
+            this.addFolderComponent = new AddFolderComponent(
+                this.desktopMock.object,
+                this.translatorServiceMock.object,
+                this.folderServiceMock.object,
+                this.dialogServiceMock.object,
+                this.settingsStub,
+                this.loggerMock.object);
+        } else {
+            this.addFolderComponent = new AddFolderComponent(
+                this.desktopMock.object,
+                this.translatorServiceMock.object,
+                this.folderServiceMock.object,
+                this.dialogServiceMock.object,
+                this.settingsMock.object,
+                this.loggerMock.object);
+
+        }
     }
 
     public desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -33,5 +47,7 @@ export class AddFolderComponentMocker {
     public folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
     public dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
+    public settingsStub: SettingsMock = new SettingsMock(false, false);
+    public settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
     public addFolderComponent: AddFolderComponent;
 }

@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
+import { BaseSettings } from '../../core/settings/base-settings';
 import { StringCompare } from '../../core/string-compare';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
+import { FolderModel } from '../../services/folder/folder-model';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
@@ -20,15 +22,31 @@ export class AddFolderComponent implements OnInit {
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
         private dialogService: BaseDialogService,
+        private settings: BaseSettings,
         private logger: Logger) { }
 
     @Input() public showCheckBoxes: boolean = false;
 
-    public selectedFolder: Folder;
-    public folders: Folder[] = [];
+    public selectedFolder: FolderModel;
+    public folders: FolderModel[] = [];
+
+    public get showAllFoldersInCollection(): boolean {
+        return this.settings.showAllFoldersInCollection;
+    }
+    public set showAllFoldersInCollection(v: boolean) {
+        if (v) {
+            // this.folderService.makeAllFoldersVisibleInCollection();
+        }
+
+        this.settings.showAllFoldersInCollection = v;
+    }
 
     public ngOnInit(): void {
         this.getFolders();
+    }
+
+    public toggleFolderVisibility(folder: Folder): void {
+        // this.folderService.toggleFolderVisibilityInCollection(folder);
     }
 
     public async addFolderAsync(): Promise<void> {
@@ -52,11 +70,11 @@ export class AddFolderComponent implements OnInit {
         this.folders = this.folderService.getFolders();
     }
 
-    public setSelectedFolder(folder: Folder): void {
+    public setSelectedFolder(folder: FolderModel): void {
         this.selectedFolder = folder;
     }
 
-    public async deleteFolderAsync(folder: Folder): Promise<void> {
+    public async deleteFolderAsync(folder: FolderModel): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
         const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
 

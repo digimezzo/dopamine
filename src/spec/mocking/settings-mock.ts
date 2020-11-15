@@ -17,4 +17,5 @@ export class SettingsMock implements BaseSettings {
     public useLightBackgroundTheme: boolean = false;
     public followSystemColor: boolean = false;
     public ignoreRemovedFiles: boolean = false;
+    public showAllFoldersInCollection: boolean = false;
 }

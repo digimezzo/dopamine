@@ -11,4 +11,5 @@ export abstract class BaseSettings {
     public abstract followSystemColor: boolean;
     public abstract ignoreRemovedFiles: boolean;
     public abstract downloadMissingAlbumCovers: boolean;
+    public abstract showAllFoldersInCollection: boolean;
 }

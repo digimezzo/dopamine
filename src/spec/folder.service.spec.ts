@@ -1,5 +1,7 @@
+import * as assert from 'assert';
 import { It, Times } from 'typemoq';
 import { Folder } from '../app/data/entities/folder';
+import { FolderModel } from '../app/services/folder/folder-model';
 import { FolderServiceMocker } from './mocking/folder-service-mocker';
 
 describe('FolderService', () => {
@@ -55,6 +57,50 @@ describe('FolderService', () => {
             // Assert
             mocker.folderRepositoryMock.verify(x => x.getFolders(), Times.exactly(1));
         });
+
+        it('Should return an empty collection when database folders are undefined', () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            mocker.folderRepositoryMock.setup(x => x.getFolders()).returns(() => undefined);
+
+            // Act
+            const folders: FolderModel[] = mocker.folderService.getFolders();
+
+            // Assert
+            assert.strictEqual(folders.length, 0);
+        });
+
+        it('Should return an empty collection when database folders are empty', () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            mocker.folderRepositoryMock.setup(x => x.getFolders()).returns(() => []);
+
+            // Act
+            const folders: FolderModel[] = mocker.folderService.getFolders();
+
+            // Assert
+            assert.strictEqual(folders.length, 0);
+        });
+
+        it('Should return a collection of folderModels for each folder found in the database', () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const databaseFolder1: Folder = new Folder('One');
+            databaseFolder1.folderId = 1;
+            const databaseFolder2: Folder = new Folder('Two');
+            databaseFolder2.folderId = 2;
+            mocker.folderRepositoryMock.setup(x => x.getFolders()).returns(() => [databaseFolder1, databaseFolder2]);
+
+            // Act
+            const folders: FolderModel[] = mocker.folderService.getFolders();
+
+            // Assert
+            assert.strictEqual(folders.length, 2);
+            assert.strictEqual(folders[0].folderId, 1);
+            assert.strictEqual(folders[0].path, 'One');
+            assert.strictEqual(folders[1].folderId, 2);
+            assert.strictEqual(folders[1].path, 'Two');
+        });
     });
 
     describe('deleteFolderAsync', () => {
@@ -62,8 +108,9 @@ describe('FolderService', () => {
             // Arrange
             const mocker: FolderServiceMocker = new FolderServiceMocker();
 
-            const folderToDelete: Folder = new Folder('/home/user/Music');
-            folderToDelete.folderId = 1;
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderToDelete: FolderModel = new FolderModel(folder);
 
             // Act
             mocker.folderService.deleteFolder(folderToDelete);
@@ -76,8 +123,9 @@ describe('FolderService', () => {
             // Arrange
             const mocker: FolderServiceMocker = new FolderServiceMocker();
 
-            const folderToDelete: Folder = new Folder('/home/user/Music');
-            folderToDelete.folderId = 1;
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderToDelete: FolderModel = new FolderModel(folder);
 
             // Act
             mocker.folderService.deleteFolder(folderToDelete);

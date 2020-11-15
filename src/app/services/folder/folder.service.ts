@@ -5,6 +5,7 @@ import { BaseFolderRepository } from '../../data/repositories/base-folder-reposi
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
 import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderService } from './base-folder.service';
+import { FolderModel } from './folder-model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +34,16 @@ export class FolderService implements BaseFolderService {
     }
   }
 
-  public getFolders(): Folder[] {
-    return this.folderRepository.getFolders();
+  public getFolders(): FolderModel[] {
+    const folders: Folder[] = this.folderRepository.getFolders();
+
+    if (folders != undefined) {
+      return folders.map(x => new FolderModel(x));
+    }
+
+    return [];
   }
-  public deleteFolder(folder: Folder): void {
+  public deleteFolder(folder: FolderModel): void {
     this.folderRepository.deleteFolder(folder.folderId);
     this.folderTrackRepository.deleteFolderTrackByFolderId(folder.folderId);
   }

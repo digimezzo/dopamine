@@ -13,8 +13,8 @@ export class FolderRepository implements BaseFolderRepository {
     public addFolder(folder: Folder): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('INSERT INTO Folder (Path, SafePath, ShowInCollection) VALUES (?, ?, ?);');
-        statement.run(folder.path, folder.path, folder.showInCollection);
+        const statement = database.prepare('INSERT INTO Folder (Path, SafePath, ShowInCollection) VALUES (?, ?, 1);');
+        statement.run(folder.path, folder.path);
     }
 
     public getFolders(): Folder[] {

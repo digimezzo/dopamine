@@ -117,6 +117,16 @@ export class Settings implements BaseSettings {
     this.settings.set('downloadMissingAlbumCovers', v);
   }
 
+  // Download missing album covers
+  public get showAllFoldersInCollection(): boolean {
+    return this.settings.get('showAllFoldersInCollection');
+  }
+
+  public set showAllFoldersInCollection(v: boolean) {
+    this.settings.set('showAllFoldersInCollection', v);
+  }
+
+
   // Initialize
   private initialize(): void {
     if (!this.settings.has('language')) {
@@ -165,6 +175,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('downloadMissingAlbumCovers')) {
       this.settings.set('downloadMissingAlbumCovers', true);
+    }
+
+    if (!this.settings.has('showAllFoldersInCollection')) {
+      this.settings.set('showAllFoldersInCollection', true);
     }
   }
 }
