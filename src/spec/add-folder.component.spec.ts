@@ -138,12 +138,12 @@ describe('AddFolderComponent', () => {
     });
 
     describe('getFoldersAsync', () => {
-        it('Should get folders from the database', () => {
+        it('Should get folders from the database', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
             // Act
-            mocker.addFolderComponent.getFolders();
+            await mocker.addFolderComponent.getFoldersAsync();
 
             // Assert
             mocker.folderServiceMock.verify(x => x.getFolders(), Times.exactly(1));
@@ -327,6 +327,55 @@ describe('AddFolderComponent', () => {
 
             // Assert
             assert.strictEqual(mocker.settingsStub.showAllFoldersInCollection, true);
+        });
+    });
+
+    describe('setFolderVisibility', () => {
+        it('Should save folder visibility', () => {
+            // Arrange
+            const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
+
+            // Act
+            mocker.addFolderComponent.setFolderVisibility(folder);
+
+            // Assert
+            mocker.folderServiceMock.verify(x => x.setFolderVisibility(folder), Times.exactly(1));
+        });
+
+        it('Should disable showAllFoldersInCollection', () => {
+            // Arrange
+            const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
+
+            // Act
+            mocker.addFolderComponent.showAllFoldersInCollection = true;
+            mocker.addFolderComponent.setFolderVisibility(folder);
+
+            // Assert
+            assert.strictEqual(mocker.addFolderComponent.showAllFoldersInCollection, false);
+        });
+
+        it('Should set all folders visible if true', () => {
+            // Arrange
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
+
+            // Act
+            mocker.addFolderComponent.showAllFoldersInCollection = true;
+
+            // Assert
+            mocker.folderServiceMock.verify(x => x.setAllFoldersVisible(), Times.exactly(1));
+        });
+
+        it('Should not set all folders visible if false', () => {
+            // Arrange
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
+
+            // Act
+            mocker.addFolderComponent.showAllFoldersInCollection = false;
+
+            // Assert
+            mocker.folderServiceMock.verify(x => x.setAllFoldersVisible(), Times.never());
         });
     });
 });

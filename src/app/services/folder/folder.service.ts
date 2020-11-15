@@ -18,19 +18,15 @@ export class FolderService implements BaseFolderService {
     private snackbarService: BaseSnackbarService) { }
 
   public async addNewFolderAsync(path: string): Promise<void> {
-    try {
-      const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
+    const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
 
-      if (existingFolder == undefined) {
-        const newFolder: Folder = new Folder(path);
-        await this.folderRepository.addFolder(newFolder);
-        this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
-      } else {
-        await this.snackbarService.notifyFolderAlreadyAddedAsync();
-        this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
-      }
-    } catch (e) {
-      this.logger.info(`Could not add folder with path '${path}'. Error: ${e.message}`, 'FolderService', 'addNewFolderAsync');
+    if (existingFolder == undefined) {
+      const newFolder: Folder = new Folder(path);
+      await this.folderRepository.addFolder(newFolder);
+      this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
+    } else {
+      await this.snackbarService.notifyFolderAlreadyAddedAsync();
+      this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
     }
   }
 
@@ -46,5 +42,21 @@ export class FolderService implements BaseFolderService {
   public deleteFolder(folder: FolderModel): void {
     this.folderRepository.deleteFolder(folder.folderId);
     this.folderTrackRepository.deleteFolderTrackByFolderId(folder.folderId);
+    this.logger.info(`Deleted folder with path '${folder.path}'`, 'FolderService', 'deleteFolder');
+  }
+
+  public setFolderVisibility(folder: FolderModel): void {
+    const showInCollection: number = folder.showInCollection ? 1 : 0;
+    this.folderRepository.setFolderShowInCollection(folder.folderId, showInCollection);
+    this.logger.info(`Set folder visibility: folderId=${folder.folderId}, path '${folder.path}', showInCollection=${showInCollection}`,
+      'FolderService',
+      'setFolderVisibility');
+  }
+
+  public setAllFoldersVisible(): void {
+    this.folderRepository.setAllFoldersShowInCollection(1);
+    this.logger.info('Set all folders visible',
+      'FolderService',
+      'setAllFoldersVisible');
   }
 }

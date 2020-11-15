@@ -134,4 +134,35 @@ describe('FolderService', () => {
             mocker.folderTrackRepositoryMock.verify(x => x.deleteFolderTrackByFolderId(folderToDelete.folderId), Times.exactly(1));
         });
     });
+
+    describe('setFolderVisibility', () => {
+        it('Should set folder visibility in the database', () => {
+             // Arrange
+             const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+             const folder: Folder = new Folder('/home/user/Music');
+             folder.folderId = 1;
+             const folderModel: FolderModel = new FolderModel(folder);
+             folderModel.showInCollection = true;
+
+             // Act
+             mocker.folderService.setFolderVisibility(folderModel);
+
+             // Assert
+             mocker.folderRepositoryMock.verify(x => x.setFolderShowInCollection(1, 1), Times.exactly(1));
+        });
+    });
+
+    describe('setAllFoldersVisible', () => {
+        it('Should set visibility of all folders in the database', () => {
+             // Arrange
+             const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+             // Act
+             mocker.folderService.setAllFoldersVisible();
+
+             // Assert
+             mocker.folderRepositoryMock.verify(x => x.setAllFoldersShowInCollection(1), Times.exactly(1));
+        });
+    });
 });

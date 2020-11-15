@@ -48,4 +48,18 @@ export class FolderRepository implements BaseFolderRepository {
         const statement = database.prepare('DELETE FROM Folder WHERE FolderID=?;');
         statement.run(folderId);
     }
+
+    public setFolderShowInCollection(folderId: number, showInCollection: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare('UPDATE Folder SET ShowInCollection=? WHERE FolderID=?;');
+        statement.run(showInCollection, folderId);
+    }
+
+    public setAllFoldersShowInCollection(showInCollection: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare('UPDATE Folder SET ShowInCollection=?;');
+        statement.run(showInCollection);
+    }
 }
