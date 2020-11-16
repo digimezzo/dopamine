@@ -29,7 +29,7 @@ export class TrackAdder {
             const timer: Timer = new Timer();
             timer.start();
 
-            const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.ignoreRemovedFiles);
+            const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks: number = 0;
 
@@ -70,7 +70,7 @@ export class TrackAdder {
         }
     }
 
-    private async getIndexablePathsAsync(ignoreRemovedFiles: boolean): Promise<IndexablePath[]> {
+    private async getIndexablePathsAsync(skipRemovedFiles: boolean): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
@@ -80,7 +80,7 @@ export class TrackAdder {
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);
             const isTrackThatWasPreviouslyRemoved: boolean = removedTrackPaths.includes(indexablePath.path);
-            const allowReAddingRemovedTracks: boolean = !ignoreRemovedFiles;
+            const allowReAddingRemovedTracks: boolean = !skipRemovedFiles;
             const isTrackThatWasPreviouslyRemovedAndCanBeReAdded: boolean = isTrackThatWasPreviouslyRemoved && allowReAddingRemovedTracks;
 
             if (!isTrackInDatabase) {

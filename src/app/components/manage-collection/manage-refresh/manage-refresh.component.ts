@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseSettings } from '../../../core/settings/base-settings';
 
 @Component({
     selector: 'app-manage-refresh',
@@ -7,7 +8,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None
 })
 export class ManageRefreshComponent implements OnInit {
-    constructor() {
+    constructor(public settings: BaseSettings) {
     }
 
     public ngOnInit(): void {

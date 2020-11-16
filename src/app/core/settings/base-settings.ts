@@ -9,7 +9,8 @@ export abstract class BaseSettings {
     public abstract followSystemTheme: boolean;
     public abstract useLightBackgroundTheme: boolean;
     public abstract followSystemColor: boolean;
-    public abstract ignoreRemovedFiles: boolean;
+    public abstract skipRemovedFilesDuringRefresh: boolean;
     public abstract downloadMissingAlbumCovers: boolean;
     public abstract showAllFoldersInCollection: boolean;
+    public abstract refreshCollectionAutomatically: boolean;
 }

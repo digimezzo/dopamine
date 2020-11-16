@@ -6,7 +6,7 @@ import { BaseDatabaseMigrator } from '../../app/data/base-database-migrator';
 import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 import { BaseUpdateService } from '../../app/services/update/base-update.service';
-import { SettingsMock } from './settings-mock';
+import { SettingsStub as SettingsStub } from './settings-stub';
 
 export class LoadingComponentMocker {
     constructor(private showWelcome: boolean) {
@@ -14,7 +14,7 @@ export class LoadingComponentMocker {
             this.routerMock.object,
             this.databaseMigratorMock.object,
             this.appearanceServiceMock.object,
-            this.settingsMock,
+            this.settingsStub,
             this.updateServiceMock.object,
             this.indexingServiceMock.object,
             this.schedulerMock.object);
@@ -23,7 +23,7 @@ export class LoadingComponentMocker {
     public appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
     public databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
     public routerMock: IMock<Router> = Mock.ofType<Router>();
-    public settingsMock: SettingsMock = new SettingsMock(this.showWelcome, false);
+    public settingsStub: SettingsStub = new SettingsStub(this.showWelcome, false, true);
     public updateServiceMock: IMock<BaseUpdateService> = Mock.ofType<BaseUpdateService>();
     public indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
     public schedulerMock: IMock<BaseScheduler> = Mock.ofType<BaseScheduler>();

@@ -7,7 +7,7 @@ import { BaseDialogService } from '../../app/services/dialog/base-dialog.service
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { FolderModel } from '../../app/services/folder/folder-model';
 import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
-import { SettingsMock } from './settings-mock';
+import { SettingsStub } from './settings-stub';
 
 export class AddFolderComponentMocker {
     constructor(private useSettingsStub: boolean, private folderToDelete?: FolderModel) {
@@ -47,7 +47,7 @@ export class AddFolderComponentMocker {
     public folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
     public dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-    public settingsStub: SettingsMock = new SettingsMock(false, false);
+    public settingsStub: SettingsStub = new SettingsStub(false, false, true);
     public settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
     public addFolderComponent: AddFolderComponent;
 }

@@ -129,7 +129,7 @@ describe('TrackAdder', () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
-            mocker.settingsMock.setup(x => x.ignoreRemovedFiles).returns(() => false);
+            mocker.settingsMock.setup(x => x.skipRemovedFilesDuringRefresh).returns(() => false);
 
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
@@ -166,7 +166,7 @@ describe('TrackAdder', () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
-            mocker.settingsMock.setup(x => x.ignoreRemovedFiles).returns(() => true);
+            mocker.settingsMock.setup(x => x.skipRemovedFilesDuringRefresh).returns(() => true);
 
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;

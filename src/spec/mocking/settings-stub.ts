@@ -1,7 +1,10 @@
 import { BaseSettings } from '../../app/core/settings/base-settings';
 
-export class SettingsMock implements BaseSettings {
-    constructor(public showWelcome: boolean, public downloadMissingAlbumCovers: boolean) {
+export class SettingsStub implements BaseSettings {
+    constructor(
+        public showWelcome: boolean,
+        public downloadMissingAlbumCovers: boolean,
+        public refreshCollectionAutomatically: boolean) {
     }
 
     public get defaultLanguage(): string {
@@ -16,6 +19,6 @@ export class SettingsMock implements BaseSettings {
     public followSystemTheme: boolean = false;
     public useLightBackgroundTheme: boolean = false;
     public followSystemColor: boolean = false;
-    public ignoreRemovedFiles: boolean = false;
+    public skipRemovedFilesDuringRefresh: boolean = false;
     public showAllFoldersInCollection: boolean = false;
 }

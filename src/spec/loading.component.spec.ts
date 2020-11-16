@@ -45,7 +45,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            assert.strictEqual(mocker.settingsMock.showWelcome, false);
+            assert.strictEqual(mocker.settingsStub.showWelcome, false);
         });
 
         it('Should check for updates when navigating to collection', async () => {

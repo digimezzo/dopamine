@@ -1,0 +1,15 @@
+<div class="p-3">
+    <h2>{{ 'Pages.ManageCollection.AutomaticRefresh' | translate }}</h2>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.refreshCollectionAutomatically">
+            {{ 'Pages.ManageCollection.RefreshCollectionAutomatically' | translate }}</mat-slide-toggle>
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.skipRemovedFilesDuringRefresh">
+            {{ 'Pages.ManageCollection.SkipPreviouslyRemovedFiles' | translate }}</mat-slide-toggle>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-3">
+    <h2>{{ 'Pages.ManageCollection.ManualRefresh' | translate }}</h2>
+</div>

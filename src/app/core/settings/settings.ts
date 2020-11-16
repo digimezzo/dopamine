@@ -99,13 +99,13 @@ export class Settings implements BaseSettings {
     this.settings.set('followSystemColor', v);
   }
 
-  // Ignore removed files
-  public get ignoreRemovedFiles(): boolean {
-    return this.settings.get('ignoreRemovedFiles');
+  // Skip removed files during refresh
+  public get skipRemovedFilesDuringRefresh(): boolean {
+    return this.settings.get('skipRemovedFilesDuringRefresh');
   }
 
-  public set ignoreRemovedFiles(v: boolean) {
-    this.settings.set('ignoreRemovedFiles', v);
+  public set skipRemovedFilesDuringRefresh(v: boolean) {
+    this.settings.set('skipRemovedFilesDuringRefresh', v);
   }
 
   // Download missing album covers
@@ -124,6 +124,15 @@ export class Settings implements BaseSettings {
 
   public set showAllFoldersInCollection(v: boolean) {
     this.settings.set('showAllFoldersInCollection', v);
+  }
+
+   // Refresh collection automatically
+   public get refreshCollectionAutomatically(): boolean {
+    return this.settings.get('refreshCollectionAutomatically');
+  }
+
+  public set refreshCollectionAutomatically(v: boolean) {
+    this.settings.set('refreshCollectionAutomatically', v);
   }
 
 
@@ -169,8 +178,8 @@ export class Settings implements BaseSettings {
       this.settings.set('followSystemColor', false);
     }
 
-    if (!this.settings.has('ignoreRemovedFiles')) {
-      this.settings.set('ignoreRemovedFiles', false);
+    if (!this.settings.has('skipRemovedFilesDuringRefresh')) {
+      this.settings.set('skipRemovedFilesDuringRefresh', true);
     }
 
     if (!this.settings.has('downloadMissingAlbumCovers')) {
@@ -179,6 +188,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('showAllFoldersInCollection')) {
       this.settings.set('showAllFoldersInCollection', true);
+    }
+
+    if (!this.settings.has('refreshCollectionAutomatically')) {
+      this.settings.set('refreshCollectionAutomatically', true);
     }
   }
 }

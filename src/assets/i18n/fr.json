@@ -81,7 +81,13 @@
             "SelectFolder": "Sélectionnez un dossier",
             "DeleteFolder": "Supprimer folder",
             "ShowInTheCollection": "Afficher dans la collection",
-            "ShowAllFoldersInTheCollection": "Afficher tous les dossiers de la collection"
+            "ShowAllFoldersInTheCollection": "Afficher tous les dossiers de la collection",
+            "RefreshCollectionAutomatically": "Refresh the collection automatically",
+            "SkipPreviouslyRemovedFiles": "Skip files which were previously removed from the collection",
+            "RefreshCollectionNow": "Refresh the collection now",
+            "RefreshNow": "Refresh now",
+            "AutomaticRefresh": "Automatic refresh",
+            "ManualRefresh": "Manual refresh"
         }
     },
     "SnackBarMessages": {
