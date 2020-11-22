@@ -10,6 +10,8 @@ import { TrackIndexer } from './track-indexer';
   providedIn: 'root'
 })
 export class IndexingService implements BaseIndexingService {
+  private isIndexing: boolean = false;
+
   constructor(
     private collectionChecker: BaseCollectionChecker,
     private trackIndexer: TrackIndexer,
@@ -19,6 +21,10 @@ export class IndexingService implements BaseIndexingService {
   ) { }
 
   public async indexCollectionIfNeededAsync(): Promise<void> {
+    if (this.isIndexing) {
+      return;
+    }
+
     this.logger.info('Checking if collection needs indexing', 'IndexingService', 'indexCollectionIfNeededAsync');
 
     if (!this.settings.refreshCollectionAutomatically) {
@@ -27,15 +33,27 @@ export class IndexingService implements BaseIndexingService {
       return;
     }
 
+    this.isIndexing = true;
+
     if (await this.collectionChecker.collectionNeedsIndexingAsync()) {
       await this.trackIndexer.indexTracksAsync();
     }
 
-    this.albumArtworkIndexer.indexAlbumArtworkAsync();
+    await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+
+    this.isIndexing = false;
   }
 
   public async indexCollectionAsync(): Promise<void> {
+    if (this.isIndexing) {
+      return;
+    }
+
+    this.isIndexing = true;
+
     await this.trackIndexer.indexTracksAsync();
-    this.albumArtworkIndexer.indexAlbumArtworkAsync();
+    await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+
+    this.isIndexing = false;
   }
 }

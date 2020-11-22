@@ -8,22 +8,24 @@
     <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
   <div class="window-frame-content">
-    <app-status-panel class="status-panel"></app-status-panel>
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>
           {{ 'Pages.Collection.Explore' | translate }}
         </ng-template>
+        <app-status-panel></app-status-panel>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           {{ 'Pages.Collection.Songs' | translate }}
         </ng-template>
+        <app-status-panel></app-status-panel>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           {{ 'Pages.Collection.Playlists' | translate }}
         </ng-template>
+        <app-status-panel></app-status-panel>
       </mat-tab>
     </mat-tab-group>
   </div>
