@@ -35,6 +35,7 @@ import { AppearanceSettingsComponent } from './components/settings/appearance-se
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StatusPanelComponent } from './components/status-panel/status-panel.component';
+import { StatusSpacerComponent } from './components/status-spacer/status-spacer.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -141,6 +142,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AboutComponent,
     ComponentsComponent,
     StatusPanelComponent,
+    StatusSpacerComponent,
     SnackBarComponent
   ],
   imports: [
