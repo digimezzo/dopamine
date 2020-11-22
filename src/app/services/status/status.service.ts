@@ -4,16 +4,20 @@ import { Scheduler } from '../../core/scheduler/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseStatusService } from './base-status.service';
 import { StatusMessage } from './status-message';
+import { StatusMessageFactory } from './status-message-factory';
 
 @Injectable({
     providedIn: 'root'
 })
 export class StatusService implements BaseStatusService {
-    constructor(private translatorService: BaseTranslatorService, private scheduler: Scheduler) {
+    constructor(
+        private translatorService: BaseTranslatorService,
+        private scheduler: Scheduler,
+        private statusMessageFactory: StatusMessageFactory) {
     }
 
-    private nonDismissableStatusMessage: StatusMessage;
-    private dismissableStatusMessages: StatusMessage[] = [];
+    private nonDismissibleStatusMessage: StatusMessage;
+    private dismissibleStatusMessages: StatusMessage[] = [];
 
     private statusMessage: Subject<StatusMessage> = new Subject<StatusMessage>();
     public statusMessage$: Observable<StatusMessage> = this.statusMessage.asObservable();
@@ -44,40 +48,44 @@ export class StatusService implements BaseStatusService {
         this.createStatusMessage(message, true);
     }
 
-    public async dismissNonDismissableStatusMessageAsync(): Promise<void> {
+    public async dismissStatusMessageAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
-        this.nonDismissableStatusMessage = undefined;
+        this.nonDismissibleStatusMessage = undefined;
 
-        this.sendNextStatusMessage();
+        this.sendCurrentStatusMessage();
     }
 
-    public dismissDismissableStatusMessage(statusMessageToDismiss: StatusMessage): void {
-        if (this.dismissableStatusMessages.includes(statusMessageToDismiss)) {
-            this.dismissableStatusMessages.splice(this.dismissableStatusMessages.indexOf(statusMessageToDismiss), 1);
+    public dismissGivenStatusMessage(statusMessageToDismiss: StatusMessage): void {
+        if (this.dismissibleStatusMessages.includes(statusMessageToDismiss)) {
+            this.dismissibleStatusMessages.splice(this.dismissibleStatusMessages.indexOf(statusMessageToDismiss), 1);
         }
 
-        this.sendNextStatusMessage();
+        this.sendCurrentStatusMessage();
     }
 
-    private createStatusMessage(message: string, isDismissable: boolean): void {
-        const newStatusMessage: StatusMessage = new StatusMessage(message, isDismissable);
-
-        if (newStatusMessage.isDismissable) {
-            this.dismissableStatusMessages.unshift(newStatusMessage);
+    private createStatusMessage(message: string, isDismissible: boolean): void {
+        if (isDismissible) {
+            const dismissibleStatusMessage: StatusMessage = this.statusMessageFactory.createDismissible(message);
+            this.dismissibleStatusMessages.unshift(dismissibleStatusMessage);
         } else {
-            this.nonDismissableStatusMessage = newStatusMessage;
+            const nonDismissibleStatusMessage: StatusMessage = this.statusMessageFactory.createNonDismissible(message);
+            this.nonDismissibleStatusMessage = nonDismissibleStatusMessage;
         }
 
-        this.sendNextStatusMessage();
+        this.sendCurrentStatusMessage();
     }
 
-    private sendNextStatusMessage(): void {
-        if (this.nonDismissableStatusMessage != undefined) {
-            this.statusMessage.next(this.nonDismissableStatusMessage);
-        } else if (this.dismissableStatusMessages.length > 0) {
-            this.statusMessage.next(this.dismissableStatusMessages[0]);
-        } else {
-            this.statusMessage.next(undefined);
+    private sendCurrentStatusMessage(): void {
+        this.statusMessage.next(this.getCurrentStatusMessage());
+    }
+
+    public getCurrentStatusMessage(): StatusMessage {
+        if (this.nonDismissibleStatusMessage != undefined) {
+            return this.nonDismissibleStatusMessage;
+        } else if (this.dismissibleStatusMessages.length > 0) {
+            return this.dismissibleStatusMessages[0];
         }
+
+        return undefined;
     }
 }

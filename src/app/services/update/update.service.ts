@@ -23,7 +23,7 @@ export class UpdateService implements BaseUpdateService {
 
             try {
                 const currentRelease: string = ProductInformation.applicationVersion;
-                const latestRelease: string = await this.gitHub.getLastestReleaseAsync('digimezzo', 'vitomu');
+                const latestRelease: string = await this.gitHub.getLatestReleaseAsync('digimezzo', ProductInformation.applicationName);
 
                 this.logger.info(
                     `Current=${currentRelease}, Latest=${latestRelease}`,

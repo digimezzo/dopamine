@@ -39,6 +39,6 @@ export class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync');
 
-        await this.statusService.dismissNonDismissableStatusMessageAsync();
+        await this.statusService.dismissStatusMessageAsync();
     }
 }

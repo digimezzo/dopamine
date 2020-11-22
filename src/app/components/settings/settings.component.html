@@ -8,19 +8,18 @@
     <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
   <div class="window-frame-content">
+    <app-status-panel></app-status-panel>
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>
           {{ 'Pages.Settings.Appearance' | translate }}
         </ng-template>
-        <app-status-panel></app-status-panel>
         <app-appearance-settings></app-appearance-settings>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           {{ 'Pages.Settings.Advanced' | translate }}
         </ng-template>
-        <app-status-panel></app-status-panel>
         <app-advanced-settings></app-advanced-settings>
       </mat-tab>
     </mat-tab-group>

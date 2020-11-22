@@ -1,376 +1,82 @@
 import * as assert from 'assert';
 import { Subscription } from 'rxjs';
-import { IMock, It, Mock } from 'typemoq';
-import { Scheduler } from '../app/core/scheduler/scheduler';
+import { It, Times } from 'typemoq';
 import { StatusMessage } from '../app/services/status/status-message';
-import { StatusService } from '../app/services/status/status.service';
-import { BaseTranslatorService } from '../app/services/translator/base-translator.service';
+import { StatusServiceMocker } from './mocking/status-service-mocker';
 
 describe('StatusService', () => {
     describe('removingSongsAsync', () => {
-        it('Should notify that songs are being removed in a non-dismissable way', async () => {
+        it('Should create a non-closable status message stating that songs are being removed', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
 
             // Act
-            await statusService.removingSongsAsync();
+            await mocker.statusService.removingSongsAsync();
 
             // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Removing songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override a non-dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '2.0.0' }
-            )).returns(async () => 'New version available: 2.0.0');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.newVersionAvailableAsync('2.0.0');
-
-            // Act
-            await statusService.removingSongsAsync();
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Removing songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.UpdatingSongs')).returns(async () => 'Updating songs');
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.updatingSongsAsync();
-
-            // Act
-            await statusService.removingSongsAsync();
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Removing songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
+            mocker.statusMessageFactoryMock.verify(x => x.createNonDismissible('Removing songs'), Times.exactly(1));
         });
     });
 
     describe('updatingSongsAsync', () => {
-        it('Should notify that songs are being updated in a non-dismissable way', async () => {
+        it('Should create a non-closable status message stating that songs are being updated', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.UpdatingSongs')).returns(async () => 'Updating songs');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.UpdatingSongs')).returns(async () => 'Updating songs');
 
             // Act
-            await statusService.updatingSongsAsync();
+            await mocker.statusService.updatingSongsAsync();
 
             // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Updating songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override a non-dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.UpdatingSongs')).returns(async () => 'Updating songs');
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '2.0.0' }
-            )).returns(async () => 'New version available: 2.0.0');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.newVersionAvailableAsync('2.0.0');
-
-            // Act
-            await statusService.updatingSongsAsync();
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Updating songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-            translatorServiceMock.setup(x => x.getAsync('Status.UpdatingSongs')).returns(async () => 'Updating songs');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.removingSongsAsync();
-
-            // Act
-            await statusService.updatingSongsAsync();
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Updating songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
+            mocker.statusMessageFactoryMock.verify(x => x.createNonDismissible('Updating songs'), Times.exactly(1));
         });
     });
 
     describe('addedSongsAsync', () => {
-        it('Should notify that songs have been added in a non-dismissable way', async () => {
+        it('Should create a non-closable status message stating that songs have been added', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
 
-            translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
                 numberOfAddedTracks: 10,
                 percentageOfAddedTracks: 20
             })).returns(async () => 'Added 10 songs (20%)');
 
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
             // Act
-            await statusService.addedSongsAsync(10, 20);
+            await mocker.statusService.addedSongsAsync(10, 20);
 
             // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Added 10 songs (20%)');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override a non-dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
-                numberOfAddedTracks: 10,
-                percentageOfAddedTracks: 20
-            })).returns(async () => 'Added 10 songs (20%)');
-
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '2.0.0' }
-            )).returns(async () => 'New version available: 2.0.0');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.newVersionAvailableAsync('2.0.0');
-
-            // Act
-            await statusService.addedSongsAsync(10, 20);
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Added 10 songs (20%)');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-
-            translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
-                numberOfAddedTracks: 10,
-                percentageOfAddedTracks: 20
-            })).returns(async () => 'Added 10 songs (20%)');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.removingSongsAsync();
-
-            // Act
-            await statusService.addedSongsAsync(10, 20);
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Added 10 songs (20%)');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
+            mocker.statusMessageFactoryMock.verify(x => x.createNonDismissible('Added 10 songs (20%)'), Times.exactly(1));
         });
     });
 
     describe('newVersionAvailableAsync', () => {
-        it('Should notify that a new version is available in a dismissable way', async () => {
+        it('Should create a closable status message stating that a new version is available', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
 
-            translatorServiceMock.setup(x => x.getAsync(
+            mocker.translatorServiceMock.setup(x => x.getAsync(
                 'Status.NewVersionAvailable',
                 { version: '2.0.0' }
             )).returns(async () => 'New version available: 2.0.0');
 
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
             // Act
-            await statusService.newVersionAvailableAsync('2.0.0');
+            await mocker.statusService.newVersionAvailableAsync('2.0.0');
 
             // Assert
-            assert.strictEqual(lastStatusMessage.message, 'New version available: 2.0.0');
-            assert.strictEqual(lastStatusMessage.isDismissable, true);
-        });
-
-        it('Should not override a non-dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
-
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '2.0.0' }
-            )).returns(async () => 'New version available: 2.0.0');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.removingSongsAsync();
-
-            // Act
-            await statusService.newVersionAvailableAsync('2.0.0');
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'Removing songs');
-            assert.strictEqual(lastStatusMessage.isDismissable, false);
-        });
-
-        it('Should override a dismissable status message', async () => {
-            // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
-
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '1.0.0' }
-            )).returns(async () => 'New version available: 1.0.0');
-
-            translatorServiceMock.setup(x => x.getAsync(
-                'Status.NewVersionAvailable',
-                { version: '2.0.0' }
-            )).returns(async () => 'New version available: 2.0.0');
-
-            const subscription: Subscription = new Subscription();
-
-            let lastStatusMessage: StatusMessage;
-
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
-                lastStatusMessage = statusMessage;
-            }));
-
-            await statusService.newVersionAvailableAsync('1.0.0');
-
-            // Act
-            await statusService.newVersionAvailableAsync('2.0.0');
-
-            // Assert
-            assert.strictEqual(lastStatusMessage.message, 'New version available: 2.0.0');
-            assert.strictEqual(lastStatusMessage.isDismissable, true);
+            mocker.statusMessageFactoryMock.verify(x => x.createDismissible('New version available: 2.0.0'), Times.exactly(1));
         });
     });
 
-    describe('dismissNonDismissableStatusMessageAsync', () => {
-        it('Should dismiss a non-dismissable status message', async () => {
+    describe('dismissStatusMessageAsync', () => {
+        it('Should dismiss a non-dismissible status message', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
 
-            schedulerMock.setup(x => x.sleepAsync(It.isAny())).returns(() => Promise.resolve());
+            mocker.schedulerMock.setup(x => x.sleepAsync(It.isAny())).returns(() => Promise.resolve());
 
-            translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.AddedSongs', {
                 numberOfAddedTracks: 10,
                 percentageOfAddedTracks: 20
             })).returns(async () => 'Added 10 songs (20%)');
@@ -379,28 +85,26 @@ describe('StatusService', () => {
 
             let lastStatusMessage: StatusMessage;
 
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
+            subscription.add(mocker.statusService.statusMessage$.subscribe((statusMessage) => {
                 lastStatusMessage = statusMessage;
             }));
 
-            await statusService.addedSongsAsync(10, 20);
+            await mocker.statusService.addedSongsAsync(10, 20);
 
             // Act
-            await statusService.dismissNonDismissableStatusMessageAsync();
+            await mocker.statusService.dismissStatusMessageAsync();
 
             // Assert
             assert.strictEqual(lastStatusMessage, undefined);
         });
     });
 
-    describe('dismissDismissableStatusMessage', () => {
-        it('Should dismiss a dismissable status message', async () => {
+    describe('dismissGivenStatusMessage', () => {
+        it('Should dismiss a dismissible status message', async () => {
             // Arrange
-            const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-            const schedulerMock: IMock<Scheduler> = Mock.ofType<Scheduler>();
-            const statusService: StatusService = new StatusService(translatorServiceMock.object, schedulerMock.object);
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
 
-            translatorServiceMock.setup(x => x.getAsync(
+            mocker.translatorServiceMock.setup(x => x.getAsync(
                 'Status.NewVersionAvailable',
                 { version: '2.0.0' }
             )).returns(async () => 'New version available: 2.0.0');
@@ -409,17 +113,97 @@ describe('StatusService', () => {
 
             let lastStatusMessage: StatusMessage;
 
-            subscription.add(statusService.statusMessage$.subscribe((statusMessage) => {
+            subscription.add(mocker.statusService.statusMessage$.subscribe((statusMessage) => {
                 lastStatusMessage = statusMessage;
             }));
 
-            await statusService.newVersionAvailableAsync('2.0.0');
+            await mocker.statusService.newVersionAvailableAsync('2.0.0');
 
             // Act
-            await statusService.dismissDismissableStatusMessage(lastStatusMessage);
+            await mocker.statusService.dismissGivenStatusMessage(lastStatusMessage);
 
             // Assert
             assert.strictEqual(lastStatusMessage, undefined);
+        });
+    });
+
+    describe('getCurrentStatusMessage', () => {
+        it('Should return undefined if there are no status messages', async () => {
+            // Arrange
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+
+            // Act
+            const currentStatusMessage: StatusMessage = await mocker.statusService.getCurrentStatusMessage();
+
+            // Assert
+            assert.strictEqual(currentStatusMessage, undefined);
+        });
+
+        it('Should return a non-dismissible status message if there is only a non-dismissible status message', async () => {
+            // Arrange
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
+            mocker.statusMessageFactoryMock.setup(x => x.createNonDismissible('Removing songs')
+            ).returns(() => new StatusMessage('Removing songs', false));
+
+            await mocker.statusService.removingSongsAsync();
+
+            // Act
+            const currentStatusMessage: StatusMessage = await mocker.statusService.getCurrentStatusMessage();
+
+            // Assert
+            assert.ok(currentStatusMessage != undefined);
+            assert.strictEqual(currentStatusMessage.message, 'Removing songs');
+        });
+
+        it('Should return a non-dismissible status message if there are non-dismissible and dismissible status messages', async () => {
+            // Arrange
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+
+            mocker.translatorServiceMock.setup(x => x.getAsync('Status.RemovingSongs')).returns(async () => 'Removing songs');
+            mocker.translatorServiceMock.setup(x => x.getAsync(
+                'Status.NewVersionAvailable',
+                { version: '2.0.0' }
+            )).returns(async () => 'New version available: 2.0.0');
+
+            mocker.statusMessageFactoryMock.setup(x => x.createNonDismissible('Removing songs')
+            ).returns(() => new StatusMessage('Removing songs', false));
+
+            mocker.statusMessageFactoryMock.setup(x => x.createDismissible('New version available: 2.0.0')
+            ).returns(() => new StatusMessage('New version available: 2.0.0', true));
+
+            await mocker.statusService.removingSongsAsync();
+            await mocker.statusService.newVersionAvailableAsync('2.0.0');
+
+            // Act
+            const currentStatusMessage: StatusMessage = await mocker.statusService.getCurrentStatusMessage();
+
+            // Assert
+            assert.ok(currentStatusMessage != undefined);
+            assert.strictEqual(currentStatusMessage.message, 'Removing songs');
+        });
+
+        it('Should return a dismissible status message if there are no non-dismissible status messages', async () => {
+            // Arrange
+            const mocker: StatusServiceMocker = new StatusServiceMocker();
+
+            mocker.translatorServiceMock.setup(x => x.getAsync(
+                'Status.NewVersionAvailable',
+                { version: '2.0.0' }
+            )).returns(async () => 'New version available: 2.0.0');
+
+            mocker.statusMessageFactoryMock.setup(x => x.createDismissible('New version available: 2.0.0')
+            ).returns(() => new StatusMessage('New version available: 2.0.0', true));
+
+            await mocker.statusService.newVersionAvailableAsync('2.0.0');
+
+            // Act
+            const currentStatusMessage: StatusMessage = await mocker.statusService.getCurrentStatusMessage();
+
+            // Assert
+            assert.ok(currentStatusMessage != undefined);
+            assert.strictEqual(currentStatusMessage.message, 'New version available: 2.0.0');
         });
     });
 });

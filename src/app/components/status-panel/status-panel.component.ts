@@ -37,10 +37,11 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
   public async ngOnInit(): Promise<void> {
     this.subscription.add(this.statusService.statusMessage$.subscribe((statusMessage) => this.processStatusMessage(statusMessage)));
+    this.processStatusMessage(this.statusService.getCurrentStatusMessage());
   }
 
   public dismiss(statusMessage: StatusMessage): void {
-    this.statusService.dismissDismissableStatusMessage(statusMessage);
+    this.statusService.dismissGivenStatusMessage(statusMessage);
   }
 
   private processStatusMessage(statusMessage: StatusMessage): void {

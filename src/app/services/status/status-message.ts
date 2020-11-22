@@ -1,4 +1,4 @@
 export class StatusMessage {
-    constructor(public message: string, public isDismissable: boolean) {
+    constructor(public message: string, public isDismissible: boolean) {
     }
 }

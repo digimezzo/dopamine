@@ -100,6 +100,7 @@ import { TrackUpdater } from './services/indexing/track-updater';
 import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseStatusService } from './services/status/base-status.service';
+import { StatusMessageFactory } from './services/status/status-message-factory';
 import { StatusService } from './services/status/status.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
@@ -185,6 +186,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TrackAdder,
     TrackFiller,
     FileMetadataFactory,
+    StatusMessageFactory,
     TrackFieldCreator,
     DataDelimiter,
     AlbumKeyGenerator,
