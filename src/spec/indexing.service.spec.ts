@@ -107,4 +107,28 @@ describe('IndexingService', () => {
             mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
+
+    describe('indexCollection', () => {
+        it('Should index the tracks', async () => {
+            // Arrange
+            const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+            // Act
+            await mocker.indexingService.indexCollectionAsync();
+
+            // Assert
+            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.exactly(1));
+        });
+
+        it('Should index album artwork', async () => {
+            // Arrange
+            const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+            // Act
+            await mocker.indexingService.indexCollectionAsync();
+
+            // Assert
+            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+    });
 });

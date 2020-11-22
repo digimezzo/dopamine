@@ -33,4 +33,9 @@ export class IndexingService implements BaseIndexingService {
 
     this.albumArtworkIndexer.indexAlbumArtworkAsync();
   }
+
+  public async indexCollectionAsync(): Promise<void> {
+    await this.trackIndexer.indexTracksAsync();
+    this.albumArtworkIndexer.indexAlbumArtworkAsync();
+  }
 }

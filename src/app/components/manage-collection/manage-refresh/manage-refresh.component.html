@@ -12,4 +12,8 @@
 <mat-divider></mat-divider>
 <div class="p-3">
     <h2>{{ 'Pages.ManageCollection.ManualRefresh' | translate }}</h2>
+    <div>{{ 'Pages.ManageCollection.RefreshCollectionNow' | translate }}</div>
+    <button class="mt-3" mat-raised-button color="primary" (click)="refreshNowAsync()">
+        {{ 'Pages.ManageCollection.RefreshNow' | translate }}
+    </button>
 </div>

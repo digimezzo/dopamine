@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 
 @Component({
     selector: 'app-manage-refresh',
@@ -8,9 +9,13 @@ import { BaseSettings } from '../../../core/settings/base-settings';
     encapsulation: ViewEncapsulation.None
 })
 export class ManageRefreshComponent implements OnInit {
-    constructor(public settings: BaseSettings) {
+    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {
     }
 
     public ngOnInit(): void {
+    }
+
+    public async refreshNowAsync(): Promise<void> {
+        await this.indexingService.indexCollectionAsync();
     }
 }
