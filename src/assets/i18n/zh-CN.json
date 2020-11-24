@@ -1,0 +1,137 @@
+{
+  "Pages": {
+    "Welcome": {
+      "Greeting": {
+        "Title": "你好！",
+        "Content": "欢迎来到 Dopamine，希望你会喜欢它！首先，让我们把一切都设置好吧。"
+      },
+      "Language": {
+        "Title": "语言",
+        "Content": "选择你的语言"
+      },
+      "Appearance": {
+        "Title": "外观",
+        "Content": "你的 Dopamine 将有怎样的外观？",
+        "UseLightTheme": "使用浅色主题"
+      },
+      "Music": {
+        "Title": "音乐",
+        "Content": "让我们一起设置好收藏库。你的音乐保存在哪里？"
+      },
+      "Donate": {
+        "Title": "捐赠",
+        "Content": "如果你喜欢 Dopamine，请考虑捐赠我们。你可以现在就捐赠，或之后前往'关于'界面。感激不尽！",
+        "DonateNow": "现在捐赠"
+      },
+      "Done": {
+        "Title": "完成！",
+        "Content": "全都完成了。让我们现在启动 Dopamine！"
+      }
+    },
+    "Loading": {
+      "Text": "加载中..."
+    },
+    "Collection": {
+      "Explore": "探索",
+      "Songs": "歌曲",
+      "Playlists": "播放列表"
+    },
+    "Settings": {
+      "Appearance": "外观",
+      "Advanced": "高级",
+      "Theme": "主题",
+      "FollowSystemTheme": "跟随系统主题",
+      "UseLightTheme": "使用浅色主题",
+      "Color": "色彩",
+      "FollowSystemColor": "跟随系统色彩",
+      "TitleBar": "标题栏",
+      "UseSystemTitleBar": "使用系统标题栏（需要重新启动）",
+      "Language": "语言",
+      "ChooseLanguage": "选择语言",
+      "TextSize": "文本大小",
+      "ChooseTextSize": "选择文本大小",
+      "Updates": "更新",
+      "CheckForUpdates": "检查更新",
+      "WelcomeScreen": "欢迎屏幕",
+      "ShowWelcomeScreen": "下次启动时显示欢迎屏幕"
+    },
+    "Information": {
+      "About": "关于",
+      "Components": "组件",
+      "Version": "版本",
+      "Website": "网站",
+      "License": "授权",
+      "Donate": "捐赠",
+      "DonateInstructions": "你喜欢 Dopamine 吗？请点击此处捐赠。万分感谢！",
+      "ContactUs": "联系我们",
+      "Thanks": "鸣谢",
+      "ThanksToSharlee": "给制作了华丽图标的 Sharlee。",
+      "ThanksToDonaters": "给那些捐助者。",
+      "ThanksToTranslators": "给翻译者。",
+      "ThanksToDevelopers": "给创造了供我们使用的组件的开发人员。",
+      "ThanksToNeowin": "给提供了好灵感、测试和 Bug 报告的 Neowin 他们。"
+    },
+    "ManageCollection": {
+      "Music": "音乐",
+      "Refresh": "刷新",
+      "AlbumCovers": "专辑封面",
+      "Folders": "文件夹",
+      "AddFoldersWithYourMusic": "向收藏库添加包含音乐的文件夹",
+      "AddFolder": "添加文件夹",
+      "SelectFolder": "选择文件夹",
+      "DeleteFolder": "删除文件夹",
+      "ShowInTheCollection": "在收藏库中显示",
+      "ShowAllFoldersInTheCollection": "显示收藏库中的全部文件夹",
+      "RefreshCollectionAutomatically": "自动刷新收藏库",
+      "SkipPreviouslyRemovedFiles": "跳过之前从收藏库中移除的文件",
+      "RefreshCollectionNow": "立即刷新收藏库",
+      "RefreshNow": "立即刷新",
+      "AutomaticRefresh": "自动刷新",
+      "ManualRefresh": "手动刷新"
+    }
+  },
+  "SnackBarMessages": {
+    "FolderAlreadyAdded": "此文件夹已添加"
+  },
+  "SnackBarActions": {
+    "Ok": "OK"
+  },
+  "Buttons": {
+    "Yes": "是",
+    "No": "否",
+    "Ok": "OK",
+    "ViewLog": "查看日志",
+    "License": "授权",
+    "Donate": "捐赠"
+  },
+  "Tooltips": {
+    "OpenMenu": "开启菜单",
+    "Back": "返回",
+    "Close": "关闭"
+  },
+  "DialogTitles": {
+    "ConfirmDeleteFolder": "确定删除文件夹？",
+    "Error": "错误",
+    "License": "授权"
+  },
+  "DialogTexts": {
+    "ConfirmDeleteFolder": "确定删除文件夹 '{{folderPath}}' 吗？"
+  },
+  "ErrorTexts": {
+    "DeleteFolderError": "删除文件夹时出现错误。如果需要更多信息，请检查日志文件。",
+    "GetFoldersError": "读取文件夹时出现错误。如果需要更多信息，请检查日志文件。",
+    "AddFolderError": "添加文件夹时出现错误。如果需要更多信息，请检查日志文件。",
+    "GlobalError": "出现了导致应用程序关闭的错误。如果需要更多信息，请检查日志文件。"
+  },
+  "MainMenu": {
+    "ManageCollection": "整理收藏库...",
+    "Settings": "设置",
+    "Information": "信息"
+  },
+  "Status": {
+    "RemovingSongs": "移除歌曲中",
+    "AddedSongs": "添加 {{numberOfAddedTracks}} 曲目 ({{percentageOfAddedTracks}}%)",
+    "UpdatingSongs": "更新曲目中",
+    "NewVersionAvailable": "新版本已可用: {{version}}"
+  }
+}
