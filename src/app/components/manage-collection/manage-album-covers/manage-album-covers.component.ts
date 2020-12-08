@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 
 @Component({
     selector: 'app-manage-album-covers',
@@ -7,9 +9,17 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None
 })
 export class ManageAlbumCoversComponent implements OnInit {
-    constructor() {
+    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {
     }
 
     public ngOnInit(): void {
+    }
+
+    public async refreshAllCoversAsync(): Promise<void> {
+        await this.indexingService.indexAlbumArtworkOnlyAsync(false);
+    }
+
+    public async refreshMissingCoversAsync(): Promise<void> {
+        await this.indexingService.indexAlbumArtworkOnlyAsync(true);
     }
 }

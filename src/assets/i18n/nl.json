@@ -74,7 +74,7 @@
         "ManageCollection": {
             "Music": "Muziek",
             "Refresh": "Verversen",
-            "AlbumCovers": "Albumafbeeldingen",
+            "AlbumCovers": "Albumhoezen",
             "Folders": "Mappen",
             "AddFoldersWithYourMusic": "Voeg mappen met jouw muziek toe aan jouw collectie",
             "AddFolder": "Voeg een map toe",
@@ -82,12 +82,15 @@
             "DeleteFolder": "Map verwijderen",
             "ShowInTheCollection": "Weergeven in de collectie",
             "ShowAllFoldersInTheCollection": "Alle mappen weergeven in de collectie",
-            "RefreshCollectionAutomatically": "Refresh the collection automatically",
-            "SkipPreviouslyRemovedFiles": "Skip files which were previously removed from the collection",
-            "RefreshCollectionNow": "Refresh the collection now",
-            "RefreshNow": "Refresh now",
-            "AutomaticRefresh": "Automatic refresh",
-            "ManualRefresh": "Manual refresh"
+            "RefreshCollectionAutomatically": "Ververs de collectie automatisch",
+            "SkipPreviouslyRemovedFiles": "Sla bestanden over die eerder uit de collectie zijn verwijderd",
+            "RefreshCollectionNow": "Ververs de collectie nu",
+            "AutomaticRefresh": "Automatisch verversen",
+            "ManualRefresh": "Handmatig verversen",
+            "Download": "Downloaden",
+            "DownloadMissingAlbumCovers": "Download ontbrekende albumhoezen",
+            "RefreshAllCovers": "Ververs albumhoezen voor alle albums, inclusief albums die al een albumhoes hebben.",
+            "RefreshMissingCovers": "Ververs albumhoezen alleen voor albums die nog geen albumhoes hebben"
         }
     },
     "SnackBarMessages": {
@@ -102,7 +105,10 @@
         "Ok": "OK",
         "ViewLog": "BEKIJK LOG",
         "License": "LICENTIE",
-        "Donate": "DONEER"
+        "Donate": "DONEER",
+        "RefreshNow": "VERVERS NU",
+        "RefreshAll": "VERVERS ALLE",
+        "RefreshMissing": "VERVERS ONTBREKENDE"
     },
     "Tooltips": {
         "OpenMenu": "Open menu",

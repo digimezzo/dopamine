@@ -108,7 +108,7 @@ describe('IndexingService', () => {
         });
     });
 
-    describe('indexCollection', () => {
+    describe('indexCollectionAsync', () => {
         it('Should index the tracks', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
@@ -129,6 +129,52 @@ describe('IndexingService', () => {
 
             // Assert
             mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+    });
+
+    describe('indexAlbumArtworkOnlyAsync', () => {
+        it('Should enable album artwork indexing based on onlyWhenHasNoCover when onlyWhenHasNoCover is true', async () => {
+              // Arrange
+              const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+              // Act
+              await mocker.indexingService.indexAlbumArtworkOnlyAsync(true);
+
+              // Assert
+              mocker.trackRepositoryMock.verify(x => x.enableNeedsAlbumArtworkIndexingForAllTracks(true), Times.exactly(1));
+        });
+
+        it('Should enable album artwork indexing based on onlyWhenHasNoCover when onlyWhenHasNoCover is false', async () => {
+              // Arrange
+              const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+              // Act
+              await mocker.indexingService.indexAlbumArtworkOnlyAsync(false);
+
+              // Assert
+              mocker.trackRepositoryMock.verify(x => x.enableNeedsAlbumArtworkIndexingForAllTracks(false), Times.exactly(1));
+        });
+
+        it('Should index album artwork when onlyWhenHasNoCover is true', async () => {
+               // Arrange
+               const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+               // Act
+               await mocker.indexingService.indexAlbumArtworkOnlyAsync(true);
+
+               // Assert
+               mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('Should index album artwork when onlyWhenHasNoCover is false', async () => {
+             // Arrange
+             const mocker: IndexingServiceMocker = new IndexingServiceMocker(true);
+
+             // Act
+             await mocker.indexingService.indexAlbumArtworkOnlyAsync(false);
+
+             // Assert
+             mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
 });

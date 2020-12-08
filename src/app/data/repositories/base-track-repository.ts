@@ -14,4 +14,5 @@ export abstract class BaseTrackRepository {
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
     public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;
+    public abstract enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean): void;
 }

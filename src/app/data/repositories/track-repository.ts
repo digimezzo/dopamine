@@ -407,4 +407,19 @@ export class TrackRepository implements BaseTrackRepository {
 
         statement.run(albumKey);
     }
+
+    public enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean): void {
+        const database: any = this.databaseFactory.create();
+        let statement: any;
+
+        if (onlyWhenHasNoCover) {
+            statement = database.prepare(
+                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);`
+            );
+        } else {
+            statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=1;`);
+        }
+
+        statement.run();
+    }
 }

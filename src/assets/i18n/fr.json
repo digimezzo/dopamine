@@ -82,12 +82,15 @@
             "DeleteFolder": "Supprimer folder",
             "ShowInTheCollection": "Afficher dans la collection",
             "ShowAllFoldersInTheCollection": "Afficher tous les dossiers de la collection",
-            "RefreshCollectionAutomatically": "Refresh the collection automatically",
-            "SkipPreviouslyRemovedFiles": "Skip files which were previously removed from the collection",
-            "RefreshCollectionNow": "Refresh the collection now",
-            "RefreshNow": "Refresh now",
-            "AutomaticRefresh": "Automatic refresh",
-            "ManualRefresh": "Manual refresh"
+            "RefreshCollectionAutomatically": "Actualiser la collection automatiquement",
+            "SkipPreviouslyRemovedFiles": "Ignorer les fichiers précédemment supprimés de la collection",
+            "RefreshCollectionNow": "Actualisez la collection maintenant",
+            "AutomaticRefresh": "Actualisation automatique",
+            "ManualRefresh": "Actualisation manuelle",
+            "Download": "Téléchargement",
+            "DownloadMissingAlbumCovers": "Télécharger les pochettes d'album manquantes",
+            "RefreshAllCovers": "Actualiser les pochettes de tous les albums, y compris ceux qui ont déjà une pochette.",
+            "RefreshMissingCovers": "Actualiser les pochettes uniquement pour les albums qui n'ont pas encore de pochette"
         }
     },
     "SnackBarMessages": {
@@ -102,7 +105,10 @@
         "Ok": "OK",
         "ViewLog": "VÉRIFIER LOG",
         "License": "LICENCE",
-        "Donate": "FAIRE UN DON"
+        "Donate": "FAIRE UN DON",
+        "RefreshNow": "ACTUALISER MAINTENANT",
+        "RefreshAll": "ACTUALISER TOUS",
+        "RefreshMissing": "ACTUALISER MANQUANTS"
     },
     "Tooltips": {
         "OpenMenu": "Ouvrir menu",

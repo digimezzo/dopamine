@@ -85,9 +85,12 @@
       "RefreshCollectionAutomatically": "Refresh the collection automatically",
       "SkipPreviouslyRemovedFiles": "Skip files which were previously removed from the collection",
       "RefreshCollectionNow": "Refresh the collection now",
-      "RefreshNow": "Refresh now",
       "AutomaticRefresh": "Automatic refresh",
-      "ManualRefresh": "Manual refresh"
+      "ManualRefresh": "Manual refresh",
+      "Download": "Download",
+      "DownloadMissingAlbumCovers": "Download missing album covers",
+      "RefreshAllCovers": "Refresh covers for all albums, including those that already have a cover.",
+      "RefreshMissingCovers": "Refresh covers only for albums that have no cover yet"
     }
   },
   "SnackBarMessages": {
@@ -102,7 +105,10 @@
     "Ok": "OK",
     "ViewLog": "VIEW LOG",
     "License": "LICENSE",
-    "Donate": "DONATE"
+    "Donate": "DONATE",
+    "RefreshNow": "REFRESH NOW",
+    "RefreshAll": "REFRESH ALL",
+    "RefreshMissing": "REFRESH MISSING"
   },
   "Tooltips": {
     "OpenMenu": "Open menu",
