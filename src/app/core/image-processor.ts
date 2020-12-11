@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import fetch from 'node-fetch';
-import * as sharp from 'sharp';
-
+import * as fs from 'fs-extra';
 @Injectable()
 export class ImageProcessor {
     public async convertImageBufferToFileAsync(imageBuffer: Buffer, imagePath: string): Promise<void> {
-        await sharp(imageBuffer).toFile(imagePath);
+        await fs.writeFile(imagePath, imageBuffer);
     }
 
     public async convertLocalImageToBufferAsync(imagePath: string): Promise<Buffer> {
-        const imageBuffer: Buffer = await sharp(imagePath).toBuffer();
+        const imageBuffer: Buffer = await fs.readFile(imagePath);
 
         return imageBuffer;
     }
