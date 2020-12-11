@@ -1,40 +1,45 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
+import { ProductInformation } from '../../core/base/product-information';
 import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseSnackbarService as SnackBarServiceBase } from './base-snack-bar.service';
+import { BaseSnackbarService } from './base-snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SnackBarService implements SnackBarServiceBase {
+export class SnackBarService implements BaseSnackbarService {
     constructor(private zone: NgZone, private matSnackBar: MatSnackBar, private translator: BaseTranslatorService) {
     }
 
-    public async notifyFolderAlreadyAddedAsync(): Promise<void> {
+    public async folderAlreadyAddedAsync(): Promise<void> {
         const message: string = await this.translator.getAsync('SnackBarMessages.FolderAlreadyAdded');
-        this.showActionLessSnackBar(message);
+        this.showSelfClosingSnackBar('las la-folder', message);
     }
 
-    private showActionLessSnackBar(message: string): void {
+    public async newVersionAvailable(version: string): Promise<void> {
+        const message: string = await this.translator.getAsync('SnackBarMessages.ClickHereToDownloadNewVersion', { version: version });
+        this.showManuallyClosableSnackBar('las la-download', message, ProductInformation.releasesDownloadUrl);
+    }
+
+    private showSelfClosingSnackBar(icon: string, message: string): void {
         this.zone.run(() => {
             this.matSnackBar.openFromComponent(SnackBarComponent, {
-                data: { icon: 'las la-folder', message: message },
+                data: { icon: icon, message: message, showCloseButton: false },
                 panelClass: ['accent-snackbar'],
                 duration: this.calculateDuration(message)
             });
         });
     }
 
-    // private showActionSnackBar(message: string, action: string, keepOpen: boolean): void {
-    //     let config: any = { panelClass: ['accent-snackbar'], duration: this.calculateDuration(message) };
-
-    //     if (keepOpen) {
-    //         config = { panelClass: ['accent-snackbar'] };
-    //     }
-
-    //     this.matSnackBar.open(message, action, config);
-    // }
+    private showManuallyClosableSnackBar(icon: string, message: string, url: string): void {
+        this.zone.run(() => {
+            this.matSnackBar.openFromComponent(SnackBarComponent, {
+                data: { icon: icon, message: message, showCloseButton: true, url: url },
+                panelClass: ['accent-snackbar']
+            });
+        });
+    }
 
     private calculateDuration(message: string): number {
         // See: https://ux.stackexchange.com/questions/11203/how-long-should-a-temporary-notification-toast-appear

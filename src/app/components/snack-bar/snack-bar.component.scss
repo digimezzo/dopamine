@@ -1,8 +1,27 @@
 .snack-bar-container {
     display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .snack-bar-icon {
-    color: var(--theme-accent-color);
+    color: white;
     font-size: 20px;
+}
+
+.snack-bar-text-with-url {
+    color: white;
+    flex: 1;
+    cursor: pointer;
+}
+
+.snack-bar-text {
+    color: white;
+    flex: 1;
+}
+
+.snack-bar-close-button {
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }

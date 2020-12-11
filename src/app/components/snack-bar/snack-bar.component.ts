@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material';
+import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material';
+import { Desktop } from '../../core/io/desktop';
 
 @Component({
     selector: 'app-snack-bar',
@@ -10,9 +11,19 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material';
 })
 export class SnackBarComponent implements OnInit {
 
-    constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
+    constructor(
+        public snackBarRef: MatSnackBarRef<SnackBarComponent>,
+        @Inject(MAT_SNACK_BAR_DATA) public data: any,
+        private desktop: Desktop) {
+        this.showCloseButton = data.showCloseButton;
     }
 
+    public showCloseButton: boolean;
+
     public ngOnInit(): void {
+    }
+
+    public openDataUrl() {
+        this.desktop.openLink(this.data.url);
     }
 }

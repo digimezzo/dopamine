@@ -94,7 +94,11 @@
     }
   },
   "SnackBarMessages": {
-    "FolderAlreadyAdded": "This folder was already added"
+    "FolderAlreadyAdded": "This folder was already added",
+    "RemovingSongs": "Removing songs",
+    "AddedSongs": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
+    "UpdatingSongs": "Updating songs",
+    "ClickHereToDownloadNewVersion": "Click here to download version {{version}}"
   },
   "SnackBarActions": {
     "Ok": "OK"
@@ -133,11 +137,5 @@
     "ManageCollection": "Manage collection...",
     "Settings": "Settings",
     "Information": "Information"
-  },
-  "Status": {
-    "RemovingSongs": "Removing songs",
-    "AddedSongs": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
-    "UpdatingSongs": "Updating songs",
-    "NewVersionAvailable": "A new version is available: {{version}}"
   }
 }

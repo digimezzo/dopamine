@@ -94,7 +94,12 @@
         }
     },
     "SnackBarMessages": {
-        "FolderAlreadyAdded": "Deze map werd al toegevoegd"
+        "FolderAlreadyAdded": "Deze map werd al toegevoegd",
+        "RemovingSongs": "Verwijderen van nummers",
+        "AddedSongs": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
+        "UpdatingSongs": "Bijwerken van nummers",
+        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}",
+        "ClickHereToDownloadNewVersion": "Klik hier om de versie {{version}} te downloaden"
     },
     "SnackBarActions": {
         "Ok": "OK"
@@ -133,11 +138,5 @@
         "ManageCollection": "Collectie beheren...",
         "Settings": "Instellingen",
         "Information": "Informatie"
-    },
-    "Status": {
-        "RemovingSongs": "Verwijderen van nummers",
-        "AddedSongs": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
-        "UpdatingSongs": "Bijwerken van nummers",
-        "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}"
     }
 }

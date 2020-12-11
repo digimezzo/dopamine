@@ -25,7 +25,7 @@ export class FolderService implements BaseFolderService {
       await this.folderRepository.addFolder(newFolder);
       this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
     } else {
-      await this.snackbarService.notifyFolderAlreadyAddedAsync();
+      await this.snackbarService.folderAlreadyAddedAsync();
       this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
     }
   }

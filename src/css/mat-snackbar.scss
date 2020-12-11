@@ -1,10 +1,15 @@
 @import 'variables';
 
 .accent-snackbar {
-  background-color: var(--theme-header-background) !important;
+  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
   color: var(--theme-snack-bar-text-foreground) !important;
 }
 
-.mat-simple-snackbar > span {
-  overflow-wrap: anywhere;
+.mat-snack-bar-container{
+  min-height: 30px !important;
+  padding: 10px 12px !important;
 }
+
+// .mat-simple-snackbar > span {
+//   overflow-wrap: anywhere;
+// }

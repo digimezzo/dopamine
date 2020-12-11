@@ -42,7 +42,7 @@ describe('FolderService', () => {
             await mocker.folderService.addNewFolderAsync('/home/me/Music');
 
             // Assert
-            mocker.snackBarServiceMock.verify(x => x.notifyFolderAlreadyAddedAsync(), Times.exactly(1));
+            mocker.snackBarServiceMock.verify(x => x.folderAlreadyAddedAsync(), Times.exactly(1));
         });
     });
 
