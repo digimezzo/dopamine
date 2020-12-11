@@ -34,8 +34,6 @@ import { AdvancedSettingsComponent } from './components/settings/advanced-settin
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
-import { StatusPanelComponent } from './components/status-panel/status-panel.component';
-import { StatusSpacerComponent } from './components/status-spacer/status-spacer.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -98,11 +96,8 @@ import { TrackFiller } from './services/indexing/track-filler';
 import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
-import { BaseSnackbarService } from './services/snack-bar/base-snack-bar.service';
+import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
-import { BaseStatusService } from './services/status/base-status.service';
-import { StatusMessageFactory } from './services/status/status-message-factory';
-import { StatusService } from './services/status/status.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
 import { BaseUpdateService } from './services/update/base-update.service';
@@ -141,8 +136,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AdvancedSettingsComponent,
     AboutComponent,
     ComponentsComponent,
-    StatusPanelComponent,
-    StatusSpacerComponent,
     SnackBarComponent
   ],
   imports: [
@@ -188,7 +181,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TrackAdder,
     TrackFiller,
     FileMetadataFactory,
-    StatusMessageFactory,
     TrackFieldCreator,
     DataDelimiter,
     AlbumKeyGenerator,
@@ -221,8 +213,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseIndexingService, useClass: IndexingService },
     { provide: BaseTranslatorService, useClass: TranslatorService },
     { provide: BaseUpdateService, useClass: UpdateService },
-    { provide: BaseSnackbarService, useClass: SnackBarService },
-    { provide: BaseStatusService, useClass: StatusService },
+    { provide: BaseSnackBarService, useClass: SnackBarService },
     { provide: BaseDialogService, useClass: DialogService },
     { provide: BaseScheduler, useClass: Scheduler },
     {

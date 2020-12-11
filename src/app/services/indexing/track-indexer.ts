@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { Timer } from '../../core/timer';
-import { BaseStatusService } from '../status/base-status.service';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
@@ -13,7 +13,7 @@ export class TrackIndexer {
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,
         private logger: Logger,
-        private statusService: BaseStatusService
+        private snackBarService: BaseSnackBarService
     ) { }
 
     public async indexTracksAsync(): Promise<void> {
@@ -22,12 +22,12 @@ export class TrackIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        await this.statusService.removingSongsAsync();
+        await this.snackBarService.removingSongsAsync();
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
         this.trackRemover.removeTracksThatAreNotFoundOnDisk();
         this.trackRemover.removeOrphanedFolderTracks();
 
-        await this.statusService.updatingSongsAsync();
+        await this.snackBarService.updatingSongsAsync();
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -39,6 +39,6 @@ export class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync');
 
-        await this.statusService.dismissStatusMessageAsync();
+        await this.snackBarService.dismissAsync();
     }
 }

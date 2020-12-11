@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductInformation } from '../../core/base/product-information';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseUpdateService } from './base-update.service';
 import { GitHubApi } from './github-api';
 import { VersionComparer } from './version-comparer';
@@ -11,7 +11,7 @@ import { VersionComparer } from './version-comparer';
 })
 export class UpdateService implements BaseUpdateService {
     constructor(
-        private snackbarService: BaseSnackbarService,
+        private snackBarService: BaseSnackBarService,
         private settings: BaseSettings,
         private logger: Logger,
         private gitHub: GitHubApi) {
@@ -35,7 +35,7 @@ export class UpdateService implements BaseUpdateService {
                         `Latest (${latestRelease}) > Current (${currentRelease}). Notifying user.`,
                         'UpdateService',
                         'checkForUpdatesAsync');
-                    await this.snackbarService.newVersionAvailable(latestRelease);
+                    await this.snackBarService.newVersionAvailable(latestRelease);
                 } else {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,

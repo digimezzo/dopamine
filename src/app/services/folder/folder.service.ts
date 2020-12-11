@@ -3,7 +3,7 @@ import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
 import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
 import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
-import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderService } from './base-folder.service';
 import { FolderModel } from './folder-model';
 
@@ -15,7 +15,7 @@ export class FolderService implements BaseFolderService {
     private folderRepository: BaseFolderRepository,
     private folderTrackRepository: BaseFolderTrackRepository,
     private logger: Logger,
-    private snackbarService: BaseSnackbarService) { }
+    private snackBarService: BaseSnackBarService) { }
 
   public async addNewFolderAsync(path: string): Promise<void> {
     const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
@@ -25,7 +25,7 @@ export class FolderService implements BaseFolderService {
       await this.folderRepository.addFolder(newFolder);
       this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
     } else {
-      await this.snackbarService.folderAlreadyAddedAsync();
+      await this.snackBarService.folderAlreadyAddedAsync();
       this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
     }
   }

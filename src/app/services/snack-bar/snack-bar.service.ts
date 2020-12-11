@@ -1,43 +1,85 @@
 import { Injectable, NgZone } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { ProductInformation } from '../../core/base/product-information';
+import { Scheduler } from '../../core/scheduler/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseSnackbarService } from './base-snack-bar.service';
+import { BaseSnackBarService } from './base-snack-bar.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SnackBarService implements BaseSnackbarService {
-    constructor(private zone: NgZone, private matSnackBar: MatSnackBar, private translator: BaseTranslatorService) {
+export class SnackBarService implements BaseSnackBarService {
+    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+
+    constructor(
+        private zone: NgZone,
+        private matSnackBar: MatSnackBar,
+        private translatorService: BaseTranslatorService,
+        private scheduler: Scheduler) {
     }
 
     public async folderAlreadyAddedAsync(): Promise<void> {
-        const message: string = await this.translator.getAsync('SnackBarMessages.FolderAlreadyAdded');
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.FolderAlreadyAdded');
         this.showSelfClosingSnackBar('las la-folder', message);
     }
 
     public async newVersionAvailable(version: string): Promise<void> {
-        const message: string = await this.translator.getAsync('SnackBarMessages.ClickHereToDownloadNewVersion', { version: version });
-        this.showManuallyClosableSnackBar('las la-download', message, ProductInformation.releasesDownloadUrl);
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.ClickHereToDownloadNewVersion', { version: version });
+        this.showDismissibleSnackBar('las la-download', false, message, true, ProductInformation.releasesDownloadUrl);
+    }
+
+    public async removingSongsAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.RemovingSongs');
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+    public async updatingSongsAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingSongs');
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+    public async addedSongsAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
+        const message: string = await this.translatorService.getAsync(
+            'SnackBarMessages.AddedSongs',
+            {
+                numberOfAddedTracks: numberOfAddedTracks,
+                percentageOfAddedTracks: percentageOfAddedTracks
+            });
+
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
     private showSelfClosingSnackBar(icon: string, message: string): void {
         this.zone.run(() => {
             this.matSnackBar.openFromComponent(SnackBarComponent, {
                 data: { icon: icon, message: message, showCloseButton: false },
-                panelClass: ['accent-snackbar'],
+                panelClass: ['accent-snack-bar'],
                 duration: this.calculateDuration(message)
             });
         });
     }
 
-    private showManuallyClosableSnackBar(icon: string, message: string, url: string): void {
+    public async dismissAsync(): Promise<void> {
+        if (this.currentDismissibleSnackBar != undefined) {
+            await this.scheduler.sleepAsync(1000);
+            this.currentDismissibleSnackBar.dismiss();
+            this.currentDismissibleSnackBar = undefined;
+        }
+    }
+
+    private showDismissibleSnackBar(icon: string, animateIcon: boolean, message: string, showCloseButton: boolean, url: string): void {
         this.zone.run(() => {
-            this.matSnackBar.openFromComponent(SnackBarComponent, {
-                data: { icon: icon, message: message, showCloseButton: true, url: url },
-                panelClass: ['accent-snackbar']
-            });
+            if (this.currentDismissibleSnackBar == undefined) {
+                this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
+                    data: { icon: icon, animateIcon: animateIcon, message: message, showCloseButton: showCloseButton, url: url },
+                    panelClass: ['accent-snack-bar']
+                });
+            } else {
+                this.currentDismissibleSnackBar.instance.data.icon = icon;
+                this.currentDismissibleSnackBar.instance.data.animateIcon = animateIcon;
+                this.currentDismissibleSnackBar.instance.data.message = message;
+                this.currentDismissibleSnackBar.instance.data.showCloseButton = showCloseButton;
+                this.currentDismissibleSnackBar.instance.data.url = url;
+            }
         });
     }
 
