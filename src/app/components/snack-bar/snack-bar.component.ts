@@ -27,4 +27,8 @@ export class SnackBarComponent implements OnInit {
     public openDataUrl() {
         this.desktop.openLink(this.data.url);
     }
+
+    public async dismissAsync(): Promise<void> {
+        this.snackBarService.dismissAsync();
+    }
 }
