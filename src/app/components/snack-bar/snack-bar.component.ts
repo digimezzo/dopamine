@@ -13,13 +13,10 @@ import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.ser
 export class SnackBarComponent implements OnInit {
 
     constructor(
-        public snackBarService: BaseSnackBarService,
-        @Inject(MAT_SNACK_BAR_DATA) public data: any,
-        private desktop: Desktop) {
-        this.showCloseButton = data.showCloseButton;
+        private snackBarService: BaseSnackBarService,
+        private desktop: Desktop,
+        @Inject(MAT_SNACK_BAR_DATA) public data: any) {
     }
-
-    public showCloseButton: boolean;
 
     public ngOnInit(): void {
     }
