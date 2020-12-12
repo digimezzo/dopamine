@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { GitHubApi } from '../../core/api/git-hub/git-hub-api';
 import { ProductInformation } from '../../core/base/product-information';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseUpdateService } from './base-update.service';
-import { GitHubApi } from './github-api';
 import { VersionComparer } from './version-comparer';
 @Injectable({
     providedIn: 'root'
