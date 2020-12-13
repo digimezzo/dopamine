@@ -29,17 +29,24 @@ export class SnackBarService implements BaseSnackBarService {
         this.showDismissibleSnackBar('las la-download', false, message, true, ProductInformation.releasesDownloadUrl);
     }
 
-    public async removingSongsAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.RemovingSongs');
+    public async removingTracksAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.RemovingTracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
-    public async updatingSongsAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingSongs');
+
+    public async updatingTracksAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingTracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
-    public async addedSongsAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
+
+    public async addingTracksAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.AddingTracks');
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+    
+    public async addedTracksAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
         const message: string = await this.translatorService.getAsync(
-            'SnackBarMessages.AddedSongs',
+            'SnackBarMessages.AddedTracks',
             {
                 numberOfAddedTracks: numberOfAddedTracks,
                 percentageOfAddedTracks: percentageOfAddedTracks

@@ -20,6 +20,11 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         this.createCoverArtCacheOnDisk();
     }
 
+    public removeArtworkDataFromCache(artworkId: string): void {
+        const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
+        this.fileSystem.deleteFileIfExists(cachedArtworkFilePath);
+    }
+
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
         if (data == undefined) {
             return undefined;
@@ -31,7 +36,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath: string = path.join(this.fileSystem.coverArtCacheFullPath(), `${albumArtworkCacheId.id}.jpg`);
+            const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(albumArtworkCacheId.id);
             await this.imageProcessor.convertImageBufferToFileAsync(data, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
@@ -57,7 +62,12 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             );
 
             // We cannot proceed if the above fails
-            throw(e);
+            throw (e);
         }
     }
+
+    private createCachedArtworkFilePath(artworkId: string): string {
+        return path.join(this.fileSystem.coverArtCacheFullPath(), `${artworkId}.jpg`);
+    }
+
 }

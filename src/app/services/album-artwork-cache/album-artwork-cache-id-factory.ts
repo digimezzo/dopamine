@@ -1,4 +1,3 @@
-
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 
 export class AlbumArtworkCacheIdFactory {

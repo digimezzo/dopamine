@@ -7,17 +7,17 @@ describe('FolderPathInfo', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Song.mp3', 123456789, 1);
+            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
-            assert.strictEqual(indexablePath.path, '/home/user/Music/Song.mp3');
+            assert.strictEqual(indexablePath.path, '/home/user/Music/Track.mp3');
         });
 
         it('Should set dateModifiedTicks', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Song.mp3', 123456789, 1);
+            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
             assert.strictEqual(indexablePath.dateModifiedTicks, 123456789);
@@ -27,7 +27,7 @@ describe('FolderPathInfo', () => {
             // Arrange
 
             // Act
-            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Song.mp3', 123456789, 1);
+            const indexablePath: IndexablePath = new IndexablePath('/home/user/Music/Track.mp3', 123456789, 1);
 
             // Assert
             assert.strictEqual(indexablePath.folderId, 1);

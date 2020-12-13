@@ -15,7 +15,13 @@ export class TrackRemover {
         private logger: Logger
     ) { }
 
-    public removeTracksThatDoNoNotBelongToFolders(): void {
+    public removeTracks(): void {
+        this.removeTracksThatDoNoNotBelongToFolders();
+        this.removeTracksThatAreNotFoundOnDisk();
+        this.removeFolderTracksForIndexistingTracks();
+    }
+
+    private removeTracksThatDoNoNotBelongToFolders(): void {
         try {
             const timer: Timer = new Timer();
             timer.start();
@@ -36,7 +42,7 @@ export class TrackRemover {
         }
     }
 
-    public removeTracksThatAreNotFoundOnDisk(): void {
+    private removeTracksThatAreNotFoundOnDisk(): void {
         try {
             const timer: Timer = new Timer();
             timer.start();
@@ -66,7 +72,7 @@ export class TrackRemover {
         }
     }
 
-    public removeFolderTracksForIndexistingTracks(): void {
+    private removeFolderTracksForIndexistingTracks(): void {
         try {
             const timer: Timer = new Timer();
             timer.start();

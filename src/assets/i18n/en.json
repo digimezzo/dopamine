@@ -33,7 +33,7 @@
     },
     "Collection": {
       "Explore": "Explore",
-      "Songs": "Songs",
+      "Tracks": "Songs",
       "Playlists": "Playlists"
     },
     "Settings": {
@@ -95,9 +95,10 @@
   },
   "SnackBarMessages": {
     "FolderAlreadyAdded": "This folder was already added",
-    "RemovingSongs": "Removing songs",
-    "AddedSongs": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
-    "UpdatingSongs": "Updating songs",
+    "RemovingTracks": "Removing songs",
+    "AddingTracks": "Adding songs",
+    "AddedTracks": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
+    "UpdatingTracks": "Updating songs",
     "ClickHereToDownloadNewVersion": "Click here to download version {{version}}"
   },
   "SnackBarActions": {

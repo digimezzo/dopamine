@@ -37,10 +37,10 @@ describe('ExternalAlbumArtworkGetter', () => {
                 imageProcessorMock.object,
                 loggerMock.object);
 
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
+            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
             externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
+                x => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')
             ).returns(() => undefined);
 
             // Act
@@ -61,10 +61,10 @@ describe('ExternalAlbumArtworkGetter', () => {
                 imageProcessorMock.object,
                 loggerMock.object);
 
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
+            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
             externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
+                x => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')
             ).returns(() => '');
 
             // Act
@@ -85,10 +85,10 @@ describe('ExternalAlbumArtworkGetter', () => {
                 imageProcessorMock.object,
                 loggerMock.object);
 
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
+            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
             externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
+                x => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')
             ).returns(() => '  ');
 
             // Act
@@ -110,10 +110,10 @@ describe('ExternalAlbumArtworkGetter', () => {
                 loggerMock.object);
 
             const expectedArtwork = Buffer.from([1, 2, 3]);
-            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/song.mp3');
+            fileMetaDataMock.setup(x => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
             externalArtworkPathGetterMock.setup(
-                x => x.getExternalArtworkPath('/home/MyUser/Music/song.mp3')
+                x => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')
             ).returns(() => '/home/MyUser/Music/front.png');
 
             imageProcessorMock.setup(

@@ -44,7 +44,7 @@ export class FileSystem {
     }
 
     public getFileNameWithoutExtension(fileNameOrPath: string): string {
-        const extension: string =  path.extname(fileNameOrPath);
+        const extension: string = path.extname(fileNameOrPath);
         return path.basename(fileNameOrPath, extension);
     }
 
@@ -81,5 +81,11 @@ export class FileSystem {
 
     public getDirectoryPath(filePath: string): string {
         return path.dirname(filePath);
+    }
+
+    public deleteFileIfExists(filePath: string): void {
+        if (!fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
     }
 }

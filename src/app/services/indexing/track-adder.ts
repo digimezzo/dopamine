@@ -47,7 +47,7 @@ export class TrackAdder {
 
                     const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
 
-                    await this.snackBarService.addedSongsAsync(numberOfAddedTracks, percentageOfAddedTracks);
+                    await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
                 } catch (e) {
                     this.logger.error(
                         `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,

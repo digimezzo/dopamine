@@ -33,7 +33,7 @@
         },
         "Collection": {
             "Explore": "Explorer",
-            "Songs": "Morceaux",
+            "Tracks": "Morceaux",
             "Playlists": "Listes de lectures"
         },
         "Settings": {
@@ -95,9 +95,10 @@
     },
     "SnackBarMessages": {
         "FolderAlreadyAdded": "Ce dossier a déjà été ajouté",
-        "RemovingSongs": "Suppression de morceaux",
-        "AddedSongs": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
-        "UpdatingSongs": "Mise à jour des morceaux",
+        "RemovingTracks": "Suppression de morceaux",
+        "AddingTracks": "Ajout de morceaux",
+        "AddedTracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
+        "UpdatingTracks": "Mise à jour des morceaux",
         "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}",
         "ClickHereToDownloadNewVersion": "Cliquez ici pour télécharger la version {{version}}"
     },

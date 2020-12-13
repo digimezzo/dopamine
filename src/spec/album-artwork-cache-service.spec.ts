@@ -13,7 +13,7 @@ describe('AlbumArtworkCacheService', () => {
             mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
 
             // Act
-           mocker.callAlbumArtworkCacheServiceConstructor();
+            mocker.callAlbumArtworkCacheServiceConstructor();
 
             // Assert
             mocker.fileSystemMock.verify(
@@ -82,6 +82,23 @@ describe('AlbumArtworkCacheService', () => {
 
             // Assert
             mocker.imageProcessorMock.verify(x => x.convertImageBufferToFileAsync(data, imagePath), Times.exactly(1));
+        });
+    });
+
+    describe('removeArtworkDataFromCache', () => {
+        it('Should delete cached artwork file if it exists', async () => {
+            // Arrange
+            const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
+
+            mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            const cachedArtworkFilePath: string = path.join(mocker.fileSystemMock.object.coverArtCacheFullPath(), 'album-4c315456-43ba-4984-8a7e-403837514638.jpg');
+
+            // Act
+            mocker.albumArtworkCacheService.removeArtworkDataFromCache('album-4c315456-43ba-4984-8a7e-403837514638');
+
+
+            // Assert
+            mocker.fileSystemMock.verify(x => x.deleteFileIfExists(cachedArtworkFilePath), Times.exactly(1));
         });
     });
 });

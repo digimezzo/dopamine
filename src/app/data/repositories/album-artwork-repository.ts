@@ -23,4 +23,14 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         const statement = database.prepare('INSERT INTO AlbumArtwork (AlbumKey, ArtworkID) VALUES (?, ?);');
         statement.run(albumArtwork.albumKey, albumArtwork.artworkId);
     }
+
+    public getArtworkId(albumKey: string): string {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare('SELECT ArtworkID FROM AlbumArtwork WHERE AlbumKey=?;');
+
+        const artworkId: string = statement.get(albumKey);
+
+        return artworkId;
+    }
 }
