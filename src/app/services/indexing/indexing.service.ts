@@ -28,8 +28,6 @@ export class IndexingService implements BaseIndexingService {
       return;
     }
 
-    this.logger.info('Checking if collection needs indexing', 'IndexingService', 'indexCollectionIfNeededAsync');
-
     if (!this.settings.refreshCollectionAutomatically) {
       this.logger.info('Skipping indexing because automatic indexing is disabled.', 'IndexingService', 'indexCollectionIfNeededAsync');
 
@@ -37,6 +35,8 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
+
+    this.logger.info('Checking if collection needs indexing', 'IndexingService', 'indexCollectionIfNeededAsync');
 
     if (await this.collectionChecker.collectionNeedsIndexingAsync()) {
       await this.trackIndexer.indexTracksAsync();
