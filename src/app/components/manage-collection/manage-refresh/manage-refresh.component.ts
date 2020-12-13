@@ -16,6 +16,6 @@ export class ManageRefreshComponent implements OnInit {
     }
 
     public async refreshNowAsync(): Promise<void> {
-        await this.indexingService.indexCollectionAsync();
+        await this.indexingService.indexCollectionAlwaysAsync();
     }
 }

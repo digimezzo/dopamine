@@ -78,7 +78,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.indexingServiceMock.verify(x => x.indexCollectionIfNeededAsync(), Times.exactly(1));
+            mocker.indexingServiceMock.verify(x => x.indexCollectionIfOutdatedAsync(), Times.exactly(1));
         });
     });
 });

@@ -16,6 +16,7 @@ export class AlbumArtworkIndexer {
     ) { }
 
     public async indexAlbumArtworkAsync(): Promise<void> {
+        // TODO: remove album artwork from database and disk, which have inexisting albumKey
         this.logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
 
         const timer: Timer = new Timer();

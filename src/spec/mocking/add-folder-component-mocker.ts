@@ -6,6 +6,7 @@ import { BaseSettings } from '../../app/core/settings/base-settings';
 import { BaseDialogService } from '../../app/services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { FolderModel } from '../../app/services/folder/folder-model';
+import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
 import { SettingsStub } from './settings-stub';
 
@@ -28,6 +29,7 @@ export class AddFolderComponentMocker {
                 this.translatorServiceMock.object,
                 this.folderServiceMock.object,
                 this.dialogServiceMock.object,
+                this.indexingServiceMock.object,
                 this.settingsStub,
                 this.loggerMock.object);
         } else {
@@ -36,6 +38,7 @@ export class AddFolderComponentMocker {
                 this.translatorServiceMock.object,
                 this.folderServiceMock.object,
                 this.dialogServiceMock.object,
+                this.indexingServiceMock.object,
                 this.settingsMock.object,
                 this.loggerMock.object);
 
@@ -46,6 +49,7 @@ export class AddFolderComponentMocker {
     public translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
     public folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
     public dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
+    public indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
     public settingsStub: SettingsStub = new SettingsStub(false, false, true);
     public settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();

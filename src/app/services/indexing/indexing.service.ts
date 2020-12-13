@@ -23,22 +23,26 @@ export class IndexingService implements BaseIndexingService {
     private logger: Logger
   ) { }
 
-  public async indexCollectionIfNeededAsync(): Promise<void> {
+  public foldersHaveChanged: boolean = false;
+
+  public async indexCollectionIfOutdatedAsync(): Promise<void> {
     if (this.isIndexingCollection) {
       return;
     }
 
     if (!this.settings.refreshCollectionAutomatically) {
-      this.logger.info('Skipping indexing because automatic indexing is disabled.', 'IndexingService', 'indexCollectionIfNeededAsync');
+      this.logger.info('Skipping indexing because automatic indexing is disabled.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
 
       return;
     }
 
     this.isIndexingCollection = true;
 
-    this.logger.info('Checking if collection needs indexing', 'IndexingService', 'indexCollectionIfNeededAsync');
+    this.logger.info('Checking if collection is outdated', 'IndexingService', 'indexCollectionIfOutdatedAsync');
 
-    if (await this.collectionChecker.collectionNeedsIndexingAsync()) {
+    const collectionIsOutdated: boolean = await this.collectionChecker.isCollectionOutdatedAsync();
+
+    if (collectionIsOutdated) {
       await this.trackIndexer.indexTracksAsync();
     }
 
@@ -47,7 +51,17 @@ export class IndexingService implements BaseIndexingService {
     this.isIndexingCollection = false;
   }
 
-  public async indexCollectionAsync(): Promise<void> {
+  public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
+    if (!this.foldersHaveChanged) {
+      return;
+    }
+
+    this.foldersHaveChanged = false;
+
+    await this.indexCollectionAlwaysAsync();
+  }
+
+  public async indexCollectionAlwaysAsync(): Promise<void> {
     if (this.isIndexingCollection) {
       return;
     }

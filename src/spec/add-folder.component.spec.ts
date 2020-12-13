@@ -135,6 +135,33 @@ describe('AddFolderComponent', () => {
             // Assert
             mocker.dialogServiceMock.verify(x => x.showErrorDialog('Error while adding folder'), Times.exactly(1));
         });
+
+        it('Should tell indexingService that the folders have changed if adding a folder succeeds', async () => {
+            // Arrange
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
+
+            mocker.desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+
+            // Act
+            await mocker.addFolderComponent.addFolderAsync();
+
+            // Assert
+            mocker.indexingServiceMock.verify(x => x.foldersHaveChanged = true, Times.exactly(1));
+        });
+
+        it('Should not tell indexingService that the folders have changed if adding a folder fails', async () => {
+            // Arrange
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
+
+            mocker.desktopMock.setup(x => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            mocker.folderServiceMock.setup(x => x.addNewFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
+
+            // Act
+            await mocker.addFolderComponent.addFolderAsync();
+
+            // Assert
+            mocker.indexingServiceMock.verify(x => x.foldersHaveChanged = true, Times.never());
+        });
     });
 
     describe('getFoldersAsync', () => {
@@ -302,6 +329,40 @@ describe('AddFolderComponent', () => {
 
             // Assert
             mocker.dialogServiceMock.verify(x => x.showErrorDialog('Error while deleting folder'), Times.exactly(1));
+        });
+
+        it('Should tell indexingService that the folders have changed if deleting a folder succeeds', async () => {
+            // Arrange
+            const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
+
+            mocker.dialogServiceMock.setup(x => x.showConfirmationDialogAsync(
+                'Delete folder?',
+                'Are you sure you want to delete this folder?')).returns(async () => true);
+
+            // Act
+            await mocker.addFolderComponent.deleteFolderAsync(folderToDelete);
+
+            // Assert
+            mocker.indexingServiceMock.verify(x => x.foldersHaveChanged = true, Times.exactly(1));
+        });
+
+        it('Should not tell indexingService that the folders have changed if deleting a folder fails', async () => {
+            // Arrange
+            const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
+
+            mocker.dialogServiceMock.setup(x => x.showConfirmationDialogAsync(
+                'Delete folder?',
+                'Are you sure you want to delete this folder?')).returns(async () => true);
+
+            mocker.folderServiceMock.setup(x => x.deleteFolder(folderToDelete)).throws(new Error('An error occurred'));
+
+            // Act
+            await mocker.addFolderComponent.deleteFolderAsync(folderToDelete);
+
+            // Assert
+            mocker.indexingServiceMock.verify(x => x.foldersHaveChanged = true, Times.never());
         });
     });
 

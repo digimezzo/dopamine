@@ -47,10 +47,11 @@ export class TrackRepository implements BaseTrackRepository {
 
     public deleteTracksThatDoNotBelongFolders(): number {
         const database: any = this.databaseFactory.create();
-        const statement: any = database.prepare(`DELETE FROM Track WHERE TrackID IN (
-                                                 SELECT TrackID
-                                                 FROM FolderTrack
-                                                 WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
+        const statement: any = database.prepare(
+            `DELETE FROM Track WHERE TrackID IN (
+                SELECT TrackID
+                FROM FolderTrack
+                WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
 
         const info = statement.run();
 

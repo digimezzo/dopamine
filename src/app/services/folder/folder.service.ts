@@ -41,7 +41,6 @@ export class FolderService implements BaseFolderService {
   }
   public deleteFolder(folder: FolderModel): void {
     this.folderRepository.deleteFolder(folder.folderId);
-    this.folderTrackRepository.deleteFolderTrackByFolderId(folder.folderId);
     this.logger.info(`Deleted folder with path '${folder.path}'`, 'FolderService', 'deleteFolder');
   }
 

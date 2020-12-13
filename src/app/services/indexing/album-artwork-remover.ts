@@ -10,6 +10,7 @@ export class AlbumArtworkRemover {
     public tryRemoveAlbumArtwork(albumKey: string): boolean {
         try {
             this.albumArtworkRepository.deleteAlbumArtwork(albumKey);
+            // TODO: remove album artwork from cache in disk
         } catch (error) {
             this.logger.error(`Could not remove artwork for albumKey=${albumKey}. Error: ${error.message}`, 'AlbumArtworkRemover', 'removeAlbumArtwork');
             return false;

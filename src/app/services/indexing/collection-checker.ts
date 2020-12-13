@@ -13,7 +13,7 @@ export class CollectionChecker implements BaseCollectionChecker {
         private logger: Logger
     ) { }
 
-    public async collectionNeedsIndexingAsync(): Promise<boolean> {
+    public async isCollectionOutdatedAsync(): Promise<boolean> {
         let collectionNeedsIndexing: boolean = false;
 
         try {
@@ -30,12 +30,12 @@ export class CollectionChecker implements BaseCollectionChecker {
             this.logger.info(
                 `Collection needs indexing=${collectionNeedsIndexing}`,
                 'CollectionChecker',
-                'collectionNeedsIndexingAsync');
+                'isCollectionOutdatedAsync');
         } catch (e) {
             this.logger.error(
                 `An error occurred while checking if collection needs indexing. Error ${e.message}`,
                 'CollectionChecker',
-                'collectionNeedsIndexingAsync'
+                'isCollectionOutdatedAsync'
             );
         }
 

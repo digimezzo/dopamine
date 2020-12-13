@@ -33,7 +33,7 @@ describe('ManageRefreshComponent', () => {
                 await manageRefreshComponent.refreshNowAsync();
 
                 // Assert
-                indexingServiceMock.verify(x => x.indexCollectionAsync(), Times.exactly(1));
+                indexingServiceMock.verify(x => x.indexCollectionAlwaysAsync(), Times.exactly(1));
             });
         });
     });

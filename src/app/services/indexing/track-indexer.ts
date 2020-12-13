@@ -23,11 +23,15 @@ export class TrackIndexer {
         timer.start();
 
         await this.snackBarService.removingSongsAsync();
+        
+        // TODO: add call order tests: https://github.com/florinn/typemoq/issues/29
+        // TODO: how to test call order over multiple mocks
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
         this.trackRemover.removeTracksThatAreNotFoundOnDisk();
-        this.trackRemover.removeOrphanedFolderTracks();
+        this.trackRemover.removeFolderTracksForIndexistingTracks();
 
         await this.snackBarService.updatingSongsAsync();
+
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();

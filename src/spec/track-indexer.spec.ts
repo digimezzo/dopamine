@@ -33,7 +33,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackRemoverMock.verify(x => x.removeOrphanedFolderTracks(), Times.exactly(1));
+            mocker.trackRemoverMock.verify(x => x.removeFolderTracksForIndexistingTracks(), Times.exactly(1));
         });
 
         it('Should update tracks that are out of date', async() => {

@@ -66,12 +66,12 @@ export class TrackRemover {
         }
     }
 
-    public removeOrphanedFolderTracks(): void {
+    public removeFolderTracksForIndexistingTracks(): void {
         try {
             const timer: Timer = new Timer();
             timer.start();
 
-            this.folderTrackRepository.deleteOrphanedFolderTracks();
+            this.folderTrackRepository.deleteFolderTracksForIndexistingTracks();
 
             timer.stop();
 

@@ -6,6 +6,7 @@ import { StringCompare } from '../../core/string-compare';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { FolderModel } from '../../services/folder/folder-model';
+import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class AddFolderComponent implements OnInit {
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
         private dialogService: BaseDialogService,
+        private indexingService: BaseIndexingService,
         private settings: BaseSettings,
         private logger: Logger) { }
 
@@ -51,26 +53,6 @@ export class AddFolderComponent implements OnInit {
         this.folderService.setFolderVisibility(folder);
     }
 
-    public async addFolderAsync(): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('Pages.ManageCollection.SelectFolder');
-
-        const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
-
-        if (!StringCompare.isNullOrWhiteSpace(selectedFolderPath)) {
-            try {
-                await this.folderService.addNewFolderAsync(selectedFolderPath);
-                await this.getFoldersAsync();
-            } catch (e) {
-                this.logger.error(
-                    `An error occurred while adding the folder with path='${selectedFolderPath}'. Error: ${e.message}`,
-                    'AddFolderComponent',
-                    'addFolderAsync');
-                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
-                this.dialogService.showErrorDialog(errorText);
-            }
-        }
-    }
-
     public async getFoldersAsync(): Promise<void> {
         try {
             this.folders = this.folderService.getFolders();
@@ -88,6 +70,27 @@ export class AddFolderComponent implements OnInit {
         this.selectedFolder = folder;
     }
 
+    public async addFolderAsync(): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('Pages.ManageCollection.SelectFolder');
+
+        const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
+
+        if (!StringCompare.isNullOrWhiteSpace(selectedFolderPath)) {
+            try {
+                await this.folderService.addNewFolderAsync(selectedFolderPath);
+                this.indexingService.foldersHaveChanged = true;
+                await this.getFoldersAsync();
+            } catch (e) {
+                this.logger.error(
+                    `An error occurred while adding the folder with path='${selectedFolderPath}'. Error: ${e.message}`,
+                    'AddFolderComponent',
+                    'addFolderAsync');
+                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
+    }
+
     public async deleteFolderAsync(folder: FolderModel): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
         const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
@@ -97,6 +100,7 @@ export class AddFolderComponent implements OnInit {
         if (userHasConfirmed) {
             try {
                 this.folderService.deleteFolder(folder);
+                this.indexingService.foldersHaveChanged = true;
                 await this.getFoldersAsync();
             } catch (e) {
                 this.logger.error(

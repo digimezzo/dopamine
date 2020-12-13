@@ -118,21 +118,6 @@ describe('FolderService', () => {
             // Assert
             mocker.folderRepositoryMock.verify(x => x.deleteFolder(folderToDelete.folderId), Times.exactly(1));
         });
-
-        it('Should delete a folderTrack from the database', () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-
-            const folder: Folder = new Folder('/home/user/Music');
-            folder.folderId = 1;
-            const folderToDelete: FolderModel = new FolderModel(folder);
-
-            // Act
-            mocker.folderService.deleteFolder(folderToDelete);
-
-            // Assert
-            mocker.folderTrackRepositoryMock.verify(x => x.deleteFolderTrackByFolderId(folderToDelete.folderId), Times.exactly(1));
-        });
     });
 
     describe('setFolderVisibility', () => {

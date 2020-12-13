@@ -39,7 +39,7 @@ export class LoadingComponent implements OnInit {
 
     private async initializeAsync(): Promise<void> {
         await this.scheduler.sleepAsync(2000);
-        await this.indexingService.indexCollectionIfNeededAsync();
+        await this.indexingService.indexCollectionIfOutdatedAsync();
         await this.updateService.checkForUpdatesAsync();
     }
 }
