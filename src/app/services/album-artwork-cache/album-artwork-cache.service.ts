@@ -21,8 +21,16 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     }
 
     public removeArtworkDataFromCache(artworkId: string): void {
-        const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
-        this.fileSystem.deleteFileIfExists(cachedArtworkFilePath);
+        try {
+            const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
+            this.fileSystem.deleteFileIfExists(cachedArtworkFilePath);
+        } catch (e) {
+            this.logger.error(
+                `Could not remove artwork data from cache. Error: ${e.message}`,
+                'AlbumArtworkCacheService',
+                'removeArtworkDataFromCache'
+            );
+        }
     }
 
     public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
@@ -42,7 +50,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             return albumArtworkCacheId;
         } catch (e) {
             this.logger.error(
-                `Could not add artwork dat to cache. Error: ${e.message}`,
+                `Could not add artwork data to cache. Error: ${e.message}`,
                 'AlbumArtworkCacheService',
                 'addArtworkDataToCacheAsync'
             );
