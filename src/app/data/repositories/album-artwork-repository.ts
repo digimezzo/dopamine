@@ -33,4 +33,17 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
 
         return artworkId;
     }
+
+    public getAlbumArtworksThatHaveNoTrack(): AlbumArtwork[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
+            FROM AlbumArtwork
+            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`);
+
+        const albumArtwork: AlbumArtwork[] = statement.get();
+
+        return albumArtwork;
+    }
 }

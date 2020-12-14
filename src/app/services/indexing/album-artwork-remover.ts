@@ -17,7 +17,12 @@ export class AlbumArtworkRemover {
             this.albumArtworkRepository.deleteAlbumArtwork(albumKey);
             this.albumArtworkCacheService.removeArtworkDataFromCache(artworkId);
         } catch (error) {
-            this.logger.error(`Could not remove artwork for albumKey=${albumKey}. Error: ${error.message}`, 'AlbumArtworkRemover', 'removeAlbumArtwork');
+            this.logger.error(
+                `Could not remove artwork for albumKey=${albumKey}. Error: ${error.message}`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtwork'
+            );
+
             return false;
         }
 
