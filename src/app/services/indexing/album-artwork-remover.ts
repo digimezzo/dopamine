@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
@@ -7,6 +8,7 @@ import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-a
 export class AlbumArtworkRemover {
     constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
+        private fileSystem: FileSystem,
         private logger: Logger) {
     }
 
@@ -39,6 +41,21 @@ export class AlbumArtworkRemover {
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
             );
+        }
+    }
+
+    public async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskASync(): Promise<void> {
+        const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork();
+        const allArtworkIdsInDatabases: string[] = allAlbumArtworkInDatabase.map(x => x.artworkId);
+        const coverArtCacheFullPath: string = this.fileSystem.coverArtCacheFullPath();
+        const allAlbumArtworkFilePaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(coverArtCacheFullPath);
+
+        for (const albumArtworkFilePath of allAlbumArtworkFilePaths) {
+            const albumArtworkFileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(albumArtworkFilePath);
+
+            if (!allArtworkIdsInDatabases.includes(albumArtworkFileNameWithoutExtension)) {
+                this.fileSystem.deleteFileIfExists(albumArtworkFilePath);
+            }
         }
     }
 }

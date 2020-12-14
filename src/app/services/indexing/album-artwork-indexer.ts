@@ -18,11 +18,11 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        // TODO: refactor, unit test + unit test execution order
+        // TODO: unit test + unit test execution order
         this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
         this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
         await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-        // Remove artwork from disk, which have no entry in db.
+        this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskASync();
 
         timer.stop();
 
