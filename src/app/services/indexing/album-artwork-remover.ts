@@ -1,31 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
+import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
-import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 
 @Injectable()
 export class AlbumArtworkRemover {
     constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
-        private logger: Logger,
-        private albumArtworkCacheService: BaseAlbumArtworkCacheService) {
+        private logger: Logger) {
     }
 
-    public tryRemoveAlbumArtwork(albumKey: string): boolean {
+    public removeAlbumArtworkThatHasNoTrack(): void {
         try {
-            const artworkId: string = this.albumArtworkRepository.getArtworkId(albumKey);
-            this.albumArtworkRepository.deleteAlbumArtwork(albumKey);
-            this.albumArtworkCacheService.removeArtworkDataFromCache(artworkId);
-        } catch (error) {
-            this.logger.error(
-                `Could not remove artwork for albumKey=${albumKey}. Error: ${error.message}`,
+            const allAlbumArtworkThatHaveNoTrack: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkThatHasNoTrack();
+
+            for (const albumArtworkThatHaveNoTrack of allAlbumArtworkThatHaveNoTrack) {
+                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkThatHaveNoTrack.albumKey);
+            }
+        } catch (e) {
+            this.logger.info(
+                `Could not remove album artwork that has no track. Error: ${e.message}`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtwork'
+                'removeAlbumArtworkThatHasNoTrack'
             );
-
-            return false;
         }
+    }
 
-        return true;
+    public removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): void {
+        try {
+            const allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+
+            for (const albumArtworkForTracksThatNeedAlbumArtworkIndexing of allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing) {
+                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkForTracksThatNeedAlbumArtworkIndexing.albumKey);
+            }
+        } catch (e) {
+            this.logger.info(
+                `Could not remove album artwork for tracks that need album artwork indexing. Error: ${e.message}`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+            );
+        }
     }
 }

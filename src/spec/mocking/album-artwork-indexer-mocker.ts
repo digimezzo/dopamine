@@ -9,8 +9,6 @@ import { AlbumArtworkRemover } from '../../app/services/indexing/album-artwork-r
 export class AlbumArtworkIndexerMocker {
     constructor() {
         this.albumArtworkIndexer = new AlbumArtworkIndexer(
-            this.trackRepositoryMock.object,
-            this.albumArtworkRepository.object,
             this.albumArtworkRemoverMock.object,
             this.albumArtworkAdderMock.object,
             this.loggerMock.object
