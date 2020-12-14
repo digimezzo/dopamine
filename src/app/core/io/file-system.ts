@@ -84,7 +84,7 @@ export class FileSystem {
     }
 
     public deleteFileIfExists(filePath: string): void {
-        if (!fs.existsSync(filePath)) {
+        if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
         }
     }

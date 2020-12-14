@@ -41,7 +41,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
             `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
             FROM AlbumArtwork;`);
 
-        const albumArtwork: AlbumArtwork[] = statement.get();
+        const albumArtwork: AlbumArtwork[] = statement.all();
 
         return albumArtwork;
     }
@@ -54,7 +54,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
             FROM AlbumArtwork
             WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`);
 
-        const albumArtwork: AlbumArtwork[] = statement.get();
+        const albumArtwork: AlbumArtwork[] = statement.all();
 
         return albumArtwork;
     }
@@ -65,9 +65,9 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         const statement = database.prepare(
             `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
             FROM AlbumArtwork
-            WHERE TrackID IN (SELECT TrackID FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+            WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
-        const albumArtwork: AlbumArtwork[] = statement.get();
+        const albumArtwork: AlbumArtwork[] = statement.all();
 
         return albumArtwork;
     }

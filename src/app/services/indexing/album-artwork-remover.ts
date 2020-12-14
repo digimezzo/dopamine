@@ -14,13 +14,19 @@ export class AlbumArtworkRemover {
 
     public removeAlbumArtworkThatHasNoTrack(): void {
         try {
-            const allAlbumArtworkThatHaveNoTrack: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkThatHasNoTrack();
+            const allAlbumArtworkThatHasNoTrack: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkThatHasNoTrack();
 
-            for (const albumArtworkThatHaveNoTrack of allAlbumArtworkThatHaveNoTrack) {
-                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkThatHaveNoTrack.albumKey);
+            this.logger.info(
+                `Found ${allAlbumArtworkThatHasNoTrack.length} album artwork that has no track`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatHasNoTrack'
+            );
+
+            for (const albumArtworkThatHasNoTrack of allAlbumArtworkThatHasNoTrack) {
+                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkThatHasNoTrack.albumKey);
             }
         } catch (e) {
-            this.logger.info(
+            this.logger.error(
                 `Could not remove album artwork that has no track. Error: ${e.message}`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrack'
@@ -30,13 +36,20 @@ export class AlbumArtworkRemover {
 
     public removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): void {
         try {
-            const allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing: AlbumArtwork[] =
+                this.albumArtworkRepository.getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+
+            this.logger.info(
+                `Found ${allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing.length} album artwork for tracks that need album artwork indexing`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatHasNoTrack'
+            );
 
             for (const albumArtworkForTracksThatNeedAlbumArtworkIndexing of allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing) {
                 this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkForTracksThatNeedAlbumArtworkIndexing.albumKey);
             }
         } catch (e) {
-            this.logger.info(
+            this.logger.error(
                 `Could not remove album artwork for tracks that need album artwork indexing. Error: ${e.message}`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
@@ -44,18 +57,41 @@ export class AlbumArtworkRemover {
         }
     }
 
-    public async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskASync(): Promise<void> {
-        const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork();
-        const allArtworkIdsInDatabases: string[] = allAlbumArtworkInDatabase.map(x => x.artworkId);
-        const coverArtCacheFullPath: string = this.fileSystem.coverArtCacheFullPath();
-        const allAlbumArtworkFilePaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(coverArtCacheFullPath);
+    public async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(): Promise<void> {
+        try {
+            const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork();
+            this.logger.info(
+                `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
 
-        for (const albumArtworkFilePath of allAlbumArtworkFilePaths) {
-            const albumArtworkFileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(albumArtworkFilePath);
+            const allArtworkIdsInDatabase: string[] = allAlbumArtworkInDatabase.map(x => x.artworkId);
+            this.logger.info(
+                `Found ${allArtworkIdsInDatabase.length} artworkIds in the database`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
 
-            if (!allArtworkIdsInDatabases.includes(albumArtworkFileNameWithoutExtension)) {
-                this.fileSystem.deleteFileIfExists(albumArtworkFilePath);
+            const coverArtCacheFullPath: string = this.fileSystem.coverArtCacheFullPath();
+            const allAlbumArtworkFilePaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(coverArtCacheFullPath);
+
+            this.logger.info(
+                `Found ${allAlbumArtworkFilePaths.length} artwork files on disk`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
+
+            for (const albumArtworkFilePath of allAlbumArtworkFilePaths) {
+                const albumArtworkFileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(albumArtworkFilePath);
+
+                if (!allArtworkIdsInDatabase.includes(albumArtworkFileNameWithoutExtension)) {
+                    this.fileSystem.deleteFileIfExists(albumArtworkFilePath);
+                }
             }
+        } catch (e) {
+            this.logger.error(
+                `Could not remove album artwork that is not in the database from disk. Error: ${e.message}`,
+                'AlbumArtworkRemover',
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+            );
         }
     }
 }

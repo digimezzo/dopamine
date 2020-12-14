@@ -22,7 +22,7 @@ export class AlbumArtworkIndexer {
         this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
         this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
         await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-        this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskASync();
+        this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
         timer.stop();
 
