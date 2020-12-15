@@ -26,7 +26,7 @@ export class TrackIndexer {
         // TODO: can we unit test execution order?
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
         this.trackRemover.removeTracksThatAreNotFoundOnDisk();
-        this.trackRemover.removeFolderTracksForIndexistingTracks();
+        this.trackRemover.removeFolderTracksForInexistingTracks();
 
         await this.snackBarService.updatingTracksAsync();
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();

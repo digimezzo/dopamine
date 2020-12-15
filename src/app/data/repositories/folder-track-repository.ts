@@ -19,7 +19,7 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
         statement.run(folderTrack.folderId, folderTrack.trackId);
     }
 
-    public deleteFolderTracksForIndexistingTracks(): void {
+    public deleteFolderTracksForInexistingTracks(): void {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('DELETE FROM FolderTrack WHERE TrackID NOT IN (SELECT TrackID FROM Track);');

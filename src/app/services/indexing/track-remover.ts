@@ -66,24 +66,24 @@ export class TrackRemover {
         }
     }
 
-    public removeFolderTracksForIndexistingTracks(): void {
+    public removeFolderTracksForInexistingTracks(): void {
         try {
             const timer: Timer = new Timer();
             timer.start();
 
-            this.folderTrackRepository.deleteFolderTracksForIndexistingTracks();
+            this.folderTrackRepository.deleteFolderTracksForInexistingTracks();
 
             timer.stop();
 
             this.logger.info(
-                `Removed orphaned FolderTracks. Time required: ${timer.elapsedMilliseconds} ms`,
+                `Removed FolderTracks for indexisting tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeOrphanedFolderTracks');
+                'removeFolderTracksForInexistingTracks');
         } catch (e) {
             this.logger.error(
-                `A problem occurred while removing orphaned FolderTracks. Error: ${e.message}`,
+                `A problem occurred while removing FolderTracks for indexisting tracks. Error: ${e.message}`,
                 'TrackRemover',
-                'removeOrphanedFolderTracks');
+                'removeFolderTracksForInexistingTracks');
         }
     }
 }
