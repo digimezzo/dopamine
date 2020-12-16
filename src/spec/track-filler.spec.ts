@@ -130,7 +130,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.fileSystemMock.verify(x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            mocker.fileSystemMock.verify(x => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
             assert.strictEqual(track.fileSize, 123);
         });

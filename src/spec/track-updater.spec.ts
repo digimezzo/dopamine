@@ -21,8 +21,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -50,13 +50,13 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
             // Act
-            await  mocker.trackUpdater.updateTracksThatAreOutOfDateAsync();
+            await mocker.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
             mocker.trackRepositoryMock.verify(x => x.updateTrack(track1), Times.exactly(1));
@@ -79,8 +79,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -108,8 +108,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -137,8 +137,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 12);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 12);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -166,8 +166,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 12);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 12);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -195,8 +195,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 12);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 12);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -224,8 +224,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 12);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 12);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -253,8 +253,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 110);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -282,8 +282,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 110);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -311,8 +311,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 110);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -340,8 +340,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 110);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -369,8 +369,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -416,11 +416,11 @@ describe('TrackUpdater', () => {
             track5.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2, track3, track4, track5]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track3.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track4.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track5.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track3.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track4.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track5.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track3.path)).returns(async () => 100);
@@ -454,8 +454,8 @@ describe('TrackUpdater', () => {
             track2.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 200);
 
@@ -501,11 +501,11 @@ describe('TrackUpdater', () => {
             track5.needsIndexing = 0;
 
             mocker.trackRepositoryMock.setup(x => x.getTracks()).returns(() => [track1, track2, track3, track4, track5]);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track1.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track2.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track3.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track4.path)).returns(() => 10);
-            mocker.fileSystemMock.setup(x => x.getFilesizeInBytes(track5.path)).returns(() => 20);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track1.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track2.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track3.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track4.path)).returns(async () => 10);
+            mocker.fileSystemMock.setup(x => x.getFilesizeInBytesAsync(track5.path)).returns(async () => 20);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track1.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track2.path)).returns(async () => 100);
             mocker.fileSystemMock.setup(x => x.getDateModifiedInTicksAsync(track3.path)).returns(async () => 100);

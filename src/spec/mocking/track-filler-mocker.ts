@@ -51,7 +51,7 @@ export class TrackFillerMocker {
 
         fileSystemMock.setup(x => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
         fileSystemMock.setup(x => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup(x => x.getFilesizeInBytes('/home/user/Music/Track 1.mp3')).returns(() => 123);
+        fileSystemMock.setup(x => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
         fileSystemMock.setup(x => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
 
         if (shouldThrowError) {

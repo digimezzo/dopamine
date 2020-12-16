@@ -58,7 +58,7 @@ export class TrackUpdater {
             return true;
         }
 
-        if (track.fileSize !== this.fileSystem.getFilesizeInBytes(track.path)) {
+        if (track.fileSize !== await this.fileSystem.getFilesizeInBytesAsync(track.path)) {
             return true;
         }
 

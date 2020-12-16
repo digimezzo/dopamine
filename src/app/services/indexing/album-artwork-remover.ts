@@ -83,7 +83,7 @@ export class AlbumArtworkRemover {
                 const albumArtworkFileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(albumArtworkFilePath);
 
                 if (!allArtworkIdsInDatabase.includes(albumArtworkFileNameWithoutExtension)) {
-                    this.fileSystem.deleteFileIfExists(albumArtworkFilePath);
+                    await this.fileSystem.deleteFileIfExistsAsync(albumArtworkFilePath);
                 }
             }
         } catch (e) {

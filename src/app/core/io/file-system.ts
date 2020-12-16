@@ -66,8 +66,8 @@ export class FileSystem {
         return fs.existsSync(pathToCheck);
     }
 
-    public getFilesizeInBytes(filePath: string): number {
-        const stats = fs.statSync(filePath);
+    public async getFilesizeInBytesAsync(filePath: string): Promise<number> {
+        const stats = await fs.stat(filePath);
         const fileSizeInBytes = stats.size;
 
         return fileSizeInBytes;
@@ -83,9 +83,9 @@ export class FileSystem {
         return path.dirname(filePath);
     }
 
-    public deleteFileIfExists(filePath: string): void {
+    public async deleteFileIfExistsAsync(filePath: string): Promise<void> {
         if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
+            await fs.unlink(filePath);
         }
     }
 }

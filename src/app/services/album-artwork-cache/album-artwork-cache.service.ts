@@ -20,15 +20,15 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         this.createCoverArtCacheOnDisk();
     }
 
-    public removeArtworkDataFromCache(artworkId: string): void {
+    public async removeArtworkDataFromCacheAsync(artworkId: string): Promise<void> {
         try {
             const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
-            this.fileSystem.deleteFileIfExists(cachedArtworkFilePath);
+            await this.fileSystem.deleteFileIfExistsAsync(cachedArtworkFilePath);
         } catch (e) {
             this.logger.error(
                 `Could not remove artwork data from cache. Error: ${e.message}`,
                 'AlbumArtworkCacheService',
-                'removeArtworkDataFromCache'
+                'removeArtworkDataFromCacheAsync'
             );
         }
     }

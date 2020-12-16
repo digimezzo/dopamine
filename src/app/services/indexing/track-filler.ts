@@ -32,7 +32,7 @@ export class TrackFiller {
             track.albumKey = this.albumKeygenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
-            track.fileSize = this.fileSystem.getFilesizeInBytes(track.path);
+            track.fileSize = await this.fileSystem.getFilesizeInBytesAsync(track.path);
             track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
             track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);
             track.trackTitle = this.trackFieldCreator.createTextField(fileMetadata.title);
