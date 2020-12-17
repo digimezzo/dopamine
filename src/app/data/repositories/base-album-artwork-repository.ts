@@ -5,5 +5,5 @@ export abstract class BaseAlbumArtworkRepository {
     public abstract addAlbumArtwork(albumArtwork: AlbumArtwork): void;
     public abstract getArtworkId(albumKey: string): string;
     public abstract getAllAlbumArtwork(): AlbumArtwork[];
-    public abstract getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): AlbumArtwork[];
+    public abstract deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number;
 }

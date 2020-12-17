@@ -14,10 +14,10 @@ export class AlbumArtworkRemover {
 
     public removeAlbumArtworkThatHasNoTrack(): void {
         try {
-            const numberOfAlbumArtworkThatHasNoTrack: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
+            const numberOfDeletedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
             this.logger.info(
-                `Removed ${numberOfAlbumArtworkThatHasNoTrack} album artwork that has no track`,
+                `Removed ${numberOfDeletedAlbumArtwork} album artwork that has no track`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrack'
             );
@@ -32,19 +32,14 @@ export class AlbumArtworkRemover {
 
     public removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): void {
         try {
-            const allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing: AlbumArtwork[] =
-                this.albumArtworkRepository.getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfDeletedAlbumArtwork: number =
+            this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             this.logger.info(
-                `Found ${allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing.length}
-                album artwork for tracks that need album artwork indexing`,
+                `Removed ${numberOfDeletedAlbumArtwork} album artwork for tracks that need album artwork indexing`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrack'
             );
-
-            for (const albumArtworkForTracksThatNeedAlbumArtworkIndexing of allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing) {
-                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkForTracksThatNeedAlbumArtworkIndexing.albumKey);
-            }
         } catch (e) {
             this.logger.error(
                 `Could not remove album artwork for tracks that need album artwork indexing. Error: ${e.message}`,

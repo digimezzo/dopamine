@@ -6,8 +6,17 @@
 }
 
 .mat-snack-bar-container{
-  min-height: 30px !important;
-  padding: 10px 12px !important;
+  min-height: 28px !important;
+  padding: 8px !important;
+  margin-bottom: 100px !important;
+  min-width: 200px !important;
+  max-width: unset !important;
+}
+
+.mat-snack-bar-handset{
+  transform-origin: center !important;
+  width: unset !important;
+  min-width: 200px !important;
 }
 
 // .mat-simple-snackbar > span {

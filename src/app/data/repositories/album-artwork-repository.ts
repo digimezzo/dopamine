@@ -49,16 +49,14 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         return info.changes;
     }
 
-    public getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): AlbumArtwork[] {
+    public deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
-            FROM AlbumArtwork
-            WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+        const statement = database.prepare(`DELETE FROM AlbumArtwork
+        WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
 
-        const albumArtwork: AlbumArtwork[] = statement.all();
+        const info = statement.run();
 
-        return albumArtwork;
+        return info.changes;
     }
 }

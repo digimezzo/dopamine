@@ -40,6 +40,6 @@ export class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync');
 
-        await this.snackBarService.dismissAsync();
+        await this.snackBarService.dismissDelayedAsync();
     }
 }

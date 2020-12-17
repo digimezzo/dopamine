@@ -71,10 +71,14 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async dismissAsync(): Promise<void> {
         if (this.currentDismissibleSnackBar != undefined) {
-            await this.scheduler.sleepAsync(1000);
             this.currentDismissibleSnackBar.dismiss();
             this.currentDismissibleSnackBar = undefined;
         }
+    }
+
+    public async dismissDelayedAsync(): Promise<void> {
+        await this.scheduler.sleepAsync(1000);
+        await this.dismissAsync();
     }
 
     private showDismissibleSnackBar(icon: string, animateIcon: boolean, message: string, showCloseButton: boolean, url: string): void {

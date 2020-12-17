@@ -6,4 +6,5 @@ export abstract class BaseSnackBarService {
     public abstract addingTracksAsync(): Promise<void>;
     public abstract addedTracksAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void>;
     public abstract dismissAsync(): Promise<void>;
+    public abstract dismissDelayedAsync(): Promise<void>;
 }
