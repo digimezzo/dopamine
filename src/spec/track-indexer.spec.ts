@@ -3,7 +3,7 @@ import { TrackIndexerMocker } from './mocking/track-indexer-mocker';
 
 describe('TrackIndexer', () => {
     describe('indexTracksAsync', () => {
-        it('Should remove tracks', async() => {
+        it('Should remove tracks that do not belong to folders', async() => {
             // Arrange
             const mocker: TrackIndexerMocker = new TrackIndexerMocker();
 
@@ -11,7 +11,29 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackRemoverMock.verify(x => x.removeTracks(), Times.exactly(1));
+            mocker.trackRemoverMock.verify(x => x.removeTracksThatDoNoNotBelongToFolders(), Times.exactly(1));
+        });
+
+        it('Should remove tracks that are not found on disk', async() => {
+            // Arrange
+            const mocker: TrackIndexerMocker = new TrackIndexerMocker();
+
+            // Act
+            await mocker.trackIndexer.indexTracksAsync();
+
+            // Assert
+            mocker.trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDisk(), Times.exactly(1));
+        });
+
+        it('Should remove folder tracks for non-existing tracks', async() => {
+            // Arrange
+            const mocker: TrackIndexerMocker = new TrackIndexerMocker();
+
+            // Act
+            await mocker.trackIndexer.indexTracksAsync();
+
+            // Assert
+            mocker.trackRemoverMock.verify(x => x.removeFolderTracksForInexistingTracks(), Times.exactly(1));
         });
 
         it('Should update tracks that are out of date', async() => {

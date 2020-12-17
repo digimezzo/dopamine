@@ -10,13 +10,6 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
     constructor(private databaseFactory: DatabaseFactory) {
     }
 
-    public deleteAlbumArtwork(albumKey: string): void {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare('DELETE FROM AlbumArtwork WHERE AlbumKey=?;');
-        statement.run(albumKey);
-    }
-
     public addAlbumArtwork(albumArtwork: AlbumArtwork): void {
         const database: any = this.databaseFactory.create();
 
@@ -46,17 +39,14 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         return albumArtwork;
     }
 
-    public getAllAlbumArtworkThatHasNoTrack(): AlbumArtwork[] {
+    public deleteAlbumArtworkThatHasNoTrack(): number {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
-            FROM AlbumArtwork
-            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`);
+        const statement = database.prepare('DELETE FROM AlbumArtwork WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);');
 
-        const albumArtwork: AlbumArtwork[] = statement.all();
+        const info = statement.run();
 
-        return albumArtwork;
+        return info.changes;
     }
 
     public getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): AlbumArtwork[] {

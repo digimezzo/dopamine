@@ -14,17 +14,13 @@ export class AlbumArtworkRemover {
 
     public removeAlbumArtworkThatHasNoTrack(): void {
         try {
-            const allAlbumArtworkThatHasNoTrack: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtworkThatHasNoTrack();
+            const numberOfAlbumArtworkThatHasNoTrack: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
             this.logger.info(
-                `Found ${allAlbumArtworkThatHasNoTrack.length} album artwork that has no track`,
+                `Removed ${numberOfAlbumArtworkThatHasNoTrack} album artwork that has no track`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrack'
             );
-
-            for (const albumArtworkThatHasNoTrack of allAlbumArtworkThatHasNoTrack) {
-                this.albumArtworkRepository.deleteAlbumArtwork(albumArtworkThatHasNoTrack.albumKey);
-            }
         } catch (e) {
             this.logger.error(
                 `Could not remove album artwork that has no track. Error: ${e.message}`,
@@ -40,7 +36,8 @@ export class AlbumArtworkRemover {
                 this.albumArtworkRepository.getAllAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             this.logger.info(
-                `Found ${allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing.length} album artwork for tracks that need album artwork indexing`,
+                `Found ${allAlbumArtworkForTracksThatNeedAlbumArtworkIndexing.length}
+                album artwork for tracks that need album artwork indexing`,
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatHasNoTrack'
             );

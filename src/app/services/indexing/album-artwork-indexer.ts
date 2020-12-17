@@ -18,7 +18,6 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        // TODO: unit test + unit test execution order
         this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
         this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
         await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
