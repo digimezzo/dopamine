@@ -9,7 +9,7 @@ import { BaseUpdateService } from '../../app/services/update/base-update.service
 import { SettingsStub as SettingsStub } from './settings-stub';
 
 export class LoadingComponentMocker {
-    constructor(private showWelcome: boolean) {
+    constructor(private showWelcome: boolean, private refreshCollectionAutomatically: boolean) {
         this.loadingComponent = new LoadingComponent(
             this.routerMock.object,
             this.databaseMigratorMock.object,
@@ -23,7 +23,7 @@ export class LoadingComponentMocker {
     public appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
     public databaseMigratorMock: IMock<BaseDatabaseMigrator> = Mock.ofType<BaseDatabaseMigrator>();
     public routerMock: IMock<Router> = Mock.ofType<Router>();
-    public settingsStub: SettingsStub = new SettingsStub(this.showWelcome, false, true);
+    public settingsStub: SettingsStub = new SettingsStub(this.showWelcome, false, this.refreshCollectionAutomatically);
     public updateServiceMock: IMock<BaseUpdateService> = Mock.ofType<BaseUpdateService>();
     public indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
     public schedulerMock: IMock<BaseScheduler> = Mock.ofType<BaseScheduler>();

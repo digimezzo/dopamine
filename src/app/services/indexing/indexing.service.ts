@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { BaseCollectionChecker } from './base-collection-checker';
@@ -19,7 +18,6 @@ export class IndexingService implements BaseIndexingService {
     private trackIndexer: TrackIndexer,
     private albumArtworkIndexer: AlbumArtworkIndexer,
     private trackRepository: BaseTrackRepository,
-    private settings: BaseSettings,
     private logger: Logger
   ) { }
 
@@ -27,12 +25,6 @@ export class IndexingService implements BaseIndexingService {
 
   public async indexCollectionIfOutdatedAsync(): Promise<void> {
     if (this.isIndexingCollection) {
-      return;
-    }
-
-    if (!this.settings.refreshCollectionAutomatically) {
-      this.logger.info('Skipping indexing because automatic indexing is disabled.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-
       return;
     }
 
