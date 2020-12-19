@@ -22,7 +22,6 @@ export class TrackIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        // TODO: can we enforce execution order, or unit test execution order.
         await this.snackBarService.refreshing();
 
         // Remove tracks
