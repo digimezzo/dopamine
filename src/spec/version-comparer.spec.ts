@@ -3,7 +3,7 @@ import { VersionComparer } from '../app/services/update/version-comparer';
 
 describe('VersionComparer', () => {
     describe('isNewerVersion', () => {
-        it('Should report is newer version when old version is older than new version', async () => {
+        it('Should report newer version when old version is older than new version', async () => {
             // Arrange
 
             // Act
@@ -13,7 +13,7 @@ describe('VersionComparer', () => {
             assert.ok(isNewerVersion);
         });
 
-        it('Should not report is newer version when old version is same as new version', async () => {
+        it('Should not report newer version when old version is same as new version', async () => {
             // Arrange
 
             // Act
@@ -23,7 +23,7 @@ describe('VersionComparer', () => {
             assert.ok(!isNewerVersion);
         });
 
-        it('Should  not report is newer version when old version is newer than new version', async () => {
+        it('Should  not report newer version when old version is newer than new version', async () => {
             // Arrange
 
             // Act

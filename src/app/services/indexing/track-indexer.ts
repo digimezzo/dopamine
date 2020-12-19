@@ -22,15 +22,18 @@ export class TrackIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        await this.snackBarService.removingTracksAsync();
+        // TODO: can we enforce execution order, or unit test execution order.
+        await this.snackBarService.refreshing();
+
+        // Remove tracks
         this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
-        this.trackRemover.removeTracksThatAreNotFoundOnDisk();
+        await this.trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
         this.trackRemover.removeFolderTracksForInexistingTracks();
 
-        await this.snackBarService.updatingTracksAsync();
+        // Update tracks
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
-        await this.snackBarService.addingTracksAsync();
+        // Add tracks
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
 
         timer.stop();

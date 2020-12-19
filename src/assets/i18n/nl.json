@@ -95,8 +95,8 @@
     },
     "SnackBarMessages": {
         "FolderAlreadyAdded": "Deze map werd al toegevoegd",
+        "Refreshing": "Verversen...",
         "RemovingTracks": "Verwijderen van nummers",
-        "AddingTracks": "Toevoegen van nummers",
         "AddedTracks": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
         "UpdatingTracks": "Bijwerken van nummers",
         "NewVersionAvailable": "Er is een nieuwe versie beschikbaar: {{version}}",

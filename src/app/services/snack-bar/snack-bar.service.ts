@@ -33,6 +33,11 @@ export class SnackBarService implements BaseSnackBarService {
         this.showDismissibleSnackBar('las la-download', false, message, true, ProductInformation.releasesDownloadUrl);
     }
 
+    public async refreshing(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.Refreshing');
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+
     public async removingTracksAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('SnackBarMessages.RemovingTracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
@@ -40,11 +45,6 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async updatingTracksAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingTracks');
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
-    }
-
-    public async addingTracksAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.AddingTracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 

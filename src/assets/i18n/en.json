@@ -95,8 +95,8 @@
   },
   "SnackBarMessages": {
     "FolderAlreadyAdded": "This folder was already added",
+    "Refreshing": "Refreshing...",
     "RemovingTracks": "Removing songs",
-    "AddingTracks": "Adding songs",
     "AddedTracks": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
     "UpdatingTracks": "Updating songs",
     "ClickHereToDownloadNewVersion": "Click here to download version {{version}}"

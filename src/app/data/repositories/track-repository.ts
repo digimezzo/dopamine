@@ -16,13 +16,13 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `SELECT COUNT(*) AS numberOfTracksThatNeedIndexing
+            `SELECT COUNT(*) AS numberOfTracks
              FROM Track
              WHERE NeedsIndexing=?;`);
 
         const result: any = statement.get(1);
 
-        return result.numberOfTracksThatNeedIndexing;
+        return result.numberOfTracks;
     }
 
     public getNumberOfTracks(): number {
@@ -43,6 +43,20 @@ export class TrackRepository implements BaseTrackRepository {
         const result: any = statement.get();
 
         return result.maximumDateFileModified;
+    }
+
+    public getNumberOfTracksThatDoNotBelongFolders(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`SELECT COUNT(*) AS numberOfTracks
+        FROM Track WHERE TrackID IN (
+            SELECT TrackID
+            FROM FolderTrack
+            WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
+
+        const result: any = statement.get();
+
+        return result.numberOfTracks;
     }
 
     public deleteTracksThatDoNotBelongFolders(): number {
@@ -349,7 +363,7 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart()}
                 WHERE AlbumKey IS NOT NULL AND AlbumKey <> ''
-                AND (AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1) 
+                AND (AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
                 GROUP BY AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();

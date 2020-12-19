@@ -19,10 +19,25 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
         statement.run(folderTrack.folderId, folderTrack.trackId);
     }
 
-    public deleteFolderTracksForInexistingTracks(): void {
+    public getNumberOfFolderTracksForInexistingTracks(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT (*) AS numberOfFolderTracks
+            FROM FolderTrack
+            WHERE TrackID NOT IN (SELECT TrackID FROM Track);`);
+
+        const result: any = statement.get();
+
+        return result.numberOfFolderTracks;
+    }
+
+    public deleteFolderTracksForInexistingTracks(): number {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('DELETE FROM FolderTrack WHERE TrackID NOT IN (SELECT TrackID FROM Track);');
-        statement.run();
+        const info = statement.run();
+
+        return info.changes;
     }
 }

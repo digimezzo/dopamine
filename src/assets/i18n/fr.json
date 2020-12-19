@@ -95,8 +95,8 @@
     },
     "SnackBarMessages": {
         "FolderAlreadyAdded": "Ce dossier a déjà été ajouté",
+        "Refreshing": "Actualisation...",
         "RemovingTracks": "Suppression de morceaux",
-        "AddingTracks": "Ajout de morceaux",
         "AddedTracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
         "UpdatingTracks": "Mise à jour des morceaux",
         "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}",

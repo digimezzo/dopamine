@@ -96,6 +96,7 @@ import { TrackFiller } from './services/indexing/track-filler';
 import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
+import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
@@ -179,6 +180,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TrackRemover,
     TrackUpdater,
     TrackAdder,
+    TrackVerifier,
     TrackFiller,
     FileMetadataFactory,
     TrackFieldCreator,
