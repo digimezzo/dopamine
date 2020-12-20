@@ -11,7 +11,6 @@ import { TrackIndexer } from './track-indexer';
 })
 export class IndexingService implements BaseIndexingService {
   private isIndexingCollection: boolean = false;
-  private isIndexingArtworkOnly: boolean = false;
 
   constructor(
     private collectionChecker: BaseCollectionChecker,
@@ -67,15 +66,15 @@ export class IndexingService implements BaseIndexingService {
   }
 
   public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
-    if (this.isIndexingCollection || this.isIndexingArtworkOnly) {
+    if (this.isIndexingCollection) {
       return;
     }
 
-    this.isIndexingArtworkOnly = true;
+    this.isIndexingCollection = true;
 
     this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
     await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
-    this.isIndexingArtworkOnly = false;
+    this.isIndexingCollection = false;
   }
 }
