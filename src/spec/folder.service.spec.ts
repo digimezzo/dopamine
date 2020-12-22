@@ -5,6 +5,80 @@ import { FolderModel } from '../app/services/folder/folder-model';
 import { FolderServiceMocker } from './mocking/folder-service-mocker';
 
 describe('FolderService', () => {
+    describe('haveFoldersChanged', () => {
+        it('Should return false when folders have not changed', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+            // Act
+            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, false);
+        });
+
+        it('Should return false after adding an existing folder', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
+            await mocker.folderService.addFolderAsync('/home/me/Music');
+
+            // Act
+            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, false);
+        });
+
+        it('Should return true after adding a new folder', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
+            await mocker.folderService.addFolderAsync('/home/me/Music');
+
+            // Act
+            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, true);
+        });
+
+        it('Should return true after deleting a folder', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderToDelete: FolderModel = new FolderModel(folder);
+            mocker.folderService.deleteFolder(folderToDelete);
+
+            // Act
+            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, true);
+        });
+    });
+
+    describe('resetFolderChanges', () => {
+        it('Should reset folder changes to false', () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderToDelete: FolderModel = new FolderModel(folder);
+            mocker.folderService.deleteFolder(folderToDelete);
+            const foldersHaveChangedBeforeReset: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Act
+            mocker.folderService.resetFolderChanges();
+            const foldersHaveChangedAfterReset: boolean = mocker.folderService.haveFoldersChanged();
+
+            // Assert
+            assert.strictEqual(foldersHaveChangedBeforeReset, true);
+            assert.strictEqual(foldersHaveChangedAfterReset, false);
+        });
+    });
+
     describe('addFolderAsync', () => {
         it('Should add a new folder with the selected path to the database', async () => {
             // Arrange
@@ -13,7 +87,7 @@ describe('FolderService', () => {
             mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
 
             // Act
-            await mocker.folderService.addNewFolderAsync('/home/me/Music');
+            await mocker.folderService.addFolderAsync('/home/me/Music');
 
             // Assert
             mocker.folderRepositoryMock.verify(x => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.exactly(1));
@@ -26,7 +100,7 @@ describe('FolderService', () => {
             mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
-            await mocker.folderService.addNewFolderAsync('/home/me/Music');
+            await mocker.folderService.addFolderAsync('/home/me/Music');
 
             // Assert
             mocker.folderRepositoryMock.verify(x => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.never());
@@ -39,7 +113,7 @@ describe('FolderService', () => {
             mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
-            await mocker.folderService.addNewFolderAsync('/home/me/Music');
+            await mocker.folderService.addFolderAsync('/home/me/Music');
 
             // Assert
             mocker.snackBarServiceMock.verify(x => x.folderAlreadyAddedAsync(), Times.exactly(1));
@@ -122,32 +196,32 @@ describe('FolderService', () => {
 
     describe('setFolderVisibility', () => {
         it('Should set folder visibility in the database', () => {
-             // Arrange
-             const mocker: FolderServiceMocker = new FolderServiceMocker();
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
 
-             const folder: Folder = new Folder('/home/user/Music');
-             folder.folderId = 1;
-             const folderModel: FolderModel = new FolderModel(folder);
-             folderModel.showInCollection = true;
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderModel: FolderModel = new FolderModel(folder);
+            folderModel.showInCollection = true;
 
-             // Act
-             mocker.folderService.setFolderVisibility(folderModel);
+            // Act
+            mocker.folderService.setFolderVisibility(folderModel);
 
-             // Assert
-             mocker.folderRepositoryMock.verify(x => x.setFolderShowInCollection(1, 1), Times.exactly(1));
+            // Assert
+            mocker.folderRepositoryMock.verify(x => x.setFolderShowInCollection(1, 1), Times.exactly(1));
         });
     });
 
     describe('setAllFoldersVisible', () => {
         it('Should set visibility of all folders in the database', () => {
-             // Arrange
-             const mocker: FolderServiceMocker = new FolderServiceMocker();
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
 
-             // Act
-             mocker.folderService.setAllFoldersVisible();
+            // Act
+            mocker.folderService.setAllFoldersVisible();
 
-             // Assert
-             mocker.folderRepositoryMock.verify(x => x.setAllFoldersShowInCollection(1), Times.exactly(1));
+            // Assert
+            mocker.folderRepositoryMock.verify(x => x.setAllFoldersShowInCollection(1), Times.exactly(1));
         });
     });
 });

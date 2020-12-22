@@ -77,8 +77,7 @@ export class AddFolderComponent implements OnInit {
 
         if (!StringCompare.isNullOrWhiteSpace(selectedFolderPath)) {
             try {
-                await this.folderService.addNewFolderAsync(selectedFolderPath);
-                this.indexingService.foldersHaveChanged = true;
+                await this.folderService.addFolderAsync(selectedFolderPath);
                 await this.getFoldersAsync();
             } catch (e) {
                 this.logger.error(
@@ -100,7 +99,6 @@ export class AddFolderComponent implements OnInit {
         if (userHasConfirmed) {
             try {
                 this.folderService.deleteFolder(folder);
-                this.indexingService.foldersHaveChanged = true;
                 await this.getFoldersAsync();
             } catch (e) {
                 this.logger.error(

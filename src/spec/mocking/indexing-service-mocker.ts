@@ -1,6 +1,7 @@
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../app/core/logger';
 import { BaseTrackRepository } from '../../app/data/repositories/base-track-repository';
+import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { AlbumArtworkIndexer } from '../../app/services/indexing/album-artwork-indexer';
 import { CollectionChecker } from '../../app/services/indexing/collection-checker';
 import { IndexingService } from '../../app/services/indexing/indexing.service';
@@ -13,6 +14,7 @@ export class IndexingServiceMocker {
             this.trackIndexerMock.object,
             this.albumArtworkIndexerMock.object,
             this.trackRepositoryMock.object,
+            this.folderServiceMock.object,
             this.loggerMock.object
         );
     }
@@ -21,6 +23,7 @@ export class IndexingServiceMocker {
     public trackIndexerMock: IMock<TrackIndexer> = Mock.ofType<TrackIndexer>();
     public albumArtworkIndexerMock: IMock<AlbumArtworkIndexer> = Mock.ofType<AlbumArtworkIndexer>();
     public trackRepositoryMock: IMock<BaseTrackRepository> = Mock.ofType<BaseTrackRepository>();
+    public folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
     public indexingService: IndexingService;
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseFolderService } from '../folder/base-folder.service';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexingService } from './base-indexing.service';
@@ -17,10 +18,9 @@ export class IndexingService implements BaseIndexingService {
     private trackIndexer: TrackIndexer,
     private albumArtworkIndexer: AlbumArtworkIndexer,
     private trackRepository: BaseTrackRepository,
+    private folderService: BaseFolderService,
     private logger: Logger
   ) { }
-
-  public foldersHaveChanged: boolean = false;
 
   public async indexCollectionIfOutdatedAsync(): Promise<void> {
     if (this.isIndexingCollection) {
@@ -28,8 +28,6 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
-
-    this.logger.info('Checking if collection is outdated', 'IndexingService', 'indexCollectionIfOutdatedAsync');
 
     const collectionIsOutdated: boolean = await this.collectionChecker.isCollectionOutdatedAsync();
 
@@ -40,14 +38,16 @@ export class IndexingService implements BaseIndexingService {
     await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
     this.isIndexingCollection = false;
+
+    await this.indexCollectionIfFoldersHaveChangedAsync();
   }
 
   public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
-    if (!this.foldersHaveChanged) {
+    if (!this.folderService.haveFoldersChanged()) {
       return;
     }
 
-    this.foldersHaveChanged = false;
+    this.folderService.resetFolderChanges();
 
     await this.indexCollectionAlwaysAsync();
   }
