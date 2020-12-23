@@ -45,9 +45,18 @@ export class IndexingService implements BaseIndexingService {
       return;
     }
 
+    if (this.isIndexingCollection) {
+      return;
+    }
+
+    this.isIndexingCollection = true;
+
     this.folderService.resetFolderChanges();
 
-    await this.indexCollectionAlwaysAsync();
+    await this.trackIndexer.indexTracksAsync();
+    await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+
+    this.isIndexingCollection = false;
   }
 
   public async indexCollectionAlwaysAsync(): Promise<void> {

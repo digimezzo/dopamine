@@ -25,10 +25,10 @@ export class TrackAdder {
         private snackBarService: BaseSnackBarService) { }
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
-        try {
-            const timer: Timer = new Timer();
-            timer.start();
+        const timer: Timer = new Timer();
+        timer.start();
 
+        try {
             const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks: number = 0;
@@ -63,6 +63,8 @@ export class TrackAdder {
                 'TrackAdder',
                 'addTracksThatAreNotInTheDatabaseAsync');
         } catch (e) {
+            timer.stop();
+
             this.logger.error(
                 `A problem occurred while adding tracks. Error: ${e.message}`,
                 'TrackAdder',

@@ -59,6 +59,12 @@ export class SnackBarService implements BaseSnackBarService {
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
+
+    public async updatingAlbumArtworkAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingAlbumArtwork');
+        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+
     private showSelfClosingSnackBar(icon: string, message: string): void {
         this.zone.run(() => {
             this.matSnackBar.openFromComponent(SnackBarComponent, {

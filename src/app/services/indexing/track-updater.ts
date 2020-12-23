@@ -17,10 +17,10 @@ export class TrackUpdater {
         private logger: Logger) { }
 
     public async updateTracksThatAreOutOfDateAsync(): Promise<void> {
-        try {
-            const timer: Timer = new Timer();
-            timer.start();
+        const timer: Timer = new Timer();
+        timer.start();
 
+        try {
             const tracks: Track[] = this.trackRepository.getTracks();
 
             let numberOfUpdatedTracks: number = 0;
@@ -52,6 +52,8 @@ export class TrackUpdater {
                 'TrackUpdater',
                 'updateTracksThatAreOutOfDateAsync');
         } catch (e) {
+            timer.stop();
+
             this.logger.error(
                 `A problem occurred while updating tracks. Error: ${e.message}`,
                 'TrackUpdater',

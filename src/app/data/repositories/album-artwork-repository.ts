@@ -39,6 +39,19 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         return albumArtwork;
     }
 
+    public getNumberOfAlbumArtworkThatHasNoTrack(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `SELECT COUNT(*) AS numberOfAlbumArtwork
+            FROM AlbumArtwork
+            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`);
+
+        const result: any = statement.get();
+
+        return result.numberOfAlbumArtwork;
+    }
+
     public deleteAlbumArtworkThatHasNoTrack(): number {
         const database: any = this.databaseFactory.create();
 
@@ -47,6 +60,17 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         const info = statement.run();
 
         return info.changes;
+    }
+
+    public getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`SELECT COUNT(*) AS numberOfAlbumArtwork FROM AlbumArtwork
+        WHERE AlbumKey IN (SELECT AlbumKey FROM Track WHERE NeedsAlbumArtworkIndexing = 1);`);
+
+        const result: any = statement.get();
+
+        return result.numberOfAlbumArtwork;
     }
 
     public deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): number {

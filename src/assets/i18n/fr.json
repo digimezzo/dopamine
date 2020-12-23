@@ -99,7 +99,7 @@
         "RemovingTracks": "Suppression de morceaux",
         "AddedTracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
         "UpdatingTracks": "Mise à jour des morceaux",
-        "NewVersionAvailable": "Une nouvelle version est disponible: {{version}}",
+        "UpdatingAlbumArtwork": "Mise à jour des pochettes des albums",
         "ClickHereToDownloadNewVersion": "Cliquez ici pour télécharger la version {{version}}"
     },
     "SnackBarActions": {

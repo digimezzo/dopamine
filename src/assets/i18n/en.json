@@ -99,6 +99,7 @@
     "RemovingTracks": "Removing songs",
     "AddedTracks": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
     "UpdatingTracks": "Updating songs",
+    "UpdatingAlbumArtwork": "Updating album covers",
     "ClickHereToDownloadNewVersion": "Click here to download version {{version}}"
   },
   "SnackBarActions": {
