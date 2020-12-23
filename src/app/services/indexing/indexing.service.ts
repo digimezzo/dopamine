@@ -38,8 +38,6 @@ export class IndexingService implements BaseIndexingService {
     await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
     this.isIndexingCollection = false;
-
-    await this.indexCollectionIfFoldersHaveChangedAsync();
   }
 
   public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
