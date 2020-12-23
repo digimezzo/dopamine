@@ -9,6 +9,7 @@ import { FileMetadata } from '../../metadata/file-metadata';
 import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkGetter } from './album-artwork-getter';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class AlbumArtworkAdder {
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,
         private fileMetadataFactory: FileMetadataFactory,
+        private snackbarService: BaseSnackBarService,
         private logger: Logger,
         private albumArtworkGetter: AlbumArtworkGetter
     ) {
@@ -26,10 +28,22 @@ export class AlbumArtworkAdder {
     public async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
         try {
             const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
+
+            if (albumDataThatNeedsIndexing.length === 0) {
+                this.logger.info(
+                    `Found no album data that needs indexing`,
+                    'AlbumArtworkAdder',
+                    'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync');
+
+                return;
+            }
+
             this.logger.info(
                 `Found ${albumDataThatNeedsIndexing.length} album data that needs indexing`,
                 'AlbumArtworkAdder',
                 'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync');
+
+            this.snackbarService.updatingAlbumArtworkAsync();
 
             for (const albumData of albumDataThatNeedsIndexing) {
                 try {

@@ -54,5 +54,18 @@ describe('AlbumArtworkIndexer', () => {
             // Assert
             mocker.albumArtworkRemoverMock.verify(x => x.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(), Times.exactly(1));
         });
+
+        it('Should dismiss the indexing notification with a short delay', async () => {
+            // Arrange
+            const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
+
+            mocker.trackRepositoryMock.setup(x => x.getAlbumDataThatNeedsIndexing()).returns(() => []);
+
+            // Act
+            await mocker.albumArtworkIndexer.indexAlbumArtworkAsync();
+
+            // Assert
+            mocker.snackBarServiceMock.verify(x => x.dismissDelayedAsync(), Times.exactly(1));
+        });
     });
 });
