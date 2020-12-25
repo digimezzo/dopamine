@@ -15,6 +15,16 @@ describe('AddFolderComponent', () => {
             // Assert
             assert.ok(mock.addFolderComponent.folders);
         });
+
+        it('Should set indexingService', () => {
+            // Arrange
+            const mock: AddFolderComponentMocker = new AddFolderComponentMocker(false);
+
+            // Act
+
+            // Assert
+            assert.ok(mock.addFolderComponent.indexingService);
+        });
     });
 
     describe('constructor', () => {

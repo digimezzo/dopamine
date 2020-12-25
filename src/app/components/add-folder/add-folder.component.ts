@@ -22,7 +22,7 @@ export class AddFolderComponent implements OnInit {
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
         private dialogService: BaseDialogService,
-        private indexingService: BaseIndexingService,
+        public indexingService: BaseIndexingService,
         private settings: BaseSettings,
         private logger: Logger) { }
 

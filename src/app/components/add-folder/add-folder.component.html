@@ -1,4 +1,4 @@
-<div class="add-folder">
+<div class="add-folder" [ngClass]="{'inactive':indexingService.isIndexingCollection}">
     <div class="link-button">
         <i class="link-button-icon mr-2 las la-plus"></i>
         <a (click)="addFolderAsync()">{{ 'Pages.ManageCollection.AddFolder' | translate }}</a>
