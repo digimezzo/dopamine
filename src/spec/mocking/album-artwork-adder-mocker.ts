@@ -18,7 +18,7 @@ export class AlbumArtworkAdderMocker {
             this.fileMetadataFactoryMock.object,
             this.snackBarServiceMock.object,
             this.loggerMock.object,
-            this.albumArtworkGetter.object);
+            this.albumArtworkGetterMock.object);
     }
 
     public desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -28,6 +28,6 @@ export class AlbumArtworkAdderMocker {
     public fileMetadataFactoryMock: IMock<FileMetadataFactory> = Mock.ofType<FileMetadataFactory>();
     public snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-    public albumArtworkGetter: IMock<AlbumArtworkGetter> = Mock.ofType<AlbumArtworkGetter>();
+    public albumArtworkGetterMock: IMock<AlbumArtworkGetter> = Mock.ofType<AlbumArtworkGetter>();
     public albumArtworkAdder: AlbumArtworkAdder;
 }

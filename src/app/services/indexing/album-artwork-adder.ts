@@ -71,7 +71,22 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+        let fileMetadata: FileMetadata;
+
+        try {
+            fileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+        } catch (e) {
+            this.logger.info(
+                `Could not create file metadata for path='${track.path}'. Error: ${e.message}`,
+                'AlbumArtworkAdder',
+                'addAlbumArtworkAsync'
+            );
+        }
+
+        if (fileMetadata == undefined) {
+            return;
+        }
+
         const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata);
 
         if (albumArtwork == undefined) {
