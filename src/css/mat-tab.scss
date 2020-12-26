@@ -11,6 +11,10 @@ mat-tab-group {
   }
 }
 
+.mat-tab-body-wrapper{
+  flex-grow: 1;
+}
+
 .mat-tab-label {
     min-width: 0 !important;
     user-select: none; // Prevents accidental selection of the header text
