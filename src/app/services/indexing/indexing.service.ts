@@ -11,8 +11,6 @@ import { TrackIndexer } from './track-indexer';
   providedIn: 'root'
 })
 export class IndexingService implements BaseIndexingService {
-  private isIndexingCollection: boolean = false;
-
   constructor(
     private collectionChecker: BaseCollectionChecker,
     private trackIndexer: TrackIndexer,
@@ -21,6 +19,8 @@ export class IndexingService implements BaseIndexingService {
     private folderService: BaseFolderService,
     private logger: Logger
   ) { }
+
+  public isIndexingCollection: boolean = false;
 
   public async indexCollectionIfOutdatedAsync(): Promise<void> {
     if (this.isIndexingCollection) {

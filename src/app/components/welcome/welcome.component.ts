@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material';
-import { Router } from '@angular/router';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { ContactInformation } from '../../core/base/contact-information';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
   selector: 'app-welcome',
@@ -14,7 +14,10 @@ import { ContactInformation } from '../../core/base/contact-information';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public router: Router, public translatorService: BaseTranslatorService, public appearanceService: BaseAppearanceService) { }
+  constructor(
+    private navigationServiceMock: BaseNavigationService,
+    public translatorService: BaseTranslatorService,
+    public appearanceService: BaseAppearanceService) { }
 
   public currentStep: number = 0;
   public totalSteps: number = 6;
@@ -50,6 +53,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   public finish(): void {
-    this.router.navigate(['/loading']);
+    this.navigationServiceMock.navigateToLoading();
   }
 }

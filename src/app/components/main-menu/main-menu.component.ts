@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -11,21 +11,21 @@ import { BaseFolderService } from '../../services/folder/base-folder.service';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor(public router: Router, private folderService: BaseFolderService) { }
+  constructor(private navigationService: BaseNavigationService, private folderService: BaseFolderService) { }
 
   public ngOnInit(): void {
   }
 
   public goToManageCollection(): void {
-    this.router.navigate(['/managecollection']);
+    this.navigationService.navigateToManageCollection();
     this.folderService.resetFolderChanges();
   }
 
   public goToSettings(): void {
-    this.router.navigate(['/settings']);
+    this.navigationService.navigateToSettings();
   }
 
   public goToInformation(): void {
-    this.router.navigate(['/information']);
+    this.navigationService.navigateToInformation();
   }
 }

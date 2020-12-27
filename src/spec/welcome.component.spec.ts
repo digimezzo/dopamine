@@ -75,7 +75,7 @@ describe('WelcomeComponent', () => {
             mocker.welcomeComponent.finish();
 
             // Assert
-            mocker.routerMock.verify(x => x.navigate(['/loading']), Times.exactly(1));
+            mocker.navigationServiceMock.verify(x => x.navigateToLoading(), Times.exactly(1));
         });
     });
 });

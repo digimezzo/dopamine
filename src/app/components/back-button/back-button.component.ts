@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 
 @Component({
   selector: 'app-back-button',
@@ -11,13 +11,13 @@ import { BaseIndexingService } from '../../services/indexing/base-indexing.servi
 })
 export class BackButtonComponent implements OnInit {
 
-  constructor(public router: Router, private indexingService: BaseIndexingService) { }
+  constructor(public navigationService: BaseNavigationService, private indexingService: BaseIndexingService) { }
 
   public ngOnInit(): void {
   }
 
   public goBackToCollection(): void {
-    this.router.navigate(['/collection']);
+    this.navigationService.navigateToCollection();
     this.indexingService.indexCollectionIfFoldersHaveChangedAsync();
   }
 }

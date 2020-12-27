@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { BaseScheduler } from '../../core/scheduler/base-scheduler';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../services/update/base-update.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
 export class LoadingComponent implements OnInit {
 
     constructor(
-        public router: Router,
+        public navigationService: BaseNavigationService,
         private databaseMigrator: BaseDatabaseMigrator,
         public appearanceService: BaseAppearanceService,
         private settings: BaseSettings,
@@ -30,9 +30,9 @@ export class LoadingComponent implements OnInit {
 
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;
-            this.router.navigate(['/welcome']);
+            this.navigationService.navigateToWelcome();
         } else {
-            this.router.navigate(['/collection']);
+            this.navigationService.navigateToCollection();
             this.initializeAsync();
         }
     }

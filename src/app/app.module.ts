@@ -97,6 +97,8 @@ import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
+import { BaseNavigationService } from './services/navigation/base-navigation.service';
+import { NavigationService } from './services/navigation/navigation.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
@@ -212,6 +214,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
     { provide: BaseAppearanceService, useClass: AppearanceService },
     { provide: BaseFolderService, useClass: FolderService },
+    { provide: BaseNavigationService, useClass: NavigationService },
     { provide: BaseIndexingService, useClass: IndexingService },
     { provide: BaseTranslatorService, useClass: TranslatorService },
     { provide: BaseUpdateService, useClass: UpdateService },

@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ProductInformation } from './core/base/product-information';
 import { Logger } from './core/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
-import { ElectronService } from './services/electron.service';
+import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 @Component({
@@ -12,12 +11,16 @@ import { BaseTranslatorService } from './services/translator/base-translator.ser
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(public electronService: ElectronService, private translator: BaseTranslatorService,
-    private logger: Logger, private appearance: BaseAppearanceService, public router: Router) {
+  constructor(
+    private navigationService: BaseNavigationService,
+    private appearanceService: BaseAppearanceService,
+    private translatorService: BaseTranslatorService,
+    private logger: Logger
+  ) {
 
-    this.appearance.applyTheme();
-    this.appearance.applyFontSize();
-    this.translator.applyLanguage();
+    this.appearanceService.applyTheme();
+    this.appearanceService.applyFontSize();
+    this.translatorService.applyLanguage();
   }
 
   public ngOnDestroy(): void {
@@ -29,6 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
       'AppComponent',
       'ngOnInit');
 
-    this.router.navigate(['/loading']);
+    this.navigationService.navigateToLoading();
   }
 }
