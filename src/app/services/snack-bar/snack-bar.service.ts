@@ -59,20 +59,9 @@ export class SnackBarService implements BaseSnackBarService {
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
-
     public async updatingAlbumArtworkAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingAlbumArtwork');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
-    }
-
-    private showSelfClosingSnackBar(icon: string, message: string): void {
-        this.zone.run(() => {
-            this.matSnackBar.openFromComponent(SnackBarComponent, {
-                data: { icon: icon, message: message, showCloseButton: false },
-                panelClass: ['accent-snack-bar'],
-                duration: this.calculateDuration(message)
-            });
-        });
     }
 
     public async dismissAsync(): Promise<void> {
@@ -87,12 +76,24 @@ export class SnackBarService implements BaseSnackBarService {
         await this.dismissAsync();
     }
 
+    private showSelfClosingSnackBar(icon: string, message: string): void {
+        this.zone.run(() => {
+            this.matSnackBar.openFromComponent(SnackBarComponent, {
+                data: { icon: icon, message: message, showCloseButton: false },
+                panelClass: ['accent-snack-bar'],
+                verticalPosition: 'top',
+                duration: this.calculateDuration(message)
+            });
+        });
+    }
+
     private showDismissibleSnackBar(icon: string, animateIcon: boolean, message: string, showCloseButton: boolean, url: string): void {
         this.zone.run(() => {
             if (this.currentDismissibleSnackBar == undefined) {
                 this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
                     data: { icon: icon, animateIcon: animateIcon, message: message, showCloseButton: showCloseButton, url: url },
-                    panelClass: ['accent-snack-bar']
+                    panelClass: ['accent-snack-bar'],
+                    verticalPosition: 'top',
                 });
             } else {
                 this.currentDismissibleSnackBar.instance.data.icon = icon;
