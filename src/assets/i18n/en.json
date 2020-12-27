@@ -34,7 +34,8 @@
     "Collection": {
       "Explore": "Explore",
       "Tracks": "Songs",
-      "Playlists": "Playlists"
+      "Playlists": "Playlists",
+      "Folders": "Folders"
     },
     "Settings": {
       "Appearance": "Appearance",

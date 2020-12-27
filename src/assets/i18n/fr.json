@@ -34,7 +34,8 @@
         "Collection": {
             "Explore": "Explorer",
             "Tracks": "Morceaux",
-            "Playlists": "Listes de lectures"
+            "Playlists": "Listes de lectures",
+            "Folders": "Dossiers"
         },
         "Settings": {
             "Appearance": "Apparence",

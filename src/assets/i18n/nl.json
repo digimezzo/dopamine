@@ -34,7 +34,8 @@
         "Collection": {
             "Explore": "Verkennen",
             "Tracks": "Nummers",
-            "Playlists": "Afspeellijsten"
+            "Playlists": "Afspeellijsten",
+            "Folders": "Mappen"
         },
         "Settings": {
             "Appearance": "Uiterlijk",

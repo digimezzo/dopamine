@@ -99,6 +99,8 @@ import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { BasePlaybackService } from './services/playback/base-playback.service';
+import { PlaybackService } from './services/playback/playback.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
@@ -219,6 +221,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     { provide: BaseTranslatorService, useClass: TranslatorService },
     { provide: BaseUpdateService, useClass: UpdateService },
     { provide: BaseSnackBarService, useClass: SnackBarService },
+    { provide: BasePlaybackService, useClass: PlaybackService },
     { provide: BaseDialogService, useClass: DialogService },
     { provide: BaseScheduler, useClass: Scheduler },
     {
