@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AngularSplitModule } from 'angular-split';
 import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
@@ -165,6 +166,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    AngularSplitModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

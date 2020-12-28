@@ -26,6 +26,12 @@ export class Constants {
             'https://github.com/angular/angular/blob/master/LICENSE'
         ),
         new ExternalComponent(
+            'angular-split',
+            'Angular UI library to split views and allow dragging to resize areas using CSS flexbox layout.',
+            'https://angular-split.github.io/',
+            'https://github.com/angular-split/angular-split/blob/main/LICENSE'
+        ),
+        new ExternalComponent(
             'better-sqlite3',
             'The fastest and simplest library for SQLite3 in Node.js.',
             'https://github.com/JoshuaWise/better-sqlite3',
@@ -96,12 +102,6 @@ export class Constants {
             'A light-weight module that brings Fetch API to Node.js.',
             'https://github.com/node-fetch/node-fetch',
             'https://github.com/node-fetch/node-fetch/blob/master/LICENSE.md'
-        ),
-        new ExternalComponent(
-            'sharp',
-            'High performance Node.js image processing, the fastest module to resize JPEG, PNG, WebP and TIFF images. Uses the libvips library.',
-            'https://github.com/lovell/sharp',
-            'https://github.com/lovell/sharp/blob/master/LICENSE'
         ),
         new ExternalComponent(
             'uuid',
