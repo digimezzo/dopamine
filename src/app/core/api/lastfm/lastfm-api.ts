@@ -6,7 +6,9 @@ import { StringCompare } from '../../string-compare';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class LastfmApi {
     public async getMobileSessionAsync(username: string, password: string): Promise<string> {
         const method: string = 'auth.getMobileSession';

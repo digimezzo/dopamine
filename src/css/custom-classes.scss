@@ -41,3 +41,13 @@
   pointer-events: none;
   opacity: 0.4;
 }
+
+.collection-splitter {
+  /* The splitter resize gutter is not displayed when the height is not set explicitly */
+  height: calc(100vh - 46px);
+}
+
+.side-pane {
+  height: 100%;
+  background-color: var(--theme-side-pane-background);
+}

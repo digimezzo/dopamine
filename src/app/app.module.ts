@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
+import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -142,7 +143,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AdvancedSettingsComponent,
     AboutComponent,
     ComponentsComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    CollectionFoldersComponent
   ],
   imports: [
     MatProgressSpinnerModule,

@@ -1,0 +1,13 @@
+<div class="collection-splitter">
+    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="dragEnd('percent', $event)"
+        #split="asSplit">
+        <as-split-area [size]="area1Size" minSize="5" maxSize="95" #area1="asSplitArea">
+            <div class="side-pane">
+
+            </div>
+        </as-split-area>
+        <as-split-area [size]="area2Size" minSize="5" maxSize="95" #area2="asSplitArea">
+
+        </as-split-area>
+    </as-split>
+</div>
