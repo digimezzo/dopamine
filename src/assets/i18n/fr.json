@@ -35,7 +35,8 @@
             "Explore": "Explorer",
             "Tracks": "Morceaux",
             "Playlists": "Listes de lectures",
-            "Folders": "Dossiers"
+            "Folders": "Dossiers",
+            "Folder": "Dossier"
         },
         "Settings": {
             "Appearance": "Apparence",
@@ -120,7 +121,8 @@
     "Tooltips": {
         "OpenMenu": "Ouvrir menu",
         "Back": "Retour",
-        "Close": "Fermer"
+        "Close": "Fermer",
+        "ChooseFolder": "Choisissez un dossier"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",

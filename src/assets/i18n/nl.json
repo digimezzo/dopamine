@@ -35,7 +35,8 @@
             "Explore": "Verkennen",
             "Tracks": "Nummers",
             "Playlists": "Afspeellijsten",
-            "Folders": "Mappen"
+            "Folders": "Mappen",
+            "Folder": "Map"
         },
         "Settings": {
             "Appearance": "Uiterlijk",
@@ -120,7 +121,8 @@
     "Tooltips": {
         "OpenMenu": "Open menu",
         "Back": "Terug",
-        "Close": "Sluiten"
+        "Close": "Sluiten",
+        "ChooseFolder": "Kies een map"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",

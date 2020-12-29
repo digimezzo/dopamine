@@ -35,7 +35,8 @@
       "Explore": "Explore",
       "Tracks": "Songs",
       "Playlists": "Playlists",
-      "Folders": "Folders"
+      "Folders": "Folders",
+      "Folder": "Folder"
     },
     "Settings": {
       "Appearance": "Appearance",
@@ -120,7 +121,8 @@
   "Tooltips": {
     "OpenMenu": "Open menu",
     "Back": "Back",
-    "Close": "Close"
+    "Close": "Close",
+    "ChooseFolder": "Choose a folder"
   },
   "DialogTitles": {
     "ConfirmDeleteFolder": "Delete folder?",

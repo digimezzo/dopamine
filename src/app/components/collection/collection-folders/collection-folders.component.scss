@@ -1,0 +1,21 @@
+.folder-browser {
+    // background-color: red;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.folder-browser-header {
+    // background-color: green;
+    display: flex;
+    flex-direction: row;
+}
+
+.folder-browser-header-title {
+    flex: 1;
+}
+
+.folder-browser-header-menu {
+    cursor: pointer;
+    color: var(--theme-text-secondary-foreground);
+}

@@ -130,6 +130,8 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-snack-bar-background', '#111');
         element.style.setProperty('--theme-snack-bar-text-foreground', '#FFF');
         element.style.setProperty('--theme-side-pane-background', '#171717');
+        element.style.setProperty('--theme-text-secondary-foreground', '#5E5E5E');
+
 
         if ((!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
             (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())) {
@@ -143,6 +145,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-snack-bar-background', '#fdfdfd');
             element.style.setProperty('--theme-snack-bar-text-foreground', '#000');
             element.style.setProperty('--theme-side-pane-background', '#EFEFEF');
+            element.style.setProperty('--theme-text-secondary-foreground', '#838383');
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7

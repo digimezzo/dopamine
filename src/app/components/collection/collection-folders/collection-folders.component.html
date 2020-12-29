@@ -2,8 +2,26 @@
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="dragEnd('percent', $event)"
         #split="asSplit">
         <as-split-area [size]="area1Size" minSize="5" maxSize="95" #area1="asSplitArea">
-            <div class="side-pane">
-
+            <div class="side-pane p-3">
+                <div class="folder-browser">
+                    <div class="folder-browser-header">
+                        <div class="folder-browser-header-title">    {{ 'Pages.Collection.Folder' | translate }}</div>
+                        <div mat-icon-button [matMenuTriggerFor]="menu"
+                            matTooltip="{{ 'Tooltips.ChooseFolder' | translate }}">
+                            <div class="folder-browser-header-menu">
+                                Selected folder<i class="ml-1 las la-angle-down"></i>
+                            </div>
+                        </div>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="goToSettings()">
+                                {{ 'MainMenu.Settings' | translate }}
+                            </button>
+                            <button mat-menu-item (click)="goToInformation()">
+                                {{ 'MainMenu.Information' | translate }}
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
             </div>
         </as-split-area>
         <as-split-area [size]="area2Size" minSize="5" maxSize="95" #area2="asSplitArea">
