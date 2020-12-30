@@ -19,21 +19,6 @@ describe('MainMenuComponent', () => {
             // Assert
             navigationServiceMock.verify(x => x.navigateToManageCollection(), Times.exactly(1));
         });
-
-        it('Should reset folder changes', () => {
-            // Arrange
-            const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
-            const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
-            const mainMenuComponent: MainMenuComponent = new MainMenuComponent(
-                navigationServiceMock.object,
-                folderServiceMock.object);
-
-            // Act
-            mainMenuComponent.goToManageCollection();
-
-            // Assert
-            folderServiceMock.verify(x => x.resetFolderChanges(), Times.exactly(1));
-        });
     });
 
     describe('goToSettings', () => {

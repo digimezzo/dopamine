@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../core/logger';
 import { Folder } from '../../data/entities/folder';
 import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
@@ -10,21 +11,17 @@ import { FolderModel } from './folder-model';
   providedIn: 'root'
 })
 export class FolderService implements BaseFolderService {
-  private foldersHaveChanged: boolean = false;
+  private foldersChanged: Subject<void> = new Subject();
 
   constructor(
     private folderRepository: BaseFolderRepository,
     private logger: Logger,
     private snackBarService: BaseSnackBarService) { }
 
+  public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
-
-  public haveFoldersChanged(): boolean {
-    return this.foldersHaveChanged;
-  }
-
-  public resetFolderChanges(): void {
-    this.foldersHaveChanged = false;
+  public onFoldersChanged(): void {
+    this.foldersChanged.next();
   }
 
   public async addFolderAsync(path: string): Promise<void> {
@@ -34,7 +31,7 @@ export class FolderService implements BaseFolderService {
       const newFolder: Folder = new Folder(path);
       await this.folderRepository.addFolder(newFolder);
       this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
-      this.foldersHaveChanged = true;
+      this.onFoldersChanged();
     } else {
       await this.snackBarService.folderAlreadyAddedAsync();
       this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
@@ -53,7 +50,7 @@ export class FolderService implements BaseFolderService {
   public deleteFolder(folder: FolderModel): void {
     this.folderRepository.deleteFolder(folder.folderId);
     this.logger.info(`Deleted folder with path '${folder.path}'`, 'FolderService', 'deleteFolder');
-    this.foldersHaveChanged = true;
+    this.onFoldersChanged();
   }
 
   public setFolderVisibility(folder: FolderModel): void {

@@ -19,3 +19,11 @@
     cursor: pointer;
     color: var(--theme-text-secondary-foreground);
 }
+
+.no-folders-message {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}

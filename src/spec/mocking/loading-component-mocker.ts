@@ -6,7 +6,7 @@ import { BaseAppearanceService } from '../../app/services/appearance/base-appear
 import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../app/services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../app/services/update/base-update.service';
-import { SettingsStub as SettingsStub } from './settings-stub';
+import { SettingsStub } from './settings-stub';
 
 export class LoadingComponentMocker {
     constructor(private showWelcome: boolean, private refreshCollectionAutomatically: boolean) {

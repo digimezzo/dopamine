@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Logger } from '../../core/logger';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFolderService } from '../folder/base-folder.service';
@@ -10,7 +11,7 @@ import { TrackIndexer } from './track-indexer';
 @Injectable({
   providedIn: 'root'
 })
-export class IndexingService implements BaseIndexingService {
+export class IndexingService implements BaseIndexingService, OnDestroy {
   constructor(
     private collectionChecker: BaseCollectionChecker,
     private trackIndexer: TrackIndexer,
@@ -18,9 +19,18 @@ export class IndexingService implements BaseIndexingService {
     private trackRepository: BaseTrackRepository,
     private folderService: BaseFolderService,
     private logger: Logger
-  ) { }
+  ) {
+    this.subscription.add(this.folderService.foldersChanged$.subscribe(() => { this.foldersHaveChanged = true; }));
+  }
+
+  private subscription: Subscription = new Subscription();
+  private foldersHaveChanged: boolean = false;
 
   public isIndexingCollection: boolean = false;
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   public async indexCollectionIfOutdatedAsync(): Promise<void> {
     if (this.isIndexingCollection) {
@@ -30,6 +40,7 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
+    this.foldersHaveChanged = false;
 
     this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
 
@@ -48,7 +59,7 @@ export class IndexingService implements BaseIndexingService {
   }
 
   public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
-    if (!this.folderService.haveFoldersChanged()) {
+    if (!this.foldersHaveChanged) {
       this.logger.info('Folders have not changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
 
       return;
@@ -63,10 +74,9 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
+    this.foldersHaveChanged = false;
 
     this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-    this.folderService.resetFolderChanges();
 
     await this.trackIndexer.indexTracksAsync();
     await this.albumArtworkIndexer.indexAlbumArtworkAsync();
@@ -82,6 +92,7 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
+    this.foldersHaveChanged = false;
 
     this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionAlwaysAsync');
 
@@ -99,6 +110,7 @@ export class IndexingService implements BaseIndexingService {
     }
 
     this.isIndexingCollection = true;
+    this.foldersHaveChanged = false;
 
     this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 

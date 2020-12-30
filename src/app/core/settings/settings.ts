@@ -126,8 +126,8 @@ export class Settings implements BaseSettings {
     this.settings.set('showAllFoldersInCollection', v);
   }
 
-   // Refresh collection automatically
-   public get refreshCollectionAutomatically(): boolean {
+  // Refresh collection automatically
+  public get refreshCollectionAutomatically(): boolean {
     return this.settings.get('refreshCollectionAutomatically');
   }
 
@@ -135,6 +135,14 @@ export class Settings implements BaseSettings {
     this.settings.set('refreshCollectionAutomatically', v);
   }
 
+  //  Folders left pane with percent
+  public get foldersLeftPaneWithPercent(): number {
+    return this.settings.get('foldersLeftPaneWithPercent');
+  }
+
+  public set foldersLeftPaneWithPercent(v: number) {
+    this.settings.set('foldersLeftPaneWithPercent', v);
+  }
 
   // Initialize
   private initialize(): void {
@@ -192,6 +200,10 @@ export class Settings implements BaseSettings {
 
     if (!this.settings.has('refreshCollectionAutomatically')) {
       this.settings.set('refreshCollectionAutomatically', true);
+    }
+
+    if (!this.settings.has('foldersLeftPaneWithPercent')) {
+      this.settings.set('foldersLeftPaneWithPercent', 30);
     }
   }
 }

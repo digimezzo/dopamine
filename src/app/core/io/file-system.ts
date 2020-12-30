@@ -88,4 +88,8 @@ export class FileSystem {
             await fs.unlink(filePath);
         }
     }
+
+    public getDirectoryName(directoryPath: string): string {
+        return path.basename(directoryPath);
+    }
 }

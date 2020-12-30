@@ -6,7 +6,6 @@ describe('IndexingService', () => {
         it('Should check if the collection is out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-
             mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
@@ -73,7 +72,7 @@ describe('IndexingService', () => {
         it('Should index the tracks if the folders have changed', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => true);
+            mocker.folderServiceMock.onFoldersChanged();
 
             // Act
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
@@ -85,7 +84,7 @@ describe('IndexingService', () => {
         it('Should index album artwork if the folders have changed', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => true);
+            mocker.folderServiceMock.onFoldersChanged();
 
             // Act
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
@@ -97,7 +96,6 @@ describe('IndexingService', () => {
         it('Should not index the tracks if the folders have not changed', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => false);
 
             // Act
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
@@ -109,37 +107,12 @@ describe('IndexingService', () => {
         it('Should not index album artwork if the folders have not changed', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => false);
 
             // Act
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
             mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.never());
-        });
-
-        it('Should reset folders changed status if the folders have changed', async () => {
-            // Arrange
-            const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => true);
-
-            // Act
-            await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
-
-            // Assert
-            mocker.folderServiceMock.verify(x => x.resetFolderChanges(), Times.exactly(1));
-        });
-
-        it('Should not reset folders changed status if the folders have notchanged', async () => {
-            // Arrange
-            const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.folderServiceMock.setup(x => x.haveFoldersChanged()).returns(() => false);
-
-            // Act
-            await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
-
-            // Assert
-            mocker.folderServiceMock.verify(x => x.resetFolderChanges(), Times.never());
         });
     });
 

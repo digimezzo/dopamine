@@ -1,84 +1,11 @@
 import * as assert from 'assert';
+import { Subscription } from 'rxjs';
 import { It, Times } from 'typemoq';
 import { Folder } from '../app/data/entities/folder';
 import { FolderModel } from '../app/services/folder/folder-model';
 import { FolderServiceMocker } from './mocking/folder-service-mocker';
 
 describe('FolderService', () => {
-    describe('haveFoldersChanged', () => {
-        it('Should return false when folders have not changed', async () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-
-            // Act
-            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Assert
-            assert.strictEqual(foldersHaveChanged, false);
-        });
-
-        it('Should return false after adding an existing folder', async () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
-            await mocker.folderService.addFolderAsync('/home/me/Music');
-
-            // Act
-            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Assert
-            assert.strictEqual(foldersHaveChanged, false);
-        });
-
-        it('Should return true after adding a new folder', async () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
-            await mocker.folderService.addFolderAsync('/home/me/Music');
-
-            // Act
-            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Assert
-            assert.strictEqual(foldersHaveChanged, true);
-        });
-
-        it('Should return true after deleting a folder', async () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-            const folder: Folder = new Folder('/home/user/Music');
-            folder.folderId = 1;
-            const folderToDelete: FolderModel = new FolderModel(folder);
-            mocker.folderService.deleteFolder(folderToDelete);
-
-            // Act
-            const foldersHaveChanged: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Assert
-            assert.strictEqual(foldersHaveChanged, true);
-        });
-    });
-
-    describe('resetFolderChanges', () => {
-        it('Should reset folder changes to false', () => {
-            // Arrange
-            const mocker: FolderServiceMocker = new FolderServiceMocker();
-            const folder: Folder = new Folder('/home/user/Music');
-            folder.folderId = 1;
-            const folderToDelete: FolderModel = new FolderModel(folder);
-            mocker.folderService.deleteFolder(folderToDelete);
-            const foldersHaveChangedBeforeReset: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Act
-            mocker.folderService.resetFolderChanges();
-            const foldersHaveChangedAfterReset: boolean = mocker.folderService.haveFoldersChanged();
-
-            // Assert
-            assert.strictEqual(foldersHaveChangedBeforeReset, true);
-            assert.strictEqual(foldersHaveChangedAfterReset, false);
-        });
-    });
-
     describe('addFolderAsync', () => {
         it('Should add a new folder with the selected path to the database', async () => {
             // Arrange
@@ -117,6 +44,38 @@ describe('FolderService', () => {
 
             // Assert
             mocker.snackBarServiceMock.verify(x => x.folderAlreadyAddedAsync(), Times.exactly(1));
+        });
+
+        it('Should notify that folders have changed when a folder is added', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
+
+            // Act
+            let foldersHaveChanged: boolean = false;
+            const subscription: Subscription = mocker.folderService.foldersChanged$.subscribe(() => { foldersHaveChanged = true; });
+            await mocker.folderService.addFolderAsync('/home/me/Music');
+            subscription.unsubscribe();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, true);
+        });
+
+        it('Should not notify that folders have changed when a folder is not added', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+            mocker.folderRepositoryMock.setup(x => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
+
+            // Act
+            let foldersHaveChanged: boolean = false;
+            const subscription: Subscription = mocker.folderService.foldersChanged$.subscribe(() => { foldersHaveChanged = true; });
+            await mocker.folderService.addFolderAsync('/home/me/Music');
+            subscription.unsubscribe();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, false);
         });
     });
 
@@ -191,6 +150,24 @@ describe('FolderService', () => {
 
             // Assert
             mocker.folderRepositoryMock.verify(x => x.deleteFolder(folderToDelete.folderId), Times.exactly(1));
+        });
+
+        it('Should notify that folders have changed when deleting a folder', () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+
+            const folder: Folder = new Folder('/home/user/Music');
+            folder.folderId = 1;
+            const folderToDelete: FolderModel = new FolderModel(folder);
+
+            // Act
+            let foldersHaveChanged: boolean = false;
+            const subscription: Subscription = mocker.folderService.foldersChanged$.subscribe(() => { foldersHaveChanged = true; });
+            mocker.folderService.deleteFolder(folderToDelete);
+            subscription.unsubscribe();
+
+            // Assert
+            assert.strictEqual(foldersHaveChanged, true);
         });
     });
 

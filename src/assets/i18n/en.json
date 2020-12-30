@@ -36,7 +36,9 @@
       "Tracks": "Songs",
       "Playlists": "Playlists",
       "Folders": "Folders",
-      "Folder": "Folder"
+      "Folder": "Folder",
+      "AddFolder": "Add a folder",
+      "NoFoldersInCollection": "There are no folders in your collection"
     },
     "Settings": {
       "Appearance": "Appearance",

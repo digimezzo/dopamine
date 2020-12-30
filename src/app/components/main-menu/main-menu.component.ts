@@ -18,7 +18,6 @@ export class MainMenuComponent implements OnInit {
 
   public goToManageCollection(): void {
     this.navigationService.navigateToManageCollection();
-    this.folderService.resetFolderChanges();
   }
 
   public goToSettings(): void {

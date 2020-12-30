@@ -36,7 +36,9 @@
             "Tracks": "Morceaux",
             "Playlists": "Listes de lectures",
             "Folders": "Dossiers",
-            "Folder": "Dossier"
+            "Folder": "Dossier",
+            "AddFolder": "Ajouter un dossier",
+            "NoFoldersInCollection": "Il n'y a aucun dossier dans votre collection"
         },
         "Settings": {
             "Appearance": "Apparence",

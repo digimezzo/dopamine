@@ -67,6 +67,7 @@ import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
+import { DirectoryNamePipe } from './pipes/directory-name.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -144,7 +145,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AboutComponent,
     ComponentsComponent,
     SnackBarComponent,
-    CollectionFoldersComponent
+    CollectionFoldersComponent,
+    DirectoryNamePipe
   ],
   imports: [
     MatProgressSpinnerModule,

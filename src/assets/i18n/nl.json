@@ -36,7 +36,9 @@
             "Tracks": "Nummers",
             "Playlists": "Afspeellijsten",
             "Folders": "Mappen",
-            "Folder": "Map"
+            "Folder": "Map",
+            "AddFolder": "Voeg een map toe",
+            "NoFoldersInCollection": "Er zijn geen mappen in jouw collectie"
         },
         "Settings": {
             "Appearance": "Uiterlijk",
