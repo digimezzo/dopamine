@@ -46,6 +46,10 @@ export class CollectionFoldersComponent implements OnInit {
     }
   }
 
+  public getSubFolders(): void {
+
+  }
+
   public setSelectedFolder(folder: FolderModel): void {
     this.selectedFolder = folder;
   }

@@ -79,8 +79,8 @@ export class FileSystem {
         }
     }
 
-    public getDirectoryPath(filePath: string): string {
-        return path.dirname(filePath);
+    public getDirectoryPath(directoryOrFilePath: string): string {
+        return path.dirname(directoryOrFilePath);
     }
 
     public async deleteFileIfExistsAsync(filePath: string): Promise<void> {
