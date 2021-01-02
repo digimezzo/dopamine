@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../app/core/io/file-system';
-import { DirectoryNamePipe } from '../app/pipes/directory-name.pipe';
+import { FolderNamePipe } from '../app/pipes/folder-name.pipe';
 
 describe('DirectoryNamePipe', () => {
     describe('transform', () => {
@@ -9,7 +9,7 @@ describe('DirectoryNamePipe', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: DirectoryNamePipe = new DirectoryNamePipe(filesystemMock.object);
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
 
             // Act
             const directoryName: string = directoryNamePipe.transform(undefined);
@@ -22,7 +22,7 @@ describe('DirectoryNamePipe', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: DirectoryNamePipe = new DirectoryNamePipe(filesystemMock.object);
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
 
             // Act
             const directoryName: string = directoryNamePipe.transform('');
@@ -35,7 +35,7 @@ describe('DirectoryNamePipe', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
             filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: DirectoryNamePipe = new DirectoryNamePipe(filesystemMock.object);
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
 
             // Act
             const directoryName: string = directoryNamePipe.transform('/home/User/Music');

@@ -4,6 +4,7 @@ import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
+import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 
 @Component({
@@ -29,29 +30,42 @@ export class CollectionFoldersComponent implements OnInit {
 
   public folders: FolderModel[] = [];
   public selectedFolder: FolderModel;
+  public subfolders: SubfolderModel[] = [];
+  public selectedSubfolder: SubfolderModel;
 
-  public ngOnInit(): void {
-    this.getFolders();
+  public async ngOnInit(): Promise<void> {
+    this.getFoldersAsync();
   }
 
   public dragEnd(event: any): void {
     this.settings.foldersLeftPaneWithPercent = event.sizes[0];
   }
 
-  public getFolders(): void {
+  public async getFoldersAsync(): Promise<void> {
     this.folders = this.folderService.getFolders();
 
     if (this.selectedFolder == undefined && this.folders.length > 0) {
       this.selectedFolder = this.folders[0];
     }
+
+    this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, undefined);
   }
 
-  public getSubFolders(): void {
+  public async getSubFoldersAsync(activeSubfolder: SubfolderModel): Promise<void> {
+    if (this.selectedFolder == undefined) {
+      return;
+    }
 
+    this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, activeSubfolder);
   }
 
-  public setSelectedFolder(folder: FolderModel): void {
+  public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
     this.selectedFolder = folder;
+    await this.getSubFoldersAsync(undefined);
+  }
+
+  public setSelectedSubfolder(subfolder: SubfolderModel): void {
+    this.selectedSubfolder = subfolder;
   }
 
   public goToManageCollection(): void {

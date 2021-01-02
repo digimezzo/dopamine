@@ -27,3 +27,27 @@
     align-items: center;
     justify-content: center;
 }
+
+.subfolder-item {
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.subfolder-item:hover {
+    background: var(--theme-item-hovered-background);
+}
+
+.subfolder-item-icon {
+    font-size: 20px;
+    color: var(--theme-accent-color);
+    transform: rotate(-90deg);
+}
+
+.subfolder-item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
