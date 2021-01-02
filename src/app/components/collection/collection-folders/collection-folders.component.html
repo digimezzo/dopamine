@@ -21,7 +21,7 @@
                     <ul class="mt-3">
                         <li *ngFor="let subfolder of subfolders" matRipple
                             [ngClass]="{'selected-item': subfolder === selectedSubfolder }"
-                            (click)="setSelectedSubfolder(subfolder)">
+                            (click)="setSelectedSubfolder(subfolder)" (dblclick)="getSubfoldersAsync(subfolder)">
                             <div class="subfolder-item no-select">
                                 <i class="subfolder-item-icon mr-2 lar la-folder"></i>
                                 <div class="subfolder-item-name" matTooltip="{{ subfolder.path }}">{{ subfolder | subfolderName }}</div>
