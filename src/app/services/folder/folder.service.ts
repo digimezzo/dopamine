@@ -58,16 +58,16 @@ export class FolderService implements BaseFolderService {
     }
 
     const subfolders: SubfolderModel[] = [];
-    let directories: string[] = [];
+    let subfolderPaths: string[] = [];
 
     if (subfolder == undefined) {
       // If no subfolder is provided, return the subfolders of the root folder.
       try {
         if (this.fileSystem.pathExists(rootFolder.path)) {
-          directories = await this.fileSystem.getDirectoriesInDirectoryAsync(rootFolder.path);
+          subfolderPaths = await this.fileSystem.getDirectoriesInDirectoryAsync(rootFolder.path);
         }
       } catch (e) {
-        this.logger.error(`Could not get directories for root folder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
+        this.logger.error(`Could not get subfolderPaths for root folder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
       }
     } else {
       // If a subfolder is provided, return the subfolders of the subfolder.
@@ -86,15 +86,15 @@ export class FolderService implements BaseFolderService {
           }
 
           // Return the subfolders of the provided subfolder
-          directories = await this.fileSystem.getDirectoriesInDirectoryAsync(subfolderPathToBrowse);
+          subfolderPaths = await this.fileSystem.getDirectoriesInDirectoryAsync(subfolderPathToBrowse);
         }
       } catch (e) {
-        this.logger.error(`Could not get directories for subfolder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
+        this.logger.error(`Could not get subfolderPaths for subfolder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
       }
     }
 
-    for (const directory of directories) {
-      subfolders.push(new SubfolderModel(directory, false));
+    for (const subfolderPath of subfolderPaths) {
+      subfolders.push(new SubfolderModel(subfolderPath, false));
     }
 
     return subfolders;
