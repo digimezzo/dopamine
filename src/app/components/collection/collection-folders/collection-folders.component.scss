@@ -29,6 +29,7 @@
 }
 
 .subfolder-item {
+    height: 28px;
     padding: 4px;
     display: flex;
     flex-direction: row;
@@ -50,4 +51,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
+}
+
+.subfolders-list{
+    overflow-y: auto;
 }

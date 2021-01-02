@@ -18,7 +18,7 @@
                             </button>
                         </mat-menu>
                     </div>
-                    <ul class="mt-3">
+                    <ul class="mt-3 subfolders-list">
                         <li *ngFor="let subfolder of subfolders" matRipple
                             [ngClass]="{'selected-item': subfolder === selectedSubfolder }"
                             (click)="setSelectedSubfolder(subfolder)" (dblclick)="getSubfoldersAsync(subfolder)">
