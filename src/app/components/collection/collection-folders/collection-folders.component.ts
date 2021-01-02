@@ -48,7 +48,7 @@ export class CollectionFoldersComponent implements OnInit {
       this.selectedFolder = this.folders[0];
     }
 
-    this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, undefined);
+    await this.getSubFoldersAsync(undefined);
   }
 
   public async getSubFoldersAsync(activeSubfolder: SubfolderModel): Promise<void> {

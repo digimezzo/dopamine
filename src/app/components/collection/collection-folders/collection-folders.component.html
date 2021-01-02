@@ -1,7 +1,7 @@
 <div class="collection-splitter">
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="dragEnd($event)" #split="asSplit">
         <as-split-area [size]="area1Size" minSize="5" maxSize="95" #area1="asSplitArea">
-            <div class="side-pane p-2">
+            <div class="side-pane p-3">
                 <div class="folder-browser">
                     <!-- Folders in collection -->
                     <div *ngIf="folders.length > 0" class="folder-browser-header m-1">
