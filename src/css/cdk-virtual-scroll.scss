@@ -1,0 +1,6 @@
+/* Ensures that cdk-virtual-scroll-content-wrapper sets width of its elements */
+.cdk-virtual-scroll-content-wrapper {
+    position: unset !important;
+    top: unset !important;
+    left: unset !important;
+  }

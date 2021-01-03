@@ -18,6 +18,9 @@ export class CollectionComponent implements OnInit {
   }
 
   public onSelectedTabChange(event: MatTabChangeEvent): void {
+    // Manually trigger a window resize event. Together with CdkVirtualScrollViewportPatchDirective,
+    // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the  
+    // selected tab is changed.
     window.dispatchEvent(new Event('resize'));
   }
 }
