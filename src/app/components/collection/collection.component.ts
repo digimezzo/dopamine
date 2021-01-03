@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({
@@ -14,5 +15,9 @@ export class CollectionComponent implements OnInit {
     public appearanceService: BaseAppearanceService) { }
 
   public async ngOnInit(): Promise<void> {
+  }
+
+  public onSelectedTabChange(event: MatTabChangeEvent): void {
+    window.dispatchEvent(new Event('resize'));
   }
 }

@@ -64,6 +64,7 @@ import { FolderRepository } from './data/repositories/folder-repository';
 import { FolderTrackRepository } from './data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './data/repositories/removed-track-repository';
 import { TrackRepository } from './data/repositories/track-repository';
+import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
@@ -121,6 +122,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent,
     WebviewDirective,
+    CdkVirtualScrollViewportPatchDirective,
     WelcomeComponent,
     CollectionComponent,
     WindowControlsComponent,
