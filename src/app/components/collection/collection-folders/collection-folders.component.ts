@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SplitAreaDirective, SplitComponent } from 'angular-split';
-import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -20,7 +19,6 @@ export class CollectionFoldersComponent implements OnInit {
   @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;
 
   constructor(
-    private logger: Logger,
     private settings: BaseSettings,
     private folderService: BaseFolderService,
     private navigationService: BaseNavigationService) {
@@ -39,12 +37,6 @@ export class CollectionFoldersComponent implements OnInit {
 
   public dragEnd(event: any): void {
     this.settings.foldersLeftPaneWithPercent = event.sizes[0];
-  }
-
-  public async fillListsAsync(): Promise<void> {
-    await this.getFoldersAsync();
-    let folderToSelect: FolderModel = this.getFirstFolder();
-    await this.setSelectedFolderAsync(folderToSelect);
   }
 
   public async getFoldersAsync(): Promise<void> {
@@ -78,5 +70,11 @@ export class CollectionFoldersComponent implements OnInit {
     }
 
     return this.folders[0];
+  }
+
+  private async fillListsAsync(): Promise<void> {
+    await this.getFoldersAsync();
+    let folderToSelect: FolderModel = this.getFirstFolder();
+    await this.setSelectedFolderAsync(folderToSelect);
   }
 }
