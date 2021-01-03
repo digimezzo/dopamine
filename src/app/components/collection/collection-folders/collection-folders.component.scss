@@ -53,6 +53,9 @@
     flex: 1;
 }
 
-.subfolders-list{
+.subfolders-list {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
     overflow-y: auto;
-}
+  }
