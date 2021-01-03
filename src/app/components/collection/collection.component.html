@@ -8,28 +8,31 @@
     <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
   <div class="window-frame-content">
-    <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Explore' | translate }}
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Tracks' | translate }}
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Playlists' | translate }}
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Folders' | translate }}
-        </ng-template>
-        <app-collection-folders></app-collection-folders>
-      </mat-tab>
-    </mat-tab-group>
+    <div class="collection-content">
+      <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Collection.Explore' | translate }}
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Collection.Tracks' | translate }}
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Collection.Playlists' | translate }}
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'Pages.Collection.Folders' | translate }}
+          </ng-template>
+          <app-collection-folders></app-collection-folders>
+        </mat-tab>
+      </mat-tab-group>
+      <app-collection-playback-pane></app-collection-playback-pane>
+    </div>
   </div>
 </div>
