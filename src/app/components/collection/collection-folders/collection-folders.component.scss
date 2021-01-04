@@ -4,21 +4,21 @@
     flex-direction: column;
 }
 
-.folder-browser-header {
+.folder-browser__header {
     display: flex;
     flex-direction: row;
 }
 
-.folder-browser-header-title {
+.folder-browser__title {
     flex: 1;
 }
 
-.folder-browser-header-menu {
+.folder-browser__menu {
     cursor: pointer;
     color: var(--theme-text-secondary-foreground);
 }
 
-.no-folders-message {
+.folder-browser__message {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -26,7 +26,7 @@
     justify-content: center;
 }
 
-.subfolder-item {
+.subfolder {
     height: 28px;
     display: flex;
     flex-direction: row;
@@ -34,24 +34,24 @@
     flex: 1;
 }
 
-.subfolder-item:hover {
+.subfolder:hover {
     background: var(--theme-item-hovered-background);
 }
 
-.subfolder-item-icon {
+.subfolder__icon {
     font-size: 20px;
     color: var(--theme-accent-color);
     transform: rotate(-90deg);
 }
 
-.subfolder-item-name {
+.subfolder__name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
 }
 
-.subfolders-list {
+.folder-browser__list {
     height: 100%;
     width: 100%;
     overflow-x: hidden !important;

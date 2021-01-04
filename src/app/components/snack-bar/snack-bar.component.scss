@@ -1,24 +1,24 @@
-.snack-bar-container {
+.snack-bar-component {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.snack-bar-icon {
+.snack-bar-component__icon {
     color: white;
     font-size: 20px;
 }
 
-.snack-bar-text-with-url {
+.snack-bar-component__textwithurl {
     color: white;
     cursor: pointer;
 }
 
-.snack-bar-text {
+.snack-bar-component__text {
     color: white;
 }
 
-.snack-bar-close-button {
+.snack-bar-component__closebutton {
     color: white;
     font-size: 20px;
     cursor: pointer;

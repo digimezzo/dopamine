@@ -1,4 +1,4 @@
-.logo-small-background {
+.logo-small__background {
   background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
   width: 30px;
   min-width: 30px;
@@ -9,7 +9,7 @@
   justify-content: center;
 }
 
-.logo-small-content {
+.logo-small__image {
   width: 30px;
   height: 30px;
 }

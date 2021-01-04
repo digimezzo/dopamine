@@ -9,14 +9,14 @@
   overflow: hidden;
 }
 
-.window-frame-titlebar {
+.window-frame__titlebar {
   width: 100%;
   height: $titlebar-height;
   display: flex;
   flex-direction: row;
 }
 
-.window-frame-titlebar-dragarea {
+.window-frame__dragarea {
   width: 100%;
   height: $titlebar-height;
   line-height: $titlebar-height;
@@ -25,7 +25,7 @@
   color: white;
 }
 
-.window-frame-overlay{
+.window-frame__overlay{
   position: absolute;
   top: 0;
   bottom: 0;
@@ -38,7 +38,7 @@
   justify-content: center;
 }
 
-.window-frame-content {
+.window-frame__content {
   position: absolute;
   top: $titlebar-height;
   bottom: 0;

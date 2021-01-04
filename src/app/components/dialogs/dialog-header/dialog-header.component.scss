@@ -1,12 +1,12 @@
 @import "variables";
 
-.dialog-header {
+.dialog-header-component {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.dialog-header-icon {
+.dialog-header-component__icon {
     background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
     width: 32px;
     min-width: 32px;
@@ -18,6 +18,6 @@
     font-size: 20px;
 }
 
-.dialog-header-title{
+.dialog-header-component__title{
     height: 32px;
 }

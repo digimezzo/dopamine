@@ -1,14 +1,14 @@
 <div class="window-frame">
-  <div class="window-frame-titlebar theme-header-background">
-    <div class="window-frame-titlebar-dragarea">
-      <app-logo-small class="logo-small"></app-logo-small>
+  <div class="window-frame__titlebar theme-header-background">
+    <div class="window-frame__dragarea">
+      <app-logo-small class="m-2"></app-logo-small>
     </div>
     <app-main-menu class="main-menu">
     </app-main-menu>
     <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
   </div>
-  <div class="window-frame-content">
-    <div class="collection-content">
+  <div class="window-frame__content">
+    <div class="collection-component">
       <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)">
         <mat-tab>
           <ng-template mat-tab-label>

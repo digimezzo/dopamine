@@ -1,4 +1,4 @@
-.add-folder-container {
+.add-folder-component {
     position: relative;
 }
 
@@ -16,11 +16,11 @@
     margin-top: 50px;
 }
 
-.add-folder-overlay-icon {
+.add-folder-overlay__icon {
     font-size: 30px;
 }
 
-.add-folder-overlay-text {
+.add-folder-overlay__text {
     font-size: 20px;
 }
 
@@ -46,31 +46,31 @@
     background: var(--theme-item-hovered-background);
 }
 
-.folder-item-icon {
+.folder-item__icon {
     font-size: 20px;
     color: var(--theme-accent-color);
     transform: rotate(-90deg);
 }
 
-.folder-item-path {
+.folder-item__path {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
 }
 
-.folder-item-action {
+.folder-item__action {
     font-size: 20px;
     opacity: 0.4;
     cursor: pointer;
     display: none;
 }
 
-.folder-item:hover .folder-item-action {
+.folder-item:hover .folder-item__action {
     background: var(--theme-item-hovered-background);
     display: block !important;
 }
 
-.folder-checkbox {
+.folder-item__checkbox {
     margin-top: -4px !important;
 }

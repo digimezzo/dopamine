@@ -1,11 +1,11 @@
 @import "font-faces";
 
-.color-scheme-switcher {
+.color-scheme-switcher-component {
   display: flex;
   flex-wrap: wrap;
 }
 
-.color-scheme-switcher-button {
+.color-scheme-switcher-component-button {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -15,13 +15,13 @@
   position: relative;
 }
 
-.color-scheme-switcher-button-selector {
+.color-scheme-switcher-component-button__selector {
   font-size: 22px;
   color: white;
   z-index: 1;
 }
 
-.color-scheme-switcher-button-color {
+.color-scheme-switcher-component-button__color {
   width: 40px;
   height: 40px;
   border-radius: 20px;

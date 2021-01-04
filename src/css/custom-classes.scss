@@ -29,11 +29,11 @@
   user-select: none;
 }
 
-.link-button-icon {
+.link-button__icon {
   font-size: var(--fontsize-large);
 }
 
-.link-button-text {
+.link-button__text {
   font-size: var(--fontsize-medium);
 }
 
@@ -42,7 +42,7 @@
   opacity: 0.4;
 }
 
-.collection-splitter {
+.collection-viewport {
   /* The splitter resize gutter is not displayed when the height is not set explicitly */
   height: calc(100vh - 120px);
 }

@@ -1,11 +1,11 @@
 <div class="window-frame">
-    <div class="window-frame-titlebar">
-        <div class="window-frame-titlebar-dragarea">
+    <div class="window-frame__titlebar">
+        <div class="window-frame__dragarea">
         </div>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame-content">
-        <div class="loading">
+    <div class="window-frame__content">
+        <div class="loading-component">
             <app-logo-full></app-logo-full>
             <h4 class="mt-5">{{ 'Pages.Loading.Text' | translate }}</h4>
             <mat-spinner class="mt-5" [diameter]="40"></mat-spinner>
