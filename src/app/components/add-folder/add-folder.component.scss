@@ -24,7 +24,7 @@
     font-size: 20px;
 }
 
-.add-folder-content {
+.add-folder-component__content {
     position: absolute;
     top: 0;
     left: 0;
@@ -35,42 +35,42 @@
     flex-direction: column;
 }
 
-.folder-item {
+.folder {
     padding: 4px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.folder-item:hover {
+.folder:hover {
     background: var(--theme-item-hovered-background);
 }
 
-.folder-item__icon {
+.folder__icon {
     font-size: 20px;
     color: var(--theme-accent-color);
     transform: rotate(-90deg);
 }
 
-.folder-item__path {
+.folder__path {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
 }
 
-.folder-item__action {
+.folder__action {
     font-size: 20px;
     opacity: 0.4;
     cursor: pointer;
     display: none;
 }
 
-.folder-item:hover .folder-item__action {
+.folder:hover .folder-item__action {
     background: var(--theme-item-hovered-background);
     display: block !important;
 }
 
-.folder-item__checkbox {
+.folder__checkbox {
     margin-top: -4px !important;
 }
