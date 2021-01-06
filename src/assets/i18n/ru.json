@@ -1,0 +1,148 @@
+{
+  "Pages": {
+    "Welcome": {
+      "Greeting": {
+        "Title": "Привет!",
+        "Content": "Добро пожаловать в Dopamine, мы думаем, тебе понравится! Сначала давайте все настроим."
+      },
+      "Language": {
+        "Title": "Language",
+        "Content": "Выберете свой язык"
+      },
+      "Appearance": {
+        "Title": "Внешний вид",
+        "Content": "Как должен выглядеть твой Dopamine?",
+        "UseLightTheme": "Использовать белую тему"
+      },
+      "Music": {
+        "Title": "Музыка",
+        "Content": "Теперь давайте создадим твою коллекцию. Где ты хранишь музыку?"
+      },
+      "Donate": {
+        "Title": "Поддержать разработчика",
+        "Content": "Если тебе нравится Dopamine, пожалуйста, подумай о пожертвовании. Ты можешь сделать пожертвование прямо сейчас или позже на экране 'О программе'. Спасибо!",
+        "DonateNow": "Поддержать"
+      },
+      "Done": {
+        "Title": "Готово!",
+        "Content": "Готово. Давайте теперь запустим Dopamine!"
+      }
+    },
+    "Loading": {
+      "Text": "Загрузка..."
+    },
+    "Collection": {
+      "Explore": "Искать",
+      "Tracks": "Треки",
+      "Playlists": "Плейлисты",
+      "Folders": "Папки",
+      "Folder": "Папка",
+      "AddFolder": "Добавть папку",
+      "NoFoldersInCollection": "В твоей коллекции нет папок"
+    },
+    "Settings": {
+      "Appearance": "Внешний вид",
+      "Advanced": "Продвинутые настройки",
+      "Theme": "Тема",
+      "FollowSystemTheme": "Следовать теме системы",
+      "UseLightTheme": "Использовать светлую системы",
+      "Color": "Цвет",
+      "FollowSystemColor": "Слетодвать цвету системы",
+      "TitleBar": "Окно",
+      "UseSystemTitleBar": "Использовать системное окно (требуется перезагрузка)",
+      "Language": "Язык",
+      "ChooseLanguage": "Выбор языка",
+      "TextSize": "Размер текста",
+      "ChooseTextSize": "Выбрать размер текста",
+      "Updates": "Обновления",
+      "CheckForUpdates": "Проверить обновления",
+      "WelcomeScreen": "Экран приветствия",
+      "ShowWelcomeScreen": "Показать экран приветствия при следующей загрузке"
+    },
+    "Information": {
+      "About": "О программе",
+      "Components": "Components",
+      "Version": "Версия",
+      "Website": "Сайт",
+      "License": "Лицензия",
+      "Donate": "Пожертвовать",
+      "DonateInstructions": "Тебе нравится Dopamine? Пожалуйста, нажмите здесь, чтобы сделать пожертвование. Спасибо!",
+      "ContactUs": "Связаться с нами",
+      "Thanks": "Спасибо",
+      "ThanksToSharlee": "Sharlee, за великолепные иконки!",
+      "ThanksToDonaters": "Тем, кто пожертвовал.",
+      "ThanksToTranslators": "Тем, кто переводил.",
+      "ThanksToDevelopers": "Разработчикам, создавшим компоненты, которые мы используем.",
+      "ThanksToNeowin": "Neowin за их отличные идеи, тестирование и отчеты об ошибках."
+    },
+    "ManageCollection": {
+      "Music": "Музыка",
+      "Refresh": "Обновить",
+      "AlbumCovers": "Обложки альбомов",
+      "Folders": "Папки",
+      "AddFoldersWithYourMusic": "Добавь в свою коллекцию папки с музыкой",
+      "AddFolder": "Добавить папку",
+      "SelectFolder": "Выбрать папку",
+      "DeleteFolder": "Удалить папку",
+      "ShowInTheCollection": "Показать в коллекции",
+      "ShowAllFoldersInTheCollection": "Показать все папки в коллекции",
+      "RefreshCollectionAutomatically": "Обновлять коллекцию автоматически",
+      "SkipPreviouslyRemovedFiles": "Пропустить файлы, которые были ранее удалены из коллекции",
+      "RefreshCollectionNow": "Обновить коллекцию сейчас",
+      "AutomaticRefresh": "Обновлять автоматически",
+      "ManualRefresh": "Ручное обновление",
+      "Download": "Скачать",
+      "DownloadMissingAlbumCovers": "Скачать обложки недостающих альбомов",
+      "RefreshAllCovers": "Обновить обложки всех альбомов, включая те, у которых уже есть обложка.",
+      "RefreshMissingCovers": "Обновить обложек только для альбомов, которые еще не имеют обложек"
+    }
+  },
+  "SnackBarMessages": {
+    "FolderAlreadyAdded": "Эта папка уже была добавлена",
+    "Refreshing": "Обновление...",
+    "RemovingTracks": "Удаление треков",
+    "AddedTracks": "Добавлено {{numberOfAddedTracks}} треков ({{percentageOfAddedTracks}}%)",
+    "UpdatingTracks": "Обновление треков",
+    "UpdatingAlbumArtwork": "Обновление обложек альбомов",
+    "ClickHereToDownloadNewVersion": "Нажми сюда, чтобы сказать новую версию {{version}}"
+  },
+  "SnackBarActions": {
+    "Ok": "ОК"
+  },
+  "Buttons": {
+    "Yes": "ДА",
+    "No": "НЕТ",
+    "Ok": "Ок",
+    "ViewLog": "Посмотреть лог",
+    "License": "ЛИЦЕНЗИЯ",
+    "Donate": "ПОЖЕРТВОВАТЬ",
+    "RefreshNow": "ОБНОВТЬ СЕЙЧАС",
+    "RefreshAll": "ОБНОВТЬ ВСЁ",
+    "RefreshMissing": "ОБНОВТЬ НЕДОСТАЮЩИЕ"
+  },
+  "Tooltips": {
+    "OpenMenu": "Открыть меню",
+    "Back": "Назад",
+    "Close": "Закрыть",
+    "ChooseFolder": "Выбрать папку"
+  },
+  "DialogTitles": {
+    "ConfirmDeleteFolder": "Удалить папку?",
+    "Error": "Ошибка",
+    "License": "Лицензия"
+  },
+  "DialogTexts": {
+    "ConfirmDeleteFolder": "Ты уверен, что хочешь удалить папку '{{folderPath}}'?"
+  },
+  "ErrorTexts": {
+    "DeleteFolderError": "Ошибка при удалении папки. Пожалуйста, проверьте лог, если вам нужна дополнительная информация.",
+    "GetFoldersError": "Ошибка при откртии папок. Пожалуйста, проверьте лог, если вам нужна дополнительная информация.",
+    "AddFolderError": "Ошибка при добавлении папки. Пожалуйста, проверьте лог, если вам нужна дополнительная информация.",
+    "GlobalError": "Произошла ошибка, которая приведет к закрытию приложения. Пожалуйста, проверьте лог, если вам нужна дополнительная информация."
+  },
+  "MainMenu": {
+    "ManageCollection": "Настроить коллекцию...",
+    "Settings": "Настройки",
+    "Information": "Информация"
+  }
+}
