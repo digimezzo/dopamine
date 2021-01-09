@@ -5,21 +5,15 @@ import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.ser
 
 @Component({
     selector: 'app-snack-bar',
-    host: { 'style': 'display: block' },
+    host: { style: 'display: block' },
     templateUrl: './snack-bar.component.html',
     styleUrls: ['./snack-bar.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class SnackBarComponent implements OnInit {
+    constructor(private snackBarService: BaseSnackBarService, private desktop: Desktop, @Inject(MAT_SNACK_BAR_DATA) public data: any) {}
 
-    constructor(
-        private snackBarService: BaseSnackBarService,
-        private desktop: Desktop,
-        @Inject(MAT_SNACK_BAR_DATA) public data: any) {
-    }
-
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 
     public openDataUrl() {
         this.desktop.openLink(this.data.url);

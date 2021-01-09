@@ -7,74 +7,74 @@ import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 
 @Component({
-  selector: 'app-collection-folders',
-  host: { 'style': 'display: block' },
-  templateUrl: './collection-folders.component.html',
-  styleUrls: ['./collection-folders.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-collection-folders',
+    host: { style: 'display: block' },
+    templateUrl: './collection-folders.component.html',
+    styleUrls: ['./collection-folders.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent implements OnInit {
-  @ViewChild('split', { static: false }) public split: SplitComponent;
-  @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
-  @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;
+    constructor(
+        private settings: BaseSettings,
+        private folderService: BaseFolderService,
+        private navigationService: BaseNavigationService
+    ) {}
+    @ViewChild('split', { static: false }) public split: SplitComponent;
+    @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
+    @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;
 
-  constructor(
-    private settings: BaseSettings,
-    private folderService: BaseFolderService,
-    private navigationService: BaseNavigationService) {
-  }
-  async ngOnInit(): Promise<void> {
-    await this.fillListsAsync();
-  }
+    public area1Size: number = this.settings.foldersLeftPaneWithPercent;
+    public area2Size: number = 100 - this.settings.foldersLeftPaneWithPercent;
 
-  public area1Size: number = this.settings.foldersLeftPaneWithPercent;
-  public area2Size: number = (100 - this.settings.foldersLeftPaneWithPercent);
+    public folders: FolderModel[] = [];
+    public selectedFolder: FolderModel;
+    public subfolders: SubfolderModel[] = [];
+    public selectedSubfolder: SubfolderModel;
 
-  public folders: FolderModel[] = [];
-  public selectedFolder: FolderModel;
-  public subfolders: SubfolderModel[] = [];
-  public selectedSubfolder: SubfolderModel;
-
-  public dragEnd(event: any): void {
-    this.settings.foldersLeftPaneWithPercent = event.sizes[0];
-  }
-
-  public async getFoldersAsync(): Promise<void> {
-    this.folders = this.folderService.getFolders();
-  }
-
-  public async getSubfoldersAsync(activeSubfolder: SubfolderModel): Promise<void> {
-    if (this.selectedFolder == undefined) {
-      return;
+    public async ngOnInit(): Promise<void> {
+        await this.fillListsAsync();
     }
 
-    this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, activeSubfolder);
-  }
-
-  public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
-    this.selectedFolder = folder;
-    await this.getSubfoldersAsync(undefined);
-  }
-
-  public setSelectedSubfolder(subfolder: SubfolderModel): void {
-    this.selectedSubfolder = subfolder;
-  }
-
-  public goToManageCollection(): void {
-    this.navigationService.navigateToManageCollection();
-  }
-
-  private getFirstFolder(): FolderModel {
-    if (this.folders.length == 0) {
-      return undefined;
+    public dragEnd(event: any): void {
+        this.settings.foldersLeftPaneWithPercent = event.sizes[0];
     }
 
-    return this.folders[0];
-  }
+    public async getFoldersAsync(): Promise<void> {
+        this.folders = this.folderService.getFolders();
+    }
 
-  private async fillListsAsync(): Promise<void> {
-    await this.getFoldersAsync();
-    let folderToSelect: FolderModel = this.getFirstFolder();
-    await this.setSelectedFolderAsync(folderToSelect);
-  }
+    public async getSubfoldersAsync(activeSubfolder: SubfolderModel): Promise<void> {
+        if (this.selectedFolder == undefined) {
+            return;
+        }
+
+        this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, activeSubfolder);
+    }
+
+    public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
+        this.selectedFolder = folder;
+        await this.getSubfoldersAsync(undefined);
+    }
+
+    public setSelectedSubfolder(subfolder: SubfolderModel): void {
+        this.selectedSubfolder = subfolder;
+    }
+
+    public goToManageCollection(): void {
+        this.navigationService.navigateToManageCollection();
+    }
+
+    private getFirstFolder(): FolderModel {
+        if (this.folders.length == 0) {
+            return undefined;
+        }
+
+        return this.folders[0];
+    }
+
+    private async fillListsAsync(): Promise<void> {
+        await this.getFoldersAsync();
+        const folderToSelect: FolderModel = this.getFirstFolder();
+        await this.setSelectedFolderAsync(folderToSelect);
+    }
 }

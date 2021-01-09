@@ -22,7 +22,8 @@ export class TrackAdder {
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger,
-        private snackBarService: BaseSnackBarService) { }
+        private snackBarService: BaseSnackBarService
+    ) {}
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
         const timer: Timer = new Timer();
@@ -52,7 +53,8 @@ export class TrackAdder {
                     this.logger.error(
                         `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,
                         'TrackAdder',
-                        'addTracksThatAreNotInTheDatabaseAsync');
+                        'addTracksThatAreNotInTheDatabaseAsync'
+                    );
                 }
             }
 
@@ -61,14 +63,16 @@ export class TrackAdder {
             this.logger.info(
                 `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync');
+                'addTracksThatAreNotInTheDatabaseAsync'
+            );
         } catch (e) {
             timer.stop();
 
             this.logger.error(
                 `A problem occurred while adding tracks. Error: ${e.message}`,
                 'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync');
+                'addTracksThatAreNotInTheDatabaseAsync'
+            );
         }
     }
 
@@ -76,8 +80,8 @@ export class TrackAdder {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = this.trackrepository.getTracks().map(x => x.path);
-        const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map(x => x.path);
+        const trackPaths: string[] = this.trackrepository.getTracks().map((x) => x.path);
+        const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);

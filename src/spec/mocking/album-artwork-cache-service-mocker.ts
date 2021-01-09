@@ -11,7 +11,8 @@ export class AlbumArtworkCacheServiceMocker {
             this.albumArtworkCacheIdFactoryMock.object,
             this.imageProcessorMock.object,
             this.fileSystemMock.object,
-            this.loggerMock.object);
+            this.loggerMock.object
+        );
     }
 
     public albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory> = Mock.ofType<AlbumArtworkCacheIdFactory>();
@@ -25,6 +26,7 @@ export class AlbumArtworkCacheServiceMocker {
             this.albumArtworkCacheIdFactoryMock.object,
             this.imageProcessorMock.object,
             this.fileSystemMock.object,
-            this.loggerMock.object);
+            this.loggerMock.object
+        );
     }
 }

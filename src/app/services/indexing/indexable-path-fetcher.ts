@@ -15,7 +15,8 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
         private fileSystem: FileSystem,
         private directoryWalker: DirectoryWalker,
         private logger: Logger,
-        private folderRepository: BaseFolderRepository) { }
+        private folderRepository: BaseFolderRepository
+    ) {}
 
     public async getIndexablePathsForAllFoldersAsync(): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
@@ -36,14 +37,16 @@ export class IndexablePathFetcher implements BaseIndexablePathFetcher {
                 try {
                     const indexablePathsForFolder: IndexablePath[] = await this.getIndexablePathsForSingleFolderAsync(
                         folder,
-                        FileFormats.supportedAudioExtensions);
+                        FileFormats.supportedAudioExtensions
+                    );
 
                     indexablePaths.push(...indexablePathsForFolder);
                 } catch (e) {
                     this.logger.error(
                         `Could not get indexable paths for folder '${folder.path}'. Error: ${e.message}`,
                         'IndexablePathFetcher',
-                        'getIndexablePathsForAllFoldersAsync');
+                        'getIndexablePathsForAllFoldersAsync'
+                    );
                 }
             }
         }

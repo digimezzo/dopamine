@@ -11,8 +11,8 @@ export class AlbumArtworkGetter {
         private embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter,
         private externalAlbumArtworkGetter: ExternalAlbumArtworkGetter,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
-        private settings: BaseSettings) {
-    }
+        private settings: BaseSettings
+    ) {}
 
     public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {

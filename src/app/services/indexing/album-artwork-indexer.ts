@@ -12,7 +12,7 @@ export class AlbumArtworkIndexer {
         private albumArtworkAdder: AlbumArtworkAdder,
         private snackBarService: BaseSnackBarService,
         private logger: Logger
-    ) { }
+    ) {}
 
     public async indexAlbumArtworkAsync(): Promise<void> {
         this.logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
@@ -30,7 +30,8 @@ export class AlbumArtworkIndexer {
         this.logger.info(
             `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'AlbumArtworkIndexer',
-            'indexAlbumArtworkAsync');
+            'indexAlbumArtworkAsync'
+        );
 
         await this.snackBarService.dismissDelayedAsync();
     }

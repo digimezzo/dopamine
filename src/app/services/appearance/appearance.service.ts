@@ -11,26 +11,22 @@ import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AppearanceService implements BaseAppearanceService {
     private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');
     private _selectedColorScheme: ColorScheme;
     private _selectedFontSize: FontSize;
 
-    constructor(
-        private settings: BaseSettings,
-        private logger: Logger,
-        private overlayContainer: OverlayContainer
-    ) {
-        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find(x => x.name === this.settings.colorScheme);
+    constructor(private settings: BaseSettings, private logger: Logger, private overlayContainer: OverlayContainer) {
+        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find((x) => x.name === this.settings.colorScheme);
 
         if (colorSchemeFromSettings == undefined) {
             colorSchemeFromSettings = this.colorSchemes[0];
         }
 
         this._selectedColorScheme = colorSchemeFromSettings;
-        this._selectedFontSize = this.fontSizes.find(x => x.mediumSize === this.settings.fontSize);
+        this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
 
         if (remote.systemPreferences != undefined) {
             remote.systemPreferences.on('accent-color-changed', () => this.applyTheme());
@@ -47,7 +43,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
-        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f')
+        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
     ];
 
     public fontSizes: FontSize[] = Constants.fontSizes;
@@ -132,9 +128,10 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-side-pane-background', '#171717');
         element.style.setProperty('--theme-text-secondary-foreground', '#5E5E5E');
 
-
-        if ((!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
-            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())) {
+        if (
+            (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
+            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
+        ) {
             themeName = 'default-theme-light';
             element.style.setProperty('--theme-window-button-foreground', '#838383');
             element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');

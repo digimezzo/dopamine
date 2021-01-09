@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../base/sensitive-information';
@@ -6,7 +7,6 @@ import { StringCompare } from '../../string-compare';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
-import { Injectable } from "@angular/core";
 
 @Injectable()
 export class LastfmApi {
@@ -120,7 +120,8 @@ export class LastfmApi {
         artist: string,
         trackTitle: string,
         albumTitle: string,
-        playbackStartTime: Date): Promise<boolean> {
+        playbackStartTime: Date
+    ): Promise<boolean> {
         let isScrobbleSuccessful: boolean = false;
 
         const method: string = 'track.scrobble';
@@ -149,11 +150,7 @@ export class LastfmApi {
         return isScrobbleSuccessful;
     }
 
-    public async UpdateTrackNowPlayingAsync(
-        sessionKey: string,
-        artist: string,
-        trackTitle: string,
-        albumTitle: string): Promise<boolean> {
+    public async UpdateTrackNowPlayingAsync(sessionKey: string, artist: string, trackTitle: string, albumTitle: string): Promise<boolean> {
         let isNowPlayingUpdateSuccessful: boolean = false;
 
         const method: string = 'track.updateNowPlaying';
@@ -181,10 +178,7 @@ export class LastfmApi {
         return isNowPlayingUpdateSuccessful;
     }
 
-    public async LoveTrackAsync(
-        sessionKey: string,
-        artist: string,
-        trackTitle: string): Promise<boolean> {
+    public async LoveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
         let isLoveTrackSuccessful: boolean = false;
 
         const method: string = 'track.love';
@@ -208,10 +202,7 @@ export class LastfmApi {
         return isLoveTrackSuccessful;
     }
 
-    public async UnloveTrackAsync(
-        sessionKey: string,
-        artist: string,
-        trackTitle: string): Promise<boolean> {
+    public async UnloveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
         let isLoveTrackSuccessful: boolean = false;
 
         const method: string = 'track.unlove';
@@ -234,7 +225,6 @@ export class LastfmApi {
 
         return isLoveTrackSuccessful;
     }
-
 
     private async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
         return `${isSecure ? 'https' : 'http'}://ws.audioscrobbler.com/2.0/?method=${method}`;
@@ -271,7 +261,7 @@ export class LastfmApi {
         const response: Response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: searchParams
+            body: searchParams,
         });
 
         if (response.ok) {

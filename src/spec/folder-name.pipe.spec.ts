@@ -10,7 +10,7 @@ describe('FolderNamePipe', () => {
         it('Should return empty string if folder is undefined', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
+            filesystemMock.setup((x) => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
 
             // Act
@@ -23,7 +23,7 @@ describe('FolderNamePipe', () => {
         it('Should return empty string if folder path is undefined', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
+            filesystemMock.setup((x) => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
             const folder: FolderModel = new FolderModel(new Folder(undefined));
 
@@ -37,7 +37,7 @@ describe('FolderNamePipe', () => {
         it('Should return empty string if folder path is empty', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
+            filesystemMock.setup((x) => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
             const folder: FolderModel = new FolderModel(new Folder(''));
 
@@ -51,7 +51,7 @@ describe('FolderNamePipe', () => {
         it('Should return the folder name of a folder path', () => {
             // Arrange
             const filesystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
-            filesystemMock.setup(x => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
+            filesystemMock.setup((x) => x.getDirectoryName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
             const folder: FolderModel = new FolderModel(new Folder('/home/User/Music'));
 

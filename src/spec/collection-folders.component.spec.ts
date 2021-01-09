@@ -16,7 +16,7 @@ describe('CollectionFoldersComponent', () => {
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
-            settingsMock.setup(x => x.foldersLeftPaneWithPercent).returns(() => 30);
+            settingsMock.setup((x) => x.foldersLeftPaneWithPercent).returns(() => 30);
 
             // Act
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
@@ -34,7 +34,7 @@ describe('CollectionFoldersComponent', () => {
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
-            settingsMock.setup(x => x.foldersLeftPaneWithPercent).returns(() => 30);
+            settingsMock.setup((x) => x.foldersLeftPaneWithPercent).returns(() => 30);
 
             // Act
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
@@ -52,7 +52,7 @@ describe('CollectionFoldersComponent', () => {
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
-            settingsMock.setup(x => x.foldersLeftPaneWithPercent).returns(() => 30);
+            settingsMock.setup((x) => x.foldersLeftPaneWithPercent).returns(() => 30);
 
             // Act
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
@@ -94,7 +94,7 @@ describe('CollectionFoldersComponent', () => {
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder: FolderModel = new FolderModel(new Folder('/home/User/Music'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -106,7 +106,7 @@ describe('CollectionFoldersComponent', () => {
             await collectionFoldersComponent.getFoldersAsync();
 
             // Assert
-            folderServiceMock.verify(x => x.getFolders(), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
     });
 
@@ -117,7 +117,7 @@ describe('CollectionFoldersComponent', () => {
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder: FolderModel = new FolderModel(new Folder('/home/User/Music'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -129,7 +129,7 @@ describe('CollectionFoldersComponent', () => {
             collectionFoldersComponent.ngOnInit();
 
             // Assert
-            folderServiceMock.verify(x => x.getFolders(), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
 
         it('Should set the selected folder to the first folder if it is undefined', async () => {
@@ -139,7 +139,7 @@ describe('CollectionFoldersComponent', () => {
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder1: FolderModel = new FolderModel(new Folder('/home/User/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/User/Downloads'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -161,7 +161,7 @@ describe('CollectionFoldersComponent', () => {
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder1: FolderModel = new FolderModel(new Folder('/home/User/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/User/Downloads'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -186,7 +186,7 @@ describe('CollectionFoldersComponent', () => {
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder1: FolderModel = new FolderModel(new Folder('/home/User/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/User/Downloads'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -199,7 +199,7 @@ describe('CollectionFoldersComponent', () => {
             collectionFoldersComponent.goToManageCollection();
 
             // Assert
-            navigationServiceMock.verify(x => x.navigateToManageCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToManageCollection(), Times.exactly(1));
         });
     });
 
@@ -211,7 +211,7 @@ describe('CollectionFoldersComponent', () => {
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const folder1: FolderModel = new FolderModel(new Folder('/home/User/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/User/Downloads'));
-            folderServiceMock.setup(x => x.getFolders()).returns(() => [folder1, folder2]);
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             settingsStub.foldersLeftPaneWithPercent = 45;
             const collectionFoldersComponent: CollectionFoldersComponent = new CollectionFoldersComponent(
                 settingsStub,
@@ -245,7 +245,7 @@ describe('CollectionFoldersComponent', () => {
             await collectionFoldersComponent.setSelectedFolderAsync(folder);
 
             // Assert
-            folderServiceMock.verify(x => x.getSubfoldersAsync(It.isAny(), undefined), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfoldersAsync(It.isAny(), undefined), Times.exactly(1));
         });
     });
 
@@ -266,7 +266,7 @@ describe('CollectionFoldersComponent', () => {
             await collectionFoldersComponent.getSubfoldersAsync(It.isAny());
 
             // Assert
-            folderServiceMock.verify(x => x.getSubfoldersAsync(It.isAny(), It.isAny()), Times.never());
+            folderServiceMock.verify((x) => x.getSubfoldersAsync(It.isAny(), It.isAny()), Times.never());
         });
 
         it('Should get subfolders for the given active subfolder if the selected folder is not undefined', async () => {
@@ -288,7 +288,7 @@ describe('CollectionFoldersComponent', () => {
             await collectionFoldersComponent.getSubfoldersAsync(activeSubfolder);
 
             // Assert
-            folderServiceMock.verify(x => x.getSubfoldersAsync(folder, activeSubfolder), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfoldersAsync(folder, activeSubfolder), Times.exactly(1));
         });
     });
 

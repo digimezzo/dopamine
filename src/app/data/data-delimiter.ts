@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DataDelimiter {
     public delimiter: string = ';';
@@ -16,7 +16,10 @@ export class DataDelimiter {
             return '';
         }
 
-        const delimitedString: string = stringArray.filter(x => x !== '').map(x => this.addDelimiters(x.trim())).join('');
+        const delimitedString: string = stringArray
+            .filter((x) => x !== '')
+            .map((x) => this.addDelimiters(x.trim()))
+            .join('');
 
         return delimitedString;
     }

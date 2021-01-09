@@ -14,7 +14,8 @@ export class TrackUpdater {
         private trackFiller: TrackFiller,
         private trackVerifier: TrackVerifier,
         private snackBarService: BaseSnackBarService,
-        private logger: Logger) { }
+        private logger: Logger
+    ) {}
 
     public async updateTracksThatAreOutOfDateAsync(): Promise<void> {
         const timer: Timer = new Timer();
@@ -27,7 +28,7 @@ export class TrackUpdater {
 
             for (const track of tracks) {
                 try {
-                    if (this.trackVerifier.doesTrackNeedIndexing(track) || await this.trackVerifier.isTrackOutOfDateAsync(track)) {
+                    if (this.trackVerifier.doesTrackNeedIndexing(track) || (await this.trackVerifier.isTrackOutOfDateAsync(track))) {
                         const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
                         this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
@@ -41,7 +42,8 @@ export class TrackUpdater {
                     this.logger.error(
                         `A problem occurred while updating track with path='${track.path}'. Error: ${e.message}`,
                         'TrackUpdater',
-                        'updateTracksThatAreOutOfDateAsync');
+                        'updateTracksThatAreOutOfDateAsync'
+                    );
                 }
             }
 
@@ -50,14 +52,16 @@ export class TrackUpdater {
             this.logger.info(
                 `Updated tracks: ${numberOfUpdatedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync');
+                'updateTracksThatAreOutOfDateAsync'
+            );
         } catch (e) {
             timer.stop();
 
             this.logger.error(
                 `A problem occurred while updating tracks. Error: ${e.message}`,
                 'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync');
+                'updateTracksThatAreOutOfDateAsync'
+            );
         }
     }
 }

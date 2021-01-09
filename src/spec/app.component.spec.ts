@@ -23,7 +23,7 @@ describe('AppComponent', () => {
             );
 
             // Assert
-            appearanceServiceMock.verify(x => x.applyTheme(), Times.exactly(1));
+            appearanceServiceMock.verify((x) => x.applyTheme(), Times.exactly(1));
         });
 
         it('Should apply font size', async () => {
@@ -42,7 +42,7 @@ describe('AppComponent', () => {
             );
 
             // Assert
-            appearanceServiceMock.verify(x => x.applyFontSize(), Times.exactly(1));
+            appearanceServiceMock.verify((x) => x.applyFontSize(), Times.exactly(1));
         });
 
         it('Should apply language', async () => {
@@ -61,7 +61,7 @@ describe('AppComponent', () => {
             );
 
             // Assert
-            translatorServiceMock.verify(x => x.applyLanguage(), Times.exactly(1));
+            translatorServiceMock.verify((x) => x.applyLanguage(), Times.exactly(1));
         });
     });
 
@@ -83,7 +83,7 @@ describe('AppComponent', () => {
             appComponent.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify(x => x.navigateToLoading(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
         });
     });
 });

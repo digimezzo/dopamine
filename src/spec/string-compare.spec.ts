@@ -39,7 +39,6 @@ describe('StringCompare', () => {
             assert.ok(!areStringsEqual);
         });
 
-
         it('Should return true if string1 and string2 are the same and their casing matches', () => {
             // Arrange
             const string1: string = 'thisisastring';

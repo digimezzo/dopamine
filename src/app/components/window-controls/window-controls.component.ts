@@ -3,14 +3,13 @@ import { BrowserWindow, remote } from 'electron';
 
 @Component({
     selector: 'app-window-controls',
-    host: { 'style': 'display: block' },
+    host: { style: 'display: block' },
     templateUrl: './window-controls.component.html',
     styleUrls: ['./window-controls.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    constructor() {
-    }
+    constructor() {}
 
     public canMaximize: boolean = false;
 

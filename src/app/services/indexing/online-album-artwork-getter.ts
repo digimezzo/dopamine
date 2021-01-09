@@ -8,11 +8,7 @@ import { FileMetadata } from '../../metadata/file-metadata';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    constructor(
-        private imageprocessor: ImageProcessor,
-        private lastfmApi: LastfmApi,
-        private logger: Logger) {
-    }
+    constructor(private imageprocessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
     public async getOnlineArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {
@@ -31,12 +27,12 @@ export class OnlineAlbumArtworkGetter {
 
         // Artist
         if (fileMetadata.albumArtists != undefined && fileMetadata.albumArtists.length > 0) {
-            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter((x) => !StringCompare.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceAlbumArtists);
         }
 
         if (fileMetadata.artists != undefined && fileMetadata.artists.length > 0) {
-            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter((x) => !StringCompare.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceTrackArtists);
         }
 
@@ -53,7 +49,8 @@ export class OnlineAlbumArtworkGetter {
                 this.logger.error(
                     `Could not get album info for artist='${artist}' and title='${title}'. Error: ${e.message}`,
                     'OnlineAlbumArtworkGetter',
-                    'getOnlineArtworkAsync');
+                    'getOnlineArtworkAsync'
+                );
             }
 
             if (lastfmAlbum != undefined) {
@@ -66,14 +63,16 @@ export class OnlineAlbumArtworkGetter {
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync');
+                            'getOnlineArtworkAsync'
+                        );
 
                         return artworkData;
                     } catch (e) {
                         this.logger.error(
                             `Could not convert file '${lastfmAlbum.largestImage()}' to data. Error: ${e.message}`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync');
+                            'getOnlineArtworkAsync'
+                        );
                     }
                 }
             }

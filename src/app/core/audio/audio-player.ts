@@ -6,7 +6,7 @@ export class AudioPlayer implements BaseAudioPlayer {
 
     public play(audioFilePath: string): void {
         this.sound = new Howl({
-            src: [audioFilePath]
+            src: [audioFilePath],
         });
 
         this.sound.play();
@@ -41,4 +41,3 @@ export class AudioPlayer implements BaseAudioPlayer {
         this.sound.muted(false);
     }
 }
-

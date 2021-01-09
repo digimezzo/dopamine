@@ -10,14 +10,14 @@ describe('ColorSchemeSwitcherComponent', () => {
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const colorThemeSwitcherComponent: ColorSchemeSwitcherComponent = new ColorSchemeSwitcherComponent(
                 appearanceServiceMock.object
-                );
+            );
 
             // Act
             const defaultColorScheme: ColorScheme = new ColorScheme('Default', '#fff', '#fff', '#fff');
             colorThemeSwitcherComponent.setColorScheme(defaultColorScheme);
 
             // Assert
-            appearanceServiceMock.verify(x => x.selectedColorScheme = defaultColorScheme, Times.atLeastOnce());
+            appearanceServiceMock.verify((x) => (x.selectedColorScheme = defaultColorScheme), Times.atLeastOnce());
         });
     });
 });

@@ -63,7 +63,8 @@ describe('WelcomeComponent', () => {
             // Assert
             assert.strictEqual(
                 mocker.welcomeComponent.donateUrl,
-                'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+                'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8'
+            );
         });
     });
     describe('finish', () => {
@@ -75,7 +76,7 @@ describe('WelcomeComponent', () => {
             mocker.welcomeComponent.finish();
 
             // Assert
-            mocker.navigationServiceMock.verify(x => x.navigateToLoading(), Times.exactly(1));
+            mocker.navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
         });
     });
 });

@@ -6,14 +6,12 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
     selector: 'app-manage-refresh',
     templateUrl: './manage-refresh.component.html',
     styleUrls: ['./manage-refresh.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ManageRefreshComponent implements OnInit {
-    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {
-    }
+    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {}
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 
     public async refreshNowAsync(): Promise<void> {
         await this.indexingService.indexCollectionAlwaysAsync();

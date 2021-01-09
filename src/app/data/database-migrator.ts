@@ -7,13 +7,12 @@ import { Migration } from './migration';
 import { InitialMigration } from './migrations/001-initial';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new InitialMigration()];
 
-    constructor(private databaseFactory: DatabaseFactory, private fileSystem: FileSystem, private logger: Logger) {
-    }
+    constructor(private databaseFactory: DatabaseFactory, private fileSystem: FileSystem, private logger: Logger) {}
 
     public async migrateAsync(): Promise<void> {
         const databaseVersion: number = this.getDatabaseVersion();
@@ -36,9 +35,10 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
 
         if (migrationsToApply.length > 0) {
             this.logger.info(
-                `Found migrations: ${migrationsToApply.map(x => x.name).toString()}`,
+                `Found migrations: ${migrationsToApply.map((x) => x.name).toString()}`,
                 'DatabaseMigrator',
-                'getMigrationsAsync');
+                'getMigrationsAsync'
+            );
         }
 
         for (const migration of migrationsToApply) {
@@ -70,7 +70,8 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
                 this.logger.error(
                     `Could not perform migration: ${migration.name}. Error: ${e.message}`,
                     'DatabaseMigrator',
-                    'migrateAsync');
+                    'migrateAsync'
+                );
             }
         }
     }
@@ -79,9 +80,9 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
         let sortedMigrations: Migration[] = [];
 
         if (inDescendingOrder) {
-            sortedMigrations = this.migrations.sort((a, b) => a.id > b.id ? -1 : 1);
+            sortedMigrations = this.migrations.sort((a, b) => (a.id > b.id ? -1 : 1));
         } else {
-            sortedMigrations = this.migrations.sort((a, b) => a.id > b.id ? 1 : -1);
+            sortedMigrations = this.migrations.sort((a, b) => (a.id > b.id ? 1 : -1));
         }
 
         return sortedMigrations;
@@ -99,7 +100,7 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
             return 0;
         }
 
-        const migrationsSortedByIdDescending: Migration[] = this.migrations.sort((a, b) => a.id > b.id ? -1 : 1);
+        const migrationsSortedByIdDescending: Migration[] = this.migrations.sort((a, b) => (a.id > b.id ? -1 : 1));
 
         return migrationsSortedByIdDescending[0].id;
     }

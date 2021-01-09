@@ -11,7 +11,7 @@ export class CollectionChecker implements BaseCollectionChecker {
         private indexablePathFetcher: BaseIndexablePathFetcher,
         private trackRepository: BaseTrackRepository,
         private logger: Logger
-    ) { }
+    ) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
         let collectionNeedsIndexing: boolean = false;
@@ -23,14 +23,12 @@ export class CollectionChecker implements BaseCollectionChecker {
             const lastDateFileModifiedInDatabase: number = this.trackRepository.getMaximumDateFileModified();
             const lastDateFileModifiedOnDisk: number = this.getLastDateFileModifiedOnDisk(indexablePathsOnDisk);
 
-            collectionNeedsIndexing = numberOfDatabaseTracksThatNeedIndexing > 0 ||
+            collectionNeedsIndexing =
+                numberOfDatabaseTracksThatNeedIndexing > 0 ||
                 numberOfDatabaseTracks !== indexablePathsOnDisk.length ||
                 lastDateFileModifiedInDatabase < lastDateFileModifiedOnDisk;
 
-            this.logger.info(
-                `Collection needs indexing=${collectionNeedsIndexing}`,
-                'CollectionChecker',
-                'isCollectionOutdatedAsync');
+            this.logger.info(`Collection needs indexing=${collectionNeedsIndexing}`, 'CollectionChecker', 'isCollectionOutdatedAsync');
         } catch (e) {
             this.logger.error(
                 `An error occurred while checking if collection needs indexing. Error ${e.message}`,
@@ -47,8 +45,9 @@ export class CollectionChecker implements BaseCollectionChecker {
             return 0;
         }
 
-        const indexablePathsSortedByDateModifiedTicksDescending: IndexablePath[] = indexablePathsOnDisk
-            .sort((a, b) => a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1);
+        const indexablePathsSortedByDateModifiedTicksDescending: IndexablePath[] = indexablePathsOnDisk.sort((a, b) =>
+            a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1
+        );
 
         return indexablePathsSortedByDateModifiedTicksDescending[0].dateModifiedTicks;
     }

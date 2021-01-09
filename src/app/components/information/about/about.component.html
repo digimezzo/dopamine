@@ -3,8 +3,8 @@
     <app-logo-full></app-logo-full>
     <div class="mt-3">
         {{ 'Pages.Information.Version' | translate }}:
-        <strong> {{applicationVersion}}</strong>
-        <br />{{applicationCopyright}}
+        <strong> {{ applicationVersion }}</strong>
+        <br />{{ applicationCopyright }}
     </div>
     <button class="mt-3" mat-raised-button color="primary" (click)="showLicenseDialog()">
         {{ 'Buttons.License' | translate }}
@@ -23,8 +23,7 @@
     <h2>{{ 'Pages.Information.ContactUs' | translate }}</h2>
     <div class="contact-item mb-2 mt-3">
         <i class="contact-item-icon mr-2 las la-globe"></i>
-        <a href="{{ websiteUrl }}"
-            matTooltip="{{ websiteUrl }}">{{ 'Pages.Information.Website' | translate }}</a>
+        <a href="{{ websiteUrl }}" matTooltip="{{ websiteUrl }}">{{ 'Pages.Information.Website' | translate }}</a>
     </div>
     <div class="contact-item mb-2">
         <i class="contact-item-icon mr-2 lab la-twitter"></i>
@@ -38,9 +37,17 @@
 <mat-divider></mat-divider>
 <div class="p-4">
     <h2>{{ 'Pages.Information.Thanks' | translate }}</h2>
-    <div>{{ 'Pages.Information.ThanksToSharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/">Sharlee</a>)</div>
+    <div>
+        {{ 'Pages.Information.ThanksToSharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/"
+            >Sharlee</a
+        >)
+    </div>
     <div>{{ 'Pages.Information.ThanksToDonaters' | translate }}</div>
     <div>{{ 'Pages.Information.ThanksToTranslators' | translate }}</div>
     <div>{{ 'Pages.Information.ThanksToDevelopers' | translate }}</div>
-    <div>{{ 'Pages.Information.ThanksToNeowin' | translate }} (<a href="https://www.neowin.net/" matTooltip="https://www.neowin.net/">Neowin</a>)</div>
+    <div>
+        {{ 'Pages.Information.ThanksToNeowin' | translate }} (<a href="https://www.neowin.net/" matTooltip="https://www.neowin.net/"
+            >Neowin</a
+        >)
+    </div>
 </div>

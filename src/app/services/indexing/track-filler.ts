@@ -18,7 +18,8 @@ export class TrackFiller {
         private albumKeygenerator: AlbumKeyGenerator,
         private fileSystem: FileSystem,
         private mimeTypes: MimeTypes,
-        private logger: Logger) { }
+        private logger: Logger
+    ) {}
 
     public async addFileMetadataToTrackAsync(track: Track): Promise<Track> {
         try {
@@ -68,9 +69,7 @@ export class TrackFiller {
     }
 
     private getMimeType(filePath: string): string {
-        return this.mimeTypes.getMimeTypeForFileExtension(
-            this.fileSystem.getFileExtension(filePath)
-        );
+        return this.mimeTypes.getMimeTypeForFileExtension(this.fileSystem.getFileExtension(filePath));
     }
 
     private gethasLyrics(lyrics: string): number {

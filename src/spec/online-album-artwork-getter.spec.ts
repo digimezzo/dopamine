@@ -23,10 +23,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => undefined);
-            fileMetaDataMock.setup(x => x.title).returns(() => '');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => undefined);
+            fileMetaDataMock.setup((x) => x.title).returns(() => '');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -41,10 +41,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -59,10 +59,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => undefined);
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => undefined);
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -77,10 +77,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => undefined);
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => undefined);
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -95,10 +95,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => undefined);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => undefined);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -106,7 +106,6 @@ describe('OnlineAlbumArtworkGetter', () => {
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
-
 
         it('Should return artwork if fileMetaData has titles and only track artists', async () => {
             // Arrange
@@ -114,10 +113,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => undefined);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => undefined);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -126,18 +125,16 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-
-
         it('Should return undefined if converting file to data throws error', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, true);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
@@ -152,10 +149,10 @@ describe('OnlineAlbumArtworkGetter', () => {
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, true, false);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetaDataMock.setup(x => x.album).returns(() => 'My album title');
-            fileMetaDataMock.setup(x => x.title).returns(() => 'My track title');
-            fileMetaDataMock.setup(x => x.artists).returns(() => ['Artist 1', 'Artist 2']);
-            fileMetaDataMock.setup(x => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
+            fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
+            fileMetaDataMock.setup((x) => x.title).returns(() => 'My track title');
+            fileMetaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
+            fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
             const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);

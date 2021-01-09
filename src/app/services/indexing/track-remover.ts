@@ -15,7 +15,7 @@ export class TrackRemover {
         private snackBarService: BaseSnackBarService,
         private fileSystem: FileSystem,
         private logger: Logger
-    ) { }
+    ) {}
 
     public removeTracksThatDoNoNotBelongToFolders(): void {
         const timer: Timer = new Timer();
@@ -30,15 +30,13 @@ export class TrackRemover {
                 this.logger.info(
                     `There are no tracks to remove. Time required: ${timer.elapsedMilliseconds} ms`,
                     'TrackRemover',
-                    'removeTracksThatDoNoNotBelongToFolders');
+                    'removeTracksThatDoNoNotBelongToFolders'
+                );
 
                 return;
             }
 
-            this.logger.info(
-                `Found ${numberOfTracksToRemove} tracks to remove.`,
-                'TrackRemover',
-                'removeTracksThatDoNoNotBelongToFolders');
+            this.logger.info(`Found ${numberOfTracksToRemove} tracks to remove.`, 'TrackRemover', 'removeTracksThatDoNoNotBelongToFolders');
 
             this.snackBarService.removingTracksAsync();
 
@@ -49,14 +47,12 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedTracks} tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeTracksThatDoNoNotBelongToFolders');
+                'removeTracksThatDoNoNotBelongToFolders'
+            );
         } catch (e) {
             timer.stop();
 
-            this.logger.error(
-                `Could not remove tracks. Error: ${e.message}`,
-                'TrackRemover',
-                'removeTracksThatDoNoNotBelongToFolders');
+            this.logger.error(`Could not remove tracks. Error: ${e.message}`, 'TrackRemover', 'removeTracksThatDoNoNotBelongToFolders');
         }
     }
 
@@ -67,10 +63,7 @@ export class TrackRemover {
         try {
             const tracks: Track[] = this.trackRepository.getTracks();
 
-            this.logger.info(
-                `Found ${tracks.length} tracks.`,
-                'TrackRemover',
-                'removeTracksThatAreNotFoundOnDisk');
+            this.logger.info(`Found ${tracks.length} tracks.`, 'TrackRemover', 'removeTracksThatAreNotFoundOnDisk');
 
             let numberOfRemovedTracks: number = 0;
 
@@ -91,14 +84,12 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedTracks} tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeTracksThatAreNotFoundOnDisk');
+                'removeTracksThatAreNotFoundOnDisk'
+            );
         } catch (e) {
             timer.stop();
 
-            this.logger.error(
-                `Could not remove tracks. Error: ${e.message}`,
-                'TrackRemover',
-                'removeTracksThatAreNotFoundOnDisk');
+            this.logger.error(`Could not remove tracks. Error: ${e.message}`, 'TrackRemover', 'removeTracksThatAreNotFoundOnDisk');
         }
     }
 
@@ -115,7 +106,8 @@ export class TrackRemover {
                 this.logger.info(
                     `There are no folder tracks to remove. Time required: ${timer.elapsedMilliseconds} ms`,
                     'TrackRemover',
-                    'removeFolderTracksForInexistingTracks');
+                    'removeFolderTracksForInexistingTracks'
+                );
 
                 return;
             }
@@ -123,7 +115,8 @@ export class TrackRemover {
             this.logger.info(
                 `Found ${numberOfFolderTracksToRemove} folder tracks to remove.`,
                 'TrackRemover',
-                'removeFolderTracksForInexistingTracks');
+                'removeFolderTracksForInexistingTracks'
+            );
 
             this.snackBarService.removingTracksAsync();
 
@@ -134,14 +127,16 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedFolderTracks} folder tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeFolderTracksForInexistingTracks');
+                'removeFolderTracksForInexistingTracks'
+            );
         } catch (e) {
             timer.stop();
 
             this.logger.error(
                 `Could not remove folder tracks. Error: ${e.message}`,
                 'TrackRemover',
-                'removeFolderTracksForInexistingTracks');
+                'removeFolderTracksForInexistingTracks'
+            );
         }
     }
 }

@@ -11,28 +11,30 @@ describe('BackButtonComponent', () => {
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
             const backButtonComponent: BackButtonComponent = new BackButtonComponent(
                 navigationServiceMock.object,
-                indexingServiceMock.object);
+                indexingServiceMock.object
+            );
 
             // Act
             backButtonComponent.goBackToCollection();
 
             // Assert
-            navigationServiceMock.verify(x => x.navigateToCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
         });
 
         it('Should index collection if folders have changed', () => {
-          // Arrange
-          const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
-          const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
-          const backButtonComponent: BackButtonComponent = new BackButtonComponent(
-              navigationServiceMock.object,
-              indexingServiceMock.object);
+            // Arrange
+            const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
+            const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
+            const backButtonComponent: BackButtonComponent = new BackButtonComponent(
+                navigationServiceMock.object,
+                indexingServiceMock.object
+            );
 
-          // Act
-          backButtonComponent.goBackToCollection();
+            // Act
+            backButtonComponent.goBackToCollection();
 
             // Assert
-            indexingServiceMock.verify(x => x.indexCollectionIfFoldersHaveChangedAsync(), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChangedAsync(), Times.exactly(1));
         });
     });
 });

@@ -7,9 +7,9 @@ describe('CollectionChecker', () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracks()).returns(() => 2);
-            mocker.trackRepositoryMock.setup(x => x.getMaximumDateFileModified()).returns(() => 20);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracks()).returns(() => 2);
+            mocker.trackRepositoryMock.setup((x) => x.getMaximumDateFileModified()).returns(() => 20);
 
             // Act
             const collectionIsOutdated: boolean = await mocker.collectionChecker.isCollectionOutdatedAsync();
@@ -22,9 +22,9 @@ describe('CollectionChecker', () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracksThatNeedIndexing()).returns(() => 1);
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracks()).returns(() => 2);
-            mocker.trackRepositoryMock.setup(x => x.getMaximumDateFileModified()).returns(() => 20);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracksThatNeedIndexing()).returns(() => 1);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracks()).returns(() => 2);
+            mocker.trackRepositoryMock.setup((x) => x.getMaximumDateFileModified()).returns(() => 20);
 
             // Act
             const collectionIsOutdated: boolean = await mocker.collectionChecker.isCollectionOutdatedAsync();
@@ -37,9 +37,9 @@ describe('CollectionChecker', () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracks()).returns(() => 3);
-            mocker.trackRepositoryMock.setup(x => x.getMaximumDateFileModified()).returns(() => 20);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracks()).returns(() => 3);
+            mocker.trackRepositoryMock.setup((x) => x.getMaximumDateFileModified()).returns(() => 20);
 
             // Act
             const collectionNeedsIndexing: boolean = await mocker.collectionChecker.isCollectionOutdatedAsync();
@@ -52,9 +52,9 @@ describe('CollectionChecker', () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracks()).returns(() => 1);
-            mocker.trackRepositoryMock.setup(x => x.getMaximumDateFileModified()).returns(() => 20);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracks()).returns(() => 1);
+            mocker.trackRepositoryMock.setup((x) => x.getMaximumDateFileModified()).returns(() => 20);
 
             // Act
             const collectionIsOutdated: boolean = await mocker.collectionChecker.isCollectionOutdatedAsync();
@@ -67,9 +67,9 @@ describe('CollectionChecker', () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
-            mocker.trackRepositoryMock.setup(x => x.getNumberOfTracks()).returns(() => 2);
-            mocker.trackRepositoryMock.setup(x => x.getMaximumDateFileModified()).returns(() => 19);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracksThatNeedIndexing()).returns(() => 0);
+            mocker.trackRepositoryMock.setup((x) => x.getNumberOfTracks()).returns(() => 2);
+            mocker.trackRepositoryMock.setup((x) => x.getMaximumDateFileModified()).returns(() => 19);
 
             // Act
             const collectionIsOutdated: boolean = await mocker.collectionChecker.isCollectionOutdatedAsync();

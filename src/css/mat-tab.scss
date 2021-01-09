@@ -3,22 +3,22 @@ mat-tab-group {
 }
 
 .mat-tab-body-content {
-  // padding-top: 40px;
-  // Prevents showing of horizontal scrollbar when switching tabs (might be related to cdk virtual scroll)
-  // Found on: https://github.com/angular/components/issues/6104
-  &.ng-animating {
-    overflow: hidden !important;
-  }
+    // padding-top: 40px;
+    // Prevents showing of horizontal scrollbar when switching tabs (might be related to cdk virtual scroll)
+    // Found on: https://github.com/angular/components/issues/6104
+    &.ng-animating {
+        overflow: hidden !important;
+    }
 }
 
-.mat-tab-body-wrapper{
-  flex-grow: 1;
+.mat-tab-body-wrapper {
+    flex-grow: 1;
 }
 
 .mat-tab-label {
     min-width: 0 !important;
     user-select: none; // Prevents accidental selection of the header text
-    padding: 0 12px !important; 
+    padding: 0 12px !important;
     -webkit-app-region: no-drag;
     margin-top: 4px;
     opacity: 1 !important;
@@ -26,15 +26,15 @@ mat-tab-group {
 }
 
 .mat-tab-label-container {
-  align-self: flex-end; // Fixes an alignment issue when opening the development tools
+    align-self: flex-end; // Fixes an alignment issue when opening the development tools
 }
 
 .mat-tab-label-content {
-   font-size: var(--fontsize-large) !important;
+    font-size: var(--fontsize-large) !important;
 }
 
 .mat-tab-label.mat-tab-label-active {
-  color: var(--theme-tab-selected-text-foreground) !important;
+    color: var(--theme-tab-selected-text-foreground) !important;
 }
 
 .mat-tab-header {

@@ -5,30 +5,28 @@ import { Desktop } from '../../../core/io/desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 
 @Component({
-  selector: 'app-about',
-  host: { 'style': 'display: block' },
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-about',
+    host: { style: 'display: block' },
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class AboutComponent implements OnInit {
+    constructor(private dialogService: BaseDialogService, private desktop: Desktop) {}
 
-  constructor(private dialogService: BaseDialogService, private desktop: Desktop) { }
+    public applicationVersion: string = ProductInformation.applicationVersion;
+    public applicationCopyright: string = ProductInformation.applicationCopyright;
+    public websiteUrl: string = ContactInformation.websiteUrl;
+    public twitterUrl: string = ContactInformation.twitterUrl;
+    public githubUrl: string = ContactInformation.githubUrl;
 
-  public applicationVersion: string = ProductInformation.applicationVersion;
-  public applicationCopyright: string = ProductInformation.applicationCopyright;
-  public websiteUrl: string = ContactInformation.websiteUrl;
-  public twitterUrl: string = ContactInformation.twitterUrl;
-  public githubUrl: string = ContactInformation.githubUrl;
+    public ngOnInit(): void {}
 
-  public ngOnInit(): void {
-  }
+    public showLicenseDialog(): void {
+        this.dialogService.showLicenseDialog();
+    }
 
-  public showLicenseDialog(): void {
-    this.dialogService.showLicenseDialog();
-  }
-
-  public browseToDonateLink(): void {
-    this.desktop.openLink(ContactInformation.donateUrl);
-  }
+    public browseToDonateLink(): void {
+        this.desktop.openLink(ContactInformation.donateUrl);
+    }
 }

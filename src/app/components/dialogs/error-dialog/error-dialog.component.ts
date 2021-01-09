@@ -9,19 +9,19 @@ import { FileSystem } from '../../../core/io/file-system';
     selector: 'app-error-dialog',
     templateUrl: './error-dialog.component.html',
     styleUrls: ['./error-dialog.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ErrorDialogComponent implements OnInit {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
         private desktop: Desktop,
-        private fileSystem: FileSystem) {
+        private fileSystem: FileSystem
+    ) {
         this.dialogRef.disableClose = true;
     }
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 
     public viewLog(): void {
         // See: https://stackoverflow.com/questions/30381450/open-external-file-with-electron

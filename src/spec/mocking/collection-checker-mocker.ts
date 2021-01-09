@@ -10,8 +10,9 @@ export class CollectionCheckerMocker {
         const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/track1.mp3', 10, 1);
         const indexablePath2: IndexablePath = new IndexablePath('/home/user/Music/track2.mp3', 20, 1);
 
-        this.indexablePathFetcherMock.setup(x => x.getIndexablePathsForAllFoldersAsync())
-        .returns(async () => [indexablePath1, indexablePath2]);
+        this.indexablePathFetcherMock
+            .setup((x) => x.getIndexablePathsForAllFoldersAsync())
+            .returns(async () => [indexablePath1, indexablePath2]);
 
         this.collectionChecker = new CollectionChecker(
             this.indexablePathFetcherMock.object,

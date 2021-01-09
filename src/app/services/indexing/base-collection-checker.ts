@@ -1,3 +1,3 @@
 export abstract class BaseCollectionChecker {
-    public abstract async isCollectionOutdatedAsync(): Promise<boolean>;
+    public abstract isCollectionOutdatedAsync(): Promise<boolean>;
 }

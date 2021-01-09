@@ -14,7 +14,8 @@ describe('ManageRefreshComponent', () => {
             // Act
             const manageRefreshComponent: ManageRefreshComponent = new ManageRefreshComponent(
                 settingsMock.object,
-                baseIndexingServiceMock.object);
+                baseIndexingServiceMock.object
+            );
 
             // Assert
             assert.ok(manageRefreshComponent.settings != undefined);
@@ -27,13 +28,14 @@ describe('ManageRefreshComponent', () => {
                 const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
                 const manageRefreshComponent: ManageRefreshComponent = new ManageRefreshComponent(
                     settingsMock.object,
-                    indexingServiceMock.object);
+                    indexingServiceMock.object
+                );
 
                 // Act
                 await manageRefreshComponent.refreshNowAsync();
 
                 // Assert
-                indexingServiceMock.verify(x => x.indexCollectionAlwaysAsync(), Times.exactly(1));
+                indexingServiceMock.verify((x) => x.indexCollectionAlwaysAsync(), Times.exactly(1));
             });
         });
     });

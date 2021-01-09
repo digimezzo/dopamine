@@ -4,7 +4,7 @@ import { DirectoryWalkResult } from './directory-walk-result';
 
 @Injectable()
 export class DirectoryWalker {
-    constructor(private fileSystem: FileSystem) { }
+    constructor(private fileSystem: FileSystem) {}
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<DirectoryWalkResult> {
         const filePaths: string[] = [];

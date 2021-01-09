@@ -24,9 +24,9 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPathGetter: ExternalArtworkPathGetter = new ExternalArtworkPathGetter(fileSystemMock.object);
             const audioFilePath: string = '/home/MyUser/Music/MyMusicFile.mp3';
 
-            fileSystemMock.setup(x => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup(x => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
-            fileSystemMock.setup(x => x.pathExists(It.isAnyString())).returns(() => false);
+            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileSystemMock.setup((x) => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
+            fileSystemMock.setup((x) => x.pathExists(It.isAnyString())).returns(() => false);
 
             // Act
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
@@ -42,9 +42,9 @@ describe('ExternalArtworkPathGetter', () => {
             const audioFilePath: string = '/home/MyUser/Music/MyMusicFile.mp3';
             const expectedArtworkPath: string = path.join('/home/MyUser/Music', 'front.png');
 
-            fileSystemMock.setup(x => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup(x => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
-            fileSystemMock.setup(x => x.pathExists(expectedArtworkPath)).returns(() => true);
+            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileSystemMock.setup((x) => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
+            fileSystemMock.setup((x) => x.pathExists(expectedArtworkPath)).returns(() => true);
 
             // Act
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
@@ -60,9 +60,9 @@ describe('ExternalArtworkPathGetter', () => {
             const audioFilePath: string = '/home/MyUser/Music/MyMusicFile.mp3';
             const expectedArtworkPath: string = path.join('/home/MyUser/Music', 'MyMusicFile.png');
 
-            fileSystemMock.setup(x => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup(x => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
-            fileSystemMock.setup(x => x.pathExists(expectedArtworkPath)).returns(() => true);
+            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileSystemMock.setup((x) => x.getFileNameWithoutExtension(audioFilePath)).returns(() => 'MyMusicFile');
+            fileSystemMock.setup((x) => x.pathExists(expectedArtworkPath)).returns(() => true);
 
             // Act
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);

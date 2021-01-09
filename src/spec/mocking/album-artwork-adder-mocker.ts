@@ -18,7 +18,8 @@ export class AlbumArtworkAdderMocker {
             this.fileMetadataFactoryMock.object,
             this.snackBarServiceMock.object,
             this.loggerMock.object,
-            this.albumArtworkGetterMock.object);
+            this.albumArtworkGetterMock.object
+        );
     }
 
     public desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();

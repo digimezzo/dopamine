@@ -1,8 +1,8 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
+import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../app/core/io/file-system';
-import { DirectoryWalker } from '../app/services/indexing/directory-walker';
 import { DirectoryWalkResult } from '../app/services/indexing/directory-walk-result';
+import { DirectoryWalker } from '../app/services/indexing/directory-walker';
 
 describe('DirectoryWalker', () => {
     describe('getFilesInDirectoryAsync', () => {
@@ -10,47 +10,47 @@ describe('DirectoryWalker', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Artist 1',
-                '/home/user/Music/Images'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Artist 1.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Images')).returns(async () => [
-                '/home/user/Music/Images/Artist image 1.png',
-                '/home/user/Music/Images/Artist image 2.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images'))
+                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1',
-                '/home/user/Music/Artist 1/Album 2'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 1/Album 1.jpg'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 3.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
 
@@ -75,47 +75,47 @@ describe('DirectoryWalker', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Artist 1',
-                '/home/user/Music/Images'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Artist 1.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Images')).returns(async () => [
-                '/home/user/Music/Images/Artist image 1.png',
-                '/home/user/Music/Images/Artist image 2.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images'))
+                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1',
-                '/home/user/Music/Artist 1/Album 2'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 1/Album 1.jpg'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 3.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
 
@@ -134,47 +134,47 @@ describe('DirectoryWalker', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Artist 1',
-                '/home/user/Music/Images'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Artist 1.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Images')).returns(async () => [
-                '/home/user/Music/Images/Artist image 1.png',
-                '/home/user/Music/Images/Artist image 2.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images'))
+                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1',
-                '/home/user/Music/Artist 1/Album 2'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 1/Album 1.jpg'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 2/Track 3.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
 
@@ -189,45 +189,43 @@ describe('DirectoryWalker', () => {
             // Arrange
             const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music')).returns(async () => [
-                '/home/user/Music/Artist 1',
-                '/home/user/Music/Images'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music'))
+                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Artist 1.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Images')).returns(async () => [
-                '/home/user/Music/Images/Artist image 1.png',
-                '/home/user/Music/Images/Artist image 2.png'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images'))
+                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1',
-                '/home/user/Music/Artist 1/Album 2'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1'))
+                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => [
-                '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                '/home/user/Music/Artist 1/Album 1/Album 1.jpg'
-            ]);
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1'))
+                .returns(async () => [
+                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                ]);
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1')).returns(async () => []);
 
-            fileSystemMock.setup(x => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2'))
-                .throws(new Error('An error occurred')
-                );
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2'))
+                .throws(new Error('An error occurred'));
 
-            fileSystemMock.setup(x => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
+            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2')).returns(async () => []);
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
 

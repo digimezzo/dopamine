@@ -6,65 +6,65 @@ describe('IndexingService', () => {
         it('Should check if the collection is out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
-            mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => true);
+            mocker.collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
             await mocker.indexingService.indexCollectionIfOutdatedAsync();
 
             // Assert
-            mocker.collectionCheckerMock.verify(x => x.isCollectionOutdatedAsync(), Times.exactly(1));
+            mocker.collectionCheckerMock.verify((x) => x.isCollectionOutdatedAsync(), Times.exactly(1));
         });
 
         it('Should index the tracks if the collection is out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
 
-            mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => true);
+            mocker.collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
             await mocker.indexingService.indexCollectionIfOutdatedAsync();
 
             // Assert
-            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.exactly(1));
+            mocker.trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
         });
 
         it('Should not index the tracks if the collection is not out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
 
-            mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => false);
+            mocker.collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
 
             // Act
             await mocker.indexingService.indexCollectionIfOutdatedAsync();
 
             // Assert
-            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.never());
+            mocker.trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.never());
         });
 
         it('Should index album artwork if the collection is out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
 
-            mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => true);
+            mocker.collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
             await mocker.indexingService.indexCollectionIfOutdatedAsync();
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('Should index album artwork if the collection is not out of date', async () => {
             // Arrange
             const mocker: IndexingServiceMocker = new IndexingServiceMocker();
 
-            mocker.collectionCheckerMock.setup(x => x.isCollectionOutdatedAsync()).returns(async () => false);
+            mocker.collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
 
             // Act
             await mocker.indexingService.indexCollectionIfOutdatedAsync();
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
 
@@ -78,7 +78,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
-            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.exactly(1));
+            mocker.trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
         });
 
         it('Should index album artwork if the folders have changed', async () => {
@@ -90,7 +90,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('Should not index the tracks if the folders have not changed', async () => {
@@ -101,7 +101,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
-            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.never());
+            mocker.trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.never());
         });
 
         it('Should not index album artwork if the folders have not changed', async () => {
@@ -112,7 +112,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.never());
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.never());
         });
     });
 
@@ -125,7 +125,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionAlwaysAsync();
 
             // Assert
-            mocker.trackIndexerMock.verify(x => x.indexTracksAsync(), Times.exactly(1));
+            mocker.trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
         });
 
         it('Should index album artwork', async () => {
@@ -136,7 +136,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexCollectionAlwaysAsync();
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
 
@@ -149,7 +149,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexAlbumArtworkOnlyAsync(true);
 
             // Assert
-            mocker.trackRepositoryMock.verify(x => x.enableNeedsAlbumArtworkIndexingForAllTracks(true), Times.exactly(1));
+            mocker.trackRepositoryMock.verify((x) => x.enableNeedsAlbumArtworkIndexingForAllTracks(true), Times.exactly(1));
         });
 
         it('Should enable album artwork indexing based on onlyWhenHasNoCover when onlyWhenHasNoCover is false', async () => {
@@ -160,7 +160,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexAlbumArtworkOnlyAsync(false);
 
             // Assert
-            mocker.trackRepositoryMock.verify(x => x.enableNeedsAlbumArtworkIndexingForAllTracks(false), Times.exactly(1));
+            mocker.trackRepositoryMock.verify((x) => x.enableNeedsAlbumArtworkIndexingForAllTracks(false), Times.exactly(1));
         });
 
         it('Should index album artwork when onlyWhenHasNoCover is true', async () => {
@@ -171,7 +171,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexAlbumArtworkOnlyAsync(true);
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('Should index album artwork when onlyWhenHasNoCover is false', async () => {
@@ -182,7 +182,7 @@ describe('IndexingService', () => {
             await mocker.indexingService.indexAlbumArtworkOnlyAsync(false);
 
             // Assert
-            mocker.albumArtworkIndexerMock.verify(x => x.indexAlbumArtworkAsync(), Times.exactly(1));
+            mocker.albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
         });
     });
 });

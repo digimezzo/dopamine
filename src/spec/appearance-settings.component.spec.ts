@@ -17,7 +17,8 @@ describe('AppearanceSettingsComponent', () => {
             const appearanceSettingsComponent: AppearanceSettingsComponent = new AppearanceSettingsComponent(
                 appearanceServiceMock.object,
                 translatorServiceMock.object,
-                settingsMock.object);
+                settingsMock.object
+            );
 
             // Assert
             assert.ok(appearanceSettingsComponent.appearanceService != undefined);
@@ -33,7 +34,8 @@ describe('AppearanceSettingsComponent', () => {
             const appearanceSettingsComponent: AppearanceSettingsComponent = new AppearanceSettingsComponent(
                 appearanceServiceMock.object,
                 translatorServiceMock.object,
-                settingsMock.object);
+                settingsMock.object
+            );
 
             // Assert
             assert.ok(appearanceSettingsComponent.translatorService != undefined);
@@ -49,7 +51,8 @@ describe('AppearanceSettingsComponent', () => {
             const appearanceSettingsComponent: AppearanceSettingsComponent = new AppearanceSettingsComponent(
                 appearanceServiceMock.object,
                 translatorServiceMock.object,
-                settingsMock.object);
+                settingsMock.object
+            );
 
             // Assert
             assert.ok(appearanceSettingsComponent.settings != undefined);

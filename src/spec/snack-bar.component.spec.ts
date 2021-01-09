@@ -10,16 +10,19 @@ describe('SnackbarComponent', () => {
             const snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
 
-            const snackBarComponent: SnackBarComponent = new SnackBarComponent(
-                snackBarServiceMock.object,
-                desktopMock.object,
-                { icon: 'My icon', animateIcon: true, message: 'My message', showCloseButton: true, url: 'My url' });
+            const snackBarComponent: SnackBarComponent = new SnackBarComponent(snackBarServiceMock.object, desktopMock.object, {
+                icon: 'My icon',
+                animateIcon: true,
+                message: 'My message',
+                showCloseButton: true,
+                url: 'My url',
+            });
 
             // Act
             snackBarComponent.openDataUrl();
 
             // Assert
-            desktopMock.verify(x => x.openLink('My url'), Times.exactly(1));
+            desktopMock.verify((x) => x.openLink('My url'), Times.exactly(1));
         });
     });
 
@@ -29,16 +32,19 @@ describe('SnackbarComponent', () => {
             const snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
 
-            const snackBarComponent: SnackBarComponent = new SnackBarComponent(
-                snackBarServiceMock.object,
-                desktopMock.object,
-                { icon: 'My icon', animateIcon: true, message: 'My message', showCloseButton: true, url: 'My url' });
+            const snackBarComponent: SnackBarComponent = new SnackBarComponent(snackBarServiceMock.object, desktopMock.object, {
+                icon: 'My icon',
+                animateIcon: true,
+                message: 'My message',
+                showCloseButton: true,
+                url: 'My url',
+            });
 
             // Act
             await snackBarComponent.dismissAsync();
 
             // Assert
-            snackBarServiceMock.verify(x => x.dismissAsync(), Times.exactly(1));
+            snackBarServiceMock.verify((x) => x.dismissAsync(), Times.exactly(1));
         });
     });
 });

@@ -14,7 +14,7 @@ export class TrackIndexer {
         private trackAdder: TrackAdder,
         private logger: Logger,
         private snackBarService: BaseSnackBarService
-    ) { }
+    ) {}
 
     public async indexTracksAsync(): Promise<void> {
         this.logger.info('+++ STARTED INDEXING TRACKS +++', 'TrackIndexer', 'indexTracksAsync');
@@ -40,7 +40,8 @@ export class TrackIndexer {
         this.logger.info(
             `+++ FINISHED INDEXING TRACKS (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'TrackIndexer',
-            'indexTracksAsync');
+            'indexTracksAsync'
+        );
 
         await this.snackBarService.dismissDelayedAsync();
     }

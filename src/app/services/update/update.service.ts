@@ -7,15 +7,15 @@ import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseUpdateService } from './base-update.service';
 import { VersionComparer } from './version-comparer';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class UpdateService implements BaseUpdateService {
     constructor(
         private snackBarService: BaseSnackBarService,
         private settings: BaseSettings,
         private logger: Logger,
-        private gitHub: GitHubApi) {
-    }
+        private gitHub: GitHubApi
+    ) {}
 
     public async checkForUpdatesAsync(): Promise<void> {
         if (this.settings.checkForUpdates) {
@@ -25,22 +25,21 @@ export class UpdateService implements BaseUpdateService {
                 const currentRelease: string = ProductInformation.applicationVersion;
                 const latestRelease: string = await this.gitHub.getLatestReleaseAsync('digimezzo', ProductInformation.applicationName);
 
-                this.logger.info(
-                    `Current=${currentRelease}, Latest=${latestRelease}`,
-                    'UpdateService',
-                    'checkForUpdatesAsync');
+                this.logger.info(`Current=${currentRelease}, Latest=${latestRelease}`, 'UpdateService', 'checkForUpdatesAsync');
 
                 if (VersionComparer.isNewerVersion(currentRelease, latestRelease)) {
                     this.logger.info(
                         `Latest (${latestRelease}) > Current (${currentRelease}). Notifying user.`,
                         'UpdateService',
-                        'checkForUpdatesAsync');
+                        'checkForUpdatesAsync'
+                    );
                     await this.snackBarService.newVersionAvailable(latestRelease);
                 } else {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,
                         'UpdateService',
-                        'checkForUpdatesAsync');
+                        'checkForUpdatesAsync'
+                    );
                 }
             } catch (e) {
                 this.logger.error(`Could not check for updates. Error: ${e.message}`, 'UpdateService', 'checkForUpdatesAsync');

@@ -3,8 +3,7 @@ import { IAudioMetadata } from 'music-metadata';
 import { FileMetadata } from './file-metadata';
 
 export class ReadOnlyFileMetadata implements FileMetadata {
-    private constructor(public path: string) {
-    }
+    private constructor(public path: string) {}
 
     public bitRate: number;
     public sampleRate: number;

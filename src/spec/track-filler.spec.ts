@@ -19,7 +19,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.artists), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.artists), Times.exactly(1));
             assert.strictEqual(track.artists, ';Artist 1;;Artist 2;');
         });
 
@@ -35,7 +35,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.genres), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.genres), Times.exactly(1));
             assert.strictEqual(track.genres, ';Genre 1;;Genre 2;');
         });
 
@@ -51,7 +51,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createTextField(fileMetadataMock.album), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.album), Times.exactly(1));
             assert.strictEqual(track.albumTitle, 'Album title');
         });
 
@@ -67,7 +67,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createMultiTextField(fileMetadataMock.albumArtists), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.albumArtists), Times.exactly(1));
             assert.strictEqual(track.albumArtists, ';Album artist 1;;Album artist 2;');
         });
 
@@ -85,7 +85,7 @@ describe('TrackFiller', () => {
 
             // Assert
             mocker.albumKeyGeneratorMock.verify(
-                x => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']),
+                (x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']),
                 Times.exactly(1)
             );
             assert.strictEqual(track.albumKey, ';Album title;;Album artist 1;;Album artist 2;');
@@ -101,7 +101,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.fileSystemMock.verify(x => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            mocker.fileSystemMock.verify((x) => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
             assert.strictEqual(track.fileName, 'Track 1');
         });
 
@@ -115,8 +115,8 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.fileSystemMock.verify(x => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
-            mocker.mimeTypesMock.verify(x => x.getMimeTypeForFileExtension('.mp3'), Times.exactly(1));
+            mocker.fileSystemMock.verify((x) => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            mocker.mimeTypesMock.verify((x) => x.getMimeTypeForFileExtension('.mp3'), Times.exactly(1));
             assert.strictEqual(track.mimeType, 'audio/mpeg');
         });
 
@@ -130,7 +130,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.fileSystemMock.verify(x => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            mocker.fileSystemMock.verify((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
             assert.strictEqual(track.fileSize, 123);
         });
@@ -146,7 +146,7 @@ describe('TrackFiller', () => {
             await trackFillerMockingHelper.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFillerMockingHelper.trackFieldCreatorMock.verify(x => x.createNumberField(320), Times.exactly(1));
+            trackFillerMockingHelper.trackFieldCreatorMock.verify((x) => x.createNumberField(320), Times.exactly(1));
             assert.strictEqual(track.bitRate, 320);
         });
 
@@ -161,7 +161,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(44), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(44), Times.exactly(1));
             assert.strictEqual(track.sampleRate, 44);
         });
 
@@ -176,7 +176,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createTextField(fileMetadataMock.title), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.title), Times.exactly(1));
             assert.strictEqual(track.trackTitle, 'Track title');
         });
 
@@ -191,7 +191,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(1), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
             assert.strictEqual(track.trackNumber, 1);
         });
 
@@ -206,7 +206,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(15), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(15), Times.exactly(1));
             assert.strictEqual(track.trackCount, 15);
         });
 
@@ -221,7 +221,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(1), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
             assert.strictEqual(track.discNumber, 1);
         });
 
@@ -236,7 +236,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(2), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(2), Times.exactly(1));
             assert.strictEqual(track.discCount, 2);
         });
 
@@ -251,7 +251,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(123456), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(123456), Times.exactly(1));
             assert.strictEqual(track.duration, 123456);
         });
 
@@ -266,7 +266,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(x => x.createNumberField(2020), Times.exactly(1));
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(2020), Times.exactly(1));
             assert.strictEqual(track.year, 2020);
         });
 
@@ -405,10 +405,7 @@ describe('TrackFiller', () => {
             await mocker.trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            mocker.trackFieldCreatorMock.verify(
-                x => x.createNumberField(4),
-                Times.exactly(1)
-            );
+            mocker.trackFieldCreatorMock.verify((x) => x.createNumberField(4), Times.exactly(1));
             assert.strictEqual(track.rating, 4);
         });
 

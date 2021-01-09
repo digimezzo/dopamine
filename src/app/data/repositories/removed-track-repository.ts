@@ -4,13 +4,12 @@ import { RemovedTrack } from '../entities/removed-track';
 import { BaseRemovedTrackRepository } from './base-removed-track-repository';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class RemovedTrackRepository implements BaseRemovedTrackRepository {
     private folderModel: any;
 
-    constructor(private databaseFactory: DatabaseFactory) {
-    }
+    constructor(private databaseFactory: DatabaseFactory) {}
 
     public addRemovedTrack(removedTrack: RemovedTrack): void {
         const database: any = this.databaseFactory.create();
@@ -29,8 +28,7 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
     public getRemovedTracks(): RemovedTrack[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack;`);
+        const statement = database.prepare(`SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack;`);
 
         const removedTracks: RemovedTrack[] = statement.all();
 

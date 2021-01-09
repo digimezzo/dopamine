@@ -14,7 +14,7 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 let win, serve;
 const args = process.argv.slice(1);
-serve = args.some(val => val === '--serve');
+serve = args.some((val) => val === '--serve');
 
 // Workaround: Global does not allow setting custom properties.
 // We need to cast it to "any" first.
@@ -22,137 +22,138 @@ const globalAny: any = global;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
-  globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
+    globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
 function windowhasFrame(): boolean {
-  const settings: Store<any> = new Store();
+    const settings: Store<any> = new Store();
 
-  if (!settings.has('useSystemTitleBar')) {
-    if (os.platform() === 'win32') {
-      settings.set('useSystemTitleBar', false);
-    } else {
-      settings.set('useSystemTitleBar', true);
+    if (!settings.has('useSystemTitleBar')) {
+        if (os.platform() === 'win32') {
+            settings.set('useSystemTitleBar', false);
+        } else {
+            settings.set('useSystemTitleBar', true);
+        }
     }
-  }
 
-  return settings.get('useSystemTitleBar');
+    return settings.get('useSystemTitleBar');
 }
 
 function createWindow(): void {
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+    const electronScreen = screen;
+    const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  Menu.setApplicationMenu(undefined);
+    Menu.setApplicationMenu(undefined);
 
-  // Load the previous state with fallback to defaults
-  const windowState = windowStateKeeper({
-    defaultWidth: 870,
-    defaultHeight: 620
-  });
-
-  // Create the browser window.
-  win = new BrowserWindow({
-    x: windowState.x,
-    y: windowState.y,
-    width: windowState.width,
-    height: windowState.height,
-    backgroundColor: '#fff',
-    frame: windowhasFrame(),
-    icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
-    webPreferences: {
-      webSecurity: false,
-      nodeIntegration: true
-    },
-    show: false,
-  });
-
-  globalAny.windowHasFrame = windowhasFrame();
-
-  windowState.manage(win);
-
-  if (serve) {
-    require('electron-reload')(__dirname, {
-      electron: require(`${__dirname}/node_modules/electron`)
+    // Load the previous state with fallback to defaults
+    const windowState = windowStateKeeper({
+        defaultWidth: 870,
+        defaultHeight: 620,
     });
-    win.loadURL('http://localhost:4200');
-  } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
-  }
 
-  // if (serve) {
-  //   win.webContents.openDevTools();
-  // }
+    // Create the browser window.
+    win = new BrowserWindow({
+        x: windowState.x,
+        y: windowState.y,
+        width: windowState.width,
+        height: windowState.height,
+        backgroundColor: '#fff',
+        frame: windowhasFrame(),
+        icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
+        webPreferences: {
+            webSecurity: false,
+            nodeIntegration: true,
+        },
+        show: false,
+    });
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store window
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = undefined;
-  });
+    globalAny.windowHasFrame = windowhasFrame();
 
-  // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
-  // See: https://github.com/electron/electron/issues/7779
-  win.on('ready-to-show', () => {
-    win.show();
-    win.focus();
-  });
+    windowState.manage(win);
 
-  // Makes links open in external browser
-  const handleRedirect = (e: any, localUrl: string) => {
-    // Check that the requested url is not the current page
-    if (localUrl !== win.webContents.getURL()) {
-      e.preventDefault();
-      require('electron').shell.openExternal(localUrl);
+    if (serve) {
+        require('electron-reload')(__dirname, {
+            electron: require(`${__dirname}/node_modules/electron`),
+        });
+        win.loadURL('http://localhost:4200');
+    } else {
+        win.loadURL(
+            url.format({
+                pathname: path.join(__dirname, 'dist/index.html'),
+                protocol: 'file:',
+                slashes: true,
+            })
+        );
     }
-  };
 
-  win.webContents.on('will-navigate', handleRedirect);
-  win.webContents.on('new-window', handleRedirect);
+    // if (serve) {
+    //   win.webContents.openDevTools();
+    // }
 
-  win.webContents.on('before-input-event', (event, input) => {
-    if (input.key.toLowerCase() === 'f12') {
-      if (serve) {
-        win.webContents.toggleDevTools();
-      }
+    // Emitted when the window is closed.
+    win.on('closed', () => {
+        // Dereference the window object, usually you would store window
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = undefined;
+    });
 
-      event.preventDefault();
-    }
-  });
+    // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
+    // See: https://github.com/electron/electron/issues/7779
+    win.on('ready-to-show', () => {
+        win.show();
+        win.focus();
+    });
+
+    // Makes links open in external browser
+    const handleRedirect = (e: any, localUrl: string) => {
+        // Check that the requested url is not the current page
+        if (localUrl !== win.webContents.getURL()) {
+            e.preventDefault();
+            require('electron').shell.openExternal(localUrl);
+        }
+    };
+
+    win.webContents.on('will-navigate', handleRedirect);
+    win.webContents.on('new-window', handleRedirect);
+
+    win.webContents.on('before-input-event', (event, input) => {
+        if (input.key.toLowerCase() === 'f12') {
+            if (serve) {
+                win.webContents.toggleDevTools();
+            }
+
+            event.preventDefault();
+        }
+    });
 }
 
 try {
-  log.info('[Main] [] +++ Starting +++');
+    log.info('[Main] [] +++ Starting +++');
 
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+    // This method will be called when Electron has finished
+    // initialization and is ready to create browser windows.
+    // Some APIs can only be used after this event occurs.
+    app.on('ready', createWindow);
 
-  // Quit when all windows are closed.
-  app.on('window-all-closed', () => {
-    log.info('[App] [window-all-closed] +++ Stopping +++');
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
-  });
+    // Quit when all windows are closed.
+    app.on('window-all-closed', () => {
+        log.info('[App] [window-all-closed] +++ Stopping +++');
+        // On OS X it is common for applications and their menu bar
+        // to stay active until the user quits explicitly with Cmd + Q
+        if (process.platform !== 'darwin') {
+            app.quit();
+        }
+    });
 
-  app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (win == undefined) {
-      createWindow();
-    }
-  });
-
+    app.on('activate', () => {
+        // On OS X it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (win == undefined) {
+            createWindow();
+        }
+    });
 } catch (e) {
-  // Catch Error
-  // throw e;
+    // Catch Error
+    // throw e;
 }

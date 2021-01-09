@@ -1,24 +1,11 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "module": "commonjs",
-    "types": [
-      "jasmine",
-      "node"
-    ]
-  },
-  "files": [
-    "test.ts",
-    "polyfills-test.ts"
-  ],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ],
-  "exclude": [
-    "dist",
-    "release",
-    "node_modules"
-  ]
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/spec",
+        "module": "commonjs",
+        "types": ["jasmine", "node"]
+    },
+    "files": ["test.ts", "polyfills-test.ts"],
+    "include": ["**/*.spec.ts", "**/*.d.ts"],
+    "exclude": ["dist", "release", "node_modules"]
 }

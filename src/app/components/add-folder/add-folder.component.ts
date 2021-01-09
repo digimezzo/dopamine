@@ -11,10 +11,10 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 
 @Component({
     selector: 'app-add-folder',
-    host: { 'style': 'display: block' },
+    host: { style: 'display: block' },
     templateUrl: './add-folder.component.html',
     styleUrls: ['./add-folder.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class AddFolderComponent implements OnInit {
     constructor(
@@ -24,7 +24,8 @@ export class AddFolderComponent implements OnInit {
         private dialogService: BaseDialogService,
         public indexingService: BaseIndexingService,
         private settings: BaseSettings,
-        private logger: Logger) { }
+        private logger: Logger
+    ) {}
 
     @Input() public showCheckBoxes: boolean = false;
 
@@ -57,11 +58,8 @@ export class AddFolderComponent implements OnInit {
         try {
             this.folders = this.folderService.getFolders();
         } catch (e) {
-            this.logger.error(
-                `An error occurred while getting the folders. Error: ${e.message}`,
-                'AddFolderComponent',
-                'getFolders');
-            const errorText: string = (await this.translatorService.getAsync('ErrorTexts.GetFoldersError'));
+            this.logger.error(`An error occurred while getting the folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
+            const errorText: string = await this.translatorService.getAsync('ErrorTexts.GetFoldersError');
             this.dialogService.showErrorDialog(errorText);
         }
     }
@@ -83,8 +81,9 @@ export class AddFolderComponent implements OnInit {
                 this.logger.error(
                     `An error occurred while adding the folder with path='${selectedFolderPath}'. Error: ${e.message}`,
                     'AddFolderComponent',
-                    'addFolderAsync');
-                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
+                    'addFolderAsync'
+                );
+                const errorText: string = await this.translatorService.getAsync('ErrorTexts.AddFolderError');
                 this.dialogService.showErrorDialog(errorText);
             }
         }
@@ -104,8 +103,9 @@ export class AddFolderComponent implements OnInit {
                 this.logger.error(
                     `An error occurred while deleting the folder. Error: ${e.message}`,
                     'AddFolderComponent',
-                    'deleteFolderAsync');
-                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
+                    'deleteFolderAsync'
+                );
+                const errorText: string = await this.translatorService.getAsync('ErrorTexts.DeleteFolderError');
                 this.dialogService.showErrorDialog(errorText);
             }
         }

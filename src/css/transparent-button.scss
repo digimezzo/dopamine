@@ -5,9 +5,9 @@
     cursor: pointer;
     overflow: hidden;
     outline: none;
-    transition: all .2s ease-in-out;
-  }
-  
-  .transparent-button:hover {
+    transition: all 0.2s ease-in-out;
+}
+
+.transparent-button:hover {
     transform: scale(1.2);
-  }
+}

@@ -5,8 +5,7 @@ import { SubfolderModel } from '../services/folder/subfolder-model';
 
 @Pipe({ name: 'subfolderName' })
 export class SubfolderNamePipe implements PipeTransform {
-    constructor(private fileSystem: FileSystem) {
-    }
+    constructor(private fileSystem: FileSystem) {}
 
     public transform(subfolder: SubfolderModel): string {
         if (subfolder == undefined) {

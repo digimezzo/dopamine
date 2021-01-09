@@ -6,8 +6,7 @@ import { StringCompare } from '../../core/string-compare';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    constructor(private fileSystem: FileSystem) {
-    }
+    constructor(private fileSystem: FileSystem) {}
 
     public getExternalArtworkPath(audioFilePath: string): string {
         if (StringCompare.isNullOrWhiteSpace(audioFilePath)) {

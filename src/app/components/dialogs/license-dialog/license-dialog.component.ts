@@ -4,12 +4,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     selector: 'app-license-dialog',
     templateUrl: './license-dialog.component.html',
     styleUrls: ['./license-dialog.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class LicenseDialogComponent implements OnInit {
-    constructor() {
-    }
+    constructor() {}
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 }

@@ -5,12 +5,10 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     selector: 'app-manage-collection',
     templateUrl: './manage-collection.component.html',
     styleUrls: ['./manage-collection.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ManageCollectionComponent implements OnInit {
-    constructor(public appearanceService: BaseAppearanceService) {
-    }
+    constructor(public appearanceService: BaseAppearanceService) {}
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 }

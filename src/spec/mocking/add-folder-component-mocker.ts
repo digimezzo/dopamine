@@ -12,15 +12,16 @@ import { SettingsStub } from './settings-stub';
 
 export class AddFolderComponentMocker {
     constructor(private useSettingsStub: boolean, private folderToDelete?: FolderModel) {
-        this.translatorServiceMock.setup(x => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
-        this.translatorServiceMock.setup(x => x.getAsync(
-            'ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
+        this.translatorServiceMock.setup((x) => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
+        this.translatorServiceMock
+            .setup((x) => x.getAsync('ErrorTexts.DeleteFolderError'))
+            .returns(async () => 'Error while deleting folder');
 
         if (folderToDelete != undefined) {
-            this.translatorServiceMock.setup(x => x.getAsync('DialogTitles.ConfirmDeleteFolder')).returns(async () => 'Delete folder?');
-            this.translatorServiceMock.setup(x => x.getAsync(
-                'DialogTexts.ConfirmDeleteFolder',
-                { folderPath: folderToDelete.path })).returns(async () => 'Are you sure you want to delete this folder?');
+            this.translatorServiceMock.setup((x) => x.getAsync('DialogTitles.ConfirmDeleteFolder')).returns(async () => 'Delete folder?');
+            this.translatorServiceMock
+                .setup((x) => x.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folderToDelete.path }))
+                .returns(async () => 'Are you sure you want to delete this folder?');
         }
 
         if (this.useSettingsStub) {
@@ -31,7 +32,8 @@ export class AddFolderComponentMocker {
                 this.dialogServiceMock.object,
                 this.indexingServiceMock.object,
                 this.settingsStub,
-                this.loggerMock.object);
+                this.loggerMock.object
+            );
         } else {
             this.addFolderComponent = new AddFolderComponent(
                 this.desktopMock.object,
@@ -40,8 +42,8 @@ export class AddFolderComponentMocker {
                 this.dialogServiceMock.object,
                 this.indexingServiceMock.object,
                 this.settingsMock.object,
-                this.loggerMock.object);
-
+                this.loggerMock.object
+            );
         }
     }
 

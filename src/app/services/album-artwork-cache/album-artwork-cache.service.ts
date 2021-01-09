@@ -8,7 +8,7 @@ import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(
@@ -70,12 +70,11 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             );
 
             // We cannot proceed if the above fails
-            throw (e);
+            throw e;
         }
     }
 
     private createCachedArtworkFilePath(artworkId: string): string {
         return path.join(this.fileSystem.coverArtCacheFullPath(), `${artworkId}.jpg`);
     }
-
 }

@@ -12,7 +12,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.databaseMigratorMock.verify(x => x.migrateAsync(), Times.exactly(1));
+            mocker.databaseMigratorMock.verify((x) => x.migrateAsync(), Times.exactly(1));
         });
 
         it('Should navigate to welcome if welcome should be shown', async () => {
@@ -23,7 +23,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.navigationServiceMock.verify(x => x.navigateToWelcome(), Times.exactly(1));
+            mocker.navigationServiceMock.verify((x) => x.navigateToWelcome(), Times.exactly(1));
         });
 
         it('Should navigate to collection if welcome should not be shown', async () => {
@@ -34,7 +34,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.navigationServiceMock.verify(x => x.navigateToCollection(), Times.exactly(1));
+            mocker.navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
         });
 
         it('Should prevent showing the welcome screen on a next start', async () => {
@@ -56,7 +56,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.updateServiceMock.verify(x => x.checkForUpdatesAsync(), Times.exactly(1));
+            mocker.updateServiceMock.verify((x) => x.checkForUpdatesAsync(), Times.exactly(1));
         });
 
         it('Should wait 2 seconds before triggering indexing when navigating to collection', async () => {
@@ -67,7 +67,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.schedulerMock.verify(x => x.sleepAsync(2000), Times.exactly(1));
+            mocker.schedulerMock.verify((x) => x.sleepAsync(2000), Times.exactly(1));
         });
 
         it('Should trigger indexing when navigating to collection and refresh collection automatically is enabled', async () => {
@@ -78,7 +78,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.indexingServiceMock.verify(x => x.indexCollectionIfOutdatedAsync(), Times.exactly(1));
+            mocker.indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.exactly(1));
         });
 
         it('Should not trigger indexing when navigating to collection and refresh collection automatically is disabled', async () => {
@@ -89,7 +89,7 @@ describe('LoadingComponent', () => {
             await mocker.loadingComponent.ngOnInit();
 
             // Assert
-            mocker.indexingServiceMock.verify(x => x.indexCollectionIfOutdatedAsync(), Times.never());
+            mocker.indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.never());
         });
     });
 });

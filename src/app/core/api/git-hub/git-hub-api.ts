@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class GitHubApi {
-    constructor(private httpClient: HttpClient) {
-    }
+    constructor(private httpClient: HttpClient) {}
 
     public async getLatestReleaseAsync(owner: string, repo: string): Promise<string> {
         const url: string = `https://api.github.com/repos/${owner}/${repo}/releases/latest`;

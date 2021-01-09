@@ -1,8 +1,7 @@
 import { Folder } from '../../data/entities/folder';
 
 export class FolderModel {
-    constructor(private folder: Folder) {
-    }
+    constructor(private folder: Folder) {}
 
     public get folderId(): number {
         return this.folder.folderId;

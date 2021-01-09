@@ -15,7 +15,7 @@ export class DateTime {
         const ticksPerMillisecond: number = 10000;
 
         // Calculate the total number of .NET ticks for the given date
-        const dotNetTicks: number = epochTicks + (date.getTime() * ticksPerMillisecond);
+        const dotNetTicks: number = epochTicks + date.getTime() * ticksPerMillisecond;
 
         return dotNetTicks;
     }

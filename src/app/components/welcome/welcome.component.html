@@ -1,7 +1,6 @@
 <div class="window-frame">
     <div class="window-frame__titlebar">
-        <div class="window-frame__dragarea">
-        </div>
+        <div class="window-frame__dragarea"></div>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <div class="window-frame__content">
@@ -47,7 +46,8 @@
                             {{ 'Pages.Welcome.Appearance.Content' | translate }}
                         </h3>
                         <mat-slide-toggle class="mt-3" [(ngModel)]="appearanceService.useLightBackgroundTheme">
-                            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
+                            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle
+                        >
                         <app-color-scheme-switcher class="mt-3"></app-color-scheme-switcher>
                     </div>
                 </mat-step>
@@ -90,7 +90,11 @@
                     </div>
                 </mat-step>
             </mat-horizontal-stepper>
-            <app-step-indicator class="my-5 fade-in-animation animation-duration-2s animation-delay-3s" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
+            <app-step-indicator
+                class="my-5 fade-in-animation animation-duration-2s animation-delay-3s"
+                [totalSteps]="totalSteps"
+                [currentStep]="currentStep"
+            ></app-step-indicator>
             <div class="welcome-stepper-buttons fade-in-animation animation-duration-2s animation-delay-3s">
                 <button *ngIf="canGoBack" class="transparent-button no-select mx-5" (click)="goBack(stepper)">
                     <i class="las la-angle-left welcome-stepper-buttons__icon"></i>

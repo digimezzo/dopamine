@@ -84,7 +84,7 @@ describe('AboutComponent', () => {
             aboutComponent.showLicenseDialog();
 
             // Assert
-            dialogServiceMock.verify(x => x.showLicenseDialog(), Times.exactly(1));
+            dialogServiceMock.verify((x) => x.showLicenseDialog(), Times.exactly(1));
         });
     });
 
@@ -99,7 +99,7 @@ describe('AboutComponent', () => {
             aboutComponent.browseToDonateLink();
 
             // Assert
-            desktopMock.verify(x => x.openLink(ContactInformation.donateUrl), Times.exactly(1));
+            desktopMock.verify((x) => x.openLink(ContactInformation.donateUrl), Times.exactly(1));
         });
     });
 });

@@ -12,8 +12,8 @@ export class AlbumArtworkRemover {
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private fileSystem: FileSystem,
         private snackBarService: BaseSnackBarService,
-        private logger: Logger) {
-    }
+        private logger: Logger
+    ) {}
 
     public removeAlbumArtworkThatHasNoTrack(): void {
         const timer: Timer = new Timer();
@@ -28,7 +28,8 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkThatHasNoTrack');
+                    'removeAlbumArtworkThatHasNoTrack'
+                );
 
                 return;
             }
@@ -66,8 +67,7 @@ export class AlbumArtworkRemover {
         timer.start();
 
         try {
-            const numberOfAlbumArtworkToRemove: number =
-                this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfAlbumArtworkToRemove: number = this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             if (numberOfAlbumArtworkToRemove === 0) {
                 timer.stop();
@@ -75,7 +75,8 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing');
+                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+                );
 
                 return;
             }
@@ -88,8 +89,7 @@ export class AlbumArtworkRemover {
 
             this.snackBarService.updatingAlbumArtworkAsync();
 
-            const numberOfRemovedAlbumArtwork: number =
-                this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             timer.stop();
 
@@ -116,14 +116,16 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+            );
 
-            const allArtworkIdsInDatabase: string[] = allAlbumArtworkInDatabase.map(x => x.artworkId);
+            const allArtworkIdsInDatabase: string[] = allAlbumArtworkInDatabase.map((x) => x.artworkId);
 
             this.logger.info(
                 `Found ${allArtworkIdsInDatabase.length} artworkIds in the database`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+            );
 
             const coverArtCacheFullPath: string = this.fileSystem.coverArtCacheFullPath();
             const allAlbumArtworkFilePaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(coverArtCacheFullPath);
@@ -131,7 +133,8 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${allAlbumArtworkFilePaths.length} artwork files on disk`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync');
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+            );
 
             let numberOfRemovedAlbumArtwork: number = 0;
 

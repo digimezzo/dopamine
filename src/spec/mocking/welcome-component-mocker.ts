@@ -9,7 +9,8 @@ export class WelcomeComponentMocker {
         this.welcomeComponent = new WelcomeComponent(
             this.navigationServiceMock.object,
             this.translatorServiceMock.object,
-            this.appearanceServiceMock.object);
+            this.appearanceServiceMock.object
+        );
     }
 
     public appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();

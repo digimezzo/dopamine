@@ -19,15 +19,15 @@
 }
 
 // Delays
-.animation-delay-1s{
+.animation-delay-1s {
     animation-delay: 1s;
 }
 
-.animation-delay-2s{
+.animation-delay-2s {
     animation-delay: 2s;
 }
 
-.animation-delay-3s{
+.animation-delay-3s {
     animation-delay: 3s;
 }
 
@@ -37,9 +37,9 @@
 
 @-webkit-keyframes rotation {
     from {
-            -webkit-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
     }
     to {
-            -webkit-transform: rotate(359deg);
+        -webkit-transform: rotate(359deg);
     }
 }

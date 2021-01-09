@@ -17,7 +17,8 @@ export class LoadingComponentMocker {
             this.settingsStub,
             this.updateServiceMock.object,
             this.indexingServiceMock.object,
-            this.schedulerMock.object);
+            this.schedulerMock.object
+        );
     }
 
     public appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();

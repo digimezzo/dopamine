@@ -25,7 +25,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             const embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter = new EmbeddedAlbumArtworkGetter(loggerMock.object);
 
             const expectedArtwork = Buffer.from([1, 2, 3]);
-            fileMetaDataMock.setup(x => x.picture).returns(() => expectedArtwork);
+            fileMetaDataMock.setup((x) => x.picture).returns(() => expectedArtwork);
 
             // Act
             const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetaDataMock.object);

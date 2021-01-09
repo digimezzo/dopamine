@@ -1,6 +1,5 @@
 export class Folder {
-    constructor(public path: string) {
-    }
+    constructor(public path: string) {}
 
     public folderId: number;
     public showInCollection: number;

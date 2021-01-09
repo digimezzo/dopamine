@@ -11,6 +11,6 @@ export class Defaults {
         'folder.jpeg',
         '%filename%.png',
         '%filename%.jpg',
-        '%filename%.jpeg'
+        '%filename%.jpeg',
     ];
 }

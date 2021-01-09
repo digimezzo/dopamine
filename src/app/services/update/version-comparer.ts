@@ -1,11 +1,11 @@
 export class VersionComparer {
     public static isNewerVersion(oldVersion: string, newVersion: string): boolean {
-        const oldVarionParts = oldVersion.split('.');
+        const oldVersionParts = oldVersion.split('.');
         const newVersionParts = newVersion.split('.');
 
         for (let i = 0; i < newVersionParts.length; i++) {
             let newVersionNumber: number = parseInt(newVersionParts[i], 10);
-            let oldVersionNumber: number = parseInt(oldVarionParts[i], 10);
+            let oldVersionNumber: number = parseInt(oldVersionParts[i], 10);
 
             if (newVersionNumber == undefined || Number.isNaN(newVersionNumber)) {
                 newVersionNumber = 0;

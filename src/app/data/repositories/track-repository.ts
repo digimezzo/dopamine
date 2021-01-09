@@ -6,11 +6,10 @@ import { QueryParts } from '../query-parts';
 import { BaseTrackRepository } from './base-track-repository';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TrackRepository implements BaseTrackRepository {
-    constructor(private databaseFactory: DatabaseFactory) {
-    }
+    constructor(private databaseFactory: DatabaseFactory) {}
 
     public getNumberOfTracksThatNeedIndexing(): number {
         const database: any = this.databaseFactory.create();
@@ -18,7 +17,8 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `SELECT COUNT(*) AS numberOfTracks
              FROM Track
-             WHERE NeedsIndexing=?;`);
+             WHERE NeedsIndexing=?;`
+        );
 
         const result: any = statement.get(1);
 
@@ -65,7 +65,8 @@ export class TrackRepository implements BaseTrackRepository {
             `DELETE FROM Track WHERE TrackID IN (
                 SELECT TrackID
                 FROM FolderTrack
-                WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`);
+                WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`
+        );
 
         const info = statement.run();
 
@@ -114,7 +115,8 @@ export class TrackRepository implements BaseTrackRepository {
                     PlayCount AS playCount,
                     SkipCount AS skipCount,
                     DateLastPlayed AS dateLastPlayed
-                    FROM Track;`);
+                    FROM Track;`
+        );
 
         const tracks: Track[] = statement.all();
 
@@ -159,45 +161,45 @@ export class TrackRepository implements BaseTrackRepository {
                 PlayCount=@playCount,
                 SkipCount=@skipCount,
                 DateLastPlayed=@dateLastPlayed
-                WHERE TrackID=@trackId;`);
+                WHERE TrackID=@trackId;`
+        );
 
-        statement.run(
-            {
-                trackId: track.trackId,
-                artists: track.artists,
-                genres: track.genres,
-                albumTitle: track.albumTitle,
-                albumArtists: track.albumArtists,
-                albumKey: track.albumKey,
-                path: track.path,
-                safePath: track.path,
-                fileName: track.fileName,
-                mimeType: track.mimeType,
-                fileSize: track.fileSize,
-                bitRate: track.bitRate,
-                sampleRate: track.sampleRate,
-                trackTitle: track.trackTitle,
-                trackNumber: track.trackNumber,
-                trackCount: track.trackCount,
-                discNumber: track.discNumber,
-                discCount: track.discCount,
-                duration: track.duration,
-                year: track.year,
-                hasLyrics: track.hasLyrics,
-                dateAdded: track.dateAdded,
-                dateFileCreated: track.dateFileCreated,
-                dateLastSynced: track.dateLastSynced,
-                dateFileModified: track.dateFileModified,
-                needsIndexing: track.needsIndexing,
-                needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
-                indexingSuccess: track.indexingSuccess,
-                indexingFailureReason: track.indexingFailureReason,
-                rating: track.rating,
-                love: track.love,
-                playCount: track.playCount,
-                skipCount: track.skipCount,
-                dateLastPlayed: track.dateLastPlayed
-            });
+        statement.run({
+            trackId: track.trackId,
+            artists: track.artists,
+            genres: track.genres,
+            albumTitle: track.albumTitle,
+            albumArtists: track.albumArtists,
+            albumKey: track.albumKey,
+            path: track.path,
+            safePath: track.path,
+            fileName: track.fileName,
+            mimeType: track.mimeType,
+            fileSize: track.fileSize,
+            bitRate: track.bitRate,
+            sampleRate: track.sampleRate,
+            trackTitle: track.trackTitle,
+            trackNumber: track.trackNumber,
+            trackCount: track.trackCount,
+            discNumber: track.discNumber,
+            discCount: track.discCount,
+            duration: track.duration,
+            year: track.year,
+            hasLyrics: track.hasLyrics,
+            dateAdded: track.dateAdded,
+            dateFileCreated: track.dateFileCreated,
+            dateLastSynced: track.dateLastSynced,
+            dateFileModified: track.dateFileModified,
+            needsIndexing: track.needsIndexing,
+            needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
+            indexingSuccess: track.indexingSuccess,
+            indexingFailureReason: track.indexingFailureReason,
+            rating: track.rating,
+            love: track.love,
+            playCount: track.playCount,
+            skipCount: track.skipCount,
+            dateLastPlayed: track.dateLastPlayed,
+        });
     }
 
     public addTrack(track: Track): void {
@@ -272,44 +274,44 @@ export class TrackRepository implements BaseTrackRepository {
                     @playCount,
                     @skipCount,
                     @dateLastPlayed
-                );`);
+                );`
+        );
 
-        statement.run(
-            {
-                artists: track.artists,
-                genres: track.genres,
-                albumTitle: track.albumTitle,
-                albumArtists: track.albumArtists,
-                albumKey: track.albumKey,
-                path: track.path,
-                safePath: track.path,
-                fileName: track.fileName,
-                mimeType: track.mimeType,
-                fileSize: track.fileSize,
-                bitRate: track.bitRate,
-                sampleRate: track.sampleRate,
-                trackTitle: track.trackTitle,
-                trackNumber: track.trackNumber,
-                trackCount: track.trackCount,
-                discNumber: track.discNumber,
-                discCount: track.discCount,
-                duration: track.duration,
-                year: track.year,
-                hasLyrics: track.hasLyrics,
-                dateAdded: track.dateAdded,
-                dateFileCreated: track.dateFileCreated,
-                dateLastSynced: track.dateLastSynced,
-                dateFileModified: track.dateFileModified,
-                needsIndexing: track.needsIndexing,
-                needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
-                indexingSuccess: track.indexingSuccess,
-                indexingFailureReason: track.indexingFailureReason,
-                rating: track.rating,
-                love: track.love,
-                playCount: track.playCount,
-                skipCount: track.skipCount,
-                dateLastPlayed: track.dateLastPlayed
-            });
+        statement.run({
+            artists: track.artists,
+            genres: track.genres,
+            albumTitle: track.albumTitle,
+            albumArtists: track.albumArtists,
+            albumKey: track.albumKey,
+            path: track.path,
+            safePath: track.path,
+            fileName: track.fileName,
+            mimeType: track.mimeType,
+            fileSize: track.fileSize,
+            bitRate: track.bitRate,
+            sampleRate: track.sampleRate,
+            trackTitle: track.trackTitle,
+            trackNumber: track.trackNumber,
+            trackCount: track.trackCount,
+            discNumber: track.discNumber,
+            discCount: track.discCount,
+            duration: track.duration,
+            year: track.year,
+            hasLyrics: track.hasLyrics,
+            dateAdded: track.dateAdded,
+            dateFileCreated: track.dateFileCreated,
+            dateLastSynced: track.dateLastSynced,
+            dateFileModified: track.dateFileModified,
+            needsIndexing: track.needsIndexing,
+            needsAlbumArtworkIndexing: track.needsAlbumArtworkIndexing,
+            indexingSuccess: track.indexingSuccess,
+            indexingFailureReason: track.indexingFailureReason,
+            rating: track.rating,
+            love: track.love,
+            playCount: track.playCount,
+            skipCount: track.skipCount,
+            dateLastPlayed: track.dateLastPlayed,
+        });
     }
 
     public getTrackByPath(path: string): Track {
@@ -350,7 +352,8 @@ export class TrackRepository implements BaseTrackRepository {
                     SkipCount AS skipCount,
                     DateLastPlayed AS dateLastPlayed
                     FROM Track
-                    WHERE Path=?;`);
+                    WHERE Path=?;`
+        );
 
         const track: Track = statement.get(path);
 
@@ -364,7 +367,8 @@ export class TrackRepository implements BaseTrackRepository {
             `${QueryParts.selectAlbumDataQueryPart()}
                 WHERE AlbumKey IS NOT NULL AND AlbumKey <> ''
                 AND (AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
-                GROUP BY AlbumKey;`);
+                GROUP BY AlbumKey;`
+        );
 
         const albumData: AlbumData[] = statement.all();
 
@@ -409,7 +413,8 @@ export class TrackRepository implements BaseTrackRepository {
                     SkipCount AS skipCount,
                     DateLastPlayed AS dateLastPlayed
                     FROM Track
-                    WHERE AlbumKey=?;`);
+                    WHERE AlbumKey=?;`
+        );
 
         const track: Track = statement.get(albumKey);
 

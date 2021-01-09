@@ -23,7 +23,6 @@ describe('FontSize', () => {
             assert.ok(fontSize.largeSize === 14 * 1.143);
         });
 
-
         it('Should have extra large size', () => {
             // Arrange
 

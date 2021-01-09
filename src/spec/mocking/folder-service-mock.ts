@@ -11,8 +11,7 @@ export class FolderServiceMock implements BaseFolderService {
         this.foldersChanged.next();
     }
 
-    public async addFolderAsync(path: string): Promise<void> {
-    }
+    public async addFolderAsync(path: string): Promise<void> {}
 
     public getFolders(): FolderModel[] {
         return [];
@@ -22,12 +21,9 @@ export class FolderServiceMock implements BaseFolderService {
         return [];
     }
 
-    public deleteFolder(folder: FolderModel): void {
-    }
+    public deleteFolder(folder: FolderModel): void {}
 
-    public setFolderVisibility(folder: FolderModel): void {
-    }
+    public setFolderVisibility(folder: FolderModel): void {}
 
-    public setAllFoldersVisible(): void {
-    }
+    public setAllFoldersVisible(): void {}
 }

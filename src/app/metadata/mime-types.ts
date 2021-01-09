@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileFormats } from '../core/base/file-formats';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class MimeTypes {
     public getMimeTypeForFileExtension(fileExtension: string): string {

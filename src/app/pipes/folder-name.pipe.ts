@@ -5,8 +5,7 @@ import { FolderModel } from '../services/folder/folder-model';
 
 @Pipe({ name: 'folderName' })
 export class FolderNamePipe implements PipeTransform {
-    constructor(private fileSystem: FileSystem) {
-    }
+    constructor(private fileSystem: FileSystem) {}
 
     public transform(folder: FolderModel): string {
         if (folder == undefined) {

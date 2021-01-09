@@ -18,8 +18,8 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ## Build prerequisites for GNU/Linux
 
-- rpm: required to build rpm package
-- libarchive-tools: contains bsdtar, which is required to build pacman package.
+-   rpm: required to build rpm package
+-   libarchive-tools: contains bsdtar, which is required to build pacman package.
 
 **To install the prerequisites on Ubuntu:**
 
@@ -48,6 +48,6 @@ $ npm run electron:mac       # Build for Mac
 
 ## Pacman installation notes
 
-The pacman package contains a dependency to package libappindicator-sharp, which is no longer distributed with Arch Linux. I cannot remove this dependency for now, because it is an issue in electron-builder (the packaging tool which is used in this project). It is, however, possible to install Knowte on Arch Linux or Manjaro using this command (replace x.y.z with the correct version number): 
+The pacman package contains a dependency to package libappindicator-sharp, which is no longer distributed with Arch Linux. I cannot remove this dependency for now, because it is an issue in electron-builder (the packaging tool which is used in this project). It is, however, possible to install Knowte on Arch Linux or Manjaro using this command (replace x.y.z with the correct version number):
 
 `$ sudo pacman -U Knowte-x.y.z.pacman --assume-installed libappindicator-sharp`

@@ -1,38 +1,38 @@
-@import "variables";
-@import "theming";
-@import "font-faces";
+@import 'variables';
+@import 'theming';
+@import 'font-faces';
 
 .logo-full-component {
-  display: flex;
-  user-select: none;
+    display: flex;
+    user-select: none;
 }
 
 .logo-full-component__text {
-  padding-bottom: 8px;
-  margin: auto 0px auto 20px;
-  font-family: monoglyceride !important;
-  font-size: 48px;
+    padding-bottom: 8px;
+    margin: auto 0px auto 20px;
+    font-family: monoglyceride !important;
+    font-size: 48px;
 }
 
 .logo-full-component__textsuffix {
-  font-size: 20px;
-  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+    font-size: 20px;
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .logo-full-component__background {
-  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
-  width: 64px;
-  min-width: 64px;
-  height: 64px;
-  border-radius: 32px 0px 32px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    width: 64px;
+    min-width: 64px;
+    height: 64px;
+    border-radius: 32px 0px 32px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-full-component__image {
-  width: 64px;
-  height: 64px;
+    width: 64px;
+    height: 64px;
 }

@@ -6,32 +6,31 @@ import { BaseNavigationService } from './services/navigation/base-navigation.ser
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(
-    private navigationService: BaseNavigationService,
-    private appearanceService: BaseAppearanceService,
-    private translatorService: BaseTranslatorService,
-    private logger: Logger
-  ) {
+    constructor(
+        private navigationService: BaseNavigationService,
+        private appearanceService: BaseAppearanceService,
+        private translatorService: BaseTranslatorService,
+        private logger: Logger
+    ) {
+        this.appearanceService.applyTheme();
+        this.appearanceService.applyFontSize();
+        this.translatorService.applyLanguage();
+    }
 
-    this.appearanceService.applyTheme();
-    this.appearanceService.applyFontSize();
-    this.translatorService.applyLanguage();
-  }
+    public ngOnDestroy(): void {}
 
-  public ngOnDestroy(): void {
-  }
+    public async ngOnInit(): Promise<void> {
+        this.logger.info(
+            `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
+            'AppComponent',
+            'ngOnInit'
+        );
 
-  public async ngOnInit(): Promise<void> {
-    this.logger.info(
-      `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
-      'AppComponent',
-      'ngOnInit');
-
-    this.navigationService.navigateToLoading();
-  }
+        this.navigationService.navigateToLoading();
+    }
 }

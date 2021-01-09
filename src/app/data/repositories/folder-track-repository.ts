@@ -4,13 +4,12 @@ import { FolderTrack } from '../entities/folder-track';
 import { BaseFolderTrackRepository } from './base-folder-track-repository';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class FolderTrackRepository implements BaseFolderTrackRepository {
     private folderModel: any;
 
-    constructor(private databaseFactory: DatabaseFactory) {
-    }
+    constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolderTrack(folderTrack: FolderTrack): void {
         const database: any = this.databaseFactory.create();
@@ -25,7 +24,8 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
         const statement = database.prepare(
             `SELECT (*) AS numberOfFolderTracks
             FROM FolderTrack
-            WHERE TrackID NOT IN (SELECT TrackID FROM Track);`);
+            WHERE TrackID NOT IN (SELECT TrackID FROM Track);`
+        );
 
         const result: any = statement.get();
 

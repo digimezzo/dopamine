@@ -4,19 +4,18 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 
 @Component({
-  selector: 'app-appearance-settings',
-  host: { 'style': 'display: block' },
-  templateUrl: './appearance-settings.component.html',
-  styleUrls: ['./appearance-settings.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-appearance-settings',
+    host: { style: 'display: block' },
+    templateUrl: './appearance-settings.component.html',
+    styleUrls: ['./appearance-settings.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class AppearanceSettingsComponent implements OnInit {
+    constructor(
+        public appearanceService: BaseAppearanceService,
+        public translatorService: BaseTranslatorService,
+        public settings: BaseSettings
+    ) {}
 
-  constructor(
-    public appearanceService: BaseAppearanceService,
-    public translatorService: BaseTranslatorService,
-    public settings: BaseSettings) { }
-
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {}
 }

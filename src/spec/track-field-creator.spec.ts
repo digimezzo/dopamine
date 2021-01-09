@@ -100,28 +100,28 @@ describe('TrackFieldCreator', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
-            mocker.metadataPatcherMock.setup(x => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
-            mocker.datadelimiterMock.setup(x => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
+            mocker.metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            mocker.datadelimiterMock.setup((x) => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
 
             // Act
             const field: string = mocker.trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
-            mocker.metadataPatcherMock.verify(x => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));
+            mocker.metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));
         });
 
         it('Should convert to a delimited string', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
-            mocker.metadataPatcherMock.setup(x => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
-            mocker.datadelimiterMock.setup(x => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
+            mocker.metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            mocker.datadelimiterMock.setup((x) => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
 
             // Act
             const field: string = mocker.trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
-            mocker.datadelimiterMock.verify(x => x.convertToDelimitedString(['Item 1', 'Item 2']), Times.exactly(1));
+            mocker.datadelimiterMock.verify((x) => x.convertToDelimitedString(['Item 1', 'Item 2']), Times.exactly(1));
         });
     });
 });

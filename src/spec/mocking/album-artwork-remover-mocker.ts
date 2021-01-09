@@ -11,7 +11,8 @@ export class AlbumArtworkRemoverMocker {
             this.albumArtworkRepositoryMock.object,
             this.fileSystemMock.object,
             this.snackBarServiceMock.object,
-            this.loggerMock.object);
+            this.loggerMock.object
+        );
     }
 
     public albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository> = Mock.ofType<BaseAlbumArtworkRepository>();

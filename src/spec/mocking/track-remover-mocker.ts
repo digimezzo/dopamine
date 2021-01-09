@@ -13,7 +13,8 @@ export class TrackRemoverMocker {
             this.folderTrackRepositoryMock.object,
             this.snackBarServiceMock.object,
             this.fileSystemMock.object,
-            this.loggerMock.object);
+            this.loggerMock.object
+        );
     }
 
     public trackRepositoryMock: IMock<TrackRepository> = Mock.ofType<TrackRepository>();

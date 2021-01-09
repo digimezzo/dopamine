@@ -1,12 +1,20 @@
 <div class="color-scheme-switcher-component">
     <div *ngFor="let colorScheme of appearanceService.colorSchemes">
-        <div class="color-scheme-switcher-component-button mr-2 mb-2" matTooltip="{{ colorScheme.name }}"
-            (click)="setColorScheme(colorScheme)">
-            <i class="color-scheme-switcher-component-button__selector las la-check"
-                *ngIf="colorScheme.name === appearanceService.selectedColorScheme.name"></i>
-            <div class="color-scheme-switcher-component-button__color"
-                [ngStyle]="{'background': 'linear-gradient(45deg, ' + colorScheme.primaryColor + ' 30%, ' + colorScheme.secondaryColor + ' 100%)'}">
-            </div>
+        <div
+            class="color-scheme-switcher-component-button mr-2 mb-2"
+            matTooltip="{{ colorScheme.name }}"
+            (click)="setColorScheme(colorScheme)"
+        >
+            <i
+                class="color-scheme-switcher-component-button__selector las la-check"
+                *ngIf="colorScheme.name === appearanceService.selectedColorScheme.name"
+            ></i>
+            <div
+                class="color-scheme-switcher-component-button__color"
+                [ngStyle]="{
+                    background: 'linear-gradient(45deg, ' + colorScheme.primaryColor + ' 30%, ' + colorScheme.secondaryColor + ' 100%)'
+                }"
+            ></div>
         </div>
     </div>
 </div>

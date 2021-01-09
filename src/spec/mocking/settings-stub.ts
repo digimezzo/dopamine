@@ -1,11 +1,7 @@
 import { BaseSettings } from '../../app/core/settings/base-settings';
 
 export class SettingsStub implements BaseSettings {
-    constructor(
-        public showWelcome: boolean,
-        public downloadMissingAlbumCovers: boolean,
-        public refreshCollectionAutomatically: boolean) {
-    }
+    constructor(public showWelcome: boolean, public downloadMissingAlbumCovers: boolean, public refreshCollectionAutomatically: boolean) {}
 
     public get defaultLanguage(): string {
         return 'en';

@@ -41,7 +41,7 @@ function createWindow() {
     // Load the previous state with fallback to defaults
     var windowState = windowStateKeeper({
         defaultWidth: 870,
-        defaultHeight: 620
+        defaultHeight: 620,
     });
     // Create the browser window.
     win = new electron_1.BrowserWindow({
@@ -54,7 +54,7 @@ function createWindow() {
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
-            nodeIntegration: true
+            nodeIntegration: true,
         },
         show: false,
     });
@@ -62,7 +62,7 @@ function createWindow() {
     windowState.manage(win);
     if (serve) {
         require('electron-reload')(__dirname, {
-            electron: require(__dirname + "/node_modules/electron")
+            electron: require(__dirname + "/node_modules/electron"),
         });
         win.loadURL('http://localhost:4200');
     }
@@ -70,7 +70,7 @@ function createWindow() {
         win.loadURL(url.format({
             pathname: path.join(__dirname, 'dist/index.html'),
             protocol: 'file:',
-            slashes: true
+            slashes: true,
         }));
     }
     // if (serve) {

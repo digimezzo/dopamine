@@ -1,5 +1,4 @@
 import * as assert from 'assert';
-import { Times, It, Mock, IMock } from 'typemoq';
 import { StepIndicatorComponent } from '../app/components/step-indicator/step-indicator.component';
 
 describe('StepIndicatorComponent', () => {

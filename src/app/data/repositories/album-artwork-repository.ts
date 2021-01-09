@@ -4,11 +4,10 @@ import { AlbumArtwork } from '../entities/album-artwork';
 import { BaseAlbumArtworkRepository } from './base-album-artwork-repository';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
-    constructor(private databaseFactory: DatabaseFactory) {
-    }
+    constructor(private databaseFactory: DatabaseFactory) {}
 
     public addAlbumArtwork(albumArtwork: AlbumArtwork): void {
         const database: any = this.databaseFactory.create();
@@ -32,7 +31,8 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
 
         const statement = database.prepare(
             `SELECT AlbumArtworkID as albumArtworkId, AlbumKey as albumKey, ArtworkID as artworkId
-            FROM AlbumArtwork;`);
+            FROM AlbumArtwork;`
+        );
 
         const albumArtwork: AlbumArtwork[] = statement.all();
 
@@ -45,7 +45,8 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         const statement = database.prepare(
             `SELECT COUNT(*) AS numberOfAlbumArtwork
             FROM AlbumArtwork
-            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`);
+            WHERE AlbumKey NOT IN (SELECT AlbumKey FROM Track);`
+        );
 
         const result: any = statement.get();
 

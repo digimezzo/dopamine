@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import fetch from 'node-fetch';
 import * as fs from 'fs-extra';
+import fetch from 'node-fetch';
 @Injectable()
 export class ImageProcessor {
     public async convertImageBufferToFileAsync(imageBuffer: Buffer, imagePath: string): Promise<void> {

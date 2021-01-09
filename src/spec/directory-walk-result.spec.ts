@@ -5,18 +5,12 @@ describe('DirectoryWalkResult', () => {
     describe('constructor', () => {
         it('Should set file paths', async () => {
             // Arrange
-            const filePaths: string[] = [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ];
+            const filePaths: string[] = ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3'];
 
             const error1: Error = new Error('Error 1');
             const error2: Error = new Error('Error 2');
 
-            const errors: Error[] = [
-                error1,
-                error2
-            ];
+            const errors: Error[] = [error1, error2];
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);
@@ -29,18 +23,12 @@ describe('DirectoryWalkResult', () => {
 
         it('Should set errors', async () => {
             // Arrange
-            const filePaths: string[] = [
-                '/home/user/Music/Track 1.mp3',
-                '/home/user/Music/Track 2.mp3'
-            ];
+            const filePaths: string[] = ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3'];
 
             const error1: Error = new Error('Error 1');
             const error2: Error = new Error('Error 2');
 
-            const errors: Error[] = [
-                error1,
-                error2
-            ];
+            const errors: Error[] = [error1, error2];
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);

@@ -5,10 +5,7 @@ import { TrackFieldCreator } from '../../app/services/indexing/track-field-creat
 
 export class TrackFieldCreatorMocker {
     constructor() {
-        this.trackFieldCreator = new TrackFieldCreator(
-            this.metadataPatcherMock.object,
-            this.datadelimiterMock.object
-        );
+        this.trackFieldCreator = new TrackFieldCreator(this.metadataPatcherMock.object, this.datadelimiterMock.object);
     }
 
     public metadataPatcherMock: IMock<MetadataPatcher> = Mock.ofType<MetadataPatcher>();

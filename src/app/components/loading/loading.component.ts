@@ -9,13 +9,12 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
 
 @Component({
     selector: 'app-loading',
-    host: { 'style': 'display: block' },
+    host: { style: 'display: block' },
     templateUrl: './loading.component.html',
     styleUrls: ['./loading.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class LoadingComponent implements OnInit {
-
     constructor(
         public navigationService: BaseNavigationService,
         private databaseMigrator: BaseDatabaseMigrator,
@@ -23,7 +22,8 @@ export class LoadingComponent implements OnInit {
         private settings: BaseSettings,
         private updateService: BaseUpdateService,
         private indexingService: BaseIndexingService,
-        private scheduler: BaseScheduler) { }
+        private scheduler: BaseScheduler
+    ) {}
 
     public async ngOnInit(): Promise<void> {
         await this.databaseMigrator.migrateAsync();

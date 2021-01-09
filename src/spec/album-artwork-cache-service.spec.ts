@@ -10,14 +10,14 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
 
-            mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            mocker.fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
 
             // Act
             mocker.callAlbumArtworkCacheServiceConstructor();
 
             // Assert
             mocker.fileSystemMock.verify(
-                x => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Cache/CoverArt'),
+                (x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Cache/CoverArt'),
                 Times.exactly(1)
             );
         });
@@ -52,8 +52,8 @@ describe('AlbumArtworkCacheService', () => {
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
 
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
-            mocker.albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
+            mocker.albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            mocker.fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
             const data = Buffer.from([1, 2, 3]);
 
@@ -68,8 +68,8 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
 
-            mocker.albumArtworkCacheIdFactoryMock.setup(x => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
+            mocker.albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            mocker.fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
@@ -81,7 +81,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await mocker.albumArtworkCacheService.addArtworkDataToCacheAsync(data);
 
             // Assert
-            mocker.imageProcessorMock.verify(x => x.convertImageBufferToFileAsync(data, imagePath), Times.exactly(1));
+            mocker.imageProcessorMock.verify((x) => x.convertImageBufferToFileAsync(data, imagePath), Times.exactly(1));
         });
     });
 
@@ -90,17 +90,17 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
             const mocker: AlbumArtworkCacheServiceMocker = new AlbumArtworkCacheServiceMocker();
 
-            mocker.fileSystemMock.setup(x => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            mocker.fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
             const cachedArtworkFilePath: string = path.join(
                 mocker.fileSystemMock.object.coverArtCacheFullPath(),
-                'album-4c315456-43ba-4984-8a7e-403837514638.jpg');
+                'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
+            );
 
             // Act
             await mocker.albumArtworkCacheService.removeArtworkDataFromCacheAsync('album-4c315456-43ba-4984-8a7e-403837514638');
 
-
             // Assert
-            mocker.fileSystemMock.verify(x => x.deleteFileIfExistsAsync(cachedArtworkFilePath), Times.exactly(1));
+            mocker.fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(cachedArtworkFilePath), Times.exactly(1));
         });
     });
 });

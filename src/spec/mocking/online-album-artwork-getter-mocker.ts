@@ -6,11 +6,7 @@ import { Logger } from '../../app/core/logger';
 import { OnlineAlbumArtworkGetter } from '../../app/services/indexing/online-album-artwork-getter';
 
 export class OnlineAlbumArtworkGetterMocker {
-    constructor(
-        public expectedAlbumData: Buffer,
-        private lastfmApiThrowsError: boolean,
-        private imageProcessorThrowsError: boolean,
-        ) {
+    constructor(public expectedAlbumData: Buffer, private lastfmApiThrowsError: boolean, private imageProcessorThrowsError: boolean) {
         this.onlineAlbumArtworkGetter = new OnlineAlbumArtworkGetter(
             this.imageProcessorMock.object,
             this.lastfmApiMock.object,
@@ -21,21 +17,23 @@ export class OnlineAlbumArtworkGetterMocker {
         lastfmAlbum.imageMega = 'http://images.com/image.png';
 
         if (this.lastfmApiThrowsError) {
-            this.lastfmApiMock.setup(
-                x => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN')
-            ).throws(new Error('An error occurred'));
+            this.lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .throws(new Error('An error occurred'));
         } else {
-            this.lastfmApiMock.setup(
-                x => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN')
-            ).returns(async () => lastfmAlbum);
+            this.lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
         }
 
         if (this.imageProcessorThrowsError) {
-            this.imageProcessorMock.setup(x => x.convertOnlineImageToBufferAsync(It.isAnyString())).throws(new Error('An error occurred'));
+            this.imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString()))
+                .throws(new Error('An error occurred'));
         } else {
-            this.imageProcessorMock.setup(
-                x => x.convertOnlineImageToBufferAsync('http://images.com/image.png')
-            ).returns(async () => this.expectedAlbumData);
+            this.imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => this.expectedAlbumData);
         }
     }
 

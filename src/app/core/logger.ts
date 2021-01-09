@@ -3,7 +3,7 @@ import log from 'electron-log';
 
 @Injectable()
 export class Logger {
-    constructor() { }
+    constructor() {}
 
     public info(message: string, callerClass: string, callerMethod: string): void {
         log.info(this.formattedMessage(message, callerClass, callerMethod));

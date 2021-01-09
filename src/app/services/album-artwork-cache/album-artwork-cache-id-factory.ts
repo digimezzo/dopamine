@@ -1,5 +1,5 @@
+import { Injectable } from '@angular/core';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
-import { Injectable } from "@angular/core";
 
 @Injectable()
 export class AlbumArtworkCacheIdFactory {

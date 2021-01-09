@@ -1,22 +1,22 @@
 @import 'variables';
 
 .accent-snack-bar {
-  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
-  color: var(--theme-snack-bar-text-foreground) !important;
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
+    color: var(--theme-snack-bar-text-foreground) !important;
 }
 
-.mat-snack-bar-container{
-  min-height: 28px !important;
-  padding: 8px !important;
-  min-width: 200px !important;
-  max-width: unset !important;
-  margin-top: 50px !important;
+.mat-snack-bar-container {
+    min-height: 28px !important;
+    padding: 8px !important;
+    min-width: 200px !important;
+    max-width: unset !important;
+    margin-top: 50px !important;
 }
 
-.mat-snack-bar-handset{
-  transform-origin: center !important;
-  width: unset !important;
-  min-width: 200px !important;
+.mat-snack-bar-handset {
+    transform-origin: center !important;
+    width: unset !important;
+    min-width: 200px !important;
 }
 
 // .mat-simple-snackbar > span {

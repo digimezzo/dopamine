@@ -1,53 +1,53 @@
-@import "variables";
+@import 'variables';
 
 .no-select {
-  user-select: none;
+    user-select: none;
 }
 
 .selected-item {
-  background-color: var(--theme-item-selected-background);
+    background-color: var(--theme-item-selected-background);
 }
 
 .hidden {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .link-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: var(--theme-accent-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--theme-accent-color);
 }
 
 .link-button:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
 .link-button > a {
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
 }
 
 .link-button__icon {
-  font-size: var(--fontsize-large);
+    font-size: var(--fontsize-large);
 }
 
 .link-button__text {
-  font-size: var(--fontsize-medium);
+    font-size: var(--fontsize-medium);
 }
 
 .inactive {
-  pointer-events: none;
-  opacity: 0.4;
+    pointer-events: none;
+    opacity: 0.4;
 }
 
 .collection-viewport {
-  /* The splitter resize gutter is not displayed when the height is not set explicitly */
-  height: calc(100vh - 120px);
+    /* The splitter resize gutter is not displayed when the height is not set explicitly */
+    height: calc(100vh - 120px);
 }
 
 .side-pane {
-  height: 100%;
-  background-color: var(--theme-side-pane-background);
+    height: 100%;
+    background-color: var(--theme-side-pane-background);
 }

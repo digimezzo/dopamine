@@ -8,15 +8,10 @@ export class Constants {
     public static readonly languages: Language[] = [
         new Language('en', 'English'),
         new Language('fr', 'Français'),
-        new Language('nl', 'Nederlands')
+        new Language('nl', 'Nederlands'),
     ];
 
-    public static readonly fontSizes: FontSize[] = [
-        new FontSize(12),
-        new FontSize(13),
-        new FontSize(14),
-        new FontSize(15)
-    ];
+    public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
 
     public static readonly externalComponents: ExternalComponent[] = [
         new ExternalComponent(
@@ -67,12 +62,7 @@ export class Constants {
             'https://howlerjs.com/',
             'https://github.com/goldfire/howler.js/blob/master/LICENSE.md'
         ),
-        new ExternalComponent(
-            'Icons designed by Sharlee',
-            'Gorgeous Dopamine icons designed by Sharlee.',
-            'https://www.itssharl.ee/',
-            ''
-        ),
+        new ExternalComponent('Icons designed by Sharlee', 'Gorgeous Dopamine icons designed by Sharlee.', 'https://www.itssharl.ee/', ''),
         new ExternalComponent(
             'Icons8 Line Awesome',
             'Replace Font Awesome with modern line icons.',
@@ -108,6 +98,6 @@ export class Constants {
             'Generate RFC-compliant UUIDs in JavaScript.',
             'https://github.com/uuidjs/uuid',
             'https://github.com/uuidjs/uuid/blob/master/LICENSE.md'
-        )
+        ),
     ];
 }

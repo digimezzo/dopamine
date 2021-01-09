@@ -14,7 +14,8 @@ describe('ManageAlbumCoversComponent', () => {
             // Act
             const manageAlbumCoversComponent: ManageAlbumCoversComponent = new ManageAlbumCoversComponent(
                 settingsMock.object,
-                indexingServiceMock.object);
+                indexingServiceMock.object
+            );
 
             // Assert
             assert.ok(manageAlbumCoversComponent.settings != undefined);
@@ -28,13 +29,14 @@ describe('ManageAlbumCoversComponent', () => {
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
             const manageAlbumCoversComponent: ManageAlbumCoversComponent = new ManageAlbumCoversComponent(
                 settingsMock.object,
-                indexingServiceMock.object);
+                indexingServiceMock.object
+            );
 
             // Act
             await manageAlbumCoversComponent.refreshAllCoversAsync();
 
             // Assert
-            indexingServiceMock.verify(x => x.indexAlbumArtworkOnlyAsync(false), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(false), Times.exactly(1));
         });
     });
 
@@ -45,14 +47,14 @@ describe('ManageAlbumCoversComponent', () => {
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
             const manageAlbumCoversComponent: ManageAlbumCoversComponent = new ManageAlbumCoversComponent(
                 settingsMock.object,
-                indexingServiceMock.object);
+                indexingServiceMock.object
+            );
 
             // Act
             await manageAlbumCoversComponent.refreshMissingCoversAsync();
 
-
             // Assert
-            indexingServiceMock.verify(x => x.indexAlbumArtworkOnlyAsync(true), Times.exactly(1));
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(true), Times.exactly(1));
         });
     });
 });

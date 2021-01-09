@@ -4,11 +4,10 @@ import { Folder } from '../entities/folder';
 import { BaseFolderRepository } from './base-folder-repository';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class FolderRepository implements BaseFolderRepository {
-    constructor(private databaseFactory: DatabaseFactory) {
-    }
+    constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolder(folder: Folder): void {
         const database: any = this.databaseFactory.create();
@@ -22,7 +21,8 @@ export class FolderRepository implements BaseFolderRepository {
 
         const statement = database.prepare(
             `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
-            FROM Folder;`);
+            FROM Folder;`
+        );
 
         const folders: Folder[] = statement.all();
 
@@ -35,7 +35,8 @@ export class FolderRepository implements BaseFolderRepository {
         const statement = database.prepare(
             `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
             FROM Folder
-            WHERE Path=?;`);
+            WHERE Path=?;`
+        );
 
         const folder: Folder = statement.get(folderPath);
 

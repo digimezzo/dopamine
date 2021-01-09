@@ -4,12 +4,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     selector: 'app-manage-music',
     templateUrl: './manage-music.component.html',
     styleUrls: ['./manage-music.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ManageMusicComponent implements OnInit {
-    constructor() {
-    }
+    constructor() {}
 
-    public ngOnInit(): void {
-    }
+    public ngOnInit(): void {}
 }

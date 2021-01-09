@@ -11,7 +11,8 @@ export class FolderServiceMocker {
             this.folderRepositoryMock.object,
             this.loggerMock.object,
             this.snackBarServiceMock.object,
-            this.fileSystemMock.object);
+            this.fileSystemMock.object
+        );
     }
 
     public folderRepositoryMock: IMock<BaseFolderRepository> = Mock.ofType<BaseFolderRepository>();

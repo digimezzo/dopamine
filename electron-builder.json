@@ -1,28 +1,18 @@
 {
-  "appId": "com.digimezzo.dopamine",
-  "productName": "Dopamine",
-  "directories": {
-    "output": "release"
-  },
-  "files": [
-    "**/*"
-  ],
-  "extraResources": [
-    "LICENSE"
-  ],
-  "win": {
-    "target": [
-      "nsis"
-    ]
-  },
-  "mac": {
-    "target": [
-      "dmg"
-    ]
-  },
-  "linux": {
-    "target": [
-      "AppImage"
-    ]
-  }
+    "appId": "com.digimezzo.dopamine",
+    "productName": "Dopamine",
+    "directories": {
+        "output": "release"
+    },
+    "files": ["**/*"],
+    "extraResources": ["LICENSE"],
+    "win": {
+        "target": ["nsis"]
+    },
+    "mac": {
+        "target": ["dmg"]
+    },
+    "linux": {
+        "target": ["AppImage"]
+    }
 }

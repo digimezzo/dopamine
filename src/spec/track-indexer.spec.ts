@@ -11,7 +11,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.snackBarServiceMock.verify(x => x.refreshing(), Times.exactly(1));
+            mocker.snackBarServiceMock.verify((x) => x.refreshing(), Times.exactly(1));
         });
 
         it('Should dismiss the indexing notification with a short delay', async () => {
@@ -22,7 +22,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.snackBarServiceMock.verify(x => x.dismissDelayedAsync(), Times.exactly(1));
+            mocker.snackBarServiceMock.verify((x) => x.dismissDelayedAsync(), Times.exactly(1));
         });
 
         it('Should remove tracks that do not belong to folders', async () => {
@@ -33,7 +33,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackRemoverMock.verify(x => x.removeTracksThatDoNoNotBelongToFolders(), Times.exactly(1));
+            mocker.trackRemoverMock.verify((x) => x.removeTracksThatDoNoNotBelongToFolders(), Times.exactly(1));
         });
 
         it('Should remove tracks that are not found on disk', async () => {
@@ -44,7 +44,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackRemoverMock.verify(x => x.removeTracksThatAreNotFoundOnDiskAsync(), Times.exactly(1));
+            mocker.trackRemoverMock.verify((x) => x.removeTracksThatAreNotFoundOnDiskAsync(), Times.exactly(1));
         });
 
         it('Should remove folder tracks for non-existing tracks', async () => {
@@ -55,7 +55,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackRemoverMock.verify(x => x.removeFolderTracksForInexistingTracks(), Times.exactly(1));
+            mocker.trackRemoverMock.verify((x) => x.removeFolderTracksForInexistingTracks(), Times.exactly(1));
         });
 
         it('Should update tracks that are out of date', async () => {
@@ -66,7 +66,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackUpdaterMock.verify(x => x.updateTracksThatAreOutOfDateAsync(), Times.exactly(1));
+            mocker.trackUpdaterMock.verify((x) => x.updateTracksThatAreOutOfDateAsync(), Times.exactly(1));
         });
 
         it('Should add tracks that are not in the database', async () => {
@@ -77,7 +77,7 @@ describe('TrackIndexer', () => {
             await mocker.trackIndexer.indexTracksAsync();
 
             // Assert
-            mocker.trackAdderMock.verify(x => x.addTracksThatAreNotInTheDatabaseAsync(), Times.exactly(1));
+            mocker.trackAdderMock.verify((x) => x.addTracksThatAreNotInTheDatabaseAsync(), Times.exactly(1));
         });
     });
 });

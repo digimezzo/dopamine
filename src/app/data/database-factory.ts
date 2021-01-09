@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import Database from 'better-sqlite3';
-import { FileSystem } from '../core/io/file-system';
 import * as path from 'path';
+import { FileSystem } from '../core/io/file-system';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DatabaseFactory {
-    constructor(private fileSystem: FileSystem) {
-    }
+    constructor(private fileSystem: FileSystem) {}
 
     public create(): any {
         const databaseFile: string = path.join(this.fileSystem.applicationDataDirectory(), 'Dopamine.db');

@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { BaseNavigationService } from './base-navigation.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class NavigationService implements BaseNavigationService {
-    constructor(public router: Router) {
-    }
+    constructor(public router: Router) {}
     public navigateToLoading(): void {
         this.router.navigate(['/loading']);
     }

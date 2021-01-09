@@ -11,37 +11,36 @@ const routes: Routes = [
     {
         path: '',
         redirectTo: '/collection',
-        pathMatch: 'full'
+        pathMatch: 'full',
     },
     {
         path: 'loading',
-        component: LoadingComponent
+        component: LoadingComponent,
     },
     {
         path: 'welcome',
-        component: WelcomeComponent
+        component: WelcomeComponent,
     },
     {
         path: 'collection',
-        component: CollectionComponent
+        component: CollectionComponent,
     },
     {
         path: 'managecollection',
-        component: ManageCollectionComponent
+        component: ManageCollectionComponent,
     },
     {
         path: 'settings',
-        component: SettingsComponent
+        component: SettingsComponent,
     },
     {
         path: 'information',
-        component: InformationComponent
-    }
+        component: InformationComponent,
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, { useHash: true })],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

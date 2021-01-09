@@ -14,7 +14,7 @@ describe('NavigationService', () => {
             navigationService.navigateToLoading();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/loading']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/loading']), Times.exactly(1));
         });
     });
 
@@ -28,7 +28,7 @@ describe('NavigationService', () => {
             navigationService.navigateToCollection();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/collection']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/collection']), Times.exactly(1));
         });
     });
 
@@ -42,7 +42,7 @@ describe('NavigationService', () => {
             navigationService.navigateToWelcome();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/welcome']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/welcome']), Times.exactly(1));
         });
     });
 
@@ -56,7 +56,7 @@ describe('NavigationService', () => {
             navigationService.navigateToManageCollection();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/managecollection']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/managecollection']), Times.exactly(1));
         });
     });
 
@@ -70,7 +70,7 @@ describe('NavigationService', () => {
             navigationService.navigateToSettings();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/settings']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
         });
     });
 
@@ -84,7 +84,7 @@ describe('NavigationService', () => {
             navigationService.navigateToInformation();
 
             // Assert
-            routerMock.verify(x => x.navigate(['/information']), Times.exactly(1));
+            routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
         });
     });
 });

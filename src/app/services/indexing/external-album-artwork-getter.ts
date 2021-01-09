@@ -10,8 +10,8 @@ export class ExternalAlbumArtworkGetter {
     constructor(
         private externalArtworkPathGetter: ExternalArtworkPathGetter,
         private imageprocessor: ImageProcessor,
-        private logger: Logger) {
-    }
+        private logger: Logger
+    ) {}
 
     public async getExternalArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {

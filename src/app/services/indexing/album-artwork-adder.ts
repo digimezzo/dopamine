@@ -22,8 +22,7 @@ export class AlbumArtworkAdder {
         private snackbarService: BaseSnackBarService,
         private logger: Logger,
         private albumArtworkGetter: AlbumArtworkGetter
-    ) {
-    }
+    ) {}
 
     public async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
         try {
@@ -33,7 +32,8 @@ export class AlbumArtworkAdder {
                 this.logger.info(
                     `Found no album data that needs indexing`,
                     'AlbumArtworkAdder',
-                    'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync');
+                    'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                );
 
                 return;
             }
@@ -41,7 +41,8 @@ export class AlbumArtworkAdder {
             this.logger.info(
                 `Found ${albumDataThatNeedsIndexing.length} album data that needs indexing`,
                 'AlbumArtworkAdder',
-                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync');
+                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+            );
 
             this.snackbarService.updatingAlbumArtworkAsync();
 
@@ -52,7 +53,8 @@ export class AlbumArtworkAdder {
                     this.logger.error(
                         `Could not add album artwork for albumKey=${albumData.albumKey}. Error: ${e.message}`,
                         'AlbumArtworkAdder',
-                        'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync');
+                        'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                    );
                 }
             }
         } catch (e) {
@@ -93,8 +95,7 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId =
-            await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
+        const albumArtworkCacheId: AlbumArtworkCacheId = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
         if (albumArtworkCacheId == undefined) {
             return;
