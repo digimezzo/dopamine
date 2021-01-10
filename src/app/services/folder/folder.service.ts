@@ -125,4 +125,23 @@ export class FolderService implements BaseFolderService {
         this.folderRepository.setAllFoldersShowInCollection(1);
         this.logger.info('Set all folders visible', 'FolderService', 'setAllFoldersVisible');
     }
+
+    public async getSubfolderBreadCrumbsAsync(rootFolder: FolderModel, subfolderPath: string): Promise<SubfolderModel[]> {
+        let parentFolderPath: string = subfolderPath;
+        const subfolderBreadCrumbs: SubfolderModel[] = [];
+
+        // Add subfolders, if applicable.
+        while (parentFolderPath !== rootFolder.path) {
+            this.logger.info(
+                `parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
+                'FolderService',
+                'getSubfolderBreadCrumbsAsync'
+            );
+            subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
+            parentFolderPath = this.fileSystem.getDirectoryPath(parentFolderPath);
+        }
+        // Always add the root folder
+        subfolderBreadCrumbs.push(new SubfolderModel(rootFolder.path, false));
+        return subfolderBreadCrumbs.reverse();
+    }
 }

@@ -49,6 +49,15 @@
                     <div class="songs-browser__songscount mr-2">0</div>
                     songs
                 </div>
+                <mat-chip-list class="songs-browser__breadcrumbs mt-3">
+                    <mat-chip
+                        class="songs-browser__breadcrumb no-select"
+                        *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
+                        (click)="getSubfoldersAsync(subfolderBreadCrumb)"
+                    >
+                        {{ subfolderBreadCrumb | subfolderName }}
+                    </mat-chip>
+                </mat-chip-list>
             </div>
         </as-split-area>
     </as-split>

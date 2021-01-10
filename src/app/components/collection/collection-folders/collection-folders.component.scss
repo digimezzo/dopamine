@@ -72,3 +72,19 @@
 .songs-browser__songscount {
     color: var(--theme-accent-color);
 }
+
+.songs-browser__breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.songs-browser__breadcrumb {
+    background-color: var(--theme-breadcrumb-background) !important;
+    border-radius: 4px !important;
+    min-height: 26px !important;
+    padding: 2px 8px !important;
+    font-size: var(--font-size-normal) !important;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SplitAreaDirective, SplitComponent } from 'angular-split';
+import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -30,6 +31,7 @@ export class CollectionFoldersComponent implements OnInit {
     public selectedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel;
+    public subfolderBreadCrumbs: SubfolderModel[] = [];
 
     public async ngOnInit(): Promise<void> {
         await this.fillListsAsync();
@@ -49,6 +51,12 @@ export class CollectionFoldersComponent implements OnInit {
         }
 
         this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, activeSubfolder);
+        const activeSubfolderPath = this.getActiveSubfolderPath();
+        this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.selectedFolder, activeSubfolderPath);
+
+        // HACK: when refreshing the subfolder list, the tooltip of the last hovered
+        // subfolder remains visible. This function is a workaround for this problem.
+        Hacks.removeTooltips();
     }
 
     public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
@@ -65,7 +73,7 @@ export class CollectionFoldersComponent implements OnInit {
     }
 
     private getFirstFolder(): FolderModel {
-        if (this.folders.length == 0) {
+        if (this.folders.length === 0) {
             return undefined;
         }
 
@@ -76,5 +84,11 @@ export class CollectionFoldersComponent implements OnInit {
         await this.getFoldersAsync();
         const folderToSelect: FolderModel = this.getFirstFolder();
         await this.setSelectedFolderAsync(folderToSelect);
+    }
+
+    private getActiveSubfolderPath(): string {
+        return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
+            ? this.subfolders.filter((x) => x.isGoToParent)[0].path
+            : this.selectedFolder.path;
     }
 }

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     MatButtonModule,
     MatCheckboxModule,
+    MatChipsModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
@@ -186,6 +187,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         MatDividerModule,
         MatTabsModule,
         MatCheckboxModule,
+        MatChipsModule,
         BrowserAnimationsModule,
         BrowserModule,
         FormsModule,

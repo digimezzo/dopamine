@@ -21,6 +21,10 @@ export class FolderServiceMock implements BaseFolderService {
         return [];
     }
 
+    public async getSubfolderBreadCrumbsAsync(rootFolder: FolderModel, activeSubfolderPath: string): Promise<SubfolderModel[]> {
+        return [];
+    }
+
     public deleteFolder(folder: FolderModel): void {}
 
     public setFolderVisibility(folder: FolderModel): void {}
