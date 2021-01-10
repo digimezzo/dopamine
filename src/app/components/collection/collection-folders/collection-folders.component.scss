@@ -57,3 +57,18 @@
     overflow-x: hidden !important;
     overflow-y: auto;
 }
+
+.songs-browser {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.songs-browser__header {
+    display: flex;
+    flex-direction: row;
+}
+
+.songs-browser__songscount {
+    color: var(--theme-accent-color);
+}
