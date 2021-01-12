@@ -352,4 +352,69 @@ describe('FolderService', () => {
             assert.strictEqual(subfolders[3].path, 'Root child 3');
         });
     });
+
+    describe('getSubfolderBreadCrumbsAsync', () => {
+        it('Should always contain the root folder in first position', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+
+            mocker.fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music')).returns(() => '/home/user');
+            mocker.fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
+
+            // Act
+            const subfolderBreadCrumbs: SubfolderModel[] = await mocker.folderService.getSubfolderBreadCrumbsAsync(
+                rootFolder,
+                '/home/user/Music/subfolder1'
+            );
+
+            // Assert
+            assert.strictEqual(subfolderBreadCrumbs[0].path, rootFolder.path);
+        });
+
+        it('Should only contain the root folder if the subfolder path is the root folder path', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+
+            // Act
+            const subfolderBreadCrumbs: SubfolderModel[] = await mocker.folderService.getSubfolderBreadCrumbsAsync(
+                rootFolder,
+                rootFolder.path
+            );
+
+            // Assert
+            assert.strictEqual(subfolderBreadCrumbs.length, 1);
+            assert.strictEqual(subfolderBreadCrumbs[0].path, rootFolder.path);
+        });
+
+        it('Should contain subdirectories of the root folder until the given subfolder path included', async () => {
+            // Arrange
+            const mocker: FolderServiceMocker = new FolderServiceMocker();
+            const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+
+            mocker.fileSystemMock
+                .setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1/subfolder2/subfolder3'))
+                .returns(() => '/home/user/Music/subfolder1/subfolder2');
+
+            mocker.fileSystemMock
+                .setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1/subfolder2'))
+                .returns(() => '/home/user/Music/subfolder1');
+
+            mocker.fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
+
+            // Act
+            const subfolderBreadCrumbs: SubfolderModel[] = await mocker.folderService.getSubfolderBreadCrumbsAsync(
+                rootFolder,
+                '/home/user/Music/subfolder1/subfolder2/subfolder3'
+            );
+
+            // Assert
+            assert.strictEqual(subfolderBreadCrumbs.length, 4);
+            assert.strictEqual(subfolderBreadCrumbs[0].path, '/home/user/Music');
+            assert.strictEqual(subfolderBreadCrumbs[1].path, '/home/user/Music/subfolder1');
+            assert.strictEqual(subfolderBreadCrumbs[2].path, '/home/user/Music/subfolder1/subfolder2');
+            assert.strictEqual(subfolderBreadCrumbs[3].path, '/home/user/Music/subfolder1/subfolder2/subfolder3');
+        });
+    });
 });

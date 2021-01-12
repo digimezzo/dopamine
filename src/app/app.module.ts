@@ -58,6 +58,7 @@ import { StepIndicatorComponent } from './components/step-indicator/step-indicat
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
+import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
 import { Desktop } from './core/io/desktop';
 import { FileSystem } from './core/io/file-system';
@@ -235,6 +236,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         LastfmApi,
         Logger,
         Scheduler,
+        Hacks,
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
         { provide: BaseCollectionChecker, useClass: CollectionChecker },

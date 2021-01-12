@@ -140,8 +140,10 @@ export class FolderService implements BaseFolderService {
             subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
             parentFolderPath = this.fileSystem.getDirectoryPath(parentFolderPath);
         }
+
         // Always add the root folder
         subfolderBreadCrumbs.push(new SubfolderModel(rootFolder.path, false));
+
         return subfolderBreadCrumbs.reverse();
     }
 }

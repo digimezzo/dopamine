@@ -18,7 +18,8 @@ export class CollectionFoldersComponent implements OnInit {
     constructor(
         private settings: BaseSettings,
         private folderService: BaseFolderService,
-        private navigationService: BaseNavigationService
+        private navigationService: BaseNavigationService,
+        private hacks: Hacks
     ) {}
     @ViewChild('split', { static: false }) public split: SplitComponent;
     @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
@@ -30,7 +31,6 @@ export class CollectionFoldersComponent implements OnInit {
     public folders: FolderModel[] = [];
     public selectedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
-    public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
 
     public async ngOnInit(): Promise<void> {
@@ -45,27 +45,23 @@ export class CollectionFoldersComponent implements OnInit {
         this.folders = this.folderService.getFolders();
     }
 
-    public async getSubfoldersAsync(activeSubfolder: SubfolderModel): Promise<void> {
+    public async getSubfoldersAsync(selectedSubfolder: SubfolderModel): Promise<void> {
         if (this.selectedFolder == undefined) {
             return;
         }
 
-        this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, activeSubfolder);
+        this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, selectedSubfolder);
         const activeSubfolderPath = this.getActiveSubfolderPath();
         this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.selectedFolder, activeSubfolderPath);
 
         // HACK: when refreshing the subfolder list, the tooltip of the last hovered
         // subfolder remains visible. This function is a workaround for this problem.
-        Hacks.removeTooltips();
+        this.hacks.removeTooltips();
     }
 
     public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
         this.selectedFolder = folder;
         await this.getSubfoldersAsync(undefined);
-    }
-
-    public setSelectedSubfolder(subfolder: SubfolderModel): void {
-        this.selectedSubfolder = subfolder;
     }
 
     public goToManageCollection(): void {
