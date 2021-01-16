@@ -171,6 +171,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         CollectionPlaybackPaneComponent,
         FolderNamePipe,
         SubfolderNamePipe,
+        AppFolderTestComponent,
     ],
     imports: [
         MatProgressSpinnerModule,

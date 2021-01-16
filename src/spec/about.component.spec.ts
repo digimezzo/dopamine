@@ -8,7 +8,7 @@ import { BaseDialogService } from '../app/services/dialog/base-dialog.service';
 
 describe('AboutComponent', () => {
     describe('constructor', () => {
-        it('Should set application version', async () => {
+        it('should set application version', async () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -21,7 +21,7 @@ describe('AboutComponent', () => {
             assert.strictEqual(applicationVersion, ProductInformation.applicationVersion);
         });
 
-        it('Should set application Copyright', async () => {
+        it('should set application Copyright', async () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -34,7 +34,7 @@ describe('AboutComponent', () => {
             assert.strictEqual(applicationCopyright, ProductInformation.applicationCopyright);
         });
 
-        it('Should set website URL', async () => {
+        it('should set website URL', async () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -47,7 +47,7 @@ describe('AboutComponent', () => {
             assert.strictEqual(websiteUrl, ContactInformation.websiteUrl);
         });
 
-        it('Should set Twitter URL', async () => {
+        it('should set Twitter URL', async () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -60,7 +60,7 @@ describe('AboutComponent', () => {
             assert.strictEqual(twitterUrl, ContactInformation.twitterUrl);
         });
 
-        it('Should set GitHub URL', async () => {
+        it('should set GitHub URL', async () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -74,7 +74,7 @@ describe('AboutComponent', () => {
         });
     });
     describe('showLicenseDialog', () => {
-        it('Should open a license dialog', () => {
+        it('should open a license dialog', () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -89,7 +89,7 @@ describe('AboutComponent', () => {
     });
 
     describe('browseToDonateLink', () => {
-        it('Should open the donate link in the default browser', () => {
+        it('should open the donate link in the default browser', () => {
             // Arrange
             const dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();

@@ -7,7 +7,7 @@ import { BaseTranslatorService } from '../app/services/translator/base-translato
 
 describe('AppComponent', () => {
     describe('constructor', () => {
-        it('Should apply theme', async () => {
+        it('should apply theme', async () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
@@ -26,7 +26,7 @@ describe('AppComponent', () => {
             appearanceServiceMock.verify((x) => x.applyTheme(), Times.exactly(1));
         });
 
-        it('Should apply font size', async () => {
+        it('should apply font size', async () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
             appearanceServiceMock.verify((x) => x.applyFontSize(), Times.exactly(1));
         });
 
-        it('Should apply language', async () => {
+        it('should apply language', async () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
@@ -66,7 +66,7 @@ describe('AppComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('Should navigate to loading', async () => {
+        it('should navigate to loading', async () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();

@@ -7,7 +7,7 @@ import { TrackAdderMocker } from './mocking/track-adder-mocker';
 
 describe('TrackAdder', () => {
     describe('addTracksThatAreNotInTheDatabase', () => {
-        it('Should add tracks that are not in the database', async () => {
+        it('should add tracks that are not in the database', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
@@ -42,7 +42,7 @@ describe('TrackAdder', () => {
             );
         });
 
-        it('Should not add tracks that are already in the database', async () => {
+        it('should not add tracks that are already in the database', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
@@ -77,7 +77,7 @@ describe('TrackAdder', () => {
             );
         });
 
-        it('Should add a folderTrack when adding a track to the database', async () => {
+        it('should add a folderTrack when adding a track to the database', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
@@ -105,7 +105,7 @@ describe('TrackAdder', () => {
             );
         });
 
-        it('Should add a file metadata when adding a track to the database', async () => {
+        it('should add a file metadata when adding a track to the database', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
@@ -133,7 +133,7 @@ describe('TrackAdder', () => {
             );
         });
 
-        it('Should add tracks that were previously removed, when removed tracks should not be ignored.', async () => {
+        it('should add tracks that were previously removed, when removed tracks should not be ignored.', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 
@@ -172,7 +172,7 @@ describe('TrackAdder', () => {
             );
         });
 
-        it('Should not add tracks that were previously removed, when removed tracks should be ignored.', async () => {
+        it('should not add tracks that were previously removed, when removed tracks should be ignored.', async () => {
             // Arrange
             const mocker: TrackAdderMocker = new TrackAdderMocker();
 

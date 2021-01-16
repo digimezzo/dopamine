@@ -7,7 +7,7 @@ import { BaseTranslatorService } from '../app/services/translator/base-translato
 
 describe('AppearanceSettingsComponent', () => {
     describe('constructor', () => {
-        it('Should set appearanceService', () => {
+        it('should set appearanceService', () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
@@ -24,7 +24,7 @@ describe('AppearanceSettingsComponent', () => {
             assert.ok(appearanceSettingsComponent.appearanceService != undefined);
         });
 
-        it('Should set translatorService', () => {
+        it('should set translatorService', () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
@@ -41,7 +41,7 @@ describe('AppearanceSettingsComponent', () => {
             assert.ok(appearanceSettingsComponent.translatorService != undefined);
         });
 
-        it('Should set settings', () => {
+        it('should set settings', () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();

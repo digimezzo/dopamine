@@ -6,7 +6,7 @@ import { BaseIndexingService } from '../app/services/indexing/base-indexing.serv
 
 describe('ManageRefreshComponent', () => {
     describe('constructor', () => {
-        it('Should set settings', () => {
+        it('should set settings', () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const baseIndexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
@@ -22,7 +22,7 @@ describe('ManageRefreshComponent', () => {
         });
 
         describe('refreshNowAsync', () => {
-            it('Should index the collection', async () => {
+            it('should index the collection', async () => {
                 // Arrange
                 const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
                 const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();

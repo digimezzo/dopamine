@@ -9,7 +9,7 @@ import { AlbumArtworkRemoverMocker } from './mocking/album-artwork-remover-mocke
 
 describe('AlbumArtworkRemover', () => {
     describe('removeAlbumArtworkThatHasNoTrack', () => {
-        it('Should get the number of album artwork that has no track from the database', () => {
+        it('should get the number of album artwork that has no track from the database', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
 
@@ -20,7 +20,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.albumArtworkRepositoryMock.verify((x) => x.getNumberOfAlbumArtworkThatHasNoTrack(), Times.exactly(1));
         });
 
-        it('Should notify that album artwork is being updated, if there is album artwork that has no track.', () => {
+        it('should notify that album artwork is being updated, if there is album artwork that has no track.', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtworkThatHasNoTrack()).returns(() => 2);
@@ -32,7 +32,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
-        it('Should not notify that album artwork is being updated, if there is no album artwork that has no track.', () => {
+        it('should not notify that album artwork is being updated, if there is no album artwork that has no track.', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtworkThatHasNoTrack()).returns(() => 0);
@@ -44,7 +44,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
-        it('Should delete album artwork that has no track from the database', () => {
+        it('should delete album artwork that has no track from the database', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtworkThatHasNoTrack()).returns(() => 2);
@@ -56,7 +56,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.albumArtworkRepositoryMock.verify((x) => x.deleteAlbumArtworkThatHasNoTrack(), Times.exactly(1));
         });
 
-        it('Should not delete album artwork that has no track from the database if there is none', () => {
+        it('should not delete album artwork that has no track from the database if there is none', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtworkThatHasNoTrack()).returns(() => 0);
@@ -70,7 +70,7 @@ describe('AlbumArtworkRemover', () => {
     });
 
     describe('removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing', () => {
-        it('Should get the number of album artwork for tracks that need album artwork indexing from the database', () => {
+        it('should get the number of album artwork for tracks that need album artwork indexing from the database', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
 
@@ -84,7 +84,7 @@ describe('AlbumArtworkRemover', () => {
             );
         });
 
-        it('Should notify that album artwork is being updated, if there are tracks that need album artwork indexing.', () => {
+        it('should notify that album artwork is being updated, if there are tracks that need album artwork indexing.', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock
@@ -98,7 +98,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
-        it('Should not notify that album artwork is being updated, if there are no tracks that need album artwork indexing.', () => {
+        it('should not notify that album artwork is being updated, if there are no tracks that need album artwork indexing.', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock
@@ -112,7 +112,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
-        it('Should delete album artwork for tracks that need album artwork indexing from the database', () => {
+        it('should delete album artwork for tracks that need album artwork indexing from the database', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock
@@ -126,7 +126,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.albumArtworkRepositoryMock.verify((x) => x.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(), Times.exactly(1));
         });
 
-        it('Should not delete album artwork if there are no tracks that need album artwork indexing from the database', () => {
+        it('should not delete album artwork if there are no tracks that need album artwork indexing from the database', () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock
@@ -142,7 +142,7 @@ describe('AlbumArtworkRemover', () => {
     });
 
     describe('removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync', () => {
-        it('Should get all album artwork in the database', async () => {
+        it('should get all album artwork in the database', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
 
@@ -153,7 +153,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.albumArtworkRepositoryMock.verify((x) => x.getAllAlbumArtwork(), Times.exactly(1));
         });
 
-        it('Should get all artwork files which are in the cover art cache path', async () => {
+        it('should get all artwork files which are in the cover art cache path', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'artworkId1');
@@ -168,7 +168,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.fileSystemMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'), Times.exactly(1));
         });
 
-        it('Should not notify that artwork is being updated if there are no artwork files on disk', async () => {
+        it('should not notify that artwork is being updated if there are no artwork files on disk', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'artworkId1');
@@ -186,7 +186,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
-        it('Should not notify that artwork is being updated if there are artwork files on disk but they are all found in the database', async () => {
+        it('should not notify that artwork is being updated if there are artwork files on disk but they are all found in the database', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');
@@ -213,7 +213,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
-        it('Should notify exactly once that artwork is being updated if there are artwork files on disk which are not found in the database', async () => {
+        it('should notify exactly once that artwork is being updated if there are artwork files on disk which are not found in the database', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => []);
@@ -238,7 +238,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
-        it('Should not delete any artwork files if none are found on disk', async () => {
+        it('should not delete any artwork files if none are found on disk', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             mocker.albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => []);
@@ -254,7 +254,7 @@ describe('AlbumArtworkRemover', () => {
             mocker.fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(It.isAny()), Times.never());
         });
 
-        it('Should delete artwork files if artwork is not found in the database', async () => {
+        it('should delete artwork files if artwork is not found in the database', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');
@@ -283,7 +283,7 @@ describe('AlbumArtworkRemover', () => {
             );
         });
 
-        it('Should not delete artwork files if artwork is found in the database', async () => {
+        it('should not delete artwork files if artwork is found in the database', async () => {
             // Arrange
             const mocker: AlbumArtworkRemoverMocker = new AlbumArtworkRemoverMocker();
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');

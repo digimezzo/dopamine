@@ -5,7 +5,7 @@ import { BaseSnackBarService } from '../app/services/snack-bar/base-snack-bar.se
 
 describe('SnackbarComponent', () => {
     describe('openDataUrl', () => {
-        it('Should open data url link', () => {
+        it('should open data url link', () => {
             // Arrange
             const snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();
@@ -27,7 +27,7 @@ describe('SnackbarComponent', () => {
     });
 
     describe('dismissAsync', () => {
-        it('Should dismiss snack bar', async () => {
+        it('should dismiss snack bar', async () => {
             // Arrange
             const snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
             const desktopMock: IMock<Desktop> = Mock.ofType<Desktop>();

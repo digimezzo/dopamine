@@ -4,7 +4,7 @@ import { ExternalComponent } from '../app/core/base/external-component';
 
 describe('ComponentsComponent', () => {
     describe('externalComponents', () => {
-        it('Should return a list of external components', async () => {
+        it('should return a list of external components', async () => {
             // Arrange
             const componentsComponent: ComponentsComponent = new ComponentsComponent();
 

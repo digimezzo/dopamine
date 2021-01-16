@@ -15,7 +15,7 @@ export class SnackBarComponent implements OnInit {
 
     public ngOnInit(): void {}
 
-    public openDataUrl() {
+    public openDataUrl(): void {
         this.desktop.openLink(this.data.url);
     }
 

@@ -4,7 +4,7 @@ import { TrackUpdaterMocker } from './mocking/track-updater-mocker';
 
 describe('TrackUpdater', () => {
     describe('updateTracksThatAreOutOfDateAsync', () => {
-        it('Should get all tracks from the database', async () => {
+        it('should get all tracks from the database', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -15,7 +15,7 @@ describe('TrackUpdater', () => {
             mocker.trackRepositoryMock.verify((x) => x.getTracks(), Times.exactly(1));
         });
 
-        it('Should not check if tracks are out of date if there are no tracks in the database', async () => {
+        it('should not check if tracks are out of date if there are no tracks in the database', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
             mocker.trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
@@ -27,7 +27,7 @@ describe('TrackUpdater', () => {
             mocker.trackVerifierMock.verify((x) => x.isTrackOutOfDateAsync(It.isAny()), Times.never());
         });
 
-        it('Should not check if tracks need indexing if there are no tracks in the database', async () => {
+        it('should not check if tracks need indexing if there are no tracks in the database', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
             mocker.trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
@@ -39,7 +39,7 @@ describe('TrackUpdater', () => {
             mocker.trackVerifierMock.verify((x) => x.doesTrackNeedIndexing(It.isAny()), Times.never());
         });
 
-        it('Should check all tracks in the database if they need indexing', async () => {
+        it('should check all tracks in the database if they need indexing', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -58,7 +58,7 @@ describe('TrackUpdater', () => {
             mocker.trackVerifierMock.verify((x) => x.doesTrackNeedIndexing(track2), Times.exactly(1));
         });
 
-        it('Should not check any tracks in the database if they are out of date, when they need indexing.', async () => {
+        it('should not check any tracks in the database if they are out of date, when they need indexing.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -77,7 +77,7 @@ describe('TrackUpdater', () => {
             mocker.trackVerifierMock.verify((x) => x.isTrackOutOfDateAsync(track2), Times.never());
         });
 
-        it('Should check all tracks in the database if they are out of date, when they no not need indexing.', async () => {
+        it('should check all tracks in the database if they are out of date, when they no not need indexing.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -96,7 +96,7 @@ describe('TrackUpdater', () => {
             mocker.trackVerifierMock.verify((x) => x.isTrackOutOfDateAsync(track2), Times.exactly(1));
         });
 
-        it('Should add metadata to a track if it needs indexing or is out of date', async () => {
+        it('should add metadata to a track if it needs indexing or is out of date', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -119,7 +119,7 @@ describe('TrackUpdater', () => {
             mocker.trackFillerMock.verify((x) => x.addFileMetadataToTrackAsync(track2), Times.exactly(1));
         });
 
-        it('Should not add metadata to a track if it does not needs indexing and is not out of date', async () => {
+        it('should not add metadata to a track if it does not needs indexing and is not out of date', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -142,7 +142,7 @@ describe('TrackUpdater', () => {
             mocker.trackFillerMock.verify((x) => x.addFileMetadataToTrackAsync(track2), Times.never());
         });
 
-        it('Should update a track in the database using a track that has metadata filled in, if it needs indexing or is out of date.', async () => {
+        it('should update a track in the database using a track that has metadata filled in, if it needs indexing or is out of date.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -175,7 +175,7 @@ describe('TrackUpdater', () => {
             mocker.trackRepositoryMock.verify((x) => x.updateTrack(track2), Times.never());
         });
 
-        it('Should not update a track in the database if it does not need indexing and is not out of date.', async () => {
+        it('should not update a track in the database if it does not need indexing and is not out of date.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -197,7 +197,7 @@ describe('TrackUpdater', () => {
             mocker.trackRepositoryMock.verify((x) => x.updateTrack(It.isAny()), Times.never());
         });
 
-        it('Should notify only once that tracks are being updated, if tracks need indexing or out of date.', async () => {
+        it('should notify only once that tracks are being updated, if tracks need indexing or out of date.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 
@@ -227,7 +227,7 @@ describe('TrackUpdater', () => {
             mocker.snackBarServiceMock.verify((x) => x.updatingTracksAsync(), Times.exactly(1));
         });
 
-        it('Should not notify that tracks are being updated, if tracks do not need indexing and are not out of date.', async () => {
+        it('should not notify that tracks are being updated, if tracks do not need indexing and are not out of date.', async () => {
             // Arrange
             const mocker: TrackUpdaterMocker = new TrackUpdaterMocker();
 

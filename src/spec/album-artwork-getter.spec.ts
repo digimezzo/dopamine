@@ -5,7 +5,7 @@ import { AlbumArtworkGetterMocker } from './mocking/album-artwork-getter-mocker'
 
 describe('AlbumArtworkGetter', () => {
     describe('getAlbumArtwork', () => {
-        it('Should return undefined when fileMetaData is undefined', async () => {
+        it('should return undefined when fileMetaData is undefined', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(true);
 
@@ -16,7 +16,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(albumArtwork, undefined);
         });
 
-        it('Should return embedded artwork when there is embedded artwork', async () => {
+        it('should return embedded artwork when there is embedded artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(true);
 
@@ -32,7 +32,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return external artwork when there is no embedded artwork but there is external artwork', async () => {
+        it('should return external artwork when there is no embedded artwork but there is external artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(true);
 
@@ -51,7 +51,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
+        it('should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(true);
 
@@ -69,7 +69,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
+        it('should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(false);
 
@@ -87,7 +87,7 @@ describe('AlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, undefined);
         });
 
-        it('Should return undefined when there is no embedded and no external and no online artwork', async () => {
+        it('should return undefined when there is no embedded and no external and no online artwork', async () => {
             // Arrange
             const mocker: AlbumArtworkGetterMocker = new AlbumArtworkGetterMocker(true);
 

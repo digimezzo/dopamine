@@ -3,7 +3,7 @@ import { AlbumArtworkIndexerMocker } from './mocking/album-artwork-indexer-mocke
 
 describe('AlbumArtworkIndexer', () => {
     describe('indexAlbumArtworkAsync', () => {
-        it('Should remove artwork that has no track', async () => {
+        it('should remove artwork that has no track', async () => {
             // Arrange
             const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
 
@@ -16,7 +16,7 @@ describe('AlbumArtworkIndexer', () => {
             mocker.albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkThatHasNoTrack(), Times.exactly(1));
         });
 
-        it('Should remove artwork for tracks that need album artwork indexing', async () => {
+        it('should remove artwork for tracks that need album artwork indexing', async () => {
             // Arrange
             const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
 
@@ -29,7 +29,7 @@ describe('AlbumArtworkIndexer', () => {
             mocker.albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(), Times.exactly(1));
         });
 
-        it('Should add artwork for tracks that need album artwork indexing', async () => {
+        it('should add artwork for tracks that need album artwork indexing', async () => {
             // Arrange
             const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
 
@@ -42,7 +42,7 @@ describe('AlbumArtworkIndexer', () => {
             mocker.albumArtworkAdderMock.verify((x) => x.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(), Times.exactly(1));
         });
 
-        it('Should remove artwork that is not in the database from disk', async () => {
+        it('should remove artwork that is not in the database from disk', async () => {
             // Arrange
             const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
 
@@ -55,7 +55,7 @@ describe('AlbumArtworkIndexer', () => {
             mocker.albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(), Times.exactly(1));
         });
 
-        it('Should dismiss the indexing notification with a short delay', async () => {
+        it('should dismiss the indexing notification with a short delay', async () => {
             // Arrange
             const mocker: AlbumArtworkIndexerMocker = new AlbumArtworkIndexerMocker();
 

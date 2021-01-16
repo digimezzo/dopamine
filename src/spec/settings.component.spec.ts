@@ -5,7 +5,7 @@ import { BaseAppearanceService } from '../app/services/appearance/base-appearanc
 
 describe('SettingsComponent', () => {
     describe('constructor', () => {
-        it('Should set appearanceService', () => {
+        it('should set appearanceService', () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
 

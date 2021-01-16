@@ -5,7 +5,7 @@ import { BaseSettings } from '../app/core/settings/base-settings';
 
 describe('AdvancedSettingsComponent', () => {
     describe('constructor', () => {
-        it('Should set settings', () => {
+        it('should set settings', () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
 

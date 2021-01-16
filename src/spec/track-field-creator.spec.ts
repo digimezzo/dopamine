@@ -4,7 +4,7 @@ import { TrackFieldCreatorMocker } from './mocking/track-field-creator-mocker';
 
 describe('TrackFieldCreator', () => {
     describe('createNumberField', () => {
-        it('Should return an 0 when the given value is NaN', () => {
+        it('should return an 0 when the given value is NaN', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -15,7 +15,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, 0);
         });
 
-        it('Should return an 0 when the given value is undefined', () => {
+        it('should return an 0 when the given value is undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -26,7 +26,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, 0);
         });
 
-        it('Should return the value when the given value is not null or undefined', () => {
+        it('should return the value when the given value is not null or undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -39,7 +39,7 @@ describe('TrackFieldCreator', () => {
     });
 
     describe('createTextField', () => {
-        it('Should return an empty string when the given value is undefined', () => {
+        it('should return an empty string when the given value is undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -50,7 +50,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, '');
         });
 
-        it('Should return an empty string when the given value is empty', () => {
+        it('should return an empty string when the given value is empty', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -61,7 +61,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, '');
         });
 
-        it('Should return the same value when the given value has no leading an trailing spaces', () => {
+        it('should return the same value when the given value has no leading an trailing spaces', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -72,7 +72,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, 'Valid value');
         });
 
-        it('Should remove leading and trailing spaces from the given value', () => {
+        it('should remove leading and trailing spaces from the given value', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -85,7 +85,7 @@ describe('TrackFieldCreator', () => {
     });
 
     describe('createMultiTextField', () => {
-        it('Should return an empty string if the value array is undefined', () => {
+        it('should return an empty string if the value array is undefined', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -96,7 +96,7 @@ describe('TrackFieldCreator', () => {
             assert.strictEqual(field, '');
         });
 
-        it('Should join unsplittable metadata', () => {
+        it('should join unsplittable metadata', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 
@@ -110,7 +110,7 @@ describe('TrackFieldCreator', () => {
             mocker.metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));
         });
 
-        it('Should convert to a delimited string', () => {
+        it('should convert to a delimited string', () => {
             // Arrange
             const mocker: TrackFieldCreatorMocker = new TrackFieldCreatorMocker();
 

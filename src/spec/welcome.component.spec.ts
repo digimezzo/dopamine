@@ -4,7 +4,7 @@ import { WelcomeComponentMocker } from './mocking/welcome-component-mocker';
 
 describe('WelcomeComponent', () => {
     describe('constructor', () => {
-        it('Should start at step 0', () => {
+        it('should start at step 0', () => {
             // Arrange
 
             // Act
@@ -14,7 +14,7 @@ describe('WelcomeComponent', () => {
             assert.strictEqual(mocker.welcomeComponent.currentStep, 0);
         });
 
-        it('Should have 6 steps', () => {
+        it('should have 6 steps', () => {
             // Arrange
 
             // Act
@@ -54,7 +54,7 @@ describe('WelcomeComponent', () => {
             assert.strictEqual(mocker.welcomeComponent.canFinish, false);
         });
 
-        it('Should provide correct donate url', () => {
+        it('should provide correct donate url', () => {
             // Arrange
 
             // Act
@@ -68,7 +68,7 @@ describe('WelcomeComponent', () => {
         });
     });
     describe('finish', () => {
-        it('Should navigate to loading component', async () => {
+        it('should navigate to loading component', async () => {
             // Arrange
             const mocker: WelcomeComponentMocker = new WelcomeComponentMocker();
 

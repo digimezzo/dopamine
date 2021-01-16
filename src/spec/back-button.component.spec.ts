@@ -5,7 +5,7 @@ import { BaseNavigationService } from '../app/services/navigation/base-navigatio
 
 describe('BackButtonComponent', () => {
     describe('goBackToCollection', () => {
-        it('Should navigate to collection', () => {
+        it('should navigate to collection', () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
@@ -21,7 +21,7 @@ describe('BackButtonComponent', () => {
             navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
         });
 
-        it('Should index collection if folders have changed', () => {
+        it('should index collection if folders have changed', () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();

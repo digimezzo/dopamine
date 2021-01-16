@@ -6,7 +6,7 @@ import { AddFolderComponentMocker } from './mocking/add-folder-component-mocker'
 
 describe('AddFolderComponent', () => {
     describe('constructor', () => {
-        it('Should provide a list of folders', () => {
+        it('should provide a list of folders', () => {
             // Arrange
             const mock: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -16,7 +16,7 @@ describe('AddFolderComponent', () => {
             assert.ok(mock.addFolderComponent.folders);
         });
 
-        it('Should set indexingService', () => {
+        it('should set indexingService', () => {
             // Arrange
             const mock: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -28,7 +28,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('constructor', () => {
-        it('Should not show check boxes by default', () => {
+        it('should not show check boxes by default', () => {
             // Arrange
             const mock: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -40,7 +40,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('addFolderAsync', () => {
-        it('Should get translated text for the open folder dialog', async () => {
+        it('should get translated text for the open folder dialog', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -51,7 +51,7 @@ describe('AddFolderComponent', () => {
             mocker.translatorServiceMock.verify((x) => x.getAsync('Pages.ManageCollection.SelectFolder'), Times.exactly(1));
         });
 
-        it('Should allow selecting for a folder on the computer', async () => {
+        it('should allow selecting for a folder on the computer', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -62,7 +62,7 @@ describe('AddFolderComponent', () => {
             mocker.desktopMock.verify((x) => x.showSelectFolderDialogAsync('Select a folder'), Times.exactly(1));
         });
 
-        it('Should add a folder with the selected path to the database if the path is not empty', async () => {
+        it('should add a folder with the selected path to the database if the path is not empty', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -75,7 +75,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.addFolderAsync('/home/me/Music'), Times.exactly(1));
         });
 
-        it('Should not add a folder with the selected path to the database if the path is empty', async () => {
+        it('should not add a folder with the selected path to the database if the path is empty', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -88,7 +88,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.addFolderAsync(It.isAnyString()), Times.never());
         });
 
-        it('Should get all folders from the database if adding a folder succeeds', async () => {
+        it('should get all folders from the database if adding a folder succeeds', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -101,7 +101,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
 
-        it('Should not get all folders from the database if adding a folder fails', async () => {
+        it('should not get all folders from the database if adding a folder fails', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -115,7 +115,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.getFolders(), Times.never());
         });
 
-        it('Should get the translation for the error dialog if adding a folder fails', async () => {
+        it('should get the translation for the error dialog if adding a folder fails', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -129,7 +129,7 @@ describe('AddFolderComponent', () => {
             mocker.translatorServiceMock.verify((x) => x.getAsync('ErrorTexts.AddFolderError'), Times.exactly(1));
         });
 
-        it('Should show an error dialog if adding a folder fails', async () => {
+        it('should show an error dialog if adding a folder fails', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -148,7 +148,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('getFoldersAsync', () => {
-        it('Should get folders from the database', async () => {
+        it('should get folders from the database', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -161,7 +161,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('Should get folders from the database', async () => {
+        it('should get folders from the database', async () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -174,7 +174,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('deleteFolderAsync', () => {
-        it('Should get translated text for the delete folder confirmation dialog title', async () => {
+        it('should get translated text for the delete folder confirmation dialog title', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -186,7 +186,7 @@ describe('AddFolderComponent', () => {
             mocker.translatorServiceMock.verify((x) => x.getAsync('DialogTitles.ConfirmDeleteFolder'), Times.exactly(1));
         });
 
-        it('Should get translated text for the delete folder confirmation dialog text', async () => {
+        it('should get translated text for the delete folder confirmation dialog text', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -204,7 +204,7 @@ describe('AddFolderComponent', () => {
             );
         });
 
-        it('Should show a confirmation dialog', async () => {
+        it('should show a confirmation dialog', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -219,7 +219,7 @@ describe('AddFolderComponent', () => {
             );
         });
 
-        it('Should delete the folder if the user has confirmed deletion', async () => {
+        it('should delete the folder if the user has confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -235,7 +235,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.deleteFolder(folderToDelete), Times.exactly(1));
         });
 
-        it('Should not delete the folder if the user has not confirmed deletion', async () => {
+        it('should not delete the folder if the user has not confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -251,7 +251,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.deleteFolder(folderToDelete), Times.never());
         });
 
-        it('Should get all folders if the user has confirmed deletion', async () => {
+        it('should get all folders if the user has confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -267,7 +267,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
 
-        it('Should not get all the folders if the user has not confirmed deletion', async () => {
+        it('should not get all the folders if the user has not confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -283,7 +283,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.getFolders(), Times.never());
         });
 
-        it('Should get the translation for the error dialog if deleting a folder fails', async () => {
+        it('should get the translation for the error dialog if deleting a folder fails', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -301,7 +301,7 @@ describe('AddFolderComponent', () => {
             mocker.translatorServiceMock.verify((x) => x.getAsync('ErrorTexts.DeleteFolderError'), Times.exactly(1));
         });
 
-        it('Should show an error dialog if deleting a folder fails', async () => {
+        it('should show an error dialog if deleting a folder fails', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false, folderToDelete);
@@ -321,7 +321,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('showAllFoldersInCollection', () => {
-        it('Should get settings showAllFoldersInCollection', () => {
+        it('should get settings showAllFoldersInCollection', () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
 
@@ -332,7 +332,7 @@ describe('AddFolderComponent', () => {
             mocker.settingsMock.verify((x) => x.showAllFoldersInCollection, Times.exactly(1));
         });
 
-        it('Should set settings showAllFoldersInCollection', () => {
+        it('should set settings showAllFoldersInCollection', () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
             mocker.settingsStub.showAllFoldersInCollection = false;
@@ -346,7 +346,7 @@ describe('AddFolderComponent', () => {
     });
 
     describe('setFolderVisibility', () => {
-        it('Should save folder visibility', () => {
+        it('should save folder visibility', () => {
             // Arrange
             const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(false);
@@ -358,7 +358,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.setFolderVisibility(folder), Times.exactly(1));
         });
 
-        it('Should disable showAllFoldersInCollection', () => {
+        it('should disable showAllFoldersInCollection', () => {
             // Arrange
             const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
@@ -371,7 +371,7 @@ describe('AddFolderComponent', () => {
             assert.strictEqual(mocker.addFolderComponent.showAllFoldersInCollection, false);
         });
 
-        it('Should set all folders visible if true', () => {
+        it('should set all folders visible if true', () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
 
@@ -382,7 +382,7 @@ describe('AddFolderComponent', () => {
             mocker.folderServiceMock.verify((x) => x.setAllFoldersVisible(), Times.exactly(1));
         });
 
-        it('Should not set all folders visible if false', () => {
+        it('should not set all folders visible if false', () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
 

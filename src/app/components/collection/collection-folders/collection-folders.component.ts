@@ -21,6 +21,7 @@ export class CollectionFoldersComponent implements OnInit {
         private navigationService: BaseNavigationService,
         private hacks: Hacks
     ) {}
+
     @ViewChild('split', { static: false }) public split: SplitComponent;
     @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
     @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;

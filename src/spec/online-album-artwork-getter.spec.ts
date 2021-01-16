@@ -5,7 +5,7 @@ import { OnlineAlbumArtworkGetterMocker } from './mocking/online-album-artwork-g
 
 describe('OnlineAlbumArtworkGetter', () => {
     describe('getOnlineArtworkAsync', () => {
-        it('Should return undefined if fileMetaData is undefined', async () => {
+        it('should return undefined if fileMetaData is undefined', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -17,7 +17,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, undefined);
         });
 
-        it('Should return undefined if fileMetaData has artists but no titles', async () => {
+        it('should return undefined if fileMetaData has artists but no titles', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -35,7 +35,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, undefined);
         });
 
-        it('Should return artwork if fileMetaData has artists and titles', async () => {
+        it('should return artwork if fileMetaData has artists and titles', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -53,7 +53,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return artwork if fileMetaData has artists and only a track title', async () => {
+        it('should return artwork if fileMetaData has artists and only a track title', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -71,7 +71,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return artwork if fileMetaData has artists and only an album title', async () => {
+        it('should return artwork if fileMetaData has artists and only an album title', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -89,7 +89,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return artwork if fileMetaData has titles and only album artists', async () => {
+        it('should return artwork if fileMetaData has titles and only album artists', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -107,7 +107,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return artwork if fileMetaData has titles and only track artists', async () => {
+        it('should return artwork if fileMetaData has titles and only track artists', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
@@ -125,7 +125,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
         });
 
-        it('Should return undefined if converting file to data throws error', async () => {
+        it('should return undefined if converting file to data throws error', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, true);
@@ -143,7 +143,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             assert.strictEqual(actualAlbumArtwork, undefined);
         });
 
-        it('Should return undefined if getting online album info throws error', async () => {
+        it('should return undefined if getting online album info throws error', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
             const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, true, false);

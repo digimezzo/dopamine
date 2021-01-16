@@ -12,7 +12,7 @@ import { SettingsStub } from './mocking/settings-stub';
 
 describe('CollectionFoldersComponent', () => {
     describe('constructor', () => {
-        it('Should set area1 size from settings', async () => {
+        it('should set area1 size from settings', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -32,7 +32,7 @@ describe('CollectionFoldersComponent', () => {
             assert.strictEqual(collectionFoldersComponent.area1Size, 30);
         });
 
-        it('Should set area2 size from settings', async () => {
+        it('should set area2 size from settings', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -52,7 +52,7 @@ describe('CollectionFoldersComponent', () => {
             assert.strictEqual(collectionFoldersComponent.area2Size, 70);
         });
 
-        it('Should define and instantiate the folders collection', async () => {
+        it('should define and instantiate the folders collection', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -72,7 +72,7 @@ describe('CollectionFoldersComponent', () => {
             assert.ok(collectionFoldersComponent.folders);
         });
 
-        it('Should define and instantiate the subfolders collection', async () => {
+        it('should define and instantiate the subfolders collection', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -92,7 +92,7 @@ describe('CollectionFoldersComponent', () => {
             assert.ok(collectionFoldersComponent.subfolders);
         });
 
-        it('Should define and instantiate the subfolderBreadCrumbs collection', async () => {
+        it('should define and instantiate the subfolderBreadCrumbs collection', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -114,7 +114,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('dragEnd', () => {
-        it('Should save the left pane width to the settings', async () => {
+        it('should save the left pane width to the settings', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -137,7 +137,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('getFoldersAsync', () => {
-        it('Should get the folders', async () => {
+        it('should get the folders', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -162,7 +162,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('onInit', () => {
-        it('Should get the folders', async () => {
+        it('should get the folders', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -185,7 +185,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
 
-        it('Should set the selected folder to the first folder if it is undefined', async () => {
+        it('should set the selected folder to the first folder if it is undefined', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -210,7 +210,7 @@ describe('CollectionFoldersComponent', () => {
             assert.strictEqual(collectionFoldersComponent.selectedFolder, folder1);
         });
 
-        it('Should not set the selected folder if it is not undefined', async () => {
+        it('should not set the selected folder if it is not undefined', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -237,7 +237,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('goToManageCollection', () => {
-        it('Should navigate to manage collection', async () => {
+        it('should navigate to manage collection', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -264,7 +264,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('setSelectedFolder', () => {
-        it('Should set the selected folder', async () => {
+        it('should set the selected folder', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -290,7 +290,7 @@ describe('CollectionFoldersComponent', () => {
             assert.strictEqual(collectionFoldersComponent.selectedFolder, folder1);
         });
 
-        it('Should get subfolders for an undefined subfolder', async () => {
+        it('should get subfolders for an undefined subfolder', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -317,7 +317,7 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('getSubfoldersAsync', () => {
-        it('Should not get subfolders if the selected folder is undefined', async () => {
+        it('should not get subfolders if the selected folder is undefined', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -338,7 +338,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfoldersAsync(It.isAny(), It.isAny()), Times.never());
         });
 
-        it('Should get subfolders for the given selected subfolder if the selected folder is not undefined', async () => {
+        it('should get subfolders for the given selected subfolder if the selected folder is not undefined', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -364,7 +364,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfoldersAsync(folder, selectedSubfolder), Times.exactly(1));
         });
 
-        it('Should get breadcrumbs for the selected folder if there are no subfolders', async () => {
+        it('should get breadcrumbs for the selected folder if there are no subfolders', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -390,7 +390,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfolderBreadCrumbsAsync(selectedFolder, selectedFolder.path), Times.exactly(1));
         });
 
-        it('Should get breadcrumbs for the selected folder if there are subfolders but none is go to parent', async () => {
+        it('should get breadcrumbs for the selected folder if there are subfolders but none is go to parent', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();
@@ -418,7 +418,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfolderBreadCrumbsAsync(selectedFolder, selectedFolder.path), Times.exactly(1));
         });
 
-        it('Should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
+        it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
             // Arrange
             const settingsStub: SettingsStub = new SettingsStub(false, false, false);
             const folderServiceMock: IMock<BaseFolderService> = Mock.ofType<BaseFolderService>();

@@ -3,7 +3,7 @@ import { StepIndicatorComponent } from '../app/components/step-indicator/step-in
 
 describe('StepIndicatorComponent', () => {
     describe('ngOnInit', () => {
-        it('Should fill array of total steps', () => {
+        it('should fill array of total steps', () => {
             // Arrange
             const stepIndicatorComponent: StepIndicatorComponent = new StepIndicatorComponent();
 

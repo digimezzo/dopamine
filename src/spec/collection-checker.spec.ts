@@ -3,7 +3,7 @@ import { CollectionCheckerMocker } from './mocking/collection-checker-mocker';
 
 describe('CollectionChecker', () => {
     describe('isCollectionOutdatedAsync', () => {
-        it('Should not be outdated when there are no changes', async () => {
+        it('should not be outdated when there are no changes', async () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
@@ -18,7 +18,7 @@ describe('CollectionChecker', () => {
             assert.ok(!collectionIsOutdated);
         });
 
-        it('Should be outdated if there are database tracks that need indexing', async () => {
+        it('should be outdated if there are database tracks that need indexing', async () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
@@ -33,7 +33,7 @@ describe('CollectionChecker', () => {
             assert.ok(collectionIsOutdated);
         });
 
-        it('Should be outdated if the number of database tracks is larger than the number of files on disk', async () => {
+        it('should be outdated if the number of database tracks is larger than the number of files on disk', async () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
@@ -48,7 +48,7 @@ describe('CollectionChecker', () => {
             assert.ok(collectionNeedsIndexing);
         });
 
-        it('Should be outdated if the number of database tracks is smaller than the number of files on disk', async () => {
+        it('should be outdated if the number of database tracks is smaller than the number of files on disk', async () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 
@@ -63,7 +63,7 @@ describe('CollectionChecker', () => {
             assert.ok(collectionIsOutdated);
         });
 
-        it('Should be outdated if a database track is out of date', async () => {
+        it('should be outdated if a database track is out of date', async () => {
             // Arrange
             const mocker: CollectionCheckerMocker = new CollectionCheckerMocker();
 

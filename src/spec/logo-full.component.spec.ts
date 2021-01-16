@@ -3,7 +3,7 @@ import { LogoFullComponent } from '../app/components/logo-full/logo-full.compone
 
 describe('LogoFullComponent', () => {
     describe('applicationName', () => {
-        it('Should provide correct application name', () => {
+        it('should provide correct application name', () => {
             // Arrange
 
             // Act

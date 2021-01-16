@@ -4,7 +4,7 @@ import { BaseNavigationService } from '../app/services/navigation/base-navigatio
 
 describe('MainMenuComponent', () => {
     describe('goToManageCollection', () => {
-        it('Should navigate to manage collection', () => {
+        it('should navigate to manage collection', () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const mainMenuComponent: MainMenuComponent = new MainMenuComponent(navigationServiceMock.object);
@@ -18,7 +18,7 @@ describe('MainMenuComponent', () => {
     });
 
     describe('goToSettings', () => {
-        it('Should navigate to settings', () => {
+        it('should navigate to settings', () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const mainMenuComponent: MainMenuComponent = new MainMenuComponent(navigationServiceMock.object);
@@ -32,7 +32,7 @@ describe('MainMenuComponent', () => {
     });
 
     describe('goToInformation', () => {
-        it('Should navigate to information', () => {
+        it('should navigate to information', () => {
             // Arrange
             const navigationServiceMock: IMock<BaseNavigationService> = Mock.ofType<BaseNavigationService>();
             const mainMenuComponent: MainMenuComponent = new MainMenuComponent(navigationServiceMock.object);

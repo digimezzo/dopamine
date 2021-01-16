@@ -5,7 +5,7 @@ import { ColorScheme } from '../app/services/appearance/color-scheme';
 
 describe('ColorSchemeSwitcherComponent', () => {
     describe('setColorScheme', () => {
-        it('Should change the selected color scheme', () => {
+        it('should change the selected color scheme', () => {
             // Arrange
             const appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
             const colorThemeSwitcherComponent: ColorSchemeSwitcherComponent = new ColorSchemeSwitcherComponent(

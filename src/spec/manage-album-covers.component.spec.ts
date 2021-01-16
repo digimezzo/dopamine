@@ -6,7 +6,7 @@ import { BaseIndexingService } from '../app/services/indexing/base-indexing.serv
 
 describe('ManageAlbumCoversComponent', () => {
     describe('constructor', () => {
-        it('Should set settings', () => {
+        it('should set settings', () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
@@ -23,7 +23,7 @@ describe('ManageAlbumCoversComponent', () => {
     });
 
     describe('refreshAllCoversAsync', () => {
-        it('Should index artwork only, for all albums', async () => {
+        it('should index artwork only, for all albums', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
@@ -41,7 +41,7 @@ describe('ManageAlbumCoversComponent', () => {
     });
 
     describe('refreshMissingCoversAsync', () => {
-        it('Should index artwork only, for albums with missing covers', async () => {
+        it('should index artwork only, for albums with missing covers', async () => {
             // Arrange
             const settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
             const indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
