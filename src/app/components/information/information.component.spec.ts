@@ -11,7 +11,6 @@ describe('InformationComponent', () => {
 
     let componentWithMocks: InformationComponent;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
-    componentWithMocks = new InformationComponent(appearanceServiceMock.object);
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -27,6 +26,7 @@ describe('InformationComponent', () => {
         fixture.detectChanges();
 
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        componentWithMocks = new InformationComponent(appearanceServiceMock.object);
     });
 
     it('should create', () => {
