@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { ColorScheme } from '../app/services/appearance/color-scheme';
+import { ColorScheme } from './color-scheme';
 
 describe('ColorScheme', () => {
     describe('constructor', () => {

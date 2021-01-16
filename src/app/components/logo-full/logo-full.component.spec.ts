@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import * as assert from 'assert';
 import { LogoFullComponent } from './logo-full.component';
 
 describe('LogoFullComponent', () => {
@@ -22,5 +23,17 @@ describe('LogoFullComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    describe('applicationName', () => {
+        it('should provide correct application name', () => {
+            // Arrange
+
+            // Act
+            const logoFullComponent: LogoFullComponent = new LogoFullComponent();
+
+            // Assert
+            assert.strictEqual(logoFullComponent.applicationName, 'dopamine');
+        });
     });
 });
