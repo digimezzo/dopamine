@@ -20,7 +20,7 @@
                         "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "tsConfig": "src/tsconfig.app.json",
+                        "tsConfig": "tsconfig.app.json",
                         "polyfills": "src/polyfills.ts",
                         "assets": ["src/assets"],
                         "styles": ["src/styles.scss", "./node_modules/line-awesome/dist/line-awesome/css/line-awesome.css"],
@@ -91,7 +91,7 @@
                     "options": {
                         "main": "src/test.ts",
                         "polyfills": "src/polyfills-test.ts",
-                        "tsConfig": "src/tsconfig.spec.json",
+                        "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
                         "scripts": [],
                         "stylePreprocessorOptions": {
@@ -104,7 +104,7 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+                        "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
