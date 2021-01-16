@@ -86,21 +86,6 @@
                         "browserTarget": "dopamine:build"
                     }
                 },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "src/test.ts",
-                        "polyfills": "src/polyfills-test.ts",
-                        "tsConfig": "tsconfig.spec.json",
-                        "karmaConfig": "src/karma.conf.js",
-                        "scripts": [],
-                        "stylePreprocessorOptions": {
-                            "includePaths": ["src/css"]
-                        },
-                        "styles": ["src/styles.scss"],
-                        "assets": ["src/assets"]
-                    }
-                },
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
