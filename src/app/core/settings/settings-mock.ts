@@ -1,6 +1,6 @@
 import { BaseSettings } from './base-settings';
 
-export class SettingsStub implements BaseSettings {
+export class SettingsMock implements BaseSettings {
     constructor() {}
 
     public get defaultLanguage(): string {

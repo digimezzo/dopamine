@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { IMock, Mock } from 'typemoq';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
@@ -19,10 +17,7 @@ describe('AddFolderComponent', () => {
     let settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
     let loggerMock: IMock<Logger> = Mock.ofType<Logger>();
 
-    let componentWithInjection: AddFolderComponent;
-
     let component: AddFolderComponent;
-    let fixture: ComponentFixture<AddFolderComponent>;
 
     beforeEach(() => {
         desktopMock = Mock.ofType<Desktop>();
@@ -33,7 +28,7 @@ describe('AddFolderComponent', () => {
         settingsMock = Mock.ofType<BaseSettings>();
         loggerMock = Mock.ofType<Logger>();
 
-        componentWithInjection = new AddFolderComponent(
+        component = new AddFolderComponent(
             desktopMock.object,
             translatorServiceMock.object,
             folderServiceMock.object,
@@ -42,31 +37,5 @@ describe('AddFolderComponent', () => {
             settingsMock.object,
             loggerMock.object
         );
-    });
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [AddFolderComponent],
-            providers: [
-                Desktop,
-                { provide: BaseTranslatorService, useFactory: () => translatorServiceMock.object },
-                { provide: BaseFolderService, useFactory: () => folderServiceMock.object },
-                { provide: BaseDialogService, useFactory: () => dialogServiceMock.object },
-                { provide: BaseIndexingService, useFactory: () => indexingServiceMock.object },
-                { provide: BaseSettings, useFactory: () => settingsMock.object },
-                Logger,
-            ],
-        }).compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(AddFolderComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
-
-    it('should create', () => {
-        expect(component).toBeTruthy();
     });
 });

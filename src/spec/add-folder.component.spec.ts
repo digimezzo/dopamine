@@ -335,13 +335,13 @@ describe('AddFolderComponent', () => {
         it('should set settings showAllFoldersInCollection', () => {
             // Arrange
             const mocker: AddFolderComponentMocker = new AddFolderComponentMocker(true);
-            mocker.settingsStub.showAllFoldersInCollection = false;
+            mocker.settingsMock.showAllFoldersInCollection = false;
 
             // Act
             mocker.addFolderComponent.showAllFoldersInCollection = true;
 
             // Assert
-            assert.strictEqual(mocker.settingsStub.showAllFoldersInCollection, true);
+            assert.strictEqual(mocker.settingsMock.showAllFoldersInCollection, true);
         });
     });
 

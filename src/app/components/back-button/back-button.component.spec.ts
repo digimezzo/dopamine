@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
@@ -9,32 +7,13 @@ describe('BackButtonComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
 
-    let componentWithInjection: BackButtonComponent;
-
     let component: BackButtonComponent;
-    let fixture: ComponentFixture<BackButtonComponent>;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        componentWithInjection = new BackButtonComponent(navigationServiceMock.object, indexingServiceMock.object);
-    });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [BackButtonComponent],
-            providers: [
-                { provide: BaseNavigationService, useFactory: () => navigationServiceMock.object },
-                { provide: BaseIndexingService, useFactory: () => indexingServiceMock.object },
-            ],
-        }).compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(BackButtonComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+        component = new BackButtonComponent(navigationServiceMock.object, indexingServiceMock.object);
     });
 
     describe('goBackToCollection', () => {
@@ -42,7 +21,7 @@ describe('BackButtonComponent', () => {
             // Arrange
 
             // Act
-            componentWithInjection.goBackToCollection();
+            component.goBackToCollection();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
@@ -52,7 +31,7 @@ describe('BackButtonComponent', () => {
             // Arrange
 
             // Act
-            componentWithInjection.goBackToCollection();
+            component.goBackToCollection();
 
             // Assert
             indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChangedAsync(), Times.exactly(1));

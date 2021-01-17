@@ -1,29 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import { MatDialogRef } from '@angular/material';
+import { IMock, It, Mock } from 'typemoq';
 import { Desktop } from '../../../core/io/desktop';
 import { FileSystem } from '../../../core/io/file-system';
 import { ErrorDialogComponent } from './error-dialog.component';
 
 describe('ErrorDialogComponent', () => {
-    let component: ErrorDialogComponent;
-    let fixture: ComponentFixture<ErrorDialogComponent>;
+    let dialogRefMock: IMock<MatDialogRef<ErrorDialogComponent>>;
+    let desktopMock: IMock<Desktop>;
+    let fileSystemMock: IMock<FileSystem>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot(), MatDialogModule],
-            declarations: [ErrorDialogComponent],
-            providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }, { provide: MatDialogRef, useValue: {} }, Desktop, FileSystem],
-        }).compileComponents();
-    }));
+    let component: ErrorDialogComponent;
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ErrorDialogComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        dialogRefMock = Mock.ofType<MatDialogRef<ErrorDialogComponent>>();
+        desktopMock = Mock.ofType<Desktop>();
+        fileSystemMock = Mock.ofType<FileSystem>();
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+        component = new ErrorDialogComponent(It.isAny(), dialogRefMock.object, desktopMock.object, fileSystemMock.object);
     });
 });

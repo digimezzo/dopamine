@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { IMock, Mock } from 'typemoq';
+import assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
@@ -10,40 +9,80 @@ describe('WelcomeComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let translatorService: IMock<BaseTranslatorService>;
     let appearanceService: IMock<BaseAppearanceService>;
-    let componentWithInjection: WelcomeComponent;
 
     let component: WelcomeComponent;
-    let fixture: ComponentFixture<WelcomeComponent>;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         translatorService = Mock.ofType<BaseTranslatorService>();
         appearanceService = Mock.ofType<BaseAppearanceService>();
 
-        translatorService.setup((x) => x.languages).returns(() => []);
-
-        componentWithInjection = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object);
+        component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object);
     });
+    describe('constructor', () => {
+        it('should start at step 0', () => {
+            // Arrange
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [WelcomeComponent],
-            providers: [
-                { provide: BaseNavigationService, useFactory: () => navigationServiceMock.object },
-                { provide: BaseTranslatorService, useFactory: () => translatorService.object },
-                { provide: BaseAppearanceService, useFactory: () => appearanceService.object },
-            ],
-        }).compileComponents();
-    }));
+            // Act
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(WelcomeComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+            // Assert
+            assert.strictEqual(component.currentStep, 0);
+        });
+
+        it('should have 6 steps', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.strictEqual(component.totalSteps, 6);
+        });
+
+        it('Cannot go back', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.strictEqual(component.canGoBack, false);
+        });
+
+        it('Can go forward', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.strictEqual(component.canGoForward, true);
+        });
+
+        it('Cannot finish', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.strictEqual(component.canFinish, false);
+        });
+
+        it('should provide correct donate url', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.strictEqual(component.donateUrl, 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+        });
     });
+    describe('finish', () => {
+        it('should navigate to loading component', async () => {
+            // Arrange
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+            // Act
+            component.finish();
+
+            // Assert
+            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
+        });
     });
 });

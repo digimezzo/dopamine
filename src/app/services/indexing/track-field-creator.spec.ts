@@ -1,0 +1,127 @@
+import * as assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
+import { DataDelimiter } from '../../data/data-delimiter';
+import { MetadataPatcher } from '../../metadata/metadata-patcher';
+import { TrackFieldCreator } from './track-field-creator';
+
+describe('TrackFieldCreator', () => {
+    let metadataPatcherMock: IMock<MetadataPatcher>;
+    let datadelimiterMock: IMock<DataDelimiter>;
+    let trackFieldCreator: TrackFieldCreator;
+
+    beforeEach(() => {
+        metadataPatcherMock = Mock.ofType<MetadataPatcher>();
+        datadelimiterMock = Mock.ofType<DataDelimiter>();
+        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock.object, datadelimiterMock.object);
+    });
+
+    describe('createNumberField', () => {
+        it('should return an 0 when the given value is NaN', () => {
+            // Arrange
+
+            // Act
+            const field: number = trackFieldCreator.createNumberField(NaN);
+
+            // Assert
+            assert.strictEqual(field, 0);
+        });
+
+        it('should return an 0 when the given value is undefined', () => {
+            // Arrange
+
+            // Act
+            const field: number = trackFieldCreator.createNumberField(undefined);
+
+            // Assert
+            assert.strictEqual(field, 0);
+        });
+
+        it('should return the value when the given value is not null or undefined', () => {
+            // Arrange
+
+            // Act
+            const field: number = trackFieldCreator.createNumberField(20);
+
+            // Assert
+            assert.strictEqual(field, 20);
+        });
+    });
+
+    describe('createTextField', () => {
+        it('should return an empty string when the given value is undefined', () => {
+            // Arrange
+
+            // Act
+            const field: string = trackFieldCreator.createTextField(undefined);
+
+            // Assert
+            assert.strictEqual(field, '');
+        });
+
+        it('should return an empty string when the given value is empty', () => {
+            // Arrange
+
+            // Act
+            const field: string = trackFieldCreator.createTextField('');
+
+            // Assert
+            assert.strictEqual(field, '');
+        });
+
+        it('should return the same value when the given value has no leading an trailing spaces', () => {
+            // Arrange
+
+            // Act
+            const field: string = trackFieldCreator.createTextField('Valid value');
+
+            // Assert
+            assert.strictEqual(field, 'Valid value');
+        });
+
+        it('should remove leading and trailing spaces from the given value', () => {
+            // Arrange
+
+            // Act
+            const field: string = trackFieldCreator.createTextField('  Valid value ');
+
+            // Assert
+            assert.strictEqual(field, 'Valid value');
+        });
+    });
+
+    describe('createMultiTextField', () => {
+        it('should return an empty string if the value array is undefined', () => {
+            // Arrange
+
+            // Act
+            const field: string = trackFieldCreator.createMultiTextField(undefined);
+
+            // Assert
+            assert.strictEqual(field, '');
+        });
+
+        it('should join unsplittable metadata', () => {
+            // Arrange
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            datadelimiterMock.setup((x) => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
+
+            // Act
+            const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
+
+            // Assert
+            metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));
+        });
+
+        it('should convert to a delimited string', () => {
+            // Arrange
+            metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
+            datadelimiterMock.setup((x) => x.convertToDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
+
+            // Act
+            const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
+
+            // Assert
+            datadelimiterMock.verify((x) => x.convertToDelimitedString(['Item 1', 'Item 2']), Times.exactly(1));
+        });
+    });
+});

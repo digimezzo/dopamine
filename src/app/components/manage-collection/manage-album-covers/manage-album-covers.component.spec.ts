@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { IMock, Mock } from 'typemoq';
+import assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { ManageAlbumCoversComponent } from './manage-album-covers.component';
@@ -8,35 +7,52 @@ import { ManageAlbumCoversComponent } from './manage-album-covers.component';
 describe('ManageAlbumCoversComponent', () => {
     let settingsMock: IMock<BaseSettings>;
     let indexingServiceMock: IMock<BaseIndexingService>;
-    let componentWithInjection: ManageAlbumCoversComponent;
 
     let component: ManageAlbumCoversComponent;
-    let fixture: ComponentFixture<ManageAlbumCoversComponent>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<BaseSettings>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        componentWithInjection = new ManageAlbumCoversComponent(settingsMock.object, indexingServiceMock.object);
+
+        component = new ManageAlbumCoversComponent(settingsMock.object, indexingServiceMock.object);
     });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [ManageAlbumCoversComponent],
-            providers: [
-                { provide: BaseSettings, useFactory: () => settingsMock.object },
-                { provide: BaseIndexingService, useFactory: () => indexingServiceMock.object },
-            ],
-        }).compileComponents();
-    }));
+    describe('constructor', () => {
+        it('should set settings', () => {
+            // Arrange
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ManageAlbumCoversComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+            // Act
+            const manageAlbumCoversComponent: ManageAlbumCoversComponent = new ManageAlbumCoversComponent(
+                settingsMock.object,
+                indexingServiceMock.object
+            );
+
+            // Assert
+            assert.ok(manageAlbumCoversComponent.settings != undefined);
+        });
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    describe('refreshAllCoversAsync', () => {
+        it('should index artwork only, for all albums', async () => {
+            // Arrange
+
+            // Act
+            await component.refreshAllCoversAsync();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(false), Times.exactly(1));
+        });
+    });
+
+    describe('refreshMissingCoversAsync', () => {
+        it('should index artwork only, for albums with missing covers', async () => {
+            // Arrange
+
+            // Act
+            await component.refreshMissingCoversAsync();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexAlbumArtworkOnlyAsync(true), Times.exactly(1));
+        });
     });
 });

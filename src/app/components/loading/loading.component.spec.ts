@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { IMock, Mock } from 'typemoq';
+import assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
 import { BaseScheduler } from '../../core/scheduler/base-scheduler';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { SettingsMock } from '../../core/settings/settings-mock';
 import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
@@ -14,58 +14,128 @@ describe('LoadingComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let databaseMigratorMock: IMock<BaseDatabaseMigrator>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: BaseSettings;
     let updateServiceMock: IMock<BaseUpdateService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let schedulerMock: IMock<BaseScheduler>;
 
-    let componentWithInjection: LoadingComponent;
-
     let component: LoadingComponent;
-    let fixture: ComponentFixture<LoadingComponent>;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         databaseMigratorMock = Mock.ofType<BaseDatabaseMigrator>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = new SettingsMock();
         updateServiceMock = Mock.ofType<BaseUpdateService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         schedulerMock = Mock.ofType<BaseScheduler>();
-        componentWithInjection = new LoadingComponent(
+
+        component = new LoadingComponent(
             navigationServiceMock.object,
             databaseMigratorMock.object,
             appearanceServiceMock.object,
-            settingsMock.object,
+            settingsMock,
             updateServiceMock.object,
             indexingServiceMock.object,
             schedulerMock.object
         );
     });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [LoadingComponent],
-            providers: [
-                { provide: BaseNavigationService, useFactory: () => navigationServiceMock.object },
-                { provide: BaseDatabaseMigrator, useFactory: () => databaseMigratorMock.object },
-                { provide: BaseAppearanceService, useFactory: () => appearanceServiceMock.object },
-                { provide: BaseSettings, useFactory: () => settingsMock.object },
-                { provide: BaseUpdateService, useFactory: () => updateServiceMock.object },
-                { provide: BaseIndexingService, useFactory: () => indexingServiceMock.object },
-                { provide: BaseScheduler, useFactory: () => schedulerMock.object },
-            ],
-        }).compileComponents();
-    }));
+    describe('ngOnInit', () => {
+        it('should perform database migrations', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(LoadingComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+            // Act
+            await component.ngOnInit();
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+            // Assert
+            databaseMigratorMock.verify((x) => x.migrateAsync(), Times.exactly(1));
+        });
+
+        it('should navigate to welcome if welcome should be shown', async () => {
+            // Arrange
+            settingsMock.showWelcome = true;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            navigationServiceMock.verify((x) => x.navigateToWelcome(), Times.exactly(1));
+        });
+
+        it('should navigate to collection if welcome should not be shown', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
+        });
+
+        it('should prevent showing the welcome screen on a next start', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            assert.strictEqual(settingsMock.showWelcome, false);
+        });
+
+        it('should check for updates when navigating to collection', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            updateServiceMock.verify((x) => x.checkForUpdatesAsync(), Times.exactly(1));
+        });
+
+        it('should wait 2 seconds before triggering indexing when navigating to collection', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            schedulerMock.verify((x) => x.sleepAsync(2000), Times.exactly(1));
+        });
+
+        it('should trigger indexing when navigating to collection and refresh collection automatically is enabled', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = true;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.exactly(1));
+        });
+
+        it('should not trigger indexing when navigating to collection and refresh collection automatically is disabled', async () => {
+            // Arrange
+            settingsMock.showWelcome = false;
+            settingsMock.refreshCollectionAutomatically = false;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexCollectionIfOutdatedAsync(), Times.never());
+        });
     });
 });

@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { ContactInformation } from '../../../core/base/contact-information';
@@ -12,36 +10,13 @@ describe('AboutComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let desktopMock: IMock<Desktop>;
 
-    let componentWithInjection: AboutComponent;
-
     let component: AboutComponent;
-    let fixture: ComponentFixture<AboutComponent>;
 
     beforeEach(() => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         desktopMock = Mock.ofType<Desktop>();
-        componentWithInjection = new AboutComponent(dialogServiceMock.object, desktopMock.object);
-    });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [AboutComponent],
-            providers: [
-                { provide: BaseDialogService, useFactory: () => dialogServiceMock.object },
-                { provide: Desktop, useFactory: () => desktopMock.object },
-            ],
-        }).compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(AboutComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
-
-    it('should create', () => {
-        expect(component).toBeTruthy();
+        component = new AboutComponent(dialogServiceMock.object, desktopMock.object);
     });
 
     describe('constructor', () => {
@@ -49,7 +24,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const applicationVersion: string = await componentWithInjection.applicationVersion;
+            const applicationVersion: string = await component.applicationVersion;
 
             // Assert
             assert.strictEqual(applicationVersion, ProductInformation.applicationVersion);
@@ -59,7 +34,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const applicationCopyright: string = await componentWithInjection.applicationCopyright;
+            const applicationCopyright: string = await component.applicationCopyright;
 
             // Assert
             assert.strictEqual(applicationCopyright, ProductInformation.applicationCopyright);
@@ -69,7 +44,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const websiteUrl: string = await componentWithInjection.websiteUrl;
+            const websiteUrl: string = await component.websiteUrl;
 
             // Assert
             assert.strictEqual(websiteUrl, ContactInformation.websiteUrl);
@@ -79,7 +54,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const twitterUrl: string = await componentWithInjection.twitterUrl;
+            const twitterUrl: string = await component.twitterUrl;
 
             // Assert
             assert.strictEqual(twitterUrl, ContactInformation.twitterUrl);
@@ -89,7 +64,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const githubUrl: string = await componentWithInjection.githubUrl;
+            const githubUrl: string = await component.githubUrl;
 
             // Assert
             assert.strictEqual(githubUrl, ContactInformation.githubUrl);
@@ -100,7 +75,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            componentWithInjection.showLicenseDialog();
+            component.showLicenseDialog();
 
             // Assert
             dialogServiceMock.verify((x) => x.showLicenseDialog(), Times.exactly(1));
@@ -112,7 +87,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            componentWithInjection.browseToDonateLink();
+            component.browseToDonateLink();
 
             // Assert
             desktopMock.verify((x) => x.openLink(ContactInformation.donateUrl), Times.exactly(1));

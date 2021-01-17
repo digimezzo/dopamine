@@ -1,30 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import { MatDialogRef } from '@angular/material';
+import { IMock, It, Mock } from 'typemoq';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
 describe('ConfirmationDialogComponent', () => {
     let component: ConfirmationDialogComponent;
-    let fixture: ComponentFixture<ConfirmationDialogComponent>;
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot(), MatDialogModule],
-            declarations: [ConfirmationDialogComponent],
-            providers: [
-                { provide: MAT_DIALOG_DATA, useValue: {} },
-                { provide: MatDialogRef, useValue: {} },
-            ],
-        }).compileComponents();
-    }));
+    let dialogRefMock: IMock<MatDialogRef<ConfirmationDialogComponent>>;
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ConfirmationDialogComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        dialogRefMock = Mock.ofType<MatDialogRef<ConfirmationDialogComponent>>();
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+        component = new ConfirmationDialogComponent(It.isAny(), dialogRefMock.object);
     });
 });

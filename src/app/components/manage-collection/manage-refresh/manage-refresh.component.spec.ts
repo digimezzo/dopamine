@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { IMock, Mock } from 'typemoq';
+import assert from 'assert';
+import { IMock, Mock, Times } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { ManageRefreshComponent } from './manage-refresh.component';
@@ -8,35 +7,35 @@ import { ManageRefreshComponent } from './manage-refresh.component';
 describe('ManageRefreshComponent', () => {
     let settingsMock: IMock<BaseSettings>;
     let indexingServiceMock: IMock<BaseIndexingService>;
-    let componentWithInjection: ManageRefreshComponent;
 
     let component: ManageRefreshComponent;
-    let fixture: ComponentFixture<ManageRefreshComponent>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<BaseSettings>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        componentWithInjection = new ManageRefreshComponent(settingsMock.object, indexingServiceMock.object);
+
+        component = new ManageRefreshComponent(settingsMock.object, indexingServiceMock.object);
     });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [ManageRefreshComponent],
-            providers: [
-                { provide: BaseSettings, useFactory: () => settingsMock.object },
-                { provide: BaseIndexingService, useFactory: () => indexingServiceMock.object },
-            ],
-        }).compileComponents();
-    }));
+    describe('constructor', () => {
+        it('should set settings', () => {
+            // Arrange
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ManageRefreshComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+            // Act
+
+            // Assert
+            assert.ok(component.settings != undefined);
+        });
     });
+    describe('refreshNowAsync', () => {
+        it('should index the collection', async () => {
+            // Arrange
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+            // Act
+            await component.refreshNowAsync();
+
+            // Assert
+            indexingServiceMock.verify((x) => x.indexCollectionAlwaysAsync(), Times.exactly(1));
+        });
     });
 });

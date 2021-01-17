@@ -3,7 +3,7 @@ import { AddFolderComponent } from '../../app/components/add-folder/add-folder.c
 import { Desktop } from '../../app/core/io/desktop';
 import { Logger } from '../../app/core/logger';
 import { BaseSettings } from '../../app/core/settings/base-settings';
-import { SettingsStub } from '../../app/core/settings/settings-stub';
+import { SettingsMock } from '../../app/core/settings/settings-mock';
 import { BaseDialogService } from '../../app/services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { FolderModel } from '../../app/services/folder/folder-model';
@@ -31,7 +31,7 @@ export class AddFolderComponentMocker {
                 this.folderServiceMock.object,
                 this.dialogServiceMock.object,
                 this.indexingServiceMock.object,
-                this.settingsStub,
+                this.settingsMock,
                 this.loggerMock.object
             );
         } else {
@@ -53,7 +53,7 @@ export class AddFolderComponentMocker {
     public dialogServiceMock: IMock<BaseDialogService> = Mock.ofType<BaseDialogService>();
     public indexingServiceMock: IMock<BaseIndexingService> = Mock.ofType<BaseIndexingService>();
     public loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-    public settingsStub: SettingsStub = new SettingsStub(false, false, true);
+    public settingsMock: SettingsMock = new SettingsMock(false, false, true);
     public settingsMock: IMock<BaseSettings> = Mock.ofType<BaseSettings>();
     public addFolderComponent: AddFolderComponent;
 }

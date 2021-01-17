@@ -1,5 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
@@ -10,45 +9,43 @@ describe('AppearanceSettingsComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let settingsMock: IMock<BaseSettings>;
-    let componentWithInjection: AppearanceSettingsComponent;
 
     let component: AppearanceSettingsComponent;
-    let fixture: ComponentFixture<AppearanceSettingsComponent>;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         settingsMock = Mock.ofType<BaseSettings>();
 
-        appearanceServiceMock.setup((x) => x.fontSizes).returns(() => []);
-        translatorServiceMock.setup((x) => x.languages).returns(() => []);
-
-        componentWithInjection = new AppearanceSettingsComponent(
-            appearanceServiceMock.object,
-            translatorServiceMock.object,
-            settingsMock.object
-        );
+        component = new AppearanceSettingsComponent(appearanceServiceMock.object, translatorServiceMock.object, settingsMock.object);
     });
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot()],
-            declarations: [AppearanceSettingsComponent],
-            providers: [
-                { provide: BaseAppearanceService, useFactory: () => appearanceServiceMock.object },
-                { provide: BaseTranslatorService, useFactory: () => translatorServiceMock.object },
-                { provide: BaseSettings, useFactory: () => settingsMock.object },
-            ],
-        }).compileComponents();
-    }));
+    describe('constructor', () => {
+        it('should set appearanceService', () => {
+            // Arrange
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(AppearanceSettingsComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+            // Act
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+            // Assert
+            assert.ok(component.appearanceService != undefined);
+        });
+
+        it('should set translatorService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(component.translatorService != undefined);
+        });
+
+        it('should set settings', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(component.settings != undefined);
+        });
     });
 });
