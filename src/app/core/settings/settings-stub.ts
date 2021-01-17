@@ -1,16 +1,19 @@
-import { BaseSettings } from '../../app/core/settings/base-settings';
+import { BaseSettings } from './base-settings';
 
 export class SettingsStub implements BaseSettings {
-    constructor(public showWelcome: boolean, public downloadMissingAlbumCovers: boolean, public refreshCollectionAutomatically: boolean) {}
+    constructor() {}
 
     public get defaultLanguage(): string {
         return 'en';
     }
 
+    public showWelcome: boolean;
+    public downloadMissingAlbumCovers: boolean;
+    public refreshCollectionAutomatically: boolean;
     public language: string = '';
     public checkForUpdates: boolean = false;
     public useSystemTitleBar: boolean = false;
-    public fontSize: number = 0;
+    public fontSize: number = 14;
     public colorScheme: string = '';
     public followSystemTheme: boolean = false;
     public useLightBackgroundTheme: boolean = false;

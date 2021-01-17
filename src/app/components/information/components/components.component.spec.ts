@@ -5,8 +5,14 @@ import { ExternalComponent } from '../../../core/base/external-component';
 import { ComponentsComponent } from './components.component';
 
 describe('ComponentsComponent', () => {
+    let componentWithInjection: ComponentsComponent;
+
     let component: ComponentsComponent;
     let fixture: ComponentFixture<ComponentsComponent>;
+
+    beforeEach(() => {
+        componentWithInjection = new ComponentsComponent();
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -29,10 +35,9 @@ describe('ComponentsComponent', () => {
     describe('externalComponents', () => {
         it('should return a list of external components', async () => {
             // Arrange
-            const componentsComponent: ComponentsComponent = new ComponentsComponent();
 
             // Act
-            const externalComponents: ExternalComponent[] = componentsComponent.externalComponents;
+            const externalComponents: ExternalComponent[] = componentWithInjection.externalComponents;
 
             // Assert
             assert.ok(externalComponents.length > 0);

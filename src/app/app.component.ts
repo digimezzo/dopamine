@@ -16,20 +16,20 @@ export class AppComponent implements OnInit, OnDestroy {
         private appearanceService: BaseAppearanceService,
         private translatorService: BaseTranslatorService,
         private logger: Logger
-    ) {
-        this.appearanceService.applyTheme();
-        this.appearanceService.applyFontSize();
-        this.translatorService.applyLanguage();
-    }
+    ) {}
 
     public ngOnDestroy(): void {}
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.logger.info(
             `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
             'AppComponent',
             'ngOnInit'
         );
+
+        this.appearanceService.applyTheme();
+        this.appearanceService.applyFontSize();
+        this.translatorService.applyLanguage();
 
         this.navigationService.navigateToLoading();
     }

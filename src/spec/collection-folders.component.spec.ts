@@ -3,12 +3,12 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { CollectionFoldersComponent } from '../app/components/collection/collection-folders/collection-folders.component';
 import { Hacks } from '../app/core/hacks';
 import { BaseSettings } from '../app/core/settings/base-settings';
+import { SettingsStub } from '../app/core/settings/settings-stub';
 import { Folder } from '../app/data/entities/folder';
 import { BaseFolderService } from '../app/services/folder/base-folder.service';
 import { FolderModel } from '../app/services/folder/folder-model';
 import { SubfolderModel } from '../app/services/folder/subfolder-model';
 import { BaseNavigationService } from '../app/services/navigation/base-navigation.service';
-import { SettingsStub } from './mocking/settings-stub';
 
 describe('CollectionFoldersComponent', () => {
     describe('constructor', () => {

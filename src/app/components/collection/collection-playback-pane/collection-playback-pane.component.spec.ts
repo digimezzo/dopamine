@@ -3,8 +3,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CollectionPlaybackPaneComponent } from './collection-playback-pane.component';
 
 describe('CollectionPlaybackPaneComponent', () => {
+    let componentWithInjection: CollectionPlaybackPaneComponent;
+
     let component: CollectionPlaybackPaneComponent;
     let fixture: ComponentFixture<CollectionPlaybackPaneComponent>;
+
+    beforeEach(() => {
+        componentWithInjection = new CollectionPlaybackPaneComponent();
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

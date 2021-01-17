@@ -6,17 +6,22 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
 import { SettingsComponent } from './settings.component';
 
 describe('SettingsComponent', () => {
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let componentWithInjection: SettingsComponent;
+
     let component: SettingsComponent;
     let fixture: ComponentFixture<SettingsComponent>;
 
-    let componentWithMocks: SettingsComponent;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    beforeEach(() => {
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        componentWithInjection = new SettingsComponent(appearanceServiceMock.object);
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot()],
             declarations: [SettingsComponent],
-            providers: [BaseAppearanceService],
+            providers: [{ provide: BaseAppearanceService, useFactory: () => appearanceServiceMock.object }],
         }).compileComponents();
     }));
 
@@ -24,9 +29,6 @@ describe('SettingsComponent', () => {
         fixture = TestBed.createComponent(SettingsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        componentWithMocks = new SettingsComponent(appearanceServiceMock.object);
     });
 
     it('should create', () => {
@@ -40,7 +42,7 @@ describe('SettingsComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(componentWithMocks.appearanceService, appearanceServiceMock.object);
+            assert.strictEqual(componentWithInjection.appearanceService, appearanceServiceMock.object);
         });
     });
 });

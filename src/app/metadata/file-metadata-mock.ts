@@ -1,4 +1,4 @@
-import { FileMetadata } from '../../app/metadata/file-metadata';
+import { FileMetadata } from './file-metadata';
 
 export class FileMetadataMock implements FileMetadata {
     public path: string;

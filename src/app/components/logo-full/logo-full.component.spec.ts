@@ -4,8 +4,14 @@ import * as assert from 'assert';
 import { LogoFullComponent } from './logo-full.component';
 
 describe('LogoFullComponent', () => {
+    let componentWithInjection: LogoFullComponent;
+
     let component: LogoFullComponent;
     let fixture: ComponentFixture<LogoFullComponent>;
+
+    beforeEach(() => {
+        componentWithInjection = new LogoFullComponent();
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -30,10 +36,9 @@ describe('LogoFullComponent', () => {
             // Arrange
 
             // Act
-            const logoFullComponent: LogoFullComponent = new LogoFullComponent();
 
             // Assert
-            assert.strictEqual(logoFullComponent.applicationName, 'dopamine');
+            assert.strictEqual(componentWithInjection.applicationName, 'dopamine');
         });
     });
 });

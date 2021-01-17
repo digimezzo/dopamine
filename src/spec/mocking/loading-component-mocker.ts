@@ -1,12 +1,12 @@
 import { IMock, Mock } from 'typemoq';
 import { LoadingComponent } from '../../app/components/loading/loading.component';
 import { BaseScheduler } from '../../app/core/scheduler/base-scheduler';
+import { SettingsStub } from '../../app/core/settings/settings-stub';
 import { BaseDatabaseMigrator } from '../../app/data/base-database-migrator';
 import { BaseAppearanceService } from '../../app/services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../app/services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../app/services/update/base-update.service';
-import { SettingsStub } from './settings-stub';
 
 export class LoadingComponentMocker {
     constructor(private showWelcome: boolean, private refreshCollectionAutomatically: boolean) {

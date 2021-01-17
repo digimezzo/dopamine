@@ -3,12 +3,12 @@ import { AddFolderComponent } from '../../app/components/add-folder/add-folder.c
 import { Desktop } from '../../app/core/io/desktop';
 import { Logger } from '../../app/core/logger';
 import { BaseSettings } from '../../app/core/settings/base-settings';
+import { SettingsStub } from '../../app/core/settings/settings-stub';
 import { BaseDialogService } from '../../app/services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../app/services/folder/base-folder.service';
 import { FolderModel } from '../../app/services/folder/folder-model';
 import { BaseIndexingService } from '../../app/services/indexing/base-indexing.service';
 import { BaseTranslatorService } from '../../app/services/translator/base-translator.service';
-import { SettingsStub } from './settings-stub';
 
 export class AddFolderComponentMocker {
     constructor(private useSettingsStub: boolean, private folderToDelete?: FolderModel) {

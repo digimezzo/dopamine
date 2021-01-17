@@ -6,17 +6,23 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
 import { InformationComponent } from './information.component';
 
 describe('InformationComponent', () => {
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
+
+    let componentWithInjection: InformationComponent;
+
     let component: InformationComponent;
     let fixture: ComponentFixture<InformationComponent>;
 
-    let componentWithMocks: InformationComponent;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    beforeEach(() => {
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        componentWithInjection = new InformationComponent(appearanceServiceMock.object);
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot()],
             declarations: [InformationComponent],
-            providers: [BaseAppearanceService],
+            providers: [{ provide: BaseAppearanceService, useFactory: () => appearanceServiceMock.object }],
         }).compileComponents();
     }));
 
@@ -24,14 +30,12 @@ describe('InformationComponent', () => {
         fixture = TestBed.createComponent(InformationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        componentWithMocks = new InformationComponent(appearanceServiceMock.object);
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
     describe('constructor', () => {
         it('should set appearanceService', () => {
             // Arrange
@@ -39,7 +43,7 @@ describe('InformationComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(componentWithMocks.appearanceService, appearanceServiceMock.object);
+            assert.strictEqual(componentWithInjection.appearanceService, appearanceServiceMock.object);
         });
     });
 });

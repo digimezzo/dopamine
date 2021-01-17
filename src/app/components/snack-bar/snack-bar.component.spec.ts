@@ -7,18 +7,35 @@ import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.ser
 import { SnackBarComponent } from './snack-bar.component';
 
 describe('SnackBarComponent', () => {
+    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let desktopMock: IMock<Desktop>;
+    let componentWithInjection: SnackBarComponent;
+
     let component: SnackBarComponent;
     let fixture: ComponentFixture<SnackBarComponent>;
 
-    let componentWithMocks: SnackBarComponent;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let desktopMock: IMock<Desktop>;
+    beforeEach(() => {
+        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        desktopMock = Mock.ofType<Desktop>();
+
+        componentWithInjection = new SnackBarComponent(snackBarServiceMock.object, desktopMock.object, {
+            icon: 'My icon',
+            animateIcon: true,
+            message: 'My message',
+            showCloseButton: true,
+            url: 'My url',
+        });
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot()],
             declarations: [SnackBarComponent],
-            providers: [BaseSnackBarService, Desktop, { provide: MAT_SNACK_BAR_DATA, useValue: {} }],
+            providers: [
+                { provide: BaseSnackBarService, useFactory: () => snackBarServiceMock.object },
+                { provide: Desktop, useFactory: () => desktopMock.object },
+                { provide: MAT_SNACK_BAR_DATA, useValue: {} },
+            ],
         }).compileComponents();
     }));
 
@@ -26,17 +43,6 @@ describe('SnackBarComponent', () => {
         fixture = TestBed.createComponent(SnackBarComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
-        desktopMock = Mock.ofType<Desktop>();
-
-        componentWithMocks = new SnackBarComponent(snackBarServiceMock.object, desktopMock.object, {
-            icon: 'My icon',
-            animateIcon: true,
-            message: 'My message',
-            showCloseButton: true,
-            url: 'My url',
-        });
     });
 
     it('should create', () => {
@@ -48,7 +54,7 @@ describe('SnackBarComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.openDataUrl();
+            componentWithInjection.openDataUrl();
 
             // Assert
             desktopMock.verify((x) => x.openLink('My url'), Times.exactly(1));
@@ -60,7 +66,7 @@ describe('SnackBarComponent', () => {
             // Arrange
 
             // Act
-            await componentWithMocks.dismissAsync();
+            await componentWithInjection.dismissAsync();
 
             // Assert
             snackBarServiceMock.verify((x) => x.dismissAsync(), Times.exactly(1));

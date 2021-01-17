@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
-import { BaseFolderService } from '../../app/services/folder/base-folder.service';
-import { FolderModel } from '../../app/services/folder/folder-model';
-import { SubfolderModel } from '../../app/services/folder/subfolder-model';
+import { BaseFolderService } from './base-folder.service';
+import { FolderModel } from './folder-model';
+import { SubfolderModel } from './subfolder-model';
 
 export class FolderServiceMock implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();

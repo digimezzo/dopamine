@@ -1,7 +1,7 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { FolderServiceMock } from '../../../spec/mocking/folder-service-mock';
 import { Logger } from '../../core/logger';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { FolderServiceMock } from '../folder/folder-service-mock';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { CollectionChecker } from './collection-checker';
 import { IndexingService } from './indexing.service';

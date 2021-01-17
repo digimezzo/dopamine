@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import { Times } from 'typemoq';
 import { DateTime } from '../app/core/date-time';
 import { Track } from '../app/data/entities/track';
-import { FileMetadataMock } from './mocking/file-metadata-mock';
+import { FileMetadataMock } from '../app/metadata/file-metadata-mock';
 import { TrackFillerMocker } from './mocking/track-filler-mocker';
 
 describe('TrackFiller', () => {

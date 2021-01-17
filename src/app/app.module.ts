@@ -60,7 +60,9 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
 import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
+import { BaseElectronProxy } from './core/io/base-electron-proxy';
 import { Desktop } from './core/io/desktop';
+import { ElectronProxy } from './core/io/electron-proxy';
 import { FileSystem } from './core/io/file-system';
 import { Logger } from './core/logger';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
@@ -171,7 +173,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         CollectionPlaybackPaneComponent,
         FolderNamePipe,
         SubfolderNamePipe,
-        AppFolderTestComponent,
     ],
     imports: [
         MatProgressSpinnerModule,
@@ -258,6 +259,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
         { provide: BaseScheduler, useClass: Scheduler },
+        { provide: BaseElectronProxy, useClass: ElectronProxy },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

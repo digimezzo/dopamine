@@ -6,17 +6,22 @@ import { BaseNavigationService } from '../../services/navigation/base-navigation
 import { MainMenuComponent } from './main-menu.component';
 
 describe('MainMenuComponent', () => {
+    let navigationServiceMock: IMock<BaseNavigationService>;
+    let componentWithInjection: MainMenuComponent;
+
     let component: MainMenuComponent;
     let fixture: ComponentFixture<MainMenuComponent>;
 
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let componentWithMocks: MainMenuComponent;
+    beforeEach(() => {
+        navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        componentWithInjection = new MainMenuComponent(navigationServiceMock.object);
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot(), MatMenuModule],
             declarations: [MainMenuComponent],
-            providers: [BaseNavigationService],
+            providers: [{ provide: BaseNavigationService, useFactory: () => navigationServiceMock.object }],
         }).compileComponents();
     }));
 
@@ -24,9 +29,6 @@ describe('MainMenuComponent', () => {
         fixture = TestBed.createComponent(MainMenuComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        componentWithMocks = new MainMenuComponent(navigationServiceMock.object);
     });
 
     it('should create', () => {
@@ -38,7 +40,7 @@ describe('MainMenuComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.goToManageCollection();
+            componentWithInjection.goToManageCollection();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToManageCollection(), Times.exactly(1));
@@ -50,7 +52,7 @@ describe('MainMenuComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.goToSettings();
+            componentWithInjection.goToSettings();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToSettings(), Times.exactly(1));
@@ -62,7 +64,7 @@ describe('MainMenuComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.goToInformation();
+            componentWithInjection.goToInformation();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToInformation(), Times.exactly(1));

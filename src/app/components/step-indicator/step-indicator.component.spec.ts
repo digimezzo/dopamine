@@ -1,19 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import assert from 'assert';
 import { StepIndicatorComponent } from './step-indicator.component';
 
 describe('StepIndicatorComponent', () => {
+    let componentWithInjection: StepIndicatorComponent;
+
     let component: StepIndicatorComponent;
     let fixture: ComponentFixture<StepIndicatorComponent>;
+
+    beforeEach(() => {
+        componentWithInjection = new StepIndicatorComponent();
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot()],
             declarations: [StepIndicatorComponent],
-            providers: [BaseNavigationService, BaseTranslatorService, BaseAppearanceService],
+            providers: [],
         }).compileComponents();
     }));
 
@@ -25,5 +29,22 @@ describe('StepIndicatorComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    describe('ngOnInit', () => {
+        it('should fill array of total steps', () => {
+            // Arrange
+
+            // Act
+            componentWithInjection.totalSteps = 5;
+            componentWithInjection.ngOnInit();
+
+            // Assert
+            assert.strictEqual(componentWithInjection.totalStepsCollection[0], 0);
+            assert.strictEqual(componentWithInjection.totalStepsCollection[1], 1);
+            assert.strictEqual(componentWithInjection.totalStepsCollection[2], 2);
+            assert.strictEqual(componentWithInjection.totalStepsCollection[3], 3);
+            assert.strictEqual(componentWithInjection.totalStepsCollection[4], 4);
+        });
     });
 });

@@ -1,9 +1,10 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
-import { remote } from 'electron';
+import { Subscription } from 'rxjs';
 import { Constants } from '../../core/base/constants';
 import { FontSize } from '../../core/base/font-size';
 import { ProductInformation } from '../../core/base/product-information';
+import { BaseElectronProxy } from '../../core/io/base-electron-proxy';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { StringCompare } from '../../core/string-compare';
@@ -14,11 +15,19 @@ import { ColorScheme } from './color-scheme';
     providedIn: 'root',
 })
 export class AppearanceService implements BaseAppearanceService {
-    private windowHasFrame: boolean = remote.getGlobal('windowHasFrame');
+    private windowHasFrame: boolean;
     private _selectedColorScheme: ColorScheme;
     private _selectedFontSize: FontSize;
+    private subscription: Subscription = new Subscription();
 
-    constructor(private settings: BaseSettings, private logger: Logger, private overlayContainer: OverlayContainer) {
+    constructor(
+        private settings: BaseSettings,
+        private logger: Logger,
+        private overlayContainer: OverlayContainer,
+        private electronProxy: BaseElectronProxy
+    ) {
+        this.windowHasFrame = this.electronProxy.getGlobal('windowHasFrame');
+
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find((x) => x.name === this.settings.colorScheme);
 
         if (colorSchemeFromSettings == undefined) {
@@ -28,13 +37,17 @@ export class AppearanceService implements BaseAppearanceService {
         this._selectedColorScheme = colorSchemeFromSettings;
         this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
 
-        if (remote.systemPreferences != undefined) {
-            remote.systemPreferences.on('accent-color-changed', () => this.applyTheme());
-        }
+        this.subscription.add(
+            this.electronProxy.accentColorChanged$.subscribe(() => {
+                this.applyTheme();
+            })
+        );
 
-        if (remote.nativeTheme != undefined) {
-            remote.nativeTheme.on('updated', () => this.applyTheme());
-        }
+        this.subscription.add(
+            this.electronProxy.nativeThemeUpdated$.subscribe(() => {
+                this.applyTheme();
+            })
+        );
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -169,7 +182,7 @@ export class AppearanceService implements BaseAppearanceService {
 
         if (this.settings.followSystemTheme) {
             try {
-                systemIsUsingDarkTheme = remote.nativeTheme.shouldUseDarkColors;
+                systemIsUsingDarkTheme = this.electronProxy.shouldUseDarkColors();
             } catch (e) {
                 this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'isSystemUsingDarkTheme');
             }
@@ -192,7 +205,7 @@ export class AppearanceService implements BaseAppearanceService {
         let systemAccentColor: string = '';
 
         try {
-            const systemAccentColorWithTransparency: string = remote.systemPreferences.getAccentColor();
+            const systemAccentColorWithTransparency: string = this.electronProxy.getAccentColor();
             systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
         } catch (e) {
             this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'getSystemAccentColor');

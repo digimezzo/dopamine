@@ -1,5 +1,4 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FileMetadataMock } from '../../../spec/mocking/file-metadata-mock';
 import { Logger } from '../../core/logger';
 import { AlbumData } from '../../data/album-data';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
@@ -8,6 +7,7 @@ import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-a
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { FileMetadata } from '../../metadata/file-metadata';
 import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
+import { FileMetadataMock } from '../../metadata/file-metadata-mock';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';

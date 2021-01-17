@@ -9,18 +9,28 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
 import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
+    let dialogServiceMock: IMock<BaseDialogService>;
+    let desktopMock: IMock<Desktop>;
+
+    let componentWithInjection: AboutComponent;
+
     let component: AboutComponent;
     let fixture: ComponentFixture<AboutComponent>;
 
-    let dialogServiceMock: IMock<BaseDialogService>;
-    let desktopMock: IMock<Desktop>;
-    let componentWithMocks: AboutComponent;
+    beforeEach(() => {
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        desktopMock = Mock.ofType<Desktop>();
+        componentWithInjection = new AboutComponent(dialogServiceMock.object, desktopMock.object);
+    });
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot()],
             declarations: [AboutComponent],
-            providers: [BaseDialogService, Desktop],
+            providers: [
+                { provide: BaseDialogService, useFactory: () => dialogServiceMock.object },
+                { provide: Desktop, useFactory: () => desktopMock.object },
+            ],
         }).compileComponents();
     }));
 
@@ -28,10 +38,6 @@ describe('AboutComponent', () => {
         fixture = TestBed.createComponent(AboutComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
-        desktopMock = Mock.ofType<Desktop>();
-        componentWithMocks = new AboutComponent(dialogServiceMock.object, desktopMock.object);
     });
 
     it('should create', () => {
@@ -43,7 +49,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const applicationVersion: string = await componentWithMocks.applicationVersion;
+            const applicationVersion: string = await componentWithInjection.applicationVersion;
 
             // Assert
             assert.strictEqual(applicationVersion, ProductInformation.applicationVersion);
@@ -53,7 +59,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const applicationCopyright: string = await componentWithMocks.applicationCopyright;
+            const applicationCopyright: string = await componentWithInjection.applicationCopyright;
 
             // Assert
             assert.strictEqual(applicationCopyright, ProductInformation.applicationCopyright);
@@ -63,7 +69,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const websiteUrl: string = await componentWithMocks.websiteUrl;
+            const websiteUrl: string = await componentWithInjection.websiteUrl;
 
             // Assert
             assert.strictEqual(websiteUrl, ContactInformation.websiteUrl);
@@ -73,7 +79,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const twitterUrl: string = await componentWithMocks.twitterUrl;
+            const twitterUrl: string = await componentWithInjection.twitterUrl;
 
             // Assert
             assert.strictEqual(twitterUrl, ContactInformation.twitterUrl);
@@ -83,7 +89,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            const githubUrl: string = await componentWithMocks.githubUrl;
+            const githubUrl: string = await componentWithInjection.githubUrl;
 
             // Assert
             assert.strictEqual(githubUrl, ContactInformation.githubUrl);
@@ -94,7 +100,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.showLicenseDialog();
+            componentWithInjection.showLicenseDialog();
 
             // Assert
             dialogServiceMock.verify((x) => x.showLicenseDialog(), Times.exactly(1));
@@ -106,7 +112,7 @@ describe('AboutComponent', () => {
             // Arrange
 
             // Act
-            componentWithMocks.browseToDonateLink();
+            componentWithInjection.browseToDonateLink();
 
             // Assert
             desktopMock.verify((x) => x.openLink(ContactInformation.donateUrl), Times.exactly(1));
