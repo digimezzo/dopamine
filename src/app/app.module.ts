@@ -60,10 +60,10 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
 import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
-import { BaseElectronProxy } from './core/io/base-electron-proxy';
+import { BaseRemoteProxy } from './core/io/base-remote-proxy';
 import { Desktop } from './core/io/desktop';
-import { ElectronProxy } from './core/io/electron-proxy';
 import { FileSystem } from './core/io/file-system';
+import { RemoteProxy } from './core/io/remote-proxy';
 import { Logger } from './core/logger';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
@@ -259,7 +259,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
         { provide: BaseScheduler, useClass: Scheduler },
-        { provide: BaseElectronProxy, useClass: ElectronProxy },
+        { provide: BaseRemoteProxy, useClass: RemoteProxy },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

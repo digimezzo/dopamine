@@ -1,4 +1,5 @@
 import { MatDialogRef } from '@angular/material';
+import assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { Desktop } from '../../../core/io/desktop';
 import { FileSystem } from '../../../core/io/file-system';
@@ -17,5 +18,14 @@ describe('ErrorDialogComponent', () => {
         fileSystemMock = Mock.ofType<FileSystem>();
 
         component = new ErrorDialogComponent(It.isAny(), dialogRefMock.object, desktopMock.object, fileSystemMock.object);
+    });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
     });
 });

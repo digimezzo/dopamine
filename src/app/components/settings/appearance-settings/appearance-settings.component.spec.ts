@@ -20,6 +20,15 @@ describe('AppearanceSettingsComponent', () => {
         component = new AppearanceSettingsComponent(appearanceServiceMock.object, translatorServiceMock.object, settingsMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set appearanceService', () => {
             // Arrange

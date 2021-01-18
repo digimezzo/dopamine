@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
@@ -14,6 +15,15 @@ describe('BackButtonComponent', () => {
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
 
         component = new BackButtonComponent(navigationServiceMock.object, indexingServiceMock.object);
+    });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
     });
 
     describe('goBackToCollection', () => {

@@ -9,6 +9,15 @@ describe('ComponentsComponent', () => {
         component = new ComponentsComponent();
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('externalComponents', () => {
         it('should return a list of external components', async () => {
             // Arrange

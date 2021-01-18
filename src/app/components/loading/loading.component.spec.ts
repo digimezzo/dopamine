@@ -41,6 +41,15 @@ describe('LoadingComponent', () => {
         );
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('ngOnInit', () => {
         it('should perform database migrations', async () => {
             // Arrange

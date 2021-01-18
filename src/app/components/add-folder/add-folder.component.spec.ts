@@ -21,8 +21,8 @@ describe('AddFolderComponent', () => {
     let loggerMock: IMock<Logger>;
     let settingsStub: SettingsStub;
     let settingsMock: IMock<BaseSettings>;
-    let addFolderComponent: AddFolderComponent;
-    let addFolderComponentWithVerifyableSettings: AddFolderComponent;
+    let component: AddFolderComponent;
+    let componentWithStub: AddFolderComponent;
 
     beforeEach(() => {
         desktopMock = Mock.ofType<Desktop>();
@@ -37,17 +37,7 @@ describe('AddFolderComponent', () => {
         translatorServiceMock.setup((x) => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
         translatorServiceMock.setup((x) => x.getAsync('ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
 
-        addFolderComponent = new AddFolderComponent(
-            desktopMock.object,
-            translatorServiceMock.object,
-            folderServiceMock.object,
-            dialogServiceMock.object,
-            indexingServiceMock.object,
-            settingsStub,
-            loggerMock.object
-        );
-
-        addFolderComponentWithVerifyableSettings = new AddFolderComponent(
+        component = new AddFolderComponent(
             desktopMock.object,
             translatorServiceMock.object,
             folderServiceMock.object,
@@ -56,6 +46,26 @@ describe('AddFolderComponent', () => {
             settingsMock.object,
             loggerMock.object
         );
+
+        componentWithStub = new AddFolderComponent(
+            desktopMock.object,
+            translatorServiceMock.object,
+            folderServiceMock.object,
+            dialogServiceMock.object,
+            indexingServiceMock.object,
+            settingsStub,
+            loggerMock.object
+        );
+    });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(componentWithStub);
+        assert.ok(component);
     });
 
     describe('constructor', () => {
@@ -65,7 +75,7 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(addFolderComponent.folders);
+            assert.ok(component.folders);
         });
 
         it('should set indexingService', () => {
@@ -74,7 +84,7 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(addFolderComponent.indexingService);
+            assert.ok(component.indexingService);
         });
     });
 
@@ -85,7 +95,7 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(addFolderComponent.showCheckBoxes, false);
+            assert.strictEqual(component.showCheckBoxes, false);
         });
     });
 
@@ -94,7 +104,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             translatorServiceMock.verify((x) => x.getAsync('Pages.ManageCollection.SelectFolder'), Times.exactly(1));
@@ -104,7 +114,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             desktopMock.verify((x) => x.showSelectFolderDialogAsync('Select a folder'), Times.exactly(1));
@@ -115,7 +125,7 @@ describe('AddFolderComponent', () => {
             desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/me/Music');
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             folderServiceMock.verify((x) => x.addFolderAsync('/home/me/Music'), Times.exactly(1));
@@ -126,7 +136,7 @@ describe('AddFolderComponent', () => {
             desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '');
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             folderServiceMock.verify((x) => x.addFolderAsync(It.isAnyString()), Times.never());
@@ -137,7 +147,7 @@ describe('AddFolderComponent', () => {
             desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -149,7 +159,7 @@ describe('AddFolderComponent', () => {
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.never());
@@ -161,7 +171,7 @@ describe('AddFolderComponent', () => {
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             translatorServiceMock.verify((x) => x.getAsync('ErrorTexts.AddFolderError'), Times.exactly(1));
@@ -174,7 +184,7 @@ describe('AddFolderComponent', () => {
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
-            await addFolderComponent.addFolderAsync();
+            await component.addFolderAsync();
 
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('Error while adding folder'), Times.exactly(1));
@@ -186,7 +196,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            await addFolderComponent.getFoldersAsync();
+            await component.getFoldersAsync();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -198,7 +208,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            await addFolderComponent.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -215,7 +225,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => 'Are you sure you want to delete this folder?');
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             translatorServiceMock.verify((x) => x.getAsync('DialogTitles.ConfirmDeleteFolder'), Times.exactly(1));
@@ -230,7 +240,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => 'Are you sure you want to delete this folder?');
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             translatorServiceMock.verify(
@@ -251,7 +261,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => 'Are you sure you want to delete this folder?');
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             dialogServiceMock.verify(
@@ -273,7 +283,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => true);
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             folderServiceMock.verify((x) => x.deleteFolder(folderToDelete), Times.exactly(1));
@@ -292,7 +302,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => false);
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             folderServiceMock.verify((x) => x.deleteFolder(folderToDelete), Times.never());
@@ -311,7 +321,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => true);
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -330,7 +340,7 @@ describe('AddFolderComponent', () => {
                 .returns(async () => false);
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.never());
@@ -351,7 +361,7 @@ describe('AddFolderComponent', () => {
             folderServiceMock.setup((x) => x.deleteFolder(folderToDelete)).throws(new Error('An error occurred'));
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             translatorServiceMock.verify((x) => x.getAsync('ErrorTexts.DeleteFolderError'), Times.exactly(1));
@@ -372,7 +382,7 @@ describe('AddFolderComponent', () => {
             folderServiceMock.setup((x) => x.deleteFolder(folderToDelete)).throws(new Error('An error occurred'));
 
             // Act
-            await addFolderComponent.deleteFolderAsync(folderToDelete);
+            await component.deleteFolderAsync(folderToDelete);
 
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('Error while deleting folder'), Times.exactly(1));
@@ -384,7 +394,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            const showAllFoldersInCollection = addFolderComponentWithVerifyableSettings.showAllFoldersInCollection;
+            const showAllFoldersInCollection = component.showAllFoldersInCollection;
 
             // Assert
             settingsMock.verify((x) => x.showAllFoldersInCollection, Times.exactly(1));
@@ -395,7 +405,7 @@ describe('AddFolderComponent', () => {
             settingsStub.showAllFoldersInCollection = false;
 
             // Act
-            addFolderComponent.showAllFoldersInCollection = true;
+            componentWithStub.showAllFoldersInCollection = true;
 
             // Assert
             assert.strictEqual(settingsStub.showAllFoldersInCollection, true);
@@ -408,7 +418,7 @@ describe('AddFolderComponent', () => {
             const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
             // Act
-            addFolderComponent.setFolderVisibility(folder);
+            component.setFolderVisibility(folder);
 
             // Assert
             folderServiceMock.verify((x) => x.setFolderVisibility(folder), Times.exactly(1));
@@ -419,18 +429,18 @@ describe('AddFolderComponent', () => {
             const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
             // Act
-            addFolderComponent.showAllFoldersInCollection = true;
-            addFolderComponent.setFolderVisibility(folder);
+            componentWithStub.showAllFoldersInCollection = true;
+            componentWithStub.setFolderVisibility(folder);
 
             // Assert
-            assert.strictEqual(addFolderComponent.showAllFoldersInCollection, false);
+            assert.strictEqual(componentWithStub.showAllFoldersInCollection, false);
         });
 
         it('should set all folders visible if true', () => {
             // Arrange
 
             // Act
-            addFolderComponent.showAllFoldersInCollection = true;
+            component.showAllFoldersInCollection = true;
 
             // Assert
             folderServiceMock.verify((x) => x.setAllFoldersVisible(), Times.exactly(1));
@@ -440,7 +450,7 @@ describe('AddFolderComponent', () => {
             // Arrange
 
             // Act
-            addFolderComponent.showAllFoldersInCollection = false;
+            component.showAllFoldersInCollection = false;
 
             // Assert
             folderServiceMock.verify((x) => x.setAllFoldersVisible(), Times.never());

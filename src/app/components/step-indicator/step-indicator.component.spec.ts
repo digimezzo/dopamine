@@ -8,6 +8,15 @@ describe('StepIndicatorComponent', () => {
         component = new StepIndicatorComponent();
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('ngOnInit', () => {
         it('should fill array of total steps', () => {
             // Arrange

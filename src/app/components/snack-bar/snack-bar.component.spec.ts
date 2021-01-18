@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { Desktop } from '../../core/io/desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
@@ -19,6 +20,15 @@ describe('SnackBarComponent', () => {
             showCloseButton: true,
             url: 'My url',
         });
+    });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
     });
 
     describe('openDataUrl', () => {

@@ -19,6 +19,15 @@ describe('AboutComponent', () => {
         component = new AboutComponent(dialogServiceMock.object, desktopMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set application version', async () => {
             // Arrange

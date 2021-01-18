@@ -14,6 +14,15 @@ describe('AdvancedSettingsComponent', () => {
         component = new AdvancedSettingsComponent(settingsMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set settings', () => {
             // Arrange

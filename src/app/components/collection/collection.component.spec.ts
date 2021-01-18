@@ -14,6 +14,15 @@ describe('CollectionComponent', () => {
         component = new CollectionComponent(appearanceServiceMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('ngOnInit', () => {
         it('should set appearanceService', async () => {
             // Arrange

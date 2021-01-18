@@ -17,6 +17,15 @@ describe('ManageRefreshComponent', () => {
         component = new ManageRefreshComponent(settingsMock.object, indexingServiceMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set settings', () => {
             // Arrange

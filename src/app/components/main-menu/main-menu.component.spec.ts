@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { MainMenuComponent } from './main-menu.component';
@@ -11,6 +12,15 @@ describe('MainMenuComponent', () => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
 
         component = new MainMenuComponent(navigationServiceMock.object);
+    });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
     });
 
     describe('goToManageCollection', () => {

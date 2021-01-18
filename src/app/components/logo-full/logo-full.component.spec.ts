@@ -8,6 +8,15 @@ describe('LogoFullComponent', () => {
         component = new LogoFullComponent();
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('applicationName', () => {
         it('should provide correct application name', () => {
             // Arrange

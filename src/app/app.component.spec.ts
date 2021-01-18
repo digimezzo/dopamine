@@ -3,8 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
-import { BaseElectronProxy } from './core/io/base-electron-proxy';
-import { ElectronProxyStub } from './core/io/electron-proxy-stub';
+import { BaseRemoteProxy } from './core/io/base-remote-proxy';
+import { RemoteProxyStub } from './core/io/remote-proxy-stub';
 import { Logger } from './core/logger';
 import { BaseSettings } from './core/settings/base-settings';
 import { SettingsStub } from './core/settings/settings-stub';
@@ -33,7 +33,7 @@ describe('AppComponent', () => {
                 { provide: BaseAppearanceService, useClass: AppearanceService },
                 { provide: BaseTranslatorService, useClass: TranslatorService },
                 { provide: BaseSettings, useClass: SettingsStub },
-                { provide: BaseElectronProxy, useClass: ElectronProxyStub },
+                { provide: BaseRemoteProxy, useClass: RemoteProxyStub },
                 Logger,
             ],
         }).compileComponents();

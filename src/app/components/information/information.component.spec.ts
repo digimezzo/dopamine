@@ -14,6 +14,15 @@ describe('InformationComponent', () => {
         component = new InformationComponent(appearanceServiceMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set appearanceService', () => {
             // Arrange

@@ -19,6 +19,16 @@ describe('WelcomeComponent', () => {
 
         component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object);
     });
+
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should start at step 0', () => {
             // Arrange

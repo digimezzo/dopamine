@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BrowserWindow, remote } from 'electron';
+import { BrowserWindow } from 'electron';
+import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
 
 @Component({
     selector: 'app-window-controls',
@@ -9,42 +10,34 @@ import { BrowserWindow, remote } from 'electron';
     encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    constructor() {}
+    constructor(private remoteProxy: BaseRemoteProxy) {}
 
     public canMaximize: boolean = false;
 
     public ngOnInit(): void {
-        if (remote != undefined) {
-            const window: BrowserWindow = remote.getCurrentWindow();
-            this.canMaximize = !window.isMaximized();
-        }
+        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        this.canMaximize = !window.isMaximized();
     }
 
     public minButtonClick(): void {
-        if (remote != undefined) {
-            const window: BrowserWindow = remote.getCurrentWindow();
-            window.minimize();
-        }
+        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        window.minimize();
     }
 
     public maxRestoreClick(): void {
-        if (remote != undefined) {
-            const window: BrowserWindow = remote.getCurrentWindow();
+        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
 
-            if (window.isMaximized()) {
-                window.unmaximize();
-                this.canMaximize = true;
-            } else {
-                window.maximize();
-                this.canMaximize = false;
-            }
+        if (window.isMaximized()) {
+            window.unmaximize();
+            this.canMaximize = true;
+        } else {
+            window.maximize();
+            this.canMaximize = false;
         }
     }
 
     public closeButtonClick(): void {
-        if (remote != undefined) {
-            const window: BrowserWindow = remote.getCurrentWindow();
-            window.close();
-        }
+        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        window.close();
     }
 }

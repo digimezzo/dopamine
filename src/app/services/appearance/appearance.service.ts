@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../core/base/constants';
 import { FontSize } from '../../core/base/font-size';
 import { ProductInformation } from '../../core/base/product-information';
-import { BaseElectronProxy } from '../../core/io/base-electron-proxy';
+import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
+import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { StringCompare } from '../../core/string-compare';
@@ -24,9 +25,10 @@ export class AppearanceService implements BaseAppearanceService {
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer,
-        private electronProxy: BaseElectronProxy
+        private remoteProxy: BaseRemoteProxy,
+        private desktop: Desktop
     ) {
-        this.windowHasFrame = this.electronProxy.getGlobal('windowHasFrame');
+        this.windowHasFrame = this.remoteProxy.getGlobal('windowHasFrame');
 
         let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find((x) => x.name === this.settings.colorScheme);
 
@@ -38,13 +40,13 @@ export class AppearanceService implements BaseAppearanceService {
         this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
 
         this.subscription.add(
-            this.electronProxy.accentColorChanged$.subscribe(() => {
+            this.desktop.accentColorChanged$.subscribe(() => {
                 this.applyTheme();
             })
         );
 
         this.subscription.add(
-            this.electronProxy.nativeThemeUpdated$.subscribe(() => {
+            this.desktop.nativeThemeUpdated$.subscribe(() => {
                 this.applyTheme();
             })
         );
@@ -182,7 +184,7 @@ export class AppearanceService implements BaseAppearanceService {
 
         if (this.settings.followSystemTheme) {
             try {
-                systemIsUsingDarkTheme = this.electronProxy.shouldUseDarkColors();
+                systemIsUsingDarkTheme = this.desktop.shouldUseDarkColors();
             } catch (e) {
                 this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'isSystemUsingDarkTheme');
             }
@@ -205,7 +207,7 @@ export class AppearanceService implements BaseAppearanceService {
         let systemAccentColor: string = '';
 
         try {
-            const systemAccentColorWithTransparency: string = this.electronProxy.getAccentColor();
+            const systemAccentColorWithTransparency: string = this.desktop.getAccentColor();
             systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
         } catch (e) {
             this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'getSystemAccentColor');

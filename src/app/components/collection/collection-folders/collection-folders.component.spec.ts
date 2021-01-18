@@ -29,6 +29,15 @@ describe('CollectionFoldersComponent', () => {
         component = new CollectionFoldersComponent(settingsMock, folderServiceMock.object, navigationServiceMock.object, hacksMock.object);
     });
 
+    it('should create', () => {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assert.ok(component);
+    });
+
     describe('constructor', () => {
         it('should set area1 size from settings', async () => {
             // Arrange
