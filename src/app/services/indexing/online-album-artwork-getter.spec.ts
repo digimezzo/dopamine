@@ -1,17 +1,47 @@
 import * as assert from 'assert';
-import { IMock, Mock } from 'typemoq';
-import { FileMetadata } from '../app/metadata/file-metadata';
-import { OnlineAlbumArtworkGetterMocker } from './mocking/online-album-artwork-getter-mocker';
+import { IMock, It, Mock } from 'typemoq';
+import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
+import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
+import { ImageProcessor } from '../../core/image-processor';
+import { Logger } from '../../core/logger';
+import { FileMetadata } from '../../metadata/file-metadata';
+import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 
 describe('OnlineAlbumArtworkGetter', () => {
+    let imageProcessorMock: IMock<ImageProcessor>;
+    let lastfmApiMock: IMock<LastfmApi>;
+    let loggerMock: IMock<Logger>;
+
+    let onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter;
+
+    let lastfmAlbum: LastfmAlbum;
+
+    beforeEach(() => {
+        imageProcessorMock = Mock.ofType<ImageProcessor>();
+        lastfmApiMock = Mock.ofType<LastfmApi>();
+        loggerMock = Mock.ofType<Logger>();
+
+        onlineAlbumArtworkGetter = new OnlineAlbumArtworkGetter(imageProcessorMock.object, lastfmApiMock.object, loggerMock.object);
+
+        lastfmAlbum = new LastfmAlbum();
+        lastfmAlbum.imageMega = 'http://images.com/image.png';
+    });
+
     describe('getOnlineArtworkAsync', () => {
         it('should return undefined if fileMetaData is undefined', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(undefined);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(undefined);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, undefined);
@@ -20,7 +50,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return undefined if fileMetaData has artists but no titles', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => undefined);
@@ -29,7 +66,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, undefined);
@@ -38,7 +75,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return artwork if fileMetaData has artists and titles', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -47,7 +91,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
@@ -56,7 +100,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return artwork if fileMetaData has artists and only a track title', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => undefined);
@@ -65,7 +116,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
@@ -74,7 +125,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return artwork if fileMetaData has artists and only an album title', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -83,7 +141,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
@@ -92,7 +150,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return artwork if fileMetaData has titles and only album artists', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -101,7 +166,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
@@ -110,7 +175,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return artwork if fileMetaData has titles and only track artists', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -119,7 +191,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => undefined);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
@@ -127,8 +199,11 @@ describe('OnlineAlbumArtworkGetter', () => {
 
         it('should return undefined if converting file to data throws error', async () => {
             // Arrange
-            const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, false, true);
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .returns(async () => lastfmAlbum);
+
+            imageProcessorMock.setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString())).throws(new Error('An error occurred'));
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -137,7 +212,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, undefined);
@@ -146,7 +221,14 @@ describe('OnlineAlbumArtworkGetter', () => {
         it('should return undefined if getting online album info throws error', async () => {
             // Arrange
             const expectedAlbumArtwork: Buffer = Buffer.from([1, 2, 3]);
-            const mocker: OnlineAlbumArtworkGetterMocker = new OnlineAlbumArtworkGetterMocker(expectedAlbumArtwork, true, false);
+
+            lastfmApiMock
+                .setup((x) => x.getAlbumInfoAsync(It.isAnyString(), It.isAnyString(), false, 'EN'))
+                .throws(new Error('An error occurred'));
+
+            imageProcessorMock
+                .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
+                .returns(async () => expectedAlbumArtwork);
 
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             fileMetaDataMock.setup((x) => x.album).returns(() => 'My album title');
@@ -155,7 +237,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             fileMetaDataMock.setup((x) => x.albumArtists).returns(() => ['Album artist 1', 'Album artist 2']);
 
             // Act
-            const actualAlbumArtwork: Buffer = await mocker.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
             assert.strictEqual(actualAlbumArtwork, undefined);

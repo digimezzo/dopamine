@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
-import { SettingsMock } from '../../core/settings/settings-mock';
+import { SettingsStub } from '../../core/settings/settings-stub';
 import { FileMetadata } from '../../metadata/file-metadata';
 import { AlbumArtworkGetter } from './album-artwork-getter';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
@@ -11,14 +11,14 @@ describe('AlbumArtworkGetter', () => {
     let embeddedAlbumArtworkGetterMock: IMock<EmbeddedAlbumArtworkGetter>;
     let externalAlbumArtworkGetterMock: IMock<ExternalAlbumArtworkGetter>;
     let onlineAlbumArtworkGetterMock: IMock<OnlineAlbumArtworkGetter>;
-    let settingsMock: SettingsMock;
+    let settingsMock: SettingsStub;
     let albumArtworkGetter: AlbumArtworkGetter;
 
     beforeEach(() => {
         embeddedAlbumArtworkGetterMock = Mock.ofType<EmbeddedAlbumArtworkGetter>();
         externalAlbumArtworkGetterMock = Mock.ofType<ExternalAlbumArtworkGetter>();
         onlineAlbumArtworkGetterMock = Mock.ofType<OnlineAlbumArtworkGetter>();
-        settingsMock = new SettingsMock();
+        settingsMock = new SettingsStub();
         albumArtworkGetter = new AlbumArtworkGetter(
             embeddedAlbumArtworkGetterMock.object,
             externalAlbumArtworkGetterMock.object,

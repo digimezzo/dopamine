@@ -2,7 +2,7 @@ import assert from 'assert';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
-import { SettingsMock } from '../../../core/settings/settings-mock';
+import { SettingsStub } from '../../../core/settings/settings-stub';
 import { Folder } from '../../../data/entities/folder';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -19,7 +19,7 @@ describe('CollectionFoldersComponent', () => {
     let component: CollectionFoldersComponent;
 
     beforeEach(() => {
-        settingsMock = new SettingsMock();
+        settingsMock = new SettingsStub();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         hacksMock = Mock.ofType<Hacks>();

@@ -2,7 +2,7 @@ import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseScheduler } from '../../core/scheduler/base-scheduler';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { SettingsMock } from '../../core/settings/settings-mock';
+import { SettingsStub } from '../../core/settings/settings-stub';
 import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
@@ -25,7 +25,7 @@ describe('LoadingComponent', () => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         databaseMigratorMock = Mock.ofType<BaseDatabaseMigrator>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        settingsMock = new SettingsMock();
+        settingsMock = new SettingsStub();
         updateServiceMock = Mock.ofType<BaseUpdateService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         schedulerMock = Mock.ofType<BaseScheduler>();

@@ -7,7 +7,7 @@ import { BaseElectronProxy } from './core/io/base-electron-proxy';
 import { ElectronProxyStub } from './core/io/electron-proxy-stub';
 import { Logger } from './core/logger';
 import { BaseSettings } from './core/settings/base-settings';
-import { SettingsMock } from './core/settings/settings-mock';
+import { SettingsStub } from './core/settings/settings-stub';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
@@ -32,7 +32,7 @@ describe('AppComponent', () => {
                 { provide: BaseNavigationService, useClass: NavigationService },
                 { provide: BaseAppearanceService, useClass: AppearanceService },
                 { provide: BaseTranslatorService, useClass: TranslatorService },
-                { provide: BaseSettings, useClass: SettingsMock },
+                { provide: BaseSettings, useClass: SettingsStub },
                 { provide: BaseElectronProxy, useClass: ElectronProxyStub },
                 Logger,
             ],

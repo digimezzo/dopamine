@@ -1,8 +1,8 @@
 import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../app/core/logger';
-import { FileMetadata } from '../app/metadata/file-metadata';
-import { EmbeddedAlbumArtworkGetter } from '../app/services/indexing/embedded-album-artwork-getter';
+import { Logger } from '../../core/logger';
+import { FileMetadata } from '../../metadata/file-metadata';
+import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 
 describe('EmbeddedAlbumArtworkGetter', () => {
     describe('getEmbeddedArtwork', () => {
