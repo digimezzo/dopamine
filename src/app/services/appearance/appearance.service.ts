@@ -59,6 +59,8 @@ export class AppearanceService implements BaseAppearanceService {
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
+        new ColorScheme('Beats', '#98247f', '#e21839', '#e21839'),
+        new ColorScheme('Naughty', '#f5004a', '#9300ef', '#f5004a'),
     ];
 
     public fontSizes: FontSize[] = Constants.fontSizes;
