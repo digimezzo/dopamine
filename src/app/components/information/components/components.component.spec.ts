@@ -9,13 +9,15 @@ describe('ComponentsComponent', () => {
         component = new ComponentsComponent();
     });
 
-    it('should create', () => {
-        // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-        // Act
+            // Act
 
-        // Assert
-        assert.ok(component);
+            // Assert
+            assert.ok(component);
+        });
     });
 
     describe('externalComponents', () => {

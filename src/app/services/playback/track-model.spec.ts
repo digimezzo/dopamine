@@ -3,12 +3,28 @@ import { Track } from '../../data/entities/track';
 import { TrackModel } from './track-model';
 
 describe('TrackModel', () => {
+    let track: Track;
+    let trackModel: TrackModel;
+
+    beforeEach(() => {
+        track = new Track('/home/user/Music/Track1.mp3');
+        trackModel = new TrackModel(track);
+    });
+
+    describe('constructor', () => {
+        it('should create', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(trackModel);
+        });
+    });
+
     describe('path', () => {
         it('should return track path', async () => {
             // Arrange
-            const track: Track = new Track('/home/user/Music/Track1.mp3');
-
-            const trackModel: TrackModel = new TrackModel(track);
 
             // Act
             const trackPath: string = trackModel.path;

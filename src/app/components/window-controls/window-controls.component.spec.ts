@@ -1,19 +1,26 @@
 import assert from 'assert';
+import { IMock, Mock } from 'typemoq';
+import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
 import { WindowControlsComponent } from './window-controls.component';
 
 describe('WindowControlsComponent', () => {
+    let remoteProxyMock: IMock<BaseRemoteProxy>;
+
     let component: WindowControlsComponent;
 
     beforeEach(() => {
-        component = new WindowControlsComponent();
+        remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
+        component = new WindowControlsComponent(remoteProxyMock.object);
     });
 
-    it('should create', () => {
-        // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-        // Act
+            // Act
 
-        // Assert
-        assert.ok(component);
+            // Assert
+            assert.ok(component);
+        });
     });
 });

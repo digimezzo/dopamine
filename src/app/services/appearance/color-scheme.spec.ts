@@ -2,10 +2,24 @@ import * as assert from 'assert';
 import { ColorScheme } from './color-scheme';
 
 describe('ColorScheme', () => {
+    let colorScheme: ColorScheme;
+
+    beforeEach(() => {
+        colorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
+    });
+
     describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(colorScheme);
+        });
+
         it('should set name', () => {
             // Arrange
-            const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
 
@@ -15,7 +29,6 @@ describe('ColorScheme', () => {
 
         it('should set primary color', () => {
             // Arrange
-            const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
 
@@ -25,7 +38,6 @@ describe('ColorScheme', () => {
 
         it('should set secondary color', () => {
             // Arrange
-            const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
 
@@ -35,7 +47,6 @@ describe('ColorScheme', () => {
 
         it('should set accent color', () => {
             // Arrange
-            const colorScheme: ColorScheme = new ColorScheme('MyColorScheme', '#ffffff', '#000000', '#ff0000');
 
             // Act
 

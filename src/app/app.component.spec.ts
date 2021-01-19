@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { BaseRemoteProxy } from './core/io/base-remote-proxy';
@@ -16,13 +17,11 @@ import { BaseTranslatorService } from './services/translator/base-translator.ser
 import { TranslatorService } from './services/translator/translator.service';
 
 describe('AppComponent', () => {
-    let app: AppComponent;
-    let fixture: ComponentFixture<AppComponent>;
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let loggerMock: IMock<Logger>;
-    let appWithMocks: AppComponent;
+    let app: AppComponent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -40,25 +39,16 @@ describe('AppComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AppComponent);
-        app = fixture.componentInstance;
-        fixture.detectChanges();
-
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
 
-        appWithMocks = new AppComponent(
-            navigationServiceMock.object,
-            appearanceServiceMock.object,
-            translatorServiceMock.object,
-            loggerMock.object
-        );
+        app = new AppComponent(navigationServiceMock.object, appearanceServiceMock.object, translatorServiceMock.object, loggerMock.object);
     });
 
     it('should create', () => {
-        expect(app).toBeTruthy();
+        assert.ok(app);
     });
 
     describe('ngOnInit', () => {
@@ -66,7 +56,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
-            appWithMocks.ngOnInit();
+            app.ngOnInit();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyTheme(), Times.exactly(1));
@@ -76,7 +66,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
-            appWithMocks.ngOnInit();
+            app.ngOnInit();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyFontSize(), Times.exactly(1));
@@ -86,7 +76,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
-            appWithMocks.ngOnInit();
+            app.ngOnInit();
 
             // Assert
             translatorServiceMock.verify((x) => x.applyLanguage(), Times.exactly(1));
@@ -95,7 +85,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
-            appWithMocks.ngOnInit();
+            app.ngOnInit();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));

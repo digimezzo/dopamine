@@ -14,16 +14,16 @@ describe('ManageRefreshComponent', () => {
         component = new ManageCollectionComponent(appearanceServiceMock.object);
     });
 
-    it('should create', () => {
-        // Arrange
-
-        // Act
-
-        // Assert
-        assert.ok(component);
-    });
-
     describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(component);
+        });
+
         it('should set appearanceService', () => {
             // Arrange
 

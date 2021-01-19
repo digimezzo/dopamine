@@ -13,14 +13,14 @@ describe('AlbumArtworkCacheService', () => {
     let imageProcessorMock: IMock<ImageProcessor>;
     let fileSystemMock: IMock<FileSystem>;
     let loggerMock: IMock<Logger>;
-    let albumArtworkCacheService: AlbumArtworkCacheService;
+    let service: AlbumArtworkCacheService;
 
     beforeEach(() => {
         albumArtworkCacheIdFactoryMock = Mock.ofType<AlbumArtworkCacheIdFactory>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         fileSystemMock = Mock.ofType<FileSystem>();
         loggerMock = Mock.ofType<Logger>();
-        albumArtworkCacheService = new AlbumArtworkCacheService(
+        service = new AlbumArtworkCacheService(
             albumArtworkCacheIdFactoryMock.object,
             imageProcessorMock.object,
             fileSystemMock.object,
@@ -29,12 +29,16 @@ describe('AlbumArtworkCacheService', () => {
     });
 
     describe('constructor', () => {
+        it('should create', () => {
+            assert.ok(service);
+        });
+
         it('should create the full directory path to the artwork cache if it does not exist', () => {
             // Arrange
             fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
 
             // Act
-            albumArtworkCacheService = new AlbumArtworkCacheService(
+            service = new AlbumArtworkCacheService(
                 albumArtworkCacheIdFactoryMock.object,
                 imageProcessorMock.object,
                 fileSystemMock.object,
@@ -54,7 +58,7 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(undefined);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(undefined);
 
             // Assert
             assert.strictEqual(albumArtworkCacheId, undefined);
@@ -64,7 +68,7 @@ describe('AlbumArtworkCacheService', () => {
             const data = Buffer.alloc(0);
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
 
             // Assert
             assert.strictEqual(albumArtworkCacheId, undefined);
@@ -79,7 +83,7 @@ describe('AlbumArtworkCacheService', () => {
             const data = Buffer.from([1, 2, 3]);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
 
             // Assert
             assert.strictEqual(albumArtworkCacheIdToCreate.id, albumArtworkCacheIdToReturn.id);
@@ -97,7 +101,7 @@ describe('AlbumArtworkCacheService', () => {
             const imagePath = path.join(fileSystemMock.object.coverArtCacheFullPath(), `${albumArtworkCacheIdToCreate.id}.jpg`);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await albumArtworkCacheService.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
 
             // Assert
             imageProcessorMock.verify((x) => x.convertImageBufferToFileAsync(data, imagePath), Times.exactly(1));
@@ -114,7 +118,7 @@ describe('AlbumArtworkCacheService', () => {
             );
 
             // Act
-            await albumArtworkCacheService.removeArtworkDataFromCacheAsync('album-4c315456-43ba-4984-8a7e-403837514638');
+            await service.removeArtworkDataFromCacheAsync('album-4c315456-43ba-4984-8a7e-403837514638');
 
             // Assert
             fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(cachedArtworkFilePath), Times.exactly(1));

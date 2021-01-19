@@ -15,19 +15,27 @@ describe('FolderService', () => {
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let loggerMock: IMock<Logger>;
     let fileSystemMock: IMock<FileSystem>;
-    let folderService: FolderService;
+
+    let service: FolderService;
 
     beforeEach(() => {
         folderRepositoryMock = Mock.ofType<BaseFolderRepository>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         loggerMock = Mock.ofType<Logger>();
         fileSystemMock = Mock.ofType<FileSystem>();
-        folderService = new FolderService(
-            folderRepositoryMock.object,
-            loggerMock.object,
-            snackBarServiceMock.object,
-            fileSystemMock.object
-        );
+
+        service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileSystemMock.object);
+    });
+
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(service);
+        });
     });
 
     describe('addFolderAsync', () => {
@@ -36,7 +44,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolderByPath('/home/me/Music')).returns(() => undefined);
 
             // Act
-            await folderService.addFolderAsync('/home/me/Music');
+            await service.addFolderAsync('/home/me/Music');
 
             // Assert
             folderRepositoryMock.verify(
@@ -53,7 +61,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
-            await folderService.addFolderAsync('/home/me/Music');
+            await service.addFolderAsync('/home/me/Music');
 
             // Assert
             folderRepositoryMock.verify(
@@ -70,7 +78,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolderByPath('/home/me/Music')).returns(() => new Folder('/home/me/Music'));
 
             // Act
-            await folderService.addFolderAsync('/home/me/Music');
+            await service.addFolderAsync('/home/me/Music');
 
             // Assert
             snackBarServiceMock.verify((x) => x.folderAlreadyAddedAsync(), Times.exactly(1));
@@ -82,10 +90,10 @@ describe('FolderService', () => {
 
             // Act
             let foldersHaveChanged: boolean = false;
-            const subscription: Subscription = folderService.foldersChanged$.subscribe(() => {
+            const subscription: Subscription = service.foldersChanged$.subscribe(() => {
                 foldersHaveChanged = true;
             });
-            await folderService.addFolderAsync('/home/me/Music');
+            await service.addFolderAsync('/home/me/Music');
             subscription.unsubscribe();
 
             // Assert
@@ -98,10 +106,10 @@ describe('FolderService', () => {
 
             // Act
             let foldersHaveChanged: boolean = false;
-            const subscription: Subscription = folderService.foldersChanged$.subscribe(() => {
+            const subscription: Subscription = service.foldersChanged$.subscribe(() => {
                 foldersHaveChanged = true;
             });
-            await folderService.addFolderAsync('/home/me/Music');
+            await service.addFolderAsync('/home/me/Music');
             subscription.unsubscribe();
 
             // Assert
@@ -114,7 +122,7 @@ describe('FolderService', () => {
             // Arrange
 
             // Act
-            folderService.getFolders();
+            service.getFolders();
 
             // Assert
             folderRepositoryMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -125,7 +133,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => undefined);
 
             // Act
-            const folders: FolderModel[] = folderService.getFolders();
+            const folders: FolderModel[] = service.getFolders();
 
             // Assert
             assert.strictEqual(folders.length, 0);
@@ -136,7 +144,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => []);
 
             // Act
-            const folders: FolderModel[] = folderService.getFolders();
+            const folders: FolderModel[] = service.getFolders();
 
             // Assert
             assert.strictEqual(folders.length, 0);
@@ -151,7 +159,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [databaseFolder1, databaseFolder2]);
 
             // Act
-            const folders: FolderModel[] = folderService.getFolders();
+            const folders: FolderModel[] = service.getFolders();
 
             // Assert
             assert.strictEqual(folders.length, 2);
@@ -170,7 +178,7 @@ describe('FolderService', () => {
             const folderToDelete: FolderModel = new FolderModel(folder);
 
             // Act
-            folderService.deleteFolder(folderToDelete);
+            service.deleteFolder(folderToDelete);
 
             // Assert
             folderRepositoryMock.verify((x) => x.deleteFolder(folderToDelete.folderId), Times.exactly(1));
@@ -184,10 +192,10 @@ describe('FolderService', () => {
 
             // Act
             let foldersHaveChanged: boolean = false;
-            const subscription: Subscription = folderService.foldersChanged$.subscribe(() => {
+            const subscription: Subscription = service.foldersChanged$.subscribe(() => {
                 foldersHaveChanged = true;
             });
-            folderService.deleteFolder(folderToDelete);
+            service.deleteFolder(folderToDelete);
             subscription.unsubscribe();
 
             // Assert
@@ -204,7 +212,7 @@ describe('FolderService', () => {
             folderModel.showInCollection = true;
 
             // Act
-            folderService.setFolderVisibility(folderModel);
+            service.setFolderVisibility(folderModel);
 
             // Assert
             folderRepositoryMock.verify((x) => x.setFolderShowInCollection(1, 1), Times.exactly(1));
@@ -216,7 +224,7 @@ describe('FolderService', () => {
             // Arrange
 
             // Act
-            folderService.setAllFoldersVisible();
+            service.setAllFoldersVisible();
 
             // Assert
             folderRepositoryMock.verify((x) => x.setAllFoldersShowInCollection(1), Times.exactly(1));
@@ -228,7 +236,7 @@ describe('FolderService', () => {
             // Arrange
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(undefined, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(undefined, undefined);
 
             // Assert
             assert.strictEqual(subfolders.length, 0);
@@ -241,7 +249,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => false);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
 
             // Assert
             assert.strictEqual(subfolders.length, 0);
@@ -256,7 +264,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(rootFolderPath)).returns(async () => rootFolderDirectories);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
 
             // Assert
             assert.strictEqual(subfolders.length, 3);
@@ -274,7 +282,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.pathExists(subfolderPath)).returns(() => false);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             assert.strictEqual(subfolders.length, 0);
@@ -291,7 +299,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             assert.strictEqual(subfolders.length, 3);
@@ -311,7 +319,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             assert.strictEqual(subfolders.length, 4);
@@ -334,7 +342,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Sub1')).returns(async () => subDirectories);
 
             // Act
-            const subfolders: SubfolderModel[] = await folderService.getSubfoldersAsync(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             assert.strictEqual(subfolders.length, 4);
@@ -355,7 +363,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = await folderService.getSubfolderBreadCrumbsAsync(
+            const subfolderBreadCrumbs: SubfolderModel[] = await service.getSubfolderBreadCrumbsAsync(
                 rootFolder,
                 '/home/user/Music/subfolder1'
             );
@@ -369,7 +377,7 @@ describe('FolderService', () => {
             const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = await folderService.getSubfolderBreadCrumbsAsync(rootFolder, rootFolder.path);
+            const subfolderBreadCrumbs: SubfolderModel[] = await service.getSubfolderBreadCrumbsAsync(rootFolder, rootFolder.path);
 
             // Assert
             assert.strictEqual(subfolderBreadCrumbs.length, 1);
@@ -391,7 +399,7 @@ describe('FolderService', () => {
             fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = await folderService.getSubfolderBreadCrumbsAsync(
+            const subfolderBreadCrumbs: SubfolderModel[] = await service.getSubfolderBreadCrumbsAsync(
                 rootFolder,
                 '/home/user/Music/subfolder1/subfolder2/subfolder3'
             );

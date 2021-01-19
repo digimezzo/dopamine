@@ -8,12 +8,14 @@ describe('CollectionPlaybackPaneComponent', () => {
         component = new CollectionPlaybackPaneComponent();
     });
 
-    it('should create', () => {
-        // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-        // Act
+            // Act
 
-        // Assert
-        assert.ok(component);
+            // Assert
+            assert.ok(component);
+        });
     });
 });

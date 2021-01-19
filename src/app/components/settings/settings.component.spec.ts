@@ -14,16 +14,16 @@ describe('SettingsComponent', () => {
         component = new SettingsComponent(appearanceServiceMock.object);
     });
 
-    it('should create', () => {
-        // Arrange
-
-        // Act
-
-        // Assert
-        assert.ok(component);
-    });
-
     describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(component);
+        });
+
         it('should set appearanceService', () => {
             // Arrange
 

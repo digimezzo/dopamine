@@ -13,12 +13,14 @@ describe('ConfirmationDialogComponent', () => {
         component = new ConfirmationDialogComponent(It.isAny(), dialogRefMock.object);
     });
 
-    it('should create', () => {
-        // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-        // Act
+            // Act
 
-        // Assert
-        assert.ok(component);
+            // Assert
+            assert.ok(component);
+        });
     });
 });

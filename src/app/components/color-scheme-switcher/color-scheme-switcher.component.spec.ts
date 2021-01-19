@@ -16,13 +16,15 @@ describe('ColorSchemeSwitcherComponent', () => {
         component = new ColorSchemeSwitcherComponent(appearanceServiceMock.object);
     });
 
-    it('should create', () => {
-        // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-        // Act
+            // Act
 
-        // Assert
-        assert.ok(component);
+            // Assert
+            assert.ok(component);
+        });
     });
 
     describe('setColorScheme', () => {

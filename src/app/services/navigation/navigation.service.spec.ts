@@ -1,15 +1,27 @@
 import { Router } from '@angular/router';
+import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseNavigationService } from './base-navigation.service';
 import { NavigationService } from './navigation.service';
 
 describe('NavigationService', () => {
     let routerMock: IMock<Router>;
-    let navigationService: BaseNavigationService;
+    let service: BaseNavigationService;
 
     beforeEach(() => {
         routerMock = Mock.ofType<Router>();
-        navigationService = new NavigationService(routerMock.object);
+        service = new NavigationService(routerMock.object);
+    });
+
+    describe('constructor', () => {
+        it('should create', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(service);
+        });
     });
 
     describe('navigateToLoading', () => {
@@ -17,7 +29,7 @@ describe('NavigationService', () => {
             // Arrange
 
             // Act
-            navigationService.navigateToLoading();
+            service.navigateToLoading();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/loading']), Times.exactly(1));
@@ -29,7 +41,7 @@ describe('NavigationService', () => {
             // Arrange
 
             // Act
-            navigationService.navigateToCollection();
+            service.navigateToCollection();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/collection']), Times.exactly(1));
@@ -41,7 +53,7 @@ describe('NavigationService', () => {
             // Arrange
 
             // Act
-            navigationService.navigateToWelcome();
+            service.navigateToWelcome();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/welcome']), Times.exactly(1));
@@ -67,7 +79,7 @@ describe('NavigationService', () => {
             // Arrange
 
             // Act
-            navigationService.navigateToSettings();
+            service.navigateToSettings();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
@@ -79,7 +91,7 @@ describe('NavigationService', () => {
             // Arrange
 
             // Act
-            navigationService.navigateToInformation();
+            service.navigateToInformation();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));

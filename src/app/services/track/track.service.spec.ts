@@ -1,11 +1,11 @@
 import assert from 'assert';
-import { LogoSmallComponent } from './logo-small.component';
+import { TrackService } from './track.service';
 
-describe('LogoSmallComponent', () => {
-    let component: LogoSmallComponent;
+describe('TrackService', () => {
+    let service: TrackService;
 
     beforeEach(() => {
-        component = new LogoSmallComponent();
+        service = new TrackService();
     });
 
     describe('constructor', () => {
@@ -15,7 +15,7 @@ describe('LogoSmallComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            assert.ok(service);
         });
     });
 });

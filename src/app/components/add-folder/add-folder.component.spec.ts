@@ -58,17 +58,17 @@ describe('AddFolderComponent', () => {
         );
     });
 
-    it('should create', () => {
-        // Arrange
-
-        // Act
-
-        // Assert
-        assert.ok(componentWithStub);
-        assert.ok(component);
-    });
-
     describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            assert.ok(componentWithStub);
+            assert.ok(component);
+        });
+
         it('should provide a list of folders', () => {
             // Arrange
 
