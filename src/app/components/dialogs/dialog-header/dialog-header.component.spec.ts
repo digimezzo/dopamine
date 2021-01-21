@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { DialogHeaderComponent } from './dialog-header.component';
 
 describe('DialogHeaderComponent', () => {
@@ -15,7 +14,7 @@ describe('DialogHeaderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

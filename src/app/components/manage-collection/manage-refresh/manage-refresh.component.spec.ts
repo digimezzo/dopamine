@@ -1,4 +1,4 @@
-import assert from 'assert';
+
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
@@ -24,7 +24,7 @@ describe('ManageRefreshComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set settings', () => {
@@ -33,7 +33,7 @@ describe('ManageRefreshComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.settings != undefined);
+            expect(component.settings).toBeTruthy();
         });
     });
     describe('refreshNowAsync', () => {

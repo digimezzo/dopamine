@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { MainMenuComponent } from './main-menu.component';
@@ -21,7 +20,7 @@ describe('MainMenuComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 

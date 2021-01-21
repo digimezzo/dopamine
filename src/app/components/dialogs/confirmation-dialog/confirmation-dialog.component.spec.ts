@@ -1,5 +1,4 @@
 import { MatDialogRef } from '@angular/material';
-import assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
@@ -20,7 +19,7 @@ describe('ConfirmationDialogComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

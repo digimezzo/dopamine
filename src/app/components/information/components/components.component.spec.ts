@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { ExternalComponent } from '../../../core/base/external-component';
 import { ComponentsComponent } from './components.component';
 
@@ -16,7 +15,7 @@ describe('ComponentsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 
@@ -28,7 +27,7 @@ describe('ComponentsComponent', () => {
             const externalComponents: ExternalComponent[] = component.externalComponents;
 
             // Assert
-            assert.ok(externalComponents.length > 0);
+            expect(externalComponents.length).toBeGreaterThan(0);
         });
     });
 });

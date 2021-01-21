@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { ManageCollectionComponent } from './manage-collection.component';
@@ -21,7 +20,7 @@ describe('ManageRefreshComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set appearanceService', () => {
@@ -30,7 +29,7 @@ describe('ManageRefreshComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.appearanceService != undefined);
+            expect(component.appearanceService).toBeTruthy();
         });
     });
 });

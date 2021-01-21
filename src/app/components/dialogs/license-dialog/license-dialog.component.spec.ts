@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { LicenseDialogComponent } from './license-dialog.component';
 
 describe('LicenseDialogComponent', () => {
@@ -15,7 +14,7 @@ describe('LicenseDialogComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
@@ -27,7 +26,7 @@ describe('AppearanceSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set appearanceService', () => {
@@ -36,7 +35,7 @@ describe('AppearanceSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.appearanceService != undefined);
+            expect(component.appearanceService).toBeTruthy();
         });
 
         it('should set translatorService', () => {
@@ -45,7 +44,7 @@ describe('AppearanceSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.translatorService != undefined);
+            expect(component.translatorService).toBeTruthy();
         });
 
         it('should set settings', () => {
@@ -54,7 +53,7 @@ describe('AppearanceSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.settings != undefined);
+            expect(component.settings).toBeTruthy();
         });
     });
 });

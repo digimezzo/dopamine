@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
@@ -24,7 +23,7 @@ describe('BackButtonComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 

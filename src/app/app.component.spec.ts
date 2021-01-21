@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { BaseRemoteProxy } from './core/io/base-remote-proxy';
@@ -48,7 +47,7 @@ describe('AppComponent', () => {
     });
 
     it('should create', () => {
-        assert.ok(app);
+        expect(app).toBeTruthy();
     });
 
     describe('ngOnInit', () => {

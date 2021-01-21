@@ -5,7 +5,7 @@ describe('SubfolderModel', () => {
     let subfolderModel: SubfolderModel;
 
     beforeEach(() => {
-        subfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
+        subfolderModel = new SubfolderModel('/home/user/Music/subfolder1', true);
     });
 
     describe('constructor', () => {

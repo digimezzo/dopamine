@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseScheduler } from '../../core/scheduler/base-scheduler';
 import { BaseSettings } from '../../core/settings/base-settings';
@@ -48,7 +47,7 @@ describe('LoadingComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 
@@ -98,7 +97,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            assert.strictEqual(settingsMock.showWelcome, false);
+            expect(settingsMock.showWelcome).toBeFalsy();
         });
 
         it('should check for updates when navigating to collection', async () => {

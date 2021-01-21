@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { ContactInformation } from '../../../core/base/contact-information';
 import { ProductInformation } from '../../../core/base/product-information';
@@ -26,7 +25,7 @@ describe('AboutComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set application version', async () => {
@@ -36,7 +35,7 @@ describe('AboutComponent', () => {
             const applicationVersion: string = await component.applicationVersion;
 
             // Assert
-            assert.strictEqual(applicationVersion, ProductInformation.applicationVersion);
+            expect(applicationVersion).toEqual(ProductInformation.applicationVersion);
         });
 
         it('should set application Copyright', async () => {
@@ -46,7 +45,7 @@ describe('AboutComponent', () => {
             const applicationCopyright: string = await component.applicationCopyright;
 
             // Assert
-            assert.strictEqual(applicationCopyright, ProductInformation.applicationCopyright);
+            expect(applicationCopyright).toEqual(ProductInformation.applicationCopyright);
         });
 
         it('should set website URL', async () => {
@@ -56,7 +55,7 @@ describe('AboutComponent', () => {
             const websiteUrl: string = await component.websiteUrl;
 
             // Assert
-            assert.strictEqual(websiteUrl, ContactInformation.websiteUrl);
+            expect(websiteUrl).toEqual(ContactInformation.websiteUrl);
         });
 
         it('should set Twitter URL', async () => {
@@ -66,7 +65,7 @@ describe('AboutComponent', () => {
             const twitterUrl: string = await component.twitterUrl;
 
             // Assert
-            assert.strictEqual(twitterUrl, ContactInformation.twitterUrl);
+            expect(twitterUrl).toEqual(ContactInformation.twitterUrl);
         });
 
         it('should set GitHub URL', async () => {
@@ -76,7 +75,7 @@ describe('AboutComponent', () => {
             const githubUrl: string = await component.githubUrl;
 
             // Assert
-            assert.strictEqual(githubUrl, ContactInformation.githubUrl);
+            expect(githubUrl).toEqual(ContactInformation.githubUrl);
         });
     });
     describe('showLicenseDialog', () => {

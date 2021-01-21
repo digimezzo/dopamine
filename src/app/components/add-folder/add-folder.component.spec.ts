@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
@@ -65,8 +64,8 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(componentWithStub);
-            assert.ok(component);
+            expect(componentWithStub).toBeTruthy();
+            expect(component).toBeTruthy();
         });
 
         it('should provide a list of folders', () => {
@@ -75,7 +74,7 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.folders);
+            expect(component.folders).toBeTruthy();
         });
 
         it('should set indexingService', () => {
@@ -84,18 +83,16 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.indexingService);
+            expect(component.indexingService).toBeTruthy();
         });
-    });
 
-    describe('constructor', () => {
         it('should not show check boxes by default', () => {
             // Arrange
 
             // Act
 
             // Assert
-            assert.strictEqual(component.showCheckBoxes, false);
+            expect(component.showCheckBoxes).toBeFalsy();
         });
     });
 
@@ -408,7 +405,7 @@ describe('AddFolderComponent', () => {
             componentWithStub.showAllFoldersInCollection = true;
 
             // Assert
-            assert.strictEqual(settingsStub.showAllFoldersInCollection, true);
+            expect(settingsStub.showAllFoldersInCollection).toBeTruthy();
         });
     });
 
@@ -433,7 +430,7 @@ describe('AddFolderComponent', () => {
             componentWithStub.setFolderVisibility(folder);
 
             // Assert
-            assert.strictEqual(componentWithStub.showAllFoldersInCollection, false);
+            expect(componentWithStub.showAllFoldersInCollection).toBeFalsy();
         });
 
         it('should set all folders visible if true', () => {

@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { CollectionPlaybackPaneComponent } from './collection-playback-pane.component';
 
 describe('CollectionPlaybackPaneComponent', () => {
@@ -15,7 +14,7 @@ describe('CollectionPlaybackPaneComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

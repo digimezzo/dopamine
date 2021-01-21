@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
@@ -36,7 +35,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set area1 size from settings', async () => {
@@ -45,7 +44,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.area1Size, 30);
+            expect(component.area1Size).toEqual(30);
         });
 
         it('should set area2 size from settings', async () => {
@@ -54,7 +53,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.area2Size, 70);
+            expect(component.area2Size).toEqual(70);
         });
 
         it('should define and instantiate the folders collection', async () => {
@@ -63,7 +62,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.folders);
+            expect(component.folders).toBeTruthy();
         });
 
         it('should define and instantiate the subfolders collection', async () => {
@@ -72,7 +71,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.subfolders);
+            expect(component.subfolders).toBeTruthy();
         });
 
         it('should define and instantiate the subfolderBreadCrumbs collection', async () => {
@@ -81,7 +80,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.subfolderBreadCrumbs);
+            expect(component.subfolderBreadCrumbs).toBeTruthy();
         });
     });
 
@@ -94,7 +93,7 @@ describe('CollectionFoldersComponent', () => {
             component.dragEnd({ sizes: [30, 70] });
 
             // Assert
-            assert.strictEqual(settingsMock.foldersLeftPaneWithPercent, 30);
+            expect(settingsMock.foldersLeftPaneWithPercent).toEqual(30);
         });
     });
 
@@ -136,7 +135,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            assert.strictEqual(component.selectedFolder, folder1);
+            expect(component.selectedFolder).toEqual(folder1);
         });
 
         it('should not set the selected folder if it is not undefined', async () => {
@@ -150,7 +149,7 @@ describe('CollectionFoldersComponent', () => {
             component.ngOnInit();
 
             // Assert
-            assert.strictEqual(component.selectedFolder, folder2);
+            expect(component.selectedFolder).toEqual(folder2);
         });
     });
 
@@ -183,7 +182,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setSelectedFolderAsync(folder1);
 
             // Assert
-            assert.strictEqual(component.selectedFolder, folder1);
+            expect(component.selectedFolder).toEqual(folder1);
         });
 
         it('should get subfolders for an undefined subfolder', async () => {

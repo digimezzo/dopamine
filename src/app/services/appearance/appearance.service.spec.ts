@@ -1,5 +1,4 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
 import { Desktop } from '../../core/io/desktop';
@@ -39,7 +38,7 @@ describe('AppearanceService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeTruthy();
         });
     });
 });

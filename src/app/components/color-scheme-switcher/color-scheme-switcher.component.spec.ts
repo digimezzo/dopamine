@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { ColorScheme } from '../../services/appearance/color-scheme';
@@ -23,7 +22,7 @@ describe('ColorSchemeSwitcherComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 

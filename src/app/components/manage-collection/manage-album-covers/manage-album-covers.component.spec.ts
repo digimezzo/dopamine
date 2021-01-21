@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
@@ -24,7 +23,7 @@ describe('ManageAlbumCoversComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set settings', () => {
@@ -37,7 +36,7 @@ describe('ManageAlbumCoversComponent', () => {
             );
 
             // Assert
-            assert.ok(manageAlbumCoversComponent.settings != undefined);
+            expect(manageAlbumCoversComponent.settings).toBeTruthy();
         });
     });
 

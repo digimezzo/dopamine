@@ -1,5 +1,4 @@
 import { MatDialogRef } from '@angular/material';
-import assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { Desktop } from '../../../core/io/desktop';
 import { FileSystem } from '../../../core/io/file-system';
@@ -27,7 +26,7 @@ describe('ErrorDialogComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

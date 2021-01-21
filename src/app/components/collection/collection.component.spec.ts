@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { CollectionComponent } from './collection.component';
@@ -21,7 +20,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 
@@ -33,7 +32,7 @@ describe('CollectionComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            assert.ok(component.appearanceService != undefined);
+            expect(component.appearanceService).toBeTruthy();
         });
     });
 });

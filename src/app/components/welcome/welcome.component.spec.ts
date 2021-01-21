@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
@@ -27,7 +26,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should start at step 0', () => {
@@ -36,7 +35,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.currentStep, 0);
+            expect(component.currentStep).toEqual(0);
         });
 
         it('should have 6 steps', () => {
@@ -45,7 +44,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.totalSteps, 6);
+            expect(component.totalSteps).toEqual(6);
         });
 
         it('Cannot go back', () => {
@@ -54,7 +53,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.canGoBack, false);
+            expect(component.canGoBack).toBeFalsy();
         });
 
         it('Can go forward', () => {
@@ -63,7 +62,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.canGoForward, true);
+            expect(component.canGoForward).toBeTruthy();
         });
 
         it('Cannot finish', () => {
@@ -72,7 +71,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.canFinish, false);
+            expect(component.canFinish).toBeFalsy();
         });
 
         it('should provide correct donate url', () => {
@@ -81,9 +80,10 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.donateUrl, 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+            expect(component.donateUrl).toEqual('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
         });
     });
+
     describe('finish', () => {
         it('should navigate to loading component', async () => {
             // Arrange

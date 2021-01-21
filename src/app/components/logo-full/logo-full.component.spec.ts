@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { LogoFullComponent } from './logo-full.component';
 
 describe('LogoFullComponent', () => {
@@ -15,7 +14,7 @@ describe('LogoFullComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 
@@ -26,7 +25,7 @@ describe('LogoFullComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.applicationName, 'dopamine');
+            expect(component.applicationName).toEqual('dopamine');
         });
     });
 });

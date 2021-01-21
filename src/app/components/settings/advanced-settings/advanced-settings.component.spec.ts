@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { AdvancedSettingsComponent } from './advanced-settings.component';
@@ -21,7 +20,7 @@ describe('AdvancedSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
 
         it('should set settings', () => {
@@ -30,7 +29,7 @@ describe('AdvancedSettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component.settings != undefined);
+            expect(component.settings).toBeTruthy();
         });
     });
 });

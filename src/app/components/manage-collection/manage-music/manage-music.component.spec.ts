@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { ManageMusicComponent } from './manage-music.component';
 
 describe('ManageMusicComponent', () => {
@@ -15,7 +14,7 @@ describe('ManageMusicComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 });

@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { StepIndicatorComponent } from './step-indicator.component';
 
 describe('StepIndicatorComponent', () => {
@@ -15,7 +14,7 @@ describe('StepIndicatorComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeTruthy();
         });
     });
 
@@ -28,11 +27,11 @@ describe('StepIndicatorComponent', () => {
             component.ngOnInit();
 
             // Assert
-            assert.strictEqual(component.totalStepsCollection[0], 0);
-            assert.strictEqual(component.totalStepsCollection[1], 1);
-            assert.strictEqual(component.totalStepsCollection[2], 2);
-            assert.strictEqual(component.totalStepsCollection[3], 3);
-            assert.strictEqual(component.totalStepsCollection[4], 4);
+            expect(component.totalStepsCollection[0]).toEqual(0);
+            expect(component.totalStepsCollection[1]).toEqual(1);
+            expect(component.totalStepsCollection[2]).toEqual(2);
+            expect(component.totalStepsCollection[3]).toEqual(3);
+            expect(component.totalStepsCollection[4]).toEqual(4);
         });
     });
 });
