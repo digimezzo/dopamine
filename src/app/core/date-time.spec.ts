@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { DateTime } from './date-time';
 
 describe('DateTime', () => {
@@ -11,7 +10,7 @@ describe('DateTime', () => {
             const ticks: number = DateTime.getTicks(someDate);
 
             // Assert
-            assert.strictEqual(ticks, 637400955642630000);
+            expect(ticks).toEqual(637400955642630000);
         });
     });
 });

@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { DataDelimiter } from '../../data/data-delimiter';
 import { MetadataPatcher } from '../../metadata/metadata-patcher';
@@ -23,7 +22,7 @@ describe('TrackFieldCreator', () => {
             const field: number = trackFieldCreator.createNumberField(NaN);
 
             // Assert
-            assert.strictEqual(field, 0);
+            expect(field).toEqual(0);
         });
 
         it('should return an 0 when the given value is undefined', () => {
@@ -33,7 +32,7 @@ describe('TrackFieldCreator', () => {
             const field: number = trackFieldCreator.createNumberField(undefined);
 
             // Assert
-            assert.strictEqual(field, 0);
+            expect(field).toEqual(0);
         });
 
         it('should return the value when the given value is not null or undefined', () => {
@@ -43,7 +42,7 @@ describe('TrackFieldCreator', () => {
             const field: number = trackFieldCreator.createNumberField(20);
 
             // Assert
-            assert.strictEqual(field, 20);
+            expect(field).toEqual(20);
         });
     });
 
@@ -55,7 +54,7 @@ describe('TrackFieldCreator', () => {
             const field: string = trackFieldCreator.createTextField(undefined);
 
             // Assert
-            assert.strictEqual(field, '');
+            expect(field).toEqual('');
         });
 
         it('should return an empty string when the given value is empty', () => {
@@ -65,7 +64,7 @@ describe('TrackFieldCreator', () => {
             const field: string = trackFieldCreator.createTextField('');
 
             // Assert
-            assert.strictEqual(field, '');
+            expect(field).toEqual('');
         });
 
         it('should return the same value when the given value has no leading an trailing spaces', () => {
@@ -75,7 +74,7 @@ describe('TrackFieldCreator', () => {
             const field: string = trackFieldCreator.createTextField('Valid value');
 
             // Assert
-            assert.strictEqual(field, 'Valid value');
+            expect(field).toEqual('Valid value');
         });
 
         it('should remove leading and trailing spaces from the given value', () => {
@@ -85,7 +84,7 @@ describe('TrackFieldCreator', () => {
             const field: string = trackFieldCreator.createTextField('  Valid value ');
 
             // Assert
-            assert.strictEqual(field, 'Valid value');
+            expect(field).toEqual('Valid value');
         });
     });
 
@@ -97,7 +96,7 @@ describe('TrackFieldCreator', () => {
             const field: string = trackFieldCreator.createMultiTextField(undefined);
 
             // Assert
-            assert.strictEqual(field, '');
+            expect(field).toEqual('');
         });
 
         it('should join unsplittable metadata', () => {

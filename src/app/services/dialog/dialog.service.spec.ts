@@ -1,5 +1,4 @@
 import { MatDialog } from '@angular/material';
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { DialogService } from './dialog.service';
 
@@ -21,7 +20,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 });

@@ -25,7 +25,7 @@ describe('AboutComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
         it('should set application version', async () => {

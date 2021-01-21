@@ -1,5 +1,4 @@
 import { TranslateService } from '@ngx-translate/core';
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { TranslatorService } from './translator.service';
@@ -24,7 +23,7 @@ describe('TranslatorService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 });

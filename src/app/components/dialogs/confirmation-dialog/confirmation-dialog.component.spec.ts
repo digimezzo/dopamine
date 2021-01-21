@@ -19,7 +19,7 @@ describe('ConfirmationDialogComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 });

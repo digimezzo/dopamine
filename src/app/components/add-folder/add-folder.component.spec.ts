@@ -64,26 +64,26 @@ describe('AddFolderComponent', () => {
             // Act
 
             // Assert
-            expect(componentWithStub).toBeTruthy();
-            expect(component).toBeTruthy();
+            expect(componentWithStub).toBeDefined();
+            expect(component).toBeDefined();
         });
 
-        it('should provide a list of folders', () => {
+        it('should define folders', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.folders).toBeTruthy();
+            expect(component.folders).toBeDefined();
         });
 
-        it('should set indexingService', () => {
+        it('should define indexingService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.indexingService).toBeTruthy();
+            expect(component.indexingService).toBeDefined();
         });
 
         it('should not show check boxes by default', () => {

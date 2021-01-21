@@ -47,7 +47,7 @@ describe('AppComponent', () => {
     });
 
     it('should create', () => {
-        expect(app).toBeTruthy();
+        expect(app).toBeDefined();
     });
 
     describe('ngOnInit', () => {

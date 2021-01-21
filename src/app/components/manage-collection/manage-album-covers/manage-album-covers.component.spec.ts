@@ -23,10 +23,10 @@ describe('ManageAlbumCoversComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
-        it('should set settings', () => {
+        it('should define settings', () => {
             // Arrange
 
             // Act
@@ -36,7 +36,7 @@ describe('ManageAlbumCoversComponent', () => {
             );
 
             // Assert
-            expect(manageAlbumCoversComponent.settings).toBeTruthy();
+            expect(manageAlbumCoversComponent.settings).toBeDefined();
         });
     });
 

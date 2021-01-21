@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { Folder } from './folder';
 
 describe('Folder', () => {
@@ -10,7 +9,7 @@ describe('Folder', () => {
             const folder: Folder = new Folder('/home/myself/Music');
 
             // Assert
-            assert.ok(folder.path === '/home/myself/Music');
+            expect(folder.path).toEqual('/home/myself/Music');
         });
     });
 });

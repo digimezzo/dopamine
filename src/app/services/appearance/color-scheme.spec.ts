@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { ColorScheme } from './color-scheme';
 
 describe('ColorScheme', () => {
@@ -15,7 +14,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(colorScheme);
+            expect(colorScheme).toBeDefined();
         });
 
         it('should set name', () => {
@@ -24,7 +23,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(colorScheme.name === 'MyColorScheme');
+            expect(colorScheme.name).toEqual('MyColorScheme');
         });
 
         it('should set primary color', () => {
@@ -33,7 +32,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(colorScheme.primaryColor === '#ffffff');
+            expect(colorScheme.primaryColor).toEqual('#ffffff');
         });
 
         it('should set secondary color', () => {
@@ -42,7 +41,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(colorScheme.secondaryColor === '#000000');
+            expect(colorScheme.secondaryColor).toEqual('#000000');
         });
 
         it('should set accent color', () => {
@@ -51,7 +50,7 @@ describe('ColorScheme', () => {
             // Act
 
             // Assert
-            assert.ok(colorScheme.accentColor === '#ff0000');
+            expect(colorScheme.accentColor).toEqual('#ff0000');
         });
     });
 });

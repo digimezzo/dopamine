@@ -40,7 +40,7 @@ describe('TrackService', () => {
             // Act
 
             // Assert
-            expect(service).toBeTruthy();
+            expect(service).toBeDefined();
         });
     });
 

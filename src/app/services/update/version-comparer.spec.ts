@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { VersionComparer } from './version-comparer';
 
 describe('VersionComparer', () => {
@@ -10,7 +9,7 @@ describe('VersionComparer', () => {
             const isNewerVersion: boolean = VersionComparer.isNewerVersion('2.0.3', '2.0.4');
 
             // Assert
-            assert.ok(isNewerVersion);
+            expect(isNewerVersion).toBeTruthy();
         });
 
         it('should not report newer version when old version is same as new version', async () => {
@@ -20,7 +19,7 @@ describe('VersionComparer', () => {
             const isNewerVersion: boolean = VersionComparer.isNewerVersion('2.0.3', '2.0.3');
 
             // Assert
-            assert.ok(!isNewerVersion);
+            expect(isNewerVersion).toBeFalsy();
         });
 
         it('should  not report newer version when old version is newer than new version', async () => {
@@ -30,7 +29,7 @@ describe('VersionComparer', () => {
             const isNewerVersion: boolean = VersionComparer.isNewerVersion('2.0.4', '2.0.3');
 
             // Assert
-            assert.ok(!isNewerVersion);
+            expect(isNewerVersion).toBeFalsy();
         });
     });
 });

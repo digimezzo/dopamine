@@ -28,7 +28,7 @@ describe('SnackBarComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 

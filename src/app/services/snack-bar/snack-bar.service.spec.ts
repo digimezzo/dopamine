@@ -1,6 +1,5 @@
 import { NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { Scheduler } from '../../core/scheduler/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -30,7 +29,7 @@ describe('SnackBarService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 });

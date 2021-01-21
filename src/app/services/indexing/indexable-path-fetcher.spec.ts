@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
@@ -84,10 +83,10 @@ describe('IndexablePathFetcher', () => {
             const indexablePaths: IndexablePath[] = await indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
 
             // Assert
-            assert.ok(indexablePaths.map((x) => x.path).includes('/home/user/Music/Track 1.mp3'));
-            assert.ok(indexablePaths.map((x) => x.path).includes('/home/user/Music/Track 2.mp3'));
-            assert.ok(indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Track 1.mp3'));
-            assert.ok(indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Track 2.mp3'));
+            expect(indexablePaths.map((x) => x.path).includes('/home/user/Music/Track 1.mp3')).toBeTruthy();
+            expect(indexablePaths.map((x) => x.path).includes('/home/user/Music/Track 2.mp3')).toBeTruthy();
+            expect(indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Track 1.mp3')).toBeTruthy();
+            expect(indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Track 2.mp3')).toBeTruthy();
         });
 
         it('should not collect unsupported audio files for all folders', async () => {
@@ -97,10 +96,10 @@ describe('IndexablePathFetcher', () => {
             const indexablePaths: IndexablePath[] = await indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
 
             // Assert
-            assert.ok(!indexablePaths.map((x) => x.path).includes('/home/user/Music/Image 1.png'));
-            assert.ok(!indexablePaths.map((x) => x.path).includes('/home/user/Music/Image 2'));
-            assert.ok(!indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Image 1.png'));
-            assert.ok(!indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Image 2'));
+            expect(!indexablePaths.map((x) => x.path).includes('/home/user/Music/Image 1.png')).toBeTruthy();
+            expect(!indexablePaths.map((x) => x.path).includes('/home/user/Music/Image 2')).toBeTruthy();
+            expect(!indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Image 1.png')).toBeTruthy();
+            expect(!indexablePaths.map((x) => x.path).includes('/home/user/Downloads/Image 2')).toBeTruthy();
         });
     });
 });

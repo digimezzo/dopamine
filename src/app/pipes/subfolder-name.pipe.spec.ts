@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../core/io/file-system';
 import { SubfolderModel } from '../services/folder/subfolder-model';
@@ -16,7 +15,7 @@ describe('SubfolderNamePipe', () => {
             const subfolderName: string = subfolderNamePipe.transform(undefined);
 
             // Assert
-            assert.strictEqual(subfolderName, '');
+            expect(subfolderName).toEqual('');
         });
 
         it('should return empty string if subfolder path is undefined', () => {
@@ -30,7 +29,7 @@ describe('SubfolderNamePipe', () => {
             const subfolderName: string = subfolderNamePipe.transform(subfolder);
 
             // Assert
-            assert.strictEqual(subfolderName, '');
+            expect(subfolderName).toEqual('');
         });
 
         it('should return empty string if subfolder path is empty', () => {
@@ -44,7 +43,7 @@ describe('SubfolderNamePipe', () => {
             const subfolderName: string = subfolderNamePipe.transform(subfolder);
 
             // Assert
-            assert.strictEqual(subfolderName, '');
+            expect(subfolderName).toEqual('');
         });
 
         it('should return double dots .. if subfolder path is not empty and is a go to parent subfolder', () => {
@@ -58,7 +57,7 @@ describe('SubfolderNamePipe', () => {
             const subfolderName: string = subfolderNamePipe.transform(subfolder);
 
             // Assert
-            assert.strictEqual(subfolderName, '..');
+            expect(subfolderName).toEqual('..');
         });
 
         it('should return the subfolder name of a subfolder path', () => {
@@ -72,7 +71,7 @@ describe('SubfolderNamePipe', () => {
             const subfolderName: string = subfolderNamePipe.transform(subfolder);
 
             // Assert
-            assert.strictEqual(subfolderName, 'Subfolder1');
+            expect(subfolderName).toEqual('Subfolder1');
         });
     });
 });

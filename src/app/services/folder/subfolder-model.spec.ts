@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { SubfolderModel } from './subfolder-model';
 
 describe('SubfolderModel', () => {
@@ -15,7 +14,7 @@ describe('SubfolderModel', () => {
             // Act
 
             // Assert
-            assert.ok(subfolderModel);
+            expect(subfolderModel).toBeDefined();
         });
 
         it('should set path', () => {
@@ -24,7 +23,7 @@ describe('SubfolderModel', () => {
             // Act
 
             // Assert
-            assert.strictEqual(subfolderModel.path, '/home/user/Music/subfolder1');
+            expect(subfolderModel.path).toEqual('/home/user/Music/subfolder1');
         });
 
         it('should set isGoToParent', () => {
@@ -33,7 +32,7 @@ describe('SubfolderModel', () => {
             // Act
 
             // Assert
-            assert.strictEqual(subfolderModel.isGoToParent, true);
+            expect(subfolderModel.isGoToParent).toBeTruthy();
         });
     });
 });

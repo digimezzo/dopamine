@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { MimeTypes } from './mime-types';
 
 describe('MimeTypes', () => {
@@ -11,7 +10,7 @@ describe('MimeTypes', () => {
             const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.mp3');
 
             // Assert
-            assert.strictEqual(mimeType, 'audio/mpeg');
+            expect(mimeType).toEqual('audio/mpeg');
         });
 
         it('should return an empty string for an unknown file extension', () => {
@@ -22,7 +21,7 @@ describe('MimeTypes', () => {
             const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.doc');
 
             // Assert
-            assert.strictEqual(mimeType, '');
+            expect(mimeType).toEqual('');
         });
     });
 });

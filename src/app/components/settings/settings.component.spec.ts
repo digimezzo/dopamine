@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { SettingsComponent } from './settings.component';
@@ -21,7 +20,7 @@ describe('SettingsComponent', () => {
             // Act
 
             // Assert
-            assert.ok(component);
+            expect(component).toBeDefined();
         });
 
         it('should set appearanceService', () => {
@@ -30,7 +29,7 @@ describe('SettingsComponent', () => {
             // Act
 
             // Assert
-            assert.strictEqual(component.appearanceService, appearanceServiceMock.object);
+            expect(component.appearanceService).toEqual(appearanceServiceMock.object);
         });
     });
 });

@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
@@ -58,17 +57,17 @@ describe('DirectoryWalker', () => {
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
 
             // Assert
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 1.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Artist 1.png'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Images/Artist image 1.png'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Images/Artist image 2.png'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Track 1.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Track 2.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Album 1.jpg'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 1.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 2.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 3.mp3'));
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Track 1.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Artist 1.png')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Images/Artist image 1.png')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Images/Artist image 2.png')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Track 1.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Track 2.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1/Album 1.jpg')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 1.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 2.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2/Track 3.mp3')).toBeTruthy();
         });
 
         it('should not collect any directories in the directory and subdirectories', async () => {
@@ -123,11 +122,11 @@ describe('DirectoryWalker', () => {
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
 
             // Assert
-            assert.ok(!directoryWalkResult.filePaths.includes('/home/user/Music'));
-            assert.ok(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1'));
-            assert.ok(!directoryWalkResult.filePaths.includes('/home/user/Music/Images'));
-            assert.ok(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1'));
-            assert.ok(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2'));
+            expect(!directoryWalkResult.filePaths.includes('/home/user/Music')).toBeTruthy();
+            expect(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1')).toBeTruthy();
+            expect(!directoryWalkResult.filePaths.includes('/home/user/Music/Images')).toBeTruthy();
+            expect(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 1')).toBeTruthy();
+            expect(!directoryWalkResult.filePaths.includes('/home/user/Music/Artist 1/Album 2')).toBeTruthy();
         });
 
         it('should not collect errors if non occurred', async () => {
@@ -182,7 +181,7 @@ describe('DirectoryWalker', () => {
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
 
             // Assert
-            assert.strictEqual(directoryWalkResult.errors.length, 0);
+            expect(directoryWalkResult.errors.length).toEqual(0);
         });
 
         it('should collect errors if any occurred', async () => {
@@ -233,7 +232,7 @@ describe('DirectoryWalker', () => {
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
 
             // Assert
-            assert.ok(directoryWalkResult.errors.length > 0);
+            expect(directoryWalkResult.errors.length).toBeGreaterThan(0);
         });
     });
 });

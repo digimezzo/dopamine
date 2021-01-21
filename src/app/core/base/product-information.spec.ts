@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { ProductInformation } from './product-information';
 
 describe('ProductInformation', () => {
@@ -10,7 +9,7 @@ describe('ProductInformation', () => {
             const applicationName: string = ProductInformation.applicationName;
 
             // Assert
-            assert.ok(applicationName, 'Dopamine');
+            expect(applicationName).toEqual('Dopamine');
         });
     });
 
@@ -22,7 +21,7 @@ describe('ProductInformation', () => {
             const applicationVersion: string = ProductInformation.applicationVersion;
 
             // Assert
-            assert.ok(applicationVersion, '3.0.0');
+            expect(applicationVersion).toEqual('3.0.0-preview.1');
         });
     });
 
@@ -34,7 +33,7 @@ describe('ProductInformation', () => {
             const applicationCopyright: string = ProductInformation.applicationCopyright;
 
             // Assert
-            assert.ok(applicationCopyright, 'Copyright Digimezzo Ⓒ 2014 - 2019');
+            expect(applicationCopyright).toEqual('Copyright Digimezzo Ⓒ 2014 - 2021');
         });
     });
 });

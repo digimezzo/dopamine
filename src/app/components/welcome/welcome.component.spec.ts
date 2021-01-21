@@ -26,7 +26,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
         it('should start at step 0', () => {

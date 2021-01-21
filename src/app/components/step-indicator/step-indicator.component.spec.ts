@@ -14,7 +14,7 @@ describe('StepIndicatorComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 

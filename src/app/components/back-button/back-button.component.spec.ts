@@ -23,7 +23,7 @@ describe('BackButtonComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 

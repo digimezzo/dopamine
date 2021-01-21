@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { Folder } from '../../data/entities/folder';
 import { FolderModel } from './folder-model';
 
@@ -22,7 +21,7 @@ describe('FolderModel', () => {
             const folderPath: string = folderModel.path;
 
             // Assert
-            assert.ok(folderModel);
+            expect(folderModel).toBeDefined();
         });
     });
 
@@ -34,7 +33,7 @@ describe('FolderModel', () => {
             const folderPath: string = folderModel.path;
 
             // Assert
-            assert.strictEqual(folderPath, folder.path);
+            expect(folderPath).toEqual(folder.path);
         });
 
         it('should return folderId', async () => {
@@ -44,7 +43,7 @@ describe('FolderModel', () => {
             const folderId: number = folderModel.folderId;
 
             // Assert
-            assert.strictEqual(folderId, folder.folderId);
+            expect(folderId).toEqual(folder.folderId);
         });
 
         describe('showInCollection', () => {
@@ -55,7 +54,7 @@ describe('FolderModel', () => {
                 const showInCollection: boolean = folderModel.showInCollection;
 
                 // Assert
-                assert.strictEqual(showInCollection, true);
+                expect(showInCollection).toBeTruthy();
             });
 
             it('should return false when folder showInCollection is 0', async () => {
@@ -66,7 +65,7 @@ describe('FolderModel', () => {
                 const showInCollection: boolean = folderModel.showInCollection;
 
                 // Assert
-                assert.strictEqual(showInCollection, false);
+                expect(showInCollection).toBeFalsy();
             });
 
             it('should return false when folder showInCollection is undefined', async () => {
@@ -77,7 +76,7 @@ describe('FolderModel', () => {
                 const showInCollection: boolean = folderModel.showInCollection;
 
                 // Assert
-                assert.strictEqual(showInCollection, false);
+                expect(showInCollection).toBeFalsy();
             });
         });
     });

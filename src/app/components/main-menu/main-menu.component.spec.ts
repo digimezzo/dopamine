@@ -20,7 +20,7 @@ describe('MainMenuComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 

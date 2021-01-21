@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { ApplicationPaths } from './application-paths';
 
 describe('ApplicationPaths', () => {
@@ -10,7 +9,7 @@ describe('ApplicationPaths', () => {
             const cacheFolder: string = ApplicationPaths.cacheFolder;
 
             // Assert
-            assert.strictEqual(cacheFolder, 'Cache');
+            expect(cacheFolder).toEqual('Cache');
         });
 
         it('should return the cover art cache folder', () => {
@@ -20,7 +19,7 @@ describe('ApplicationPaths', () => {
             const coverArtCacheFolder: string = ApplicationPaths.CoverArtCacheFolder;
 
             // Assert
-            assert.strictEqual(coverArtCacheFolder, 'CoverArt');
+            expect(coverArtCacheFolder).toEqual('CoverArt');
         });
     });
 });

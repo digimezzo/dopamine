@@ -20,16 +20,16 @@ describe('AdvancedSettingsComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
-        it('should set settings', () => {
+        it('should define settings', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.settings).toBeTruthy();
+            expect(component.settings).toBeDefined();
         });
     });
 });

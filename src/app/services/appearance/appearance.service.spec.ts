@@ -1,4 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Observable } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
 import { Desktop } from '../../core/io/desktop';
@@ -22,6 +23,9 @@ describe('AppearanceService', () => {
         remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
         desktopMock = Mock.ofType<Desktop>();
 
+        desktopMock.setup((x) => x.accentColorChanged$).returns(() => new Observable());
+        desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => new Observable());
+
         service = new AppearanceService(
             settingsMock.object,
             loggerMock.object,
@@ -38,7 +42,7 @@ describe('AppearanceService', () => {
             // Act
 
             // Assert
-            expect(service).toBeTruthy();
+            expect(service).toBeDefined();
         });
     });
 });

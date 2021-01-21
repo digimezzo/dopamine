@@ -1,5 +1,4 @@
 import { Router } from '@angular/router';
-import assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseNavigationService } from './base-navigation.service';
 import { NavigationService } from './navigation.service';
@@ -20,7 +19,7 @@ describe('NavigationService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 

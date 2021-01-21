@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { DirectoryWalkResult } from './directory-walk-result';
 
 describe('DirectoryWalkResult', () => {
@@ -16,9 +15,9 @@ describe('DirectoryWalkResult', () => {
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);
 
             // Assert
-            assert.ok(directoryWalkResult.filePaths);
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 1.mp3'));
-            assert.ok(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3'));
+            expect(directoryWalkResult.filePaths).toBeDefined();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Track 1.mp3')).toBeTruthy();
+            expect(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3')).toBeTruthy();
         });
 
         it('should set errors', async () => {
@@ -34,9 +33,9 @@ describe('DirectoryWalkResult', () => {
             const directoryWalkResult: DirectoryWalkResult = new DirectoryWalkResult(filePaths, errors);
 
             // Assert
-            assert.ok(directoryWalkResult.errors);
-            assert.ok(directoryWalkResult.errors.includes(error1));
-            assert.ok(directoryWalkResult.errors.includes(error2));
+            expect(directoryWalkResult.errors).toBeDefined();
+            expect(directoryWalkResult.errors.includes(error1)).toBeTruthy();
+            expect(directoryWalkResult.errors.includes(error2)).toBeTruthy();
         });
     });
 });

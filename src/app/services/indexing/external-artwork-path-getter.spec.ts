@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import * as path from 'path';
 import { IMock, It, Mock } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
@@ -21,7 +20,7 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(undefined);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, undefined);
+            expect(externalArtworkPath).toBeUndefined();
         });
 
         it('should return undefined if there is no file that matches an external artwork pattern in the same directory', () => {
@@ -36,7 +35,7 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, undefined);
+            expect(externalArtworkPath).toBeUndefined();
         });
 
         it('should return a path if there is a file that matches a fixed external artwork pattern in the same directory', () => {
@@ -52,7 +51,7 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, expectedArtworkPath);
+            expect(externalArtworkPath).toBe(expectedArtworkPath);
         });
 
         it('should return a path if there is a file that matches a template external artwork pattern in the same directory', () => {
@@ -68,7 +67,7 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = externalArtworkPathGetter.getExternalArtworkPath(audioFilePath);
 
             // Assert
-            assert.strictEqual(externalArtworkPath, expectedArtworkPath);
+            expect(externalArtworkPath).toBe(expectedArtworkPath);
         });
     });
 });

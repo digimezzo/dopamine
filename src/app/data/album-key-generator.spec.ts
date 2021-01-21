@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { AlbumKeyGenerator } from './album-key-generator';
 import { DataDelimiter } from './data-delimiter';
@@ -14,7 +13,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey(undefined, ['Artist 1', 'Artist 2']);
 
             // Assert
-            assert.strictEqual(albumKey, '');
+            expect(albumKey).toEqual('');
         });
 
         it('should generate an empty album key if album title is empty', () => {
@@ -26,7 +25,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey('', ['Artist 1', 'Artist 2']);
 
             // Assert
-            assert.strictEqual(albumKey, '');
+            expect(albumKey).toEqual('');
         });
 
         it('should generate an empty album key if album title is a space', () => {
@@ -38,7 +37,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey(' ', ['Artist 1', 'Artist 2']);
 
             // Assert
-            assert.strictEqual(albumKey, '');
+            expect(albumKey).toEqual('');
         });
 
         it('should generate an empty album key if album title is a multiple spaces', () => {
@@ -50,7 +49,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey('    ', ['Artist 1', 'Artist 2']);
 
             // Assert
-            assert.strictEqual(albumKey, '');
+            expect(albumKey).toEqual('');
         });
 
         it('should generate an album key using only the album title if album artists is undefined', () => {
@@ -62,7 +61,7 @@ describe('AlbumKeyGenerator', () => {
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', undefined);
 
             // Assert
-            assert.strictEqual(albumKey, ';The album title;');
+            expect(albumKey).toEqual(';The album title;');
         });
 
         it('should generate an album key using only the album title if album artists is empty', () => {
@@ -77,7 +76,7 @@ describe('AlbumKeyGenerator', () => {
 
             // Assert
             dataDelimiterMock.verify((x) => x.convertToDelimitedString(['The album title']), Times.exactly(1));
-            assert.strictEqual(albumKey, ';The album title;');
+            expect(albumKey).toEqual(';The album title;');
         });
 
         it('should generate an album key using album title and album artist given an album title and 1 album artist', () => {
@@ -94,7 +93,7 @@ describe('AlbumKeyGenerator', () => {
 
             // Assert
             dataDelimiterMock.verify((x) => x.convertToDelimitedString(['The album title', 'Album artist 1']), Times.exactly(1));
-            assert.strictEqual(albumKey, ';The album title;;Album artist 1;');
+            expect(albumKey).toEqual(';The album title;;Album artist 1;');
         });
 
         it('should generate an album key using album title and album artists given an album title and multiple album artists', () => {
@@ -114,7 +113,7 @@ describe('AlbumKeyGenerator', () => {
                 (x) => x.convertToDelimitedString(['The album title', 'Album artist 1', 'Album artist 2']),
                 Times.exactly(1)
             );
-            assert.strictEqual(albumKey, ';The album title;;Album artist 1;;Album artist 2;');
+            expect(albumKey).toEqual(';The album title;;Album artist 1;;Album artist 2;');
         });
     });
 });

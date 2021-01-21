@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
@@ -44,7 +43,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(undefined);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
 
         it('should return undefined if fileMetaData has artists but no titles', async () => {
@@ -69,7 +68,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
 
         it('should return artwork if fileMetaData has artists and titles', async () => {
@@ -94,7 +93,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return artwork if fileMetaData has artists and only a track title', async () => {
@@ -119,7 +118,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return artwork if fileMetaData has artists and only an album title', async () => {
@@ -144,7 +143,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return artwork if fileMetaData has titles and only album artists', async () => {
@@ -169,7 +168,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return artwork if fileMetaData has titles and only track artists', async () => {
@@ -194,7 +193,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return undefined if converting file to data throws error', async () => {
@@ -215,7 +214,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
 
         it('should return undefined if getting online album info throws error', async () => {
@@ -240,7 +239,7 @@ describe('OnlineAlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
     });
 });

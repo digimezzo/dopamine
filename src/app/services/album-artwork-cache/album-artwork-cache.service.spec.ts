@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import * as path from 'path';
 import { IMock, Mock, Times } from 'typemoq';
 import { ImageProcessor } from '../../core/image-processor';
@@ -30,7 +29,7 @@ describe('AlbumArtworkCacheService', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
 
         it('should create the full directory path to the artwork cache if it does not exist', () => {
@@ -61,7 +60,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(undefined);
 
             // Assert
-            assert.strictEqual(albumArtworkCacheId, undefined);
+            expect(albumArtworkCacheId).toBeUndefined();
         });
         it('should return undefined when the data is empty', async () => {
             // Arrange
@@ -71,7 +70,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
 
             // Assert
-            assert.strictEqual(albumArtworkCacheId, undefined);
+            expect(albumArtworkCacheId).toBeUndefined();
         });
 
         it('should return a valid AlbumArtworkCacheId when the data is not empty', async () => {
@@ -86,7 +85,7 @@ describe('AlbumArtworkCacheService', () => {
             const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
 
             // Assert
-            assert.strictEqual(albumArtworkCacheIdToCreate.id, albumArtworkCacheIdToReturn.id);
+            expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn.id);
         });
 
         it('should save data to file when the data is not empty', async () => {

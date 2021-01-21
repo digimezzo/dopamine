@@ -20,19 +20,19 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 
     describe('ngOnInit', () => {
-        it('should set appearanceService', async () => {
+        it('should define appearanceService', async () => {
             // Arrange
 
             // Act
             await component.ngOnInit();
 
             // Assert
-            expect(component.appearanceService).toBeTruthy();
+            expect(component.appearanceService).toBeDefined();
         });
     });
 });

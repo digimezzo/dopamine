@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../core/logger';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
@@ -38,7 +37,7 @@ describe('CollectionChecker', () => {
             const collectionIsOutdated: boolean = await collectionChecker.isCollectionOutdatedAsync();
 
             // Assert
-            assert.ok(!collectionIsOutdated);
+            expect(collectionIsOutdated).toBeFalsy();
         });
 
         it('should be outdated if there are database tracks that need indexing', async () => {
@@ -51,7 +50,7 @@ describe('CollectionChecker', () => {
             const collectionIsOutdated: boolean = await collectionChecker.isCollectionOutdatedAsync();
 
             // Assert
-            assert.ok(collectionIsOutdated);
+            expect(collectionIsOutdated).toBeTruthy();
         });
 
         it('should be outdated if the number of database tracks is larger than the number of files on disk', async () => {
@@ -64,7 +63,7 @@ describe('CollectionChecker', () => {
             const collectionNeedsIndexing: boolean = await collectionChecker.isCollectionOutdatedAsync();
 
             // Assert
-            assert.ok(collectionNeedsIndexing);
+            expect(collectionNeedsIndexing).toBeTruthy();
         });
 
         it('should be outdated if the number of database tracks is smaller than the number of files on disk', async () => {
@@ -77,7 +76,7 @@ describe('CollectionChecker', () => {
             const collectionIsOutdated: boolean = await collectionChecker.isCollectionOutdatedAsync();
 
             // Assert
-            assert.ok(collectionIsOutdated);
+            expect(collectionIsOutdated).toBeTruthy();
         });
 
         it('should be outdated if a database track is out of date', async () => {
@@ -90,7 +89,7 @@ describe('CollectionChecker', () => {
             const collectionIsOutdated: boolean = await collectionChecker.isCollectionOutdatedAsync();
 
             // Assert
-            assert.ok(collectionIsOutdated);
+            expect(collectionIsOutdated).toBeTruthy();
         });
     });
 });

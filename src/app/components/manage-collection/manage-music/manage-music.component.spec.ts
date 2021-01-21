@@ -14,7 +14,7 @@ describe('ManageMusicComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
     });
 });

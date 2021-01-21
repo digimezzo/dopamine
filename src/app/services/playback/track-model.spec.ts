@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { Track } from '../../data/entities/track';
 import { TrackModel } from './track-model';
 
@@ -18,7 +17,7 @@ describe('TrackModel', () => {
             // Act
 
             // Assert
-            assert.ok(trackModel);
+            expect(trackModel).toBeDefined();
         });
     });
 
@@ -30,7 +29,7 @@ describe('TrackModel', () => {
             const trackPath: string = trackModel.path;
 
             // Assert
-            assert.strictEqual(trackPath, track.path);
+            expect(trackPath).toEqual(track.path);
         });
     });
 });

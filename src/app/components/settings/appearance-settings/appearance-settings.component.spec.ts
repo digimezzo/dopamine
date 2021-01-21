@@ -26,34 +26,34 @@ describe('AppearanceSettingsComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
-        it('should set appearanceService', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.appearanceService).toBeTruthy();
+            expect(component.appearanceService).toBeDefined();
         });
 
-        it('should set translatorService', () => {
+        it('should define translatorService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.translatorService).toBeTruthy();
+            expect(component.translatorService).toBeDefined();
         });
 
-        it('should set settings', () => {
+        it('should define settings', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.settings).toBeTruthy();
+            expect(component.settings).toBeDefined();
         });
     });
 });

@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { MetadataPatcher } from './metadata-patcher';
 
 describe('MetadataPatcher', () => {
@@ -12,7 +11,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, []);
+            expect(joinedMetadata).toEqual([]);
         });
 
         it('should return an empty collection if the collection is empty', () => {
@@ -24,7 +23,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, []);
+            expect(joinedMetadata).toEqual([]);
         });
 
         it('should return the same collection if the collection does not contain unsplittable values', () => {
@@ -36,7 +35,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, possiblySplittedMetadata);
+            expect(joinedMetadata).toEqual(possiblySplittedMetadata);
         });
 
         it('should return the same collection if the collection contains only 1 value', () => {
@@ -48,7 +47,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, possiblySplittedMetadata);
+            expect(joinedMetadata).toEqual(possiblySplittedMetadata);
         });
 
         it('should return joined values if the collection contains two-part unsplittable values with correct casing', () => {
@@ -60,7 +59,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, ['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light']);
+            expect(joinedMetadata).toEqual(['Artist 1', 'AC/DC', 'Artist 2', 'De/Vision', 'Ghost/Light']);
         });
 
         it('should return joined values if the collection contains two-part unsplittable values with incorrect casing', () => {
@@ -72,7 +71,7 @@ describe('MetadataPatcher', () => {
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);
 
             // Assert
-            assert.deepStrictEqual(joinedMetadata, ['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt']);
+            expect(joinedMetadata).toEqual(['Artist 1', 'ac/dC', 'Artist 2', 'dE/viSion', 'ghOst/LigHt']);
         });
     });
 });

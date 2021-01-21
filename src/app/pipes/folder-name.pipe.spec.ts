@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../core/io/file-system';
 import { Folder } from '../data/entities/folder';
@@ -17,7 +16,7 @@ describe('FolderNamePipe', () => {
             const folderName: string = directoryNamePipe.transform(undefined);
 
             // Assert
-            assert.strictEqual(folderName, '');
+            expect(folderName).toEqual('');
         });
 
         it('should return empty string if folder path is undefined', () => {
@@ -31,7 +30,7 @@ describe('FolderNamePipe', () => {
             const folderName: string = directoryNamePipe.transform(folder);
 
             // Assert
-            assert.strictEqual(folderName, '');
+            expect(folderName).toEqual('');
         });
 
         it('should return empty string if folder path is empty', () => {
@@ -45,7 +44,7 @@ describe('FolderNamePipe', () => {
             const folderName: string = directoryNamePipe.transform(folder);
 
             // Assert
-            assert.strictEqual(folderName, '');
+            expect(folderName).toEqual('');
         });
 
         it('should return the folder name of a folder path', () => {
@@ -59,7 +58,7 @@ describe('FolderNamePipe', () => {
             const folderName: string = directoryNamePipe.transform(folder);
 
             // Assert
-            assert.strictEqual(folderName, 'Music');
+            expect(folderName).toEqual('Music');
         });
     });
 });

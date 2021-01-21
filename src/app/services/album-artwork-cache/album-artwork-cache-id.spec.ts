@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 
 describe('AlbumArtworkCacheId', () => {
@@ -15,44 +14,44 @@ describe('AlbumArtworkCacheId', () => {
             // Act
 
             // Assert
-            assert.ok(albumArtworkCacheId);
+            expect(albumArtworkCacheId).toBeDefined();
         });
 
-        it('should create an identifier which is not null or undefined', () => {
+        it('should define id', () => {
             // Arrange
 
             // Act
 
             // Assert
-            assert.ok(albumArtworkCacheId.id);
+            expect(albumArtworkCacheId.id).toBeDefined();
         });
 
-        it('should create an identifier which starts with album-', () => {
+        it('should create id that starts with album-', () => {
             // Arrange
 
             // Act
 
             // Assert
-            assert.ok(albumArtworkCacheId.id.startsWith('album-'));
+            expect(albumArtworkCacheId.id.startsWith('album-')).toBeTruthy();
         });
 
-        it('should create an identifier which has a length of 42 characters', () => {
+        it('should create id that has a length of 42 characters', () => {
             // Arrange
 
             // Act
 
             // Assert
-            assert.strictEqual(albumArtworkCacheId.id.length, 42);
+            expect(albumArtworkCacheId.id.length).toEqual(42);
         });
 
-        it('should create unique identifiers', () => {
+        it('should create unique ids', () => {
             // Arrange
 
             // Act
             const albumArtworkCacheId2: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
             // Assert
-            assert.notStrictEqual(albumArtworkCacheId.id, albumArtworkCacheId2.id);
+            expect(albumArtworkCacheId.id).not.toEqual(albumArtworkCacheId2.id);
         });
     });
 });

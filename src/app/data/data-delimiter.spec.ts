@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { DataDelimiter } from './data-delimiter';
 
 describe('DataDelimiter', () => {
@@ -12,7 +11,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, '');
+            expect(delimitedString).toEqual('');
         });
 
         it('should return an empty string if the array has no elements', () => {
@@ -24,7 +23,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, '');
+            expect(delimitedString).toEqual('');
         });
 
         it('should return a delimited string if the array has one element', () => {
@@ -36,7 +35,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, ';String 1;');
+            expect(delimitedString).toEqual(';String 1;');
         });
 
         it('should return a delimited string if the array has more than one element', () => {
@@ -48,7 +47,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, ';String 1;;String 2;');
+            expect(delimitedString).toEqual(';String 1;;String 2;');
         });
 
         it('should remove leading spaces on array elements', () => {
@@ -60,7 +59,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, ';String 1;;String 2;');
+            expect(delimitedString).toEqual(';String 1;;String 2;');
         });
 
         it('should remove trailing spaces on array elements', () => {
@@ -72,7 +71,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, ';String 1;;String 2;');
+            expect(delimitedString).toEqual(';String 1;;String 2;');
         });
 
         it('should remove emtpy array elements', () => {
@@ -84,7 +83,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = dataDelimiter.convertToDelimitedString(stringArray);
 
             // Assert
-            assert.strictEqual(delimitedString, ';String 1;;String 2;');
+            expect(delimitedString).toEqual(';String 1;;String 2;');
         });
     });
 });

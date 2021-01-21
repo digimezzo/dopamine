@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, It, Mock } from 'typemoq';
 import { SettingsStub } from '../../core/settings/settings-stub';
 import { FileMetadata } from '../../metadata/file-metadata';
@@ -36,7 +35,7 @@ describe('AlbumArtworkGetter', () => {
             const albumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(undefined);
 
             // Assert
-            assert.strictEqual(albumArtwork, undefined);
+            expect(albumArtwork).toBeUndefined();
         });
 
         it('should return embedded artwork when there is embedded artwork', async () => {
@@ -52,7 +51,7 @@ describe('AlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return external artwork when there is no embedded artwork but there is external artwork', async () => {
@@ -69,7 +68,7 @@ describe('AlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
@@ -87,7 +86,7 @@ describe('AlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, expectedAlbumArtwork);
+            expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
         it('should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
@@ -103,7 +102,7 @@ describe('AlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
 
         it('should return undefined when there is no embedded and no external and no online artwork', async () => {
@@ -120,7 +119,7 @@ describe('AlbumArtworkGetter', () => {
             const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualAlbumArtwork, undefined);
+            expect(actualAlbumArtwork).toBeUndefined();
         });
     });
 });

@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { BaseAudioPlayer } from '../../core/audio/base-audio-player';
 import { PlaybackService } from './playback.service';
@@ -19,7 +18,7 @@ describe('PlaybackService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 });

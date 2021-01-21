@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../core/logger';
 import { FileMetadata } from '../../metadata/file-metadata';
@@ -15,7 +14,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(undefined);
 
             // Assert
-            assert.strictEqual(actualArtwork, undefined);
+            expect(actualArtwork).toBeUndefined();
         });
 
         it('should return embedded artwork if fileMetaData is not undefined', () => {
@@ -31,7 +30,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetaDataMock.object);
 
             // Assert
-            assert.strictEqual(actualArtwork, expectedArtwork);
+            expect(actualArtwork).toEqual(expectedArtwork);
         });
     });
 });

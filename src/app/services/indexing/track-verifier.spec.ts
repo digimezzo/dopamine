@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
 import { Track } from '../../data/entities/track';
@@ -26,7 +25,7 @@ describe('TrackVerifier', () => {
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
 
             // Assert
-            assert.strictEqual(trackIsOutOfDate, true);
+            expect(trackIsOutOfDate).toBeTruthy();
         });
 
         it('should report a track as out of date if its file size is different than the file size on disk', async () => {
@@ -44,7 +43,7 @@ describe('TrackVerifier', () => {
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
 
             // Assert
-            assert.strictEqual(trackIsOutOfDate, true);
+            expect(trackIsOutOfDate).toBeTruthy();
         });
 
         it('should report a track as out of date if its date modified is different than the date modified on disk', async () => {
@@ -62,7 +61,7 @@ describe('TrackVerifier', () => {
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
 
             // Assert
-            assert.strictEqual(trackIsOutOfDate, true);
+            expect(trackIsOutOfDate).toBeTruthy();
         });
 
         it('should not report a track as out of date if its file size is not 0 and it is equal to the file size on disk, and its date modified is equal to the date modified on disk.', async () => {
@@ -80,7 +79,7 @@ describe('TrackVerifier', () => {
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
 
             // Assert
-            assert.strictEqual(trackIsOutOfDate, false);
+            expect(trackIsOutOfDate).toBeFalsy();
         });
     });
 
@@ -97,7 +96,7 @@ describe('TrackVerifier', () => {
             const trackNeedsIndexing: boolean = await trackVerifier.doesTrackNeedIndexing(track);
 
             // Assert
-            assert.strictEqual(trackNeedsIndexing, true);
+            expect(trackNeedsIndexing).toBeTruthy();
         });
 
         it('should report that a track needs indexing if needsIndexing is not a number', async () => {
@@ -112,7 +111,7 @@ describe('TrackVerifier', () => {
             const trackNeedsIndexing: boolean = await trackVerifier.doesTrackNeedIndexing(track);
 
             // Assert
-            assert.strictEqual(trackNeedsIndexing, true);
+            expect(trackNeedsIndexing).toBeTruthy();
         });
 
         it('should report that a track needs indexing if needsIndexing equals one', async () => {
@@ -127,7 +126,7 @@ describe('TrackVerifier', () => {
             const trackNeedsIndexing: boolean = await trackVerifier.doesTrackNeedIndexing(track);
 
             // Assert
-            assert.strictEqual(trackNeedsIndexing, true);
+            expect(trackNeedsIndexing).toBeTruthy();
         });
 
         it('should report that a track does not need indexing if needsIndexing is zero', async () => {
@@ -142,7 +141,7 @@ describe('TrackVerifier', () => {
             const trackNeedsIndexing: boolean = await trackVerifier.doesTrackNeedIndexing(track);
 
             // Assert
-            assert.strictEqual(trackNeedsIndexing, false);
+            expect(trackNeedsIndexing).toBeFalsy();
         });
     });
 });

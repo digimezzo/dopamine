@@ -35,7 +35,7 @@ describe('CollectionFoldersComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
         it('should set area1 size from settings', async () => {
@@ -56,31 +56,31 @@ describe('CollectionFoldersComponent', () => {
             expect(component.area2Size).toEqual(70);
         });
 
-        it('should define and instantiate the folders collection', async () => {
+        it('should define folders', async () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.folders).toBeTruthy();
+            expect(component.folders).toBeDefined();
         });
 
-        it('should define and instantiate the subfolders collection', async () => {
+        it('should define subfolders', async () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.subfolders).toBeTruthy();
+            expect(component.subfolders).toBeDefined();
         });
 
-        it('should define and instantiate the subfolderBreadCrumbs collection', async () => {
+        it('should define subfolderBreadCrumbs', async () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.subfolderBreadCrumbs).toBeTruthy();
+            expect(component.subfolderBreadCrumbs).toBeDefined();
         });
     });
 

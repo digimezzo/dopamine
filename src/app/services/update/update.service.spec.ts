@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { IMock, Mock } from 'typemoq';
 import { GitHubApi } from '../../core/api/git-hub/git-hub-api';
 import { Logger } from '../../core/logger';
@@ -30,7 +29,7 @@ describe('UpdateService', () => {
             // Act
 
             // Assert
-            assert.ok(service);
+            expect(service).toBeDefined();
         });
     });
 });

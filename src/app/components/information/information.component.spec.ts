@@ -20,7 +20,7 @@ describe('InformationComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
         it('should set appearanceService', () => {

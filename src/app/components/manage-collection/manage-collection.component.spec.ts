@@ -20,16 +20,16 @@ describe('ManageRefreshComponent', () => {
             // Act
 
             // Assert
-            expect(component).toBeTruthy();
+            expect(component).toBeDefined();
         });
 
-        it('should set appearanceService', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.appearanceService).toBeTruthy();
+            expect(component.appearanceService).toBeDefined();
         });
     });
 });

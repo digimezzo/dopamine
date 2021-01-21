@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { IMock, Mock, Times } from 'typemoq';
 import { DateTime } from '../../core/date-time';
 import { FileSystem } from '../../core/io/file-system';
@@ -84,7 +83,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.artists), Times.exactly(1));
-            assert.strictEqual(track.artists, ';Artist 1;;Artist 2;');
+            expect(track.artists).toEqual(';Artist 1;;Artist 2;');
         });
 
         it('should fill in track genres with a multi value track field', async () => {
@@ -103,7 +102,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.genres), Times.exactly(1));
-            assert.strictEqual(track.genres, ';Genre 1;;Genre 2;');
+            expect(track.genres).toEqual(';Genre 1;;Genre 2;');
         });
 
         it('should fill in track albumTitle with a single value track field', async () => {
@@ -122,7 +121,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.album), Times.exactly(1));
-            assert.strictEqual(track.albumTitle, 'Album title');
+            expect(track.albumTitle).toEqual('Album title');
         });
 
         it('should fill in track albumArtists with a multi value track field', async () => {
@@ -141,7 +140,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.albumArtists), Times.exactly(1));
-            assert.strictEqual(track.albumArtists, ';Album artist 1;;Album artist 2;');
+            expect(track.albumArtists).toEqual(';Album artist 1;;Album artist 2;');
         });
 
         it('should fill in track albumKey with a generated album key', async () => {
@@ -161,7 +160,7 @@ describe('TrackFiller', () => {
 
             // Assert
             albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']), Times.exactly(1));
-            assert.strictEqual(track.albumKey, ';Album title;;Album artist 1;;Album artist 2;');
+            expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
         });
 
         it('should fill in track fileName with the file name of the audio file', async () => {
@@ -179,7 +178,7 @@ describe('TrackFiller', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
-            assert.strictEqual(track.fileName, 'Track 1');
+            expect(track.fileName).toEqual('Track 1');
         });
 
         it('should fill in track mimeType with the mime type of the audio file', async () => {
@@ -198,7 +197,7 @@ describe('TrackFiller', () => {
             // Assert
             fileSystemMock.verify((x) => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
             mimeTypesMock.verify((x) => x.getMimeTypeForFileExtension('.mp3'), Times.exactly(1));
-            assert.strictEqual(track.mimeType, 'audio/mpeg');
+            expect(track.mimeType).toEqual('audio/mpeg');
         });
 
         it('should fill in track fileSize with the file size of the audio file in bytes', async () => {
@@ -217,7 +216,7 @@ describe('TrackFiller', () => {
             // Assert
             fileSystemMock.verify((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
-            assert.strictEqual(track.fileSize, 123);
+            expect(track.fileSize).toEqual(123);
         });
 
         it('should fill in track bitRate with the bit rate of the audio file', async () => {
@@ -236,7 +235,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(320), Times.exactly(1));
-            assert.strictEqual(track.bitRate, 320);
+            expect(track.bitRate).toEqual(320);
         });
 
         it('should fill in track sampleRate with the sample rate of the audio file', async () => {
@@ -255,7 +254,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(44), Times.exactly(1));
-            assert.strictEqual(track.sampleRate, 44);
+            expect(track.sampleRate).toEqual(44);
         });
 
         it('should fill in track trackTitle with a single value track field', async () => {
@@ -274,7 +273,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.title), Times.exactly(1));
-            assert.strictEqual(track.trackTitle, 'Track title');
+            expect(track.trackTitle).toEqual('Track title');
         });
 
         it('should fill in track trackNumber with the track number of the audio file', async () => {
@@ -293,7 +292,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
-            assert.strictEqual(track.trackNumber, 1);
+            expect(track.trackNumber).toEqual(1);
         });
 
         it('should fill in track trackCount with the track count of the audio file', async () => {
@@ -312,7 +311,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(15), Times.exactly(1));
-            assert.strictEqual(track.trackCount, 15);
+            expect(track.trackCount).toEqual(15);
         });
 
         it('should fill in track discNumber with the disc number of the audio file', async () => {
@@ -331,7 +330,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
-            assert.strictEqual(track.discNumber, 1);
+            expect(track.discNumber).toEqual(1);
         });
 
         it('should fill in track discCount with the disc count of the audio file', async () => {
@@ -350,7 +349,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(2), Times.exactly(1));
-            assert.strictEqual(track.discCount, 2);
+            expect(track.discCount).toEqual(2);
         });
 
         it('should fill in track duration with the duration of the audio file', async () => {
@@ -369,7 +368,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(123456), Times.exactly(1));
-            assert.strictEqual(track.duration, 123456);
+            expect(track.duration).toEqual(123456);
         });
 
         it('should fill in track year with the year of the audio file', async () => {
@@ -388,7 +387,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(2020), Times.exactly(1));
-            assert.strictEqual(track.year, 2020);
+            expect(track.year).toEqual(2020);
         });
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are undefined', async () => {
@@ -406,7 +405,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.hasLyrics, 0);
+            expect(track.hasLyrics).toEqual(0);
         });
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are empty', async () => {
@@ -424,7 +423,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.hasLyrics, 0);
+            expect(track.hasLyrics).toEqual(0);
         });
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are not empty', async () => {
@@ -442,7 +441,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.hasLyrics, 1);
+            expect(track.hasLyrics).toEqual(1);
         });
 
         it('should fill in track dateAdded wit hthe current date and time in ticks', async () => {
@@ -461,7 +460,8 @@ describe('TrackFiller', () => {
             const dateTicksAfter: number = DateTime.getTicks(new Date());
 
             // Assert
-            assert.ok(track.dateAdded >= dateTicksBefore && track.dateAdded <= dateTicksAfter);
+            expect(track.dateAdded).toBeGreaterThanOrEqual(dateTicksBefore);
+            expect(track.dateAdded).toBeLessThanOrEqual(dateTicksAfter);
         });
 
         it('should fill in track dateFileCreated with the date that the file was created in ticks', async () => {
@@ -478,10 +478,10 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
-            assert.strictEqual(track.dateFileCreated, 456);
+            expect(track.dateFileCreated).toEqual(456);
         });
 
-        it('should fill in track dateLastSynced wit hthe current date and time in ticks', async () => {
+        it('should fill in track dateLastSynced with the current date and time in ticks', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
 
@@ -497,7 +497,8 @@ describe('TrackFiller', () => {
             const dateTicksAfter: number = DateTime.getTicks(new Date());
 
             // Assert
-            assert.ok(track.dateLastSynced >= dateTicksBefore && track.dateLastSynced <= dateTicksAfter);
+            expect(track.dateLastSynced).toBeGreaterThanOrEqual(dateTicksBefore);
+            expect(track.dateLastSynced).toBeLessThanOrEqual(dateTicksAfter);
         });
 
         it('should fill in track dateFileModified with the date that the file was modified in ticks', async () => {
@@ -514,7 +515,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
-            assert.strictEqual(track.dateFileModified, 789);
+            expect(track.dateFileModified).toEqual(789);
         });
 
         it('should fill in track needsIndexing with 0', async () => {
@@ -531,7 +532,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
-            assert.strictEqual(track.needsIndexing, 0);
+            expect(track.needsIndexing).toEqual(0);
         });
 
         it('should fill in track needsAlbumArtworkIndexing with 1', async () => {
@@ -548,7 +549,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Asser
-            assert.strictEqual(track.needsAlbumArtworkIndexing, 1);
+            expect(track.needsAlbumArtworkIndexing).toEqual(1);
         });
 
         it('should fill in track rating with the rating of the audio file', async () => {
@@ -567,7 +568,7 @@ describe('TrackFiller', () => {
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(4), Times.exactly(1));
-            assert.strictEqual(track.rating, 4);
+            expect(track.rating).toEqual(4);
         });
 
         it('should fill in track indexingSuccess with 1 if no errors occur', async () => {
@@ -584,7 +585,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.indexingSuccess, 1);
+            expect(track.indexingSuccess).toEqual(1);
         });
 
         it('should fill in an empty track indexingFailureReason if no errors occur', async () => {
@@ -601,7 +602,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.indexingFailureReason, '');
+            expect(track.indexingFailureReason).toEqual('');
         });
 
         it('should fill in track indexingSuccess with 0 if errors occur', async () => {
@@ -618,7 +619,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.indexingSuccess, 0);
+            expect(track.indexingSuccess).toEqual(0);
         });
 
         it('should fill in track indexingFailureReason with the error text if an error occur', async () => {
@@ -635,7 +636,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            assert.strictEqual(track.indexingFailureReason, 'The error text');
+            expect(track.indexingFailureReason).toEqual('The error text');
         });
     });
 });
