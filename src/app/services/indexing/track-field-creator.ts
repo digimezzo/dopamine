@@ -27,6 +27,6 @@ export class TrackFieldCreator {
             return '';
         }
 
-        return this.dataDelimiter.convertToDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
+        return this.dataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
     }
 }

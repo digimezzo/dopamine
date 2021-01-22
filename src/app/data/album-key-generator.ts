@@ -17,7 +17,7 @@ export class AlbumKeyGenerator {
                 albumKeyItems.push(...albumArtists);
             }
 
-            return this.dataDelimiter.convertToDelimitedString(albumKeyItems);
+            return this.dataDelimiter.toDelimitedString(albumKeyItems);
         }
 
         return '';
