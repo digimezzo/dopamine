@@ -36,8 +36,8 @@ export class TrackService implements BaseTrackService {
 
             if (fileExtensionIsSupported) {
                 const track: Track = new Track(file);
-                await this.trackFiller.addFileMetadataToTrackAsync(track);
-                const trackModel: TrackModel = new TrackModel(track);
+                const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
+                const trackModel: TrackModel = new TrackModel(filledTrack);
                 trackModels.push(trackModel);
             }
         }

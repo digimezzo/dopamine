@@ -34,6 +34,11 @@ describe('TrackService', () => {
                 '/home/user/Music/Subfolder1/track6.wma',
             ]);
 
+        const track: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
+        const filledTrack: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
+        filledTrack.trackTitle = 'My track title';
+        trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track)).returns(async () => filledTrack);
+
         service = new TrackService(fileSystemMock.object, trackFillerMock.object);
     });
 
