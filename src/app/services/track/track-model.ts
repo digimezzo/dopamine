@@ -16,7 +16,8 @@ export class TrackModel {
     }
 
     public get artists(): string[] {
-        return this.track.artists;
+        // return this.track.artists;
+        return [];
     }
 
     public get duration(): number {

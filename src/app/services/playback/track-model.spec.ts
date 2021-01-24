@@ -1,5 +1,5 @@
 import { Track } from '../../data/entities/track';
-import { TrackModel } from './track-model';
+import { TrackModel } from '../track/track-model';
 
 describe('TrackModel', () => {
     let track: Track;

@@ -3,14 +3,15 @@ import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
 import { StringCompare } from '../../core/string-compare';
 import { Track } from '../../data/entities/track';
-import { TrackModel } from '../playback/track-model';
+import { TrackFiller } from '../indexing/track-filler';
 import { BaseTrackService } from './base-track.service';
+import { TrackModel } from './track-model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class TrackService implements BaseTrackService {
-    constructor(private fileSystem: FileSystem) {}
+    constructor(private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
 
     public async getTracksInDirectoryAsync(directoryPath: string): Promise<TrackModel[]> {
         if (StringCompare.isNullOrWhiteSpace(directoryPath)) {
@@ -35,7 +36,7 @@ export class TrackService implements BaseTrackService {
 
             if (fileExtensionIsSupported) {
                 const track: Track = new Track(file);
-                // await this.trackFiller.addFileMetadataToTrackAsync(newTrack);
+                await this.trackFiller.addFileMetadataToTrackAsync(track);
                 const trackModel: TrackModel = new TrackModel(track);
                 trackModels.push(trackModel);
             }

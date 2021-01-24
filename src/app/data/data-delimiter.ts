@@ -30,12 +30,20 @@ export class DataDelimiter {
             return [];
         }
 
-        return [delimitedString];
+        const delimitedStrings: string[] = delimitedString.split(this.doubleDelimiter);
+
+        return delimitedStrings.map((x) => this.removeDelimiters(x));
     }
 
     private addDelimiters(originalString: string): string {
         const delimitedString: string = `${this.delimiter}${originalString}${this.delimiter}`;
 
         return delimitedString;
+    }
+
+    private removeDelimiters(delimitedString: string): string {
+        const nonDelimitedString: string = delimitedString.split(this.delimiter).join('');
+
+        return nonDelimitedString;
     }
 }

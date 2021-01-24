@@ -1,4 +1,4 @@
-import { TrackModel } from '../playback/track-model';
+import { TrackModel } from './track-model';
 
 export abstract class BaseTrackService {
     public abstract getTracksInDirectoryAsync(directoryPath: string): Promise<TrackModel[]>;

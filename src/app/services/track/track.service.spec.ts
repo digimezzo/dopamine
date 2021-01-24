@@ -1,15 +1,19 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
-import { TrackModel } from '../playback/track-model';
+import { Track } from '../../data/entities/track';
+import { TrackFiller } from '../indexing/track-filler';
+import { TrackModel } from './track-model';
 import { TrackService } from './track.service';
 
 describe('TrackService', () => {
     let fileSystemMock: IMock<FileSystem>;
+    let trackFillerMock: IMock<TrackFiller>;
 
     let service: TrackService;
 
     beforeEach(() => {
         fileSystemMock = Mock.ofType<FileSystem>();
+        trackFillerMock = Mock.ofType<TrackFiller>();
 
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
@@ -30,7 +34,7 @@ describe('TrackService', () => {
                 '/home/user/Music/Subfolder1/track6.wma',
             ]);
 
-        service = new TrackService(fileSystemMock.object);
+        service = new TrackService(fileSystemMock.object, trackFillerMock.object);
     });
 
     describe('constructor', () => {
@@ -151,6 +155,21 @@ describe('TrackService', () => {
             expect(tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track4.wav')).toBeFalsy();
             expect(tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track5.aac')).toBeFalsy();
             expect(tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track6.wma')).toBeFalsy();
+        });
+
+        it('should add metadata information to the tracks', async () => {
+            // Arrange
+            const directoryPath: string = '/home/user/Music/Subfolder1';
+            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+
+            // Act
+            const tracks: TrackModel[] = await service.getTracksInDirectoryAsync(directoryPath);
+
+            // Assert
+            trackFillerMock.verify(
+                (x) => x.addFileMetadataToTrackAsync(It.is<Track>((track) => track.path === '/home/user/Music/Subfolder1/track1.mp3')),
+                Times.exactly(1)
+            );
         });
     });
 });

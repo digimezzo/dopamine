@@ -21,7 +21,7 @@ export class TrackFiller {
         private logger: Logger
     ) {}
 
-    public async addFileMetadataToTrackAsync(track: Track): Promise<Track> {
+    public async addFileMetadataToTrackAsync(track: Track): Promise<void> {
         try {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const dateNowTicks: number = DateTime.getTicks(new Date());
@@ -64,8 +64,6 @@ export class TrackFiller {
                 'addFileMetadataToTrackAsync'
             );
         }
-
-        return track;
     }
 
     private getMimeType(filePath: string): string {

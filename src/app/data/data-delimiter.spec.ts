@@ -109,7 +109,7 @@ describe('DataDelimiter', () => {
             expect(collection).toEqual([]);
         });
 
-        it('should return a collection containing just the delimited string if it does not have delimiters', () => {
+        it('should return a collection containing just the string if it does not have delimiters', () => {
             // Arrange
             const delimitedString: string = 'the string';
 
@@ -117,7 +117,29 @@ describe('DataDelimiter', () => {
             const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
-            expect(collection).toEqual([delimitedString]);
+            expect(collection).toEqual(['the string']);
+        });
+
+        it('should return a collection containing just the string without delimiters if it does have delimiters but only contains one string', () => {
+            // Arrange
+            const delimitedString: string = ';the string;';
+
+            // Act
+            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+
+            // Assert
+            expect(collection).toEqual(['the string']);
+        });
+
+        it('should return a collection containing multiple strings if the string has multiple delimited strings', () => {
+            // Arrange
+            const delimitedString: string = ';the string 1;;the string 2;';
+
+            // Act
+            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+
+            // Assert
+            expect(collection).toEqual(['the string 1', 'the string 2']);
         });
     });
 });

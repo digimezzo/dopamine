@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseAudioPlayer } from '../../core/audio/base-audio-player';
+import { TrackModel } from '../track/track-model';
 import { BasePlaybackService } from './base-playback.service';
-import { TrackModel } from './track-model';
 
 @Injectable({
     providedIn: 'root',
