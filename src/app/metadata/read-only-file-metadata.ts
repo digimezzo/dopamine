@@ -7,7 +7,7 @@ export class ReadOnlyFileMetadata implements FileMetadata {
 
     public bitRate: number;
     public sampleRate: number;
-    public duration: number;
+    public durationInSeconds: number;
     public title: string;
     public album: string;
     public albumArtists: string[];
@@ -51,7 +51,7 @@ export class ReadOnlyFileMetadata implements FileMetadata {
         }
 
         if (audioMetadata.format.duration != undefined && !Number.isNaN(audioMetadata.format.duration)) {
-            this.duration = audioMetadata.format.duration;
+            this.durationInSeconds = audioMetadata.format.duration;
         }
 
         if (audioMetadata.common == undefined) {

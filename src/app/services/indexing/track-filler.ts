@@ -24,7 +24,10 @@ export class TrackFiller {
     public async addFileMetadataToTrackAsync(track: Track): Promise<Track> {
         try {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
-            const dateNowTicks: number = DateTime.getTicks(new Date());
+            const dateNowTicks: number = DateTime.convertDateToTicks(new Date());
+
+            // Store duration in milliseconds, for compatibility with Dopamine 2 database.
+            const durationInMilliseconds: number = fileMetadata.durationInSeconds * 1000;
 
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);
             track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
@@ -41,7 +44,7 @@ export class TrackFiller {
             track.trackCount = this.trackFieldCreator.createNumberField(fileMetadata.trackCount);
             track.discNumber = this.trackFieldCreator.createNumberField(fileMetadata.discNumber);
             track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
-            track.duration = this.trackFieldCreator.createNumberField(fileMetadata.duration);
+            track.duration = this.trackFieldCreator.createNumberField(durationInMilliseconds);
             track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
             track.hasLyrics = this.gethasLyrics(fileMetadata.lyrics);
             track.dateAdded = dateNowTicks;

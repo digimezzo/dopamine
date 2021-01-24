@@ -7,7 +7,7 @@ export class DateTime {
      * So a JavaScript Date object must be translated to .NET ticks.
      * @param date The date to convert to .NET Ticks
      */
-    public static getTicks(date: Date): number {
+    public static convertDateToTicks(date: Date): number {
         // The number of .net ticks at the unix epoch
         const epochTicks: number = 621355968000000000;
 
@@ -20,7 +20,11 @@ export class DateTime {
         return dotNetTicks;
     }
 
-    public static convertToUnixTime(date: Date): number {
-        return date.getTime() / 1000;
+    public static convertDateToUnixTime(date: Date): number {
+        return parseInt((date.getTime() / 1000).toFixed(0), 10);
+    }
+
+    public static ticksToMilliseconds(ticks: number): number {
+        return ticks / 10000;
     }
 }

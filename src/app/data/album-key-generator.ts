@@ -6,7 +6,7 @@ import { DataDelimiter } from './data-delimiter';
     providedIn: 'root',
 })
 export class AlbumKeyGenerator {
-    constructor(private dataDelimiter: DataDelimiter) {}
+    constructor() {}
 
     public generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
         if (!StringCompare.isNullOrWhiteSpace(albumTitle)) {
@@ -17,7 +17,7 @@ export class AlbumKeyGenerator {
                 albumKeyItems.push(...albumArtists);
             }
 
-            return this.dataDelimiter.toDelimitedString(albumKeyItems);
+            return DataDelimiter.toDelimitedString(albumKeyItems);
         }
 
         return '';

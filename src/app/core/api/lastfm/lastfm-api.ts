@@ -129,7 +129,7 @@ export class LastfmApi {
         const parameters: Map<string, string> = new Map<string, string>([
             ['artist', artist],
             ['track', trackTitle],
-            ['timestamp', DateTime.convertToUnixTime(playbackStartTime).toString()],
+            ['timestamp', DateTime.convertDateToUnixTime(playbackStartTime).toString()],
             ['api_key', SensitiveInformation.lastfmApiKey],
             ['sk', sessionKey],
         ]);

@@ -1,19 +1,13 @@
 import { DataDelimiter } from './data-delimiter';
 
 describe('DataDelimiter', () => {
-    let dataDelimiter: DataDelimiter;
-
-    beforeEach(() => {
-        dataDelimiter = new DataDelimiter();
-    });
-
     describe('toDelimitedString', () => {
         it('should return an empty string if the array is undefined', () => {
             // Arrange
             const stringArray: string[] = undefined;
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual('');
@@ -24,7 +18,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = [];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual('');
@@ -35,7 +29,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = ['String 1'];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual(';String 1;');
@@ -46,7 +40,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = ['String 1', 'String 2'];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual(';String 1;;String 2;');
@@ -57,7 +51,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = [' String 1', '  String 2'];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual(';String 1;;String 2;');
@@ -68,7 +62,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = ['String 1 ', 'String 2   '];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual(';String 1;;String 2;');
@@ -79,7 +73,7 @@ describe('DataDelimiter', () => {
             const stringArray: string[] = ['String 1', '', 'String 2'];
 
             // Act
-            const delimitedString: string = dataDelimiter.toDelimitedString(stringArray);
+            const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
 
             // Assert
             expect(delimitedString).toEqual(';String 1;;String 2;');
@@ -92,7 +86,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = undefined;
 
             // Act
-            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
             expect(collection).toEqual([]);
@@ -103,7 +97,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = '';
 
             // Act
-            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
             expect(collection).toEqual([]);
@@ -114,7 +108,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = 'the string';
 
             // Act
-            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
             expect(collection).toEqual(['the string']);
@@ -125,7 +119,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = ';the string;';
 
             // Act
-            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
             expect(collection).toEqual(['the string']);
@@ -136,7 +130,7 @@ describe('DataDelimiter', () => {
             const delimitedString: string = ';the string 1;;the string 2;';
 
             // Act
-            const collection: string[] = dataDelimiter.fromDelimitedString(delimitedString);
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
 
             // Assert
             expect(collection).toEqual(['the string 1', 'the string 2']);

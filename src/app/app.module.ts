@@ -71,7 +71,6 @@ import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
 import { AlbumKeyGenerator } from './data/album-key-generator';
 import { BaseDatabaseMigrator } from './data/base-database-migrator';
-import { DataDelimiter } from './data/data-delimiter';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
 import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
@@ -224,7 +223,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         TrackFiller,
         FileMetadataFactory,
         TrackFieldCreator,
-        DataDelimiter,
         AlbumKeyGenerator,
         MimeTypes,
         AlbumArtworkCacheIdFactory,

@@ -52,14 +52,14 @@ export class FileSystem {
         const stat = await fs.stat(fileOrDirectory);
         const dateModified: Date = stat.mtime;
 
-        return DateTime.getTicks(dateModified);
+        return DateTime.convertDateToTicks(dateModified);
     }
 
     public async getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
         const dateCreated: Date = stat.birthtime;
 
-        return DateTime.getTicks(dateCreated);
+        return DateTime.convertDateToTicks(dateCreated);
     }
 
     public pathExists(pathToCheck: string): boolean {

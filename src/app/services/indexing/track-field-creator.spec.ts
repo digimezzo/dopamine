@@ -1,17 +1,14 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { DataDelimiter } from '../../data/data-delimiter';
 import { MetadataPatcher } from '../../metadata/metadata-patcher';
 import { TrackFieldCreator } from './track-field-creator';
 
 describe('TrackFieldCreator', () => {
     let metadataPatcherMock: IMock<MetadataPatcher>;
-    let datadelimiterMock: IMock<DataDelimiter>;
     let trackFieldCreator: TrackFieldCreator;
 
     beforeEach(() => {
         metadataPatcherMock = Mock.ofType<MetadataPatcher>();
-        datadelimiterMock = Mock.ofType<DataDelimiter>();
-        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock.object, datadelimiterMock.object);
+        trackFieldCreator = new TrackFieldCreator(metadataPatcherMock.object);
     });
 
     describe('createNumberField', () => {
@@ -102,7 +99,6 @@ describe('TrackFieldCreator', () => {
         it('should join unsplittable metadata', () => {
             // Arrange
             metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
-            datadelimiterMock.setup((x) => x.toDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
 
             // Act
             const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
@@ -114,13 +110,12 @@ describe('TrackFieldCreator', () => {
         it('should convert to a delimited string', () => {
             // Arrange
             metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
-            datadelimiterMock.setup((x) => x.toDelimitedString(['Item 1', 'Item 2'])).returns(() => ';Item 1;;Item 2;');
 
             // Act
             const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
-            datadelimiterMock.verify((x) => x.toDelimitedString(['Item 1', 'Item 2']), Times.exactly(1));
+            expect(field).toEqual(';Item 1;;Item 2;');
         });
     });
 });

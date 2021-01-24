@@ -1,3 +1,4 @@
+import { DataDelimiter } from '../../data/data-delimiter';
 import { Track } from '../../data/entities/track';
 
 export class TrackModel {
@@ -16,11 +17,10 @@ export class TrackModel {
     }
 
     public get artists(): string[] {
-        // return this.track.artists;
-        return [];
+        return DataDelimiter.fromDelimitedString(this.track.artists);
     }
 
-    public get duration(): number {
+    public get durationInMilliseconds(): number {
         return this.track.duration;
     }
 }

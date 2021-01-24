@@ -4,7 +4,7 @@ export class FileMetadataMock implements FileMetadata {
     public path: string;
     public bitRate: number;
     public sampleRate: number;
-    public duration: number;
+    public durationInSeconds: number;
     public type: string;
     public mimeType: string;
     public title: string;

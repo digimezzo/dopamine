@@ -355,20 +355,22 @@ describe('TrackFiller', () => {
         it('should fill in track duration with the duration of the audio file', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.duration = 123456;
+            fileMetadataMock.durationInSeconds = 123456;
 
             fileMetadataFactoryMock
                 .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
                 .returns(async () => fileMetadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
+            trackFieldCreatorMock.setup((x) => x.createNumberField(123456000)).returns(() => 123456000);
+
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createNumberField(123456), Times.exactly(1));
-            expect(track.duration).toEqual(123456);
+            trackFieldCreatorMock.verify((x) => x.createNumberField(123456000), Times.exactly(1));
+            expect(track.duration).toEqual(123456000);
         });
 
         it('should fill in track year with the year of the audio file', async () => {
@@ -455,9 +457,9 @@ describe('TrackFiller', () => {
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            const dateTicksBefore: number = DateTime.getTicks(new Date());
+            const dateTicksBefore: number = DateTime.convertDateToTicks(new Date());
             await trackFiller.addFileMetadataToTrackAsync(track);
-            const dateTicksAfter: number = DateTime.getTicks(new Date());
+            const dateTicksAfter: number = DateTime.convertDateToTicks(new Date());
 
             // Assert
             expect(track.dateAdded).toBeGreaterThanOrEqual(dateTicksBefore);
@@ -492,9 +494,9 @@ describe('TrackFiller', () => {
 
             // Act
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
-            const dateTicksBefore: number = DateTime.getTicks(new Date());
+            const dateTicksBefore: number = DateTime.convertDateToTicks(new Date());
             await trackFiller.addFileMetadataToTrackAsync(track);
-            const dateTicksAfter: number = DateTime.getTicks(new Date());
+            const dateTicksAfter: number = DateTime.convertDateToTicks(new Date());
 
             // Assert
             expect(track.dateLastSynced).toBeGreaterThanOrEqual(dateTicksBefore);
@@ -531,7 +533,7 @@ describe('TrackFiller', () => {
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             await trackFiller.addFileMetadataToTrackAsync(track);
 
-            // Asser
+            // Assert
             expect(track.needsIndexing).toEqual(0);
         });
 
@@ -548,7 +550,7 @@ describe('TrackFiller', () => {
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
             await trackFiller.addFileMetadataToTrackAsync(track);
 
-            // Asser
+            // Assert
             expect(track.needsAlbumArtworkIndexing).toEqual(1);
         });
 

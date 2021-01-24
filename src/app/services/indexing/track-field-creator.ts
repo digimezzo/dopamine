@@ -4,7 +4,7 @@ import { MetadataPatcher } from '../../metadata/metadata-patcher';
 
 @Injectable()
 export class TrackFieldCreator {
-    constructor(private metadataPatcher: MetadataPatcher, private dataDelimiter: DataDelimiter) {}
+    constructor(private metadataPatcher: MetadataPatcher) {}
 
     public createNumberField(value: number): number {
         if (value == undefined || Number.isNaN(value)) {
@@ -27,6 +27,6 @@ export class TrackFieldCreator {
             return '';
         }
 
-        return this.dataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
+        return DataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
     }
 }
