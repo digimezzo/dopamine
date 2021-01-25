@@ -7,12 +7,14 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
 import { CollectionFoldersComponent } from './collection-folders.component';
 
 describe('CollectionFoldersComponent', () => {
     let settingsMock: BaseSettings;
     let folderServiceMock: IMock<BaseFolderService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
+    let trackServiceMock: IMock<BaseTrackService>;
     let hacksMock: IMock<Hacks>;
 
     let component: CollectionFoldersComponent;
@@ -21,11 +23,18 @@ describe('CollectionFoldersComponent', () => {
         settingsMock = new SettingsStub();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        trackServiceMock = Mock.ofType<BaseTrackService>();
         hacksMock = Mock.ofType<Hacks>();
 
         settingsMock.foldersLeftPaneWithPercent = 30;
 
-        component = new CollectionFoldersComponent(settingsMock, folderServiceMock.object, navigationServiceMock.object, hacksMock.object);
+        component = new CollectionFoldersComponent(
+            settingsMock,
+            folderServiceMock.object,
+            navigationServiceMock.object,
+            trackServiceMock.object,
+            hacksMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -81,6 +90,15 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.subfolderBreadCrumbs).toBeDefined();
+        });
+
+        it('should define tracks', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.tracks).toBeDefined();
         });
     });
 
@@ -272,6 +290,22 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             folderServiceMock.verify((x) => x.getSubfolderBreadCrumbsAsync(selectedFolder, subfolder2.path), Times.exactly(1));
+        });
+
+        it('should get tracks for the given subfolder', async () => {
+            // Arrange
+            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
+
+            const selectedFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
+            component.selectedFolder = selectedFolder;
+            component.subfolders = [];
+
+            // Act
+            await component.getSubfoldersAsync(subfolder);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksInSubfolderAsync(subfolder), Times.exactly(1));
         });
     });
 });

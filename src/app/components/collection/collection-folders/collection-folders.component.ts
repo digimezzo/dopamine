@@ -6,6 +6,8 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModel } from '../../../services/track/track-model';
 
 @Component({
     selector: 'app-collection-folders',
@@ -19,6 +21,7 @@ export class CollectionFoldersComponent implements OnInit {
         private settings: BaseSettings,
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
+        private trackService: BaseTrackService,
         private hacks: Hacks
     ) {}
 
@@ -33,6 +36,7 @@ export class CollectionFoldersComponent implements OnInit {
     public selectedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
     public subfolderBreadCrumbs: SubfolderModel[] = [];
+    public tracks: TrackModel[] = [];
 
     public async ngOnInit(): Promise<void> {
         await this.fillListsAsync();
@@ -54,6 +58,8 @@ export class CollectionFoldersComponent implements OnInit {
         this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, selectedSubfolder);
         const activeSubfolderPath = this.getActiveSubfolderPath();
         this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.selectedFolder, activeSubfolderPath);
+
+        this.tracks = await this.trackService.getTracksInSubfolderAsync(selectedSubfolder);
 
         // HACK: when refreshing the subfolder list, the tooltip of the last hovered
         // subfolder remains visible. This function is a workaround for this problem.

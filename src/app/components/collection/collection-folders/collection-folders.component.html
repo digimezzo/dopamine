@@ -53,6 +53,9 @@
                         {{ subfolderBreadCrumb | subfolderName }}
                     </mat-chip>
                 </mat-chip-list>
+                <cdk-virtual-scroll-viewport class="songs-browser__songs mt-3" itemSize="28">
+                    <div *cdkVirtualFor="let track of tracks" matRipple>{{ track.path }}</div>
+                </cdk-virtual-scroll-viewport>
             </div>
         </as-split-area>
     </as-split>
