@@ -8,11 +8,11 @@ export class TrackModel {
         return this.track.path;
     }
 
-    public get trackNumber(): number {
+    public get number(): number {
         return this.track.trackNumber;
     }
 
-    public get trackTitle(): string {
+    public get title(): string {
         return this.track.trackTitle;
     }
 
