@@ -100,6 +100,15 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             expect(component.tracks).toBeDefined();
         });
+
+        it('should declare but not define selectedSubfolder', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.selectedSubfolder).toBeUndefined();
+        });
     });
 
     describe('dragEnd', () => {
@@ -214,6 +223,20 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             folderServiceMock.verify((x) => x.getSubfoldersAsync(It.isAny(), undefined), Times.exactly(1));
+        });
+    });
+
+    describe('setSelectedFolder', () => {
+        it('should set the selected subfolder', async () => {
+            // Arrange
+            component.selectedSubfolder = undefined;
+            const newSelectedSubfolder: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
+
+            // Act
+            component.setSelectedSubfolder(newSelectedSubfolder);
+
+            // Assert
+            expect(component.selectedSubfolder).toBe(newSelectedSubfolder);
         });
     });
 

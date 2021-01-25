@@ -35,6 +35,7 @@ export class CollectionFoldersComponent implements OnInit {
     public folders: FolderModel[] = [];
     public selectedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
+    public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModel[] = [];
 
@@ -69,6 +70,10 @@ export class CollectionFoldersComponent implements OnInit {
     public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
         this.selectedFolder = folder;
         await this.getSubfoldersAsync(undefined);
+    }
+
+    public setSelectedSubfolder(subfolder: SubfolderModel): void {
+        this.selectedSubfolder = subfolder;
     }
 
     public goToManageCollection(): void {

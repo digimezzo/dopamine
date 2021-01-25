@@ -38,6 +38,10 @@
     background: var(--theme-item-hovered-background);
 }
 
+.subfolder:active {
+    background: var(--theme-item-hovered-background);
+}
+
 .subfolder__icon {
     font-size: 20px;
     color: var(--theme-accent-color);
