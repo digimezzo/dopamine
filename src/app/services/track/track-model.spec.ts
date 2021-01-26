@@ -8,6 +8,7 @@ describe('TrackModel', () => {
     beforeEach(() => {
         track = new Track('/home/user/Music/track1.mp3');
         track.trackNumber = 5;
+        track.fileName = 'track1';
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
         track.duration = 45648713213;
@@ -24,6 +25,18 @@ describe('TrackModel', () => {
 
             // Assert
             expect(path).toEqual('/home/user/Music/track1.mp3');
+        });
+    });
+
+    describe('fileName', () => {
+        it('should return the track file name', () => {
+            // Arrange
+
+            // Act
+            const path: string = trackModel.fileName;
+
+            // Assert
+            expect(path).toEqual('track1');
         });
     });
 
