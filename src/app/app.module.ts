@@ -17,7 +17,7 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatTooltipModule,
+    MatTooltipModule
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,8 +31,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
+import { CollectionExploreComponent } from './components/collection/collection-explore/collection-explore.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
+import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
+import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -174,6 +177,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         CollectionPlaybackPaneComponent,
         FolderNamePipe,
         SubfolderNamePipe,
+        CollectionPlaylistsComponent,
+        CollectionExploreComponent,
+        CollectionTracksComponent,
     ],
     imports: [
         MatProgressSpinnerModule,
