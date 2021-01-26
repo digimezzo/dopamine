@@ -62,28 +62,28 @@
     overflow-y: auto;
 }
 
-.songs-browser {
+.tracks-browser {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.songs-browser__header {
+.tracks-browser__header {
     display: flex;
     flex-direction: row;
 }
 
-.songs-browser__songscount {
+.tracks-browser__trackscount {
     color: var(--theme-accent-color);
 }
 
-.songs-browser__breadcrumbs {
+.tracks-browser__breadcrumbs {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.songs-browser__breadcrumb {
+.tracks-browser__breadcrumb {
     background-color: var(--theme-breadcrumb-background) !important;
     border-radius: 4px !important;
     min-height: 26px !important;
@@ -93,6 +93,10 @@
     overflow: hidden;
 }
 
-.songs-browser__songs {
+.tracks-browser__tracks {
+    flex: 1;
+}
+
+.tracks-browser__track {
     flex: 1;
 }

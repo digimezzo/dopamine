@@ -44,22 +44,23 @@
             </div>
         </as-split-area>
         <as-split-area [size]="area2Size" minSize="5" maxSize="95" #area2="asSplitArea">
-            <div class="songs-browser p-3">
-                <div class="songs-browser__header m-1">
-                    <div class="songs-browser__songscount mr-2">0</div>
-                    songs
+            <div class="tracks-browser p-3">
+                <div class="tracks-browser__header m-1">
+                    <div class="tracks-browser__trackscount mr-2">{{ this.tracks.length }}</div>
+                    <div *ngIf="this.tracks.length === 1">{{ 'Pages.Collection.Track' | translate }}</div>
+                    <div *ngIf="this.tracks.length !== 1">{{ 'Pages.Collection.Tracks' | translate }}</div>
                 </div>
-                <mat-chip-list class="songs-browser__breadcrumbs mt-3">
+                <mat-chip-list class="tracks-browser__breadcrumbs mt-3">
                     <mat-chip
-                        class="songs-browser__breadcrumb no-select"
+                        class="tracks-browser__breadcrumb no-select"
                         *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
                         (click)="getSubfoldersAsync(subfolderBreadCrumb)"
                     >
                         {{ subfolderBreadCrumb | subfolderName }}
                     </mat-chip>
                 </mat-chip-list>
-                <cdk-virtual-scroll-viewport class="songs-browser__songs mt-3" itemSize="45">
-                    <div *cdkVirtualFor="let track of tracks" matRipple>{{ track.path }}</div>
+                <cdk-virtual-scroll-viewport class="tracks-browser__tracks mt-3" itemSize="45">
+                    <div class="tracks-browser__track" *cdkVirtualFor="let track of tracks" matRipple>{{ track.path }}</div>
                 </cdk-virtual-scroll-viewport>
             </div>
         </as-split-area>

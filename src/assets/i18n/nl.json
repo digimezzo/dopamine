@@ -33,6 +33,7 @@
         },
         "Collection": {
             "Explore": "Verkennen",
+            "Track": "Nummer",
             "Tracks": "Nummers",
             "Playlists": "Afspeellijsten",
             "Folders": "Mappen",

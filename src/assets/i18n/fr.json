@@ -33,6 +33,7 @@
         },
         "Collection": {
             "Explore": "Explorer",
+            "Track": "Morceau",
             "Tracks": "Morceaux",
             "Playlists": "Listes de lectures",
             "Folders": "Dossiers",

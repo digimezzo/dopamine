@@ -33,6 +33,7 @@
         },
         "Collection": {
             "Explore": "Explore",
+            "Track": "Song",
             "Tracks": "Songs",
             "Playlists": "Playlists",
             "Folders": "Folders",
