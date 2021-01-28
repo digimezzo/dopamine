@@ -38,6 +38,7 @@ export class CollectionFoldersComponent implements OnInit {
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModel[] = [];
+    public selectedTrack: TrackModel;
 
     public async ngOnInit(): Promise<void> {
         await this.fillListsAsync();
@@ -98,5 +99,9 @@ export class CollectionFoldersComponent implements OnInit {
         return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
             ? this.subfolders.filter((x) => x.isGoToParent)[0].path
             : this.selectedFolder.path;
+    }
+
+    public setSelectedTrack(track: TrackModel): void {
+        this.selectedTrack = track;
     }
 }

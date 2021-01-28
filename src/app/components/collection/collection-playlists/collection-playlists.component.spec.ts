@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CollectionPlaylistsComponent } from './collection-playlists.component';
 
-describe('CollectionPlaylistsComponent', () => {
-  let component: CollectionPlaylistsComponent;
-  let fixture: ComponentFixture<CollectionPlaylistsComponent>;
+describe('CollectionExplorerComponent', () => {
+    let component: CollectionPlaylistsComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionPlaylistsComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        component = new CollectionPlaylistsComponent();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionPlaylistsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+            // Act
+
+            // Assert
+            expect(component).toBeDefined();
+        });
+    });
 });

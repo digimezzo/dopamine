@@ -60,7 +60,15 @@
                     </mat-chip>
                 </mat-chip-list>
                 <cdk-virtual-scroll-viewport class="tracks-browser__tracks mt-3" itemSize="45">
-                    <div class="tracks-browser__track" *cdkVirtualFor="let track of tracks" matRipple>{{ track.path }}</div>
+                    <div
+                        class="tracks-browser__track"
+                        *cdkVirtualFor="let track of tracks"
+                        matRipple
+                        (click)="setSelectedTrack(track)"
+                        [ngClass]="{ 'selected-item': track === selectedTrack }"
+                    >
+                        <app-track></app-track>
+                    </div>
                 </cdk-virtual-scroll-viewport>
             </div>
         </as-split-area>

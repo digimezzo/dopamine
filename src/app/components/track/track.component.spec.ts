@@ -1,10 +1,10 @@
-import { CollectionTracksComponent } from './collection-tracks.component';
+import { TrackComponent } from './track.component';
 
 describe('CollectionExplorerComponent', () => {
-    let component: CollectionTracksComponent;
+    let component: TrackComponent;
 
     beforeEach(() => {
-        component = new CollectionTracksComponent();
+        component = new TrackComponent();
     });
 
     describe('constructor', () => {

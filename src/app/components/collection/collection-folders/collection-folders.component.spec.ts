@@ -3,11 +3,13 @@ import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { SettingsStub } from '../../../core/settings/settings-stub';
 import { Folder } from '../../../data/entities/folder';
+import { Track } from '../../../data/entities/track';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModel } from '../../../services/track/track-model';
 import { CollectionFoldersComponent } from './collection-folders.component';
 
 describe('CollectionFoldersComponent', () => {
@@ -108,6 +110,15 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.selectedSubfolder).toBeUndefined();
+        });
+
+        it('should declare but not define selectedTrack', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.selectedTrack).toBeUndefined();
         });
     });
 
@@ -226,7 +237,7 @@ describe('CollectionFoldersComponent', () => {
         });
     });
 
-    describe('setSelectedFolder', () => {
+    describe('setSelectedSubfolder', () => {
         it('should set the selected subfolder', async () => {
             // Arrange
             component.selectedSubfolder = undefined;
@@ -237,6 +248,20 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.selectedSubfolder).toBe(newSelectedSubfolder);
+        });
+    });
+
+    describe('setSelectedTrack', () => {
+        it('should set the selected track', async () => {
+            // Arrange
+            component.selectedTrack = undefined;
+            const newSelectedTrack: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+
+            // Act
+            component.setSelectedTrack(newSelectedTrack);
+
+            // Assert
+            expect(component.selectedTrack).toBe(newSelectedTrack);
         });
     });
 

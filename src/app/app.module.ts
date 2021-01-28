@@ -17,7 +17,7 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule } from '@angular/platform-browser';
@@ -58,6 +58,7 @@ import { AppearanceSettingsComponent } from './components/settings/appearance-se
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
+import { TrackComponent } from './components/track/track.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
@@ -180,6 +181,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         CollectionPlaylistsComponent,
         CollectionExploreComponent,
         CollectionTracksComponent,
+        TrackComponent,
     ],
     imports: [
         MatProgressSpinnerModule,

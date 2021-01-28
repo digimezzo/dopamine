@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollectionExploreComponent } from './collection-explore.component';
 
-
 describe('CollectionExplorerComponent', () => {
-  let component: CollectionExploreComponent;
-  let fixture: ComponentFixture<CollectionExploreComponent>;
+    let component: CollectionExploreComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionExploreComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        component = new CollectionExploreComponent();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionExploreComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+            // Act
+
+            // Assert
+            expect(component).toBeDefined();
+        });
+    });
 });
