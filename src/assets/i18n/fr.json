@@ -145,5 +145,8 @@
         "ManageCollection": "Gérer la collection...",
         "Settings": "Paramètres",
         "Information": "Information"
+    },
+    "Track": {
+        "UnknownArtist": "Artiste inconnu"
     }
 }

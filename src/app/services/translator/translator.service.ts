@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { Constants } from '../../core/base/constants';
 import { Language } from '../../core/base/language';
 import { BaseSettings } from '../../core/settings/base-settings';
@@ -29,6 +30,10 @@ export class TranslatorService implements BaseTranslatorService {
     }
 
     public getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {
-        return this.translate.get(key, interpolateParams).toPromise();
+        return this.get(key, interpolateParams).toPromise();
+    }
+
+    public get(key: string | Array<string>, interpolateParams?: Object): Observable<string> {
+        return this.translate.get(key, interpolateParams);
     }
 }

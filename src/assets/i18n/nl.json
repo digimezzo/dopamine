@@ -145,5 +145,8 @@
         "ManageCollection": "Collectie beheren...",
         "Settings": "Instellingen",
         "Information": "Informatie"
+    },
+    "Track": {
+        "UnknownArtist": "Onbekende artiest"
     }
 }

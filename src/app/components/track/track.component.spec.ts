@@ -16,5 +16,14 @@ describe('CollectionExplorerComponent', () => {
             // Assert
             expect(component).toBeDefined();
         });
+
+        it('should declare but not define Track', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.track).toBeUndefined();
+        });
     });
 });
