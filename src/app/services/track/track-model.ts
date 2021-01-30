@@ -27,4 +27,8 @@ export class TrackModel {
     public get durationInMilliseconds(): number {
         return this.track.duration;
     }
+
+    public get fileSizeInBytes(): number {
+        return this.track.fileSize;
+    }
 }

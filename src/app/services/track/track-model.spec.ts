@@ -12,6 +12,7 @@ describe('TrackModel', () => {
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
         track.duration = 45648713213;
+        track.fileSize = 7704126;
 
         trackModel = new TrackModel(track);
     });
@@ -85,6 +86,18 @@ describe('TrackModel', () => {
 
             // Assert
             expect(durationInMilliseconds).toEqual(45648713213);
+        });
+    });
+
+    describe('fileSizeInBytes', () => {
+        it('should return the track file size in bytes', () => {
+            // Arrange
+
+            // Act
+            const fileSizeInBytes: number = trackModel.fileSizeInBytes;
+
+            // Assert
+            expect(fileSizeInBytes).toEqual(7704126);
         });
     });
 });
