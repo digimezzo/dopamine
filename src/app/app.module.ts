@@ -94,7 +94,9 @@ import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatTrackArtistsPipe } from './pipes/format-track-artist.pipe';
+import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
+import { FormatTrackTitlePipe } from './pipes/format-track-title.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
@@ -182,6 +184,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         SubfolderNamePipe,
         FormatTrackNumberPipe,
         FormatTrackArtistsPipe,
+        FormatTrackDurationPipe,
+        FormatTrackTitlePipe,
         CollectionPlaylistsComponent,
         CollectionExploreComponent,
         CollectionTracksComponent,
