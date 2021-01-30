@@ -3,7 +3,6 @@ import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
 import { StringCompare } from '../../core/string-compare';
 import { Track } from '../../data/entities/track';
-import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
@@ -14,22 +13,18 @@ import { TrackModel } from './track-model';
 export class TrackService implements BaseTrackService {
     constructor(private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
 
-    public async getTracksInSubfolderAsync(subfolder: SubfolderModel): Promise<TrackModel[]> {
-        if (subfolder == undefined) {
+    public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModel[]> {
+        if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {
             return [];
         }
 
-        if (StringCompare.isNullOrWhiteSpace(subfolder.path)) {
-            return [];
-        }
-
-        const subfolderPathExists: boolean = this.fileSystem.pathExists(subfolder.path);
+        const subfolderPathExists: boolean = this.fileSystem.pathExists(subfolderPath);
 
         if (!subfolderPathExists) {
             return [];
         }
 
-        const filesInDirectory: string[] = await this.fileSystem.getFilesInDirectoryAsync(subfolder.path);
+        const filesInDirectory: string[] = await this.fileSystem.getFilesInDirectoryAsync(subfolderPath);
 
         const trackModels: TrackModel[] = [];
 

@@ -1,7 +1,6 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
 import { Track } from '../../data/entities/track';
-import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackFiller } from '../indexing/track-filler';
 import { TrackModel } from './track-model';
 import { TrackService } from './track.service';
@@ -55,23 +54,12 @@ describe('TrackService', () => {
     });
 
     describe('getTracksInSubfolderAsync', () => {
-        it('should return an empty collection when the subfolder is undefined', async () => {
-            // Arrange
-            const subfolder: SubfolderModel = undefined;
-
-            // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
-
-            // Assert
-            expect(tracks.length).toEqual(0);
-        });
-
         it('should return an empty collection when the subfolder path is undefined', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel(undefined, false);
+            const subfolderPath: string = undefined;
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(undefined);
 
             // Assert
             expect(tracks.length).toEqual(0);
@@ -79,10 +67,10 @@ describe('TrackService', () => {
 
         it('should return an empty collection when the subfolder path is empty', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('', false);
+            const subfolderPath: string = '';
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             expect(tracks.length).toEqual(0);
@@ -90,10 +78,10 @@ describe('TrackService', () => {
 
         it('should not check if an undefined path exists', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel(undefined, false);
+            const subfolderPath: string = undefined;
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             fileSystemMock.verify((x) => x.pathExists(It.isAny()), Times.never());
@@ -101,10 +89,10 @@ describe('TrackService', () => {
 
         it('should not check if an empty path exists', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('', false);
+            const subfolderPath: string = '';
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             fileSystemMock.verify((x) => x.pathExists(It.isAny()), Times.never());
@@ -112,10 +100,10 @@ describe('TrackService', () => {
 
         it('should check that the given non empty or undefined path exists', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             fileSystemMock.verify((x) => x.pathExists('/home/user/Music/Subfolder1'), Times.exactly(1));
@@ -123,11 +111,11 @@ describe('TrackService', () => {
 
         it('should return an empty collection when the subfolder path does not exist', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => false);
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             expect(tracks.length).toEqual(0);
@@ -135,11 +123,11 @@ describe('TrackService', () => {
 
         it('should get all files in an existing directory', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             fileSystemMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'), Times.exactly(1));
@@ -147,11 +135,11 @@ describe('TrackService', () => {
 
         it('should include tracks for files which have a supported audio extension', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             expect(tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track1.mp3')).toBeTruthy();
@@ -159,11 +147,11 @@ describe('TrackService', () => {
 
         it('should not include tracks for files which have an unsupported audio extension', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             expect(tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track1.png')).toBeFalsy();
@@ -176,11 +164,11 @@ describe('TrackService', () => {
 
         it('should add metadata information to the tracks', async () => {
             // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolder);
+            const tracks: TrackModel[] = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             trackFillerMock.verify(
