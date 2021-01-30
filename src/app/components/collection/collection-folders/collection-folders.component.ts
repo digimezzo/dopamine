@@ -8,6 +8,7 @@ import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
+import { TrackModels } from '../../../services/track/track-models';
 
 @Component({
     selector: 'app-collection-folders',
@@ -37,7 +38,7 @@ export class CollectionFoldersComponent implements OnInit {
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
-    public tracks: TrackModel[] = [];
+    public tracks: TrackModels = new TrackModels();
     public selectedTrack: TrackModel;
 
     public async ngOnInit(): Promise<void> {

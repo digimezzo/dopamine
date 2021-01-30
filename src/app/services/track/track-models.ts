@@ -1,13 +1,24 @@
 import { TrackModel } from './track-model';
 
 export class TrackModels {
+    private _totalDurationInMilliseconds: number = 0;
+    private _totalFileSizeInBytes: number = 0;
+
     constructor() {}
 
     public tracks: TrackModel[] = [];
 
-    public totalDurationInMilliseconds: number = 0;
+    public get totalDurationInMilliseconds(): number {
+        return this._totalDurationInMilliseconds;
+    }
 
-    public totalFileSizeInBytes: number = 0;
+    public get totalFileSizeInBytes(): number {
+        return this._totalFileSizeInBytes;
+    }
+
+    public get numberOfTracks(): number {
+        return this.tracks.length;
+    }
 
     public addTrack(track: TrackModel): void {
         if (track == undefined) {
@@ -15,7 +26,7 @@ export class TrackModels {
         }
 
         this.tracks.push(track);
-        this.totalDurationInMilliseconds += track.durationInMilliseconds;
-        this.totalFileSizeInBytes += track.fileSizeInBytes;
+        this._totalDurationInMilliseconds += track.durationInMilliseconds;
+        this._totalFileSizeInBytes += track.fileSizeInBytes;
     }
 }

@@ -1,5 +1,5 @@
-import { TrackModel } from './track-model';
+import { TrackModels } from './track-models';
 
 export abstract class BaseTrackService {
-    public abstract getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModel[]>;
+    public abstract getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels>;
 }

@@ -46,9 +46,9 @@
         <as-split-area [size]="area2Size" minSize="5" maxSize="95" #area2="asSplitArea">
             <div class="tracks-browser p-3">
                 <div class="tracks-browser__header m-1">
-                    <div class="tracks-browser__trackscount mr-2">{{ this.tracks.length }}</div>
-                    <div *ngIf="this.tracks.length === 1">{{ 'Pages.Collection.Track' | translate }}</div>
-                    <div *ngIf="this.tracks.length !== 1">{{ 'Pages.Collection.Tracks' | translate }}</div>
+                    <div class="tracks-browser__trackscount mr-2">{{ this.tracks.numberOfTracks }}</div>
+                    <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'Pages.Collection.Track' | translate }}</div>
+                    <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'Pages.Collection.Tracks' | translate }}</div>
                 </div>
                 <mat-chip-list class="tracks-browser__breadcrumbs mt-3">
                     <mat-chip
@@ -61,7 +61,7 @@
                 </mat-chip-list>
                 <cdk-virtual-scroll-viewport class="tracks-browser__tracks mt-3" itemSize="46">
                     <div
-                        *cdkVirtualFor="let track of tracks"
+                        *cdkVirtualFor="let track of tracks.tracks"
                         matRipple
                         (click)="setSelectedTrack(track)"
                         [ngClass]="{ 'selected-item': track === selectedTrack }"
@@ -69,6 +69,7 @@
                         <app-track [track]="track"></app-track>
                     </div>
                 </cdk-virtual-scroll-viewport>
+                <app-totals class="mt-3"></app-totals>
             </div>
         </as-split-area>
     </as-split>

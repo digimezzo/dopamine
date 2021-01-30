@@ -63,6 +63,24 @@ describe('TrackModel', () => {
             // Assert
             expect(trackModels.totalFileSizeInBytes).toEqual(0);
         });
+
+        it('should define numberOfTracks', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(trackModels.numberOfTracks).toBeDefined();
+        });
+
+        it('should define numberOfTracks as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(trackModels.numberOfTracks).toEqual(0);
+        });
     });
 
     describe('addTrack', () => {
@@ -81,7 +99,6 @@ describe('TrackModel', () => {
         it('should not change totalDurationInMilliseconds for an undefined track', () => {
             // Arrange
             const trackToAdd: TrackModel = undefined;
-            trackModels.totalDurationInMilliseconds = 0;
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -93,13 +110,23 @@ describe('TrackModel', () => {
         it('should not change totalFileSizeInBytes for an undefined track', () => {
             // Arrange
             const trackToAdd: TrackModel = undefined;
-            trackModels.totalFileSizeInBytes = 0;
 
             // Act
             trackModels.addTrack(trackToAdd);
 
             // Assert
             expect(trackModels.totalFileSizeInBytes).toEqual(0);
+        });
+
+        it('should not change numberOfTracks for an undefined track', () => {
+            // Arrange
+            const trackToAdd: TrackModel = undefined;
+
+            // Act
+            trackModels.addTrack(trackToAdd);
+
+            // Assert
+            expect(trackModels.numberOfTracks).toEqual(0);
         });
 
         it('should add a defined track', () => {
@@ -138,7 +165,6 @@ describe('TrackModel', () => {
             const track: Track = new Track('/home/user/Music/track1.mp3');
             track.duration = 10;
             const trackToAdd: TrackModel = new TrackModel(track);
-            trackModels.totalDurationInMilliseconds = 0;
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -152,13 +178,24 @@ describe('TrackModel', () => {
             const track: Track = new Track('/home/user/Music/track1.mp3');
             track.fileSize = 20;
             const trackToAdd: TrackModel = new TrackModel(track);
-            trackModels.totalFileSizeInBytes = 0;
 
             // Act
             trackModels.addTrack(trackToAdd);
 
             // Assert
             expect(trackModels.totalFileSizeInBytes).toEqual(20);
+        });
+
+        it('should increase numberOfTracks when adding a defined track', () => {
+            // Arrange
+            const track: Track = new Track('/home/user/Music/track1.mp3');
+            const trackToAdd: TrackModel = new TrackModel(track);
+
+            // Act
+            trackModels.addTrack(trackToAdd);
+
+            // Assert
+            expect(trackModels.numberOfTracks).toEqual(1);
         });
     });
 });

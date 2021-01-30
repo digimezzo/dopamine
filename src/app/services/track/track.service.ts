@@ -6,6 +6,7 @@ import { Track } from '../../data/entities/track';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
+import { TrackModels } from './track-models';
 
 @Injectable({
     providedIn: 'root',
@@ -13,20 +14,20 @@ import { TrackModel } from './track-model';
 export class TrackService implements BaseTrackService {
     constructor(private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
 
-    public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModel[]> {
+    public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
         if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {
-            return [];
+            return new TrackModels();
         }
 
         const subfolderPathExists: boolean = this.fileSystem.pathExists(subfolderPath);
 
         if (!subfolderPathExists) {
-            return [];
+            return new TrackModels();
         }
 
         const filesInDirectory: string[] = await this.fileSystem.getFilesInDirectoryAsync(subfolderPath);
 
-        const trackModels: TrackModel[] = [];
+        const trackModels: TrackModels = new TrackModels();
 
         for (const file of filesInDirectory) {
             const fileExtension: string = this.fileSystem.getFileExtension(file);
@@ -38,7 +39,7 @@ export class TrackService implements BaseTrackService {
                 const track: Track = new Track(file);
                 const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
                 const trackModel: TrackModel = new TrackModel(filledTrack);
-                trackModels.push(trackModel);
+                trackModels.addTrack(trackModel);
             }
         }
 
