@@ -69,7 +69,11 @@
                         <app-track [track]="track"></app-track>
                     </div>
                 </cdk-virtual-scroll-viewport>
-                <app-totals class="mt-3"></app-totals>
+                <app-totals
+                    class="mt-3"
+                    [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+                    [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+                ></app-totals>
             </div>
         </as-split-area>
     </as-split>

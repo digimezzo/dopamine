@@ -28,7 +28,7 @@ describe('FormatTrackNumberPipe', () => {
             expect(formattedTrackNumber).toEqual('--');
         });
 
-        it('should return two dashes if track number is negative', () => {
+        it('should return two dashes if track number is -5', () => {
             // Arrange
 
             // Act

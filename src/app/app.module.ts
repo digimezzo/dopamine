@@ -94,6 +94,8 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
+import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
+import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackArtistsPipe } from './pipes/format-track-artist.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
@@ -187,6 +189,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         FormatTrackArtistsPipe,
         FormatTrackDurationPipe,
         FormatTrackTitlePipe,
+        FormatTotalDurationPipe,
+        FormatTotalFileSizePipe,
         CollectionPlaylistsComponent,
         CollectionExploreComponent,
         CollectionTracksComponent,

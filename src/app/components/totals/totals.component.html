@@ -1,1 +1,4 @@
-<div class="app-totals">These are the app-totals</div>
+<div class="app-totals">
+    <div class="app-totals__filesize">{{ totalFileSizeInBytes | formatTotalFileSize }}</div>
+    <div class="app-totals__duration">{{ totalDurationInMilliseconds | formatTotalDuration }}</div>
+</div>

@@ -1,3 +1,12 @@
 .app-totals {
+    display: flex;
+    flex-direction: row;
     color: var(--theme-text-secondary-foreground);
+}
+
+.app-totals__filesize {
+    flex: 1;
+}
+
+.app-totals__duration {
 }

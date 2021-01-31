@@ -18,7 +18,7 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('00:00');
         });
 
-        it('should return 00:00 when track duration is 0', () => {
+        it('should return 00:00 when track duration is 0 milliseconds', () => {
             // Arrange
 
             // Act
@@ -28,7 +28,7 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('00:00');
         });
 
-        it('should return 00:00 when track duration is negative', () => {
+        it('should return 00:00 when track duration is -6 milliseconds', () => {
             // Arrange
 
             // Act
@@ -38,7 +38,7 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('00:00');
         });
 
-        it('should return seconds padded with zeroes for the minutes when track duration is less than 1 minute', () => {
+        it('should return "00:59" if track duration is 59000 milliseconds', () => {
             // Arrange
 
             // Act
@@ -48,7 +48,17 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('00:59');
         });
 
-        it('should return minutes and seconds not padded with zeroes for the hours when track duration is between 1 and 60 minutes', () => {
+        it('should return "01:00" if track duration is 60000 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTrackDuration: string = formatTrackDurationPipe.transform(60000);
+
+            // Assert
+            expect(formattedTrackDuration).toEqual('01:00');
+        });
+
+        it('should return "59:59" if track duration is 3599000 milliseconds', () => {
             // Arrange
 
             // Act
@@ -58,7 +68,17 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('59:59');
         });
 
-        it('should show hours when the duration is larger than 1 hour', () => {
+        it('should return "01:00:00" if track duration is 3600000 milliseconds', () => {
+            // Arrange
+
+            // Act
+            const formattedTrackDuration: string = formatTrackDurationPipe.transform(3600000);
+
+            // Assert
+            expect(formattedTrackDuration).toEqual('01:00:00');
+        });
+
+        it('should return "15:27:42" if track duration is 55662000 milliseconds', () => {
             // Arrange
 
             // Act
@@ -68,7 +88,7 @@ describe('FormatTrackDurationPipe', () => {
             expect(formattedTrackDuration).toEqual('15:27:42');
         });
 
-        it('should support more than 24 hours', () => {
+        it('should return "35:00:00" if track duration is 126000000 milliseconds', () => {
             // Arrange
 
             // Act

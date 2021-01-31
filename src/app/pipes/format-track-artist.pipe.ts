@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { StringCompare } from '../core/string-compare';
 import { TranslatorService } from '../services/translator/translator.service';
 
@@ -7,7 +6,7 @@ import { TranslatorService } from '../services/translator/translator.service';
 export class FormatTrackArtistsPipe implements PipeTransform {
     constructor(private translatorService: TranslatorService) {}
 
-    public transform(trackArtists: string[]): Observable<string> {
+    public transform(trackArtists: string[]): string {
         if (trackArtists == undefined || trackArtists.length === 0) {
             return this.translatorService.get('Track.UnknownArtist');
         }
@@ -18,6 +17,6 @@ export class FormatTrackArtistsPipe implements PipeTransform {
             return this.translatorService.get('Track.UnknownArtist');
         }
 
-        return of(commaSeparatedArtists);
+        return commaSeparatedArtists;
     }
 }

@@ -1,25 +1,56 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TotalsComponent } from './totals.component';
 
-describe('TotalsComponent', () => {
-  let component: TotalsComponent;
-  let fixture: ComponentFixture<TotalsComponent>;
+describe('SnackBarComponent', () => {
+    let component: TotalsComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TotalsComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        component = new TotalsComponent();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TotalsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+            // Act
+
+            // Assert
+            expect(component).toBeDefined();
+        });
+
+        it('should define totalFileSizeInBytes', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.totalFileSizeInBytes).toBeDefined();
+        });
+
+        it('should set totalFileSizeInBytes to 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.totalFileSizeInBytes).toEqual(0);
+        });
+
+        it('should define totalDurationInMilliseconds', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.totalDurationInMilliseconds).toBeDefined();
+        });
+
+        it('should set totalDurationInMilliseconds to 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.totalDurationInMilliseconds).toEqual(0);
+        });
+    });
 });

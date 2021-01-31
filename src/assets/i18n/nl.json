@@ -148,5 +148,16 @@
     },
     "Track": {
         "UnknownArtist": "Onbekende artiest"
+    },
+    "Durations": {
+        "Days": "dagen",
+        "Hours": "uren",
+        "Minutes": "minuten",
+        "Seconds": "seconden"
+    },
+    "FileSizes": {
+        "GB": "GB",
+        "MB": "MB",
+        "kB": "kB"
     }
 }

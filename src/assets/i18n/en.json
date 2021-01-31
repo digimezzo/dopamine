@@ -148,5 +148,16 @@
     },
     "Track": {
         "UnknownArtist": "Unknown artist"
+    },
+    "Durations": {
+        "Days": "days",
+        "Hours": "hours",
+        "Minutes": "minutes",
+        "Seconds": "seconds"
+    },
+    "FileSizes": {
+        "GigaBytes": "GB",
+        "MegaBytes": "MB",
+        "KiloBytes": "kB"
     }
 }

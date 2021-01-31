@@ -15,18 +15,16 @@ export class FormatTrackDurationPipe implements PipeTransform {
             return '00:00';
         }
 
-        const seconds: number = Math.floor(durationInMilliseconds / 1000);
+        const durationInSeconds: number = Math.floor(durationInMilliseconds / 1000);
 
-        const days = Math.floor(seconds / this.secondsPerDay);
-        const remainderSeconds = seconds % this.secondsPerDay;
-        const date = new Date(remainderSeconds * 1000).toISOString().substring(11, 19);
+        const hours: number = Math.floor(durationInSeconds / (60 * 60));
+        const minutes: number = Math.floor(durationInSeconds / 60) % 60;
+        const seconds: number = durationInSeconds % 60;
 
-        const hms = date.replace(/^(\d+)/, (h) => `${Number(h) + days * this.hoursPerDay}`.padStart(2, '0'));
-
-        if (hms.length === 8 && hms.startsWith('00:')) {
-            return hms.substr(3);
+        if (hours > 0) {
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        return hms;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 }
