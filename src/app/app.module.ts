@@ -11,6 +11,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
@@ -53,6 +54,8 @@ import { ManageAlbumCoversComponent } from './components/manage-collection/manag
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
+import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
+import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -194,6 +197,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         CollectionPlaylistsComponent,
         CollectionExploreComponent,
         CollectionTracksComponent,
+        PlaybackControlsComponent,
+        PlaybackProgressComponent,
         TrackComponent,
         TotalsComponent,
     ],
@@ -214,6 +219,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         MatTabsModule,
         MatCheckboxModule,
         MatChipsModule,
+        MatProgressBarModule,
         BrowserAnimationsModule,
         BrowserModule,
         FormsModule,

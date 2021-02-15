@@ -1,0 +1,14 @@
+.app-playback-controls {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-playback-controls__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-playback-controls__icon {
+    font-size: 20px;
+}

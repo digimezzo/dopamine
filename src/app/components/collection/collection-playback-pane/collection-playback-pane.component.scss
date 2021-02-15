@@ -1,4 +1,33 @@
-.collection-playback-pane-component {
+.app-collection-playback-pane {
     width: 100%;
     height: 74px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-collection-playback-pane__progressbar {
+}
+
+.app-collection-playback-pane__controls {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.app-collection-playback-pane__playbackinformation {
+    height: 100%;
+}
+
+.app-collection-playback-pane__playbackcontrols {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-collection-playback-pane__volumecontrol {
+    height: 100%;
 }

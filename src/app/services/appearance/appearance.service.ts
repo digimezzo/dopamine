@@ -11,6 +11,7 @@ import { BaseSettings } from '../../core/settings/base-settings';
 import { StringCompare } from '../../core/string-compare';
 import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
+import { Palette } from './palette';
 
 @Injectable({
     providedIn: 'root',
@@ -118,19 +119,40 @@ export class AppearanceService implements BaseAppearanceService {
         const element = document.documentElement;
 
         // Color
-        element.style.setProperty('--theme-primary-color', this.selectedColorScheme.primaryColor);
-        element.style.setProperty('--theme-secondary-color', this.selectedColorScheme.secondaryColor);
-        element.style.setProperty('--theme-accent-color', this.selectedColorScheme.accentColor);
+        let primaryColorToApply: string = this.selectedColorScheme.primaryColor;
+        let secondaryColorToApply: string = this.selectedColorScheme.secondaryColor;
+        let accentColorToApply: string = this.selectedColorScheme.accentColor;
 
         if (this.settings.followSystemColor) {
             const systemAccentColor: string = this.getSystemAccentColor();
 
             if (!StringCompare.isNullOrWhiteSpace(systemAccentColor)) {
-                element.style.setProperty('--theme-primary-color', systemAccentColor);
-                element.style.setProperty('--theme-secondary-color', systemAccentColor);
-                element.style.setProperty('--theme-accent-color', systemAccentColor);
+                primaryColorToApply = systemAccentColor;
+                secondaryColorToApply = systemAccentColor;
+                accentColorToApply = systemAccentColor;
             }
         }
+
+        const palette: Palette = new Palette(accentColorToApply);
+
+        element.style.setProperty('--theme-primary-color', primaryColorToApply);
+        element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
+        element.style.setProperty('--theme-accent-color', accentColorToApply);
+
+        element.style.setProperty('--theme-accent-color-50', palette.color50);
+        element.style.setProperty('--theme-accent-color-100', palette.color100);
+        element.style.setProperty('--theme-accent-color-200', palette.color200);
+        element.style.setProperty('--theme-accent-color-300', palette.color300);
+        element.style.setProperty('--theme-accent-color-400', palette.color400);
+        element.style.setProperty('--theme-accent-color-500', palette.color500);
+        element.style.setProperty('--theme-accent-color-600', palette.color600);
+        element.style.setProperty('--theme-accent-color-700', palette.color700);
+        element.style.setProperty('--theme-accent-color-800', palette.color800);
+        element.style.setProperty('--theme-accent-color-900', palette.color900);
+        element.style.setProperty('--theme-accent-color-A100', palette.colorA100);
+        element.style.setProperty('--theme-accent-color-A200', palette.colorA200);
+        element.style.setProperty('--theme-accent-color-A400', palette.colorA400);
+        element.style.setProperty('--theme-accent-color-A700', palette.colorA700);
 
         // Theme
         let themeName: string = 'default-theme-dark';
