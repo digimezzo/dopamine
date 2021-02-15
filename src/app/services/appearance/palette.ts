@@ -1,5 +1,8 @@
 import tinycolor from 'tinycolor2';
 
+/**
+ * Palette generation based on: https://github.com/mbitson/mcg
+ */
 export class Palette {
     constructor(private baseHexColor: string) {}
 
