@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
     selector: 'app-playback-controls',
@@ -8,7 +9,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackControlsComponent implements OnInit {
-    constructor() {}
+    constructor(public playbackService: BasePlaybackService) {}
 
     public ngOnInit(): void {}
 }

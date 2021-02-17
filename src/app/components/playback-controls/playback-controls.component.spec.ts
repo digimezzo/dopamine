@@ -1,10 +1,14 @@
+import { IMock, Mock } from 'typemoq';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackControlsComponent } from './playback-controls.component';
 
 describe('PlaybackControlsComponent', () => {
     let component: PlaybackControlsComponent;
+    let playbackServiceMock: IMock<BasePlaybackService>;
 
     beforeEach(() => {
-        component = new PlaybackControlsComponent();
+        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        component = new PlaybackControlsComponent(playbackServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -15,6 +19,15 @@ describe('PlaybackControlsComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
+        });
+
+        it('should define playbackService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.playbackService).toBeDefined();
         });
     });
 });

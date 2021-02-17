@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
     selector: 'app-playback-progress',
@@ -8,9 +9,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackProgressComponent implements OnInit {
-    constructor() {}
-
-    public progressValue: number = 40;
+    constructor(public playbackService: BasePlaybackService) {}
 
     public ngOnInit(): void {}
 }

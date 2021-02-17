@@ -12,13 +12,40 @@ describe('PlaybackService', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
+        it('should create', () => {
             // Arrange
 
             // Act
 
             // Assert
             expect(service).toBeDefined();
+        });
+
+        it('should initialize canPause as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.canPause).toBeFalsy();
+        });
+
+        it('should initialize canResume as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.canResume).toBeTruthy();
+        });
+
+        it('should initialize progressPercent as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.progressPercent).toEqual(0);
         });
     });
 });

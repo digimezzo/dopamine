@@ -66,6 +66,8 @@ import { TrackComponent } from './components/track/track.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
+import { AudioPlayer } from './core/audio/audio-player';
+import { BaseAudioPlayer } from './core/audio/base-audio-player';
 import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
 import { BaseRemoteProxy } from './core/io/base-remote-proxy';
@@ -289,6 +291,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         { provide: BaseTrackService, useClass: TrackService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
+        { provide: BaseAudioPlayer, useClass: AudioPlayer },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
