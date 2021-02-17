@@ -51,3 +51,9 @@
     height: 100%;
     background-color: var(--theme-side-pane-background);
 }
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

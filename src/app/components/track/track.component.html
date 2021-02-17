@@ -2,12 +2,12 @@
     <div class="app-track__left">{{ track.number | formatTrackNumber }}</div>
     <div class="app-track__right">
         <div class="app-track__top">
-            <div class="app-track__title">{{ track.title | formatTrackTitle: track.fileName }}</div>
-            <div class="app-track__duration">{{ track.durationInMilliseconds | formatTrackDuration }}</div>
+            <span class="ellipsis">{{ track.title | formatTrackTitle: track.fileName }}</span>
+            {{ track.durationInMilliseconds | formatTrackDuration }}
         </div>
         <div class="app-track__bottom">
-            <div class="app-track__artist">{{ track.artists | formatTrackArtists }}</div>
-            <div class="app-track__rating"></div>
+            <span class="ellipsis">{{ track.artists | formatTrackArtists }}</span>
+            <span></span>
         </div>
     </div>
 </div>

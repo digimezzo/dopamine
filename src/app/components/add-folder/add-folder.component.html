@@ -26,7 +26,7 @@
                         (ngModelChange)="setFolderVisibility(folder)"
                     ></mat-checkbox>
                     <i class="folder__icon mr-2 lar la-folder"></i>
-                    <div class="folder__path" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
+                    <div class="folder__path ellipsis" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
                     <i
                         class="folder__action ml-2 las la-times"
                         [ngStyle]="{ display: folder === selectedFolder ? 'block' : 'none' }"

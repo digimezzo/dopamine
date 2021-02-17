@@ -53,12 +53,8 @@
 }
 
 .folder__path {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     flex: 1;
 }
-
 .folder__action {
     font-size: 20px;
     opacity: 0.4;

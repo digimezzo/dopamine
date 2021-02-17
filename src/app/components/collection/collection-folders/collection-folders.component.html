@@ -29,7 +29,9 @@
                         >
                             <div class="subfolder no-select p-1" [ngClass]="{ 'selected-item': subfolder === selectedSubfolder }">
                                 <i class="subfolder__icon mr-2 lar la-folder"></i>
-                                <div class="subfolder__name" matTooltip="{{ subfolder.path }}">{{ subfolder | subfolderName }}</div>
+                                <div class="subfolder__name ellipsis" matTooltip="{{ subfolder.path }}">
+                                    {{ subfolder | subfolderName }}
+                                </div>
                             </div>
                         </div>
                     </cdk-virtual-scroll-viewport>

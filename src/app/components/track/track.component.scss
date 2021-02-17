@@ -7,6 +7,7 @@
 .app-track__left {
     display: flex;
     width: 40px;
+    min-width: 40px;
     height: 46px;
     align-items: center;
     justify-content: center;
@@ -14,34 +15,24 @@
 }
 
 .app-track__right {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     height: 46px;
-    flex-direction: column;
+    min-width: 0;
 }
 
 .app-track__top {
     display: flex;
     flex-direction: row;
     height: 23px;
-}
-
-.app-track__title {
-    flex: 1;
-}
-
-.app-track__duration {
+    justify-content: space-between;
 }
 
 .app-track__bottom {
     display: flex;
     flex-direction: row;
     height: 23px;
+    justify-content: space-between;
     color: var(--theme-text-secondary-foreground);
-}
-
-.app-track__artist {
-    flex: 1;
-}
-
-.app-track__rating {
 }
