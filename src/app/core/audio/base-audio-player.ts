@@ -1,4 +1,5 @@
 export abstract class BaseAudioPlayer {
+    public progressPercent: number;
     public abstract play(audioFilePath: string): void;
     public abstract stop(): void;
     public abstract pause(): void;

@@ -6,6 +6,7 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -19,6 +20,7 @@ import { TrackModels } from '../../../services/track/track-models';
 })
 export class CollectionFoldersComponent implements OnInit {
     constructor(
+        public playbackService: BasePlaybackService,
         private settings: BaseSettings,
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,

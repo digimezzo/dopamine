@@ -22,7 +22,7 @@ var globalAny = global;
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
-function windowhasFrame() {
+function windowHasFrame() {
     var settings = new Store();
     if (!settings.has('useSystemTitleBar')) {
         if (os.platform() === 'win32') {
@@ -50,7 +50,7 @@ function createWindow() {
         width: windowState.width,
         height: windowState.height,
         backgroundColor: '#fff',
-        frame: windowhasFrame(),
+        frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
@@ -58,7 +58,7 @@ function createWindow() {
         },
         show: false,
     });
-    globalAny.windowHasFrame = windowhasFrame();
+    globalAny.windowHasFrame = windowHasFrame();
     windowState.manage(win);
     if (serve) {
         require('electron-reload')(__dirname, {

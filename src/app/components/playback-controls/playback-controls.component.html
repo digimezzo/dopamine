@@ -3,10 +3,10 @@
     <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-step-backward"></i></button>
 
     <!-- Play/Pause -->
-    <button *ngIf="playbackService.canPause" class="app-playback-controls__button" mat-icon-button>
+    <button *ngIf="playbackService.canPause" class="app-playback-controls__button" mat-icon-button (click)="playbackService.pause()">
         <i class="app-playback-controls__icon las la-pause"></i>
     </button>
-    <button *ngIf="playbackService.canResume" class="app-playback-controls__button" mat-icon-button>
+    <button *ngIf="playbackService.canResume" class="app-playback-controls__button" mat-icon-button (click)="playbackService.resume()">
         <i class="app-playback-controls__icon las la-play"></i>
     </button>
 

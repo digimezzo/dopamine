@@ -68,7 +68,7 @@
                         (click)="setSelectedTrack(track)"
                         [ngClass]="{ 'selected-item': track === selectedTrack }"
                     >
-                        <app-track [track]="track"></app-track>
+                        <app-track [track]="track" (dblclick)="playbackService.enqueue(tracks, track)"></app-track>
                     </div>
                 </cdk-virtual-scroll-viewport>
                 <app-totals

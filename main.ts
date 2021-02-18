@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
-function windowhasFrame(): boolean {
+function windowHasFrame(): boolean {
     const settings: Store<any> = new Store();
 
     if (!settings.has('useSystemTitleBar')) {
@@ -58,7 +58,7 @@ function createWindow(): void {
         width: windowState.width,
         height: windowState.height,
         backgroundColor: '#fff',
-        frame: windowhasFrame(),
+        frame: windowHasFrame(),
         icon: path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/icon.ico' : 'icons/64x64.png'),
         webPreferences: {
             webSecurity: false,
@@ -67,7 +67,7 @@ function createWindow(): void {
         show: false,
     });
 
-    globalAny.windowHasFrame = windowhasFrame();
+    globalAny.windowHasFrame = windowHasFrame();
 
     windowState.manage(win);
 

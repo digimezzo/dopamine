@@ -8,12 +8,14 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { CollectionFoldersComponent } from './collection-folders.component';
 
 describe('CollectionFoldersComponent', () => {
     let settingsMock: BaseSettings;
+    let playbackServiceMock: IMock<BasePlaybackService>;
     let folderServiceMock: IMock<BaseFolderService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
     let trackServiceMock: IMock<BaseTrackService>;
@@ -23,6 +25,7 @@ describe('CollectionFoldersComponent', () => {
 
     beforeEach(() => {
         settingsMock = new SettingsStub();
+        playbackServiceMock = Mock.ofType<BasePlaybackService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
@@ -31,6 +34,7 @@ describe('CollectionFoldersComponent', () => {
         settingsMock.foldersLeftPaneWithPercent = 30;
 
         component = new CollectionFoldersComponent(
+            playbackServiceMock.object,
             settingsMock,
             folderServiceMock.object,
             navigationServiceMock.object,
@@ -47,6 +51,15 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
+        });
+
+        it('should define playbackService', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.playbackService).toBeDefined();
         });
 
         it('should set area1 size from settings', async () => {
