@@ -1,6 +1,8 @@
 <div class="app-playback-controls">
     <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-redo-alt"></i></button>
-    <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-step-backward"></i></button>
+    <button class="app-playback-controls__button" mat-icon-button>
+        <i class="app-playback-controls__icon las la-step-backward" (click)="playbackService.playPrevious()"></i>
+    </button>
 
     <!-- Play/Pause -->
     <button *ngIf="playbackService.canPause" class="app-playback-controls__button" mat-icon-button (click)="playbackService.pause()">
@@ -10,6 +12,8 @@
         <i class="app-playback-controls__icon las la-play"></i>
     </button>
 
-    <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-step-forward"></i></button>
+    <button class="app-playback-controls__button" mat-icon-button>
+        <i class="app-playback-controls__icon las la-step-forward" (click)="playbackService.playNext()"></i>
+    </button>
     <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-random"></i></button>
 </div>

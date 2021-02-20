@@ -12,6 +12,8 @@ export class PlaybackService implements BasePlaybackService {
     private _canResume: boolean = true;
     private _progressPercent: number = 0;
     private progressRequestId: number;
+    private currentTrack: TrackModel;
+    private queuedTracks: TrackModel[] = [];
 
     constructor(private audioPlayer: BaseAudioPlayer, private logger: Logger) {}
 
@@ -28,12 +30,19 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public enqueue(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
-        this.audioPlayer.setVolume(0.5);
+        this.queuedTracks = tracksToEnqueue;
+        this.logger.info(`Queued '${tracksToEnqueue?.length}' tracks`, 'PlaybackService', 'enqueue');
+        this.play(trackToPlay);
+    }
+
+    private play(trackToPlay: TrackModel): void {
+        this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
+        this.currentTrack = trackToPlay;
         this._canPause = true;
         this._canResume = false;
         this.startUpdatingProgress();
-        this.logger.info(`Playing '${trackToPlay.path}'`, 'PlaybackService', 'enqueue');
+        this.logger.info(`Playing '${this.currentTrack?.path}'`, 'PlaybackService', 'play');
     }
 
     public pause(): void {
@@ -41,6 +50,7 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.stopUpdatingProgress();
+        this.logger.info(`Pausing '${this.currentTrack?.path}'`, 'PlaybackService', 'pause');
     }
 
     public resume(): void {
@@ -48,6 +58,63 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = true;
         this._canResume = false;
         this.startUpdatingProgress();
+        this.logger.info(`Resuming '${this.currentTrack?.path}'`, 'PlaybackService', 'resume');
+    }
+
+    private stop(): void {
+        this.audioPlayer.stop();
+        this._canPause = false;
+        this._canResume = true;
+        this.stopUpdatingProgress();
+        this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
+    }
+
+    public playPrevious(): void {
+        if (this.queuedTracks.length === 0) {
+            return;
+        }
+
+        const minimumIndex: number = 0;
+        const currentIndex: number = this.queuedTracks.indexOf(this.currentTrack);
+
+        if (currentIndex < 0) {
+            return;
+        }
+
+        if (currentIndex === minimumIndex) {
+            this.play(this.currentTrack);
+
+            return;
+        }
+
+        if (this.audioPlayer.progressSeconds > 3) {
+            this.play(this.currentTrack);
+
+            return;
+        }
+
+        this.play(this.queuedTracks[currentIndex - 1]);
+    }
+
+    public playNext(): void {
+        if (this.queuedTracks.length === 0) {
+            return;
+        }
+
+        const maximumIndex: number = this.queuedTracks.length - 1;
+        const currentIndex: number = this.queuedTracks.indexOf(this.currentTrack);
+
+        if (currentIndex < 0) {
+            return;
+        }
+
+        if (currentIndex === maximumIndex) {
+            this.stop();
+
+            return;
+        }
+
+        this.play(this.queuedTracks[currentIndex + 1]);
     }
 
     private updateProgress(): void {
@@ -71,5 +138,7 @@ export class PlaybackService implements BasePlaybackService {
             cancelAnimationFrame(this.progressRequestId);
             this.progressRequestId = undefined;
         }
+
+        this._progressPercent = 0;
     }
 }

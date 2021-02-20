@@ -4,6 +4,14 @@ import { BaseAudioPlayer } from './base-audio-player';
 export class AudioPlayer implements BaseAudioPlayer {
     private sound: Howl;
 
+    public get progressSeconds(): number {
+        if (this.sound != undefined) {
+            return this.sound.seek();
+        }
+
+        return 0;
+    }
+
     public get progressPercent(): number {
         if (this.sound != undefined) {
             return (this.sound.seek() / this.sound.duration()) * 100;
@@ -13,8 +21,6 @@ export class AudioPlayer implements BaseAudioPlayer {
     }
 
     public play(audioFilePath: string): void {
-        this.stop();
-
         this.sound = new Howl({
             src: [audioFilePath],
         });
@@ -45,9 +51,13 @@ export class AudioPlayer implements BaseAudioPlayer {
     }
 
     public mute(): void {
-        this.sound.muted(true);
+        if (this.sound != undefined) {
+            this.sound.muted(true);
+        }
     }
     public unMute(): void {
-        this.sound.muted(false);
+        if (this.sound != undefined) {
+            this.sound.muted(false);
+        }
     }
 }
