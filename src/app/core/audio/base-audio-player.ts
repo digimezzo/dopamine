@@ -1,4 +1,7 @@
+import { Observable } from 'rxjs';
+
 export abstract class BaseAudioPlayer {
+    public playBackFinished$: Observable<void>;
     public abstract progressSeconds: number;
     public abstract progressPercent: number;
     public abstract play(audioFilePath: string): void;

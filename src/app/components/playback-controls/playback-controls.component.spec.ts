@@ -29,5 +29,14 @@ describe('PlaybackControlsComponent', () => {
             // Assert
             expect(component.playbackService).toBeDefined();
         });
+
+        it('should define loopMode', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.loopMode).toBeDefined();
+        });
     });
 });

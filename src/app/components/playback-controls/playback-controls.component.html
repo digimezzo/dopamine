@@ -1,7 +1,34 @@
 <div class="app-playback-controls">
-    <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-redo-alt"></i></button>
-    <button class="app-playback-controls__button" mat-icon-button>
-        <i class="app-playback-controls__icon las la-step-backward" (click)="playbackService.playPrevious()"></i>
+    <!-- Loop -->
+    <button
+        *ngIf="playbackService.loopMode === loopMode.None"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+    >
+        <i class="app-playback-controls__icon las la-redo-alt"></i>
+    </button>
+    <button
+        *ngIf="playbackService.loopMode === loopMode.All"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+    >
+        <i class="app-playback-controls__accenticon las la-redo-alt"></i>
+    </button>
+    <button
+        *ngIf="playbackService.loopMode === loopMode.One"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+    >
+        <i class="app-playback-controls__accenticon las la-redo-alt"></i>
+        <span class="loop-one-button__number">1</span>
+    </button>
+
+    <!-- Play previous -->
+    <button class="app-playback-controls__button" mat-icon-button (click)="playbackService.playPrevious()">
+        <i class="app-playback-controls__icon las la-step-backward"></i>
     </button>
 
     <!-- Play/Pause -->
@@ -12,8 +39,26 @@
         <i class="app-playback-controls__icon las la-play"></i>
     </button>
 
-    <button class="app-playback-controls__button" mat-icon-button>
-        <i class="app-playback-controls__icon las la-step-forward" (click)="playbackService.playNext()"></i>
+    <!-- Play next -->
+    <button class="app-playback-controls__button" mat-icon-button (click)="playbackService.playNext()">
+        <i class="app-playback-controls__icon las la-step-forward"></i>
     </button>
-    <button class="app-playback-controls__button" mat-icon-button><i class="app-playback-controls__icon las la-random"></i></button>
+
+    <!-- Shuffle -->
+    <button
+        *ngIf="!playbackService.isShuffled"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleIsShuffled()"
+    >
+        <i class="app-playback-controls__icon las la-random"></i>
+    </button>
+    <button
+        *ngIf="playbackService.isShuffled"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleIsShuffled()"
+    >
+        <i class="app-playback-controls__accenticon las la-random"></i>
+    </button>
 </div>

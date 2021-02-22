@@ -1,8 +1,12 @@
 import { Howl, Howler } from 'howler';
+import { Observable, Subject } from 'rxjs';
 import { BaseAudioPlayer } from './base-audio-player';
 
 export class AudioPlayer implements BaseAudioPlayer {
     private sound: Howl;
+
+    private playBackFinished: Subject<void> = new Subject();
+    public playBackFinished$: Observable<void> = this.playBackFinished.asObservable();
 
     public get progressSeconds(): number {
         if (this.sound != undefined) {
@@ -23,6 +27,9 @@ export class AudioPlayer implements BaseAudioPlayer {
     public play(audioFilePath: string): void {
         this.sound = new Howl({
             src: [audioFilePath],
+            onend: () => {
+                this.playBackFinished.next();
+            },
         });
 
         this.sound.play();
