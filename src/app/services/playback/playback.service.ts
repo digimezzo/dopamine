@@ -70,6 +70,10 @@ export class PlaybackService implements BasePlaybackService {
         return this._progressPercent;
     }
 
+    public set progressPercent(v: number) {
+        this._progressPercent = v;
+    }
+
     public enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         this.enqueue(tracksToEnqueue);
         this.play(trackToPlay);

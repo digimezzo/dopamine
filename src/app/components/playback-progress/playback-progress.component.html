@@ -1,1 +1,14 @@
-<mat-progress-bar color="accent" mode="determinate" [value]="playbackService.progressPercent"> </mat-progress-bar>
+<!-- <mat-progress-bar color="accent" mode="determinate" [value]="playbackService.progressPercent"> </mat-progress-bar> -->
+<mat-slider
+    class="example-margin"
+    [disabled]="disabled"
+    [invert]="invert"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [thumbLabel]="thumbLabel"
+    [tickInterval]="getSliderTickInterval()"
+    [(ngModel)]="value"
+    [vertical]="vertical"
+>
+</mat-slider>
