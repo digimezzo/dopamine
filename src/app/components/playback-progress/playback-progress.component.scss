@@ -1,0 +1,33 @@
+.app-playback-progress-container {
+    position: relative;
+    width: 100%;
+    height: 12px;
+}
+
+.app-playback-progress-track {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 4px;
+    z-index: 0;
+    height: 4px;
+    opacity: 0.2;
+    background-color: var(--theme-progress-bar-background) !important;
+}
+
+.app-playback-progress-bar {
+    position: absolute;
+    width: 0%;
+    left: 0;
+    top: 4px;
+    z-index: 1;
+    height: 4px;
+    background-color: var(--theme-accent-color) !important;
+}
+
+.app-playback-progress-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background: white;
+}

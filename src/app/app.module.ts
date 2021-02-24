@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+    GestureConfig,
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
@@ -22,7 +23,7 @@ import {
     MatTooltipModule,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -206,8 +207,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         TotalsComponent,
     ],
     imports: [
-        BrowserModule,
         BrowserAnimationsModule,
+        BrowserModule,
         MatProgressSpinnerModule,
         MatStepperModule,
         MatFormFieldModule,
@@ -226,6 +227,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         MatChipsModule,
         MatProgressBarModule,
         MatSliderModule,
+        HammerModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
@@ -271,6 +273,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         Logger,
         Scheduler,
         Hacks,
+        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
         { provide: BaseCollectionChecker, useClass: CollectionChecker },

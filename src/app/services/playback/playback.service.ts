@@ -227,6 +227,8 @@ export class PlaybackService implements BasePlaybackService {
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay);
+
+            return;
         }
 
         this.stop();
