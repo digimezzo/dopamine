@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 export abstract class BaseAudioPlayer {
     public playBackFinished$: Observable<void>;
     public abstract progressSeconds: number;
-    public abstract progressPercent: number;
+    public abstract totalSeconds: number;
     public abstract play(audioFilePath: string): void;
     public abstract stop(): void;
     public abstract pause(): void;

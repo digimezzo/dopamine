@@ -16,9 +16,9 @@ export class AudioPlayer implements BaseAudioPlayer {
         return 0;
     }
 
-    public get progressPercent(): number {
+    public get totalSeconds(): number {
         if (this.sound != undefined) {
-            return (this.sound.seek() / this.sound.duration()) * 100;
+            return this.sound.duration();
         }
 
         return 0;

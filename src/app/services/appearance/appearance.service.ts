@@ -168,6 +168,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-text-secondary-foreground', '#5E5E5E');
         element.style.setProperty('--theme-breadcrumb-background', '#272727');
         element.style.setProperty('--theme-progress-bar-background', '#999999');
+        element.style.setProperty('--theme-progress-bar-thumb-background', '#FFF');
 
         if (
             (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
@@ -186,6 +187,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-text-secondary-foreground', '#838383');
             element.style.setProperty('--theme-breadcrumb-background', '#DFDFDF');
             element.style.setProperty('--theme-progress-bar-background', '#666666');
+            element.style.setProperty('--theme-progress-bar-thumb-background', '#000');
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7

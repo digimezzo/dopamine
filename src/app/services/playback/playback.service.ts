@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { BaseAudioPlayer } from '../../core/audio/base-audio-player';
 import { Logger } from '../../core/logger';
 import { TrackModel } from '../track/track-model';
 import { BasePlaybackService } from './base-playback.service';
 import { LoopMode } from './loop-mode';
+import { PlaybackProgress } from './playback-progress';
 
 @Injectable({
     providedIn: 'root',
@@ -14,12 +15,12 @@ export class PlaybackService implements BasePlaybackService {
     private _isShuffled: boolean = false;
     private _canPause: boolean = false;
     private _canResume: boolean = true;
-    private _progressPercent: number = 0;
     private progressRequestId: number;
     private currentTrack: TrackModel;
     private queuedTracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
     private subscription: Subscription = new Subscription();
+    private progressChanged: Subject<PlaybackProgress> = new Subject();
 
     constructor(private audioPlayer: BaseAudioPlayer, private logger: Logger) {
         this.subscription.add(
@@ -28,6 +29,8 @@ export class PlaybackService implements BasePlaybackService {
             })
         );
     }
+
+    public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
 
     private findPlaybackOrderIndex(track: TrackModel): number {
         const queuedTracksIndex: number = this.queuedTracks.indexOf(track);
@@ -64,14 +67,6 @@ export class PlaybackService implements BasePlaybackService {
 
     public get canResume(): boolean {
         return this._canResume;
-    }
-
-    public get progressPercent(): number {
-        return this._progressPercent;
-    }
-
-    public set progressPercent(v: number) {
-        this._progressPercent = v;
     }
 
     public enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
@@ -236,7 +231,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private updateProgress(): void {
         this.progressRequestId = undefined;
-        this._progressPercent = this.audioPlayer.progressPercent;
+        this.progressChanged.next(new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds));
         this.progressRequestId = requestAnimationFrame(this.updateProgress.bind(this));
 
         // setInterval(() => {
@@ -256,6 +251,6 @@ export class PlaybackService implements BasePlaybackService {
             this.progressRequestId = undefined;
         }
 
-        this._progressPercent = 0;
+        this.progressChanged.next(new PlaybackProgress(0, 0));
     }
 }

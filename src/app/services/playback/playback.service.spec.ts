@@ -1,14 +1,17 @@
 import { IMock, Mock } from 'typemoq';
 import { BaseAudioPlayer } from '../../core/audio/base-audio-player';
+import { Logger } from '../../core/logger';
 import { PlaybackService } from './playback.service';
 
 describe('PlaybackService', () => {
     let audioPlayerMock: IMock<BaseAudioPlayer>;
+    let loggerMock: IMock<Logger>;
     let service: PlaybackService;
 
     beforeEach(() => {
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
-        service = new PlaybackService(audioPlayerMock.object);
+        loggerMock = Mock.ofType<Logger>();
+        service = new PlaybackService(audioPlayerMock.object, loggerMock.object);
     });
 
     describe('constructor', () => {
@@ -45,7 +48,7 @@ describe('PlaybackService', () => {
             // Act
 
             // Assert
-            expect(service.progressPercent).toEqual(0);
+            expect(service.progressSeconds).toEqual(0);
         });
     });
 });
