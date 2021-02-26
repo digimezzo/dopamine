@@ -125,7 +125,7 @@ export class PlaybackService implements BasePlaybackService {
         this.audioPlayer.pause();
         this._canPause = false;
         this._canResume = true;
-        this.stopUpdatingProgress();
+        this.pauseUpdatingProgress();
         this.logger.info(`Pausing '${this.currentTrack?.path}'`, 'PlaybackService', 'pause');
     }
 
@@ -252,5 +252,17 @@ export class PlaybackService implements BasePlaybackService {
         }
 
         this.progressChanged.next(new PlaybackProgress(0, 0));
+    }
+
+    private pauseUpdatingProgress(): void {
+        if (this.progressRequestId != undefined) {
+            cancelAnimationFrame(this.progressRequestId);
+            this.progressRequestId = undefined;
+        }
+    }
+
+    public skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void {
+        const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
+        this.audioPlayer.skipToSeconds(seconds);
     }
 }

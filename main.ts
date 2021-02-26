@@ -119,9 +119,9 @@ function createWindow(): void {
 
     win.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
-            if (serve) {
-                win.webContents.toggleDevTools();
-            }
+            // if (serve) {
+            win.webContents.toggleDevTools();
+            // }
 
             event.preventDefault();
         }

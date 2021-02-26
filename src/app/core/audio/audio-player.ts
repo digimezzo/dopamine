@@ -67,4 +67,10 @@ export class AudioPlayer implements BaseAudioPlayer {
             this.sound.muted(false);
         }
     }
+
+    public skipToSeconds(seconds: number): void {
+        if (this.sound != undefined) {
+            this.sound.seek(seconds);
+        }
+    }
 }

@@ -12,4 +12,5 @@ export abstract class BasePlaybackService {
     public abstract enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
     public abstract playPrevious(): void;
     public abstract playNext(): void;
+    public abstract skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void;
 }

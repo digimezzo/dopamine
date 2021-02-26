@@ -101,9 +101,9 @@ function createWindow() {
     win.webContents.on('new-window', handleRedirect);
     win.webContents.on('before-input-event', function (event, input) {
         if (input.key.toLowerCase() === 'f12') {
-            if (serve) {
-                win.webContents.toggleDevTools();
-            }
+            // if (serve) {
+            win.webContents.toggleDevTools();
+            // }
             event.preventDefault();
         }
     });
