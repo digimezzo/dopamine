@@ -17,6 +17,17 @@ describe('TrackModel', () => {
         trackModel = new TrackModel(track);
     });
 
+    describe('constructor', () => {
+        it('should create', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(trackModel).toBeDefined();
+        });
+    });
+
     describe('path', () => {
         it('should return the track path', () => {
             // Arrange

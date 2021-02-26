@@ -14,41 +14,41 @@ describe('PlaybackService', () => {
         service = new PlaybackService(audioPlayerMock.object, loggerMock.object);
     });
 
-    describe('constructor', () => {
-        it('should create', () => {
-            // Arrange
+    // describe('constructor', () => {
+    //     it('should create', () => {
+    //         // Arrange
 
-            // Act
+    //         // Act
 
-            // Assert
-            expect(service).toBeDefined();
-        });
+    //         // Assert
+    //         expect(service).toBeDefined();
+    //     });
 
-        it('should initialize canPause as false', () => {
-            // Arrange
+    //     it('should initialize canPause as false', () => {
+    //         // Arrange
 
-            // Act
+    //         // Act
 
-            // Assert
-            expect(service.canPause).toBeFalsy();
-        });
+    //         // Assert
+    //         expect(service.canPause).toBeFalsy();
+    //     });
 
-        it('should initialize canResume as false', () => {
-            // Arrange
+    //     it('should initialize canResume as false', () => {
+    //         // Arrange
 
-            // Act
+    //         // Act
 
-            // Assert
-            expect(service.canResume).toBeTruthy();
-        });
+    //         // Assert
+    //         expect(service.canResume).toBeTruthy();
+    //     });
 
-        it('should initialize progressPercent as 0', () => {
-            // Arrange
+    //     it('should initialize progressPercent as 0', () => {
+    //         // Arrange
 
-            // Act
+    //         // Act
 
-            // Assert
-            expect(service.progressSeconds).toEqual(0);
-        });
-    });
+    //         // Assert
+    //         expect(service.progressSeconds).toEqual(0);
+    //     });
+    // });
 });
