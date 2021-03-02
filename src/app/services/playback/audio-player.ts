@@ -1,12 +1,16 @@
+import { Injectable } from '@angular/core';
 import { Howl, Howler } from 'howler';
 import { Observable, Subject } from 'rxjs';
 import { BaseAudioPlayer } from './base-audio-player';
 
+@Injectable({
+    providedIn: 'root',
+})
 export class AudioPlayer implements BaseAudioPlayer {
     private sound: Howl;
 
-    private playBackFinished: Subject<void> = new Subject();
-    public playBackFinished$: Observable<void> = this.playBackFinished.asObservable();
+    private playbackFinished: Subject<void> = new Subject();
+    public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
 
     public get progressSeconds(): number {
         if (this.sound != undefined) {
@@ -28,7 +32,7 @@ export class AudioPlayer implements BaseAudioPlayer {
         this.sound = new Howl({
             src: [audioFilePath],
             onend: () => {
-                this.playBackFinished.next();
+                this.playbackFinished.next();
             },
         });
 

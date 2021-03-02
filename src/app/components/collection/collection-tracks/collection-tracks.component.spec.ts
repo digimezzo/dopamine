@@ -1,6 +1,6 @@
 import { CollectionTracksComponent } from './collection-tracks.component';
 
-describe('CollectionExplorerComponent', () => {
+describe('CollectionTracksComponent', () => {
     let component: CollectionTracksComponent;
 
     beforeEach(() => {

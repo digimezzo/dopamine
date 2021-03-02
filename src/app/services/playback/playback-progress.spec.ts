@@ -1,6 +1,6 @@
 import { PlaybackProgress } from './playback-progress';
 
-describe('PlaybackService', () => {
+describe('PlaybackProgress', () => {
     let playbackProgress: PlaybackProgress;
 
     beforeEach(() => {

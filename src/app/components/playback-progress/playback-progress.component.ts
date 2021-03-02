@@ -49,44 +49,6 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
         );
     }
 
-    private calculateProgress(playbackProgress: PlaybackProgress): void {
-        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
-
-        if (playbackProgress.totalSeconds > 0) {
-            this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
-        } else {
-            this.progressBarPosition = 0;
-        }
-
-        if (this.progressBarPosition > progressTrackWidth - 12) {
-            this.progressThumbPosition = this.progressBarPosition - 12;
-        } else if (this.progressBarPosition < 6) {
-            this.progressThumbPosition = 0;
-        } else {
-            this.progressThumbPosition = this.progressBarPosition - 6;
-        }
-    }
-
-    private applyProgress(mouseXPosition: number): void {
-        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
-
-        if (this.progressBarPosition > progressTrackWidth) {
-            this.progressBarPosition = progressTrackWidth;
-        } else if (this.progressBarPosition < 0) {
-            this.progressBarPosition = 0;
-        } else {
-            this.progressBarPosition = mouseXPosition;
-        }
-
-        if (this.progressBarPosition > progressTrackWidth - 12) {
-            this.progressThumbPosition = this.progressBarPosition - 12;
-        } else if (this.progressBarPosition < 6) {
-            this.progressThumbPosition = 0;
-        } else {
-            this.progressThumbPosition = this.progressBarPosition - 6;
-        }
-    }
-
     public progressContainerMouseEnter(): void {
         this.showProgressThumb = true;
     }
@@ -124,6 +86,44 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
         if (this.isProgressThumbClicked) {
             this.applyProgress(e.pageX);
             this.isProgressDragged = true;
+        }
+    }
+
+    private calculateProgress(playbackProgress: PlaybackProgress): void {
+        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+
+        if (playbackProgress.totalSeconds > 0) {
+            this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
+        } else {
+            this.progressBarPosition = 0;
+        }
+
+        if (this.progressBarPosition > progressTrackWidth - 12) {
+            this.progressThumbPosition = this.progressBarPosition - 12;
+        } else if (this.progressBarPosition < 6) {
+            this.progressThumbPosition = 0;
+        } else {
+            this.progressThumbPosition = this.progressBarPosition - 6;
+        }
+    }
+
+    private applyProgress(mouseXPosition: number): void {
+        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+
+        if (this.progressBarPosition > progressTrackWidth) {
+            this.progressBarPosition = progressTrackWidth;
+        } else if (this.progressBarPosition < 0) {
+            this.progressBarPosition = 0;
+        } else {
+            this.progressBarPosition = mouseXPosition;
+        }
+
+        if (this.progressBarPosition > progressTrackWidth - 12) {
+            this.progressThumbPosition = this.progressBarPosition - 12;
+        } else if (this.progressBarPosition < 6) {
+            this.progressThumbPosition = 0;
+        } else {
+            this.progressThumbPosition = this.progressBarPosition - 6;
         }
     }
 }

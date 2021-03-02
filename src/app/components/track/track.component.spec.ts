@@ -1,6 +1,6 @@
 import { TrackComponent } from './track.component';
 
-describe('CollectionExplorerComponent', () => {
+describe('TrackComponent', () => {
     let component: TrackComponent;
 
     beforeEach(() => {

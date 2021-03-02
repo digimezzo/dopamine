@@ -6,19 +6,20 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
+            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player).toBeDefined();
         });
 
-        it('should define playBackFinished$', () => {
+        it('should define playbackFinished$', () => {
             // Arrange
 
             // Act
             const player: AudioPlayer = new AudioPlayer();
 
             // Assert
-            expect(player.playBackFinished$).toBeDefined();
+            expect(player.playbackFinished$).toBeDefined();
         });
 
         it('should define progressSeconds', () => {

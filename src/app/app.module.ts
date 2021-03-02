@@ -68,14 +68,13 @@ import { TrackComponent } from './components/track/track.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
-import { AudioPlayer } from './core/audio/audio-player';
-import { BaseAudioPlayer } from './core/audio/base-audio-player';
 import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
 import { BaseRemoteProxy } from './core/io/base-remote-proxy';
 import { Desktop } from './core/io/desktop';
 import { FileSystem } from './core/io/file-system';
 import { RemoteProxy } from './core/io/remote-proxy';
+import { ListRandomizer } from './core/list-randomizer';
 import { Logger } from './core/logger';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
@@ -142,8 +141,12 @@ import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { AudioPlayer } from './services/playback/audio-player';
+import { BaseAudioPlayer } from './services/playback/base-audio-player';
 import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
+import { ProgressUpdater } from './services/playback/progress-updater';
+import { Queue } from './services/playback/queue';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
@@ -273,6 +276,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         Logger,
         Scheduler,
         Hacks,
+        ListRandomizer,
+        ProgressUpdater,
+        Queue,
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
