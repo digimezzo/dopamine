@@ -76,6 +76,7 @@ import { FileSystem } from './core/io/file-system';
 import { RemoteProxy } from './core/io/remote-proxy';
 import { ListRandomizer } from './core/list-randomizer';
 import { Logger } from './core/logger';
+import { MathExtensions } from './core/math-extensions';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
 import { BaseSettings } from './core/settings/base-settings';
@@ -279,6 +280,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ListRandomizer,
         ProgressUpdater,
         Queue,
+        MathExtensions,
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },

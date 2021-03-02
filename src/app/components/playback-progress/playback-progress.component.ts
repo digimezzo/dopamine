@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../core/logger';
+import { MathExtensions } from '../../core/math-extensions';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 
@@ -16,24 +16,19 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     @ViewChild('progressTrack')
-    private progressTrack: ElementRef;
+    public progressTrack: ElementRef;
+    private progressMargin: number = 6;
 
-    @ViewChild('progressBar')
-    private progressBar: ElementRef;
-
-    @ViewChild('progressThumb')
-    private progressThumb: ElementRef;
-
-    constructor(public playbackService: BasePlaybackService, public sanitizer: DomSanitizer, private logger: Logger) {}
+    constructor(private playbackService: BasePlaybackService, private mathExtensions: MathExtensions, private logger: Logger) {}
 
     public showProgressThumb: boolean = false;
-    public isProgressThumbClicked: boolean = false;
+    public isProgressThumbDown: boolean = false;
 
     public progressBarPosition: number = 0;
     public progressThumbPosition: number = 0;
 
     public isProgressDragged: boolean = false;
-    public isProgressContainerClicked: boolean = false;
+    public isProgressContainerDown: boolean = false;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -42,11 +37,15 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.subscription.add(
             this.playbackService.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
-                if (!this.isProgressThumbClicked && !this.isProgressContainerClicked) {
-                    this.calculateProgress(playbackProgress);
+                if (!this.isProgressThumbDown && !this.isProgressContainerDown) {
+                    this.applyPlaybackProgress(playbackProgress);
                 }
             })
         );
+    }
+
+    public progressThumbMouseDown(): void {
+        this.isProgressThumbDown = true;
     }
 
     public progressContainerMouseEnter(): void {
@@ -54,28 +53,24 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
     }
 
     public progressContainerMouseLeave(): void {
-        if (!this.isProgressThumbClicked) {
+        if (!this.isProgressThumbDown) {
             this.showProgressThumb = false;
         }
     }
 
     public progressContainerMouseDown(e: any): void {
-        this.applyProgress(e.clientX);
-        this.isProgressContainerClicked = true;
-    }
-
-    public progressThumbMouseDown(): void {
-        this.isProgressThumbClicked = true;
+        this.isProgressContainerDown = true;
+        this.applyMouseProgress(e.clientX);
     }
 
     @HostListener('document:mouseup', ['$event'])
     public onMouseUp(e: any): void {
-        this.isProgressThumbClicked = false;
+        this.isProgressThumbDown = false;
         this.showProgressThumb = false;
 
-        if (this.isProgressDragged || this.isProgressContainerClicked) {
+        if (this.isProgressDragged || this.isProgressContainerDown) {
             this.isProgressDragged = false;
-            this.isProgressContainerClicked = false;
+            this.isProgressContainerDown = false;
             const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
             this.playbackService.skipByFractionOfTotalSeconds(this.progressBarPosition / progressTrackWidth);
         }
@@ -83,47 +78,38 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: any): void {
-        if (this.isProgressThumbClicked) {
-            this.applyProgress(e.pageX);
+        if (this.isProgressThumbDown) {
             this.isProgressDragged = true;
+            this.applyMouseProgress(e.pageX);
         }
     }
 
-    private calculateProgress(playbackProgress: PlaybackProgress): void {
+    private applyPlaybackProgress(playbackProgress: PlaybackProgress): void {
         const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
 
-        if (playbackProgress.totalSeconds > 0) {
-            this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
-        } else {
+        if (playbackProgress.totalSeconds <= 0) {
             this.progressBarPosition = 0;
+            this.progressThumbPosition = 0;
+
+            return;
         }
 
-        if (this.progressBarPosition > progressTrackWidth - 12) {
-            this.progressThumbPosition = this.progressBarPosition - 12;
-        } else if (this.progressBarPosition < 6) {
-            this.progressThumbPosition = 0;
-        } else {
-            this.progressThumbPosition = this.progressBarPosition - 6;
-        }
+        this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
+        this.progressThumbPosition = this.mathExtensions.clamp(
+            this.progressBarPosition - this.progressMargin,
+            this.progressMargin,
+            progressTrackWidth - 2 * this.progressMargin
+        );
     }
 
-    private applyProgress(mouseXPosition: number): void {
+    private applyMouseProgress(mouseXPosition: number): void {
         const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
 
-        if (this.progressBarPosition > progressTrackWidth) {
-            this.progressBarPosition = progressTrackWidth;
-        } else if (this.progressBarPosition < 0) {
-            this.progressBarPosition = 0;
-        } else {
-            this.progressBarPosition = mouseXPosition;
-        }
-
-        if (this.progressBarPosition > progressTrackWidth - 12) {
-            this.progressThumbPosition = this.progressBarPosition - 12;
-        } else if (this.progressBarPosition < 6) {
-            this.progressThumbPosition = 0;
-        } else {
-            this.progressThumbPosition = this.progressBarPosition - 6;
-        }
+        this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
+        this.progressThumbPosition = this.mathExtensions.clamp(
+            this.progressBarPosition - this.progressMargin,
+            this.progressMargin,
+            progressTrackWidth - 2 * this.progressMargin
+        );
     }
 }
