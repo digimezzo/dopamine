@@ -158,7 +158,7 @@ describe('PlaybackProgressComponent', () => {
             // Arrange
             component.isProgressThumbDown = false;
             component.isProgressContainerDown = false;
-            mathExtensionsMock.setup((x) => x.clamp(44, 6, 488)).returns(() => 44);
+            mathExtensionsMock.setup((x) => x.clamp(44, 0, 488)).returns(() => 44);
 
             // Act
             playbackServiceProgressChanged.next(new PlaybackProgress(30, 300));
@@ -166,7 +166,7 @@ describe('PlaybackProgressComponent', () => {
             // Assert
             expect(component.progressBarPosition).toEqual(50);
             expect(component.progressThumbPosition).toEqual(44);
-            mathExtensionsMock.verify((x) => x.clamp(44, 6, 488), Times.exactly(1));
+            mathExtensionsMock.verify((x) => x.clamp(44, 0, 488), Times.exactly(1));
         });
 
         it('should not update the progress if progress thumb is not down and progress container is not down and total progress seconds is 0', () => {
@@ -242,7 +242,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressContainerDown = false;
             const mouseEvent: any = { clientX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
-            mathExtensionsMock.setup((x) => x.clamp(34, 6, 488)).returns(() => 34);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
 
             // Act
             component.progressContainerMouseDown(mouseEvent);
@@ -255,7 +255,7 @@ describe('PlaybackProgressComponent', () => {
             // Arrange
             const mouseEvent: any = { clientX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
-            mathExtensionsMock.setup((x) => x.clamp(34, 6, 488)).returns(() => 34);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
 
             // Act
             component.progressContainerMouseDown(mouseEvent);
@@ -263,7 +263,7 @@ describe('PlaybackProgressComponent', () => {
             // Assert
             mathExtensionsMock.verify((x) => x.clamp(40, 0, 500), Times.exactly(1));
             expect(component.progressBarPosition).toEqual(40);
-            mathExtensionsMock.verify((x) => x.clamp(34, 6, 488), Times.exactly(1));
+            mathExtensionsMock.verify((x) => x.clamp(34, 0, 488), Times.exactly(1));
             expect(component.progressThumbPosition).toEqual(34);
         });
     });
@@ -301,7 +301,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressThumbDown = false;
             const mouseEvent: any = { pageX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
-            mathExtensionsMock.setup((x) => x.clamp(34, 6, 488)).returns(() => 34);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
 
             // Act
             component.onMouseMove(mouseEvent);
@@ -319,7 +319,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressThumbDown = true;
             const mouseEvent: any = { pageX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
-            mathExtensionsMock.setup((x) => x.clamp(34, 6, 488)).returns(() => 34);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
 
             // Act
             component.onMouseMove(mouseEvent);
@@ -327,7 +327,7 @@ describe('PlaybackProgressComponent', () => {
             // Assert
             mathExtensionsMock.verify((x) => x.clamp(40, 0, 500), Times.exactly(1));
             expect(component.progressBarPosition).toEqual(40);
-            mathExtensionsMock.verify((x) => x.clamp(34, 6, 488), Times.exactly(1));
+            mathExtensionsMock.verify((x) => x.clamp(34, 0, 488), Times.exactly(1));
             expect(component.progressThumbPosition).toEqual(34);
         });
     });

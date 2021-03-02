@@ -97,7 +97,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
         this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
         this.progressThumbPosition = this.mathExtensions.clamp(
             this.progressBarPosition - this.progressMargin,
-            this.progressMargin,
+            0,
             progressTrackWidth - 2 * this.progressMargin
         );
     }
@@ -108,7 +108,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
         this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
         this.progressThumbPosition = this.mathExtensions.clamp(
             this.progressBarPosition - this.progressMargin,
-            this.progressMargin,
+            0,
             progressTrackWidth - 2 * this.progressMargin
         );
     }
