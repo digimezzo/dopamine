@@ -481,6 +481,79 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlay', () => {
+        it('should not add tracks to the queue if tracks is undefined', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = undefined;
+
+            // Act
+            service.enqueueAndPlay(undefined, track1);
+
+            // Assert
+            queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not add tracks to the queue if tracks is empty', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = [];
+
+            // Act
+            service.enqueueAndPlay(undefined, track1);
+
+            // Assert
+            queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not start playback if tracks is undefined', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = undefined;
+
+            // Act
+            service.enqueueAndPlay(undefined, track1);
+
+            // Assert
+            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
+            expect(service.isPlaying).toEqual(false);
+            expect(service.canPause).toEqual(false);
+            expect(service.canResume).toEqual(true);
+        });
+
+        it('should not start playback if tracks is empty', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = [];
+
+            // Act
+            service.enqueueAndPlay(undefined, track1);
+
+            // Assert
+            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
+            expect(service.isPlaying).toEqual(false);
+            expect(service.canPause).toEqual(false);
+            expect(service.canResume).toEqual(true);
+        });
+
+        it('should not start playback if trackToPlay is undefined', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+
+            // Act
+            service.enqueueAndPlay(tracks, undefined);
+
+            // Assert
+            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
+            expect(service.isPlaying).toEqual(false);
+            expect(service.canPause).toEqual(false);
+            expect(service.canResume).toEqual(true);
+        });
+
         it('should add tracks to the queue unshuffled if shuffle is disabled', () => {
             // Arrange
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
@@ -656,59 +729,37 @@ describe('PlaybackService', () => {
     });
 
     describe('resume', () => {
-        it('should resume playback', () => {
+        it('should resume playback if playing', () => {
             // Arrange
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'));
             const tracks: TrackModel[] = [track1, track2, track3];
             service.enqueueAndPlay(tracks, track1);
+            audioPlayerMock.reset();
+            progressUpdaterMock.reset();
 
             // Act
             service.resume();
 
             // Assert
             audioPlayerMock.verify((x) => x.resume(), Times.exactly(1));
-        });
-
-        it('should ensure that it is not possible to resume', () => {
-            // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'));
-            const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
-
-            // Act
-            service.resume();
-
-            // Assert
-            expect(service.canResume).toBeFalsy();
-        });
-
-        it('should ensure that it is possible to pause', () => {
-            // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'));
-            const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
-
-            // Act
-            service.resume();
-
-            // Assert
             expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
-        it('should start updating progress', () => {
+        it('should not resume playback if not playing', () => {
             // Arrange
 
             // Act
             service.resume();
 
             // Assert
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+            audioPlayerMock.verify((x) => x.resume(), Times.never());
+            expect(service.canPause).toBeFalsy();
+            expect(service.canResume).toBeTruthy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
         });
     });
 

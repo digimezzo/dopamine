@@ -56,6 +56,18 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
+        if (tracksToEnqueue == undefined) {
+            return;
+        }
+
+        if (tracksToEnqueue.length === 0) {
+            return;
+        }
+
+        if (trackToPlay == undefined) {
+            return;
+        }
+
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
         this.play(trackToPlay);
     }
@@ -98,6 +110,10 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public resume(): void {
+        if (!this.isPlaying) {
+            return;
+        }
+
         this.audioPlayer.resume();
         this._canPause = true;
         this._canResume = false;
