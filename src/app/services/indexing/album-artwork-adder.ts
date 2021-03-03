@@ -44,7 +44,7 @@ export class AlbumArtworkAdder {
                 'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
             );
 
-            this.snackbarService.updatingAlbumArtworkAsync();
+            // this.snackbarService.updatingAlbumArtworkAsync(); // TODO: not sure about this notification
 
             for (const albumData of albumDataThatNeedsIndexing) {
                 try {
