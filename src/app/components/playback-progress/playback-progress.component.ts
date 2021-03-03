@@ -60,6 +60,11 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
 
     public progressContainerMouseDown(e: any): void {
         this.isProgressContainerDown = true;
+
+        if (!this.playbackService.isPlaying) {
+            return;
+        }
+
         this.applyMouseProgress(e.clientX);
     }
 
@@ -67,6 +72,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
     public onMouseUp(e: any): void {
         this.isProgressThumbDown = false;
         this.showProgressThumb = false;
+
+        if (!this.playbackService.isPlaying) {
+            return;
+        }
 
         if (this.isProgressDragged || this.isProgressContainerDown) {
             this.isProgressDragged = false;
@@ -78,6 +87,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: any): void {
+        if (!this.playbackService.isPlaying) {
+            return;
+        }
+
         if (this.isProgressThumbDown) {
             this.isProgressDragged = true;
             this.applyMouseProgress(e.pageX);

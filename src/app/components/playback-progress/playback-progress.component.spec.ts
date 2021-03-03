@@ -251,11 +251,12 @@ describe('PlaybackProgressComponent', () => {
             expect(component.isProgressContainerDown).toBeTruthy();
         });
 
-        it('should update the progress', () => {
+        it('should update the progress if playbackService is playing', () => {
             // Arrange
             const mouseEvent: any = { clientX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
             mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.progressContainerMouseDown(mouseEvent);
@@ -265,6 +266,20 @@ describe('PlaybackProgressComponent', () => {
             expect(component.progressBarPosition).toEqual(40);
             mathExtensionsMock.verify((x) => x.clamp(34, 0, 488), Times.exactly(1));
             expect(component.progressThumbPosition).toEqual(34);
+        });
+
+        it('should update not the progress if playbackService is not playing', () => {
+            // Arrange
+            const mouseEvent: any = { clientX: 40 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
+
+            // Act
+            component.progressContainerMouseDown(mouseEvent);
+
+            // Assert
+            mathExtensionsMock.verify((x) => x.clamp(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            expect(component.progressBarPosition).toEqual(0);
+            expect(component.progressThumbPosition).toEqual(0);
         });
     });
 
@@ -313,13 +328,14 @@ describe('PlaybackProgressComponent', () => {
             expect(component.progressThumbPosition).toEqual(0);
         });
 
-        it('should update the progress if progress thumb is down', () => {
+        it('should update the progress if progress thumb is down and playback is in progress', () => {
             // Arrange
             component.progressBarPosition = 0;
             component.isProgressThumbDown = true;
             const mouseEvent: any = { pageX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
             mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseMove(mouseEvent);
@@ -329,6 +345,24 @@ describe('PlaybackProgressComponent', () => {
             expect(component.progressBarPosition).toEqual(40);
             mathExtensionsMock.verify((x) => x.clamp(34, 0, 488), Times.exactly(1));
             expect(component.progressThumbPosition).toEqual(34);
+        });
+
+        it('should not update the progress if progress thumb is down and playback is in not progress', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
+
+            // Act
+            component.onMouseMove(mouseEvent);
+
+            // Assert
+            mathExtensionsMock.verify((x) => x.clamp(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            expect(component.progressBarPosition).toEqual(0);
+            expect(component.progressThumbPosition).toEqual(0);
         });
     });
 
@@ -340,6 +374,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -355,6 +390,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -370,6 +406,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = true;
             component.isProgressContainerDown = false;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -385,6 +422,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -400,6 +438,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -415,6 +454,7 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = false;
             component.isProgressContainerDown = true;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
             component.onMouseUp(mouseEvent);
@@ -428,6 +468,121 @@ describe('PlaybackProgressComponent', () => {
             component.isProgressDragged = false;
             component.isProgressContainerDown = false;
             const mouseEvent: any = { pageX: 0 };
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+        });
+
+        it('should skip playback when progress is dragged and progress container is not down and playback is started', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = true;
+            component.isProgressContainerDown = false;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+        });
+
+        it('should skip playback when progress is not dragged and progress container is down and playback is started', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = false;
+            component.isProgressContainerDown = true;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+        });
+
+        it('should skip playback when progress is dragged and progress container is down and playback is started', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = true;
+            component.isProgressContainerDown = true;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
+        });
+
+        it('should not skip playback when progress is dragged and progress container is not down and playback is stopped', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = true;
+            component.isProgressContainerDown = false;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+        });
+
+        it('should not skip playback when progress is not dragged and progress container is down and playback is stopped', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = false;
+            component.isProgressContainerDown = true;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
+
+            // Act
+            component.onMouseUp(mouseEvent);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
+        });
+
+        it('should not skip playback when progress is dragged and progress container is down and playback is stopped', () => {
+            // Arrange
+            component.progressBarPosition = 0;
+            component.isProgressDragged = true;
+            component.isProgressContainerDown = true;
+            component.isProgressThumbDown = true;
+            const mouseEvent: any = { pageX: 40 };
+            mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
+            mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
+            component.onMouseMove(mouseEvent);
+            playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
 
             // Act
             component.onMouseUp(mouseEvent);
