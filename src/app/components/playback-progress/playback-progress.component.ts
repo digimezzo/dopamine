@@ -84,8 +84,16 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         if (this.isProgressDragged || this.isProgressContainerDown) {
             this.isProgressDragged = false;
             this.isProgressContainerDown = false;
-            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
-            this.playbackService.skipByFractionOfTotalSeconds(this.progressBarPosition / progressTrackWidth);
+            try {
+                const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+                this.playbackService.skipByFractionOfTotalSeconds(this.progressBarPosition / progressTrackWidth);
+            } catch (e) {
+                this.logger.error(
+                    `Could not skip by fraction of total seconds. Error: ${e.message}`,
+                    'PlaybackProgressComponent',
+                    'onMouseUp'
+                );
+            }
         }
     }
 
@@ -102,31 +110,43 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     private applyPlaybackProgress(playbackProgress: PlaybackProgress): void {
-        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+        try {
+            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
 
-        if (playbackProgress.totalSeconds <= 0) {
-            this.progressBarPosition = 0;
-            this.progressThumbPosition = 0;
+            if (playbackProgress.totalSeconds <= 0) {
+                this.progressBarPosition = 0;
+                this.progressThumbPosition = 0;
 
-            return;
+                return;
+            }
+
+            this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
+            this.progressThumbPosition = this.mathExtensions.clamp(
+                this.progressBarPosition - this.progressMargin,
+                0,
+                progressTrackWidth - 2 * this.progressMargin
+            );
+        } catch (e) {
+            this.logger.error(
+                `Could not apply playback progress. Error: ${e.message}`,
+                'PlaybackProgressComponent',
+                'applyPlaybackProgress'
+            );
         }
-
-        this.progressBarPosition = (playbackProgress.progressSeconds / playbackProgress.totalSeconds) * progressTrackWidth;
-        this.progressThumbPosition = this.mathExtensions.clamp(
-            this.progressBarPosition - this.progressMargin,
-            0,
-            progressTrackWidth - 2 * this.progressMargin
-        );
     }
 
     private applyMouseProgress(mouseXPosition: number): void {
-        const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+        try {
+            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
 
-        this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
-        this.progressThumbPosition = this.mathExtensions.clamp(
-            this.progressBarPosition - this.progressMargin,
-            0,
-            progressTrackWidth - 2 * this.progressMargin
-        );
+            this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
+            this.progressThumbPosition = this.mathExtensions.clamp(
+                this.progressBarPosition - this.progressMargin,
+                0,
+                progressTrackWidth - 2 * this.progressMargin
+            );
+        } catch (e) {
+            this.logger.error(`Could not apply mouse progress. Error: ${e.message}`, 'PlaybackProgressComponent', 'applyMouseProgress');
+        }
     }
 }
