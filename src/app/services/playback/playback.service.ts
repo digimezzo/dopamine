@@ -17,6 +17,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private _loopMode: LoopMode = LoopMode.None;
     private _isShuffled: boolean = false;
+    private _isPlaying: boolean = false;
     private _canPause: boolean = false;
     private _canResume: boolean = true;
     private subscription: Subscription = new Subscription();
@@ -36,6 +37,10 @@ export class PlaybackService implements BasePlaybackService {
 
     public get loopMode(): LoopMode {
         return this._loopMode;
+    }
+
+    public get isPlaying(): boolean {
+        return this._isPlaying;
     }
 
     public get isShuffled(): boolean {
@@ -136,6 +141,7 @@ export class PlaybackService implements BasePlaybackService {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
         this.currentTrack = trackToPlay;
+        this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();
@@ -145,6 +151,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private stop(): void {
         this.audioPlayer.stop();
+        this._isPlaying = false;
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();

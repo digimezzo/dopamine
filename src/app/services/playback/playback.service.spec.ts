@@ -70,6 +70,15 @@ describe('PlaybackService', () => {
             expect(service.loopMode).toEqual(LoopMode.None);
         });
 
+        it('should initialize isPlaying as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.isShuffled).toBeFalsy();
+        });
+
         it('should initialize isShuffled as false', () => {
             // Arrange
 
@@ -317,6 +326,37 @@ describe('PlaybackService', () => {
             expect(servicePlaybackProgress.progressSeconds).toEqual(40);
             expect(servicePlaybackProgress.totalSeconds).toEqual(300);
         });
+
+        it('should indicate that playback is stopped on playback finished if a next track is not found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = [track1];
+            service.enqueueAndPlay(tracks, track1);
+
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => undefined);
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(service.isPlaying).toBeFalsy();
+        });
+
+        it('should indicate that playback is in progress on playback finished if a next track is found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+            progressUpdaterMock.reset();
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(service.isPlaying).toBeTruthy();
+        });
     });
 
     describe('toggleLoopMode', () => {
@@ -542,6 +582,19 @@ describe('PlaybackService', () => {
 
             // Assert
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should indicate that playback is in progress', () => {
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'));
+            const tracks: TrackModel[] = [track1, track2, track3];
+
+            // Act
+            service.enqueueAndPlay(tracks, track1);
+
+            // Assert
+            expect(service.isPlaying).toBeTruthy();
         });
     });
 
@@ -814,6 +867,37 @@ describe('PlaybackService', () => {
             // Assert
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
+
+        it('should indicate that playback is in progress if a previous track is found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => track2);
+            progressUpdaterMock.reset();
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(service.isPlaying).toBeTruthy();
+        });
+
+        it('should indicate that playback is stopped if a previous track is not found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = [track1];
+            service.enqueueAndPlay(tracks, track1);
+
+            queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => undefined);
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(service.isPlaying).toBeFalsy();
+        });
     });
 
     describe('playNext', () => {
@@ -959,6 +1043,37 @@ describe('PlaybackService', () => {
 
             // Assert
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should indicate that playback is stopped if a next track is not found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const tracks: TrackModel[] = [track1];
+            service.enqueueAndPlay(tracks, track1);
+
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => undefined);
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(service.isPlaying).toBeFalsy();
+        });
+
+        it('should indicate that playback is in progress if a next track is found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+            progressUpdaterMock.reset();
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(service.isPlaying).toBeTruthy();
         });
     });
 });
