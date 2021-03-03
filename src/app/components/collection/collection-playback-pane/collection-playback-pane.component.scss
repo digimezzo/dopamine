@@ -7,23 +7,26 @@
 
 .app-collection-playback-pane__progressbar {
     margin-top: -2px;
-    margin-bottom: -4px;
+    margin-bottom: -2px;
 }
 
 .app-collection-playback-pane__controls {
     display: flex;
     flex: 1;
     flex-direction: row;
-    justify-content: space-between;
 }
 
 .app-collection-playback-pane__playbackinformation {
     height: 100%;
+    width: 33%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .app-collection-playback-pane__playbackcontrols {
     height: 100%;
-    width: 100px;
+    width: 33%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,4 +35,9 @@
 
 .app-collection-playback-pane__volumecontrol {
     height: 100%;
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
 }

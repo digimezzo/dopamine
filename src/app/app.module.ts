@@ -65,6 +65,7 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { TotalsComponent } from './components/totals/totals.component';
 import { TrackComponent } from './components/track/track.component';
+import { VolumeControlComponent } from './components/volume-control/volume-control.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
@@ -194,6 +195,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         SnackBarComponent,
         CollectionFoldersComponent,
         CollectionPlaybackPaneComponent,
+        VolumeControlComponent,
         FolderNamePipe,
         SubfolderNamePipe,
         FormatTrackNumberPipe,

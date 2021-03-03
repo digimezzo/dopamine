@@ -23,7 +23,7 @@
     z-index: 0;
     height: 4px;
     opacity: 0.2;
-    background-color: var(--theme-progress-bar-background);
+    background-color: var(--theme-slider-background);
 }
 
 .app-playback-progress-thumb {
@@ -35,6 +35,6 @@
     width: 12px;
     height: 12px;
     border-radius: 6px;
-    background: var(--theme-progress-bar-thumb-background);
-    cursor: pointer;
+    background: var(--theme-slider-thumb-background);
+    cursor: grab;
 }
