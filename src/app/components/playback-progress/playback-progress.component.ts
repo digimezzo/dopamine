@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../core/logger';
 import { MathExtensions } from '../../core/math-extensions';
@@ -12,7 +12,7 @@ import { PlaybackProgress } from '../../services/playback/playback-progress';
     styleUrls: ['./playback-progress.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class PlaybackProgressComponent implements OnInit, OnDestroy {
+export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewInit {
     private subscription: Subscription = new Subscription();
 
     @ViewChild('progressTrack')
@@ -42,6 +42,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy {
                 }
             })
         );
+    }
+
+    public ngAfterViewInit(): void {
+        this.applyPlaybackProgress(this.playbackService.progress);
     }
 
     public progressThumbMouseDown(): void {

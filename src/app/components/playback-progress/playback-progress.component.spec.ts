@@ -184,6 +184,22 @@ describe('PlaybackProgressComponent', () => {
         });
     });
 
+    describe('ngAfterViewInit', () => {
+        it('should update the progress from playbackService immediately', () => {
+            // Arrange
+            mathExtensionsMock.setup((x) => x.clamp(44, 0, 488)).returns(() => 44);
+            playbackServiceMock.setup((x) => x.progress).returns(() => new PlaybackProgress(30, 300));
+
+            // Act
+            component.ngAfterViewInit();
+
+            // Assert
+            expect(component.progressBarPosition).toEqual(50);
+            expect(component.progressThumbPosition).toEqual(44);
+            mathExtensionsMock.verify((x) => x.clamp(44, 0, 488), Times.exactly(1));
+        });
+    });
+
     describe('progressThumbMouseDown', () => {
         it('should indicate that the progress thumb is down', () => {
             // Arrange

@@ -14,7 +14,7 @@ import { Queue } from './queue';
 })
 export class PlaybackService implements BasePlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
-
+    private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
     private _loopMode: LoopMode = LoopMode.None;
     private _isShuffled: boolean = false;
     private _isPlaying: boolean = false;
@@ -34,6 +34,10 @@ export class PlaybackService implements BasePlaybackService {
     public currentTrack: TrackModel;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
+
+    public get progress(): PlaybackProgress {
+        return this._progress;
+    }
 
     public get loopMode(): LoopMode {
         return this._loopMode;
@@ -203,6 +207,7 @@ export class PlaybackService implements BasePlaybackService {
 
         this.subscription.add(
             this.progressUpdater.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
+                this._progress = playbackProgress;
                 this.progressChanged.next(playbackProgress);
             })
         );

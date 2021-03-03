@@ -5,6 +5,7 @@ import { PlaybackProgress } from './playback-progress';
 
 export abstract class BasePlaybackService {
     public abstract progressChanged$: Observable<PlaybackProgress>;
+    public abstract progress: PlaybackProgress;
     public abstract loopMode: LoopMode;
     public abstract isShuffled: boolean;
     public abstract isPlaying: boolean;

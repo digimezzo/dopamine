@@ -61,6 +61,16 @@ describe('PlaybackService', () => {
             expect(service.progressChanged$).toBeDefined();
         });
 
+        it('should define progress with progressSeconds as 0 and totalSeconds as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.progress.progressSeconds).toEqual(0);
+            expect(service.progress.totalSeconds).toEqual(0);
+        });
+
         it('should initialize loopMode as LoopMode.None', () => {
             // Arrange
 
@@ -309,12 +319,12 @@ describe('PlaybackService', () => {
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
-        it('should listen to progress changes and pass it through', () => {
-            let servicePlaybackProgress: PlaybackProgress;
+        it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
+            let subscribedProgress: PlaybackProgress;
 
             subscription.add(
                 service.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
-                    servicePlaybackProgress = playbackProgress;
+                    subscribedProgress = playbackProgress;
                 })
             );
 
@@ -322,9 +332,12 @@ describe('PlaybackService', () => {
             progressUpdaterProgressChanged.next(new PlaybackProgress(40, 300));
 
             // Assert
-            expect(servicePlaybackProgress).toBeDefined();
-            expect(servicePlaybackProgress.progressSeconds).toEqual(40);
-            expect(servicePlaybackProgress.totalSeconds).toEqual(300);
+            expect(service.progress).toBeDefined();
+            expect(service.progress.progressSeconds).toEqual(40);
+            expect(service.progress.totalSeconds).toEqual(300);
+            expect(subscribedProgress).toBeDefined();
+            expect(subscribedProgress.progressSeconds).toEqual(40);
+            expect(subscribedProgress.totalSeconds).toEqual(300);
         });
 
         it('should indicate that playback is stopped on playback finished if a next track is not found', () => {
