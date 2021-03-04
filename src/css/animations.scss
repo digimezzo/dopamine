@@ -1,5 +1,5 @@
 // Fade in animation
-@keyframes animation-fade-in {
+@keyframes fade-in-animation {
     0% {
         opacity: 0;
     }
@@ -8,8 +8,8 @@
     }
 }
 
-.animation-fade-in {
-    animation-name: animation-fade-in;
+.fade-in-animation {
+    animation-name: fade-in-animation;
 }
 
 // Durations
