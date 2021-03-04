@@ -45,7 +45,7 @@ export class PlaybackService implements BasePlaybackService {
 
     public set volume(v: number) {
         this._volume = v;
-        //this.settings.volume = v;
+        this.settings.volume = v;
         this.audioPlayer.setVolume(v);
     }
 

@@ -1,7 +1,7 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { SettingsStub } from '../../core/settings/settings-stub';
 import { Track } from '../../data/entities/track';
 import { TrackModel } from '../track/track-model';
 import { BaseAudioPlayer } from './base-audio-player';
@@ -16,7 +16,7 @@ describe('PlaybackService', () => {
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
     let progressUpdaterMock: IMock<ProgressUpdater>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: SettingsStub;
     let service: PlaybackService;
     let playbackFinished: Subject<void>;
     let progressUpdaterProgressChanged: Subject<PlaybackProgress>;
@@ -27,7 +27,7 @@ describe('PlaybackService', () => {
         loggerMock = Mock.ofType<Logger>();
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = new SettingsStub();
         playbackFinished = new Subject();
         progressUpdaterProgressChanged = new Subject();
         const playbackFinished$: Observable<void> = playbackFinished.asObservable();
@@ -35,7 +35,6 @@ describe('PlaybackService', () => {
 
         audioPlayerMock.setup((x) => x.playbackFinished$).returns(() => playbackFinished$);
         progressUpdaterMock.setup((x) => x.progressChanged$).returns(() => progressUpdaterProgressChanged$);
-        settingsMock.setup((x) => x.volume).returns(() => 0.6);
 
         subscription = new Subscription();
 
@@ -43,7 +42,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.object,
             queueMock.object,
             progressUpdaterMock.object,
-            settingsMock.object,
+            settingsMock,
             loggerMock.object
         );
     });
@@ -60,15 +59,6 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service).toBeDefined();
-        });
-
-        it('should define volume as 0', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(service.volume).toEqual(0);
         });
 
         it('should define progressChanged$', () => {
@@ -1173,7 +1163,6 @@ describe('PlaybackService', () => {
     describe('volume', () => {
         it('should return the volume', () => {
             // Arrange
-            settingsMock.setup((x) => x.volume).returns(() => 0.6);
 
             // Act
             const volume: number = service.volume;
@@ -1184,7 +1173,6 @@ describe('PlaybackService', () => {
 
         it('should set the volume', () => {
             // Arrange
-            settingsMock.setup((x) => x.volume).returns(() => 0.6);
 
             // Act
             service.volume = 1.0;
@@ -1195,13 +1183,22 @@ describe('PlaybackService', () => {
 
         it('should set the audio player volume', () => {
             // Arrange
-            settingsMock.setup((x) => x.volume).returns(() => 0.6);
 
             // Act
             service.volume = 1.0;
 
             // Assert
             audioPlayerMock.verify((x) => x.setVolume(1.0), Times.exactly(1));
+        });
+
+        it('should save the volume in the settings', () => {
+            // Arrange
+
+            // Act
+            service.volume = 1.0;
+
+            // Assert
+            expect(settingsMock.volume).toEqual(1.0);
         });
     });
 });

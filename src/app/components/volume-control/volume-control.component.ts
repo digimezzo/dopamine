@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSliderChange } from '@angular/material';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
@@ -10,4 +11,13 @@ export class VolumeControlComponent implements OnInit {
     constructor(public playbackService: BasePlaybackService) {}
 
     public ngOnInit(): void {}
+
+    /**
+     * The [(ngModel)] binding only triggers a change on mouse up.
+     * This function also triggers a change while moving the slider.
+     * @param event
+     */
+    public onInputChange(event: MatSliderChange): void {
+        this.playbackService.volume = event.value;
+    }
 }

@@ -1,4 +1,5 @@
-import { IMock, Mock } from 'typemoq';
+import { MatSliderChange } from '@angular/material';
+import { IMock, Mock, Times } from 'typemoq';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { VolumeControlComponent } from './volume-control.component';
 
@@ -28,6 +29,20 @@ describe('VolumeControlComponent', () => {
 
             // Assert
             expect(component.playbackService).toBeDefined();
+        });
+    });
+
+    describe('onInputChange', () => {
+        it('should update the playbackService volume', () => {
+            // Arrange
+            const sliderChange = new MatSliderChange();
+            sliderChange.value = 0.8;
+
+            // Act
+            component.onInputChange(sliderChange);
+
+            // Assert
+            playbackServiceMock.verify((x) => (x.volume = 0.8), Times.exactly(1));
         });
     });
 });
