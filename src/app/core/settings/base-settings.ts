@@ -14,4 +14,5 @@ export abstract class BaseSettings {
     public abstract showAllFoldersInCollection: boolean;
     public abstract refreshCollectionAutomatically: boolean;
     public abstract foldersLeftPaneWithPercent: number;
+    public abstract volume: number;
 }

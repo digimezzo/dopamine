@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../core/logger';
+import { BaseSettings } from '../../core/settings/base-settings';
 import { TrackModel } from '../track/track-model';
 import { BaseAudioPlayer } from './base-audio-player';
 import { BasePlaybackService } from './base-playback.service';
@@ -15,6 +16,7 @@ import { Queue } from './queue';
 export class PlaybackService implements BasePlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
     private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
+    private _volume: number = 0;
     private _loopMode: LoopMode = LoopMode.None;
     private _isShuffled: boolean = false;
     private _isPlaying: boolean = false;
@@ -26,14 +28,26 @@ export class PlaybackService implements BasePlaybackService {
         private audioPlayer: BaseAudioPlayer,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
+        private settings: BaseSettings,
         private logger: Logger
     ) {
         this.initializeSubscriptions();
+        this.applyVolumeFromSettings();
     }
 
     public currentTrack: TrackModel;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
+
+    public get volume(): number {
+        return this._volume;
+    }
+
+    public set volume(v: number) {
+        this._volume = v;
+        //this.settings.volume = v;
+        this.audioPlayer.setVolume(v);
+    }
 
     public get progress(): PlaybackProgress {
         return this._progress;
@@ -211,5 +225,10 @@ export class PlaybackService implements BasePlaybackService {
                 this.progressChanged.next(playbackProgress);
             })
         );
+    }
+
+    private applyVolumeFromSettings(): void {
+        this._volume = this.settings.volume;
+        this.audioPlayer.setVolume(this._volume);
     }
 }

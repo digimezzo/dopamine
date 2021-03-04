@@ -144,6 +144,15 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersLeftPaneWithPercent', v);
     }
 
+    //  Volume
+    public get volume(): number {
+        return this.settings.get('volume');
+    }
+
+    public set volume(v: number) {
+        this.settings.set('volume', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -204,6 +213,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('foldersLeftPaneWithPercent')) {
             this.settings.set('foldersLeftPaneWithPercent', 30);
+        }
+
+        if (!this.settings.has('volume')) {
+            this.settings.set('volume', 0.5);
         }
     }
 }

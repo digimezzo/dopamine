@@ -21,4 +21,5 @@ export class SettingsStub implements BaseSettings {
     public skipRemovedFilesDuringRefresh: boolean = false;
     public showAllFoldersInCollection: boolean = false;
     public foldersLeftPaneWithPercent: number = 30;
+    public volume: number = 0.5;
 }
