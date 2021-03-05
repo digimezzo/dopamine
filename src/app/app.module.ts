@@ -20,7 +20,7 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatTooltipModule,
+    MatTooltipModule
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -58,6 +58,7 @@ import { ManageMusicComponent } from './components/manage-collection/manage-musi
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
+import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -102,6 +103,7 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
+import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackArtistsPipe } from './pipes/format-track-artist.pipe';
@@ -204,11 +206,13 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         FormatTrackTitlePipe,
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
+        FormatPlaybackTimePipe,
         CollectionPlaylistsComponent,
         CollectionExploreComponent,
         CollectionTracksComponent,
         PlaybackControlsComponent,
         PlaybackProgressComponent,
+        PlaybackTimeComponent,
         TrackComponent,
         TotalsComponent,
     ],

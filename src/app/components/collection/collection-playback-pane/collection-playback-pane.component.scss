@@ -16,7 +16,7 @@
     flex-direction: row;
 }
 
-.app-collection-playback-pane__playbackinformation {
+.app-collection-playback-pane-controls__left {
     height: 100%;
     width: 33%;
     flex-direction: row;
@@ -24,7 +24,7 @@
     justify-content: flex-start;
 }
 
-.app-collection-playback-pane__playbackcontrols {
+.app-collection-playback-pane-controls__center {
     height: 100%;
     width: 33%;
     display: flex;
@@ -33,7 +33,7 @@
     justify-content: center;
 }
 
-.app-collection-playback-pane__volumecontrol {
+.app-collection-playback-pane-controls__right {
     height: 100%;
     width: 33%;
     display: flex;

@@ -40,20 +40,20 @@ describe('FormatTotalDurationPipe', () => {
             // Arrange
 
             // Act
-            const formattedTrackArtists: string = formatTotalDurationPipe.transform(-5);
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(-5);
 
             // Assert
-            expect(formattedTrackArtists).toEqual('');
+            expect(formattedTotalDuration).toEqual('');
         });
 
         it('should return "1 seconds" if total duration is 1000 milliseconds', () => {
             // Arrange
 
             // Act
-            const formattedTotalDuration: string = formatTotalDurationPipe.transform(59000);
+            const formattedTotalDuration: string = formatTotalDurationPipe.transform(1000);
 
             // Assert
-            expect(formattedTotalDuration).toEqual('59 seconds');
+            expect(formattedTotalDuration).toEqual('1 seconds');
         });
 
         it('should return "59 seconds" if total duration is 59000 milliseconds', () => {

@@ -1,0 +1,15 @@
+.app-playback-time {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-playback-time__progress {
+}
+
+.app-playback-time__separator {
+    color: var(--theme-text-secondary-foreground);
+}
+
+.app-playback-time__total {
+    color: var(--theme-text-secondary-foreground);
+}
