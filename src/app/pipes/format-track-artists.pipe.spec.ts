@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { TranslatorService } from '../services/translator/translator.service';
-import { FormatTrackArtistsPipe } from './format-track-artist.pipe';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import { FormatTrackArtistsPipe } from './format-track-artists.pipe';
 
 describe('FormatTrackArtistsPipe', () => {
-    let translatorServiceMock: IMock<TranslatorService>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
     let formatTrackArtistsPipe: FormatTrackArtistsPipe;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<TranslatorService>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('Track.UnknownArtist')).returns(() => 'Unknown artist');
         formatTrackArtistsPipe = new FormatTrackArtistsPipe(translatorServiceMock.object);
     });

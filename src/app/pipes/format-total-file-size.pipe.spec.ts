@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { TranslatorService } from '../services/translator/translator.service';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { FormatTotalFileSizePipe } from './format-total-file-size.pipe';
 
 describe('FormatTotalFileSizePipe', () => {
-    let translatorServiceMock: IMock<TranslatorService>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
     let formatTotalFileSizePipe: FormatTotalFileSizePipe;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<TranslatorService>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('FileSizes.GigaBytes')).returns(() => 'GB');
         translatorServiceMock.setup((x) => x.get('FileSizes.MegaBytes')).returns(() => 'MB');
         translatorServiceMock.setup((x) => x.get('FileSizes.KiloBytes')).returns(() => 'kB');

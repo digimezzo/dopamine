@@ -1,19 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
-import { BaseRemoteProxy } from './core/io/base-remote-proxy';
-import { RemoteProxyStub } from './core/io/remote-proxy-stub';
 import { Logger } from './core/logger';
-import { BaseSettings } from './core/settings/base-settings';
-import { SettingsStub } from './core/settings/settings-stub';
-import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
-import { NavigationService } from './services/navigation/navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
-import { TranslatorService } from './services/translator/translator.service';
 
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -21,21 +11,6 @@ describe('AppComponent', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let loggerMock: IMock<Logger>;
     let app: AppComponent;
-
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [TranslateModule.forRoot(), RouterTestingModule],
-            declarations: [AppComponent],
-            providers: [
-                { provide: BaseNavigationService, useClass: NavigationService },
-                { provide: BaseAppearanceService, useClass: AppearanceService },
-                { provide: BaseTranslatorService, useClass: TranslatorService },
-                { provide: BaseSettings, useClass: SettingsStub },
-                { provide: BaseRemoteProxy, useClass: RemoteProxyStub },
-                Logger,
-            ],
-        }).compileComponents();
-    });
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
@@ -46,45 +21,52 @@ describe('AppComponent', () => {
         app = new AppComponent(navigationServiceMock.object, appearanceServiceMock.object, translatorServiceMock.object, loggerMock.object);
     });
 
-    it('should create', () => {
-        expect(app).toBeDefined();
-    });
-
-    describe('ngOnInit', () => {
-        it('should apply theme', () => {
+    describe('constructor', () => {
+        it('should create', () => {
             // Arrange
 
             // Act
-            app.ngOnInit();
+
+            // Assert
+            expect(app).toBeDefined();
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should apply theme', async () => {
+            // Arrange
+
+            // Act
+            await app.ngOnInit();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyTheme(), Times.exactly(1));
         });
 
-        it('should apply font size', () => {
+        it('should apply font size', async () => {
             // Arrange
 
             // Act
-            app.ngOnInit();
+            await app.ngOnInit();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyFontSize(), Times.exactly(1));
         });
 
-        it('should apply language', () => {
+        it('should apply language', async () => {
             // Arrange
 
             // Act
-            app.ngOnInit();
+            await app.ngOnInit();
 
             // Assert
-            translatorServiceMock.verify((x) => x.applyLanguage(), Times.exactly(1));
+            translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.exactly(1));
         });
-        it('should navigate to loading', () => {
+        it('should navigate to loading', async () => {
             // Arrange
 
             // Act
-            app.ngOnInit();
+            await app.ngOnInit();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));

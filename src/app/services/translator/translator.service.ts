@@ -24,8 +24,8 @@ export class TranslatorService implements BaseTranslatorService {
         this.translate.use(v.code);
     }
 
-    public applyLanguage(): void {
-        this.translate.use(this.settings.language);
+    public async applyLanguageAsync(): Promise<void> {
+        await this.translate.use(this.settings.language).toPromise();
     }
 
     public getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {

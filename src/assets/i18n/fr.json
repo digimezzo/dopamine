@@ -147,7 +147,8 @@
         "Information": "Information"
     },
     "Track": {
-        "UnknownArtist": "Artiste inconnu"
+        "UnknownArtist": "Artiste inconnu",
+        "UnknownTitle": "Titre inconnu"
     },
     "Durations": {
         "Days": "jours",

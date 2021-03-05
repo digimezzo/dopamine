@@ -20,7 +20,9 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipDefaultOptions,
+    MatTooltipModule,
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -57,6 +59,7 @@ import { ManageCollectionComponent } from './components/manage-collection/manage
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
+import { PlaybackInformationComponent } from './components/playback-information/playback-information.component';
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
@@ -106,7 +109,7 @@ import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
-import { FormatTrackArtistsPipe } from './pipes/format-track-artist.pipe';
+import { FormatTrackArtistsPipe } from './pipes/format-track-artists.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { FormatTrackTitlePipe } from './pipes/format-track-title.pipe';
@@ -164,6 +167,13 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+/** Custom options the configure the tooltip's default show/hide delays. */
+export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
+    showDelay: 500,
+    hideDelay: 0,
+    touchendHideDelay: 0,
+};
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -213,6 +223,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         PlaybackControlsComponent,
         PlaybackProgressComponent,
         PlaybackTimeComponent,
+        PlaybackInformationComponent,
         TrackComponent,
         TotalsComponent,
     ],
@@ -287,6 +298,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ProgressUpdater,
         Queue,
         MathExtensions,
+        { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },

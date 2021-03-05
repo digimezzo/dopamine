@@ -7,9 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatTrackDurationPipe implements PipeTransform {
     constructor() {}
 
-    private secondsPerDay: number = 86400;
-    private hoursPerDay: number = 24;
-
     public transform(durationInMilliseconds: number): string {
         if (durationInMilliseconds == undefined || durationInMilliseconds < 0) {
             return '00:00';

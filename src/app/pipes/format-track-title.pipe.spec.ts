@@ -1,11 +1,16 @@
+import { IMock, Mock } from 'typemoq';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { FormatTrackTitlePipe } from './format-track-title.pipe';
 
 describe('FormatTrackTitlePipe', () => {
+    let translatorServiceMock: IMock<BaseTranslatorService>;
     let formatTrackTitlePipe: FormatTrackTitlePipe;
     const trackFileName: string = 'Track1.mp3';
 
     beforeEach(() => {
-        formatTrackTitlePipe = new FormatTrackTitlePipe();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock.setup((x) => x.get('Track.UnknownTitle')).returns(() => 'Unknown title');
+        formatTrackTitlePipe = new FormatTrackTitlePipe(translatorServiceMock.object);
     });
 
     describe('transform', () => {

@@ -1,0 +1,9 @@
+.app-playback-information {
+    display: flex;
+    flex-direction: column;
+}
+.app-playback-information__artist {
+    color: var(--theme-text-secondary-foreground);
+}
+.app-playback-information__title {
+}

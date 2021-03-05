@@ -7,9 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatPlaybackTimePipe implements PipeTransform {
     constructor() {}
 
-    private secondsPerDay: number = 86400;
-    private hoursPerDay: number = 24;
-
     public transform(progressSeconds: number): string {
         if (progressSeconds == undefined || progressSeconds < 0) {
             return '00:00';

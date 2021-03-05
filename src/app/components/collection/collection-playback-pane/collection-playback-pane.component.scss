@@ -19,6 +19,7 @@
 .app-collection-playback-pane-controls__left {
     height: 100%;
     width: 33%;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;

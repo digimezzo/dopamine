@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { StringCompare } from '../core/string-compare';
-import { TranslatorService } from '../services/translator/translator.service';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
 
 @Pipe({ name: 'formatTrackArtists' })
 export class FormatTrackArtistsPipe implements PipeTransform {
-    constructor(private translatorService: TranslatorService) {}
+    constructor(private translatorService: BaseTranslatorService) {}
 
     public transform(trackArtists: string[]): string {
         if (trackArtists == undefined || trackArtists.length === 0) {

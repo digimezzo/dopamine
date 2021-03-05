@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslatorService } from '../services/translator/translator.service';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
 
 @Pipe({ name: 'formatTotalFileSize' })
 export class FormatTotalFileSizePipe implements PipeTransform {
-    constructor(private translatorService: TranslatorService) {}
+    constructor(private translatorService: BaseTranslatorService) {}
 
     public transform(totalFileSizeInBytes: number): string {
         if (totalFileSizeInBytes == undefined || totalFileSizeInBytes <= 0) {
