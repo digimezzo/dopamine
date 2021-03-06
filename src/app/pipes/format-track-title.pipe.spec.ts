@@ -14,7 +14,17 @@ describe('FormatTrackTitlePipe', () => {
     });
 
     describe('transform', () => {
-        it('should return trackFileName track title is undefined', () => {
+        it('should return trackTitle if it is not empty and not undefined', () => {
+            // Arrange
+
+            // Act
+            const formattedTrackTitle: string = formatTrackTitlePipe.transform('Track title', trackFileName);
+
+            // Assert
+            expect(formattedTrackTitle).toEqual('Track title');
+        });
+
+        it('should return trackFileName if it is not empty or undefined but trackTitle is undefined', () => {
             // Arrange
 
             // Act
@@ -24,7 +34,7 @@ describe('FormatTrackTitlePipe', () => {
             expect(formattedTrackTitle).toEqual(trackFileName);
         });
 
-        it('should return trackFileName track title is empty', () => {
+        it('should return trackFileName if it is not empty or undefined but trackTitle is empty', () => {
             // Arrange
 
             // Act
@@ -34,24 +44,44 @@ describe('FormatTrackTitlePipe', () => {
             expect(formattedTrackTitle).toEqual(trackFileName);
         });
 
-        it('should return trackFileName track title is wite space', () => {
+        it('should return "Unknown title" if trackTitle is undefined and trackFileName is undefined', () => {
             // Arrange
 
             // Act
-            const formattedTrackTitle: string = formatTrackTitlePipe.transform(' ', trackFileName);
+            const formattedTrackTitle: string = formatTrackTitlePipe.transform(undefined, undefined);
 
             // Assert
-            expect(formattedTrackTitle).toEqual(trackFileName);
+            expect(formattedTrackTitle).toEqual('Unknown title');
         });
 
-        it('should return track title if it is valid', () => {
+        it('should return "Unknown title" if trackTitle is empty and trackFileName is undefined', () => {
             // Arrange
 
             // Act
-            const formattedTrackTitle: string = formatTrackTitlePipe.transform('Track title', trackFileName);
+            const formattedTrackTitle: string = formatTrackTitlePipe.transform('', undefined);
 
             // Assert
-            expect(formattedTrackTitle).toEqual('Track title');
+            expect(formattedTrackTitle).toEqual('Unknown title');
+        });
+
+        it('should return "Unknown title" if trackTitle is undefined and trackFileName is empty', () => {
+            // Arrange
+
+            // Act
+            const formattedTrackTitle: string = formatTrackTitlePipe.transform(undefined, '');
+
+            // Assert
+            expect(formattedTrackTitle).toEqual('Unknown title');
+        });
+
+        it('should return "Unknown title" if trackTitle is empty and trackFileName is empty', () => {
+            // Arrange
+
+            // Act
+            const formattedTrackTitle: string = formatTrackTitlePipe.transform('', '');
+
+            // Assert
+            expect(formattedTrackTitle).toEqual('Unknown title');
         });
     });
 });

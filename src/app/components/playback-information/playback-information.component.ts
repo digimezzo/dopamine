@@ -49,7 +49,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
-        public playbackService: BasePlaybackService,
+        private playbackService: BasePlaybackService,
         private translatorService: BaseTranslatorService,
         private scheduler: Scheduler
     ) {}

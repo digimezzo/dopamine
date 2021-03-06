@@ -7,14 +7,14 @@ export class FormatTrackTitlePipe implements PipeTransform {
     constructor(private translatorService: BaseTranslatorService) {}
 
     public transform(trackTitle: string, trackFileName: string): string {
-        if (StringCompare.isNullOrWhiteSpace(trackTitle)) {
-            if (StringCompare.isNullOrWhiteSpace(trackFileName)) {
-                return this.translatorService.get('Track.UnknownTitle');
-            }
+        if (!StringCompare.isNullOrWhiteSpace(trackTitle)) {
+            return trackTitle;
+        }
 
+        if (!StringCompare.isNullOrWhiteSpace(trackFileName)) {
             return trackFileName;
         }
 
-        return trackTitle;
+        return this.translatorService.get('Track.UnknownTitle');
     }
 }
