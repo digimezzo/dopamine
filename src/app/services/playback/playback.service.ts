@@ -7,6 +7,7 @@ import { BaseAudioPlayer } from './base-audio-player';
 import { BasePlaybackService } from './base-playback.service';
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
+import { PlaybackStarted } from './playback-started';
 import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 
@@ -15,6 +16,7 @@ import { Queue } from './queue';
 })
 export class PlaybackService implements BasePlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
+    private playbackStarted: Subject<PlaybackStarted> = new Subject();
     private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
     private _volume: number = 0;
     private _loopMode: LoopMode = LoopMode.None;
@@ -38,6 +40,7 @@ export class PlaybackService implements BasePlaybackService {
     public currentTrack: TrackModel;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
+    public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
 
     public get volume(): number {
         return this._volume;
@@ -87,7 +90,7 @@ export class PlaybackService implements BasePlaybackService {
         }
 
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
-        this.play(trackToPlay);
+        this.play(trackToPlay, false);
     }
 
     public toggleLoopMode(): void {
@@ -145,7 +148,7 @@ export class PlaybackService implements BasePlaybackService {
         const trackToPlay: TrackModel = this.queue.getPreviousTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay);
+            this.play(trackToPlay, true);
 
             return;
         }
@@ -158,7 +161,7 @@ export class PlaybackService implements BasePlaybackService {
         const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay);
+            this.play(trackToPlay, false);
 
             return;
         }
@@ -171,10 +174,11 @@ export class PlaybackService implements BasePlaybackService {
         this.audioPlayer.skipToSeconds(seconds);
     }
 
-    private play(trackToPlay: TrackModel): void {
+    private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
         this.currentTrack = trackToPlay;
+        this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
         this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
@@ -195,7 +199,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private playNextOnPlaybackFinished(): void {
         if (this.loopMode === LoopMode.One) {
-            this.play(this.currentTrack);
+            this.play(this.currentTrack, false);
 
             return;
         }
@@ -204,7 +208,7 @@ export class PlaybackService implements BasePlaybackService {
         const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
-            this.play(trackToPlay);
+            this.play(trackToPlay, false);
 
             return;
         }

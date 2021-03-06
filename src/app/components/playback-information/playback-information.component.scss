@@ -1,9 +1,27 @@
 .app-playback-information {
+    height: 70px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
+
+.app-playback-information__top__content {
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.app-playback-information__bottom_content {
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .app-playback-information__artist {
     color: var(--theme-text-secondary-foreground);
 }
+
 .app-playback-information__title {
 }

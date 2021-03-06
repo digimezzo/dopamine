@@ -80,6 +80,15 @@ describe('PlaybackService', () => {
             expect(service.progress.totalSeconds).toEqual(0);
         });
 
+        it('should define playbackStarted$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.playbackStarted$).toBeDefined();
+        });
+
         it('should initialize loopMode as LoopMode.None', () => {
             // Arrange
 
@@ -326,6 +335,44 @@ describe('PlaybackService', () => {
 
             // Assert
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should set the current track to the next track that was found on playback finished', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(service.currentTrack).toBe(track2);
+        });
+
+        it('should should raise an event, containing the current track, that playback has started for the next track on playback finished.', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+
+            let receivedTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStarted$.subscribe((currentTrack: TrackModel) => {
+                    receivedTrack = currentTrack;
+                })
+            );
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(receivedTrack).toBe(track2);
         });
 
         it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
@@ -634,7 +681,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.verifyAll();
         });
 
-        it('should set the current track to the given track the given track', () => {
+        it('should set the current track to the given track', () => {
             // Arrange
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
@@ -646,6 +693,28 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.currentTrack).toBe(track1);
+        });
+
+        it('should should raise an event, containing the current track, that playback has started.', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'));
+            const tracks: TrackModel[] = [track1, track2, track3];
+
+            let receivedTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStarted$.subscribe((currentTrack: TrackModel) => {
+                    receivedTrack = currentTrack;
+                })
+            );
+
+            // Act
+            service.enqueueAndPlay(tracks, track1);
+
+            // Assert
+            expect(receivedTrack).toBe(track1);
         });
 
         it('should ensure that it is possible to pause', () => {
@@ -981,6 +1050,44 @@ describe('PlaybackService', () => {
             // Assert
             expect(service.isPlaying).toBeFalsy();
         });
+
+        it('should set the current track to the previous track that was found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => track2);
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(service.currentTrack).toBe(track2);
+        });
+
+        it('should should raise an event, containing the current track, that playback has started for the previous track.', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => track2);
+
+            let receivedTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStarted$.subscribe((currentTrack: TrackModel) => {
+                    receivedTrack = currentTrack;
+                })
+            );
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(receivedTrack).toBe(track2);
+        });
     });
 
     describe('playNext', () => {
@@ -1157,6 +1264,44 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(service.isPlaying).toBeTruthy();
+        });
+
+        it('should set the current track to the next track that was found', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(service.currentTrack).toBe(track2);
+        });
+
+        it('should should raise an event, containing the current track, that playback has started for the next track.', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'));
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'));
+            const tracks: TrackModel[] = [track1, track2];
+            service.enqueueAndPlay(tracks, track1);
+            queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
+
+            let receivedTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStarted$.subscribe((currentTrack: TrackModel) => {
+                    receivedTrack = currentTrack;
+                })
+            );
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(receivedTrack).toBe(track2);
         });
     });
 

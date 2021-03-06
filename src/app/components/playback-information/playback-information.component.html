@@ -1,6 +1,10 @@
-<div class="app-playback-information" *ngIf="this.playbackService.isPlaying">
-    <div class="app-playback-information__artist">{{ this.playbackService.currentTrack?.artists | formatTrackArtists }}</div>
-    <div class="app-playback-information__title">
-        {{ this.playbackService.currentTrack?.title | formatTrackTitle: this.playbackService.currentTrack?.fileName }}
+<div class="app-playback-information no-select">
+    <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation">
+        <div class="app-playback-information__artist">{{ this.topContentArtist }}</div>
+        <div class="app-playback-information__title">{{ this.topContentTitle }}</div>
+    </div>
+    <div class="app-playback-information__bottom_content" [@contentAnimation]="contentAnimation">
+        <div class="app-playback-information__artist">{{ this.bottomContentArtist }}</div>
+        <div class="app-playback-information__title">{{ this.bottomContentTitle }}</div>
     </div>
 </div>
