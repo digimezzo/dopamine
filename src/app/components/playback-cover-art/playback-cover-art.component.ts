@@ -34,13 +34,13 @@ import { TrackModel } from '../../services/track/track-model';
             state(
                 'up',
                 style({
-                    transform: 'translateY(-70px)',
+                    transform: 'translateY(-100%)',
                 })
             ),
             state(
                 'animated-up',
                 style({
-                    transform: 'translateY(-70px)',
+                    transform: 'translateY(-100%)',
                 })
             ),
             transition('down => animated-up', animate('350ms ease-out')),

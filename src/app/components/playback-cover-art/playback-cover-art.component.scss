@@ -2,41 +2,38 @@
     width: 70px;
     height: 70px;
     overflow: hidden;
-    display: flex;
     background: var(--theme-cover-art-background);
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.app-playback-cover-art div {
+    grid-row-start: 1;
+    grid-column-start: 1;
 }
 
 .app-playback-cover-art__logo {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-playback-cover-art__logo svg {
     width: 40px;
     height: 40px;
-    z-index: 1;
 }
 
 .app-playback-cover-art__logo path {
     fill: var(--theme-cover-art-foreground);
 }
 
-#linear-stop1 {
-    stop-color: var(--theme-cover-art-primary-foreground);
-}
-
-#linear-stop2 {
-    stop-color: var(--theme-cover-art-secondary-foreground);
-}
-
 .app-playback-cover-art__content {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 70px;
     height: 70px;
     display: flex;
     flex-direction: column;
-    z-index: 2;
 }
 
 .app-playback-cover-art__top__content {
@@ -52,5 +49,9 @@
     min-width: 70px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+.app-playback-cover-art__content div {
+    min-height: 70px;
+    min-width: 70px;
 }
