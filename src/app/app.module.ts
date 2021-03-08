@@ -59,6 +59,7 @@ import { ManageCollectionComponent } from './components/manage-collection/manage
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
+import { PlaybackCoverArtComponent } from './components/playback-cover-art/playback-cover-art.component';
 import { PlaybackInformationComponent } from './components/playback-information/playback-information.component';
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
@@ -224,6 +225,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PlaybackProgressComponent,
         PlaybackTimeComponent,
         PlaybackInformationComponent,
+        PlaybackCoverArtComponent,
         TrackComponent,
         TotalsComponent,
     ],

@@ -1,18 +1,21 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ImageProcessor } from '../../core/image-processor';
+import { Logger } from '../../core/logger';
 import { Scheduler } from '../../core/scheduler/scheduler';
-import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
-import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
+import { FileMetadata } from '../../metadata/file-metadata';
+import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
+import { AlbumArtworkGetter } from '../../services/indexing/album-artwork-getter';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { TrackModel } from '../../services/track/track-model';
 
 @Component({
-    selector: 'app-playback-information',
+    selector: 'app-playback-cover-art',
     host: { style: 'display: block' },
-    templateUrl: './playback-information.component.html',
-    styleUrls: ['./playback-information.component.scss'],
+    templateUrl: './playback-cover-art.component.html',
+    styleUrls: ['./playback-cover-art.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('contentAnimation', [
@@ -45,24 +48,24 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
         ]),
     ],
 })
-export class PlaybackInformationComponent implements OnInit, OnDestroy {
+export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
         private playbackService: BasePlaybackService,
-        private translatorService: BaseTranslatorService,
-        private scheduler: Scheduler
+        private fileMetadataFactory: FileMetadataFactory,
+        private albumArtworkGetter: AlbumArtworkGetter,
+        private imageProcessor: ImageProcessor,
+        private scheduler: Scheduler,
+        private logger: Logger
     ) {}
 
     public contentAnimation: string = 'down';
 
-    public topContentArtist: string = '';
-    public topContentTitle: string = '';
-    public bottomContentArtist: string = '';
-    public bottomContentTitle: string = '';
+    public topImage: any;
+    public bottomImage: any;
 
-    private currentArtist: string = '';
-    private currentTitle: string = '';
+    private currentImage: any;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -70,59 +73,62 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         if (this.playbackService.currentTrack != undefined) {
-            const formatTrackArtistsPipe: FormatTrackArtistsPipe = new FormatTrackArtistsPipe(this.translatorService);
-            const formatTrackTitlePipe: FormatTrackTitlePipe = new FormatTrackTitlePipe(this.translatorService);
-
-            const newArtist: string = formatTrackArtistsPipe.transform(this.playbackService.currentTrack.artists);
-            const newTitle: string = formatTrackTitlePipe.transform(this.playbackService.currentTrack.title, undefined);
+            const newImage: any = await this.createImageUrlAsync(this.playbackService.currentTrack);
 
             if (this.contentAnimation !== 'down') {
                 this.contentAnimation = 'down';
             }
 
-            this.topContentArtist = newArtist;
-            this.topContentTitle = newTitle;
-
-            this.currentArtist = newArtist;
-            this.currentTitle = newTitle;
+            this.topImage = newImage;
+            this.currentImage = newImage;
         }
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const formatTrackArtistsPipe: FormatTrackArtistsPipe = new FormatTrackArtistsPipe(this.translatorService);
-                const formatTrackTitlePipe: FormatTrackTitlePipe = new FormatTrackTitlePipe(this.translatorService);
-
-                const newArtist: string = formatTrackArtistsPipe.transform(playbackStarted.currentTrack.artists);
-                const newTitle: string = formatTrackTitlePipe.transform(playbackStarted.currentTrack.title, undefined);
+                const newImage: any = await this.createImageUrlAsync(playbackStarted.currentTrack);
 
                 if (playbackStarted.isPlayingPreviousTrack) {
                     if (this.contentAnimation !== 'up') {
                         this.contentAnimation = 'up';
-                        this.bottomContentArtist = this.currentArtist;
-                        this.bottomContentTitle = this.currentTitle;
+                        this.bottomImage = this.currentImage;
                         await this.scheduler.sleepAsync(100);
                     }
 
-                    this.topContentArtist = newArtist;
-                    this.topContentTitle = newTitle;
+                    this.topImage = newImage;
                     this.contentAnimation = 'animated-down';
                 } else {
                     if (this.contentAnimation !== 'down') {
                         this.contentAnimation = 'down';
-                        this.topContentArtist = this.currentArtist;
-                        this.topContentTitle = this.currentTitle;
+                        this.topImage = this.currentImage;
                         await this.scheduler.sleepAsync(100);
                     }
 
-                    this.bottomContentArtist = newArtist;
-                    this.bottomContentTitle = newTitle;
+                    this.bottomImage = newImage;
                     this.contentAnimation = 'animated-up';
                 }
 
-                this.currentArtist = newArtist;
-                this.currentTitle = newTitle;
+                this.currentImage = newImage;
                 await this.scheduler.sleepAsync(350);
             })
         );
+    }
+
+    private async createImageUrlAsync(track: TrackModel): Promise<any> {
+        try {
+            const fileMetaData: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+
+            if (coverArt !== undefined) {
+                return this.imageProcessor.convertBufferToImageUrl(coverArt);
+            }
+        } catch (error) {
+            this.logger.error(
+                `Could not create image URL for track with path=${track.path}`,
+                'PlaybackCoverArtComponent',
+                'createImageUrlAsync'
+            );
+        }
+
+        return undefined;
     }
 }

@@ -1,0 +1,15 @@
+<div class="app-playback-cover-art no-select">
+    <svg class="app-playback-cover-art__logo" width="256" height="256" viewBox="0 0 256 256">
+        <path
+            d="M 203.91701,0 V 80.34995 A 104.25975,104.25975 0 0 0 127.93629,47.48131 104.25975,104.25975 0 0 0 23.675798,151.74178 104.25975,104.25975 0 0 0 127.93629,256 104.25975,104.25975 0 0 0 232.19683,151.74178 a 104.25975,104.25975 0 0 0 -0.002,-0.23811 h 0.12937 V 0 Z M 127.8739,75.98995 h 0.002 a 75.731253,75.751303 0 0 1 0.0809,0 75.731253,75.751303 0 0 1 75.73105,75.75183 75.731253,75.751303 0 0 1 -75.73105,75.75187 75.731253,75.751303 0 0 1 -75.733374,-75.75187 75.731253,75.751303 0 0 1 75.650134,-75.75183 z m -0.0278,56.5596 a 19.193697,19.193697 0 0 0 -19.10443,19.19223 19.193697,19.193697 0 0 0 19.19457,19.19459 19.193697,19.193697 0 0 0 19.19459,-19.19459 19.193697,19.193697 0 0 0 -19.19459,-19.19223 19.193697,19.193697 0 0 0 -0.0901,0 z"
+        />
+    </svg>
+    <div class="app-playback-cover-art__content">
+        <div class="app-playback-cover-art__top__content" [@contentAnimation]="contentAnimation">
+            <img *ngIf="topImage" [src]="topImage" width="70" height="70" />
+        </div>
+        <div class="app-playback-cover-art__bottom__content" [@contentAnimation]="contentAnimation">
+            <img *ngIf="bottomImage" [src]="bottomImage" width="70" height="70" />
+        </div>
+    </div>
+</div>
