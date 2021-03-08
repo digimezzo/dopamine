@@ -62,10 +62,10 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topImage: string;
-    public bottomImage: string;
+    public topImageUrl: string;
+    public bottomImageUrl: string;
 
-    private currentImage: string;
+    private currentImageUrl: string;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -73,47 +73,47 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         if (this.playbackService.currentTrack != undefined) {
-            const newImage: any = await this.createImageUrlAsync(this.playbackService.currentTrack);
+            const newImage: string = await this.createImageUrlAsync(this.playbackService.currentTrack);
 
             if (this.contentAnimation !== 'down') {
                 this.contentAnimation = 'down';
             }
 
-            this.topImage = newImage;
-            this.currentImage = newImage;
+            this.topImageUrl = newImage;
+            this.currentImageUrl = newImage;
         }
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const newImage: any = await this.createImageUrlAsync(playbackStarted.currentTrack);
+                const newImage: string = await this.createImageUrlAsync(playbackStarted.currentTrack);
 
                 if (playbackStarted.isPlayingPreviousTrack) {
                     if (this.contentAnimation !== 'up') {
                         this.contentAnimation = 'up';
-                        this.bottomImage = this.currentImage;
+                        this.bottomImageUrl = this.currentImageUrl;
                         await this.scheduler.sleepAsync(100);
                     }
 
-                    this.topImage = newImage;
+                    this.topImageUrl = newImage;
                     this.contentAnimation = 'animated-down';
                 } else {
                     if (this.contentAnimation !== 'down') {
                         this.contentAnimation = 'down';
-                        this.topImage = this.currentImage;
+                        this.topImageUrl = this.currentImageUrl;
                         await this.scheduler.sleepAsync(100);
                     }
 
-                    this.bottomImage = newImage;
+                    this.bottomImageUrl = newImage;
                     this.contentAnimation = 'animated-up';
                 }
 
-                this.currentImage = newImage;
+                this.currentImageUrl = newImage;
                 await this.scheduler.sleepAsync(350);
             })
         );
     }
 
-    private async createImageUrlAsync(track: TrackModel): Promise<any> {
+    private async createImageUrlAsync(track: TrackModel): Promise<string> {
         try {
             const fileMetaData: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);

@@ -8,10 +8,10 @@
     </div>
     <div class="app-playback-cover-art__content">
         <div [@contentAnimation]="contentAnimation">
-            <img *ngIf="topImage" [src]="topImage" width="70" height="70" />
+            <img *ngIf="topImageUrl" [src]="topImageUrl" width="70" height="70" />
         </div>
         <div [@contentAnimation]="contentAnimation">
-            <img *ngIf="bottomImage" [src]="bottomImage" width="70" height="70" />
+            <img *ngIf="bottomImageUrl" [src]="bottomImageUrl" width="70" height="70" />
         </div>
     </div>
 </div>
