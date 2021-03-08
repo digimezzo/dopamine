@@ -89,7 +89,7 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata);
+        const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
 
         if (albumArtwork == undefined) {
             return;

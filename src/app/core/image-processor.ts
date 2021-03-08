@@ -20,4 +20,8 @@ export class ImageProcessor {
 
         return imageBuffer;
     }
+
+    public convertBufferToImageUrl(imageBuffer: Buffer): string {
+        return 'data:image/png;base64,' + imageBuffer.toString('base64');
+    }
 }

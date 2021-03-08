@@ -62,6 +62,15 @@ describe('PlaybackService', () => {
             expect(service).toBeDefined();
         });
 
+        it('should define currentTrack', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.currentTrack).toBeDefined();
+        });
+
         it('should define progressChanged$', () => {
             // Arrange
 

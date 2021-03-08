@@ -14,7 +14,7 @@ export class AlbumArtworkGetter {
         private settings: BaseSettings
     ) {}
 
-    public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
+    public async getAlbumArtworkAsync(fileMetadata: FileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
         if (fileMetadata == undefined) {
             return undefined;
         }
@@ -31,7 +31,7 @@ export class AlbumArtworkGetter {
             return externalArtwork;
         }
 
-        if (this.settings.downloadMissingAlbumCovers) {
+        if (getOnlineArtwork && this.settings.downloadMissingAlbumCovers) {
             const onlineArtwork: Buffer = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
 
             if (onlineArtwork != undefined) {

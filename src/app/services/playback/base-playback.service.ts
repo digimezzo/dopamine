@@ -7,6 +7,7 @@ import { PlaybackStarted } from './playback-started';
 export abstract class BasePlaybackService {
     public abstract progressChanged$: Observable<PlaybackProgress>;
     public abstract playbackStarted$: Observable<PlaybackStarted>;
+    public abstract currentTrack: TrackModel;
     public abstract progress: PlaybackProgress;
     public abstract volume: number;
     public abstract loopMode: LoopMode;

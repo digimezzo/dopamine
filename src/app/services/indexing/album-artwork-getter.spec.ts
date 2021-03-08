@@ -32,7 +32,7 @@ describe('AlbumArtworkGetter', () => {
             settingsMock.downloadMissingAlbumCovers = true;
 
             // Act
-            const albumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(undefined);
+            const albumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(undefined, true);
 
             // Assert
             expect(albumArtwork).toBeUndefined();
@@ -48,7 +48,7 @@ describe('AlbumArtworkGetter', () => {
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => expectedAlbumArtwork);
 
             // Act
-            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, true);
 
             // Assert
             expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
@@ -65,13 +65,13 @@ describe('AlbumArtworkGetter', () => {
             externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
 
             // Act
-            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, true);
 
             // Assert
             expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
-        it('should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
+        it('should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork and getOnlineArtwork is true', async () => {
             // Arrange
             settingsMock.downloadMissingAlbumCovers = true;
 
@@ -83,13 +83,31 @@ describe('AlbumArtworkGetter', () => {
             onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
 
             // Act
-            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, true);
 
             // Assert
             expect(actualAlbumArtwork).toBe(expectedAlbumArtwork);
         });
 
-        it('should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork', async () => {
+        it('should return online artwork when settings require downloading missing covers when there is no embedded and no external artwork but there is online artwork and getOnlineArtwork is false', async () => {
+            // Arrange
+            settingsMock.downloadMissingAlbumCovers = true;
+
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
+            const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+
+            embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
+            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+
+            // Act
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, false);
+
+            // Assert
+            expect(actualAlbumArtwork).toBeUndefined();
+        });
+
+        it('should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork and getOnlineArtwork is true', async () => {
             // Arrange
             const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
             const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
@@ -99,7 +117,23 @@ describe('AlbumArtworkGetter', () => {
             onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
 
             // Act
-            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, true);
+
+            // Assert
+            expect(actualAlbumArtwork).toBeUndefined();
+        });
+
+        it('should return undefined when settings do not require downloading missing covers when there is no embedded and no external artwork but there is online artwork and getOnlineArtwork is false', async () => {
+            // Arrange
+            const expectedAlbumArtwork = Buffer.from([1, 2, 3]);
+            const fileMetaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+
+            embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
+            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+
+            // Act
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, false);
 
             // Assert
             expect(actualAlbumArtwork).toBeUndefined();
@@ -116,7 +150,7 @@ describe('AlbumArtworkGetter', () => {
             onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => undefined);
 
             // Act
-            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object);
+            const actualAlbumArtwork: Buffer = await albumArtworkGetter.getAlbumArtworkAsync(fileMetaDataMock.object, true);
 
             // Assert
             expect(actualAlbumArtwork).toBeUndefined();

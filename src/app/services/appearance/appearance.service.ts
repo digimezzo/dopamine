@@ -169,6 +169,8 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-breadcrumb-background', '#272727');
         element.style.setProperty('--theme-slider-background', '#999999');
         element.style.setProperty('--theme-slider-thumb-background', '#FFF');
+        element.style.setProperty('--theme-cover-art-background', '#202020');
+        element.style.setProperty('--theme-cover-art-foreground', '#5E5E5E');
 
         if (
             (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
@@ -188,6 +190,8 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-breadcrumb-background', '#DFDFDF');
             element.style.setProperty('--theme-slider-background', '#666666');
             element.style.setProperty('--theme-slider-thumb-background', '#000');
+            element.style.setProperty('--theme-cover-art-background', '#CECECE');
+            element.style.setProperty('--theme-cover-art-foreground', '#838383');
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
