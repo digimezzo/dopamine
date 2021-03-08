@@ -62,10 +62,10 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topImage: any;
-    public bottomImage: any;
+    public topImage: string;
+    public bottomImage: string;
 
-    private currentImage: any;
+    private currentImage: string;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
