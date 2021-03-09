@@ -6,6 +6,7 @@ import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
 import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
+import { TrackModel } from '../../services/track/track-model';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
@@ -51,6 +52,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     constructor(
         private playbackService: BasePlaybackService,
         private translatorService: BaseTranslatorService,
+        private formatTrackArtistsPipe: FormatTrackArtistsPipe,
+        private formatTrackTitlePipe: FormatTrackTitlePipe,
         private scheduler: Scheduler
     ) {}
 
@@ -70,11 +73,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         if (this.playbackService.currentTrack != undefined) {
-            const formatTrackArtistsPipe: FormatTrackArtistsPipe = new FormatTrackArtistsPipe(this.translatorService);
-            const formatTrackTitlePipe: FormatTrackTitlePipe = new FormatTrackTitlePipe(this.translatorService);
-
-            const newArtist: string = formatTrackArtistsPipe.transform(this.playbackService.currentTrack.artists);
-            const newTitle: string = formatTrackTitlePipe.transform(this.playbackService.currentTrack.title, undefined);
+            const newArtist: string = this.formatTrackArtistsPipe.transform(this.playbackService.currentTrack.artists);
+            const newTitle: string = this.formatTrackTitlePipe.transform(this.playbackService.currentTrack.title, undefined);
 
             if (this.contentAnimation !== 'down') {
                 this.contentAnimation = 'down';
@@ -89,40 +89,68 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const formatTrackArtistsPipe: FormatTrackArtistsPipe = new FormatTrackArtistsPipe(this.translatorService);
-                const formatTrackTitlePipe: FormatTrackTitlePipe = new FormatTrackTitlePipe(this.translatorService);
-
-                const newArtist: string = formatTrackArtistsPipe.transform(playbackStarted.currentTrack.artists);
-                const newTitle: string = formatTrackTitlePipe.transform(playbackStarted.currentTrack.title, undefined);
-
                 if (playbackStarted.isPlayingPreviousTrack) {
-                    if (this.contentAnimation !== 'up') {
-                        this.contentAnimation = 'up';
-                        this.bottomContentArtist = this.currentArtist;
-                        this.bottomContentTitle = this.currentTitle;
-                        await this.scheduler.sleepAsync(100);
-                    }
-
-                    this.topContentArtist = newArtist;
-                    this.topContentTitle = newTitle;
-                    this.contentAnimation = 'animated-down';
+                    await this.switchDown(playbackStarted.currentTrack, true);
                 } else {
-                    if (this.contentAnimation !== 'down') {
-                        this.contentAnimation = 'down';
-                        this.topContentArtist = this.currentArtist;
-                        this.topContentTitle = this.currentTitle;
-                        await this.scheduler.sleepAsync(100);
-                    }
-
-                    this.bottomContentArtist = newArtist;
-                    this.bottomContentTitle = newTitle;
-                    this.contentAnimation = 'animated-up';
+                    await this.switchUp(playbackStarted.currentTrack);
                 }
-
-                this.currentArtist = newArtist;
-                this.currentTitle = newTitle;
-                await this.scheduler.sleepAsync(350);
             })
         );
+    }
+
+    private async switchUp(track: TrackModel): Promise<void> {
+        if (track == undefined) {
+            return;
+        }
+
+        const newArtist: string = this.formatTrackArtistsPipe.transform(track.artists);
+        const newTitle: string = this.formatTrackTitlePipe.transform(track.title, undefined);
+
+        if (this.contentAnimation !== 'down') {
+            this.topContentArtist = this.currentArtist;
+            this.topContentTitle = this.currentTitle;
+
+            this.contentAnimation = 'down';
+            await this.scheduler.sleepAsync(100);
+        }
+
+        this.bottomContentArtist = newArtist;
+        this.bottomContentTitle = newTitle;
+        this.currentArtist = newArtist;
+        this.currentTitle = newTitle;
+
+        this.contentAnimation = 'animated-up';
+        await this.scheduler.sleepAsync(350);
+    }
+
+    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
+        if (track == undefined) {
+            return;
+        }
+
+        const newArtist: string = this.formatTrackArtistsPipe.transform(track.artists);
+        const newTitle: string = this.formatTrackTitlePipe.transform(track.title, undefined);
+
+        if (performAnimation) {
+            if (this.contentAnimation !== 'up') {
+                this.bottomContentArtist = this.currentArtist;
+                this.bottomContentTitle = this.currentTitle;
+
+                this.contentAnimation = 'up';
+                await this.scheduler.sleepAsync(100);
+            }
+        }
+
+        this.topContentArtist = newArtist;
+        this.topContentTitle = newTitle;
+        this.currentArtist = newArtist;
+        this.currentTitle = newTitle;
+
+        if (performAnimation) {
+            this.contentAnimation = 'animated-down';
+            await this.scheduler.sleepAsync(350);
+        } else {
+            this.contentAnimation = 'down';
+        }
     }
 }

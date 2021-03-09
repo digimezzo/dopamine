@@ -72,45 +72,64 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        if (this.playbackService.currentTrack != undefined) {
-            const newImage: string = await this.createImageUrlAsync(this.playbackService.currentTrack);
-
-            if (this.contentAnimation !== 'down') {
-                this.contentAnimation = 'down';
-            }
-
-            this.topImageUrl = newImage;
-            this.currentImageUrl = newImage;
-        }
+        await this.switchDown(this.playbackService.currentTrack, false);
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const newImage: string = await this.createImageUrlAsync(playbackStarted.currentTrack);
-
                 if (playbackStarted.isPlayingPreviousTrack) {
-                    if (this.contentAnimation !== 'up') {
-                        this.contentAnimation = 'up';
-                        this.bottomImageUrl = this.currentImageUrl;
-                        await this.scheduler.sleepAsync(100);
-                    }
-
-                    this.topImageUrl = newImage;
-                    this.contentAnimation = 'animated-down';
+                    await this.switchDown(playbackStarted.currentTrack, true);
                 } else {
-                    if (this.contentAnimation !== 'down') {
-                        this.contentAnimation = 'down';
-                        this.topImageUrl = this.currentImageUrl;
-                        await this.scheduler.sleepAsync(100);
-                    }
-
-                    this.bottomImageUrl = newImage;
-                    this.contentAnimation = 'animated-up';
+                    await this.switchUp(playbackStarted.currentTrack);
                 }
-
-                this.currentImageUrl = newImage;
-                await this.scheduler.sleepAsync(350);
             })
         );
+    }
+
+    private async switchUp(track: TrackModel): Promise<void> {
+        if (track == undefined) {
+            return;
+        }
+
+        const newImage: string = await this.createImageUrlAsync(track);
+
+        if (this.contentAnimation !== 'down') {
+            this.topImageUrl = this.currentImageUrl;
+
+            this.contentAnimation = 'down';
+            await this.scheduler.sleepAsync(100);
+        }
+
+        this.bottomImageUrl = newImage;
+        this.currentImageUrl = newImage;
+        this.contentAnimation = 'animated-up';
+        await this.scheduler.sleepAsync(350);
+    }
+
+    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
+        if (track == undefined) {
+            return;
+        }
+
+        const newImage: string = await this.createImageUrlAsync(track);
+
+        if (performAnimation) {
+            if (this.contentAnimation !== 'up') {
+                this.bottomImageUrl = this.currentImageUrl;
+
+                this.contentAnimation = 'up';
+                await this.scheduler.sleepAsync(100);
+            }
+        }
+
+        this.topImageUrl = newImage;
+        this.currentImageUrl = newImage;
+
+        if (performAnimation) {
+            this.contentAnimation = 'animated-down';
+            await this.scheduler.sleepAsync(350);
+        } else {
+            this.contentAnimation = 'down';
+        }
     }
 
     private async createImageUrlAsync(track: TrackModel): Promise<string> {
