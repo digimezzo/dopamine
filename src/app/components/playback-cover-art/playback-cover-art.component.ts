@@ -62,10 +62,10 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topImageUrl: string;
-    public bottomImageUrl: string;
+    public topImageUrl: string = '';
+    public bottomImageUrl: string = '';
 
-    private currentImageUrl: string;
+    private currentImageUrl: string = '';
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -148,6 +148,6 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
             );
         }
 
-        return undefined;
+        return '';
     }
 }

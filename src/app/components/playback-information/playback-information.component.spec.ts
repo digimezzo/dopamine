@@ -102,6 +102,8 @@ describe('PlaybackInformationComponent', () => {
             const trackModel1: TrackModel = new TrackModel(track1);
             const scheduler: Scheduler = new Scheduler();
 
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
+
             formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
             formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
 
@@ -110,7 +112,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, false));
 
-            while (component.bottomContentArtist === '' || component.bottomContentTitle === '' || component.contentAnimation === '') {
+            while (component.bottomContentArtist === '' || component.bottomContentTitle === '') {
                 await scheduler.sleepAsync(10);
             }
 
@@ -138,7 +140,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, true));
 
-            while (component.topContentArtist === '' || component.topContentTitle === '' || component.contentAnimation === '') {
+            while (component.topContentArtist === '' || component.topContentTitle === '') {
                 await scheduler.sleepAsync(10);
             }
 
