@@ -128,6 +128,8 @@ describe('PlaybackInformationComponent', () => {
             const trackModel1: TrackModel = new TrackModel(track1);
             const scheduler: Scheduler = new Scheduler();
 
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
+
             formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
             formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
 
@@ -144,6 +146,27 @@ describe('PlaybackInformationComponent', () => {
             expect(component.topContentArtist).toEqual('My artist');
             expect(component.topContentTitle).toEqual('My title');
             expect(component.contentAnimation).toEqual('animated-down');
+        });
+
+        it('should set top content items and go down without animation if there is a current track playing', async () => {
+            // Arrange
+            const track1: Track = new Track('/home/user/Music/track1.mp3');
+            track1.artists = 'My artist';
+            track1.trackTitle = 'My title';
+            const trackModel1: TrackModel = new TrackModel(track1);
+
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
+
+            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
+            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.topContentArtist).toEqual('My artist');
+            expect(component.topContentTitle).toEqual('My title');
+            expect(component.contentAnimation).toEqual('down');
         });
     });
 });
