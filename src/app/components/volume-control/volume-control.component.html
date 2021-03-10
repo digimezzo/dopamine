@@ -9,5 +9,6 @@
         (input)="onInputChange($event)"
         [(ngModel)]="this.playbackService.volume"
         class="app-volume-control__slider ml-1"
+        (wheel)="onMouseWheel($event)"
     ></mat-slider>
 </div>

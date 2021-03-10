@@ -1,36 +1,40 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, It, Mock } from 'typemoq';
+import { IMock, Mock } from 'typemoq';
 import { Scheduler } from '../../core/scheduler/scheduler';
 import { Track } from '../../data/entities/track';
+import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
+import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackInformationComponent } from './playback-information.component';
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackInformationComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let formatTrackArtistsPipeMock: IMock<FormatTrackArtistsPipe>;
+    let formatTrackTitlePipeMock: IMock<FormatTrackTitlePipe>;
     let schedulerMock: IMock<Scheduler>;
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
 
     beforeEach(async () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        formatTrackArtistsPipeMock = Mock.ofType<FormatTrackArtistsPipe>();
+        formatTrackTitlePipeMock = Mock.ofType<FormatTrackTitlePipe>();
         schedulerMock = Mock.ofType<Scheduler>();
 
-        translatorServiceMock.setup((x) => x.get(It.isAny())).returns(() => '');
-
-        component = new PlaybackInformationComponent(playbackServiceMock.object, translatorServiceMock.object, schedulerMock.object);
+        component = new PlaybackInformationComponent(
+            playbackServiceMock.object,
+            formatTrackArtistsPipeMock.object,
+            formatTrackTitlePipeMock.object,
+            schedulerMock.object
+        );
 
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
 
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
-
-        await component.ngOnInit();
     });
 
     describe('constructor', () => {
@@ -98,7 +102,12 @@ describe('PlaybackInformationComponent', () => {
             const trackModel1: TrackModel = new TrackModel(track1);
             const scheduler: Scheduler = new Scheduler();
 
+            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
+            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
+
             // Act
+            await component.ngOnInit();
+
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, false));
 
             while (component.bottomContentArtist === '' || component.bottomContentTitle === '' || component.contentAnimation === '') {
@@ -119,7 +128,12 @@ describe('PlaybackInformationComponent', () => {
             const trackModel1: TrackModel = new TrackModel(track1);
             const scheduler: Scheduler = new Scheduler();
 
+            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
+            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
+
             // Act
+            await component.ngOnInit();
+
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, true));
 
             while (component.topContentArtist === '' || component.topContentTitle === '' || component.contentAnimation === '') {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../core/logger';
+import { MathExtensions } from '../../core/math-extensions';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { TrackModel } from '../track/track-model';
 import { BaseAudioPlayer } from './base-audio-player';
@@ -30,6 +31,7 @@ export class PlaybackService implements BasePlaybackService {
         private audioPlayer: BaseAudioPlayer,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
+        private mathExtensions: MathExtensions,
         private settings: BaseSettings,
         private logger: Logger
     ) {
@@ -47,9 +49,10 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public set volume(v: number) {
-        this._volume = v;
-        this.settings.volume = v;
-        this.audioPlayer.setVolume(v);
+        const volumeToSet: number = this.mathExtensions.clamp(v, 0, 1);
+        this._volume = volumeToSet;
+        this.settings.volume = volumeToSet;
+        this.audioPlayer.setVolume(volumeToSet);
     }
 
     public get progress(): PlaybackProgress {
@@ -144,8 +147,14 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public playPrevious(): void {
-        const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel = this.queue.getPreviousTrack(this.currentTrack, allowWrapAround);
+        let trackToPlay: TrackModel;
+
+        if (this.currentTrack != undefined && this.audioPlayer.progressSeconds > 3) {
+            trackToPlay = this.currentTrack;
+        } else {
+            const allowWrapAround: boolean = this.loopMode === LoopMode.All;
+            trackToPlay = this.queue.getPreviousTrack(this.currentTrack, allowWrapAround);
+        }
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, true);
@@ -195,6 +204,8 @@ export class PlaybackService implements BasePlaybackService {
         this.progressUpdater.stopUpdatingProgress();
 
         this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
+
+        this.currentTrack = undefined;
     }
 
     private playNextOnPlaybackFinished(): void {

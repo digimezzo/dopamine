@@ -7,7 +7,6 @@ import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
     selector: 'app-playback-information',
@@ -51,7 +50,6 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     constructor(
         private playbackService: BasePlaybackService,
-        private translatorService: BaseTranslatorService,
         private formatTrackArtistsPipe: FormatTrackArtistsPipe,
         private formatTrackTitlePipe: FormatTrackTitlePipe,
         private scheduler: Scheduler
@@ -72,20 +70,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        if (this.playbackService.currentTrack != undefined) {
-            const newArtist: string = this.formatTrackArtistsPipe.transform(this.playbackService.currentTrack.artists);
-            const newTitle: string = this.formatTrackTitlePipe.transform(this.playbackService.currentTrack.title, undefined);
-
-            if (this.contentAnimation !== 'down') {
-                this.contentAnimation = 'down';
-            }
-
-            this.topContentArtist = newArtist;
-            this.topContentTitle = newTitle;
-
-            this.currentArtist = newArtist;
-            this.currentTitle = newTitle;
-        }
+        await this.switchDown(this.playbackService.currentTrack, false);
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {

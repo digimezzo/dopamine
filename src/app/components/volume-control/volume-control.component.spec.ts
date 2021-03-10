@@ -45,4 +45,31 @@ describe('VolumeControlComponent', () => {
             playbackServiceMock.verify((x) => (x.volume = 0.8), Times.exactly(1));
         });
     });
+    describe('onMouseWheel', () => {
+        it('should increase the playbackService volume by 0.1 when scrolling up', () => {
+            // Arrange
+            const event: any = { deltaY: -50 };
+            const playbackServiceStub: any = { volume: 0.5 };
+            component = new VolumeControlComponent(playbackServiceStub);
+
+            // Act
+            component.onMouseWheel(event);
+
+            // Assert
+            expect(playbackServiceStub.volume).toEqual(0.6);
+        });
+
+        it('should decrease the playbackService volume by 0.1 when scrolling down', () => {
+            // Arrange
+            const event: any = { deltaY: 50 };
+            const playbackServiceStub: any = { volume: 0.5 };
+            component = new VolumeControlComponent(playbackServiceStub);
+
+            // Act
+            component.onMouseWheel(event);
+
+            // Assert
+            expect(playbackServiceStub.volume).toEqual(0.4);
+        });
+    });
 });
