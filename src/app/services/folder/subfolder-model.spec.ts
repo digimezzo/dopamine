@@ -17,6 +17,15 @@ describe('SubfolderModel', () => {
             expect(subfolderModel).toBeDefined();
         });
 
+        it('should initialize isPlaying as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(subfolderModel.isPlaying).toBeFalsy();
+        });
+
         it('should set path', () => {
             // Arrange
 

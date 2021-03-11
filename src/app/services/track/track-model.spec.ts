@@ -18,13 +18,22 @@ describe('TrackModel', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
+        it('should create', () => {
             // Arrange
 
             // Act
 
             // Assert
             expect(trackModel).toBeDefined();
+        });
+
+        it('should initialize isPlaying as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(trackModel.isPlaying).toBeFalsy();
         });
     });
 

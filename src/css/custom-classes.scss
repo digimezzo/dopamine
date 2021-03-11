@@ -57,3 +57,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.accent-color {
+    color: var(--theme-accent-color);
+}
+
+.secondary-color {
+    color: var(--theme-text-secondary-foreground);
+}

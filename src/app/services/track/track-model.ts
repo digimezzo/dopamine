@@ -4,6 +4,8 @@ import { Track } from '../../data/entities/track';
 export class TrackModel {
     constructor(private track: Track) {}
 
+    public isPlaying: boolean = false;
+
     public get path(): string {
         return this.track.path;
     }
