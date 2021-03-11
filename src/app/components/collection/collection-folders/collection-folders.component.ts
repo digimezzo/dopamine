@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SplitAreaDirective, SplitComponent } from 'angular-split';
+import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -7,6 +8,7 @@ import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -18,7 +20,7 @@ import { TrackModels } from '../../../services/track/track-models';
     styleUrls: ['./collection-folders.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionFoldersComponent implements OnInit {
+export class CollectionFoldersComponent implements OnInit, OnDestroy {
     constructor(
         public playbackService: BasePlaybackService,
         private settings: BaseSettings,
@@ -32,6 +34,8 @@ export class CollectionFoldersComponent implements OnInit {
     @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
     @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;
 
+    private subscription: Subscription = new Subscription();
+
     public area1Size: number = this.settings.foldersLeftPaneWithPercent;
     public area2Size: number = 100 - this.settings.foldersLeftPaneWithPercent;
 
@@ -43,8 +47,55 @@ export class CollectionFoldersComponent implements OnInit {
     public tracks: TrackModels = new TrackModels();
     public selectedTrack: TrackModel;
 
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
     public async ngOnInit(): Promise<void> {
         await this.fillListsAsync();
+
+        this.subscription.add(
+            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+                this.setPlayingTrack(playbackStarted.currentTrack);
+                this.setPlayingSubfolder(playbackStarted.currentTrack);
+            })
+        );
+    }
+
+    private setPlayingTrack(playingTrack: TrackModel): void {
+        if (playingTrack == undefined) {
+            return;
+        }
+
+        if (this.subfolders == undefined) {
+            return;
+        }
+
+        for (const subfolder of this.subfolders) {
+            subfolder.isPlaying = false;
+
+            if (!subfolder.isGoToParent && playingTrack.path.includes(subfolder.path)) {
+                subfolder.isPlaying = true;
+            }
+        }
+    }
+
+    private setPlayingSubfolder(playingTrack: TrackModel): void {
+        if (playingTrack == undefined) {
+            return;
+        }
+
+        if (this.tracks == undefined || this.tracks.tracks == undefined) {
+            return;
+        }
+
+        for (const track of this.tracks.tracks) {
+            track.isPlaying = false;
+
+            if (track.path === playingTrack.path) {
+                track.isPlaying = true;
+            }
+        }
     }
 
     public dragEnd(event: any): void {
@@ -68,6 +119,9 @@ export class CollectionFoldersComponent implements OnInit {
         // HACK: when refreshing the subfolder list, the tooltip of the last hovered
         // subfolder remains visible. This function is a workaround for this problem.
         this.hacks.removeTooltips();
+
+        this.setPlayingTrack(this.playbackService.currentTrack);
+        this.setPlayingSubfolder(this.playbackService.currentTrack);
     }
 
     public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {

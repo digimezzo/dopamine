@@ -28,8 +28,13 @@
                             (dblclick)="getSubfoldersAsync(subfolder)"
                         >
                             <div class="subfolder no-select p-1" [ngClass]="{ 'selected-item': subfolder === selectedSubfolder }">
-                                <i class="subfolder__icon mr-2 lar la-folder"></i>
-                                <div class="subfolder__name ellipsis" matTooltip="{{ subfolder.path }}">
+                                <i *ngIf="!subfolder.isPlaying" class="subfolder__icon mr-2 lar la-folder"></i>
+                                <app-playback-indicator *ngIf="subfolder.isPlaying" class="ml-1 mr-2"></app-playback-indicator>
+                                <div
+                                    class="subfolder__name ellipsis"
+                                    matTooltip="{{ subfolder.path }}"
+                                    [ngClass]="{ 'accent-color': subfolder.isPlaying }"
+                                >
                                     {{ subfolder | subfolderName }}
                                 </div>
                             </div>
