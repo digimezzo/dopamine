@@ -1,0 +1,33 @@
+.bars {
+    height: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.bars div {
+    width: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: var(--theme-accent-color);
+}
+
+.bar1 {
+    height: 3px;
+}
+
+.bar2 {
+    height: 7px;
+}
+
+.bar3 {
+    height: 12px;
+}
+
+.bar4 {
+    height: 5px;
+}
+
+.bar5 {
+    height: 9px;
+}
