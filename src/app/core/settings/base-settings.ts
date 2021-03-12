@@ -15,4 +15,5 @@ export abstract class BaseSettings {
     public abstract refreshCollectionAutomatically: boolean;
     public abstract foldersLeftPaneWithPercent: number;
     public abstract volume: number;
+    public abstract selectedTab: string;
 }

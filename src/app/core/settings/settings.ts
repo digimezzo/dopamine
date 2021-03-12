@@ -153,6 +153,15 @@ export class Settings implements BaseSettings {
         this.settings.set('volume', v);
     }
 
+    //  Selected tab
+    public get selectedTab(): string {
+        return this.settings.get('selectedTab');
+    }
+
+    public set selectedTab(v: string) {
+        this.settings.set('selectedTab', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -217,6 +226,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('volume')) {
             this.settings.set('volume', 0.5);
+        }
+
+        if (!this.settings.has('selectedTab')) {
+            this.settings.set('selectedTab', 'explore');
         }
     }
 }

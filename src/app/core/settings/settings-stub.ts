@@ -22,4 +22,5 @@ export class SettingsStub implements BaseSettings {
     public showAllFoldersInCollection: boolean = false;
     public foldersLeftPaneWithPercent: number = 30;
     public volume: number = 0.6;
+    public selectedTab: string = 'explore';
 }

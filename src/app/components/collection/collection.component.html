@@ -8,7 +8,7 @@
     </div>
     <div class="window-frame__content">
         <div class="collection-component">
-            <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)">
+            <mat-tab-group [(selectedIndex)]="selectedIndex">
                 <mat-tab>
                     <ng-template mat-tab-label>
                         {{ 'Pages.Collection.Explore' | translate }}
