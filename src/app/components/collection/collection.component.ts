@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { Settings } from '../../core/settings/settings';
+import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
 export class CollectionComponent implements OnInit {
     private _selectedIndex: number;
 
-    constructor(public appearanceService: BaseAppearanceService, private settings: Settings, private logger: Logger) {}
+    constructor(public appearanceService: BaseAppearanceService, private settings: BaseSettings) {}
 
     public get selectedIndex(): number {
         return this._selectedIndex;
@@ -26,7 +25,6 @@ export class CollectionComponent implements OnInit {
         // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
         // selected tab is changed.
         window.dispatchEvent(new Event('resize'));
-        this.logger.info('Triggered resize', '', '');
     }
 
     public async ngOnInit(): Promise<void> {
