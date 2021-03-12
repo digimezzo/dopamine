@@ -150,6 +150,8 @@ import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
+import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
 import { AudioPlayer } from './services/playback/audio-player';
 import { BaseAudioPlayer } from './services/playback/base-audio-player';
 import { BasePlaybackService } from './services/playback/base-playback.service';
@@ -326,6 +328,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
         { provide: BaseTrackService, useClass: TrackService },
+        { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },

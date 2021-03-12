@@ -7,6 +7,7 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { PlaybackIndicationService } from '../../../services/playback-indication/playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -27,6 +28,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
+        private playbackIndicationService: PlaybackIndicationService,
         private hacks: Hacks
     ) {}
 
@@ -56,46 +58,10 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                this.setPlayingTrack(playbackStarted.currentTrack);
-                this.setPlayingSubfolder(playbackStarted.currentTrack);
+                this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
+                this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, playbackStarted.currentTrack);
             })
         );
-    }
-
-    private setPlayingTrack(playingTrack: TrackModel): void {
-        if (playingTrack == undefined) {
-            return;
-        }
-
-        if (this.subfolders == undefined) {
-            return;
-        }
-
-        for (const subfolder of this.subfolders) {
-            subfolder.isPlaying = false;
-
-            if (!subfolder.isGoToParent && playingTrack.path.includes(subfolder.path)) {
-                subfolder.isPlaying = true;
-            }
-        }
-    }
-
-    private setPlayingSubfolder(playingTrack: TrackModel): void {
-        if (playingTrack == undefined) {
-            return;
-        }
-
-        if (this.tracks == undefined || this.tracks.tracks == undefined) {
-            return;
-        }
-
-        for (const track of this.tracks.tracks) {
-            track.isPlaying = false;
-
-            if (track.path === playingTrack.path) {
-                track.isPlaying = true;
-            }
-        }
     }
 
     public dragEnd(event: any): void {
@@ -120,8 +86,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         // subfolder remains visible. This function is a workaround for this problem.
         this.hacks.removeTooltips();
 
-        this.setPlayingTrack(this.playbackService.currentTrack);
-        this.setPlayingSubfolder(this.playbackService.currentTrack);
+        this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
+        this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
     }
 
     public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
@@ -137,7 +103,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.navigationService.navigateToManageCollection();
     }
 
-    private getFirstFolder(): FolderModel {
+    private getFolderToSelect(): FolderModel {
         if (this.folders.length === 0) {
             return undefined;
         }
@@ -147,7 +113,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     private async fillListsAsync(): Promise<void> {
         await this.getFoldersAsync();
-        const folderToSelect: FolderModel = this.getFirstFolder();
+        const folderToSelect: FolderModel = this.getFolderToSelect();
         await this.setSelectedFolderAsync(folderToSelect);
     }
 
