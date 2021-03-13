@@ -38,6 +38,7 @@ import { AddFolderComponent } from './components/add-folder/add-folder.component
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { CollectionExploreComponent } from './components/collection/collection-explore/collection-explore.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
+import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
@@ -306,6 +307,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         MathExtensions,
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
+        FoldersPersister,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

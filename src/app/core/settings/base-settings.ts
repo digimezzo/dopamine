@@ -16,4 +16,6 @@ export abstract class BaseSettings {
     public abstract foldersLeftPaneWithPercent: number;
     public abstract volume: number;
     public abstract selectedTab: string;
+    public abstract foldersTabActiveFolder: string;
+    public abstract foldersTabActiveSubfolder: string;
 }

@@ -162,6 +162,24 @@ export class Settings implements BaseSettings {
         this.settings.set('selectedTab', v);
     }
 
+    //  Folders tab active folder
+    public get foldersTabActiveFolder(): string {
+        return this.settings.get('foldersTabActiveFolder');
+    }
+
+    public set foldersTabActiveFolder(v: string) {
+        this.settings.set('foldersTabActiveFolder', v);
+    }
+
+    //  Folders tab active subfolder
+    public get foldersTabActiveSubfolder(): string {
+        return this.settings.get('foldersTabActiveSubfolder');
+    }
+
+    public set foldersTabActiveSubfolder(v: string) {
+        this.settings.set('foldersTabActiveSubfolder', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -230,6 +248,14 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('selectedTab')) {
             this.settings.set('selectedTab', 'explore');
+        }
+
+        if (!this.settings.has('foldersTabActiveFolder')) {
+            this.settings.set('foldersTabActiveFolder', '');
+        }
+
+        if (!this.settings.has('foldersTabActiveSubfolder')) {
+            this.settings.set('foldersTabActiveSubfolder', '');
         }
     }
 }

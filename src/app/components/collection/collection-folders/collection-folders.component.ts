@@ -13,6 +13,7 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { FoldersPersister } from './folders-persister';
 
 @Component({
     selector: 'app-collection-folders',
@@ -29,6 +30,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
         private playbackIndicationService: PlaybackIndicationService,
+        private foldersPersister: FoldersPersister,
         private hacks: Hacks
     ) {}
 
@@ -42,7 +44,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public area2Size: number = 100 - this.settings.foldersLeftPaneWithPercent;
 
     public folders: FolderModel[] = [];
-    public selectedFolder: FolderModel;
+    public activeFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
@@ -72,14 +74,17 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.folders = this.folderService.getFolders();
     }
 
-    public async getSubfoldersAsync(selectedSubfolder: SubfolderModel): Promise<void> {
-        if (this.selectedFolder == undefined) {
+    public async setActiveSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
+        if (this.activeFolder == undefined) {
             return;
         }
 
-        this.subfolders = await this.folderService.getSubfoldersAsync(this.selectedFolder, selectedSubfolder);
+        this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
         const activeSubfolderPath = this.getActiveSubfolderPath();
-        this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.selectedFolder, activeSubfolderPath);
+
+        this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
+
+        this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
         this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
 
         // HACK: when refreshing the subfolder list, the tooltip of the last hovered
@@ -90,9 +95,13 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
     }
 
-    public async setSelectedFolderAsync(folder: FolderModel): Promise<void> {
-        this.selectedFolder = folder;
-        await this.getSubfoldersAsync(undefined);
+    public async setActiveFolderAsync(folderToActivate: FolderModel): Promise<void> {
+        this.activeFolder = folderToActivate;
+
+        this.foldersPersister.saveActiveFolderToSettings(folderToActivate);
+
+        const activeSubfolderFromSettings: SubfolderModel = this.foldersPersister.getActiveSubfolderFromSettings();
+        await this.setActiveSubfolderAsync(activeSubfolderFromSettings);
     }
 
     public setSelectedSubfolder(subfolder: SubfolderModel): void {
@@ -103,24 +112,17 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.navigationService.navigateToManageCollection();
     }
 
-    private getFolderToSelect(): FolderModel {
-        if (this.folders.length === 0) {
-            return undefined;
-        }
-
-        return this.folders[0];
-    }
-
     private async fillListsAsync(): Promise<void> {
         await this.getFoldersAsync();
-        const folderToSelect: FolderModel = this.getFolderToSelect();
-        await this.setSelectedFolderAsync(folderToSelect);
+
+        const activeFolderFromSettings: FolderModel = this.foldersPersister.getActiveFolderFromSettings(this.folders);
+        await this.setActiveFolderAsync(activeFolderFromSettings);
     }
 
     private getActiveSubfolderPath(): string {
         return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
             ? this.subfolders.filter((x) => x.isGoToParent)[0].path
-            : this.selectedFolder.path;
+            : this.activeFolder.path;
     }
 
     public setSelectedTrack(track: TrackModel): void {
