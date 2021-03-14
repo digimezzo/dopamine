@@ -30,6 +30,9 @@ describe('CollectionFoldersComponent', () => {
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
 
+    let folder1: FolderModel;
+    let folder2: FolderModel;
+
     let component: CollectionFoldersComponent;
 
     beforeEach(() => {
@@ -43,6 +46,10 @@ describe('CollectionFoldersComponent', () => {
         hacksMock = Mock.ofType<Hacks>();
 
         settingsMock.foldersLeftPaneWithPercent = 30;
+
+        folder1 = new FolderModel(new Folder('/home/user/Music'));
+        folder2 = new FolderModel(new Folder('/home/user/Downloads'));
+        folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
 
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
@@ -72,8 +79,8 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should define playbackService', async () => {
-            // foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => undefined);
-            // foldersPersisterMock.setup((x) => x.getActiveSubfolderFromSettings()).returns(() => undefined);
+            // Arrange
+
             // Act
 
             // Assert
@@ -169,8 +176,6 @@ describe('CollectionFoldersComponent', () => {
     describe('getFoldersAsync', () => {
         it('should get the folders', async () => {
             // Arrange
-            const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder]);
 
             // Act
             await component.getFoldersAsync();
@@ -183,8 +188,6 @@ describe('CollectionFoldersComponent', () => {
     describe('ngOnInit', () => {
         it('should get the folders', async () => {
             // Arrange
-            const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder]);
 
             // Act
             component.ngOnInit();
@@ -195,10 +198,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the active folder if there are no subfolders', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
 
             const activeFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
@@ -221,10 +220,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the active folder if there are subfolders but none is go to parent', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', false);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => [subfolder1, subfolder2]);
@@ -249,10 +244,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => [subfolder1, subfolder2]);
@@ -277,10 +268,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the active folder if there are no subfolders', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
 
             const activeFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
@@ -303,9 +290,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the active folder if there are subfolders but none is go to parent', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', false);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => [subfolder1, subfolder2]);
@@ -330,9 +314,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => [subfolder1, subfolder2]);
@@ -357,9 +338,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing subfolder', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -388,9 +366,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing track', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -420,9 +395,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing subfolder on playback started', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -454,9 +426,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing track on playback started', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -484,9 +453,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the active folder from the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -512,9 +478,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get subfolders for the the active subfolder from the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -540,9 +503,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should save the active subfolder to the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -576,9 +536,6 @@ describe('CollectionFoldersComponent', () => {
     describe('goToManageCollection', () => {
         it('should navigate to manage collection', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             component.activeFolder = folder2;
 
             // Act
@@ -592,9 +549,6 @@ describe('CollectionFoldersComponent', () => {
     describe('setActiveFolderAsync', () => {
         it('should set the selected folder', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
             component.activeFolder = folder2;
@@ -622,9 +576,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get subfolders for the the active subfolder from the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -650,9 +601,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should save the active folder to the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -678,9 +626,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should save the active subfolder to the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
@@ -878,9 +823,6 @@ describe('CollectionFoldersComponent', () => {
 
         it('should save the active subfolder to the settings', async () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/subfolder2', true);
             const subfolders: SubfolderModel[] = [subfolder1, subfolder2];
