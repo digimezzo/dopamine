@@ -44,9 +44,6 @@ describe('CollectionFoldersComponent', () => {
 
         settingsMock.foldersLeftPaneWithPercent = 30;
 
-        // foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => undefined);
-        // foldersPersisterMock.setup((x) => x.getActiveSubfolderFromSettings()).returns(() => undefined);
-
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
 
@@ -75,8 +72,8 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should define playbackService', async () => {
-            // Arrange
-
+            // foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => undefined);
+            // foldersPersisterMock.setup((x) => x.getActiveSubfolderFromSettings()).returns(() => undefined);
             // Act
 
             // Assert
@@ -196,55 +193,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
 
-        it('should set the selected folder to the first folder if it is undefined', async () => {
-            // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
-            trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.activeFolder).toEqual(folder1);
-        });
-
-        it('should not set the selected folder if it is not undefined', async () => {
-            // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-            component.activeFolder = folder2;
-
-            // Act
-            component.ngOnInit();
-
-            // Assert
-            expect(component.activeFolder).toEqual(folder2);
-        });
-
-        it('should get subfolders for an undefined subfolder', async () => {
-            // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
-            folderServiceMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-
-            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
-            const folder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            component.activeFolder = folder;
-
-            trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            folderServiceMock.verify((x) => x.getSubfoldersAsync(It.isAny(), undefined), Times.exactly(1));
-        });
-
-        it('should get breadcrumbs for the selected folder if there are no subfolders', async () => {
+        it('should get breadcrumbs for the active folder if there are no subfolders', async () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
@@ -258,6 +207,11 @@ describe('CollectionFoldersComponent', () => {
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
 
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
+
             // Act
             await component.ngOnInit();
 
@@ -265,7 +219,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfolderBreadCrumbsAsync(activeFolder, activeFolder.path), Times.exactly(1));
         });
 
-        it('should get breadcrumbs for the selected folder if there are subfolders but none is go to parent', async () => {
+        it('should get breadcrumbs for the active folder if there are subfolders but none is go to parent', async () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
@@ -280,6 +234,11 @@ describe('CollectionFoldersComponent', () => {
             component.subfolders = [];
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
+
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
 
             // Act
             await component.ngOnInit();
@@ -304,6 +263,11 @@ describe('CollectionFoldersComponent', () => {
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
 
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
+
             // Act
             await component.ngOnInit();
 
@@ -311,7 +275,7 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.verify((x) => x.getSubfolderBreadCrumbsAsync(activeFolder, subfolder2.path), Times.exactly(1));
         });
 
-        it('should get tracks for the selected folder if there are no subfolders', async () => {
+        it('should get tracks for the active folder if there are no subfolders', async () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
@@ -325,6 +289,11 @@ describe('CollectionFoldersComponent', () => {
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
 
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
+
             // Act
             await component.ngOnInit();
 
@@ -332,7 +301,7 @@ describe('CollectionFoldersComponent', () => {
             trackServiceMock.verify((x) => x.getTracksInSubfolderAsync(activeFolder.path), Times.exactly(1));
         });
 
-        it('should get tracks for the selected folder if there are subfolders but none is go to parent', async () => {
+        it('should get tracks for the active folder if there are subfolders but none is go to parent', async () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/home/user/Music'));
             const folder2: FolderModel = new FolderModel(new Folder('/home/user/Downloads'));
@@ -346,6 +315,11 @@ describe('CollectionFoldersComponent', () => {
             component.subfolders = [];
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
+
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
 
             // Act
             await component.ngOnInit();
@@ -368,6 +342,11 @@ describe('CollectionFoldersComponent', () => {
             component.subfolders = [];
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
+
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
 
             // Act
             await component.ngOnInit();
@@ -394,6 +373,11 @@ describe('CollectionFoldersComponent', () => {
 
             const track1: TrackModel = new TrackModel(new Track('dummy'));
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
+
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
 
             // Act
             await component.ngOnInit();
@@ -422,6 +406,11 @@ describe('CollectionFoldersComponent', () => {
             const track1: TrackModel = new TrackModel(new Track('dummy'));
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
 
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
+
             // Act
             await component.ngOnInit();
 
@@ -444,6 +433,11 @@ describe('CollectionFoldersComponent', () => {
             component.subfolders = [];
 
             trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
+
+            foldersPersisterMock.setup((x) => x.getActiveFolderFromSettings(It.isAny())).returns(() => activeFolder);
+            foldersPersisterMock
+                .setup((x) => x.getActiveSubfolderFromSettings())
+                .returns(() => new SubfolderModel('/home/user/Downloads/Subfolder1', false));
 
             const track1: TrackModel = new TrackModel(new Track('dummy'));
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
