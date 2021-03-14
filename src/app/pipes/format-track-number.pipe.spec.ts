@@ -8,37 +8,37 @@ describe('FormatTrackNumberPipe', () => {
     });
 
     describe('transform', () => {
-        it('should return two dashes if track number is undefined', () => {
+        it('should return empty if track number is undefined', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(undefined);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('--');
+            expect(formattedTrackNumber).toEqual('');
         });
 
-        it('should return two dashes if track number is 0', () => {
+        it('should return empty if track number is 0', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(0);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('--');
+            expect(formattedTrackNumber).toEqual('');
         });
 
-        it('should return two dashes if track number is -5', () => {
+        it('should return empty if track number is -5', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(-5);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('--');
+            expect(formattedTrackNumber).toEqual('');
         });
 
-        it('should return track number padded with 0 if track number is between 1 and 9 inclusive', () => {
+        it('should return track number if track number is between 1 and 9 inclusive', () => {
             // Arrange
 
             // Act
@@ -53,15 +53,15 @@ describe('FormatTrackNumberPipe', () => {
             const formattedTrackNumber9: string = formatTrackNumberPipe.transform(9);
 
             // Assert
-            expect(formattedTrackNumber1).toEqual('01');
-            expect(formattedTrackNumber2).toEqual('02');
-            expect(formattedTrackNumber3).toEqual('03');
-            expect(formattedTrackNumber4).toEqual('04');
-            expect(formattedTrackNumber5).toEqual('05');
-            expect(formattedTrackNumber6).toEqual('06');
-            expect(formattedTrackNumber7).toEqual('07');
-            expect(formattedTrackNumber8).toEqual('08');
-            expect(formattedTrackNumber9).toEqual('09');
+            expect(formattedTrackNumber1).toEqual('1');
+            expect(formattedTrackNumber2).toEqual('2');
+            expect(formattedTrackNumber3).toEqual('3');
+            expect(formattedTrackNumber4).toEqual('4');
+            expect(formattedTrackNumber5).toEqual('5');
+            expect(formattedTrackNumber6).toEqual('6');
+            expect(formattedTrackNumber7).toEqual('7');
+            expect(formattedTrackNumber8).toEqual('8');
+            expect(formattedTrackNumber9).toEqual('9');
         });
 
         it('should return track number if track number is between 10 and 99 inclusive', () => {
