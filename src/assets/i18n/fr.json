@@ -32,7 +32,9 @@
             "Text": "Chargement..."
         },
         "Collection": {
-            "Explore": "Explorer",
+            "Artists": "Artistes",
+            "Albums": "Albums",
+            "Genres": "Genres",
             "Track": "Morceau",
             "Tracks": "Morceaux",
             "Playlists": "Listes de lectures",

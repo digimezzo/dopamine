@@ -37,9 +37,9 @@ describe('CollectionComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should set the explore tab from the settings', async () => {
+        it('should set the artists tab from the settings', async () => {
             // Arrange
-            const settingsStub: any = { selectedTab: 'explore' };
+            const settingsStub: any = { selectedTab: 'artists' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
 
             // Act
@@ -47,6 +47,30 @@ describe('CollectionComponent', () => {
 
             // Assert
             expect(component.selectedIndex).toEqual(0);
+        });
+
+        it('should set the genres tab from the settings', async () => {
+            // Arrange
+            const settingsStub: any = { selectedTab: 'genres' };
+            component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.selectedIndex).toEqual(1);
+        });
+
+        it('should set the albums tab from the settings', async () => {
+            // Arrange
+            const settingsStub: any = { selectedTab: 'albums' };
+            component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.selectedIndex).toEqual(2);
         });
 
         it('should set the songs tab from the settings', async () => {
@@ -58,7 +82,7 @@ describe('CollectionComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            expect(component.selectedIndex).toEqual(1);
+            expect(component.selectedIndex).toEqual(3);
         });
 
         it('should set the playlists tab from the settings', async () => {
@@ -70,7 +94,7 @@ describe('CollectionComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            expect(component.selectedIndex).toEqual(2);
+            expect(component.selectedIndex).toEqual(4);
         });
 
         it('should set the folders tab from the settings', async () => {
@@ -82,10 +106,10 @@ describe('CollectionComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            expect(component.selectedIndex).toEqual(3);
+            expect(component.selectedIndex).toEqual(5);
         });
 
-        it('should set the explore tab if the settings contain an unknown tab', async () => {
+        it('should set the artists tab if the settings contain an unknown tab', async () => {
             // Arrange
             const settingsStub: any = { selectedTab: 'unknown' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
@@ -97,7 +121,7 @@ describe('CollectionComponent', () => {
             expect(component.selectedIndex).toEqual(0);
         });
 
-        it('should set the explore tab if the settings contain an empty tab', async () => {
+        it('should set the artists tab if the settings contain an empty tab', async () => {
             // Arrange
             const settingsStub: any = { selectedTab: '' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
@@ -111,7 +135,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('selectedIndex', () => {
-        it('should save the explore tab to the settings', async () => {
+        it('should save the artists tab to the settings', async () => {
             // Arrange
             const settingsStub: any = { selectedTab: '' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
@@ -121,14 +145,40 @@ describe('CollectionComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            expect(settingsStub.selectedTab).toEqual('explore');
+            expect(settingsStub.selectedTab).toEqual('artists');
         });
 
-        it('should save the songs tab to the settings', async () => {
+        it('should save the genres tab to the settings', async () => {
             // Arrange
             const settingsStub: any = { selectedTab: '' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
             component.selectedIndex = 1;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(settingsStub.selectedTab).toEqual('genres');
+        });
+
+        it('should save the albums tab to the settings', async () => {
+            // Arrange
+            const settingsStub: any = { selectedTab: '' };
+            component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
+            component.selectedIndex = 2;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(settingsStub.selectedTab).toEqual('albums');
+        });
+
+        it('should save the tracks tab to the settings', async () => {
+            // Arrange
+            const settingsStub: any = { selectedTab: '' };
+            component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
+            component.selectedIndex = 3;
 
             // Act
             await component.ngOnInit();
@@ -141,7 +191,7 @@ describe('CollectionComponent', () => {
             // Arrange
             const settingsStub: any = { selectedTab: '' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
-            component.selectedIndex = 2;
+            component.selectedIndex = 4;
 
             // Act
             await component.ngOnInit();
@@ -154,7 +204,7 @@ describe('CollectionComponent', () => {
             // Arrange
             const settingsStub: any = { selectedTab: '' };
             component = new CollectionComponent(appearanceServiceMock.object, settingsStub);
-            component.selectedIndex = 3;
+            component.selectedIndex = 5;
 
             // Act
             await component.ngOnInit();

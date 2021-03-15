@@ -33,17 +33,23 @@ export class CollectionComponent implements OnInit {
 
     private setSelectedTabFromSettings(): void {
         switch (this.settings.selectedTab) {
-            case 'explore':
+            case 'artists':
                 this.selectedIndex = 0;
                 break;
-            case 'tracks':
+            case 'genres':
                 this.selectedIndex = 1;
                 break;
-            case 'playlists':
+            case 'albums':
                 this.selectedIndex = 2;
                 break;
-            case 'folders':
+            case 'tracks':
                 this.selectedIndex = 3;
+                break;
+            case 'playlists':
+                this.selectedIndex = 4;
+                break;
+            case 'folders':
+                this.selectedIndex = 5;
                 break;
             default: {
                 this.selectedIndex = 0;
@@ -55,19 +61,25 @@ export class CollectionComponent implements OnInit {
     private saveSelectedTabToSettings(): void {
         switch (this.selectedIndex) {
             case 0:
-                this.settings.selectedTab = 'explore';
+                this.settings.selectedTab = 'artists';
                 break;
             case 1:
-                this.settings.selectedTab = 'tracks';
+                this.settings.selectedTab = 'genres';
                 break;
             case 2:
-                this.settings.selectedTab = 'playlists';
+                this.settings.selectedTab = 'albums';
                 break;
             case 3:
+                this.settings.selectedTab = 'tracks';
+                break;
+            case 4:
+                this.settings.selectedTab = 'playlists';
+                break;
+            case 5:
                 this.settings.selectedTab = 'folders';
                 break;
             default: {
-                this.settings.selectedTab = 'explore';
+                this.settings.selectedTab = 'artists';
                 break;
             }
         }

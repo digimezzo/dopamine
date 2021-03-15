@@ -36,9 +36,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
-import { CollectionExploreComponent } from './components/collection/collection-explore/collection-explore.component';
+import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
+import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
+import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
@@ -223,8 +225,10 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
         CollectionPlaylistsComponent,
-        CollectionExploreComponent,
+        CollectionArtistsComponent,
+        CollectionAlbumsComponent,
         CollectionTracksComponent,
+        CollectionGenresComponent,
         PlaybackControlsComponent,
         PlaybackProgressComponent,
         PlaybackTimeComponent,

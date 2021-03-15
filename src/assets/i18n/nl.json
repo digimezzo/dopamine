@@ -32,7 +32,9 @@
             "Text": "Laden..."
         },
         "Collection": {
-            "Explore": "Verkennen",
+            "Artists": "Artiesten",
+            "Albums": "Albums",
+            "Genres": "Genres",
             "Track": "Nummer",
             "Tracks": "Nummers",
             "Playlists": "Afspeellijsten",

@@ -1,10 +1,10 @@
-import { CollectionExploreComponent } from './collection-explore.component';
+import { CollectionGenresComponent } from './collection-genres.component';
 
-describe('CollectionExplorerComponent', () => {
-    let component: CollectionExploreComponent;
+describe('CollectionGenresComponent', () => {
+    let component: CollectionGenresComponent;
 
     beforeEach(() => {
-        component = new CollectionExploreComponent();
+        component = new CollectionGenresComponent();
     });
 
     describe('constructor', () => {

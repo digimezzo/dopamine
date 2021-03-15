@@ -32,7 +32,9 @@
             "Text": "Loading..."
         },
         "Collection": {
-            "Explore": "Explore",
+            "Artists": "Artists",
+            "Albums": "Albums",
+            "Genres": "Genres",
             "Track": "Song",
             "Tracks": "Songs",
             "Playlists": "Playlists",

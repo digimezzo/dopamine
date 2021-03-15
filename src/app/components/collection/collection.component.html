@@ -11,9 +11,21 @@
             <mat-tab-group [(selectedIndex)]="selectedIndex">
                 <mat-tab>
                     <ng-template mat-tab-label>
-                        {{ 'Pages.Collection.Explore' | translate }}
+                        {{ 'Pages.Collection.Artists' | translate }}
                     </ng-template>
-                    <app-collection-explore></app-collection-explore>
+                    <app-collection-artists></app-collection-artists>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        {{ 'Pages.Collection.Genres' | translate }}
+                    </ng-template>
+                    <app-collection-genres></app-collection-genres>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        {{ 'Pages.Collection.Albums' | translate }}
+                    </ng-template>
+                    <app-collection-albums></app-collection-albums>
                 </mat-tab>
                 <mat-tab>
                     <ng-template mat-tab-label>
