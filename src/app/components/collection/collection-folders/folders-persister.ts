@@ -14,11 +14,10 @@ export class FoldersPersister {
     public saveActiveFolderToSettings(activeFolder: FolderModel): void {
         if (activeFolder == undefined) {
             this.settings.foldersTabActiveFolder = '';
+            this.settings.foldersTabActiveSubfolder = '';
         } else {
             this.settings.foldersTabActiveFolder = activeFolder.path;
         }
-
-        this.settings.foldersTabActiveSubfolder = '';
     }
 
     public saveActiveSubfolderToSettings(activeSubfolder: SubfolderModel): void {

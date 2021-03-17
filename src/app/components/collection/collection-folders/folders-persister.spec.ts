@@ -65,7 +65,7 @@ describe('FoldersPersister', () => {
             expect(settingsStub.foldersTabActiveSubfolder).toEqual('');
         });
 
-        it('should clear the active subfolder in the settings if the given active folder is not undefined', () => {
+        it('should not clear the active subfolder in the settings if the given active folder is not undefined', () => {
             // Arrange
             settingsStub.foldersTabActiveSubfolder = '/some/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
@@ -75,7 +75,7 @@ describe('FoldersPersister', () => {
             foldersPersister.saveActiveFolderToSettings(activeFolder);
 
             // Assert
-            expect(settingsStub.foldersTabActiveSubfolder).toEqual('');
+            expect(settingsStub.foldersTabActiveSubfolder).toEqual('/some/subfolder');
         });
     });
 
