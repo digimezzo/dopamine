@@ -135,13 +135,22 @@ export class Settings implements BaseSettings {
         this.settings.set('refreshCollectionAutomatically', v);
     }
 
-    //  Folders left pane with percent
-    public get foldersLeftPaneWithPercent(): number {
-        return this.settings.get('foldersLeftPaneWithPercent');
+    //  Albums right pane width percent
+    public get albumsRightPaneWidthPercent(): number {
+        return this.settings.get('albumsRightPaneWidthPercent');
     }
 
-    public set foldersLeftPaneWithPercent(v: number) {
-        this.settings.set('foldersLeftPaneWithPercent', v);
+    public set albumsRightPaneWidthPercent(v: number) {
+        this.settings.set('albumsRightPaneWidthPercent', v);
+    }
+
+    //  Folders left pane width percent
+    public get foldersLeftPaneWidthPercent(): number {
+        return this.settings.get('foldersLeftPaneWidthPercent');
+    }
+
+    public set foldersLeftPaneWidthPercent(v: number) {
+        this.settings.set('foldersLeftPaneWidthPercent', v);
     }
 
     //  Volume
@@ -238,8 +247,12 @@ export class Settings implements BaseSettings {
             this.settings.set('refreshCollectionAutomatically', true);
         }
 
-        if (!this.settings.has('foldersLeftPaneWithPercent')) {
-            this.settings.set('foldersLeftPaneWithPercent', 30);
+        if (!this.settings.has('albumsRightPaneWidthPercent')) {
+            this.settings.set('albumsRightPaneWidthPercent', 30);
+        }
+
+        if (!this.settings.has('foldersLeftPaneWidthPercent')) {
+            this.settings.set('foldersLeftPaneWidthPercent', 30);
         }
 
         if (!this.settings.has('volume')) {

@@ -1,8 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Hacks } from '../../../core/hacks';
-import { BaseSettings } from '../../../core/settings/base-settings';
-import { SettingsStub } from '../../../core/settings/settings-stub';
 import { Folder } from '../../../data/entities/folder';
 import { Track } from '../../../data/entities/track';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -19,7 +17,7 @@ import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 
 describe('CollectionFoldersComponent', () => {
-    let settingsMock: BaseSettings;
+    let settingsStub: any;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let folderServiceMock: IMock<BaseFolderService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -43,7 +41,7 @@ describe('CollectionFoldersComponent', () => {
     let component: CollectionFoldersComponent;
 
     beforeEach(() => {
-        settingsMock = new SettingsStub();
+        settingsStub = { foldersLeftPaneWidthPercent: 30 };
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
@@ -51,8 +49,6 @@ describe('CollectionFoldersComponent', () => {
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         foldersPersisterMock = Mock.ofType<FoldersPersister>();
         hacksMock = Mock.ofType<Hacks>();
-
-        settingsMock.foldersLeftPaneWithPercent = 30;
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -79,7 +75,7 @@ describe('CollectionFoldersComponent', () => {
 
         component = new CollectionFoldersComponent(
             playbackServiceMock.object,
-            settingsMock,
+            settingsStub,
             folderServiceMock.object,
             navigationServiceMock.object,
             trackServiceMock.object,
@@ -108,22 +104,22 @@ describe('CollectionFoldersComponent', () => {
             expect(component.playbackService).toBeDefined();
         });
 
-        it('should set area1 size from settings', async () => {
+        it('should set left pane size from settings', async () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.area1Size).toEqual(30);
+            expect(component.leftPaneSize).toEqual(30);
         });
 
-        it('should set area2 size from settings', async () => {
+        it('should set right pane size from settings', async () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.area2Size).toEqual(70);
+            expect(component.rightPaneSize).toEqual(70);
         });
 
         it('should define folders', async () => {
@@ -181,16 +177,16 @@ describe('CollectionFoldersComponent', () => {
         });
     });
 
-    describe('dragEnd', () => {
+    describe('splitDragEnd', () => {
         it('should save the left pane width to the settings', async () => {
             // Arrange
-            settingsMock.foldersLeftPaneWithPercent = 45;
+            settingsStub.foldersLeftPaneWithPercent = 45;
 
             // Act
-            component.dragEnd({ sizes: [30, 70] });
+            component.splitDragEnd({ sizes: [30, 70] });
 
             // Assert
-            expect(settingsMock.foldersLeftPaneWithPercent).toEqual(30);
+            expect(settingsStub.foldersLeftPaneWidthPercent).toEqual(30);
         });
     });
 

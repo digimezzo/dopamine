@@ -2,7 +2,6 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { SettingsStub } from '../../core/settings/settings-stub';
 import { Folder } from '../../data/entities/folder';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
@@ -18,7 +17,7 @@ describe('AddFolderComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let loggerMock: IMock<Logger>;
-    let settingsStub: SettingsStub;
+    let settingsStub: any;
     let settingsMock: IMock<BaseSettings>;
     let component: AddFolderComponent;
     let componentWithStub: AddFolderComponent;
@@ -30,7 +29,7 @@ describe('AddFolderComponent', () => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         loggerMock = Mock.ofType<Logger>();
-        settingsStub = new SettingsStub();
+        settingsStub = { showAllFoldersInCollection: false };
         settingsMock = Mock.ofType<BaseSettings>();
 
         translatorServiceMock.setup((x) => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
@@ -399,7 +398,6 @@ describe('AddFolderComponent', () => {
 
         it('should set settings showAllFoldersInCollection', () => {
             // Arrange
-            settingsStub.showAllFoldersInCollection = false;
 
             // Act
             componentWithStub.showAllFoldersInCollection = true;

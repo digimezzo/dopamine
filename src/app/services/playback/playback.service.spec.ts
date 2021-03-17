@@ -2,7 +2,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { Logger } from '../../core/logger';
 import { MathExtensions } from '../../core/math-extensions';
-import { SettingsStub } from '../../core/settings/settings-stub';
 import { Track } from '../../data/entities/track';
 import { TrackModel } from '../track/track-model';
 import { BaseAudioPlayer } from './base-audio-player';
@@ -19,7 +18,7 @@ describe('PlaybackService', () => {
     let queueMock: IMock<Queue>;
     let progressUpdaterMock: IMock<ProgressUpdater>;
     let mathExtensionsMock: IMock<MathExtensions>;
-    let settingsMock: SettingsStub;
+    let settingsStub: any;
     let service: PlaybackService;
     let playbackFinished: Subject<void>;
     let progressUpdaterProgressChanged: Subject<PlaybackProgress>;
@@ -31,7 +30,7 @@ describe('PlaybackService', () => {
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
-        settingsMock = new SettingsStub();
+        settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
         progressUpdaterProgressChanged = new Subject();
         const playbackFinished$: Observable<void> = playbackFinished.asObservable();
@@ -47,7 +46,7 @@ describe('PlaybackService', () => {
             queueMock.object,
             progressUpdaterMock.object,
             mathExtensionsMock.object,
-            settingsMock,
+            settingsStub,
             loggerMock.object
         );
     });
@@ -981,7 +980,7 @@ describe('PlaybackService', () => {
             service.volume = 0.8;
 
             // Assert
-            expect(settingsMock.volume).toEqual(0.8);
+            expect(settingsStub.volume).toEqual(0.8);
         });
 
         it('should set the provided volume if a volume of 0 is provided', () => {
@@ -1014,7 +1013,7 @@ describe('PlaybackService', () => {
             service.volume = 0;
 
             // Assert
-            expect(settingsMock.volume).toEqual(0);
+            expect(settingsStub.volume).toEqual(0);
         });
 
         it('should set the provided volume if a volume of 1 is provided', () => {
@@ -1047,7 +1046,7 @@ describe('PlaybackService', () => {
             service.volume = 1;
 
             // Assert
-            expect(settingsMock.volume).toEqual(1);
+            expect(settingsStub.volume).toEqual(1);
         });
 
         it('should set the volume to 0 if a volume smaller than 0 is provided', () => {
@@ -1080,7 +1079,7 @@ describe('PlaybackService', () => {
             service.volume = -0.5;
 
             // Assert
-            expect(settingsMock.volume).toEqual(0);
+            expect(settingsStub.volume).toEqual(0);
         });
 
         it('should set the volume to 1 if a volume greater than 1 is provided', () => {
@@ -1113,7 +1112,7 @@ describe('PlaybackService', () => {
             service.volume = 1.5;
 
             // Assert
-            expect(settingsMock.volume).toEqual(1);
+            expect(settingsStub.volume).toEqual(1);
         });
     });
 });

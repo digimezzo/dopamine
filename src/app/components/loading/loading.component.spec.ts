@@ -1,7 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseScheduler } from '../../core/scheduler/base-scheduler';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { SettingsStub } from '../../core/settings/settings-stub';
 import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
@@ -13,7 +11,7 @@ describe('LoadingComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let databaseMigratorMock: IMock<BaseDatabaseMigrator>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let settingsMock: BaseSettings;
+    let settingsStub: any;
     let updateServiceMock: IMock<BaseUpdateService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let schedulerMock: IMock<BaseScheduler>;
@@ -24,7 +22,7 @@ describe('LoadingComponent', () => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         databaseMigratorMock = Mock.ofType<BaseDatabaseMigrator>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        settingsMock = new SettingsStub();
+        settingsStub = { showWelcome: false, refreshCollectionAutomatically: false };
         updateServiceMock = Mock.ofType<BaseUpdateService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         schedulerMock = Mock.ofType<BaseScheduler>();
@@ -33,7 +31,7 @@ describe('LoadingComponent', () => {
             navigationServiceMock.object,
             databaseMigratorMock.object,
             appearanceServiceMock.object,
-            settingsMock,
+            settingsStub,
             updateServiceMock.object,
             indexingServiceMock.object,
             schedulerMock.object
@@ -54,8 +52,6 @@ describe('LoadingComponent', () => {
     describe('ngOnInit', () => {
         it('should perform database migrations', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();
@@ -66,8 +62,7 @@ describe('LoadingComponent', () => {
 
         it('should navigate to welcome if welcome should be shown', async () => {
             // Arrange
-            settingsMock.showWelcome = true;
-            settingsMock.refreshCollectionAutomatically = false;
+            settingsStub.showWelcome = true;
 
             // Act
             await component.ngOnInit();
@@ -78,8 +73,6 @@ describe('LoadingComponent', () => {
 
         it('should navigate to collection if welcome should not be shown', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();
@@ -90,20 +83,16 @@ describe('LoadingComponent', () => {
 
         it('should prevent showing the welcome screen on a next start', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();
 
             // Assert
-            expect(settingsMock.showWelcome).toBeFalsy();
+            expect(settingsStub.showWelcome).toBeFalsy();
         });
 
         it('should check for updates when navigating to collection', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();
@@ -114,8 +103,6 @@ describe('LoadingComponent', () => {
 
         it('should wait 2 seconds before triggering indexing when navigating to collection', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();
@@ -126,8 +113,7 @@ describe('LoadingComponent', () => {
 
         it('should trigger indexing when navigating to collection and refresh collection automatically is enabled', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = true;
+            settingsStub.refreshCollectionAutomatically = true;
 
             // Act
             await component.ngOnInit();
@@ -138,8 +124,6 @@ describe('LoadingComponent', () => {
 
         it('should not trigger indexing when navigating to collection and refresh collection automatically is disabled', async () => {
             // Arrange
-            settingsMock.showWelcome = false;
-            settingsMock.refreshCollectionAutomatically = false;
 
             // Act
             await component.ngOnInit();

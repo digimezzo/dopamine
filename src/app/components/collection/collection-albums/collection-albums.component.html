@@ -1,0 +1,6 @@
+<div class="collection-viewport">
+    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
+        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95" #area1="asSplitArea"> </as-split-area>
+        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95" #area2="asSplitArea"><div class="side-pane"></div></as-split-area>
+    </as-split>
+</div>

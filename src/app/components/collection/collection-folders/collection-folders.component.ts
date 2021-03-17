@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { SplitAreaDirective, SplitComponent } from 'angular-split';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
 import { BaseSettings } from '../../../core/settings/base-settings';
@@ -34,14 +33,10 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private hacks: Hacks
     ) {}
 
-    @ViewChild('split', { static: false }) public split: SplitComponent;
-    @ViewChild('area1', { static: false }) public area1: SplitAreaDirective;
-    @ViewChild('area2', { static: false }) public area2: SplitAreaDirective;
-
     private subscription: Subscription = new Subscription();
 
-    public area1Size: number = this.settings.foldersLeftPaneWithPercent;
-    public area2Size: number = 100 - this.settings.foldersLeftPaneWithPercent;
+    public leftPaneSize: number = this.settings.foldersLeftPaneWidthPercent;
+    public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
 
     public folders: FolderModel[] = [];
     public activeFolder: FolderModel;
@@ -66,8 +61,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         );
     }
 
-    public dragEnd(event: any): void {
-        this.settings.foldersLeftPaneWithPercent = event.sizes[0];
+    public splitDragEnd(event: any): void {
+        this.settings.foldersLeftPaneWidthPercent = event.sizes[0];
     }
 
     public async getFoldersAsync(): Promise<void> {

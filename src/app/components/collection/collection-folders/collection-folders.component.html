@@ -1,6 +1,6 @@
 <div class="collection-viewport">
-    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="dragEnd($event)" #split="asSplit">
-        <as-split-area [size]="area1Size" minSize="5" maxSize="95" #area1="asSplitArea">
+    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
+        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95" #area1="asSplitArea">
             <div class="side-pane">
                 <div class="folder-browser p-3">
                     <!-- Folders in collection -->
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </as-split-area>
-        <as-split-area [size]="area2Size" minSize="5" maxSize="95" #area2="asSplitArea">
+        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95" #area2="asSplitArea">
             <div class="tracks-browser p-3">
                 <div class="tracks-browser__header m-1 no-select">
                     <div class="tracks-browser__trackscount mr-2">{{ this.tracks.numberOfTracks }}</div>

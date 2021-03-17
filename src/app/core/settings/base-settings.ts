@@ -13,7 +13,8 @@ export abstract class BaseSettings {
     public abstract downloadMissingAlbumCovers: boolean;
     public abstract showAllFoldersInCollection: boolean;
     public abstract refreshCollectionAutomatically: boolean;
-    public abstract foldersLeftPaneWithPercent: number;
+    public abstract albumsRightPaneWidthPercent: number;
+    public abstract foldersLeftPaneWidthPercent: number;
     public abstract volume: number;
     public abstract selectedTab: string;
     public abstract foldersTabActiveFolder: string;
