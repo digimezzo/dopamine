@@ -55,13 +55,12 @@ describe('CollectionAlbumsComponent', () => {
     describe('splitDragEnd', () => {
         it('should save the right pane width to the settings', async () => {
             // Arrange
-            settingsStub.albumsRightPaneWidthPercent = 45;
 
             // Act
-            component.splitDragEnd({ sizes: [70, 30] });
+            component.splitDragEnd({ sizes: [60, 40] });
 
             // Assert
-            expect(settingsStub.albumsRightPaneWidthPercent).toEqual(30);
+            expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
         });
     });
 });

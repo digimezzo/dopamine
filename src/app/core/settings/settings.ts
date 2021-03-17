@@ -153,6 +153,60 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersLeftPaneWidthPercent', v);
     }
 
+    //  Artists left pane width percent
+    public get artistsLeftPaneWidthPercent(): number {
+        return this.settings.get('artistsLeftPaneWidthPercent');
+    }
+
+    public set artistsLeftPaneWidthPercent(v: number) {
+        this.settings.set('artistsLeftPaneWidthPercent', v);
+    }
+
+    //  Artists right pane width percent
+    public get artistsRightPaneWidthPercent(): number {
+        return this.settings.get('artistsRightPaneWidthPercent');
+    }
+
+    public set artistsRightPaneWidthPercent(v: number) {
+        this.settings.set('artistsRightPaneWidthPercent', v);
+    }
+
+    //  Genres left pane width percent
+    public get genresLeftPaneWidthPercent(): number {
+        return this.settings.get('genresLeftPaneWidthPercent');
+    }
+
+    public set genresLeftPaneWidthPercent(v: number) {
+        this.settings.set('genresLeftPaneWidthPercent', v);
+    }
+
+    //  Genres right pane width percent
+    public get genresRightPaneWidthPercent(): number {
+        return this.settings.get('genresRightPaneWidthPercent');
+    }
+
+    public set genresRightPaneWidthPercent(v: number) {
+        this.settings.set('genresRightPaneWidthPercent', v);
+    }
+
+    //  Playlists left pane width percent
+    public get playlistsLeftPaneWidthPercent(): number {
+        return this.settings.get('playlistsLeftPaneWidthPercent');
+    }
+
+    public set playlistsLeftPaneWidthPercent(v: number) {
+        this.settings.set('playlistsLeftPaneWidthPercent', v);
+    }
+
+    //  Playlists right pane width percent
+    public get playlistsRightPaneWidthPercent(): number {
+        return this.settings.get('playlistsRightPaneWidthPercent');
+    }
+
+    public set playlistsRightPaneWidthPercent(v: number) {
+        this.settings.set('playlistsRightPaneWidthPercent', v);
+    }
+
     //  Volume
     public get volume(): number {
         return this.settings.get('volume');
@@ -253,6 +307,30 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('foldersLeftPaneWidthPercent')) {
             this.settings.set('foldersLeftPaneWidthPercent', 30);
+        }
+
+        if (!this.settings.has('artistsLeftPaneWidthPercent')) {
+            this.settings.set('artistsLeftPaneWidthPercent', 25);
+        }
+
+        if (!this.settings.has('artistsRightPaneWidthPercent')) {
+            this.settings.set('artistsRightPaneWidthPercent', 25);
+        }
+
+        if (!this.settings.has('genresLeftPaneWidthPercent')) {
+            this.settings.set('genresLeftPaneWidthPercent', 25);
+        }
+
+        if (!this.settings.has('genresRightPaneWidthPercent')) {
+            this.settings.set('genresRightPaneWidthPercent', 25);
+        }
+
+        if (!this.settings.has('playlistsLeftPaneWidthPercent')) {
+            this.settings.set('playlistsLeftPaneWidthPercent', 25);
+        }
+
+        if (!this.settings.has('playlistsRightPaneWidthPercent')) {
+            this.settings.set('playlistsRightPaneWidthPercent', 25);
         }
 
         if (!this.settings.has('volume')) {

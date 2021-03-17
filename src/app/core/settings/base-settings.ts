@@ -15,6 +15,12 @@ export abstract class BaseSettings {
     public abstract refreshCollectionAutomatically: boolean;
     public abstract albumsRightPaneWidthPercent: number;
     public abstract foldersLeftPaneWidthPercent: number;
+    public abstract artistsLeftPaneWidthPercent: number;
+    public abstract artistsRightPaneWidthPercent: number;
+    public abstract genresLeftPaneWidthPercent: number;
+    public abstract genresRightPaneWidthPercent: number;
+    public abstract playlistsLeftPaneWidthPercent: number;
+    public abstract playlistsRightPaneWidthPercent: number;
     public abstract volume: number;
     public abstract selectedTab: string;
     public abstract foldersTabActiveFolder: string;

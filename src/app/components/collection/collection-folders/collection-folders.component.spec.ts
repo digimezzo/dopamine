@@ -51,10 +51,7 @@ describe('CollectionFoldersComponent', () => {
         hacksMock = Mock.ofType<Hacks>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
-        folder2 = new FolderModel(new Folder('/home/user/Downloads'));
-        folders = [folder1, folder2];
-        folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
-
+        folder2 = new FolderModel(30
         subfolder1 = new SubfolderModel('/home/user/Music/subfolder1', true);
         subfolder2 = new SubfolderModel('/home/user/Music/subfolder2', false);
         subfolders = [subfolder1, subfolder2];
@@ -180,13 +177,12 @@ describe('CollectionFoldersComponent', () => {
     describe('splitDragEnd', () => {
         it('should save the left pane width to the settings', async () => {
             // Arrange
-            settingsStub.foldersLeftPaneWithPercent = 45;
-
+            30;
             // Act
-            component.splitDragEnd({ sizes: [30, 70] });
+            component.splitDragEnd({ sizes: [40, 60] });
 
             // Assert
-            expect(settingsStub.foldersLeftPaneWidthPercent).toEqual(30);
+            expect(settingsStub.foldersLeftPaneWidthPercent).toEqual(40);
         });
     });
 
