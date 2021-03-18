@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PathValidator } from '../../core/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
 import { BasePlaybackIndicationService } from './base-playback-indication.service';
@@ -7,7 +8,7 @@ import { BasePlaybackIndicationService } from './base-playback-indication.servic
     providedIn: 'root',
 })
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
-    constructor() {}
+    constructor(private pathValidator: PathValidator) {}
 
     public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): Promise<void> {
         if (subfolders == undefined) {
@@ -21,7 +22,7 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         for (const subfolder of subfolders) {
             subfolder.isPlaying = false;
 
-            if (!subfolder.isGoToParent && playingTrack.path.includes(subfolder.path)) {
+            if (!subfolder.isGoToParent && this.pathValidator.isParentPath(subfolder.path, playingTrack.path)) {
                 subfolder.isPlaying = true;
             }
         }

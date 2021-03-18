@@ -1,13 +1,19 @@
+import { IMock, Mock } from 'typemoq';
+import { PathValidator } from '../../core/path-validator';
 import { Track } from '../../data/entities/track';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
 import { PlaybackIndicationService } from './playback-indication.service';
 
 describe('SnackBarService', () => {
+    let pathValidator: IMock<PathValidator>;
+
     let service: PlaybackIndicationService;
 
     beforeEach(() => {
-        service = new PlaybackIndicationService();
+        pathValidator = Mock.ofType<PathValidator>();
+
+        service = new PlaybackIndicationService(pathValidator.object);
     });
 
     describe('constructor', () => {
@@ -54,7 +60,7 @@ describe('SnackBarService', () => {
             // Assert
         });
 
-        it('should set the playing subfolder when subfolders and playingTrack are defined', () => {
+        it('should set a subfolder as playing if it is not a gotToParent subfolder and its path is a parent path of the playing track', () => {
             // Arrange
             const playingTrack: TrackModel = new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'));
             const isGoToParentSubfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', true);
@@ -62,6 +68,16 @@ describe('SnackBarService', () => {
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder2', false);
             const subfolder3: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder3', false);
             const subfolders: SubfolderModel[] = [isGoToParentSubfolder, subfolder1, subfolder2, subfolder3];
+
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder1', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => true);
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder2', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => false);
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder3', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => false);
 
             // Act
             service.setPlayingSubfolder(subfolders, playingTrack);
