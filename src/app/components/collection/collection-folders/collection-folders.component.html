@@ -61,7 +61,7 @@
                     <mat-chip
                         class="tracks-browser__breadcrumb no-select"
                         *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
-                        (click)="getSubfoldersAsync(subfolderBreadCrumb)"
+                        (click)="setActiveSubfolderAsync(subfolderBreadCrumb)"
                     >
                         {{ subfolderBreadCrumb | subfolderName }}
                     </mat-chip>
