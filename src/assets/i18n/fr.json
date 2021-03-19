@@ -33,6 +33,7 @@
         },
         "Collection": {
             "Artists": "Artistes",
+            "Album": "Album",
             "Albums": "Albums",
             "Genres": "Genres",
             "Track": "Morceau",

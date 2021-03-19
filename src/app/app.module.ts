@@ -123,6 +123,8 @@ import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
+import { AlbumService } from './services/album/album-service';
+import { BaseAlbumService } from './services/album/base-album-service';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -336,6 +338,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
         { provide: BaseTrackService, useClass: TrackService },
+        { provide: BaseAlbumService, useClass: AlbumService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },

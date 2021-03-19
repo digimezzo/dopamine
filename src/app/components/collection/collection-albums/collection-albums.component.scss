@@ -1,0 +1,14 @@
+.albums-browser {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.albums-browser__header {
+    display: flex;
+    flex-direction: row;
+}
+
+.albums-browser__albumscount {
+    color: var(--theme-accent-color);
+}

@@ -33,6 +33,7 @@
         },
         "Collection": {
             "Artists": "Artists",
+            "Album": "Album",
             "Albums": "Albums",
             "Genres": "Genres",
             "Track": "Song",
