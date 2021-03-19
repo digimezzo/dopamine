@@ -40,8 +40,16 @@ export class AddFolderComponent implements OnInit {
         this.settings.showAllFoldersInCollection = v;
 
         if (v) {
-            this.folderService.setAllFoldersVisible();
-            this.getFoldersAsync();
+            try {
+                this.folderService.setAllFoldersVisible();
+                this.getFoldersAsync();
+            } catch (e) {
+                this.logger.error(
+                    `Could not set all folders visible. Error: ${e.message}`,
+                    'AddFolderComponent',
+                    'showAllFoldersInCollection'
+                );
+            }
         }
     }
 
@@ -51,14 +59,19 @@ export class AddFolderComponent implements OnInit {
 
     public setFolderVisibility(folder: FolderModel): void {
         this.showAllFoldersInCollection = false;
-        this.folderService.setFolderVisibility(folder);
+
+        try {
+            this.folderService.setFolderVisibility(folder);
+        } catch (e) {
+            this.logger.error(`Could not set folder visibility. Error: ${e.message}`, 'AddFolderComponent', 'setFolderVisibility');
+        }
     }
 
     public async getFoldersAsync(): Promise<void> {
         try {
             this.folders = this.folderService.getFolders();
         } catch (e) {
-            this.logger.error(`An error occurred while getting the folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
+            this.logger.error(`Could not get folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
             const errorText: string = await this.translatorService.getAsync('ErrorTexts.GetFoldersError');
             this.dialogService.showErrorDialog(errorText);
         }
@@ -79,7 +92,7 @@ export class AddFolderComponent implements OnInit {
                 await this.getFoldersAsync();
             } catch (e) {
                 this.logger.error(
-                    `An error occurred while adding the folder with path='${selectedFolderPath}'. Error: ${e.message}`,
+                    `Could not add folder with path='${selectedFolderPath}'. Error: ${e.message}`,
                     'AddFolderComponent',
                     'addFolderAsync'
                 );
@@ -100,11 +113,7 @@ export class AddFolderComponent implements OnInit {
                 this.folderService.deleteFolder(folder);
                 await this.getFoldersAsync();
             } catch (e) {
-                this.logger.error(
-                    `An error occurred while deleting the folder. Error: ${e.message}`,
-                    'AddFolderComponent',
-                    'deleteFolderAsync'
-                );
+                this.logger.error(`Could not delete folder. Error: ${e.message}`, 'AddFolderComponent', 'deleteFolderAsync');
                 const errorText: string = await this.translatorService.getAsync('ErrorTexts.DeleteFolderError');
                 this.dialogService.showErrorDialog(errorText);
             }
