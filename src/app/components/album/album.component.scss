@@ -1,0 +1,58 @@
+.app-album {
+    width: 120px;
+    height: 164px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-album__cover {
+    width: 120px;
+    height: 120px;
+    background: var(--theme-cover-art-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.app-album__cover div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.app-album__cover__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-album__cover__placeholder svg {
+    width: 60%;
+    height: 60%;
+}
+
+.app-album__cover__placeholder path {
+    fill: var(--theme-cover-art-foreground);
+}
+
+.app-album__cover_artwork {
+}
+
+.app-album__information {
+    width: 120px;
+    height: 44px;
+    background-color: var(--theme-album-info-background);
+}
+
+.app-album__information__line1 {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+}
+
+.app-album__information__line2 {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    color: var(--theme-text-secondary-foreground);
+}

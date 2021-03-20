@@ -35,6 +35,7 @@ import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
+import { AlbumComponent } from './components/album/album.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
@@ -240,6 +241,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         TrackComponent,
         TotalsComponent,
         PlaybackIndicatorComponent,
+        AlbumComponent,
     ],
     imports: [
         BrowserAnimationsModule,
