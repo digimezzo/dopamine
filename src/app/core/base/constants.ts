@@ -11,6 +11,10 @@ export class Constants {
         new Language('nl', 'Nederlands'),
     ];
 
+    public static readonly albumSizeInPixels: number = 120;
+    public static readonly albumMarginInPixels: number = 8;
+    public static readonly albumsRedrawDelayMilliseconds: number = 250;
+
     public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
 
     public static readonly externalComponents: ExternalComponent[] = [

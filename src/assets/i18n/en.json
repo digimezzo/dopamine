@@ -149,6 +149,10 @@
         "Settings": "Settings",
         "Information": "Information"
     },
+    "Album": {
+        "UnknownArtist": "Unknown artist",
+        "UnknownTitle": "Unknown title"
+    },
     "Track": {
         "UnknownArtist": "Unknown artist",
         "UnknownTitle": "Unknown title"

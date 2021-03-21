@@ -13,6 +13,7 @@ describe('AlbumModel', () => {
         albumData.artists = ';Artist 1;;Artist 2;';
         albumData.dateAdded = 123456789;
         albumData.dateFileCreated = 987654321;
+        albumData.dateLastPlayed = 12369845;
         albumData.year = 2021;
 
         albumModel = new AlbumModel(albumData);
@@ -91,6 +92,19 @@ describe('AlbumModel', () => {
 
             // Assert
             expect(dateAddedInTicks).toEqual(expectedDateAddedInTicks);
+        });
+    });
+
+    describe('dateLastPlayedInTicks', () => {
+        it('should return the albumData dateLastPlayed', () => {
+            // Arrange
+            const expectedDateLastPlayedInTicks: number = 12369845;
+
+            // Act
+            const dateLastPlayedInTicks: number = albumModel.dateLastPlayedInTicks;
+
+            // Assert
+            expect(dateLastPlayedInTicks).toEqual(expectedDateLastPlayedInTicks);
         });
     });
 

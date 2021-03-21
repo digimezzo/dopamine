@@ -7,4 +7,5 @@ export class AlbumData {
     public year: number;
     public dateFileCreated: number;
     public dateAdded: number;
+    public dateLastPlayed: number;
 }

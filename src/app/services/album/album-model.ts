@@ -31,4 +31,8 @@ export class AlbumModel {
     public get dateFileCreatedInTicks(): number {
         return this.albumData.dateFileCreated;
     }
+
+    public get dateLastPlayedInTicks(): number {
+        return this.albumData.dateLastPlayed;
+    }
 }

@@ -7,6 +7,7 @@ export class QueryParts {
                     MAX(t.Artists) as artists,
                     MAX(t.Year) AS year,
                     MAX(t.DateFileCreated) AS dateFileCreated,
-                    MAX(t.DateAdded) AS dateAdded FROM Track t`;
+                    MAX(t.DateAdded) AS dateAdded,
+                    MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t`;
     }
 }

@@ -149,6 +149,10 @@
         "Settings": "Instellingen",
         "Information": "Informatie"
     },
+    "Album": {
+        "UnknownArtist": "Onbekende artiest",
+        "UnknownTitle": "Onbekende titel"
+    },
     "Track": {
         "UnknownArtist": "Onbekende artiest",
         "UnknownTitle": "Onbekende titel"
