@@ -19,11 +19,11 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
     public getArtworkId(albumKey: string): string {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare('SELECT ArtworkID FROM AlbumArtwork WHERE AlbumKey=?;');
+        const statement = database.prepare('SELECT ArtworkID AS artworkId FROM AlbumArtwork WHERE AlbumKey=?;');
 
-        const artworkId: string = statement.get(albumKey);
+        const result: any = statement.get(albumKey);
 
-        return artworkId;
+        return result?.artworkId;
     }
 
     public getAllAlbumArtwork(): AlbumArtwork[] {
