@@ -4,6 +4,8 @@ import { DataDelimiter } from '../../data/data-delimiter';
 export class AlbumModel {
     constructor(private albumData: AlbumData) {}
 
+    public artworkPath: string;
+
     public get albumArtists(): string[] {
         return DataDelimiter.fromDelimitedString(this.albumData.albumArtists);
     }

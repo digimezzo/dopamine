@@ -28,6 +28,15 @@ describe('AlbumModel', () => {
             // Assert
             expect(albumModel).toBeDefined();
         });
+
+        it('should declare but not define artworkPath', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(albumModel.artworkPath).toBeUndefined();
+        });
     });
 
     describe('albumArtists', () => {
