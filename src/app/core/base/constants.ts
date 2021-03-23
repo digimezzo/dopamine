@@ -60,12 +60,6 @@ export class Constants {
             'https://github.com/jprichardson/node-fs-extra',
             'https://github.com/jprichardson/node-fs-extra/blob/master/LICENSE'
         ),
-        new ExternalComponent(
-            'howler.js',
-            'Javascript audio library for the modern web.',
-            'https://howlerjs.com/',
-            'https://github.com/goldfire/howler.js/blob/master/LICENSE.md'
-        ),
         new ExternalComponent('Icons designed by Sharlee', 'Gorgeous Dopamine icons designed by Sharlee.', 'https://www.itssharl.ee/', ''),
         new ExternalComponent(
             'Icons8 Line Awesome',

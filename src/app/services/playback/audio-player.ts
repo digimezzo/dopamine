@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Howl, Howler } from 'howler';
 import { Observable, Subject } from 'rxjs';
 import { BaseAudioPlayer } from './base-audio-player';
 
@@ -7,74 +6,61 @@ import { BaseAudioPlayer } from './base-audio-player';
     providedIn: 'root',
 })
 export class AudioPlayer implements BaseAudioPlayer {
-    private sound: Howl;
+    private audio: HTMLAudioElement;
+
+    constructor() {
+        this.audio = new Audio();
+        const audioAny: any = this.audio;
+        audioAny.setSinkId('default'); // Because setSinkId() does not exist on HTMLAudioElement
+
+        this.audio.defaultPlaybackRate = 1;
+        this.audio.playbackRate = 1;
+        this.audio.volume = 1;
+        this.audio.muted = false;
+
+        this.audio.onended = () => this.playbackFinished.next();
+    }
 
     private playbackFinished: Subject<void> = new Subject();
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
 
     public get progressSeconds(): number {
-        if (this.sound != undefined) {
-            return this.sound.seek();
-        }
-
-        return 0;
+        return this.audio.currentTime;
     }
 
     public get totalSeconds(): number {
-        if (this.sound != undefined) {
-            return this.sound.duration();
-        }
-
-        return 0;
+        return this.audio.duration;
     }
 
     public play(audioFilePath: string): void {
-        this.sound = new Howl({
-            src: [audioFilePath],
-            onend: () => {
-                this.playbackFinished.next();
-            },
-        });
-
-        this.sound.play();
+        this.audio.src = audioFilePath;
+        this.audio.play();
     }
 
     public stop(): void {
-        if (this.sound != undefined) {
-            this.sound.stop();
-        }
+        this.audio.pause();
     }
 
     public pause(): void {
-        if (this.sound != undefined) {
-            this.sound.pause();
-        }
+        this.audio.pause();
     }
 
     public resume(): void {
-        if (this.sound != undefined) {
-            this.sound.play();
-        }
+        this.audio.play();
     }
 
     public setVolume(volume: number): void {
-        Howler.volume(volume);
+        this.audio.volume = volume;
     }
 
     public mute(): void {
-        if (this.sound != undefined) {
-            this.sound.muted(true);
-        }
+        this.audio.muted = true;
     }
     public unMute(): void {
-        if (this.sound != undefined) {
-            this.sound.muted(false);
-        }
+        this.audio.muted = false;
     }
 
     public skipToSeconds(seconds: number): void {
-        if (this.sound != undefined) {
-            this.sound.seek(seconds);
-        }
+        this.audio.currentTime = seconds;
     }
 }
