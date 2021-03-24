@@ -37,6 +37,7 @@ import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { AlbumComponent } from './components/album/album.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
+import { AlbumSpaceCalculator } from './components/collection/album-space-calculator';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
@@ -113,6 +114,8 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
+import { FormatAlbumArtistsPipe } from './pipes/format-album-artist.pipe';
+import { FormatAlbumTitlePipe } from './pipes/format-album-title.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
@@ -228,6 +231,8 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
+        FormatAlbumTitlePipe,
+        FormatAlbumArtistsPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -318,6 +323,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTrackTitlePipe,
         FoldersPersister,
         PathValidator,
+        AlbumSpaceCalculator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

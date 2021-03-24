@@ -21,6 +21,12 @@ export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy
             .subscribe(() => {
                 this.viewportComponent.checkViewportSize();
             });
+
+        fromEvent(window, 'tab-changed')
+            .pipe(debounceTime(10), takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.viewportComponent.checkViewportSize();
+            });
     }
 
     public ngOnDestroy(): void {

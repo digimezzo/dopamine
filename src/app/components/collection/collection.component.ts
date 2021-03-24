@@ -21,10 +21,10 @@ export class CollectionComponent implements OnInit {
         this._selectedIndex = v;
         this.saveSelectedTabToSettings();
 
-        // Manually trigger a window resize event. Together with CdkVirtualScrollViewportPatchDirective,
+        // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
         // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
         // selected tab is changed.
-        window.dispatchEvent(new Event('resize'));
+        window.dispatchEvent(new Event('tab-changed'));
     }
 
     public async ngOnInit(): Promise<void> {
