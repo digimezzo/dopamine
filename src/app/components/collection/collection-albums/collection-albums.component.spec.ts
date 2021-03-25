@@ -1,17 +1,33 @@
 import { IMock, Mock } from 'typemoq';
+import { Logger } from '../../../core/logger';
+import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { AlbumSpaceCalculator } from '../album-space-calculator';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let albumServiceMock: IMock<BaseAlbumService>;
+    let albumSpaceCalculatorMock: IMock<AlbumSpaceCalculator>;
     let settingsStub: any;
+    let loggerMock: IMock<Logger>;
 
     let component: CollectionAlbumsComponent;
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        albumServiceMock = Mock.ofType<BaseAlbumService>();
+        albumSpaceCalculatorMock = Mock.ofType<AlbumSpaceCalculator>();
+        loggerMock = Mock.ofType<Logger>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
-        component = new CollectionAlbumsComponent(playbackServiceMock.object, settingsStub);
+
+        component = new CollectionAlbumsComponent(
+            playbackServiceMock.object,
+            albumServiceMock.object,
+            albumSpaceCalculatorMock.object,
+            settingsStub,
+            loggerMock.object
+        );
     });
 
     describe('constructor', () => {

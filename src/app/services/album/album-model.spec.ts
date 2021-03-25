@@ -1,8 +1,11 @@
+import { IMock, Mock } from 'typemoq';
 import { AlbumData } from '../../data/album-data';
+import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 
 describe('AlbumModel', () => {
     let albumData: AlbumData;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
     let albumModel: AlbumModel;
 
     beforeEach(() => {
@@ -16,7 +19,10 @@ describe('AlbumModel', () => {
         albumData.dateLastPlayed = 12369845;
         albumData.year = 2021;
 
-        albumModel = new AlbumModel(albumData);
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock.setup((x) => x.get('Album.UnknownArtist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('Album.UnknownTitle')).returns(() => 'Unknown title');
+        albumModel = new AlbumModel(albumData, translatorServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -39,16 +45,140 @@ describe('AlbumModel', () => {
         });
     });
 
-    describe('albumArtists', () => {
-        it('should return the albumData albumArtists', () => {
+    describe('albumArtist', () => {
+        it('should return "Unknown artist" if albumData albumArtists and artists are undefined', () => {
             // Arrange
-            const expectedAlbumArtists: string[] = ['Album artist 1', 'Album artist 2'];
+            const expectedAlbumArtist: string = 'Unknown artist';
+
+            albumData.albumArtists = undefined;
+            albumData.artists = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
 
             // Act
-            const albumArtists: string[] = albumModel.albumArtists;
+            const albumArtist: string = albumModel.albumArtist;
 
             // Assert
-            expect(albumArtists).toEqual(expectedAlbumArtists);
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return "Unknown artist" if albumData albumArtists and artists are empty', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Unknown artist';
+
+            albumData.albumArtists = '';
+            albumData.artists = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return "Unknown artist" if albumData albumArtists is undefined and artists is empty', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Unknown artist';
+
+            albumData.albumArtists = undefined;
+            albumData.artists = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return "Unknown artist" if albumData albumArtists is empty and artists is undefined', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Unknown artist';
+
+            albumData.albumArtists = '';
+            albumData.artists = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return the first album artist if albumData albumArtists is not undefined and not empty, and artists is undefined.', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Album artist 1';
+
+            albumData.albumArtists = ';Album artist 1;;Album artist 2;';
+            albumData.artists = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return the first album artist if albumData albumArtists is not undefined and not empty, and artists is empty.', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Album artist 1';
+
+            albumData.albumArtists = ';Album artist 1;;Album artist 2;';
+            albumData.artists = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return the first album artist if album albumArtists is not undefined and not empty, and artists is not undefined and not empty.', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Album artist 1';
+
+            albumData.albumArtists = ';Album artist 1;;Album artist 2;';
+            albumData.artists = ';Artist 1;;Artist 2;';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return the first artist if album albumArtists is undefined, and artists is not undefined and not empty.', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Artist 1';
+
+            albumData.albumArtists = undefined;
+            albumData.artists = ';Artist 1;;Artist 2;';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
+        });
+
+        it('should return the first artist if album albumArtists is empty, and artists is not undefined and not empty.', () => {
+            // Arrange
+            const expectedAlbumArtist: string = 'Artist 1';
+
+            albumData.albumArtists = '';
+            albumData.artists = ';Artist 1;;Artist 2;';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumArtist: string = albumModel.albumArtist;
+
+            // Assert
+            expect(albumArtist).toEqual(expectedAlbumArtist);
         });
     });
 
@@ -66,9 +196,12 @@ describe('AlbumModel', () => {
     });
 
     describe('albumTitle', () => {
-        it('should return the albumData albumTitle', () => {
+        it('should return "Unknown title" if albumData albumTitle is undefined', () => {
             // Arrange
-            const expectedAlbumTitle: string = 'Album title';
+            const expectedAlbumTitle: string = 'Unknown title';
+
+            albumData.albumTitle = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
 
             // Act
             const albumTitle: string = albumModel.albumTitle;
@@ -76,18 +209,47 @@ describe('AlbumModel', () => {
             // Assert
             expect(albumTitle).toEqual(expectedAlbumTitle);
         });
-    });
 
-    describe('artists', () => {
-        it('should return the albumData artists', () => {
+        it('should return "Unknown title" if albumData albumTitle is empty', () => {
             // Arrange
-            const expectedArtists: string[] = ['Artist 1', 'Artist 2'];
+            const expectedAlbumTitle: string = 'Unknown title';
+
+            albumData.albumTitle = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
 
             // Act
-            const artists: string[] = albumModel.artists;
+            const albumTitle: string = albumModel.albumTitle;
 
             // Assert
-            expect(artists).toEqual(expectedArtists);
+            expect(albumTitle).toEqual(expectedAlbumTitle);
+        });
+
+        it('should return "Unknown title" if albumData albumTitle is white space', () => {
+            // Arrange
+            const expectedAlbumTitle: string = 'Unknown title';
+
+            albumData.albumTitle = ' ';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumTitle: string = albumModel.albumTitle;
+
+            // Assert
+            expect(albumTitle).toEqual(expectedAlbumTitle);
+        });
+
+        it('should return albumData albumTitle if albumData albumTitle is not undefined, empty or white space.', () => {
+            // Arrange
+            const expectedAlbumTitle: string = 'Album title';
+
+            albumData.albumTitle = 'Album title';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+
+            // Act
+            const albumTitle: string = albumModel.albumTitle;
+
+            // Assert
+            expect(albumTitle).toEqual(expectedAlbumTitle);
         });
     });
 

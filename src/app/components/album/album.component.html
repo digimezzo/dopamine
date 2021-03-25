@@ -1,4 +1,5 @@
-<div class="app-album">
+<div class="app-album no-select">
+    <div class="app-album__year mt-2 mb-1" *ngIf="this.album.showYear">{{ album.yearHeader }}</div>
     <div class="app-album__cover">
         <div class="app-album__cover__placeholder">
             <svg width="256" height="256" viewBox="0 0 256 256">
@@ -7,10 +8,16 @@
                 />
             </svg>
         </div>
-        <div class="app-album__cover_artwork"></div>
+        <div class="app-album__cover_artwork">
+            <img *ngIf="album.artworkPath" [src]="album.artworkPath" width="120" height="120" loading="lazy" />
+        </div>
     </div>
-    <div class="app-album__information">
-        <div class="app-album__information__line1 ellipsis">{{ album.albumTitle }}</div>
-        <div class="app-album__information__line2 ellipsis">{{ album.albumArtists[0] }}</div>
+    <div class="app-album__information" [ngClass]="{ 'accent-background-important': this.isSelected }">
+        <div class="app-album__information__line1 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
+            {{ album.albumTitle }}
+        </div>
+        <div class="app-album__information__line2 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
+            {{ album.albumArtist }}
+        </div>
     </div>
 </div>

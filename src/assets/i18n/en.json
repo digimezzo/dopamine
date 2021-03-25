@@ -167,5 +167,17 @@
         "GigaBytes": "GB",
         "MegaBytes": "MB",
         "KiloBytes": "kB"
+    },
+    "Ordering": {
+        "Albums": {
+            "ByAlbumTitleAscending": "A-Z",
+            "ByAlbumTitleDescending": "Z-A",
+            "ByDateAdded": "By date added",
+            "ByDateCreated": "By date created",
+            "ByAlbumArtist": "By album artist",
+            "ByYearAscending": "By year ascending",
+            "ByYearDescending": "By year descending",
+            "ByLastPlayed": "By last played"
+        }
     }
 }

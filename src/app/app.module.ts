@@ -114,8 +114,6 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
-import { FormatAlbumArtistsPipe } from './pipes/format-album-artist.pipe';
-import { FormatAlbumTitlePipe } from './pipes/format-album-title.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
@@ -231,8 +229,6 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
-        FormatAlbumTitlePipe,
-        FormatAlbumArtistsPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,

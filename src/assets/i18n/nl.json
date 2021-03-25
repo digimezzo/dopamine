@@ -167,5 +167,17 @@
         "GB": "GB",
         "MB": "MB",
         "kB": "kB"
+    },
+    "Ordering": {
+        "Albums": {
+            "ByAlbumTitleAscending": "A-Z",
+            "ByAlbumTitleDescending": "Z-A",
+            "ByDateAdded": "Per toevoegdatum",
+            "ByDateCreated": "Per aanmaakdatum",
+            "ByAlbumArtist": "Per album artiest",
+            "ByYearAscending": "Per jaar oplopend",
+            "ByYearDescending": "Per jaar aflopend",
+            "ByLastPlayed": "Per laatst gespeeld"
+        }
     }
 }

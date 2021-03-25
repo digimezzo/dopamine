@@ -3,6 +3,8 @@ import * as path from 'path';
 import { ImageProcessor } from '../../core/image-processor';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
+import { StringCompare } from '../../core/string-compare';
+import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
@@ -12,6 +14,7 @@ import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service
 })
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(
+        private albumArtworkRepository: BaseAlbumArtworkRepository,
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
         private fileSystem: FileSystem,
@@ -57,6 +60,22 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         }
 
         return undefined;
+    }
+
+    public getCachedArtworkFilePathAsync(albumKey: string): string {
+        const artworkId: string = this.albumArtworkRepository.getArtworkId(albumKey);
+
+        if (StringCompare.isNullOrWhiteSpace(artworkId)) {
+            return '';
+        }
+
+        const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
+
+        if (StringCompare.isNullOrWhiteSpace(cachedArtworkFilePath)) {
+            return '';
+        }
+
+        return cachedArtworkFilePath;
     }
 
     private createCoverArtCacheOnDisk(): void {

@@ -1,8 +1,16 @@
 .app-album {
     width: 120px;
-    height: 164px;
+    // height: 164px;
     display: flex;
     flex-direction: column;
+}
+
+.app-album__year {
+    // background: red;
+    font-weight: lighter !important;
+    height: 30px;
+    color: var(--theme-accent-color);
+    font-size: var(--fontsize-extra-large);
 }
 
 .app-album__cover {

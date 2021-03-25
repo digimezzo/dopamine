@@ -3,12 +3,53 @@
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
             ><div class="albums-browser p-3">
                 <div class="albums-browser__header m-1 no-select">
-                    <div class="albums-browser__albumscount mr-2">{{ this.albums.length }}</div>
-                    <div *ngIf="this.albums.length === 1">{{ 'Pages.Collection.Album' | translate }}</div>
-                    <div *ngIf="this.albums.length !== 1">{{ 'Pages.Collection.Albums' | translate }}</div>
+                    <div class="albums-browser__albumscount">
+                        <div class="albums-browser__albumscount__number mr-2">{{ this.albums.length }}</div>
+                        <div *ngIf="this.albums.length === 1">{{ 'Pages.Collection.Album' | translate }}</div>
+                        <div *ngIf="this.albums.length !== 1">{{ 'Pages.Collection.Albums' | translate }}</div>
+                    </div>
+
+                    <div class="albums-browser__albumorder" (click)="toggleAlbumOrder()">
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumTitleAscending">
+                            {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumTitleDescending">
+                            {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byDateAdded">
+                            {{ 'Ordering.Albums.ByDateAdded' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byDateCreated">
+                            {{ 'Ordering.Albums.ByDateCreated' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumArtist">
+                            {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byYearAscending">
+                            {{ 'Ordering.Albums.ByYearAscending' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byYearDescending">
+                            {{ 'Ordering.Albums.ByYearDescending' | translate }}
+                        </div>
+                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byLastPlayed">
+                            {{ 'Ordering.Albums.ByLastPlayed' | translate }}
+                        </div>
+                    </div>
                 </div>
-            </div></as-split-area
-        >
+                <cdk-virtual-scroll-viewport class="albums-browser__albums mt-3" itemSize="164">
+                    <div *cdkVirtualFor="let albumRow of this.albumRows">
+                        <div class="album-row">
+                            <app-album
+                                class="m-2"
+                                *ngFor="let album of albumRow.albums"
+                                [album]="album"
+                                [isSelected]="album === this.selectedAlbum"
+                                (click)="setSelectedAlbum($event, album)"
+                            ></app-album>
+                        </div>
+                    </div>
+                </cdk-virtual-scroll-viewport></div
+        ></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="side-pane"></div></as-split-area>
     </as-split>
 </div>

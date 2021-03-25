@@ -1,20 +1,36 @@
+import { StringCompare } from '../../core/string-compare';
 import { AlbumData } from '../../data/album-data';
 import { DataDelimiter } from '../../data/data-delimiter';
+import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {
-    constructor(private albumData: AlbumData) {}
+    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService) {}
 
     public artworkPath: string;
+    public showYear: boolean = false;
+    public yearHeader: string = '';
 
-    public get albumArtists(): string[] {
-        return DataDelimiter.fromDelimitedString(this.albumData.albumArtists);
-    }
+    public get albumArtist(): string {
+        const albumArtists = DataDelimiter.fromDelimitedString(this.albumData.albumArtists);
 
-    public get artists(): string[] {
-        return DataDelimiter.fromDelimitedString(this.albumData.artists);
+        if (albumArtists != undefined && albumArtists.length > 0) {
+            return albumArtists[0];
+        }
+
+        const trackArtists = DataDelimiter.fromDelimitedString(this.albumData.artists);
+
+        if (trackArtists != undefined && trackArtists.length > 0) {
+            return trackArtists[0];
+        }
+
+        return this.translatorService.get('Album.UnknownArtist');
     }
 
     public get albumTitle(): string {
+        if (StringCompare.isNullOrWhiteSpace(this.albumData.albumTitle)) {
+            return this.translatorService.get('Album.UnknownTitle');
+        }
+
         return this.albumData.albumTitle;
     }
 

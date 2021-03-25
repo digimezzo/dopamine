@@ -1,1 +1,5 @@
-export abstract class BaseAlbumService {}
+import { AlbumModel } from './album-model';
+
+export abstract class BaseAlbumService {
+    public abstract getAllAlbums(): AlbumModel[];
+}

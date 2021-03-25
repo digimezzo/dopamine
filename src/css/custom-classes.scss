@@ -62,6 +62,14 @@
     color: var(--theme-accent-color);
 }
 
+.accent-background-important {
+    background-color: var(--theme-accent-color) !important;
+}
+
 .secondary-color {
     color: var(--theme-text-secondary-foreground);
+}
+
+.white-color-important {
+    color: white !important;
 }

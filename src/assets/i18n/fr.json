@@ -167,5 +167,17 @@
         "GB": "Go",
         "MB": "Mo",
         "kB": "ko"
+    },
+    "Ordering": {
+        "Albums": {
+            "ByAlbumTitleAscending": "A-Z",
+            "ByAlbumTitleDescending": "Z-A",
+            "ByDateAdded": "Par date d'ajout",
+            "ByDateCreated": "Par date de creation",
+            "ByAlbumArtist": "Par artiste de l'album",
+            "ByYearAscending": "Par année ascendante",
+            "ByYearDescending": "Par année décroissante",
+            "ByLastPlayed": "Par la dernière lecture"
+        }
     }
 }
