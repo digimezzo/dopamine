@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { Logger } from '../../core/logger';
 import { BaseAudioPlayer } from './base-audio-player';
 
 @Injectable({
@@ -8,10 +9,17 @@ import { BaseAudioPlayer } from './base-audio-player';
 export class AudioPlayer implements BaseAudioPlayer {
     private audio: HTMLAudioElement;
 
-    constructor() {
+    constructor(private logger: Logger) {
         this.audio = new Audio();
-        const audioAny: any = this.audio;
-        audioAny.setSinkId('default'); // Because setSinkId() does not exist on HTMLAudioElement
+
+        try {
+            // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
+            // @ts-ignore
+            this.audio.setSinkId('default');
+        } catch (e) {
+            // Suppress this error, but log it, in case it happens in production.
+            this.logger.error(`Could not perform setSinkId(). Error: ${e.message}`, 'AudioPlayer', 'constructor');
+        }
 
         this.audio.defaultPlaybackRate = 1;
         this.audio.playbackRate = 1;

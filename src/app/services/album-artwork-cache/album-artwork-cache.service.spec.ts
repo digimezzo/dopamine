@@ -116,7 +116,7 @@ describe('AlbumArtworkCacheService', () => {
         it('should delete cached artwork file if it exists', async () => {
             // Arrange
             fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            const cachedArtworkFilePath: string = path.join(
+            const expectedCachedArtworkFilePath: string = path.join(
                 fileSystemMock.object.coverArtCacheFullPath(),
                 'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
             );
@@ -125,7 +125,39 @@ describe('AlbumArtworkCacheService', () => {
             await service.removeArtworkDataFromCacheAsync('album-4c315456-43ba-4984-8a7e-403837514638');
 
             // Assert
-            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(cachedArtworkFilePath), Times.exactly(1));
+            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(expectedCachedArtworkFilePath), Times.exactly(1));
+        });
+    });
+
+    describe('getCachedArtworkFilePathAsync', () => {
+        it('should return an empty path if no artworkId is found in the database', async () => {
+            // Arrange
+            albumArtworkRepositoryMock.setup((x) => x.getArtworkId('myAlbumKey')).returns(() => undefined);
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+
+            // Act
+            const cachedArtworkFilePath: string = service.getCachedArtworkFilePathAsync('myAlbumKey');
+
+            // Assert
+            expect(cachedArtworkFilePath).toEqual('');
+        });
+
+        it('should return the cached artwork file path if no artworkId is found in the database', async () => {
+            // Arrange
+            albumArtworkRepositoryMock
+                .setup((x) => x.getArtworkId('myAlbumKey'))
+                .returns(() => 'album-4c315456-43ba-4984-8a7e-403837514638');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            const expectedCachedArtworkFilePath: string = path.join(
+                fileSystemMock.object.coverArtCacheFullPath(),
+                'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
+            );
+
+            // Act
+            const cachedArtworkFilePath: string = service.getCachedArtworkFilePathAsync('myAlbumKey');
+
+            // Assert
+            expect(cachedArtworkFilePath).toEqual(expectedCachedArtworkFilePath);
         });
     });
 });

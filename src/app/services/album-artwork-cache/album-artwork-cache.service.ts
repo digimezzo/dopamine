@@ -69,13 +69,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             return '';
         }
 
-        const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
-
-        if (StringCompare.isNullOrWhiteSpace(cachedArtworkFilePath)) {
-            return '';
-        }
-
-        return cachedArtworkFilePath;
+        return this.createCachedArtworkFilePath(artworkId);
     }
 
     private createCoverArtCacheOnDisk(): void {

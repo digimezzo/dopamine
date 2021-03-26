@@ -1,12 +1,23 @@
+import { IMock, Mock } from 'typemoq';
+import { Logger } from '../../core/logger';
 import { AudioPlayer } from './audio-player';
+import { BaseAudioPlayer } from './base-audio-player';
 
 describe('AudioPlayer', () => {
+    let player: BaseAudioPlayer;
+    let loggerMock: IMock<Logger>;
+
+    beforeEach(() => {
+        loggerMock = Mock.ofType<Logger>();
+
+        player = new AudioPlayer(loggerMock.object);
+    });
+
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player).toBeDefined();
@@ -16,7 +27,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.playbackFinished$).toBeDefined();
@@ -26,7 +36,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.progressSeconds).toBeDefined();
@@ -36,7 +45,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.totalSeconds).toBeDefined();
@@ -46,7 +54,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.play).toBeDefined();
@@ -56,7 +63,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.stop).toBeDefined();
@@ -66,7 +72,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.pause).toBeDefined();
@@ -76,7 +81,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.resume).toBeDefined();
@@ -86,7 +90,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.setVolume).toBeDefined();
@@ -96,7 +99,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.mute).toBeDefined();
@@ -106,7 +108,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.unMute).toBeDefined();
@@ -116,7 +117,6 @@ describe('AudioPlayer', () => {
             // Arrange
 
             // Act
-            const player: AudioPlayer = new AudioPlayer();
 
             // Assert
             expect(player.skipToSeconds).toBeDefined();
