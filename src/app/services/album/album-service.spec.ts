@@ -1,7 +1,9 @@
 import { IMock, Mock } from 'typemoq';
+import { AlbumData } from '../../data/album-data';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { BaseTranslatorService } from '../translator/base-translator.service';
+import { AlbumModel } from './album-model';
 import { AlbumService } from './album-service';
 
 describe('AlbumService', () => {
@@ -25,6 +27,40 @@ describe('AlbumService', () => {
 
             // Assert
             expect(service).toBeDefined();
+        });
+    });
+
+    describe('getAllAlbums', () => {
+        it('should return an empty collection if no albumData is found in the database', () => {
+            // Arrange
+            trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => undefined);
+
+            // Act
+            const albums: AlbumModel[] = service.getAllAlbums();
+
+            // Assert
+            expect(albums.length).toEqual(0);
+        });
+
+        it('should return albums if albumData is found in the database', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumTitle = 'Album title 1';
+
+            const albumData2: AlbumData = new AlbumData();
+            albumData2.albumTitle = 'Album title 2';
+
+            trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => [albumData1, albumData2]);
+            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 1')).returns(() => 'Path 1');
+            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 2')).returns(() => 'Path 2');
+
+            // Act
+            const albums: AlbumModel[] = service.getAllAlbums();
+
+            // Assert
+            expect(albums.length).toEqual(2);
+            expect(albums[0].albumTitle).toEqual('Album title 1');
+            expect(albums[1].albumTitle).toEqual('Album title 2');
         });
     });
 });
