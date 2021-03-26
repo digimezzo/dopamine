@@ -25,4 +25,6 @@ export abstract class BaseSettings {
     public abstract selectedTab: string;
     public abstract foldersTabActiveFolder: string;
     public abstract foldersTabActiveSubfolder: string;
+    public abstract albumsTabActiveAlbum: string;
+    public abstract albumsTabActiveAlbumOrder: string;
 }

@@ -243,6 +243,24 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersTabActiveSubfolder', v);
     }
 
+    //  Albums tab active album
+    public get albumsTabActiveAlbum(): string {
+        return this.settings.get('albumsTabActiveAlbum');
+    }
+
+    public set albumsTabActiveAlbum(v: string) {
+        this.settings.set('albumsTabActiveAlbum', v);
+    }
+
+    //  Albums tab active album order
+    public get albumsTabActiveAlbumOrder(): string {
+        return this.settings.get('albumsTabActiveAlbumOrder');
+    }
+
+    public set albumsTabActiveAlbumOrder(v: string) {
+        this.settings.set('albumsTabActiveAlbumOrder', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -347,6 +365,14 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('foldersTabActiveSubfolder')) {
             this.settings.set('foldersTabActiveSubfolder', '');
+        }
+
+        if (!this.settings.has('albumsTabActiveAlbum')) {
+            this.settings.set('albumsTabActiveAlbum', '');
+        }
+
+        if (!this.settings.has('albumsTabActiveAlbumOrder')) {
+            this.settings.set('albumsTabActiveAlbumOrder', '');
         }
     }
 }
