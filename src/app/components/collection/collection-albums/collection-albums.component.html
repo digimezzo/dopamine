@@ -43,8 +43,8 @@
                                 class="m-2"
                                 *ngFor="let album of albumRow.albums"
                                 [album]="album"
-                                [isSelected]="album === this.selectedAlbum"
-                                (click)="setSelectedAlbum($event, album)"
+                                [isActive]="album === this.activeAlbum"
+                                (click)="setActiveAlbum($event, album)"
                             ></app-album>
                         </div>
                     </div>

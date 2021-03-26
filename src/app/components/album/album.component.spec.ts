@@ -26,13 +26,13 @@ describe('AlbumComponent', () => {
             expect(component.album).toBeUndefined();
         });
 
-        it('should define isSelected as false', () => {
+        it('should define isActive as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.isSelected).toBeFalsy();
+            expect(component.isActive).toBeFalsy();
         });
     });
 });

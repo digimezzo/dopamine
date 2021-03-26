@@ -10,6 +10,7 @@ import { BasePlaybackService } from '../../../services/playback/base-playback.se
 import { AlbumOrder } from '../album-order';
 import { AlbumRow } from '../album-row';
 import { AlbumSpaceCalculator } from '../album-space-calculator';
+import { AlbumsPersister } from './albums-persister';
 
 @Component({
     selector: 'app-collection-albums',
@@ -21,6 +22,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         private albumService: BaseAlbumService,
         private albumSpaceCalculator: AlbumSpaceCalculator,
+        private albumsPersister: AlbumsPersister,
         private settings: BaseSettings,
         private logger: Logger
     ) {}
@@ -36,7 +38,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     public albums: AlbumModel[] = [];
     public albumRows: AlbumRow[] = [];
 
-    public selectedAlbum: AlbumModel;
+    public activeAlbum: AlbumModel;
 
     public activeAlbumOrder: AlbumOrder = AlbumOrder.byAlbumTitleAscending;
 
@@ -45,7 +47,9 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.activeAlbumOrder = this.albumsPersister.getActiveAlbumOrderFromSettings();
         this.fillLists();
+        this.activeAlbum = this.albumsPersister.getActiveAlbumFromSettings(this.albums);
 
         fromEvent(window, 'resize')
             .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds))
@@ -91,14 +95,18 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
             }
         }
 
+        this.albumsPersister.saveActiveAlbumOrderToSettings(this.activeAlbumOrder);
+
         this.fillLists();
     }
 
-    public setSelectedAlbum(event: any, album: AlbumModel): void {
+    public setActiveAlbum(event: any, album: AlbumModel): void {
         if (event.ctrlKey) {
-            this.selectedAlbum = undefined;
+            this.activeAlbum = undefined;
+            this.albumsPersister.saveActiveAlbumToSettings(undefined);
         } else {
-            this.selectedAlbum = album;
+            this.activeAlbum = album;
+            this.albumsPersister.saveActiveAlbumToSettings(album);
         }
     }
 

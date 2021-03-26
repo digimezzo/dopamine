@@ -20,14 +20,6 @@ export class FoldersPersister {
         }
     }
 
-    public saveActiveSubfolderToSettings(activeSubfolder: SubfolderModel): void {
-        if (activeSubfolder == undefined) {
-            this.settings.foldersTabActiveSubfolder = '';
-        } else {
-            this.settings.foldersTabActiveSubfolder = activeSubfolder.path;
-        }
-    }
-
     public getActiveFolderFromSettings(availableFolders: FolderModel[]): FolderModel {
         if (availableFolders == undefined) {
             return undefined;
@@ -68,6 +60,14 @@ export class FoldersPersister {
         }
 
         return availableFolders[0];
+    }
+
+    public saveActiveSubfolderToSettings(activeSubfolder: SubfolderModel): void {
+        if (activeSubfolder == undefined) {
+            this.settings.foldersTabActiveSubfolder = '';
+        } else {
+            this.settings.foldersTabActiveSubfolder = activeSubfolder.path;
+        }
     }
 
     public getActiveSubfolderFromSettings(): SubfolderModel {

@@ -22,7 +22,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -38,6 +38,7 @@ import { AddFolderComponent } from './components/add-folder/add-folder.component
 import { AlbumComponent } from './components/album/album.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { AlbumSpaceCalculator } from './components/collection/album-space-calculator';
+import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
@@ -317,6 +318,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         MathExtensions,
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
+        AlbumsPersister,
         FoldersPersister,
         PathValidator,
         AlbumSpaceCalculator,
