@@ -10,28 +10,28 @@
                     </div>
 
                     <div class="albums-browser__albumorder" (click)="toggleAlbumOrder()">
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumTitleAscending">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleAscending">
                             {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumTitleDescending">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleDescending">
                             {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byDateAdded">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byDateAdded">
                             {{ 'Ordering.Albums.ByDateAdded' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byDateCreated">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byDateCreated">
                             {{ 'Ordering.Albums.ByDateCreated' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byAlbumArtist">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumArtist">
                             {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byYearAscending">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byYearAscending">
                             {{ 'Ordering.Albums.ByYearAscending' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byYearDescending">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byYearDescending">
                             {{ 'Ordering.Albums.ByYearDescending' | translate }}
                         </div>
-                        <div *ngIf="this.selectedAlbumOrder === albumOrder.byLastPlayed">
+                        <div *ngIf="this.activeAlbumOrder === albumOrder.byLastPlayed">
                             {{ 'Ordering.Albums.ByLastPlayed' | translate }}
                         </div>
                     </div>

@@ -38,7 +38,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     public selectedAlbum: AlbumModel;
 
-    public selectedAlbumOrder: AlbumOrder = AlbumOrder.byAlbumTitleAscending;
+    public activeAlbumOrder: AlbumOrder = AlbumOrder.byAlbumTitleAscending;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -60,33 +60,33 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     public toggleAlbumOrder(): void {
-        switch (this.selectedAlbumOrder) {
+        switch (this.activeAlbumOrder) {
             case this.albumOrder.byAlbumTitleAscending:
-                this.selectedAlbumOrder = this.albumOrder.byAlbumTitleDescending;
+                this.activeAlbumOrder = this.albumOrder.byAlbumTitleDescending;
                 break;
             case this.albumOrder.byAlbumTitleDescending:
-                this.selectedAlbumOrder = this.albumOrder.byDateAdded;
+                this.activeAlbumOrder = this.albumOrder.byDateAdded;
                 break;
             case this.albumOrder.byDateAdded:
-                this.selectedAlbumOrder = this.albumOrder.byDateCreated;
+                this.activeAlbumOrder = this.albumOrder.byDateCreated;
                 break;
             case this.albumOrder.byDateCreated:
-                this.selectedAlbumOrder = this.albumOrder.byAlbumArtist;
+                this.activeAlbumOrder = this.albumOrder.byAlbumArtist;
                 break;
             case this.albumOrder.byAlbumArtist:
-                this.selectedAlbumOrder = this.albumOrder.byYearAscending;
+                this.activeAlbumOrder = this.albumOrder.byYearAscending;
                 break;
             case this.albumOrder.byYearAscending:
-                this.selectedAlbumOrder = this.albumOrder.byYearDescending;
+                this.activeAlbumOrder = this.albumOrder.byYearDescending;
                 break;
             case this.albumOrder.byYearDescending:
-                this.selectedAlbumOrder = this.albumOrder.byLastPlayed;
+                this.activeAlbumOrder = this.albumOrder.byLastPlayed;
                 break;
             case this.albumOrder.byLastPlayed:
-                this.selectedAlbumOrder = this.albumOrder.byAlbumTitleAscending;
+                this.activeAlbumOrder = this.albumOrder.byAlbumTitleAscending;
                 break;
             default: {
-                this.selectedAlbumOrder = this.albumOrder.byAlbumTitleAscending;
+                this.activeAlbumOrder = this.albumOrder.byAlbumTitleAscending;
                 break;
             }
         }
@@ -116,7 +116,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
         let orderedAlbums: AlbumModel[] = [];
 
-        switch (this.selectedAlbumOrder) {
+        switch (this.activeAlbumOrder) {
             case AlbumOrder.byAlbumTitleAscending:
                 orderedAlbums = this.albums.sort((a, b) => (a.albumTitle > b.albumTitle ? 1 : -1));
                 break;
@@ -151,7 +151,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         const alreadyUsedYearHeaders: string[] = [];
 
         for (const album of orderedAlbums) {
-            if (this.selectedAlbumOrder === AlbumOrder.byYearAscending || this.selectedAlbumOrder === AlbumOrder.byYearDescending) {
+            if (this.activeAlbumOrder === AlbumOrder.byYearAscending || this.activeAlbumOrder === AlbumOrder.byYearDescending) {
                 album.showYear = true;
 
                 if (
