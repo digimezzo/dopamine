@@ -9,6 +9,7 @@ export class Constants {
         new Language('en', 'English'),
         new Language('fr', 'Français'),
         new Language('nl', 'Nederlands'),
+        new Language('es', 'Español'),
     ];
 
     public static readonly albumSizeInPixels: number = 120;

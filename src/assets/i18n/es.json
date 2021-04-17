@@ -1,0 +1,183 @@
+{
+    "Pages": {
+        "Welcome": {
+            "Greeting": {
+                "Title": "¡Hola!",
+                "Content": "Bienvenido a Dopamine, ¡creemos que te encantará! Primero, vamos a configurar algunas cosas."
+            },
+            "Language": {
+                "Title": "Lenguaje",
+                "Content": "Elige tu lenguaje"
+            },
+            "Appearance": {
+                "Title": "Apariencia",
+                "Content": "¿Cómo debería lucir tu Dopamine?",
+                "UseLightTheme": "Usar tema claro"
+            },
+            "Music": {
+                "Title": "Música",
+                "Content": "Ahora vamos a configurar tu colección. ¿Dónde guardas tu música?"
+            },
+            "Donate": {
+                "Title": "Donar",
+                "Content": "Si te gusta Dopamine, por favor considera donar. Puedes donar ahora, o luego en la pestaña 'Acerca de'.",
+                "DonateNow": "Donar ahora"
+            },
+            "Done": {
+                "Title": "¡Listo!",
+                "Content": "Todo listo. ¡Iniciemos Dopamine!"
+            }
+        },
+        "Loading": {
+            "Text": "Cargando..."
+        },
+        "Collection": {
+            "Artists": "Artistas",
+            "Album": "Álbum",
+            "Albums": "Álbumes",
+            "Genres": "Géneros",
+            "Track": "Canción",
+            "Tracks": "Canciones",
+            "Playlists": "Listas de reproducción",
+            "Folders": "Carpetas",
+            "Folder": "Carpeta",
+            "AddFolder": "Añadir una carpeta",
+            "NoFoldersInCollection": "No hay carpetas en tu colección"
+        },
+        "Settings": {
+            "Appearance": "Apariencia",
+            "Advanced": "Avanzado",
+            "Theme": "Tema",
+            "FollowSystemTheme": "Combinar con el tema del sistema",
+            "UseLightTheme": "Usar tema claro",
+            "Color": "Color",
+            "FollowSystemColor": "Combinar con el color del sistema",
+            "TitleBar": "Estilo de ventana",
+            "UseSystemTitleBar": "Usar el estilo de ventana del sistema (requiere un reinicio)",
+            "Language": "Lenguaje",
+            "ChooseLanguage": "Cambia el lenguaje de Dopamine",
+            "TextSize": "Tamaño de letra",
+            "ChooseTextSize": "Cambia el tamaño de letra de Dopamine",
+            "Updates": "Actualizaciones de Dopamine",
+            "CheckForUpdates": "Buscar actualizaciones de Dopamine",
+            "WelcomeScreen": "Ventana de bienvenida",
+            "ShowWelcomeScreen": "Mostrar la ventana de bienvenida en el siguiente inicio"
+        },
+        "Information": {
+            "About": "Acerca de",
+            "Components": "Dependencias",
+            "Version": "Versión",
+            "Website": "Página web",
+            "License": "Licencia",
+            "Donate": "Donar",
+            "DonateInstructions": "¿Te gusta Dopamine? Haz click aquí para donar.",
+            "ContactUs": "Contacto",
+            "Thanks": "Gracias",
+            "ThanksToSharlee": "A Sharlee, ¡por sus hermosos íconos!",
+            "ThanksToDonaters": "A quienes donaron.",
+            "ThanksToTranslators": "A los traductores.",
+            "ThanksToDevelopers": "A los desarrolladores quienes crearon las dependencias que usamos.",
+            "ThanksToNeowin": "A Neowin por sus buenas ideas, testeo y reportes de bugs."
+        },
+        "ManageCollection": {
+            "Music": "Música",
+            "Refresh": "Actualización",
+            "AlbumCovers": "Portadas de álbumes",
+            "Folders": "Carpetas",
+            "AddFoldersWithYourMusic": "Añadir carpetas de música a tu colección",
+            "AddFolder": "Añadir carpeta",
+            "SelectFolder": "Seleccionar carpeta",
+            "DeleteFolder": "Eliminar carpeta",
+            "ShowInTheCollection": "Mostrar en la colección",
+            "ShowAllFoldersInTheCollection": "Mostrar todas las carpetas en la colección",
+            "RefreshCollectionAutomatically": "Actualizar la colección automáticamente",
+            "SkipPreviouslyRemovedFiles": "Saltar archivos que fueron previamente eliminados de la colección",
+            "RefreshCollectionNow": "Actualizar la colección ahora",
+            "AutomaticRefresh": "Actualización automática",
+            "ManualRefresh": "Actualización manual",
+            "Download": "Descargar",
+            "DownloadMissingAlbumCovers": "Descargar portadas de álbumes faltantes",
+            "RefreshAllCovers": "Actualizar portadas para todos los álbumes, incluyendo los que ya tengan una.",
+            "RefreshMissingCovers": "Actualizar portadas para los álbumes que no tengan una."
+        }
+    },
+    "SnackBarMessages": {
+        "FolderAlreadyAdded": "Esa carpeta ya fue añadida",
+        "Refreshing": "Actualizando...",
+        "RemovingTracks": "Eliminando canciones",
+        "AddedTracks": "Se añadieron {{numberOfAddedTracks}} canciones ({{percentageOfAddedTracks}}%)",
+        "UpdatingTracks": "Actualizando canciones",
+        "UpdatingAlbumArtwork": "Actualizando portadas de álbumes",
+        "ClickHereToDownloadNewVersion": "Haz click aquí para descargar la versión {{version}}"
+    },
+    "SnackBarActions": {
+        "Ok": "OK"
+    },
+    "Buttons": {
+        "Yes": "SÍ",
+        "No": "NO",
+        "Ok": "OK",
+        "ViewLog": "VER LOG",
+        "License": "LICENCIA",
+        "Donate": "DONAR",
+        "RefreshNow": "ACTUALIZAR AHORA",
+        "RefreshAll": "ACTUALIZAR TODO",
+        "RefreshMissing": "ACTUALIZAR FALTANTES"
+    },
+    "Tooltips": {
+        "OpenMenu": "Abrir menú",
+        "Back": "Atrás",
+        "Close": "Cerrar",
+        "ChooseFolder": "Elegir carpeta"
+    },
+    "DialogTitles": {
+        "ConfirmDeleteFolder": "¿Quieres eliminar la carpeta?",
+        "Error": "Error",
+        "License": "Licencia"
+    },
+    "DialogTexts": {
+        "ConfirmDeleteFolder": "¿Estás seguro de que quieres eliminar la carpeta '{{folderPath}}'?"
+    },
+    "ErrorTexts": {
+        "DeleteFolderError": "Ocurrió un error eliminando la carpeta. Por favor mire el log si necesita más información.",
+        "GetFoldersError": "Ocurrió un error obteniendo las carpetas. Por favor mire el log si necesita más información.",
+        "AddFolderError": "Ocurrió un error añadiendo la carpeta. Por favor mire el log si necesita más información.",
+        "GlobalError": "Ocurrió un error que cerrará la aplicación. Por favor mire el log si necesita más información."
+    },
+    "MainMenu": {
+        "ManageCollection": "Administrar colección...",
+        "Settings": "Opciones",
+        "Information": "Información"
+    },
+    "Album": {
+        "UnknownArtist": "Artista desconocido",
+        "UnknownTitle": "Título desconocido"
+    },
+    "Track": {
+        "UnknownArtist": "Artista desconocido",
+        "UnknownTitle": "Título desconocido"
+    },
+    "Durations": {
+        "Days": "días",
+        "Hours": "horas",
+        "Minutes": "minutos",
+        "Seconds": "segundos"
+    },
+    "FileSizes": {
+        "GigaBytes": "GB",
+        "MegaBytes": "MB",
+        "KiloBytes": "kB"
+    },
+    "Ordering": {
+        "Albums": {
+            "ByAlbumTitleAscending": "A-Z",
+            "ByAlbumTitleDescending": "Z-A",
+            "ByDateAdded": "Por el tiempo en el que se añadió",
+            "ByDateCreated": "Por el tiempo en el que se creó",
+            "ByAlbumArtist": "Por álbum del artista",
+            "ByYearAscending": "Por año, ascendiendo",
+            "ByYearDescending": "Por año, descendiendo",
+            "ByLastPlayed": "Por último reproducido"
+        }
+    }
+}
