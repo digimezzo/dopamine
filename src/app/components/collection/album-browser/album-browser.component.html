@@ -1,0 +1,49 @@
+<div class="app-album-browser" #albumBrowserElement>
+    <div class="app-album-browser__header m-1 no-select">
+        <div class="app-album-browser__albumscount">
+            <div class="app-album-browser__albumscount__number mr-2">{{ this.albums.length }}</div>
+            <div *ngIf="this.albums.length === 1">{{ 'Pages.Collection.Album' | translate }}</div>
+            <div *ngIf="this.albums.length !== 1">{{ 'Pages.Collection.Albums' | translate }}</div>
+        </div>
+
+        <div class="app-album-browser__albumorder" (click)="toggleAlbumOrder()">
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleAscending">
+                {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleDescending">
+                {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byDateAdded">
+                {{ 'Ordering.Albums.ByDateAdded' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byDateCreated">
+                {{ 'Ordering.Albums.ByDateCreated' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumArtist">
+                {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byYearAscending">
+                {{ 'Ordering.Albums.ByYearAscending' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byYearDescending">
+                {{ 'Ordering.Albums.ByYearDescending' | translate }}
+            </div>
+            <div *ngIf="this.activeAlbumOrder === albumOrder.byLastPlayed">
+                {{ 'Ordering.Albums.ByLastPlayed' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-album-browser__albums mt-3" itemSize="164">
+        <div *cdkVirtualFor="let albumRow of this.albumRows">
+            <div class="album-row">
+                <app-album
+                    class="m-2"
+                    *ngFor="let album of albumRow.albums"
+                    [album]="album"
+                    [isActive]="album === this.activeAlbum"
+                    (click)="setActiveAlbum($event, album)"
+                ></app-album>
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>

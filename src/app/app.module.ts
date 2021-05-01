@@ -35,9 +35,11 @@ import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
-import { AlbumComponent } from './components/album/album.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
-import { AlbumSpaceCalculator } from './components/collection/album-space-calculator';
+import { AlbumBrowserComponent } from './components/collection/album-browser/album-browser.component';
+import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
+import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
+import { AlbumComponent } from './components/collection/album-browser/album/album.component';
 import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
@@ -48,6 +50,8 @@ import { CollectionPlaybackPaneComponent } from './components/collection/collect
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
+import { TotalsComponent } from './components/collection/totals/totals.component';
+import { TrackComponent } from './components/collection/track/track.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
@@ -75,8 +79,6 @@ import { AppearanceSettingsComponent } from './components/settings/appearance-se
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
-import { TotalsComponent } from './components/totals/totals.component';
-import { TrackComponent } from './components/track/track.component';
 import { VolumeControlComponent } from './components/volume-control/volume-control.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -244,6 +246,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         TotalsComponent,
         PlaybackIndicatorComponent,
         AlbumComponent,
+        AlbumBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -321,6 +324,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         AlbumsPersister,
         FoldersPersister,
         PathValidator,
+        AlbumRowsGetter,
         AlbumSpaceCalculator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

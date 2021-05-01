@@ -10,7 +10,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/collection',
+        redirectTo: '/loading',
         pathMatch: 'full',
     },
     {

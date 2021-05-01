@@ -6,7 +6,6 @@
 }
 
 .app-album__year {
-    // background: red;
     font-weight: lighter !important;
     height: 30px;
     color: var(--theme-accent-color);
@@ -41,9 +40,6 @@
 
 .app-album__cover__placeholder path {
     fill: var(--theme-cover-art-foreground);
-}
-
-.app-album__cover_artwork {
 }
 
 .app-album__information {

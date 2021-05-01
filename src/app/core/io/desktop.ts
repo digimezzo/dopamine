@@ -54,8 +54,4 @@ export class Desktop {
     public getAccentColor(): string {
         return remote.systemPreferences.getAccentColor();
     }
-
-    public getWindowWidth(): number {
-        return window.innerWidth;
-    }
 }

@@ -27,7 +27,7 @@ export class CollectionComponent implements OnInit {
         window.dispatchEvent(new Event('tab-changed'));
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.setSelectedTabFromSettings();
     }
 
