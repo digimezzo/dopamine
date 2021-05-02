@@ -6,7 +6,7 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
-import { PlaybackIndicationService } from '../../../services/playback-indication/playback-indication.service';
+import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -28,7 +28,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
-        private playbackIndicationService: PlaybackIndicationService,
+        private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
         private hacks: Hacks
     ) {}

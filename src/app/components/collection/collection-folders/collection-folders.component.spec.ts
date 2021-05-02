@@ -51,7 +51,9 @@ describe('CollectionFoldersComponent', () => {
         hacksMock = Mock.ofType<Hacks>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
-        folder2 = new FolderModel(30
+        folder2 = new FolderModel(new Folder('/home/user/Downloads'));
+        folders = [folder1, folder2];
+        folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
         subfolder1 = new SubfolderModel('/home/user/Music/subfolder1', true);
         subfolder2 = new SubfolderModel('/home/user/Music/subfolder2', false);
         subfolders = [subfolder1, subfolder2];
