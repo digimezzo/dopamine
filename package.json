@@ -37,7 +37,9 @@
         "electron:mac": "npm run build:prod && electron-builder build --mac",
         "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
         "rebuild-sqlite": "./node_modules/.bin/electron-rebuild -f -o better-sqlite3",
-        "test": "npx jest --verbose"
+        "test": "npx jest --verbose",
+        "test-block": "npx jest --verbose -t",
+        "test-file": "npx jest --verbose -i"
     },
     "devDependencies": {
         "@angular-builders/custom-webpack": "8.4.1",
