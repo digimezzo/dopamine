@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Constants } from '../../../core/base/constants';
-import { Scheduler } from '../../../core/scheduler/scheduler';
+import { NativeElementProxy } from '../../../core/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from '../album-order';
 import { AlbumRow } from './album-row';
@@ -18,9 +18,9 @@ export class AlbumBrowserComponent implements OnInit {
     private _albums: AlbumModel[] = [];
     private availableWidthInPixels: number;
 
-    constructor(private albumRowsGetter: AlbumRowsGetter, private scheduler: Scheduler) {}
+    constructor(private albumRowsGetter: AlbumRowsGetter, private nativeElementProxy: NativeElementProxy) {}
 
-    public albumOrder: typeof AlbumOrder = AlbumOrder;
+    public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public albumRows: AlbumRow[] = [];
 
     @ViewChild('albumBrowserElement') public albumBrowserElement: ElementRef;
@@ -46,7 +46,7 @@ export class AlbumBrowserComponent implements OnInit {
         // Ideally, we could move this code to ngAfterViewInit(). Unfortunately, Angular in all their wisdom,
         // decided that a ExpressionChangedAfterItHasBeenCheckedError (only in DEV mode! Crazy.) is thrown
         // when code that changes template-bound values is executed in ngAfterViewInit().
-        await this.waitForViewInitializationAsync();
+        await this.nativeElementProxy.waitUnTilElementIsDefined(this.albumBrowserElement);
 
         fromEvent(window, 'resize')
             .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds))
@@ -75,32 +75,32 @@ export class AlbumBrowserComponent implements OnInit {
 
     public toggleAlbumOrder(): void {
         switch (this.activeAlbumOrder) {
-            case this.albumOrder.byAlbumTitleAscending:
-                this.activeAlbumOrder = this.albumOrder.byAlbumTitleDescending;
+            case AlbumOrder.byAlbumTitleAscending:
+                this.activeAlbumOrder = AlbumOrder.byAlbumTitleDescending;
                 break;
-            case this.albumOrder.byAlbumTitleDescending:
-                this.activeAlbumOrder = this.albumOrder.byDateAdded;
+            case AlbumOrder.byAlbumTitleDescending:
+                this.activeAlbumOrder = AlbumOrder.byDateAdded;
                 break;
-            case this.albumOrder.byDateAdded:
-                this.activeAlbumOrder = this.albumOrder.byDateCreated;
+            case AlbumOrder.byDateAdded:
+                this.activeAlbumOrder = AlbumOrder.byDateCreated;
                 break;
-            case this.albumOrder.byDateCreated:
-                this.activeAlbumOrder = this.albumOrder.byAlbumArtist;
+            case AlbumOrder.byDateCreated:
+                this.activeAlbumOrder = AlbumOrder.byAlbumArtist;
                 break;
-            case this.albumOrder.byAlbumArtist:
-                this.activeAlbumOrder = this.albumOrder.byYearAscending;
+            case AlbumOrder.byAlbumArtist:
+                this.activeAlbumOrder = AlbumOrder.byYearAscending;
                 break;
-            case this.albumOrder.byYearAscending:
-                this.activeAlbumOrder = this.albumOrder.byYearDescending;
+            case AlbumOrder.byYearAscending:
+                this.activeAlbumOrder = AlbumOrder.byYearDescending;
                 break;
-            case this.albumOrder.byYearDescending:
-                this.activeAlbumOrder = this.albumOrder.byLastPlayed;
+            case AlbumOrder.byYearDescending:
+                this.activeAlbumOrder = AlbumOrder.byLastPlayed;
                 break;
-            case this.albumOrder.byLastPlayed:
-                this.activeAlbumOrder = this.albumOrder.byAlbumTitleAscending;
+            case AlbumOrder.byLastPlayed:
+                this.activeAlbumOrder = AlbumOrder.byAlbumTitleAscending;
                 break;
             default: {
-                this.activeAlbumOrder = this.albumOrder.byAlbumTitleAscending;
+                this.activeAlbumOrder = AlbumOrder.byAlbumTitleAscending;
                 break;
             }
         }
@@ -110,26 +110,26 @@ export class AlbumBrowserComponent implements OnInit {
         this.fillAlbumRows();
     }
 
-    private async waitForViewInitializationAsync(): Promise<void> {
-        while (this.albumBrowserElement == undefined) {
-            await this.scheduler.sleepAsync(50);
-        }
-    }
-
     private fillAlbumRowsIfAvailableWidthChanged(): void {
-        const newAvailableWidthInPixels: number = this.albumBrowserElement.nativeElement.offsetWidth;
+        const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+
+        if (newAvailableWidthInPixels === 0) {
+            return;
+        }
 
         if (this.availableWidthInPixels !== newAvailableWidthInPixels) {
             this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.fillAlbumRows();
+            this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.activeAlbumOrder, this.albums);
         }
     }
 
     private fillAlbumRows(): void {
-        if (this.albumBrowserElement == undefined) {
+        const availableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+
+        if (availableWidthInPixels === 0) {
             return;
         }
 
-        this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.activeAlbumOrder, this.albums);
+        this.albumRows = this.albumRowsGetter.getAlbumRows(availableWidthInPixels, this.activeAlbumOrder, this.albums);
     }
 }

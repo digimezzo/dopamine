@@ -13,7 +13,7 @@ export class PlaybackControlsComponent implements OnInit {
     constructor(public playbackService: BasePlaybackService) {}
 
     // This is required to use enum values in the template
-    public loopMode: typeof LoopMode = LoopMode;
+    public loopModeEnum: typeof LoopMode = LoopMode;
 
     public ngOnInit(): void {}
 }

@@ -30,13 +30,13 @@ describe('PlaybackControlsComponent', () => {
             expect(component.playbackService).toBeDefined();
         });
 
-        it('should define loopMode', () => {
+        it('should define loopModeEnum', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.loopMode).toBeDefined();
+            expect(component.loopModeEnum).toBeDefined();
         });
     });
 });

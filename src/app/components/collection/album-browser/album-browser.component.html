@@ -7,28 +7,28 @@
         </div>
 
         <div class="app-album-browser__albumorder" (click)="toggleAlbumOrder()">
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleAscending">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
                 {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumTitleDescending">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
                 {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byDateAdded">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byDateAdded">
                 {{ 'Ordering.Albums.ByDateAdded' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byDateCreated">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byDateCreated">
                 {{ 'Ordering.Albums.ByDateCreated' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byAlbumArtist">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumArtist">
                 {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byYearAscending">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byYearAscending">
                 {{ 'Ordering.Albums.ByYearAscending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byYearDescending">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byYearDescending">
                 {{ 'Ordering.Albums.ByYearDescending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrder.byLastPlayed">
+            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byLastPlayed">
                 {{ 'Ordering.Albums.ByLastPlayed' | translate }}
             </div>
         </div>

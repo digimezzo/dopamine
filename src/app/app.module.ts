@@ -22,7 +22,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -92,6 +92,7 @@ import { RemoteProxy } from './core/io/remote-proxy';
 import { ListRandomizer } from './core/list-randomizer';
 import { Logger } from './core/logger';
 import { MathExtensions } from './core/math-extensions';
+import { NativeElementProxy } from './core/native-element-proxy';
 import { PathValidator } from './core/path-validator';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
@@ -326,6 +327,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PathValidator,
         AlbumRowsGetter,
         AlbumSpaceCalculator,
+        NativeElementProxy,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

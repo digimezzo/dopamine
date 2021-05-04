@@ -1,7 +1,7 @@
 <div class="app-playback-controls">
     <!-- Loop -->
     <button
-        *ngIf="playbackService.loopMode === loopMode.None"
+        *ngIf="playbackService.loopMode === loopModeEnum.None"
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
@@ -9,7 +9,7 @@
         <i class="app-playback-controls__icon las la-redo-alt"></i>
     </button>
     <button
-        *ngIf="playbackService.loopMode === loopMode.All"
+        *ngIf="playbackService.loopMode === loopModeEnum.All"
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
@@ -17,7 +17,7 @@
         <i class="app-playback-controls__accenticon las la-redo-alt"></i>
     </button>
     <button
-        *ngIf="playbackService.loopMode === loopMode.One"
+        *ngIf="playbackService.loopMode === loopModeEnum.One"
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
