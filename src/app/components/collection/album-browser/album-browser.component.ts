@@ -1,9 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { Constants } from '../../../core/base/constants';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
+import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
@@ -14,11 +12,15 @@ import { AlbumRowsGetter } from './album-rows-getter';
     templateUrl: './album-browser.component.html',
     styleUrls: ['./album-browser.component.scss'],
 })
-export class AlbumBrowserComponent implements OnInit {
+export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albums: AlbumModel[] = [];
-    private availableWidthInPixels: number;
+    private availableWidthInPixels: number = 0;
 
-    constructor(private albumRowsGetter: AlbumRowsGetter, private nativeElementProxy: NativeElementProxy) {}
+    constructor(
+        private applicationService: BaseApplicationService,
+        private albumRowsGetter: AlbumRowsGetter,
+        private nativeElementProxy: NativeElementProxy
+    ) {}
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public albumRows: AlbumRow[] = [];
@@ -41,26 +43,21 @@ export class AlbumBrowserComponent implements OnInit {
         this.fillAlbumRows();
     }
 
-    public async ngOnInit(): Promise<void> {
-        // HACK: we must wait for the view to be initialized because need the size of view elements.
-        // Ideally, we could move this code to ngAfterViewInit(). Unfortunately, Angular in all their wisdom,
-        // decided that a ExpressionChangedAfterItHasBeenCheckedError (only in DEV mode! Crazy.) is thrown
-        // when code that changes template-bound values is executed in ngAfterViewInit().
-        await this.nativeElementProxy.waitUnTilElementIsDefined(this.albumBrowserElement);
+    public ngOnInit(): void {
+        this.applicationService.windowSizeChanged$.subscribe(() => {
+            this.fillAlbumRowsIfAvailableWidthChanged();
+        });
 
-        fromEvent(window, 'resize')
-            .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds))
-            .subscribe((event: any) => {
-                this.fillAlbumRowsIfAvailableWidthChanged();
-            });
+        this.applicationService.mouseButtonReleased$.subscribe(() => {
+            this.fillAlbumRowsIfAvailableWidthChanged();
+        });
+    }
 
-        fromEvent(document, 'mouseup')
-            .pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds))
-            .subscribe((event: any) => {
-                this.fillAlbumRowsIfAvailableWidthChanged();
-            });
-
-        this.fillAlbumRowsIfAvailableWidthChanged();
+    public ngAfterViewInit(): void {
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.fillAlbumRows();
+        }, 0);
     }
 
     public setActiveAlbum(event: any, album: AlbumModel): void {
@@ -117,19 +114,22 @@ export class AlbumBrowserComponent implements OnInit {
             return;
         }
 
-        if (this.availableWidthInPixels !== newAvailableWidthInPixels) {
-            this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.activeAlbumOrder, this.albums);
-        }
-    }
-
-    private fillAlbumRows(): void {
-        const availableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
-
-        if (availableWidthInPixels === 0) {
+        if (this.availableWidthInPixels === newAvailableWidthInPixels) {
             return;
         }
 
-        this.albumRows = this.albumRowsGetter.getAlbumRows(availableWidthInPixels, this.activeAlbumOrder, this.albums);
+        this.availableWidthInPixels = newAvailableWidthInPixels;
+        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.activeAlbumOrder, this.albums);
+    }
+
+    private fillAlbumRows(): void {
+        const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+
+        if (newAvailableWidthInPixels === 0) {
+            return;
+        }
+
+        this.availableWidthInPixels = newAvailableWidthInPixels;
+        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.activeAlbumOrder, this.albums);
     }
 }

@@ -133,6 +133,8 @@ import { AlbumService } from './services/album/album-service';
 import { BaseAlbumService } from './services/album/base-album-service';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { ApplicationService } from './services/application/application.service';
+import { BaseApplicationService } from './services/application/base-application.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { DialogService } from './services/dialog/dialog.service';
 import { ElectronService } from './services/electron.service';
@@ -331,6 +333,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
+        { provide: BaseApplicationService, useClass: ApplicationService },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
         { provide: BaseCollectionChecker, useClass: CollectionChecker },
         { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },

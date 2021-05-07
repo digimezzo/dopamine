@@ -19,10 +19,4 @@ export class NativeElementProxy {
 
         return element.nativeElement.offsetWidth;
     }
-
-    public async waitUnTilElementIsDefined(element: ElementRef): Promise<void> {
-        while (element == undefined) {
-            await this.scheduler.sleepAsync(50);
-        }
-    }
 }
