@@ -181,7 +181,7 @@ describe('AlbumBrowserComponent', () => {
             component.albums = albums;
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
         });
     });
 
@@ -233,7 +233,7 @@ describe('AlbumBrowserComponent', () => {
             jest.runAllTimers();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
         });
     });
 
@@ -262,7 +262,7 @@ describe('AlbumBrowserComponent', () => {
             windowSizeChanged.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, AlbumOrder.byAlbumArtist, albums), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
         });
 
         it('should not fill the album rows on window size changed if the available width has not changed', () => {
@@ -289,7 +289,7 @@ describe('AlbumBrowserComponent', () => {
             windowSizeChanged.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.never());
         });
 
         it('should not fill the album rows on window size changed if the available width is 0', () => {
@@ -316,7 +316,7 @@ describe('AlbumBrowserComponent', () => {
             windowSizeChanged.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.never());
         });
 
         it('should fill the album rows on mouse button released if the available width has changed', () => {
@@ -343,7 +343,7 @@ describe('AlbumBrowserComponent', () => {
             mouseButtonReleased.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, AlbumOrder.byAlbumArtist, albums), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(600, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
         });
 
         it('should not fill the album rows on mouse button released if the available width is 0', () => {
@@ -370,7 +370,7 @@ describe('AlbumBrowserComponent', () => {
             mouseButtonReleased.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.never());
         });
 
         it('should not fill the album rows on mouse button released if the available width has not changed', () => {
@@ -397,7 +397,7 @@ describe('AlbumBrowserComponent', () => {
             mouseButtonReleased.next();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byAlbumArtist, albums), Times.never());
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.never());
         });
     });
 
@@ -632,7 +632,7 @@ describe('AlbumBrowserComponent', () => {
             component.toggleAlbumOrder();
 
             // Assert
-            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, AlbumOrder.byYearAscending, albums), Times.exactly(1));
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byYearAscending), Times.exactly(1));
         });
     });
 });

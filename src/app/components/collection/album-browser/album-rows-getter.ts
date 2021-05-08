@@ -9,7 +9,7 @@ import { AlbumSpaceCalculator } from './album-space-calculator';
 export class AlbumRowsGetter {
     constructor(private albumSpaceCalculator: AlbumSpaceCalculator) {}
 
-    public getAlbumRows(availableWidthInPixels: number, albumOrder: AlbumOrder, albums: AlbumModel[]): AlbumRow[] {
+    public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
         const numberOfAlbumsPerRow: number = this.albumSpaceCalculator.calculateNumberOfAlbumsPerRow(
             Constants.albumSizeInPixels,
             availableWidthInPixels
@@ -17,43 +17,12 @@ export class AlbumRowsGetter {
 
         const albumRows: AlbumRow[] = [];
 
-        let orderedAlbums: AlbumModel[] = [];
-
-        switch (albumOrder) {
-            case AlbumOrder.byAlbumTitleAscending:
-                orderedAlbums = albums.sort((a, b) => (a.albumTitle > b.albumTitle ? 1 : -1));
-                break;
-            case AlbumOrder.byAlbumTitleDescending:
-                orderedAlbums = albums.sort((a, b) => (a.albumTitle < b.albumTitle ? 1 : -1));
-                break;
-            case AlbumOrder.byDateAdded:
-                orderedAlbums = albums.sort((a, b) => (a.dateAddedInTicks < b.dateAddedInTicks ? 1 : -1));
-                break;
-            case AlbumOrder.byDateCreated:
-                orderedAlbums = albums.sort((a, b) => (a.dateFileCreatedInTicks < b.dateFileCreatedInTicks ? 1 : -1));
-                break;
-            case AlbumOrder.byAlbumArtist:
-                orderedAlbums = albums.sort((a, b) => (a.albumArtist > b.albumArtist ? 1 : -1));
-                break;
-            case AlbumOrder.byYearAscending:
-                orderedAlbums = albums.sort((a, b) => (a.year > b.year ? 1 : -1));
-                break;
-            case AlbumOrder.byYearDescending:
-                orderedAlbums = albums.sort((a, b) => (a.year < b.year ? 1 : -1));
-                break;
-            case AlbumOrder.byLastPlayed:
-                orderedAlbums = albums.sort((a, b) => (a.dateLastPlayedInTicks < b.dateLastPlayedInTicks ? 1 : -1));
-                break;
-            default: {
-                orderedAlbums = albums.sort((a, b) => (a.albumTitle > b.albumTitle ? 1 : -1));
-                break;
-            }
-        }
+        const sortedAlbums: AlbumModel[] = this.getSortedAlbums(albums, albumOrder);
 
         let lastYear: number = -1;
         const alreadyUsedYearHeaders: string[] = [];
 
-        for (const album of orderedAlbums) {
+        for (const album of sortedAlbums) {
             if (albumOrder === AlbumOrder.byYearAscending || albumOrder === AlbumOrder.byYearDescending) {
                 album.showYear = true;
 
@@ -69,14 +38,15 @@ export class AlbumRowsGetter {
                     albumRows.push(new AlbumRow());
                 }
 
-                if (!alreadyUsedYearHeaders.includes(album.year.toString())) {
-                    alreadyUsedYearHeaders.push(album.year.toString());
+                let proposedHeader: string = '?';
 
-                    if (album.year == undefined || album.year === 0) {
-                        album.yearHeader = '?';
-                    } else {
-                        album.yearHeader = album.year.toString();
-                    }
+                if (album.year != undefined && album.year !== 0) {
+                    proposedHeader = album.year.toString();
+                }
+
+                if (!alreadyUsedYearHeaders.includes(proposedHeader)) {
+                    alreadyUsedYearHeaders.push(proposedHeader);
+                    album.yearHeader = proposedHeader;
                 } else {
                     album.yearHeader = '';
                 }
@@ -98,5 +68,41 @@ export class AlbumRowsGetter {
         }
 
         return albumRows;
+    }
+    private getSortedAlbums(unsortedAlbums: AlbumModel[], albumOrder: AlbumOrder): AlbumModel[] {
+        let sortedAlbums: AlbumModel[] = [];
+
+        switch (albumOrder) {
+            case AlbumOrder.byAlbumTitleAscending:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.albumTitle > b.albumTitle ? 1 : -1));
+                break;
+            case AlbumOrder.byAlbumTitleDescending:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.albumTitle < b.albumTitle ? 1 : -1));
+                break;
+            case AlbumOrder.byDateAdded:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.dateAddedInTicks < b.dateAddedInTicks ? 1 : -1));
+                break;
+            case AlbumOrder.byDateCreated:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.dateFileCreatedInTicks < b.dateFileCreatedInTicks ? 1 : -1));
+                break;
+            case AlbumOrder.byAlbumArtist:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.albumArtist > b.albumArtist ? 1 : -1));
+                break;
+            case AlbumOrder.byYearAscending:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.year > b.year ? 1 : -1));
+                break;
+            case AlbumOrder.byYearDescending:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.year < b.year ? 1 : -1));
+                break;
+            case AlbumOrder.byLastPlayed:
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.dateLastPlayedInTicks < b.dateLastPlayedInTicks ? 1 : -1));
+                break;
+            default: {
+                sortedAlbums = unsortedAlbums.sort((a, b) => (a.albumTitle > b.albumTitle ? 1 : -1));
+                break;
+            }
+        }
+
+        return sortedAlbums;
     }
 }

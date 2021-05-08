@@ -119,7 +119,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }
 
         this.availableWidthInPixels = newAvailableWidthInPixels;
-        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.activeAlbumOrder, this.albums);
+        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
     }
 
     private fillAlbumRows(): void {
@@ -130,6 +130,6 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }
 
         this.availableWidthInPixels = newAvailableWidthInPixels;
-        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.activeAlbumOrder, this.albums);
+        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
     }
 }
