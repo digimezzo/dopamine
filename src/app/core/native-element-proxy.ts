@@ -1,9 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Scheduler } from './scheduler/scheduler';
 
 @Injectable()
 export class NativeElementProxy {
-    constructor(private scheduler: Scheduler) {}
+    constructor() {}
 
     public getElementWidth(element: ElementRef): number {
         if (element == undefined) {

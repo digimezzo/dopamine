@@ -1,5 +1,6 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Logger } from '../../../core/logger';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
 import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
@@ -14,6 +15,7 @@ describe('AlbumBrowserComponent', () => {
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let loggerMock: IMock<Logger>;
     let component: AlbumBrowserComponent;
 
     let windowSizeChanged: Subject<void>;
@@ -26,6 +28,7 @@ describe('AlbumBrowserComponent', () => {
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        loggerMock = Mock.ofType<Logger>();
 
         windowSizeChanged = new Subject();
         mouseButtonReleased = new Subject();
@@ -35,7 +38,12 @@ describe('AlbumBrowserComponent', () => {
         applicationServiceMock.setup((x) => x.windowSizeChanged$).returns(() => windowSizeChanged$);
         applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => mouseButtonReleased$);
 
-        component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+        component = new AlbumBrowserComponent(
+            applicationServiceMock.object,
+            albumRowsGetterMock.object,
+            nativeElementProxyMock.object,
+            loggerMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -133,7 +141,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -153,7 +166,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -173,7 +191,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -195,7 +218,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -219,7 +247,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -248,7 +281,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 600);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -275,7 +313,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 600);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -302,7 +345,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -329,7 +377,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 600);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -356,7 +409,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -383,7 +441,12 @@ describe('AlbumBrowserComponent', () => {
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 600);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -603,7 +666,12 @@ describe('AlbumBrowserComponent', () => {
         it('should not fill the album rows if the element width is 0', () => {
             // Arrange
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -623,7 +691,12 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
 
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(applicationServiceMock.object, albumRowsGetterMock.object, nativeElementProxyMock.object);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                loggerMock.object
+            );
 
             component.albums = albums;
             component.activeAlbumOrder = AlbumOrder.byAlbumArtist;

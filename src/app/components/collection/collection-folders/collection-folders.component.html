@@ -10,7 +10,7 @@
                             mat-icon-button
                             [matMenuTriggerFor]="menu"
                             matTooltip="{{ 'Tooltips.ChooseFolder' | translate }}"
-                            (click)="getFoldersAsync()"
+                            (click)="getFolders()"
                         >
                             <div class="folder-browser__menu">{{ activeFolder | folderName }}<i class="ml-1 las la-angle-down"></i></div>
                         </div>

@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Hacks } from '../../../core/hacks';
+import { Logger } from '../../../core/logger';
 import { Folder } from '../../../data/entities/folder';
 import { Track } from '../../../data/entities/track';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -24,6 +25,7 @@ describe('CollectionFoldersComponent', () => {
     let trackServiceMock: IMock<BaseTrackService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let foldersPersisterMock: IMock<FoldersPersister>;
+    let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
@@ -48,6 +50,7 @@ describe('CollectionFoldersComponent', () => {
         trackServiceMock = Mock.ofType<BaseTrackService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         foldersPersisterMock = Mock.ofType<FoldersPersister>();
+        loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
@@ -80,6 +83,7 @@ describe('CollectionFoldersComponent', () => {
             trackServiceMock.object,
             playbackIndicationServiceMock.object,
             foldersPersisterMock.object,
+            loggerMock.object,
             hacksMock.object
         );
     });
@@ -189,11 +193,11 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('getFoldersAsync', () => {
-        it('should get the folders', async () => {
+        it('should get the folders', () => {
             // Arrange
 
             // Act
-            await component.getFoldersAsync();
+             component.getFolders();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
@@ -205,7 +209,7 @@ describe('CollectionFoldersComponent', () => {
             // Arrange
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));

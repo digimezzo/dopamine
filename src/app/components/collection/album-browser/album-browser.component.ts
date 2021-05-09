@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Logger } from '../../../core/logger';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
@@ -19,7 +20,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     constructor(
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
-        private nativeElementProxy: NativeElementProxy
+        private nativeElementProxy: NativeElementProxy,
+        private logger: Logger
     ) {}
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
@@ -108,28 +110,40 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     }
 
     private fillAlbumRowsIfAvailableWidthChanged(): void {
-        const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+        try {
+            const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
 
-        if (newAvailableWidthInPixels === 0) {
-            return;
+            if (newAvailableWidthInPixels === 0) {
+                return;
+            }
+
+            if (this.availableWidthInPixels === newAvailableWidthInPixels) {
+                return;
+            }
+
+            this.availableWidthInPixels = newAvailableWidthInPixels;
+            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
+        } catch (e) {
+            this.logger.error(
+                `Could not fill album rows after available width changed. Error: ${e.message}`,
+                'AlbumBrowserComponent',
+                'fillAlbumRowsIfAvailableWidthChanged'
+            );
         }
-
-        if (this.availableWidthInPixels === newAvailableWidthInPixels) {
-            return;
-        }
-
-        this.availableWidthInPixels = newAvailableWidthInPixels;
-        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
     }
 
     private fillAlbumRows(): void {
-        const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+        try {
+            const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
 
-        if (newAvailableWidthInPixels === 0) {
-            return;
+            if (newAvailableWidthInPixels === 0) {
+                return;
+            }
+
+            this.availableWidthInPixels = newAvailableWidthInPixels;
+            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
+        } catch (e) {
+            this.logger.error(`Could not fill album rows. Error: ${e.message}`, 'AlbumBrowserComponent', 'fillAlbumRows');
         }
-
-        this.availableWidthInPixels = newAvailableWidthInPixels;
-        this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
     }
 }

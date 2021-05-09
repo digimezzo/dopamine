@@ -61,7 +61,11 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     private fillLists(): void {
         if (this.albums.length === 0) {
-            this.albums = this.albumService.getAllAlbums();
+            try {
+                this.albums = this.albumService.getAllAlbums();
+            } catch (e) {
+                this.logger.error(`Could not get folders. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
+            }
         }
     }
 }

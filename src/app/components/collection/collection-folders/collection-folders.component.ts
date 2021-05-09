@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
+import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -30,6 +31,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private trackService: BaseTrackService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
+        private logger: Logger,
         private hacks: Hacks
     ) {}
 
@@ -65,8 +67,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.settings.foldersLeftPaneWidthPercent = event.sizes[0];
     }
 
-    public async getFoldersAsync(): Promise<void> {
-        this.folders = this.folderService.getFolders();
+    public getFolders(): void {
+        try {
+            this.folders = this.folderService.getFolders();
+        } catch (e) {
+            this.logger.error(`Could not get folders. Error: ${e.message}`, 'CollectionFoldersComponent', 'getFolders');
+        }
     }
 
     public async setActiveSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
@@ -74,20 +80,28 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
-        const activeSubfolderPath = this.getActiveSubfolderPath();
+        try {
+            this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
+            const activeSubfolderPath = this.getActiveSubfolderPath();
 
-        this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
+            this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
 
-        this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
-        this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
+            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
+            this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
 
-        // HACK: when refreshing the subfolder list, the tooltip of the last hovered
-        // subfolder remains visible. This function is a workaround for this problem.
-        this.hacks.removeTooltips();
+            // HACK: when refreshing the subfolder list, the tooltip of the last hovered
+            // subfolder remains visible. This function is a workaround for this problem.
+            this.hacks.removeTooltips();
 
-        this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
-        this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
+            this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
+            this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
+        } catch (e) {
+            this.logger.error(
+                `Could not set the active subfolder. Error: ${e.message}`,
+                'CollectionFoldersComponent',
+                'setActiveSubfolderAsync'
+            );
+        }
     }
 
     public async setActiveFolderAsync(folderToActivate: FolderModel): Promise<void> {
@@ -108,7 +122,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     private async fillListsAsync(): Promise<void> {
-        await this.getFoldersAsync();
+        this.getFolders();
 
         const activeFolderFromSettings: FolderModel = this.foldersPersister.getActiveFolderFromSettings(this.folders);
         await this.setActiveFolderAsync(activeFolderFromSettings);
