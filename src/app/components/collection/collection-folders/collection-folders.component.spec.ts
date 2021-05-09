@@ -4,6 +4,7 @@ import { Hacks } from '../../../core/hacks';
 import { Logger } from '../../../core/logger';
 import { Folder } from '../../../data/entities/folder';
 import { Track } from '../../../data/entities/track';
+import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -14,6 +15,7 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 
@@ -24,6 +26,8 @@ describe('CollectionFoldersComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let trackServiceMock: IMock<BaseTrackService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let dialogServiceMock: IMock<BaseDialogService>;
     let foldersPersisterMock: IMock<FoldersPersister>;
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
@@ -49,6 +53,8 @@ describe('CollectionFoldersComponent', () => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
         foldersPersisterMock = Mock.ofType<FoldersPersister>();
         loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
@@ -81,6 +87,8 @@ describe('CollectionFoldersComponent', () => {
             folderServiceMock.object,
             navigationServiceMock.object,
             trackServiceMock.object,
+            dialogServiceMock.object,
+            translatorServiceMock.object,
             playbackIndicationServiceMock.object,
             foldersPersisterMock.object,
             loggerMock.object,
