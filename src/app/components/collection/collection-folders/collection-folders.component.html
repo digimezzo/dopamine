@@ -12,10 +12,10 @@
                             matTooltip="{{ 'Tooltips.ChooseFolder' | translate }}"
                             (click)="getFolders()"
                         >
-                            <div class="folder-browser__menu">{{ activeFolder | folderName }}<i class="ml-1 las la-angle-down"></i></div>
+                            <div class="folder-browser__menu">{{ openedFolder | folderName }}<i class="ml-1 las la-angle-down"></i></div>
                         </div>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item *ngFor="let folder of folders" (click)="setActiveFolderAsync(folder)">
+                            <button mat-menu-item *ngFor="let folder of folders" (click)="setOpenedFolderAsync(folder)">
                                 {{ folder | folderName }}
                             </button>
                         </mat-menu>
@@ -25,7 +25,7 @@
                             *cdkVirtualFor="let subfolder of subfolders"
                             matRipple
                             (click)="setSelectedSubfolder(subfolder)"
-                            (dblclick)="setActiveSubfolderAsync(subfolder)"
+                            (dblclick)="setOpenedSubfolderAsync(subfolder)"
                         >
                             <div class="subfolder no-select p-1" [ngClass]="{ 'selected-item': subfolder === selectedSubfolder }">
                                 <i *ngIf="!subfolder.isPlaying" class="subfolder__icon mr-2 lar la-folder"></i>
@@ -61,7 +61,7 @@
                     <mat-chip
                         class="tracks-browser__breadcrumb no-select"
                         *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
-                        (click)="setActiveSubfolderAsync(subfolderBreadCrumb)"
+                        (click)="setOpenedSubfolderAsync(subfolderBreadCrumb)"
                     >
                         {{ subfolderBreadCrumb | subfolderName }}
                     </mat-chip>

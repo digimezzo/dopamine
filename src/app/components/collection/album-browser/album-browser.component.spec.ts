@@ -2,6 +2,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Logger } from '../../../core/logger';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
+import { SelectionWatcher } from '../../../core/selection-watcher';
 import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
@@ -15,6 +16,7 @@ describe('AlbumBrowserComponent', () => {
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let selectionWatcherMock: IMock<SelectionWatcher>;
     let loggerMock: IMock<Logger>;
     let component: AlbumBrowserComponent;
 
@@ -28,6 +30,7 @@ describe('AlbumBrowserComponent', () => {
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        selectionWatcherMock = Mock.ofType<SelectionWatcher>();
         loggerMock = Mock.ofType<Logger>();
 
         windowSizeChanged = new Subject();
@@ -42,6 +45,7 @@ describe('AlbumBrowserComponent', () => {
             applicationServiceMock.object,
             albumRowsGetterMock.object,
             nativeElementProxyMock.object,
+            selectionWatcherMock.object,
             loggerMock.object
         );
     });
@@ -145,6 +149,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -170,6 +175,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -195,6 +201,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -222,6 +229,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -251,6 +259,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -285,6 +294,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -317,6 +327,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -349,6 +360,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -381,6 +393,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -413,6 +426,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -445,6 +459,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -670,6 +685,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 
@@ -695,6 +711,7 @@ describe('AlbumBrowserComponent', () => {
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
                 nativeElementProxyMock.object,
+                selectionWatcherMock.object,
                 loggerMock.object
             );
 

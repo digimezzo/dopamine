@@ -48,10 +48,10 @@ describe('AlbumsPersister', () => {
             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
             const albumData: AlbumData = new AlbumData();
             albumData.albumKey = 'someAlbumKey';
-            const activeFolder: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            const activeAlbum: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object);
 
             // Act
-            albumsPersister.saveActiveAlbumToSettings(activeFolder);
+            albumsPersister.saveActiveAlbumToSettings(activeAlbum);
 
             // Assert
             expect(settingsStub.albumsTabActiveAlbum).toEqual('someAlbumKey');

@@ -225,22 +225,22 @@ export class Settings implements BaseSettings {
         this.settings.set('selectedTab', v);
     }
 
-    //  Folders tab active folder
-    public get foldersTabActiveFolder(): string {
-        return this.settings.get('foldersTabActiveFolder');
+    //  Folders tab opened folder
+    public get foldersTabOpenedFolder(): string {
+        return this.settings.get('foldersTabOpenedFolder');
     }
 
-    public set foldersTabActiveFolder(v: string) {
-        this.settings.set('foldersTabActiveFolder', v);
+    public set foldersTabOpenedFolder(v: string) {
+        this.settings.set('foldersTabOpenedFolder', v);
     }
 
-    //  Folders tab active subfolder
-    public get foldersTabActiveSubfolder(): string {
-        return this.settings.get('foldersTabActiveSubfolder');
+    //  Folders tab opened subfolder
+    public get foldersTabOpenedSubfolder(): string {
+        return this.settings.get('foldersTabOpenedSubfolder');
     }
 
-    public set foldersTabActiveSubfolder(v: string) {
-        this.settings.set('foldersTabActiveSubfolder', v);
+    public set foldersTabOpenedSubfolder(v: string) {
+        this.settings.set('foldersTabOpenedSubfolder', v);
     }
 
     //  Albums tab active album
@@ -359,12 +359,12 @@ export class Settings implements BaseSettings {
             this.settings.set('selectedTab', 'explore');
         }
 
-        if (!this.settings.has('foldersTabActiveFolder')) {
-            this.settings.set('foldersTabActiveFolder', '');
+        if (!this.settings.has('foldersTabOpenedFolder')) {
+            this.settings.set('foldersTabOpenedFolder', '');
         }
 
-        if (!this.settings.has('foldersTabActiveSubfolder')) {
-            this.settings.set('foldersTabActiveSubfolder', '');
+        if (!this.settings.has('foldersTabOpenedSubfolder')) {
+            this.settings.set('foldersTabOpenedSubfolder', '');
         }
 
         if (!this.settings.has('albumsTabActiveAlbum')) {

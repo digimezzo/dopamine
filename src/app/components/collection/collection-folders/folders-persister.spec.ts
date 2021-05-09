@@ -12,7 +12,7 @@ describe('FoldersPersister', () => {
     let foldersPersister: FoldersPersister;
 
     beforeEach(() => {
-        settingsStub = { foldersTabActiveFolder: '', foldersTabActiveSubfolder: '' };
+        settingsStub = { foldersTabOpenedFolder: '', foldersTabOpenedSubfolder: '' };
         loggerMock = Mock.ofType<Logger>();
 
         foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
@@ -29,90 +29,90 @@ describe('FoldersPersister', () => {
         });
     });
 
-    describe('saveActiveFolderToSettings', () => {
-        it('should clear the active folder in the settings if the given active folder is undefined', () => {
+    describe('saveOpenedFolderToSettings', () => {
+        it('should clear the opened folder in the settings if the given opened folder is undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = '/some/folder';
+            settingsStub.foldersTabOpenedFolder = '/some/folder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            foldersPersister.saveActiveFolderToSettings(undefined);
+            foldersPersister.saveOpenedFolderToSettings(undefined);
 
             // Assert
-            expect(settingsStub.foldersTabActiveFolder).toEqual('');
+            expect(settingsStub.foldersTabOpenedFolder).toEqual('');
         });
 
-        it('should save the active folder to the settings if the given active folder is not undefined', () => {
+        it('should save the opened folder to the settings if the given opened folder is not undefined', () => {
             // Arrange
-            const activeFolder: FolderModel = new FolderModel(new Folder('/some/folder'));
+            const openedFolder: FolderModel = new FolderModel(new Folder('/some/folder'));
 
             // Act
-            foldersPersister.saveActiveFolderToSettings(activeFolder);
+            foldersPersister.saveOpenedFolderToSettings(openedFolder);
 
             // Assert
-            expect(settingsStub.foldersTabActiveFolder).toEqual('/some/folder');
+            expect(settingsStub.foldersTabOpenedFolder).toEqual('/some/folder');
         });
 
-        it('should clear the active subfolder in the settings if the given active folder is undefined', () => {
+        it('should clear the opened subfolder in the settings if the given opened folder is undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveSubfolder = '/some/subfolder';
+            settingsStub.foldersTabOpenedSubfolder = '/some/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            foldersPersister.saveActiveFolderToSettings(undefined);
+            foldersPersister.saveOpenedFolderToSettings(undefined);
 
             // Assert
-            expect(settingsStub.foldersTabActiveSubfolder).toEqual('');
+            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('');
         });
 
-        it('should not clear the active subfolder in the settings if the given active folder is not undefined', () => {
+        it('should not clear the opened subfolder in the settings if the given opened folder is not undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveSubfolder = '/some/subfolder';
+            settingsStub.foldersTabOpenedSubfolder = '/some/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
-            const activeFolder: FolderModel = new FolderModel(new Folder('/some/folder'));
+            const openedFolder: FolderModel = new FolderModel(new Folder('/some/folder'));
 
             // Act
-            foldersPersister.saveActiveFolderToSettings(activeFolder);
+            foldersPersister.saveOpenedFolderToSettings(openedFolder);
 
             // Assert
-            expect(settingsStub.foldersTabActiveSubfolder).toEqual('/some/subfolder');
+            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('/some/subfolder');
         });
     });
 
-    describe('SaveActiveSubfolderToSettings', () => {
-        it('should clear the active subfolder in the settings if the given active subfolder is undefined', () => {
+    describe('saveOpenedSubfolderToSettings', () => {
+        it('should clear the opened subfolder in the settings if the given opened subfolder is undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveSubfolder = '/some/subfolder';
+            settingsStub.foldersTabOpenedSubfolder = '/some/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            foldersPersister.saveActiveSubfolderToSettings(undefined);
+            foldersPersister.saveOpenedSubfolderToSettings(undefined);
 
             // Assert
-            expect(settingsStub.foldersTabActiveSubfolder).toEqual('');
+            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('');
         });
 
-        it('should save the active subfolder to the settings if the given active subfolder is not undefined', () => {
+        it('should save the opened subfolder to the settings if the given opened subfolder is not undefined', () => {
             // Arrange
-            const activeSubfolder: SubfolderModel = new SubfolderModel('/some/subfolder', false);
+            const openedSubfolder: SubfolderModel = new SubfolderModel('/some/subfolder', false);
 
             // Act
-            foldersPersister.saveActiveSubfolderToSettings(activeSubfolder);
+            foldersPersister.saveOpenedSubfolderToSettings(openedSubfolder);
 
             // Assert
-            expect(settingsStub.foldersTabActiveSubfolder).toEqual('/some/subfolder');
+            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('/some/subfolder');
         });
     });
 
-    describe('getActiveFolderFromSettings', () => {
+    describe('getOpenedFolderFromSettings', () => {
         it('should return undefined if available folders is undefined', () => {
             // Arrange
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(undefined);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(undefined);
 
             // Assert
-            expect(activeFolderFromSettings).toBeUndefined();
+            expect(openedFolderFromSettings).toBeUndefined();
         });
 
         it('should return undefined if there are no available folders', () => {
@@ -120,150 +120,150 @@ describe('FoldersPersister', () => {
             const availableFolders: FolderModel[] = [];
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(availableFolders);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(availableFolders);
 
             // Assert
-            expect(activeFolderFromSettings).toBeUndefined();
+            expect(openedFolderFromSettings).toBeUndefined();
         });
 
-        it('should return the first folder if active folder from settings is undefined', () => {
+        it('should return the first folder if opened folder from settings is undefined', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('Folder1'));
             const folder2: FolderModel = new FolderModel(new Folder('Folder2'));
             const availableFolders: FolderModel[] = [folder1, folder2];
-            settingsStub.foldersTabActiveFolder = undefined;
+            settingsStub.foldersTabOpenedFolder = undefined;
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(availableFolders);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(availableFolders);
 
             // Assert
-            expect(activeFolderFromSettings).toEqual(folder1);
+            expect(openedFolderFromSettings).toEqual(folder1);
         });
 
-        it('should return the first folder if active folder from settings is empty', () => {
+        it('should return the first folder if opened folder from settings is empty', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('Folder1'));
             const folder2: FolderModel = new FolderModel(new Folder('Folder2'));
             const availableFolders: FolderModel[] = [folder1, folder2];
-            settingsStub.foldersTabActiveFolder = '';
+            settingsStub.foldersTabOpenedFolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(availableFolders);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(availableFolders);
 
             // Assert
-            expect(activeFolderFromSettings).toEqual(folder1);
+            expect(openedFolderFromSettings).toEqual(folder1);
         });
 
-        it('should return the first folder if an active folder is found in the settings which is not included in available folders', () => {
+        it('should return the first folder if an opened folder is found in the settings which is not included in available folders', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('Folder1'));
             const folder2: FolderModel = new FolderModel(new Folder('Folder2'));
             const availableFolders: FolderModel[] = [folder1, folder2];
-            settingsStub.foldersTabActiveFolder = 'Folder3';
+            settingsStub.foldersTabOpenedFolder = 'Folder3';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(availableFolders);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(availableFolders);
 
             // Assert
-            expect(activeFolderFromSettings).toEqual(folder1);
+            expect(openedFolderFromSettings).toEqual(folder1);
         });
 
-        it('should return the folder from the settings if an active folder is found in the settings which is included in available folders', () => {
+        it('should return the folder from the settings if an opened folder is found in the settings which is included in available folders', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('Folder1'));
             const folder2: FolderModel = new FolderModel(new Folder('Folder2'));
             const availableFolders: FolderModel[] = [folder1, folder2];
-            settingsStub.foldersTabActiveFolder = 'Folder2';
+            settingsStub.foldersTabOpenedFolder = 'Folder2';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeFolderFromSettings: FolderModel = foldersPersister.getActiveFolderFromSettings(availableFolders);
+            const openedFolderFromSettings: FolderModel = foldersPersister.getOpenedFolderFromSettings(availableFolders);
 
             // Assert
-            expect(activeFolderFromSettings).toEqual(folder2);
+            expect(openedFolderFromSettings).toEqual(folder2);
         });
     });
 
-    describe('getActiveSubfolderFromSettings', () => {
-        it('should return undefined if active folder in settings is undefined', () => {
+    describe('getOpenedSubfolderFromSettings', () => {
+        it('should return undefined if opened folder in settings is undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = undefined;
-            settingsStub.foldersTabActiveSubfolder = 'Subfolder1';
+            settingsStub.foldersTabOpenedFolder = undefined;
+            settingsStub.foldersTabOpenedSubfolder = 'Subfolder1';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings).toBeUndefined();
+            expect(openedSubfolderFromSettings).toBeUndefined();
         });
 
-        it('should return undefined if active folder in settings is empty', () => {
+        it('should return undefined if opened folder in settings is empty', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = '';
-            settingsStub.foldersTabActiveSubfolder = 'Subfolder1';
+            settingsStub.foldersTabOpenedFolder = '';
+            settingsStub.foldersTabOpenedSubfolder = 'Subfolder1';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings).toBeUndefined();
+            expect(openedSubfolderFromSettings).toBeUndefined();
         });
 
-        it('should return undefined if active subfolder in settings is undefined', () => {
+        it('should return undefined if opened subfolder in settings is undefined', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = 'Folder1';
-            settingsStub.foldersTabActiveSubfolder = undefined;
+            settingsStub.foldersTabOpenedFolder = 'Folder1';
+            settingsStub.foldersTabOpenedSubfolder = undefined;
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings).toBeUndefined();
+            expect(openedSubfolderFromSettings).toBeUndefined();
         });
 
-        it('should return undefined if active subfolder in settings is empty', () => {
+        it('should return undefined if opened subfolder in settings is empty', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = 'Folder1';
-            settingsStub.foldersTabActiveSubfolder = '';
+            settingsStub.foldersTabOpenedFolder = 'Folder1';
+            settingsStub.foldersTabOpenedSubfolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings).toBeUndefined();
+            expect(openedSubfolderFromSettings).toBeUndefined();
         });
 
-        it('should return undefined if active subfolder in settings is not a child folder of active folder in settings', () => {
+        it('should return undefined if opened subfolder in settings is not a child folder of opened folder in settings', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = '/home/user/Music';
-            settingsStub.foldersTabActiveSubfolder = '/home/user/Downloads/Music/Subfolder1';
+            settingsStub.foldersTabOpenedFolder = '/home/user/Music';
+            settingsStub.foldersTabOpenedSubfolder = '/home/user/Downloads/Music/Subfolder1';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings).toBeUndefined();
+            expect(openedSubfolderFromSettings).toBeUndefined();
         });
 
-        it('should return the subfolder from the settings if active subfolder in settings is a child folder of active folder in settings', () => {
+        it('should return the subfolder from the settings if opened subfolder in settings is a child folder of opened folder in settings', () => {
             // Arrange
-            settingsStub.foldersTabActiveFolder = '/home/user/Music';
-            settingsStub.foldersTabActiveSubfolder = '/home/user/Music/Subfolder1';
+            settingsStub.foldersTabOpenedFolder = '/home/user/Music';
+            settingsStub.foldersTabOpenedSubfolder = '/home/user/Music/Subfolder1';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
             // Act
-            const activeSubfolderFromSettings: SubfolderModel = foldersPersister.getActiveSubfolderFromSettings();
+            const openedSubfolderFromSettings: SubfolderModel = foldersPersister.getOpenedSubfolderFromSettings();
 
             // Assert
-            expect(activeSubfolderFromSettings.path).toEqual('/home/user/Music/Subfolder1');
+            expect(openedSubfolderFromSettings.path).toEqual('/home/user/Music/Subfolder1');
         });
     });
 });

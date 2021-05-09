@@ -11,16 +11,16 @@ import { SubfolderModel } from '../../../services/folder/subfolder-model';
 export class FoldersPersister {
     constructor(private settings: BaseSettings, private logger: Logger) {}
 
-    public saveActiveFolderToSettings(activeFolder: FolderModel): void {
-        if (activeFolder == undefined) {
-            this.settings.foldersTabActiveFolder = '';
-            this.settings.foldersTabActiveSubfolder = '';
+    public saveOpenedFolderToSettings(openedFolder: FolderModel): void {
+        if (openedFolder == undefined) {
+            this.settings.foldersTabOpenedFolder = '';
+            this.settings.foldersTabOpenedSubfolder = '';
         } else {
-            this.settings.foldersTabActiveFolder = activeFolder.path;
+            this.settings.foldersTabOpenedFolder = openedFolder.path;
         }
     }
 
-    public getActiveFolderFromSettings(availableFolders: FolderModel[]): FolderModel {
+    public getOpenedFolderFromSettings(availableFolders: FolderModel[]): FolderModel {
         if (availableFolders == undefined) {
             return undefined;
         }
@@ -30,85 +30,85 @@ export class FoldersPersister {
         }
 
         try {
-            const activeFolderInSettings: string = this.settings.foldersTabActiveFolder;
+            const openedFolderInSettings: string = this.settings.foldersTabOpenedFolder;
 
-            if (!StringCompare.isNullOrWhiteSpace(activeFolderInSettings)) {
+            if (!StringCompare.isNullOrWhiteSpace(openedFolderInSettings)) {
                 this.logger.info(
-                    `Found folder '${activeFolderInSettings}' in the settings`,
+                    `Found folder '${openedFolderInSettings}' in the settings`,
                     'FoldersPersister',
-                    'getActiveFolderFromSettings'
+                    'getOpenedFolderFromSettings'
                 );
 
-                if (availableFolders.map((x) => x.path).includes(activeFolderInSettings)) {
-                    this.logger.info(`Selecting folder '${activeFolderInSettings}'`, 'FoldersPersister', 'getActiveFolderFromSettings');
+                if (availableFolders.map((x) => x.path).includes(openedFolderInSettings)) {
+                    this.logger.info(`Selecting folder '${openedFolderInSettings}'`, 'FoldersPersister', 'getOpenedFolderFromSettings');
 
-                    return availableFolders.filter((x) => x.path === activeFolderInSettings)[0];
+                    return availableFolders.filter((x) => x.path === openedFolderInSettings)[0];
                 } else {
                     this.logger.info(
-                        `Could not select folder '${activeFolderInSettings}' because it does not exist`,
+                        `Could not select folder '${openedFolderInSettings}' because it does not exist`,
                         'FoldersPersister',
-                        'getActiveFolderFromSettings'
+                        'getOpenedFolderFromSettings'
                     );
                 }
             }
         } catch (e) {
             this.logger.error(
-                `Could not get active folder from settings. Error: ${e.message}`,
+                `Could not get opened folder from settings. Error: ${e.message}`,
                 'FoldersPersister',
-                'getActiveFolderFromSettings'
+                'getOpenedFolderFromSettings'
             );
         }
 
         return availableFolders[0];
     }
 
-    public saveActiveSubfolderToSettings(activeSubfolder: SubfolderModel): void {
-        if (activeSubfolder == undefined) {
-            this.settings.foldersTabActiveSubfolder = '';
+    public saveOpenedSubfolderToSettings(openedSubfolder: SubfolderModel): void {
+        if (openedSubfolder == undefined) {
+            this.settings.foldersTabOpenedSubfolder = '';
         } else {
-            this.settings.foldersTabActiveSubfolder = activeSubfolder.path;
+            this.settings.foldersTabOpenedSubfolder = openedSubfolder.path;
         }
     }
 
-    public getActiveSubfolderFromSettings(): SubfolderModel {
+    public getOpenedSubfolderFromSettings(): SubfolderModel {
         try {
-            const activeFolderInSettings: string = this.settings.foldersTabActiveFolder;
-            const activeSubfolderInSettings: string = this.settings.foldersTabActiveSubfolder;
+            const openedFolderInSettings: string = this.settings.foldersTabOpenedFolder;
+            const openedSubfolderInSettings: string = this.settings.foldersTabOpenedSubfolder;
 
-            if (StringCompare.isNullOrWhiteSpace(activeFolderInSettings)) {
-                this.logger.info(`Active folder in settings is empty.`, 'FoldersPersister', 'getActiveSubfolderFromSettings');
+            if (StringCompare.isNullOrWhiteSpace(openedFolderInSettings)) {
+                this.logger.info(`Opened folder in settings is empty.`, 'FoldersPersister', 'getOpenedSubfolderFromSettings');
 
                 return undefined;
             }
 
-            if (StringCompare.isNullOrWhiteSpace(activeSubfolderInSettings)) {
-                this.logger.info(`Active subfolder in settings is empty.`, 'FoldersPersister', 'getActiveSubfolderFromSettings');
+            if (StringCompare.isNullOrWhiteSpace(openedSubfolderInSettings)) {
+                this.logger.info(`Opened subfolder in settings is empty.`, 'FoldersPersister', 'getOpenedSubfolderFromSettings');
 
                 return undefined;
             }
 
             this.logger.info(
-                `Found subfolder '${activeSubfolderInSettings}' in settings`,
+                `Found subfolder '${openedSubfolderInSettings}' in settings`,
                 'FoldersPersister',
-                'getActiveSubfolderFromSettings'
+                'getOpenedSubfolderFromSettings'
             );
 
-            if (!activeSubfolderInSettings.includes(activeFolderInSettings)) {
+            if (!openedSubfolderInSettings.includes(openedFolderInSettings)) {
                 this.logger.info(
-                    `Active subfolder '${activeSubfolderInSettings}' in settings is not a child of '${activeFolderInSettings}'`,
+                    `Opened subfolder '${openedSubfolderInSettings}' in settings is not a child of '${openedFolderInSettings}'`,
                     'FoldersPersister',
-                    'getActiveSubfolderFromSettings'
+                    'getOpenedSubfolderFromSettings'
                 );
 
                 return undefined;
             }
 
-            return new SubfolderModel(activeSubfolderInSettings, false);
+            return new SubfolderModel(openedSubfolderInSettings, false);
         } catch (e) {
             this.logger.error(
-                `Could not get active subfolder from settings. Error: ${e.message}`,
+                `Could not get opened subfolder from settings. Error: ${e.message}`,
                 'FoldersPersister',
-                'getActiveSubfolderFromSettings'
+                'getOpenedSubfolderFromSettings'
             );
         }
 

@@ -45,7 +45,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
 
     public folders: FolderModel[] = [];
-    public activeFolder: FolderModel;
+    public openedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
@@ -79,19 +79,19 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         }
     }
 
-    public async setActiveSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
-        if (this.activeFolder == undefined) {
+    public async setOpenedSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
+        if (this.openedFolder == undefined) {
             return;
         }
 
         try {
-            this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
-            const activeSubfolderPath = this.getActiveSubfolderPath();
+            this.subfolders = await this.folderService.getSubfoldersAsync(this.openedFolder, subfolderToActivate);
+            const openedSubfolderPath = this.getOpenedSubfolderPath();
 
-            this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
+            this.foldersPersister.saveOpenedSubfolderToSettings(new SubfolderModel(openedSubfolderPath, false));
 
-            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
-            this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
+            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder, openedSubfolderPath);
+            this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
 
             // HACK: when refreshing the subfolder list, the tooltip of the last hovered
             // subfolder remains visible. This function is a workaround for this problem.
@@ -101,20 +101,20 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
         } catch (e) {
             this.logger.error(
-                `Could not set the active subfolder. Error: ${e.message}`,
+                `Could not set the opened subfolder. Error: ${e.message}`,
                 'CollectionFoldersComponent',
-                'setActiveSubfolderAsync'
+                'setOpenedSubfolderAsync'
             );
         }
     }
 
-    public async setActiveFolderAsync(folderToActivate: FolderModel): Promise<void> {
-        this.activeFolder = folderToActivate;
+    public async setOpenedFolderAsync(folderToActivate: FolderModel): Promise<void> {
+        this.openedFolder = folderToActivate;
 
-        this.foldersPersister.saveActiveFolderToSettings(folderToActivate);
+        this.foldersPersister.saveOpenedFolderToSettings(folderToActivate);
 
-        const activeSubfolderFromSettings: SubfolderModel = this.foldersPersister.getActiveSubfolderFromSettings();
-        await this.setActiveSubfolderAsync(activeSubfolderFromSettings);
+        const openedSubfolderFromSettings: SubfolderModel = this.foldersPersister.getOpenedSubfolderFromSettings();
+        await this.setOpenedSubfolderAsync(openedSubfolderFromSettings);
     }
 
     public setSelectedSubfolder(subfolder: SubfolderModel): void {
@@ -128,14 +128,14 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     private async fillListsAsync(): Promise<void> {
         this.getFolders();
 
-        const activeFolderFromSettings: FolderModel = this.foldersPersister.getActiveFolderFromSettings(this.folders);
-        await this.setActiveFolderAsync(activeFolderFromSettings);
+        const openedFolderFromSettings: FolderModel = this.foldersPersister.getOpenedFolderFromSettings(this.folders);
+        await this.setOpenedFolderAsync(openedFolderFromSettings);
     }
 
-    private getActiveSubfolderPath(): string {
+    private getOpenedSubfolderPath(): string {
         return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
             ? this.subfolders.filter((x) => x.isGoToParent)[0].path
-            : this.activeFolder.path;
+            : this.openedFolder.path;
     }
 
     public setSelectedTrack(track: TrackModel): void {

@@ -64,7 +64,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setActiveAlbums(event: any, album: AlbumModel): void {
+    public setActiveAlbum(event: any, album: AlbumModel): void {
         if (event.ctrlKey) {
             this.activeAlbum = undefined;
         } else {
