@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
+import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -12,6 +14,7 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -28,8 +31,11 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
+        private dialogService: BaseDialogService,
+        private translatorService: BaseTranslatorService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
+        private logger: Logger,
         private hacks: Hacks
     ) {}
 
@@ -66,7 +72,13 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     public async getFoldersAsync(): Promise<void> {
-        this.folders = this.folderService.getFolders();
+        try {
+            this.folders = this.folderService.getFolders();
+        } catch (e) {
+            this.logger.error(`Could not get folders. Error: ${e.message}`, 'CollectionFoldersComponent', 'getFolders');
+            const errorText: string = await this.translatorService.getAsync('ErrorTexts.GetFoldersError');
+            this.dialogService.showErrorDialog(errorText);
+        }
     }
 
     public async setActiveSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
@@ -74,20 +86,28 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
-        const activeSubfolderPath = this.getActiveSubfolderPath();
+        try {
+            this.subfolders = await this.folderService.getSubfoldersAsync(this.activeFolder, subfolderToActivate);
+            const activeSubfolderPath = this.getActiveSubfolderPath();
 
-        this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
+            this.foldersPersister.saveActiveSubfolderToSettings(new SubfolderModel(activeSubfolderPath, false));
 
-        this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
-        this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
+            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.activeFolder, activeSubfolderPath);
+            this.tracks = await this.trackService.getTracksInSubfolderAsync(activeSubfolderPath);
 
-        // HACK: when refreshing the subfolder list, the tooltip of the last hovered
-        // subfolder remains visible. This function is a workaround for this problem.
-        this.hacks.removeTooltips();
+            // HACK: when refreshing the subfolder list, the tooltip of the last hovered
+            // subfolder remains visible. This function is a workaround for this problem.
+            this.hacks.removeTooltips();
 
-        this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
-        this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
+            this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
+            this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
+        } catch (e) {
+            this.logger.error(
+                `Could not set the active subfolder. Error: ${e.message}`,
+                'CollectionFoldersComponent',
+                'setActiveSubfolderAsync'
+            );
+        }
     }
 
     public async setActiveFolderAsync(folderToActivate: FolderModel): Promise<void> {

@@ -51,6 +51,7 @@ import { CollectionPlaylistsComponent } from './components/collection/collection
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
+import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -250,6 +251,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PlaybackIndicatorComponent,
         AlbumComponent,
         AlbumBrowserComponent,
+        TrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
