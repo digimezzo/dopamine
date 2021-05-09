@@ -97,6 +97,7 @@ import { NativeElementProxy } from './core/native-element-proxy';
 import { PathValidator } from './core/path-validator';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
+import { SelectionWatcher } from './core/selection-watcher';
 import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
 import { AlbumKeyGenerator } from './data/album-key-generator';
@@ -332,6 +333,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         AlbumRowsGetter,
         AlbumSpaceCalculator,
         NativeElementProxy,
+        SelectionWatcher,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

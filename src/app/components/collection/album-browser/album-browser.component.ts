@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Logger } from '../../../core/logger';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
+import { SelectionWatcher } from '../../../core/selection-watcher';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { AlbumOrder } from '../album-order';
@@ -21,6 +22,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
+        private selectionWatcher: SelectionWatcher,
         private logger: Logger
     ) {}
 
@@ -62,7 +64,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setActiveAlbum(event: any, album: AlbumModel): void {
+    public setActiveAlbums(event: any, album: AlbumModel): void {
         if (event.ctrlKey) {
             this.activeAlbum = undefined;
         } else {

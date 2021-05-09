@@ -41,7 +41,7 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isActive]="album === this.activeAlbum"
-                    (click)="setActiveAlbum($event, album)"
+                    (click)="setActiveAlbums($event, album)"
                 ></app-album>
             </div>
         </div>
