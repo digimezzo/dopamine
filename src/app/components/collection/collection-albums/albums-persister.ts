@@ -11,15 +11,15 @@ import { AlbumOrder } from '../album-order';
 export class AlbumsPersister {
     constructor(private settings: BaseSettings, private logger: Logger) {}
 
-    public saveActiveAlbumToSettings(activeAlbum: AlbumModel): void {
-        if (activeAlbum == undefined) {
-            this.settings.albumsTabActiveAlbum = '';
+    public saveSelectedAlbumToSettings(selectedAlbum: AlbumModel): void {
+        if (selectedAlbum == undefined) {
+            this.settings.albumsTabSelectedAlbum = '';
         } else {
-            this.settings.albumsTabActiveAlbum = activeAlbum.albumKey;
+            this.settings.albumsTabSelectedAlbum = selectedAlbum.albumKey;
         }
     }
 
-    public getActiveAlbumFromSettings(availableAlbums: AlbumModel[]): AlbumModel {
+    public getSelectedAlbumFromSettings(availableAlbums: AlbumModel[]): AlbumModel {
         if (availableAlbums == undefined) {
             return undefined;
         }
@@ -29,40 +29,44 @@ export class AlbumsPersister {
         }
 
         try {
-            const activeAlbumInSettings: string = this.settings.albumsTabActiveAlbum;
+            const selectedAlbumInSettings: string = this.settings.albumsTabSelectedAlbum;
 
-            if (!StringCompare.isNullOrWhiteSpace(activeAlbumInSettings)) {
-                this.logger.info(`Found album '${activeAlbumInSettings}' in the settings`, 'AlbumsPersister', 'getActiveAlbumFromSettings');
+            if (!StringCompare.isNullOrWhiteSpace(selectedAlbumInSettings)) {
+                this.logger.info(
+                    `Found album '${selectedAlbumInSettings}' in the settings`,
+                    'AlbumsPersister',
+                    'getSelectedAlbumFromSettings'
+                );
 
-                if (availableAlbums.map((x) => x.albumKey).includes(activeAlbumInSettings)) {
-                    this.logger.info(`Selecting album '${activeAlbumInSettings}'`, 'AlbumsPersister', 'getActiveAlbumFromSettings');
+                if (availableAlbums.map((x) => x.albumKey).includes(selectedAlbumInSettings)) {
+                    this.logger.info(`Selecting album '${selectedAlbumInSettings}'`, 'AlbumsPersister', 'getSelectedAlbumFromSettings');
 
-                    return availableAlbums.filter((x) => x.albumKey === activeAlbumInSettings)[0];
+                    return availableAlbums.filter((x) => x.albumKey === selectedAlbumInSettings)[0];
                 } else {
                     this.logger.info(
-                        `Could not select album '${activeAlbumInSettings}' because it does not exist`,
+                        `Could not select album '${selectedAlbumInSettings}' because it does not exist`,
                         'AlbumsPersister',
-                        'getActiveAlbumFromSettings'
+                        'getSelectedAlbumFromSettings'
                     );
                 }
             }
         } catch (e) {
             this.logger.error(
-                `Could not get active album from settings. Error: ${e.message}`,
+                `Could not get selected album from settings. Error: ${e.message}`,
                 'AlbumsPersister',
-                'getActiveAlbumFromSettings'
+                'getSelectedAlbumFromSettings'
             );
         }
 
         return availableAlbums[0];
     }
 
-    public saveActiveAlbumOrderToSettings(activeAlbumOrder: AlbumOrder): void {
-        this.settings.albumsTabActiveAlbumOrder = AlbumOrder[activeAlbumOrder];
+    public saveSelectedAlbumOrderToSettings(selectedAlbumOrder: AlbumOrder): void {
+        this.settings.albumsTabSelectedAlbumOrder = AlbumOrder[selectedAlbumOrder];
     }
 
-    public getActiveAlbumOrderFromSettings(): AlbumOrder {
-        const albumOrderFromSettings: AlbumOrder = (AlbumOrder as any)[this.settings.albumsTabActiveAlbumOrder];
+    public getSelectedAlbumOrderFromSettings(): AlbumOrder {
+        const albumOrderFromSettings: AlbumOrder = (AlbumOrder as any)[this.settings.albumsTabSelectedAlbumOrder];
 
         if (albumOrderFromSettings != undefined) {
             return albumOrderFromSettings;

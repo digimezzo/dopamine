@@ -243,22 +243,22 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersTabOpenedSubfolder', v);
     }
 
-    //  Albums tab active album
-    public get albumsTabActiveAlbum(): string {
-        return this.settings.get('albumsTabActiveAlbum');
+    //  Albums tab selected album
+    public get albumsTabSelectedAlbum(): string {
+        return this.settings.get('albumsTabSelectedAlbum');
     }
 
-    public set albumsTabActiveAlbum(v: string) {
-        this.settings.set('albumsTabActiveAlbum', v);
+    public set albumsTabSelectedAlbum(v: string) {
+        this.settings.set('albumsTabSelectedAlbum', v);
     }
 
-    //  Albums tab active album order
-    public get albumsTabActiveAlbumOrder(): string {
-        return this.settings.get('albumsTabActiveAlbumOrder');
+    //  Albums tab selected album order
+    public get albumsTabSelectedAlbumOrder(): string {
+        return this.settings.get('albumsTabSelectedAlbumOrder');
     }
 
-    public set albumsTabActiveAlbumOrder(v: string) {
-        this.settings.set('albumsTabActiveAlbumOrder', v);
+    public set albumsTabSelectedAlbumOrder(v: string) {
+        this.settings.set('albumsTabSelectedAlbumOrder', v);
     }
 
     // Initialize
@@ -367,12 +367,12 @@ export class Settings implements BaseSettings {
             this.settings.set('foldersTabOpenedSubfolder', '');
         }
 
-        if (!this.settings.has('albumsTabActiveAlbum')) {
-            this.settings.set('albumsTabActiveAlbum', '');
+        if (!this.settings.has('albumsTabSelectedAlbum')) {
+            this.settings.set('albumsTabSelectedAlbum', '');
         }
 
-        if (!this.settings.has('albumsTabActiveAlbumOrder')) {
-            this.settings.set('albumsTabActiveAlbumOrder', '');
+        if (!this.settings.has('albumsTabSelectedAlbumOrder')) {
+            this.settings.set('albumsTabSelectedAlbumOrder', '');
         }
     }
 }

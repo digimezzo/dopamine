@@ -36,8 +36,8 @@ describe('CollectionAlbumsComponent', () => {
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         const albums: AlbumModel[] = [album1, album2];
 
-        albumsPersisterMock.setup((x) => x.getActiveAlbumOrderFromSettings()).returns(() => AlbumOrder.byYearAscending);
-        albumsPersisterMock.setup((x) => x.getActiveAlbumFromSettings(albums)).returns(() => album2);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbumOrderFromSettings()).returns(() => AlbumOrder.byYearAscending);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbumFromSettings(albums)).returns(() => album2);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
@@ -88,51 +88,51 @@ describe('CollectionAlbumsComponent', () => {
         });
     });
 
-    describe('activeAlbumOrder', () => {
-        it('should return the active album order', async () => {
+    describe('selectedAlbumOrder', () => {
+        it('should return the selected album order', async () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byYearAscending;
+            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
             // Act
-            const activeAlbumOrder: AlbumOrder = component.activeAlbumOrder;
+            const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
             // Assert
-            expect(activeAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+            expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should set the active album order', async () => {
+        it('should set the selected album order', async () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
-            component.activeAlbumOrder = AlbumOrder.byYearAscending;
+            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should persist the active album order', async () => {
+        it('should persist the selected album order', async () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
-            const activeAlbumOrder: AlbumOrder = component.activeAlbumOrder;
+            const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
             // Assert
-            albumsPersisterMock.verify((x) => x.saveActiveAlbumOrderToSettings(activeAlbumOrder), Times.exactly(1));
+            albumsPersisterMock.verify((x) => x.saveSelectedAlbumOrderToSettings(selectedAlbumOrder), Times.exactly(1));
         });
     });
 
     describe('ngOnInit', () => {
         it('should set the album order from the settings', async () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.ngOnInit();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
         it('should fill the albums list if it is empty', () => {
@@ -160,15 +160,15 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.albums[0]).toEqual(album1);
         });
 
-        it('should set the active album from the settings', () => {
+        it('should set the selected album from the settings', () => {
             // Arrange
-            component.activeAlbum = undefined;
+            component.selectedAlbum = undefined;
 
             // Act
             component.ngOnInit();
 
             // Assert
-            expect(component.activeAlbum).toEqual(album2);
+            expect(component.selectedAlbum).toEqual(album2);
         });
     });
 

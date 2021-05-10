@@ -88,40 +88,40 @@ describe('AlbumBrowserComponent', () => {
             expect(component.albumBrowserElement).toBeUndefined();
         });
 
-        it('should declare activeAlbumOrder', () => {
+        it('should declare selectedAlbumOrder', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.activeAlbumOrder).toBeUndefined();
+            expect(component.selectedAlbumOrder).toBeUndefined();
         });
 
-        it('should define activeAlbumOrderChange', () => {
+        it('should define selectedAlbumOrderChange', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.activeAlbumOrderChange).toBeDefined();
+            expect(component.selectedAlbumOrderChange).toBeDefined();
         });
 
-        it('should declare activeAlbum', () => {
+        it('should declare selectedAlbum', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.activeAlbum).toBeUndefined();
+            expect(component.selectedAlbum).toBeUndefined();
         });
 
-        it('should define activeAlbumChange', () => {
+        it('should define selectedAlbumChange', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.activeAlbumChange).toBeDefined();
+            expect(component.selectedAlbumChange).toBeDefined();
         });
 
         it('should define albums as empty', () => {
@@ -153,7 +153,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.albums = albums;
@@ -179,7 +179,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.albums = albums;
@@ -205,7 +205,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.albums = albums;
@@ -233,7 +233,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -263,7 +263,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -298,7 +298,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -331,7 +331,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -364,7 +364,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -397,7 +397,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -430,7 +430,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -463,7 +463,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
 
@@ -479,89 +479,89 @@ describe('AlbumBrowserComponent', () => {
         });
     });
 
-    describe('setActiveAlbum', () => {
-        it('should unset the active album if the control key is pressed', () => {
+    describe('setSelectedAlbum', () => {
+        it('should unset the selected album if the control key is pressed', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
 
-            component.activeAlbum = album1;
+            component.selectedAlbum = album1;
             const event: any = { ctrlKey: true };
 
             // Act
-            component.setActiveAlbum(event, album2);
+            component.setSelectedAlbum(event, album2);
 
             // Assert
-            expect(component.activeAlbum).toBeUndefined();
+            expect(component.selectedAlbum).toBeUndefined();
         });
 
-        it('should set the active album if the control key is not pressed', () => {
+        it('should set the selected album if the control key is not pressed', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
 
-            component.activeAlbum = album1;
+            component.selectedAlbum = album1;
             const event: any = { ctrlKey: false };
 
             // Act
-            component.setActiveAlbum(event, album2);
+            component.setSelectedAlbum(event, album2);
 
             // Assert
-            expect(component.activeAlbum).toBe(album2);
+            expect(component.selectedAlbum).toBe(album2);
         });
 
-        it('should emit that the active album has changed and is undefined if the control key is pressed', () => {
+        it('should emit that the selected album has changed and is undefined if the control key is pressed', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
 
-            component.activeAlbum = album1;
+            component.selectedAlbum = album1;
             const event: any = { ctrlKey: true };
 
             const subscription: Subscription = new Subscription();
             let changedAlbum: AlbumModel = album1;
 
             subscription.add(
-                component.activeAlbumChange.subscribe((album: AlbumModel) => {
+                component.selectedAlbumChange.subscribe((album: AlbumModel) => {
                     changedAlbum = album;
                 })
             );
 
             // Act
-            component.setActiveAlbum(event, album2);
+            component.setSelectedAlbum(event, album2);
             subscription.unsubscribe();
 
             // Assert
             expect(changedAlbum).toBeUndefined();
         });
 
-        it('should emit that the active album has changed and is the changed album if the control key is not pressed', () => {
+        it('should emit that the selected album has changed and is the changed album if the control key is not pressed', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
 
-            component.activeAlbum = album1;
+            component.selectedAlbum = album1;
             const event: any = { ctrlKey: false };
 
             const subscription: Subscription = new Subscription();
             let changedAlbum: AlbumModel = album1;
 
             subscription.add(
-                component.activeAlbumChange.subscribe((album: AlbumModel) => {
+                component.selectedAlbumChange.subscribe((album: AlbumModel) => {
                     changedAlbum = album;
                 })
             );
 
             // Act
-            component.setActiveAlbum(event, album2);
+            component.setSelectedAlbum(event, album2);
             subscription.unsubscribe();
 
             // Assert
@@ -572,101 +572,101 @@ describe('AlbumBrowserComponent', () => {
     describe('toggleAlbumOrder', () => {
         it('should change AlbumOrder from byAlbumTitleAscending to byAlbumTitleDescending', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumTitleAscending;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byAlbumTitleDescending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumTitleDescending);
         });
 
         it('should change AlbumOrder from byAlbumTitleDescending to byDateAdded', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumTitleDescending;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumTitleDescending;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byDateAdded);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byDateAdded);
         });
 
         it('should change AlbumOrder from byDateAdded to byDateCreated', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byDateAdded;
+            component.selectedAlbumOrder = AlbumOrder.byDateAdded;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byDateCreated);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byDateCreated);
         });
 
         it('should change AlbumOrder from byDateCreated to byAlbumArtist', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byDateCreated;
+            component.selectedAlbumOrder = AlbumOrder.byDateCreated;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byAlbumArtist);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumArtist);
         });
 
         it('should change AlbumOrder from byAlbumArtist to byYearAscending', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
         it('should change AlbumOrder from byYearAscending to byYearDescending', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byYearAscending;
+            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byYearDescending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearDescending);
         });
 
         it('should change AlbumOrder from byYearDescending to byLastPlayed', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byYearDescending;
+            component.selectedAlbumOrder = AlbumOrder.byYearDescending;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byLastPlayed);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byLastPlayed);
         });
 
         it('should change AlbumOrder from byLastPlayed to byAlbumTitleAscending', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byLastPlayed;
+            component.selectedAlbumOrder = AlbumOrder.byLastPlayed;
 
             // Act
             component.toggleAlbumOrder();
 
             // Assert
-            expect(component.activeAlbumOrder).toEqual(AlbumOrder.byAlbumTitleAscending);
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byAlbumTitleAscending);
         });
 
-        it('should emit that the active album order has changed', () => {
+        it('should emit that the selected album order has changed', () => {
             // Arrange
-            component.activeAlbumOrder = AlbumOrder.byLastPlayed;
+            component.selectedAlbumOrder = AlbumOrder.byLastPlayed;
 
             const subscription: Subscription = new Subscription();
-            let changedAlbumOrder: AlbumOrder = component.activeAlbumOrder;
+            let changedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
             subscription.add(
-                component.activeAlbumOrderChange.subscribe((albumOrder: AlbumOrder) => {
+                component.selectedAlbumOrderChange.subscribe((albumOrder: AlbumOrder) => {
                     changedAlbumOrder = albumOrder;
                 })
             );
@@ -689,7 +689,7 @@ describe('AlbumBrowserComponent', () => {
                 loggerMock.object
             );
 
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.toggleAlbumOrder();
@@ -716,7 +716,7 @@ describe('AlbumBrowserComponent', () => {
             );
 
             component.albums = albums;
-            component.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             component.toggleAlbumOrder();

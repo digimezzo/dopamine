@@ -7,28 +7,28 @@
         </div>
 
         <div class="app-album-browser__albumorder" (click)="toggleAlbumOrder()">
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
                 {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
                 {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byDateAdded">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
                 {{ 'Ordering.Albums.ByDateAdded' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byDateCreated">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
                 {{ 'Ordering.Albums.ByDateCreated' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byAlbumArtist">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
                 {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byYearAscending">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
                 {{ 'Ordering.Albums.ByYearAscending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byYearDescending">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
                 {{ 'Ordering.Albums.ByYearDescending' | translate }}
             </div>
-            <div *ngIf="this.activeAlbumOrder === albumOrderEnum.byLastPlayed">
+            <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
                 {{ 'Ordering.Albums.ByLastPlayed' | translate }}
             </div>
         </div>
@@ -40,8 +40,8 @@
                     class="m-2"
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
-                    [isActive]="album === this.activeAlbum"
-                    (click)="setActiveAlbum($event, album)"
+                    [isActive]="album === this.selectedAlbum"
+                    (click)="setSelectedAlbum($event, album)"
                 ></app-album>
             </div>
         </div>

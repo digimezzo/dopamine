@@ -31,11 +31,11 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
     @ViewChild('albumBrowserElement') public albumBrowserElement: ElementRef;
 
-    @Input() public activeAlbumOrder: AlbumOrder;
-    @Output() public activeAlbumOrderChange: EventEmitter<AlbumOrder> = new EventEmitter<AlbumOrder>();
+    @Input() public selectedAlbumOrder: AlbumOrder;
+    @Output() public selectedAlbumOrderChange: EventEmitter<AlbumOrder> = new EventEmitter<AlbumOrder>();
 
-    @Input() public activeAlbum: AlbumModel;
-    @Output() public activeAlbumChange: EventEmitter<AlbumModel> = new EventEmitter<AlbumModel>();
+    @Input() public selectedAlbum: AlbumModel;
+    @Output() public selectedAlbumChange: EventEmitter<AlbumModel> = new EventEmitter<AlbumModel>();
 
     public get albums(): AlbumModel[] {
         return this._albums;
@@ -64,49 +64,49 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setActiveAlbum(event: any, album: AlbumModel): void {
+    public setSelectedAlbum(event: any, album: AlbumModel): void {
         if (event.ctrlKey) {
-            this.activeAlbum = undefined;
+            this.selectedAlbum = undefined;
         } else {
-            this.activeAlbum = album;
+            this.selectedAlbum = album;
         }
 
-        this.activeAlbumChange.emit(this.activeAlbum);
+        this.selectedAlbumChange.emit(this.selectedAlbum);
     }
 
     public toggleAlbumOrder(): void {
-        switch (this.activeAlbumOrder) {
+        switch (this.selectedAlbumOrder) {
             case AlbumOrder.byAlbumTitleAscending:
-                this.activeAlbumOrder = AlbumOrder.byAlbumTitleDescending;
+                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleDescending;
                 break;
             case AlbumOrder.byAlbumTitleDescending:
-                this.activeAlbumOrder = AlbumOrder.byDateAdded;
+                this.selectedAlbumOrder = AlbumOrder.byDateAdded;
                 break;
             case AlbumOrder.byDateAdded:
-                this.activeAlbumOrder = AlbumOrder.byDateCreated;
+                this.selectedAlbumOrder = AlbumOrder.byDateCreated;
                 break;
             case AlbumOrder.byDateCreated:
-                this.activeAlbumOrder = AlbumOrder.byAlbumArtist;
+                this.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
                 break;
             case AlbumOrder.byAlbumArtist:
-                this.activeAlbumOrder = AlbumOrder.byYearAscending;
+                this.selectedAlbumOrder = AlbumOrder.byYearAscending;
                 break;
             case AlbumOrder.byYearAscending:
-                this.activeAlbumOrder = AlbumOrder.byYearDescending;
+                this.selectedAlbumOrder = AlbumOrder.byYearDescending;
                 break;
             case AlbumOrder.byYearDescending:
-                this.activeAlbumOrder = AlbumOrder.byLastPlayed;
+                this.selectedAlbumOrder = AlbumOrder.byLastPlayed;
                 break;
             case AlbumOrder.byLastPlayed:
-                this.activeAlbumOrder = AlbumOrder.byAlbumTitleAscending;
+                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
                 break;
             default: {
-                this.activeAlbumOrder = AlbumOrder.byAlbumTitleAscending;
+                this.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
                 break;
             }
         }
 
-        this.activeAlbumOrderChange.emit(this.activeAlbumOrder);
+        this.selectedAlbumOrderChange.emit(this.selectedAlbumOrder);
 
         this.fillAlbumRows();
     }
@@ -124,7 +124,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
             }
 
             this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
+            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
         } catch (e) {
             this.logger.error(
                 `Could not fill album rows after available width changed. Error: ${e.message}`,
@@ -143,7 +143,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
             }
 
             this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.activeAlbumOrder);
+            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
         } catch (e) {
             this.logger.error(`Could not fill album rows. Error: ${e.message}`, 'AlbumBrowserComponent', 'fillAlbumRows');
         }
