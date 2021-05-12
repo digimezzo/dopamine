@@ -243,13 +243,13 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersTabOpenedSubfolder', v);
     }
 
-    //  Albums tab selected album
-    public get albumsTabSelectedAlbum(): string {
-        return this.settings.get('albumsTabSelectedAlbum');
+    //  Albums tab selected albums
+    public get albumsTabSelectedAlbums(): string {
+        return this.settings.get('albumsTabSelectedAlbums');
     }
 
-    public set albumsTabSelectedAlbum(v: string) {
-        this.settings.set('albumsTabSelectedAlbum', v);
+    public set albumsTabSelectedAlbums(v: string) {
+        this.settings.set('albumsTabSelectedAlbums', v);
     }
 
     //  Albums tab selected album order
@@ -367,8 +367,8 @@ export class Settings implements BaseSettings {
             this.settings.set('foldersTabOpenedSubfolder', '');
         }
 
-        if (!this.settings.has('albumsTabSelectedAlbum')) {
-            this.settings.set('albumsTabSelectedAlbum', '');
+        if (!this.settings.has('albumsTabSelectedAlbums')) {
+            this.settings.set('albumsTabSelectedAlbums', '');
         }
 
         if (!this.settings.has('albumsTabSelectedAlbumOrder')) {

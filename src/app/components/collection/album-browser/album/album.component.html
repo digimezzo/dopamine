@@ -12,11 +12,11 @@
             <img *ngIf="album.artworkPath" [src]="album.artworkPath" width="120" height="120" loading="lazy" />
         </div>
     </div>
-    <div class="app-album__information" [ngClass]="{ 'accent-background-important': this.isActive }">
-        <div class="app-album__information__line1 ellipsis" [ngClass]="{ 'white-color-important': this.isActive }">
+    <div class="app-album__information" [ngClass]="{ 'accent-background-important': this.isSelected }">
+        <div class="app-album__information__line1 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
             {{ album.albumTitle }}
         </div>
-        <div class="app-album__information__line2 ellipsis" [ngClass]="{ 'white-color-important': this.isActive }">
+        <div class="app-album__information__line2 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
             {{ album.albumArtist }}
         </div>
     </div>

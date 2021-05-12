@@ -34,8 +34,12 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     @Input() public selectedAlbumOrder: AlbumOrder;
     @Output() public selectedAlbumOrderChange: EventEmitter<AlbumOrder> = new EventEmitter<AlbumOrder>();
 
-    @Input() public selectedAlbum: AlbumModel;
-    @Output() public selectedAlbumChange: EventEmitter<AlbumModel> = new EventEmitter<AlbumModel>();
+    @Input()
+    public set selectedAlbums(v: AlbumModel[]) {
+        this.applySelectedAlbums(v);
+    }
+
+    @Output() public selectedAlbumsChange: EventEmitter<AlbumModel[]> = new EventEmitter<AlbumModel[]>();
 
     public get albums(): AlbumModel[] {
         return this._albums;
@@ -64,14 +68,19 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setSelectedAlbum(event: any, album: AlbumModel): void {
-        if (event.ctrlKey) {
-            this.selectedAlbum = undefined;
+    public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
+        if (event && event.ctrlKey) {
+            // CTRL is pressed: add item to, or remove item from selection
+            this.selectionWatcher.toggleItemSelection(albumToSelect);
+        } else if (event && event.shiftKey) {
+            // SHIFT is pressed: select a range of items
+            this.selectionWatcher.selectItemsRange(albumToSelect);
         } else {
-            this.selectedAlbum = album;
+            // No modifier key is pressed: select only 1 item
+            this.selectionWatcher.selectSingleItem(albumToSelect);
         }
 
-        this.selectedAlbumChange.emit(this.selectedAlbum);
+        this.selectedAlbumsChange.emit(this.selectionWatcher.selectedItems);
     }
 
     public toggleAlbumOrder(): void {
@@ -111,6 +120,22 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         this.fillAlbumRows();
     }
 
+    private applySelectedAlbums(selectedAlbums: AlbumModel[]): void {
+        let albumKeys: string[] = [];
+
+        if (selectedAlbums != undefined) {
+            albumKeys = selectedAlbums.map((x) => x.albumKey);
+        }
+
+        for (const album of this.albums) {
+            if (albumKeys.includes(album.albumKey)) {
+                album.isSelected = true;
+            }
+        }
+
+        this.selectedAlbumsChange.emit(this.albums.filter((x) => x.isSelected));
+    }
+
     private fillAlbumRowsIfAvailableWidthChanged(): void {
         try {
             const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
@@ -144,6 +169,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
             this.availableWidthInPixels = newAvailableWidthInPixels;
             this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
+
+            this.selectionWatcher.reset(this.albums, false);
         } catch (e) {
             this.logger.error(`Could not fill album rows. Error: ${e.message}`, 'AlbumBrowserComponent', 'fillAlbumRows');
         }

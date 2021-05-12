@@ -11,15 +11,25 @@ import { AlbumOrder } from '../album-order';
 export class AlbumsPersister {
     constructor(private settings: BaseSettings, private logger: Logger) {}
 
-    public saveSelectedAlbumToSettings(selectedAlbum: AlbumModel): void {
-        if (selectedAlbum == undefined) {
-            this.settings.albumsTabSelectedAlbum = '';
-        } else {
-            this.settings.albumsTabSelectedAlbum = selectedAlbum.albumKey;
+    public saveSelectedAlbumsToSettings(selectedAlbums: AlbumModel[]): void {
+        try {
+            let albumKeysToSave: string = '';
+
+            if (selectedAlbums != undefined && selectedAlbums.length > 0) {
+                albumKeysToSave = selectedAlbums.map((x) => x.albumKey).join(',');
+            }
+
+            this.settings.albumsTabSelectedAlbums = albumKeysToSave;
+        } catch (e) {
+            this.logger.error(
+                `Could not save selected album to settings. Error: ${e.message}`,
+                'AlbumsPersister',
+                'saveSelectedAlbumsToSettings'
+            );
         }
     }
 
-    public getSelectedAlbumFromSettings(availableAlbums: AlbumModel[]): AlbumModel {
+    public getSelectedAlbumsFromSettings(availableAlbums: AlbumModel[]): AlbumModel[] {
         if (availableAlbums == undefined) {
             return undefined;
         }
@@ -29,36 +39,23 @@ export class AlbumsPersister {
         }
 
         try {
-            const selectedAlbumInSettings: string = this.settings.albumsTabSelectedAlbum;
+            const selectedAlbumsInSettings: string = this.settings.albumsTabSelectedAlbums;
 
-            if (!StringCompare.isNullOrWhiteSpace(selectedAlbumInSettings)) {
-                this.logger.info(
-                    `Found album '${selectedAlbumInSettings}' in the settings`,
-                    'AlbumsPersister',
-                    'getSelectedAlbumFromSettings'
-                );
+            if (!StringCompare.isNullOrWhiteSpace(selectedAlbumsInSettings)) {
+                const albumKeysFromSettings: string[] = selectedAlbumsInSettings.split(',');
+                const selectedAlbums: AlbumModel[] = availableAlbums.filter((x) => albumKeysFromSettings.includes(x.albumKey));
 
-                if (availableAlbums.map((x) => x.albumKey).includes(selectedAlbumInSettings)) {
-                    this.logger.info(`Selecting album '${selectedAlbumInSettings}'`, 'AlbumsPersister', 'getSelectedAlbumFromSettings');
-
-                    return availableAlbums.filter((x) => x.albumKey === selectedAlbumInSettings)[0];
-                } else {
-                    this.logger.info(
-                        `Could not select album '${selectedAlbumInSettings}' because it does not exist`,
-                        'AlbumsPersister',
-                        'getSelectedAlbumFromSettings'
-                    );
-                }
+                return selectedAlbums;
             }
         } catch (e) {
             this.logger.error(
-                `Could not get selected album from settings. Error: ${e.message}`,
+                `Could not get selected albums from settings. Error: ${e.message}`,
                 'AlbumsPersister',
                 'getSelectedAlbumFromSettings'
             );
         }
 
-        return availableAlbums[0];
+        return undefined;
     }
 
     public saveSelectedAlbumOrderToSettings(selectedAlbumOrder: AlbumOrder): void {

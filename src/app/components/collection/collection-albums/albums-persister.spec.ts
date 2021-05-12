@@ -37,7 +37,7 @@ describe('AlbumsPersister', () => {
             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            albumsPersister.saveSelectedAlbumToSettings(undefined);
+            albumsPersister.saveSelectedAlbumsToSettings(undefined);
 
             // Assert
             expect(settingsStub.albumsTabSelectedAlbum).toEqual('');
@@ -51,7 +51,7 @@ describe('AlbumsPersister', () => {
             const selectedAlbum: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object);
 
             // Act
-            albumsPersister.saveSelectedAlbumToSettings(selectedAlbum);
+            albumsPersister.saveSelectedAlbumsToSettings(selectedAlbum);
 
             // Assert
             expect(settingsStub.albumsTabSelectedAlbum).toEqual('someAlbumKey');
@@ -63,7 +63,7 @@ describe('AlbumsPersister', () => {
             // Arrange
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(undefined);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(undefined);
 
             // Assert
             expect(selectedAlbumFromSettings).toBeUndefined();
@@ -74,7 +74,7 @@ describe('AlbumsPersister', () => {
             const availableAlbums: AlbumModel[] = [];
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(availableAlbums);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
 
             // Assert
             expect(selectedAlbumFromSettings).toBeUndefined();
@@ -94,7 +94,7 @@ describe('AlbumsPersister', () => {
             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(availableAlbums);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
 
             // Assert
             expect(selectedAlbumFromSettings).toEqual(album1);
@@ -114,7 +114,7 @@ describe('AlbumsPersister', () => {
             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(availableAlbums);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
 
             // Assert
             expect(selectedAlbumFromSettings).toEqual(album1);
@@ -134,7 +134,7 @@ describe('AlbumsPersister', () => {
             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(availableAlbums);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
 
             // Assert
             expect(selectedAlbumFromSettings).toEqual(album1);
@@ -154,7 +154,7 @@ describe('AlbumsPersister', () => {
             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumFromSettings(availableAlbums);
+            const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
 
             // Assert
             expect(selectedAlbumFromSettings).toEqual(album2);

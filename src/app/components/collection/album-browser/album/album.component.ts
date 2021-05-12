@@ -11,7 +11,7 @@ export class AlbumComponent implements OnInit {
     constructor() {}
 
     @Input() public album: AlbumModel;
-    @Input() public isActive: boolean = false;
+    @Input() public isSelected: boolean = false;
 
     public ngOnInit(): void {}
 }

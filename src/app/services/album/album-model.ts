@@ -6,6 +6,7 @@ import { BaseTranslatorService } from '../translator/base-translator.service';
 export class AlbumModel {
     constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService) {}
 
+    public isSelected: boolean = false;
     public artworkPath: string;
     public showYear: boolean = false;
     public yearHeader: string = '';

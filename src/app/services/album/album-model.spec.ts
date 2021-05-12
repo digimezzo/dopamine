@@ -43,6 +43,15 @@ describe('AlbumModel', () => {
             // Assert
             expect(albumModel.artworkPath).toBeUndefined();
         });
+
+        it('should initialize isSelected as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(albumModel.isSelected).toBeFalsy();
+        });
     });
 
     describe('albumArtist', () => {

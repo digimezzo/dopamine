@@ -14,7 +14,7 @@ import { AlbumsPersister } from './albums-persister';
 })
 export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
-    private _selectedAlbum: AlbumModel;
+    private _selectedAlbums: AlbumModel[];
 
     constructor(
         public playbackService: BasePlaybackService,
@@ -37,12 +37,13 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.albumsPersister.saveSelectedAlbumOrderToSettings(v);
     }
 
-    public get selectedAlbum(): AlbumModel {
-        return this._selectedAlbum;
+    public get selectedAlbums(): AlbumModel[] {
+        return this._selectedAlbums;
     }
-    public set selectedAlbum(v: AlbumModel) {
-        this._selectedAlbum = v;
-        this.albumsPersister.saveSelectedAlbumToSettings(v);
+
+    public set selectedAlbums(v: AlbumModel[]) {
+        this._selectedAlbums = v;
+        this.albumsPersister.saveSelectedAlbumsToSettings(v);
     }
 
     public ngOnDestroy(): void {
@@ -52,7 +53,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrderFromSettings();
         this.fillLists();
-        this.selectedAlbum = this.albumsPersister.getSelectedAlbumFromSettings(this.albums);
+        this.selectedAlbums = this.albumsPersister.getSelectedAlbumsFromSettings(this.albums);
     }
 
     public splitDragEnd(event: any): void {

@@ -37,7 +37,7 @@ describe('CollectionAlbumsComponent', () => {
         const albums: AlbumModel[] = [album1, album2];
 
         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrderFromSettings()).returns(() => AlbumOrder.byYearAscending);
-        albumsPersisterMock.setup((x) => x.getSelectedAlbumFromSettings(albums)).returns(() => album2);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbumsFromSettings(albums)).returns(() => album2);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
