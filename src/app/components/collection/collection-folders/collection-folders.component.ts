@@ -88,7 +88,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             this.subfolders = await this.folderService.getSubfoldersAsync(this.openedFolder, subfolderToActivate);
             const openedSubfolderPath = this.getOpenedSubfolderPath();
 
-            this.foldersPersister.saveOpenedSubfolderToSettings(new SubfolderModel(openedSubfolderPath, false));
+            this.foldersPersister.setOpenedSubfolder(new SubfolderModel(openedSubfolderPath, false));
 
             this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
@@ -111,9 +111,9 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public async setOpenedFolderAsync(folderToActivate: FolderModel): Promise<void> {
         this.openedFolder = folderToActivate;
 
-        this.foldersPersister.saveOpenedFolderToSettings(folderToActivate);
+        this.foldersPersister.setOpenedFolder(folderToActivate);
 
-        const openedSubfolderFromSettings: SubfolderModel = this.foldersPersister.getOpenedSubfolderFromSettings();
+        const openedSubfolderFromSettings: SubfolderModel = this.foldersPersister.getOpenedSubfolder();
         await this.setOpenedSubfolderAsync(openedSubfolderFromSettings);
     }
 
@@ -128,7 +128,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     private async fillListsAsync(): Promise<void> {
         this.getFolders();
 
-        const openedFolderFromSettings: FolderModel = this.foldersPersister.getOpenedFolderFromSettings(this.folders);
+        const openedFolderFromSettings: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
         await this.setOpenedFolderAsync(openedFolderFromSettings);
     }
 

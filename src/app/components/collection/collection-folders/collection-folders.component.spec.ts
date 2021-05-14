@@ -68,8 +68,8 @@ describe('CollectionFoldersComponent', () => {
         subfolders = [subfolder1, subfolder2];
         folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => subfolders);
 
-        foldersPersisterMock.setup((x) => x.getOpenedFolderFromSettings(It.isAny())).returns(() => folder1);
-        foldersPersisterMock.setup((x) => x.getOpenedSubfolderFromSettings()).returns(() => subfolder1);
+        foldersPersisterMock.setup((x) => x.getOpenedFolder(It.isAny())).returns(() => folder1);
+        foldersPersisterMock.setup((x) => x.getOpenedSubfolder()).returns(() => subfolder1);
 
         trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
 
@@ -378,10 +378,7 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             foldersPersisterMock.verify(
-                (x) =>
-                    x.saveOpenedSubfolderToSettings(
-                        It.isObjectWith<SubfolderModel>({ path: subfolder1.path })
-                    ),
+                (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
                 Times.exactly(1)
             );
         });
@@ -428,7 +425,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setOpenedFolderAsync(folder1);
 
             // Assert
-            foldersPersisterMock.verify((x) => x.saveOpenedFolderToSettings(folder1), Times.exactly(1));
+            foldersPersisterMock.verify((x) => x.setOpenedFolder(folder1), Times.exactly(1));
         });
 
         it('should save the opened subfolder to the settings', async () => {
@@ -439,10 +436,7 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             foldersPersisterMock.verify(
-                (x) =>
-                    x.saveOpenedSubfolderToSettings(
-                        It.isObjectWith<SubfolderModel>({ path: subfolder1.path })
-                    ),
+                (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
                 Times.exactly(1)
             );
         });
@@ -478,8 +472,8 @@ describe('CollectionFoldersComponent', () => {
         it('should not get subfolders if the opened folder is undefined', async () => {
             // Arrange
             foldersPersisterMock.reset();
-            foldersPersisterMock.setup((x) => x.getOpenedFolderFromSettings(It.isAny())).returns(() => undefined);
-            foldersPersisterMock.setup((x) => x.getOpenedSubfolderFromSettings()).returns(() => subfolder1);
+            foldersPersisterMock.setup((x) => x.getOpenedFolder(It.isAny())).returns(() => undefined);
+            foldersPersisterMock.setup((x) => x.getOpenedSubfolder()).returns(() => subfolder1);
             await component.ngOnInit();
 
             // Act
@@ -604,10 +598,7 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             foldersPersisterMock.verify(
-                (x) =>
-                    x.saveOpenedSubfolderToSettings(
-                        It.isObjectWith<SubfolderModel>({ path: subfolder1.path })
-                    ),
+                (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
                 Times.exactly(1)
             );
         });
