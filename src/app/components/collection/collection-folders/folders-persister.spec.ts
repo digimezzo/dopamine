@@ -179,7 +179,7 @@ describe('FoldersPersister', () => {
             expect(settingsStub.foldersTabOpenedSubfolder).toEqual('');
         });
 
-        it('should clear the opened subfolder in the settings given that the opened folder is not undefined', () => {
+        it('should not clear the opened subfolder in the settings given that the opened folder is not undefined', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
             const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
@@ -191,7 +191,7 @@ describe('FoldersPersister', () => {
             foldersPersister.setOpenedFolder(folder1);
 
             // Assert
-            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('');
+            expect(settingsStub.foldersTabOpenedSubfolder).toEqual('/some/folder/subfolder');
         });
     });
 

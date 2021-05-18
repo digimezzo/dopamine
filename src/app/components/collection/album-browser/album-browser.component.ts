@@ -69,18 +69,21 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     }
 
     public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
-        if (event && event.ctrlKey) {
-            // CTRL is pressed: add item to, or remove item from selection
-            this.selectionWatcher.toggleItemSelection(albumToSelect);
-        } else if (event && event.shiftKey) {
-            // SHIFT is pressed: select a range of items
-            this.selectionWatcher.selectItemsRange(albumToSelect);
-        } else {
-            // No modifier key is pressed: select only 1 item
-            this.selectionWatcher.selectSingleItem(albumToSelect);
-        }
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            if (event && event.ctrlKey) {
+                // CTRL is pressed: add item to, or remove item from selection
+                this.selectionWatcher.toggleItemSelection(albumToSelect);
+            } else if (event && event.shiftKey) {
+                // SHIFT is pressed: select a range of items
+                this.selectionWatcher.selectItemsRange(albumToSelect);
+            } else {
+                // No modifier key is pressed: select only 1 item
+                this.selectionWatcher.selectSingleItem(albumToSelect);
+            }
 
-        this.selectedAlbumsChange.emit(this.selectionWatcher.selectedItems);
+            this.selectedAlbumsChange.emit(this.selectionWatcher.selectedItems);
+        }, 0);
     }
 
     public toggleAlbumOrder(): void {

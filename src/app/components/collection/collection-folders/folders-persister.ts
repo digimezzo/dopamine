@@ -9,12 +9,12 @@ import { SubfolderModel } from '../../../services/folder/subfolder-model';
     providedIn: 'root',
 })
 export class FoldersPersister {
-    private openedFolder: string;
-    private openedSubfolder: string;
+    private openedFolderPath: string;
+    private openedSubfolderPath: string;
 
     constructor(private settings: BaseSettings, private logger: Logger) {
-        this.openedFolder = this.settings.foldersTabOpenedFolder;
-        this.openedSubfolder = this.settings.foldersTabOpenedSubfolder;
+        this.openedFolderPath = this.settings.foldersTabOpenedFolder;
+        this.openedSubfolderPath = this.settings.foldersTabOpenedSubfolder;
     }
 
     public getOpenedFolder(availableFolders: FolderModel[]): FolderModel {
@@ -26,13 +26,13 @@ export class FoldersPersister {
             return undefined;
         }
 
-        if (StringCompare.isNullOrWhiteSpace(this.openedFolder)) {
+        if (StringCompare.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }
 
         try {
-            if (availableFolders.map((x) => x.path).includes(this.openedFolder)) {
-                return availableFolders.filter((x) => x.path === this.openedFolder)[0];
+            if (availableFolders.map((x) => x.path).includes(this.openedFolderPath)) {
+                return availableFolders.filter((x) => x.path === this.openedFolderPath)[0];
             }
         } catch (e) {
             this.logger.error(`Could not get opened folder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedFolder');
@@ -42,27 +42,30 @@ export class FoldersPersister {
     }
 
     public setOpenedFolder(openedFolder: FolderModel): void {
-        if (openedFolder == undefined) {
-            this.saveOpenedFolder('');
-        } else {
-            this.saveOpenedFolder(openedFolder.path);
+        try {
+            if (openedFolder == undefined) {
+                this.saveOpenedFolder('');
+                this.saveOpenedSubfolder('');
+            } else {
+                this.saveOpenedFolder(openedFolder.path);
+            }
+        } catch (e) {
+            this.logger.error(`Could not set opened folder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedFolder');
         }
-
-        this.saveOpenedSubfolder('');
     }
 
     public getOpenedSubfolder(): SubfolderModel {
-        if (StringCompare.isNullOrWhiteSpace(this.openedFolder)) {
+        if (StringCompare.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }
 
-        if (StringCompare.isNullOrWhiteSpace(this.openedSubfolder)) {
+        if (StringCompare.isNullOrWhiteSpace(this.openedSubfolderPath)) {
             return undefined;
         }
 
         try {
-            if (this.openedSubfolder.includes(this.openedFolder)) {
-                return new SubfolderModel(this.openedSubfolder, false);
+            if (this.openedSubfolderPath.includes(this.openedFolderPath)) {
+                return new SubfolderModel(this.openedSubfolderPath, false);
             }
         } catch (e) {
             this.logger.error(`Could not get opened subfolder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedSubfolder');
@@ -72,20 +75,24 @@ export class FoldersPersister {
     }
 
     public setOpenedSubfolder(openedSubfolder: SubfolderModel): void {
-        if (openedSubfolder == undefined) {
-            this.saveOpenedSubfolder('');
-        } else {
-            this.saveOpenedSubfolder(openedSubfolder.path);
+        try {
+            if (openedSubfolder == undefined) {
+                this.saveOpenedSubfolder('');
+            } else {
+                this.saveOpenedSubfolder(openedSubfolder.path);
+            }
+        } catch (e) {
+            this.logger.error(`Could not set opened subfolder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedSubfolder');
         }
     }
 
     private saveOpenedFolder(openedFolderPath: string): void {
-        this.openedFolder = openedFolderPath;
+        this.openedFolderPath = openedFolderPath;
         this.settings.foldersTabOpenedFolder = openedFolderPath;
     }
 
     private saveOpenedSubfolder(openedSubfolderPath: string): void {
-        this.openedSubfolder = openedSubfolderPath;
+        this.openedSubfolderPath = openedSubfolderPath;
         this.settings.foldersTabOpenedSubfolder = openedSubfolderPath;
     }
 }

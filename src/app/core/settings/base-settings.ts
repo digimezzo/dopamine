@@ -22,9 +22,9 @@ export abstract class BaseSettings {
     public abstract playlistsLeftPaneWidthPercent: number;
     public abstract playlistsRightPaneWidthPercent: number;
     public abstract volume: number;
-    public abstract selectedTab: string;
+    public abstract selectedCollectionTab: string;
     public abstract foldersTabOpenedFolder: string;
     public abstract foldersTabOpenedSubfolder: string;
-    public abstract albumsTabSelectedAlbums: string;
+    public abstract albumsTabSelectedAlbum: string;
     public abstract albumsTabSelectedAlbumOrder: string;
 }

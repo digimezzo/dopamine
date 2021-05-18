@@ -40,12 +40,13 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
-import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
+import { AlbumsPersister } from './components/collection/albums-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
+import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
@@ -327,6 +328,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         MathExtensions,
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
+        CollectionPersister,
         AlbumsPersister,
         FoldersPersister,
         PathValidator,

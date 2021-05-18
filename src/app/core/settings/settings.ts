@@ -217,12 +217,12 @@ export class Settings implements BaseSettings {
     }
 
     //  Selected tab
-    public get selectedTab(): string {
-        return this.settings.get('selectedTab');
+    public get selectedCollectionTab(): string {
+        return this.settings.get('selectedCollectionTab');
     }
 
-    public set selectedTab(v: string) {
-        this.settings.set('selectedTab', v);
+    public set selectedCollectionTab(v: string) {
+        this.settings.set('selectedCollectionTab', v);
     }
 
     //  Folders tab opened folder
@@ -244,12 +244,12 @@ export class Settings implements BaseSettings {
     }
 
     //  Albums tab selected albums
-    public get albumsTabSelectedAlbums(): string {
-        return this.settings.get('albumsTabSelectedAlbums');
+    public get albumsTabSelectedAlbum(): string {
+        return this.settings.get('albumsTabSelectedAlbum');
     }
 
-    public set albumsTabSelectedAlbums(v: string) {
-        this.settings.set('albumsTabSelectedAlbums', v);
+    public set albumsTabSelectedAlbum(v: string) {
+        this.settings.set('albumsTabSelectedAlbum', v);
     }
 
     //  Albums tab selected album order
@@ -355,8 +355,8 @@ export class Settings implements BaseSettings {
             this.settings.set('volume', 0.5);
         }
 
-        if (!this.settings.has('selectedTab')) {
-            this.settings.set('selectedTab', 'explore');
+        if (!this.settings.has('selectedCollectionTab')) {
+            this.settings.set('selectedCollectionTab', 'artists');
         }
 
         if (!this.settings.has('foldersTabOpenedFolder')) {
@@ -367,8 +367,8 @@ export class Settings implements BaseSettings {
             this.settings.set('foldersTabOpenedSubfolder', '');
         }
 
-        if (!this.settings.has('albumsTabSelectedAlbums')) {
-            this.settings.set('albumsTabSelectedAlbums', '');
+        if (!this.settings.has('albumsTabSelectedAlbum')) {
+            this.settings.set('albumsTabSelectedAlbum', '');
         }
 
         if (!this.settings.has('albumsTabSelectedAlbumOrder')) {

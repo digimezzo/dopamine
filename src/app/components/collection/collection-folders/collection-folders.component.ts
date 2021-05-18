@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
 import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -14,7 +13,6 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -31,8 +29,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
-        private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
         private logger: Logger,
@@ -113,8 +109,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.foldersPersister.setOpenedFolder(folderToActivate);
 
-        const openedSubfolderFromSettings: SubfolderModel = this.foldersPersister.getOpenedSubfolder();
-        await this.setOpenedSubfolderAsync(openedSubfolderFromSettings);
+        const persistedOpenedSubfolder: SubfolderModel = this.foldersPersister.getOpenedSubfolder();
+        await this.setOpenedSubfolderAsync(persistedOpenedSubfolder);
     }
 
     public setSelectedSubfolder(subfolder: SubfolderModel): void {
@@ -128,8 +124,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     private async fillListsAsync(): Promise<void> {
         this.getFolders();
 
-        const openedFolderFromSettings: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
-        await this.setOpenedFolderAsync(openedFolderFromSettings);
+        const persistedOpenedFolder: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
+        await this.setOpenedFolderAsync(persistedOpenedFolder);
     }
 
     private getOpenedSubfolderPath(): string {

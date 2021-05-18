@@ -5,7 +5,8 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { AlbumOrder } from '../album-order';
-import { AlbumsPersister } from './albums-persister';
+import { AlbumsPersister } from '../albums-persister';
+import { CollectionTab } from '../collection-tab';
 
 @Component({
     selector: 'app-collection-albums',
@@ -22,7 +23,9 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private albumsPersister: AlbumsPersister,
         private settings: BaseSettings,
         private logger: Logger
-    ) {}
+    ) {
+        this.albumsPersister.initialize(CollectionTab.albums);
+    }
 
     public leftPaneSize: number = 100 - this.settings.albumsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.albumsRightPaneWidthPercent;
@@ -34,7 +37,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
     public set selectedAlbumOrder(v: AlbumOrder) {
         this._selectedAlbumOrder = v;
-        this.albumsPersister.saveSelectedAlbumOrderToSettings(v);
+        this.albumsPersister.setSelectedAlbumOrder(v);
     }
 
     public get selectedAlbums(): AlbumModel[] {
@@ -43,7 +46,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     public set selectedAlbums(v: AlbumModel[]) {
         this._selectedAlbums = v;
-        this.albumsPersister.saveSelectedAlbumsToSettings(v);
+        this.albumsPersister.setSelectedAlbums(v);
     }
 
     public ngOnDestroy(): void {
@@ -51,9 +54,9 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrderFromSettings();
+        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.fillLists();
-        this.selectedAlbums = this.albumsPersister.getSelectedAlbumsFromSettings(this.albums);
+        this.selectedAlbums = this.albumsPersister.getSelectedAlbums(this.albums);
     }
 
     public splitDragEnd(event: any): void {
