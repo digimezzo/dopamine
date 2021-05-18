@@ -13,8 +13,7 @@ export class FoldersPersister {
     private openedSubfolderPath: string;
 
     constructor(private settings: BaseSettings, private logger: Logger) {
-        this.openedFolderPath = this.settings.foldersTabOpenedFolder;
-        this.openedSubfolderPath = this.settings.foldersTabOpenedSubfolder;
+        this.initializeFromSettings();
     }
 
     public getOpenedFolder(availableFolders: FolderModel[]): FolderModel {
@@ -84,6 +83,11 @@ export class FoldersPersister {
         } catch (e) {
             this.logger.error(`Could not set opened subfolder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedSubfolder');
         }
+    }
+
+    private initializeFromSettings(): void {
+        this.openedFolderPath = this.settings.foldersTabOpenedFolder;
+        this.openedSubfolderPath = this.settings.foldersTabOpenedSubfolder;
     }
 
     private saveOpenedFolder(openedFolderPath: string): void {

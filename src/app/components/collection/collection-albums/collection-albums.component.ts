@@ -5,8 +5,7 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { AlbumOrder } from '../album-order';
-import { AlbumsPersister } from '../albums-persister';
-import { CollectionTab } from '../collection-tab';
+import { AlbumsPersister } from './albums-persister';
 
 @Component({
     selector: 'app-collection-albums',
@@ -23,9 +22,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private albumsPersister: AlbumsPersister,
         private settings: BaseSettings,
         private logger: Logger
-    ) {
-        this.albumsPersister.initialize(CollectionTab.albums);
-    }
+    ) {}
 
     public leftPaneSize: number = 100 - this.settings.albumsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.albumsRightPaneWidthPercent;

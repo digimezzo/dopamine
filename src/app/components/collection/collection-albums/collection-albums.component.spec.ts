@@ -6,7 +6,7 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
-import { AlbumsPersister } from '../albums-persister';
+import { AlbumsPersister } from './albums-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {

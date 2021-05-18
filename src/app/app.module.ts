@@ -22,7 +22,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -40,7 +40,7 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
-import { AlbumsPersister } from './components/collection/albums-persister';
+import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
