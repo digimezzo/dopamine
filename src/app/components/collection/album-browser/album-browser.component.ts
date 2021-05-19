@@ -57,11 +57,15 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.applicationService.windowSizeChanged$.subscribe(() => {
-            this.fillAlbumRowsIfAvailableWidthChanged();
+            if (this.hasAvailableWidthChanged()) {
+                this.fillAlbumRows();
+            }
         });
 
         this.applicationService.mouseButtonReleased$.subscribe(() => {
-            this.fillAlbumRowsIfAvailableWidthChanged();
+            if (this.hasAvailableWidthChanged()) {
+                this.fillAlbumRows();
+            }
         });
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
@@ -71,6 +75,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit(): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
+            this.initializeAvailableWidth();
             this.fillAlbumRows();
         }, 0);
     }
@@ -78,18 +83,18 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         // setTimeout(() => {
-            if (event && event.ctrlKey) {
-                // CTRL is pressed: add item to, or remove item from selection
-                this.selectionWatcher.toggleItemSelection(albumToSelect);
-            } else if (event && event.shiftKey) {
-                // SHIFT is pressed: select a range of items
-                this.selectionWatcher.selectItemsRange(albumToSelect);
-            } else {
-                // No modifier key is pressed: select only 1 item
-                this.selectionWatcher.selectSingleItem(albumToSelect);
-            }
+        if (event && event.ctrlKey) {
+            // CTRL is pressed: add item to, or remove item from selection
+            this.selectionWatcher.toggleItemSelection(albumToSelect);
+        } else if (event && event.shiftKey) {
+            // SHIFT is pressed: select a range of items
+            this.selectionWatcher.selectItemsRange(albumToSelect);
+        } else {
+            // No modifier key is pressed: select only 1 item
+            this.selectionWatcher.selectSingleItem(albumToSelect);
+        }
 
-            this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems);
+        this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems);
         // }, 0);
     }
 
@@ -144,47 +149,34 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
                 album.isSelected = true;
             }
         }
-
-        // this.selectedAlbumsChange.emit(this.albums.filter((x) => x.isSelected));
     }
 
-    private fillAlbumRowsIfAvailableWidthChanged(): void {
+    private fillAlbumRows(): void {
         try {
-            const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
-
-            if (newAvailableWidthInPixels === 0) {
-                return;
-            }
-
-            if (this.availableWidthInPixels === newAvailableWidthInPixels) {
-                return;
-            }
-
-            this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
+            this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
             this.applySelectedAlbums();
         } catch (e) {
             this.logger.error(
                 `Could not fill album rows after available width changed. Error: ${e.message}`,
                 'AlbumBrowserComponent',
-                'fillAlbumRowsIfAvailableWidthChanged'
+                'fillAlbumRows'
             );
         }
     }
 
-    private fillAlbumRows(): void {
-        try {
-            const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+    private initializeAvailableWidth(): void {
+        this.availableWidthInPixels = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
+    }
 
-            if (newAvailableWidthInPixels === 0) {
-                return;
-            }
+    private hasAvailableWidthChanged(): boolean {
+        const newAvailableWidthInPixels: number = this.nativeElementProxy.getElementWidth(this.albumBrowserElement);
 
-            this.availableWidthInPixels = newAvailableWidthInPixels;
-            this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
-            this.applySelectedAlbums();
-        } catch (e) {
-            this.logger.error(`Could not fill album rows. Error: ${e.message}`, 'AlbumBrowserComponent', 'fillAlbumRows');
+        if (this.availableWidthInPixels === newAvailableWidthInPixels) {
+            return false;
         }
+
+        this.availableWidthInPixels = newAvailableWidthInPixels;
+
+        return true;
     }
 }

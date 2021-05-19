@@ -11,7 +11,7 @@ export abstract class BaseAlbumsPersister {
     private selectedAlbumKeys: string[] = [];
     private selectedAlbumOrder: AlbumOrder;
 
-    constructor(private settings: BaseSettings, private logger: Logger) {
+    constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
@@ -42,9 +42,9 @@ export abstract class BaseAlbumsPersister {
             }
 
             if (this.selectedAlbumKeys.length > 0) {
-                this.settings.albumsTabSelectedAlbum = this.selectedAlbumKeys[0];
+                this.saveSelectedAlbumToSettings(this.selectedAlbumKeys[0]);
             } else {
-                this.settings.albumsTabSelectedAlbum = '';
+                this.saveSelectedAlbumToSettings('');
             }
         } catch (e) {
             this.logger.error(`Could not set selected albums. Error: ${e.message}`, 'AlbumsPersister', 'setSelectedAlbums');
@@ -62,19 +62,24 @@ export abstract class BaseAlbumsPersister {
     public setSelectedAlbumOrder(selectedAlbumOrder: AlbumOrder): void {
         try {
             this.selectedAlbumOrder = selectedAlbumOrder;
-            this.settings.albumsTabSelectedAlbumOrder = AlbumOrder[selectedAlbumOrder];
+            this.saveSelectedAlbumOrderToSettings(AlbumOrder[selectedAlbumOrder]);
         } catch (e) {
             this.logger.error(`Could not set selected album order. Error: ${e.message}`, 'AlbumsPersister', 'setSelectedAlbumOrder');
         }
     }
 
     private initializeFromSettings(): void {
-        if (!StringCompare.isNullOrWhiteSpace(this.settings.albumsTabSelectedAlbum)) {
-            this.selectedAlbumKeys = [this.settings.albumsTabSelectedAlbum];
+        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedAlbumFromSettings())) {
+            this.selectedAlbumKeys = [this.getSelectedAlbumFromSettings()];
         }
 
-        if (!StringCompare.isNullOrWhiteSpace(this.settings.albumsTabSelectedAlbumOrder)) {
-            this.selectedAlbumOrder = (AlbumOrder as any)[this.settings.albumsTabSelectedAlbumOrder];
+        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
+            this.selectedAlbumOrder = (AlbumOrder as any)[this.getSelectedAlbumOrderFromSettings()];
         }
     }
+
+    public abstract getSelectedAlbumFromSettings(): string;
+    public abstract saveSelectedAlbumToSettings(selectedAlbumKey: string): void;
+    public abstract getSelectedAlbumOrderFromSettings(): string;
+    public abstract saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void;
 }
