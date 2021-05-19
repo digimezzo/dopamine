@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '../../../core/logger';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
 import { SelectionWatcher } from '../../../core/selection-watcher';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { AlbumOrder } from '../album-order';
+import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
 
@@ -16,6 +17,7 @@ import { AlbumRowsGetter } from './album-rows-getter';
 })
 export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albums: AlbumModel[] = [];
+    private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
 
     constructor(
@@ -29,17 +31,19 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public albumRows: AlbumRow[] = [];
 
+    public selectedAlbumOrder: AlbumOrder;
+
     @ViewChild('albumBrowserElement') public albumBrowserElement: ElementRef;
 
-    @Input() public selectedAlbumOrder: AlbumOrder;
-    @Output() public selectedAlbumOrderChange: EventEmitter<AlbumOrder> = new EventEmitter<AlbumOrder>();
-
-    @Input()
-    public set selectedAlbums(v: AlbumModel[]) {
-        this.applySelectedAlbums(v);
+    public get albumsPersister(): BaseAlbumsPersister {
+        return this._albumsPersister;
     }
 
-    @Output() public selectedAlbumsChange: EventEmitter<AlbumModel[]> = new EventEmitter<AlbumModel[]>();
+    @Input()
+    public set albumsPersister(v: BaseAlbumsPersister) {
+        this._albumsPersister = v;
+        this.fillAlbumRows();
+    }
 
     public get albums(): AlbumModel[] {
         return this._albums;
@@ -59,6 +63,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         this.applicationService.mouseButtonReleased$.subscribe(() => {
             this.fillAlbumRowsIfAvailableWidthChanged();
         });
+
+        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
+        this.selectionWatcher.reset(this.albums, false);
     }
 
     public ngAfterViewInit(): void {
@@ -70,7 +77,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
     public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
-        setTimeout(() => {
+        // setTimeout(() => {
             if (event && event.ctrlKey) {
                 // CTRL is pressed: add item to, or remove item from selection
                 this.selectionWatcher.toggleItemSelection(albumToSelect);
@@ -82,8 +89,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
                 this.selectionWatcher.selectSingleItem(albumToSelect);
             }
 
-            this.selectedAlbumsChange.emit(this.selectionWatcher.selectedItems);
-        }, 0);
+            this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems);
+        // }, 0);
     }
 
     public toggleAlbumOrder(): void {
@@ -118,13 +125,15 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
             }
         }
 
-        this.selectedAlbumOrderChange.emit(this.selectedAlbumOrder);
+        this.albumsPersister.setSelectedAlbumOrder(this.selectedAlbumOrder);
 
         this.fillAlbumRows();
     }
 
-    private applySelectedAlbums(selectedAlbums: AlbumModel[]): void {
+    private applySelectedAlbums(): void {
         let albumKeys: string[] = [];
+
+        const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
         if (selectedAlbums != undefined) {
             albumKeys = selectedAlbums.map((x) => x.albumKey);
@@ -136,7 +145,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
             }
         }
 
-        this.selectedAlbumsChange.emit(this.albums.filter((x) => x.isSelected));
+        // this.selectedAlbumsChange.emit(this.albums.filter((x) => x.isSelected));
     }
 
     private fillAlbumRowsIfAvailableWidthChanged(): void {
@@ -153,6 +162,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
             this.availableWidthInPixels = newAvailableWidthInPixels;
             this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
+            this.applySelectedAlbums();
         } catch (e) {
             this.logger.error(
                 `Could not fill album rows after available width changed. Error: ${e.message}`,
@@ -172,8 +182,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
             this.availableWidthInPixels = newAvailableWidthInPixels;
             this.albumRows = this.albumRowsGetter.getAlbumRows(newAvailableWidthInPixels, this.albums, this.selectedAlbumOrder);
-
-            this.selectionWatcher.reset(this.albums, false);
+            this.applySelectedAlbums();
         } catch (e) {
             this.logger.error(`Could not fill album rows. Error: ${e.message}`, 'AlbumBrowserComponent', 'fillAlbumRows');
         }
