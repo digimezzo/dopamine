@@ -243,7 +243,7 @@ export class Settings implements BaseSettings {
         this.settings.set('foldersTabOpenedSubfolder', v);
     }
 
-    //  Albums tab selected albums
+    //  Albums tab selected album
     public get albumsTabSelectedAlbum(): string {
         return this.settings.get('albumsTabSelectedAlbum');
     }

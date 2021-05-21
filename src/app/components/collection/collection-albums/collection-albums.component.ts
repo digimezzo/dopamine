@@ -18,8 +18,8 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
+        public albumsPersister: AlbumsPersister,
         private albumService: BaseAlbumService,
-        private albumsPersister: AlbumsPersister,
         private settings: BaseSettings,
         private logger: Logger
     ) {}
