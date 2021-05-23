@@ -22,7 +22,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -52,7 +52,6 @@ import { CollectionPlaylistsComponent } from './components/collection/collection
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
-import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -94,11 +93,11 @@ import { RemoteProxy } from './core/io/remote-proxy';
 import { ListRandomizer } from './core/list-randomizer';
 import { Logger } from './core/logger';
 import { MathExtensions } from './core/math-extensions';
+import { MouseSelectionWatcher } from './core/mouse-selection-watcher';
 import { NativeElementProxy } from './core/native-element-proxy';
 import { PathValidator } from './core/path-validator';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
 import { Scheduler } from './core/scheduler/scheduler';
-import { SelectionWatcher } from './core/selection-watcher';
 import { BaseSettings } from './core/settings/base-settings';
 import { Settings } from './core/settings/settings';
 import { AlbumKeyGenerator } from './data/album-key-generator';
@@ -253,7 +252,6 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PlaybackIndicatorComponent,
         AlbumComponent,
         AlbumBrowserComponent,
-        TrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -335,7 +333,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         AlbumRowsGetter,
         AlbumSpaceCalculator,
         NativeElementProxy,
-        SelectionWatcher,
+        MouseSelectionWatcher,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

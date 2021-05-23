@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '../../../core/logger';
+import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../core/native-element-proxy';
-import { SelectionWatcher } from '../../../core/selection-watcher';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { AlbumOrder } from '../album-order';
@@ -24,7 +24,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
-        private selectionWatcher: SelectionWatcher,
+        private mouseSelectionWatcher: MouseSelectionWatcher,
         private logger: Logger
     ) {}
 
@@ -69,7 +69,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         });
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.selectionWatcher.reset(this.albums, false);
+        this.mouseSelectionWatcher.initialize(this.albums, false);
     }
 
     public ngAfterViewInit(): void {
@@ -81,21 +81,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     }
 
     public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
-        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
-        // setTimeout(() => {
-        if (event && event.ctrlKey) {
-            // CTRL is pressed: add item to, or remove item from selection
-            this.selectionWatcher.toggleItemSelection(albumToSelect);
-        } else if (event && event.shiftKey) {
-            // SHIFT is pressed: select a range of items
-            this.selectionWatcher.selectItemsRange(albumToSelect);
-        } else {
-            // No modifier key is pressed: select only 1 item
-            this.selectionWatcher.selectSingleItem(albumToSelect);
-        }
-
-        this.albumsPersister.setSelectedAlbums(this.selectionWatcher.selectedItems);
-        // }, 0);
+        this.mouseSelectionWatcher.setSelectedItems(event, albumToSelect);
+        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems);
     }
 
     public toggleAlbumOrder(): void {

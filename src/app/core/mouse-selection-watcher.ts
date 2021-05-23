@@ -1,33 +1,21 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class SelectionWatcher {
+export class MouseSelectionWatcher {
     constructor() {}
 
-    private items: any[];
+    private items: any[] = [];
     private lastSelectedItem: any;
 
-    public get hasItems(): boolean {
-        return this.items != null;
-    }
-
-    public get selectedItemsCount(): number {
-        if (!this.hasItems) {
-            return 0;
-        }
-
-        return this.items.filter((x) => x.isSelected).length;
-    }
-
     public get selectedItems(): any[] {
-        if (!this.hasItems) {
-            return [];
-        }
-
         return this.items.filter((x) => x.isSelected);
     }
 
-    public reset(items: any[], selectFirstItem: boolean = false): void {
+    public initialize(items: any[], selectFirstItem: boolean = false): void {
+        if (items == undefined) {
+            return;
+        }
+
         this.items = items;
 
         if (this.items.length > 0) {
@@ -39,11 +27,36 @@ export class SelectionWatcher {
         }
     }
 
-    public selectItemsRange(item: any): void {
-        if (!this.hasItems) {
+    public setSelectedItems(event: any, item: any): void {
+        if (event == undefined) {
             return;
         }
 
+        if (item == undefined) {
+            return;
+        }
+
+        if (event && event.ctrlKey) {
+            // CTRL is pressed: add item to, or remove item from selection
+            this.toggleItemSelection(item);
+        } else if (event && event.shiftKey) {
+            // SHIFT is pressed: select a range of items
+            this.selectItemsRange(item);
+        } else {
+            // No modifier key is pressed: select only 1 item
+            this.selectSingleItem(item);
+        }
+    }
+
+    private toggleItemSelection(item: any): void {
+        item.isSelected = !item.isSelected;
+
+        if (item.isSelected) {
+            this.lastSelectedItem = item;
+        }
+    }
+
+    private selectItemsRange(item: any): void {
         const currentItemIndex: number = this.items.indexOf(item);
         let lastSelectedItemIndex: number = this.items.indexOf(item);
 
@@ -67,11 +80,7 @@ export class SelectionWatcher {
         }
     }
 
-    public selectSingleItem(item: any): void {
-        if (!this.hasItems) {
-            return;
-        }
-
+    private selectSingleItem(item: any): void {
         const currentItemIndex: number = this.items.indexOf(item);
 
         for (let i = 0; i < this.items.length; i++) {
@@ -81,18 +90,6 @@ export class SelectionWatcher {
                 this.items[i].isSelected = true;
                 this.lastSelectedItem = item;
             }
-        }
-    }
-
-    public toggleItemSelection(item: any): void {
-        if (!this.hasItems) {
-            return;
-        }
-
-        item.isSelected = !item.isSelected;
-
-        if (item.isSelected) {
-            this.lastSelectedItem = item;
         }
     }
 }
