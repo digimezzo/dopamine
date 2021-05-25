@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
