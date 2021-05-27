@@ -1,11 +1,3 @@
-// import { IMock, Mock } from 'typemoq';
-// import { Logger } from '../../../core/logger';
-// import { AlbumData } from '../../../data/album-data';
-// import { AlbumModel } from '../../../services/album/album-model';
-// import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
-// import { AlbumOrder } from '../album-order';
-// import { AlbumsPersister } from './albums-persister';
-
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../../core/logger';
 import { AlbumData } from '../../../data/album-data';
@@ -43,7 +35,7 @@ describe('AlbumsPersister', () => {
         album1 = new AlbumModel(albumData1, translatorServiceMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         album3 = new AlbumModel(albumData3, translatorServiceMock.object);
-        availableAlbums = [album1, album2];
+        availableAlbums = [album1, album2, album3];
 
         albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
     });
@@ -163,171 +155,115 @@ describe('AlbumsPersister', () => {
             expect(selectedAlbums[1]).toBe(album2);
         });
     });
-    //     describe('saveSelectedAlbumToSettings', () => {
-    //         it('should clear the selected album in the settings if the given selected album is undefined', () => {
-    //             // Arrange
-    //             settingsStub.albumsTabSelectedAlbum = 'someAlbumKey';
-    //             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
-    //             // Act
-    //             albumsPersister.saveSelectedAlbumsToSettings(undefined);
+    describe('setSelectedAlbums', () => {
+        it('should empty the selected albums if selectedAlbums is undefined', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(settingsStub.albumsTabSelectedAlbum).toEqual('');
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbums(undefined);
 
-    //         it('should save the selected album to the settings if the given selected album is not undefined', () => {
-    //             // Arrange
-    //             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-    //             const albumData: AlbumData = new AlbumData();
-    //             albumData.albumKey = 'someAlbumKey';
-    //             const selectedAlbum: AlbumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            // Assert
+            expect(albumsPersister.getSelectedAlbums(availableAlbums)).toEqual([]);
+        });
 
-    //             // Act
-    //             albumsPersister.saveSelectedAlbumsToSettings(selectedAlbum);
+        it('should empty the selected albums if selectedAlbums is empty', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(settingsStub.albumsTabSelectedAlbum).toEqual('someAlbumKey');
-    //         });
-    //     });
+            // Act
+            albumsPersister.setSelectedAlbums([]);
 
-    //     describe('getSelectedAlbumFromSettings', () => {
-    //         it('should return undefined if available albums is undefined', () => {
-    //             // Arrange
+            // Assert
+            expect(albumsPersister.getSelectedAlbums(availableAlbums)).toEqual([]);
+        });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(undefined);
+        it('should set the selected albums if selectedAlbums is valid', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toBeUndefined();
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbums([album2, album3]);
 
-    //         it('should return undefined if there are no available albums', () => {
-    //             // Arrange
-    //             const availableAlbums: AlbumModel[] = [];
+            // Assert
+            expect(albumsPersister.getSelectedAlbums(availableAlbums)).toEqual([album2, album3]);
+        });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
+        it('should save an empty selected album to the settings if selectedAlbums is undefined', () => {
+            // Arrange
+            settingsStub.albumsTabSelectedAlbum = 'someAlbum';
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toBeUndefined();
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbums(undefined);
 
-    //         it('should return the first album if selected album from settings is undefined', () => {
-    //             // Arrange
-    //             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-    //             const albumData1: AlbumData = new AlbumData();
-    //             albumData1.albumKey = 'albumKey1';
-    //             const albumData2: AlbumData = new AlbumData();
-    //             albumData2.albumKey = 'albumKey2';
-    //             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-    //             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-    //             const availableAlbums: AlbumModel[] = [album1, album2];
-    //             settingsStub.albumsTabSelectedAlbum = undefined;
-    //             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
+            // Assert
+            expect(settingsStub.albumsTabSelectedAlbum).toEqual('');
+        });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
+        it('should save an empty selected album to the settings if selectedAlbums is empty', () => {
+            // Arrange
+            settingsStub.albumsTabSelectedAlbum = 'someAlbum';
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toEqual(album1);
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbums([]);
 
-    //         it('should return the first album if selected album from settings is empty', () => {
-    //             // Arrange
-    //             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-    //             const albumData1: AlbumData = new AlbumData();
-    //             albumData1.albumKey = 'albumKey1';
-    //             const albumData2: AlbumData = new AlbumData();
-    //             albumData2.albumKey = 'albumKey2';
-    //             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-    //             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-    //             const availableAlbums: AlbumModel[] = [album1, album2];
-    //             settingsStub.albumsTabSelectedAlbum = '';
-    //             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
+            // Assert
+            expect(settingsStub.albumsTabSelectedAlbum).toEqual('');
+        });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
+        it('should save the first selected album to the settings if selectedAlbums is valid', () => {
+            // Arrange
+            settingsStub.albumsTabSelectedAlbum = 'someAlbum';
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toEqual(album1);
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbums([album2, album3]);
 
-    //         it('should return the first album if an selected album is found in the settings which is not included in available albums', () => {
-    //             // Arrange
-    //             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-    //             const albumData1: AlbumData = new AlbumData();
-    //             albumData1.albumKey = 'albumKey1';
-    //             const albumData2: AlbumData = new AlbumData();
-    //             albumData2.albumKey = 'albumKey2';
-    //             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-    //             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-    //             const availableAlbums: AlbumModel[] = [album1, album2];
-    //             settingsStub.albumsTabSelectedAlbum = 'albumKey3';
-    //             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
+            // Assert
+            expect(settingsStub.albumsTabSelectedAlbum).toEqual('albumKey2');
+        });
+    });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
+    describe('getSelectedAlbumOrder', () => {
+        it('should return byAlbumTitleAscending if there is no selected album order', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toEqual(album1);
-    //         });
+            // Act
+            const selectedAlbumorder: AlbumOrder = albumsPersister.getSelectedAlbumOrder();
 
-    //         it('should return the album from the settings if an selected album is found in the settings which is included in available albums', () => {
-    //             // Arrange
-    //             const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
-    //             const albumData1: AlbumData = new AlbumData();
-    //             albumData1.albumKey = 'albumKey1';
-    //             const albumData2: AlbumData = new AlbumData();
-    //             albumData2.albumKey = 'albumKey2';
-    //             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-    //             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-    //             const availableAlbums: AlbumModel[] = [album1, album2];
-    //             settingsStub.albumsTabSelectedAlbum = 'albumKey2';
-    //             albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
+            // Assert
+            expect(selectedAlbumorder).toEqual(AlbumOrder.byAlbumTitleAscending);
+        });
 
-    //             // Act
-    //             const selectedAlbumFromSettings: AlbumModel = albumsPersister.getSelectedAlbumsFromSettings(availableAlbums);
+        it('should return the selected album order if there is a selected album order', () => {
+            // Arrange
+            settingsStub.albumsTabSelectedAlbumOrder = 'byYearDescending';
+            albumsPersister = new AlbumsPersister(settingsStub, loggerMock.object);
 
-    //             // Assert
-    //             expect(selectedAlbumFromSettings).toEqual(album2);
-    //         });
-    //     });
+            // Act
+            const selectedAlbumorder: AlbumOrder = albumsPersister.getSelectedAlbumOrder();
 
-    //     describe('saveSelectedAlbumOrderToSettings', () => {
-    //         it('should save the selected album order to the settings', () => {
-    //             // Arrange
-    //             settingsStub.albumsTabSelectedAlbumOrder = 'byAlbumTitleAscending';
+            // Assert
+            expect(selectedAlbumorder).toEqual(AlbumOrder.byYearDescending);
+        });
+    });
 
-    //             // Act
-    //             albumsPersister.saveSelectedAlbumOrderToSettings(AlbumOrder.byLastPlayed);
+    describe('setSelectedAlbumOrder', () => {
+        it('should set the selected album order', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(settingsStub.albumsTabSelectedAlbumOrder).toEqual('byLastPlayed');
-    //         });
-    //     });
+            // Act
+            albumsPersister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
 
-    //     describe('getSelectedAlbumOrderFromSettings', () => {
-    //         it('should return byAlbumTitleAscending if no selected album order is found in the settings', () => {
-    //             // Arrange
-    //             settingsStub.albumsTabSelectedAlbumOrder = undefined;
+            // Assert
+            expect(albumsPersister.getSelectedAlbumOrder()).toEqual(AlbumOrder.byYearDescending);
+        });
 
-    //             // Act
-    //             const selectedAlbumOrderFromSettings: AlbumOrder = albumsPersister.getSelectedAlbumOrderFromSettings();
+        it('should save the selected album order to the settings', () => {
+            // Arrange
 
-    //             // Assert
-    //             expect(selectedAlbumOrderFromSettings).toEqual(AlbumOrder.byAlbumTitleAscending);
-    //         });
+            // Act
+            albumsPersister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
 
-    //         it('should return the selected album order from the settings if an selected album order is found in the settings', () => {
-    //             // Arrange
-    //             settingsStub.albumsTabSelectedAlbumOrder = 'byYearAscending';
-
-    //             // Act
-    //             const selectedAlbumOrderFromSettings: AlbumOrder = albumsPersister.getSelectedAlbumOrderFromSettings();
-
-    //             // Assert
-    //             expect(selectedAlbumOrderFromSettings).toEqual(AlbumOrder.byYearAscending);
-    //         });
-    //     });
+            // Assert
+            expect(settingsStub.albumsTabSelectedAlbumOrder).toEqual('byYearDescending');
+        });
+    });
 });
