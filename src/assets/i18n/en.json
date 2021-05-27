@@ -3,7 +3,7 @@
         "Welcome": {
             "Greeting": {
                 "Title": "Hi!",
-                "Content": "Welcome to Dopamine, we think you'll love it! First, let's set things up."
+                "Content": "Welcome to dopameme, we think you'll love it! First, let's set things up."
             },
             "Language": {
                 "Title": "Language",
@@ -11,7 +11,7 @@
             },
             "Appearance": {
                 "Title": "Appearance",
-                "Content": "What should your Dopamine look like?",
+                "Content": "What should your dopameme look like?",
                 "UseLightTheme": "Use light theme"
             },
             "Music": {
@@ -20,12 +20,12 @@
             },
             "Donate": {
                 "Title": "Donate",
-                "Content": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!",
+                "Content": "If you like dopameme, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!",
                 "DonateNow": "Donate now"
             },
             "Done": {
                 "Title": "Done!",
-                "Content": "All done. Let's now start up Dopamine!"
+                "Content": "All done. Let's now start up dopameme!"
             }
         },
         "Loading": {
@@ -70,7 +70,7 @@
             "Website": "Website",
             "License": "License",
             "Donate": "Donate",
-            "DonateInstructions": "Do you like Dopamine? Please click here to donate. Thank you!",
+            "DonateInstructions": "Do you like dopameme? Please click here to donate. Thank you!",
             "ContactUs": "Contact us",
             "Thanks": "Thanks",
             "ThanksToSharlee": "To Sharlee, for his gorgeous icons!",

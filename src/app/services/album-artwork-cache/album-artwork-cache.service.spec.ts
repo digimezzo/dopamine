@@ -38,7 +38,7 @@ describe('AlbumArtworkCacheService', () => {
 
         it('should create the full directory path to the artwork cache if it does not exist', () => {
             // Arrange
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/dopameme/Cache/CoverArt');
 
             // Act
             service = new AlbumArtworkCacheService(
@@ -51,7 +51,7 @@ describe('AlbumArtworkCacheService', () => {
 
             // Assert
             fileSystemMock.verify(
-                (x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Cache/CoverArt'),
+                (x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/dopameme/Cache/CoverArt'),
                 Times.exactly(1)
             );
         });
@@ -82,7 +82,7 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/dopameme/Cache/CoverArt');
 
             const data = Buffer.from([1, 2, 3]);
 
@@ -96,7 +96,7 @@ describe('AlbumArtworkCacheService', () => {
         it('should save data to file when the data is not empty', async () => {
             // Arrange
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/dopameme/Cache/CoverArt');
 
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
@@ -115,7 +115,7 @@ describe('AlbumArtworkCacheService', () => {
     describe('removeArtworkDataFromCache', () => {
         it('should delete cached artwork file if it exists', async () => {
             // Arrange
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/dopameme/Cache/CoverArt');
             const expectedCachedArtworkFilePath: string = path.join(
                 fileSystemMock.object.coverArtCacheFullPath(),
                 'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
@@ -133,7 +133,7 @@ describe('AlbumArtworkCacheService', () => {
         it('should return an empty path if no artworkId is found in the database', async () => {
             // Arrange
             albumArtworkRepositoryMock.setup((x) => x.getArtworkId('myAlbumKey')).returns(() => undefined);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/dopameme/Cache/CoverArt');
 
             // Act
             const cachedArtworkFilePath: string = service.getCachedArtworkFilePathAsync('myAlbumKey');
@@ -147,7 +147,7 @@ describe('AlbumArtworkCacheService', () => {
             albumArtworkRepositoryMock
                 .setup((x) => x.getArtworkId('myAlbumKey'))
                 .returns(() => 'album-4c315456-43ba-4984-8a7e-403837514638');
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/dopameme/Cache/CoverArt');
             const expectedCachedArtworkFilePath: string = path.join(
                 fileSystemMock.object.coverArtCacheFullPath(),
                 'album-4c315456-43ba-4984-8a7e-403837514638.jpg'

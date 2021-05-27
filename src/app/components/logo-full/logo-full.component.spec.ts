@@ -25,7 +25,7 @@ describe('LogoFullComponent', () => {
             // Act
 
             // Assert
-            expect(component.applicationName).toEqual('dopamine');
+            expect(component.applicationName).toEqual('dopameme');
         });
     });
 });

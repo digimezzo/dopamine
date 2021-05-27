@@ -1,6 +1,6 @@
 {
-    "appId": "com.digimezzo.dopamine",
-    "productName": "Dopamine",
+    "appId": "com.digimezzo.dopameme",
+    "productName": "dopameme",
     "directories": {
         "output": "release"
     },

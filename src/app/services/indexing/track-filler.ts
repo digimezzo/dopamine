@@ -26,7 +26,7 @@ export class TrackFiller {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const dateNowTicks: number = DateTime.convertDateToTicks(new Date());
 
-            // Store duration in milliseconds, for compatibility with Dopamine 2 database.
+            // Store duration in milliseconds, for compatibility with dopameme 2 database.
             const durationInMilliseconds: number = fileMetadata.durationInSeconds * 1000;
 
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);

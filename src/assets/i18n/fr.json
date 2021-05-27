@@ -3,7 +3,7 @@
         "Welcome": {
             "Greeting": {
                 "Title": "Salut!",
-                "Content": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
+                "Content": "Bienvenue à dopameme, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
             },
             "Language": {
                 "Title": "Langue",
@@ -11,7 +11,7 @@
             },
             "Appearance": {
                 "Title": "Apparence",
-                "Content": "Quelle apparence voulez-vous donner à Dopamine?",
+                "Content": "Quelle apparence voulez-vous donner à dopameme?",
                 "UseLightTheme": "Utiliser le thème clair"
             },
             "Music": {
@@ -20,12 +20,12 @@
             },
             "Donate": {
                 "Title": "Faire un don",
-                "Content": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!",
+                "Content": "Si dopameme vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!",
                 "DonateNow": "Faire un don maintenant"
             },
             "Done": {
                 "Title": "Prêt!",
-                "Content": "Nous sommes prêts. Maintenant, lançons Dopamine!"
+                "Content": "Nous sommes prêts. Maintenant, lançons dopameme!"
             }
         },
         "Loading": {
@@ -70,7 +70,7 @@
             "Website": "Site web",
             "License": "Licence",
             "Donate": "Faire un don",
-            "DonateInstructions": "Aimez-vous dopamine? Veuillez cliquer ici pour faire un don. Merci!",
+            "DonateInstructions": "Aimez-vous dopameme? Veuillez cliquer ici pour faire un don. Merci!",
             "ContactUs": "Contactez-nous",
             "Thanks": "Merci",
             "ThanksToSharlee": "À Sharlee, pour ses superbes icônes!",

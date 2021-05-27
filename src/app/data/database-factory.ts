@@ -10,7 +10,7 @@ export class DatabaseFactory {
     constructor(private fileSystem: FileSystem) {}
 
     public create(): any {
-        const databaseFile: string = path.join(this.fileSystem.applicationDataDirectory(), 'Dopamine.db');
+        const databaseFile: string = path.join(this.fileSystem.applicationDataDirectory(), 'dopameme.db');
         const database: any = new Database(databaseFile);
 
         return database;

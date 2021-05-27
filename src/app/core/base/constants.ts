@@ -60,7 +60,7 @@ export class Constants {
             'https://github.com/jprichardson/node-fs-extra',
             'https://github.com/jprichardson/node-fs-extra/blob/master/LICENSE'
         ),
-        new ExternalComponent('Icons designed by Sharlee', 'Gorgeous Dopamine icons designed by Sharlee.', 'https://www.itssharl.ee/', ''),
+        new ExternalComponent('Icons designed by Sharlee', 'Gorgeous dopameme icons designed by Sharlee.', 'https://www.itssharl.ee/', ''),
         new ExternalComponent(
             'Icons8 Line Awesome',
             'Replace Font Awesome with modern line icons.',

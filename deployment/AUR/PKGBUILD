@@ -1,6 +1,6 @@
 # Maintainer: Digimezzo <raphael@digimezzo.com>
-_pkgname=Dopamine
-pkgname=dopamine
+_pkgname=dopameme
+pkgname=dopameme
 pkgver=3.0.0
 pkgrel=1
 pkgdesc="The audio player that keeps it simple"

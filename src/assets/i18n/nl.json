@@ -3,7 +3,7 @@
         "Welcome": {
             "Greeting": {
                 "Title": "Hallo!",
-                "Content": "Welkom bij Dopamine, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen."
+                "Content": "Welkom bij dopameme, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen."
             },
             "Language": {
                 "Title": "Taal",
@@ -11,7 +11,7 @@
             },
             "Appearance": {
                 "Title": "Uitzicht",
-                "Content": "Hoe wil je dat Dopamine eruit ziet?",
+                "Content": "Hoe wil je dat dopameme eruit ziet?",
                 "UseLightTheme": "Gebruik een licht thema"
             },
             "Music": {
@@ -20,12 +20,12 @@
             },
             "Donate": {
                 "Title": "Doneer",
-                "Content": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!",
+                "Content": "Als je dopameme leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!",
                 "DonateNow": "Nu doneren"
             },
             "Done": {
                 "Title": "Klaar!",
-                "Content": "Helemaal klaar. Laat ons Dopamine opstarten!"
+                "Content": "Helemaal klaar. Laat ons dopameme opstarten!"
             }
         },
         "Loading": {
@@ -70,7 +70,7 @@
             "Website": "Website",
             "License": "Licentie",
             "Donate": "Doneer",
-            "DonateInstructions": "Hou je van dopamine? Klik hier om te doneren. Dank je!",
+            "DonateInstructions": "Hou je van dopameme? Klik hier om te doneren. Dank je!",
             "ContactUs": "Neem contact op",
             "Thanks": "Dankjewel",
             "ThanksToSharlee": "Aan Sharlee, voor zijn prachtige iconen!",
