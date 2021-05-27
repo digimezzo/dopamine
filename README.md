@@ -27,7 +27,7 @@ dopameme icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ## Build prerequisites for Windows
 
-Open a PowerShell prompt as Administrator and run this command to instal the Windows build tools:
+Open a PowerShell prompt as Administrator and run this command to install the Windows build tools:
 
 `npm install --global --production windows-build-tools --vs2015`
 
