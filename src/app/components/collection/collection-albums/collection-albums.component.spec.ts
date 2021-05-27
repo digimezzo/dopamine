@@ -1,186 +1,206 @@
-// import { IMock, Mock, Times } from 'typemoq';
-// import { Logger } from '../../../core/logger';
-// import { AlbumData } from '../../../data/album-data';
-// import { AlbumModel } from '../../../services/album/album-model';
-// import { BaseAlbumService } from '../../../services/album/base-album-service';
-// import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-// import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
-// import { AlbumOrder } from '../album-order';
-// import { AlbumsPersister } from './albums-persister';
-// import { CollectionAlbumsComponent } from './collection-albums.component';
+import { IMock, Mock, Times } from 'typemoq';
+import { Logger } from '../../../core/logger';
+import { AlbumData } from '../../../data/album-data';
+import { AlbumModel } from '../../../services/album/album-model';
+import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AlbumOrder } from '../album-order';
+import { AlbumsPersister } from './albums-persister';
+import { CollectionAlbumsComponent } from './collection-albums.component';
 
-// describe('CollectionAlbumsComponent', () => {
-//     let playbackServiceMock: IMock<BasePlaybackService>;
-//     let albumServiceMock: IMock<BaseAlbumService>;
-//     let albumsPersisterMock: IMock<AlbumsPersister>;
-//     let settingsStub: any;
-//     let loggerMock: IMock<Logger>;
-//     let translatorServiceMock: IMock<BaseTranslatorService>;
+describe('CollectionAlbumsComponent', () => {
+    let playbackServiceMock: IMock<BasePlaybackService>;
+    let albumServiceMock: IMock<BaseAlbumService>;
+    let albumsPersisterMock: IMock<AlbumsPersister>;
+    let settingsStub: any;
+    let loggerMock: IMock<Logger>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
 
-//     let component: CollectionAlbumsComponent;
+    let component: CollectionAlbumsComponent;
 
-//     const albumData1: AlbumData = new AlbumData();
-//     const albumData2: AlbumData = new AlbumData();
-//     let album1: AlbumModel;
-//     let album2: AlbumModel;
+    const albumData1: AlbumData = new AlbumData();
+    const albumData2: AlbumData = new AlbumData();
+    let album1: AlbumModel;
+    let album2: AlbumModel;
+    let albums: AlbumModel[];
 
-//     beforeEach(() => {
-//         playbackServiceMock = Mock.ofType<BasePlaybackService>();
-//         albumServiceMock = Mock.ofType<BaseAlbumService>();
-//         albumsPersisterMock = Mock.ofType<AlbumsPersister>();
-//         loggerMock = Mock.ofType<Logger>();
-//         settingsStub = { albumsRightPaneWidthPercent: 30 };
-//         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+    beforeEach(() => {
+        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        albumsPersisterMock = Mock.ofType<AlbumsPersister>();
+        albumServiceMock = Mock.ofType<BaseAlbumService>();
+        loggerMock = Mock.ofType<Logger>();
+        settingsStub = { albumsRightPaneWidthPercent: 30 };
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-//         album1 = new AlbumModel(albumData1, translatorServiceMock.object);
-//         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
-//         const albums: AlbumModel[] = [album1, album2];
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object);
+        albums = [album1, album2];
 
-//         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrderFromSettings()).returns(() => AlbumOrder.byYearAscending);
-//         albumsPersisterMock.setup((x) => x.getSelectedAlbumsFromSettings(albums)).returns(() => album2);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
 
-//         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
+        albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-//         component = new CollectionAlbumsComponent(
-//             playbackServiceMock.object,
-//             albumServiceMock.object,
-//             albumsPersisterMock.object,
-//             settingsStub,
-//             loggerMock.object
-//         );
-//     });
+        component = new CollectionAlbumsComponent(
+            playbackServiceMock.object,
+            albumsPersisterMock.object,
+            albumServiceMock.object,
+            settingsStub,
+            loggerMock.object
+        );
+    });
 
-//     describe('constructor', () => {
-//         it('should create', () => {
-//             // Arrange
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-//             // Act
+            // Act
 
-//             // Assert
-//             expect(component).toBeDefined();
-//         });
+            // Assert
+            expect(component).toBeDefined();
+        });
 
-//         it('should define playbackService', () => {
-//             // Arrange
+        it('should define playbackService', () => {
+            // Arrange
 
-//             // Act
+            // Act
 
-//             // Assert
-//             expect(component.playbackService).toBeDefined();
-//         });
+            // Assert
+            expect(component.playbackService).toBeDefined();
+        });
 
-//         it('should set left pane size from settings', () => {
-//             // Arrange
+        it('should set left pane size from settings', () => {
+            // Arrange
 
-//             // Act
+            // Act
 
-//             // Assert
-//             expect(component.leftPaneSize).toEqual(70);
-//         });
+            // Assert
+            expect(component.leftPaneSize).toEqual(70);
+        });
 
-//         it('should set right pane size from settings', () => {
-//             // Arrange
+        it('should set right pane size from settings', () => {
+            // Arrange
 
-//             // Act
+            // Act
 
-//             // Assert
-//             expect(component.rightPaneSize).toEqual(30);
-//         });
-//     });
+            // Assert
+            expect(component.rightPaneSize).toEqual(30);
+        });
+    });
 
-//     describe('selectedAlbumOrder', () => {
-//         it('should return the selected album order', async () => {
-//             // Arrange
-//             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
+    describe('selectedAlbumOrder', () => {
+        it('should return the selected album order', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
-//             // Act
-//             const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
+            // Act
+            const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
-//             // Assert
-//             expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
-//         });
+            // Assert
+            expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+        });
 
-//         it('should set the selected album order', async () => {
-//             // Arrange
-//             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+        it('should set the selected album order', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
-//             // Act
-//             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
+            // Act
+            component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
-//             // Assert
-//             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
-//         });
+            // Assert
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+        });
 
-//         it('should persist the selected album order', async () => {
-//             // Arrange
-//             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+        it('should persist the selected album order', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
-//             // Act
-//             const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
+            // Act
+            const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
-//             // Assert
-//             albumsPersisterMock.verify((x) => x.saveSelectedAlbumOrderToSettings(selectedAlbumOrder), Times.exactly(1));
-//         });
-//     });
+            // Assert
+            albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(selectedAlbumOrder), Times.exactly(1));
+        });
+    });
 
-//     describe('ngOnInit', () => {
-//         it('should set the album order from the settings', async () => {
-//             // Arrange
-//             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+    describe('ngOnInit', () => {
+        it('should set the album order', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
-//             // Act
-//             component.ngOnInit();
+            component = new CollectionAlbumsComponent(
+                playbackServiceMock.object,
+                albumsPersisterMock.object,
+                albumServiceMock.object,
+                settingsStub,
+                loggerMock.object
+            );
 
-//             // Assert
-//             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
-//         });
+            // Act
+            component.ngOnInit();
 
-//         it('should fill the albums list if it is empty', () => {
-//             // Arrange
-//             component.albums = [];
+            // Assert
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
+        });
 
-//             // Act
-//             component.ngOnInit();
+        it('should get all albums', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-//             // Assert
-//             expect(component.albums.length).toEqual(2);
-//             expect(component.albums[0]).toEqual(album1);
-//             expect(component.albums[1]).toEqual(album2);
-//         });
+            component = new CollectionAlbumsComponent(
+                playbackServiceMock.object,
+                albumsPersisterMock.object,
+                albumServiceMock.object,
+                settingsStub,
+                loggerMock.object
+            );
 
-//         it('should not fill the albums list if it is not empty', () => {
-//             // Arrange
-//             component.albums = [album1];
+            // Act
+            component.ngOnInit();
 
-//             // Act
-//             component.ngOnInit();
+            // Assert
+            expect(component.albums).toEqual(albums);
+        });
+    });
 
-//             // Assert
-//             expect(component.albums.length).toEqual(1);
-//             expect(component.albums[0]).toEqual(album1);
-//         });
+    describe('ngOnDestroy', () => {
+        it('should clear the albums', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-//         it('should set the selected album from the settings', () => {
-//             // Arrange
-//             component.selectedAlbum = undefined;
+            component = new CollectionAlbumsComponent(
+                playbackServiceMock.object,
+                albumsPersisterMock.object,
+                albumServiceMock.object,
+                settingsStub,
+                loggerMock.object
+            );
 
-//             // Act
-//             component.ngOnInit();
+            component.ngOnInit();
 
-//             // Assert
-//             expect(component.selectedAlbum).toEqual(album2);
-//         });
-//     });
+            // Act
+            component.ngOnDestroy();
 
-//     describe('splitDragEnd', () => {
-//         it('should save the right pane width to the settings', () => {
-//             // Arrange
+            // Assert
+            expect(component.albums).toEqual([]);
+        });
+    });
 
-//             // Act
-//             component.splitDragEnd({ sizes: [60, 40] });
+    describe('splitDragEnd', () => {
+        it('should save the right pane width to the settings', () => {
+            // Arrange
 
-//             // Assert
-//             expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
-//         });
-//     });
-// });
+            // Act
+            component.splitDragEnd({ sizes: [60, 40] });
+
+            // Assert
+            expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
+        });
+    });
+});

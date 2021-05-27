@@ -14,7 +14,6 @@ import { AlbumsPersister } from './albums-persister';
 })
 export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
-    private _selectedAlbums: AlbumModel[];
 
     constructor(
         public playbackService: BasePlaybackService,
@@ -37,15 +36,6 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.albumsPersister.setSelectedAlbumOrder(v);
     }
 
-    public get selectedAlbums(): AlbumModel[] {
-        return this._selectedAlbums;
-    }
-
-    public set selectedAlbums(v: AlbumModel[]) {
-        this._selectedAlbums = v;
-        this.albumsPersister.setSelectedAlbums(v);
-    }
-
     public ngOnDestroy(): void {
         this.albums = [];
     }
@@ -53,7 +43,6 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.fillLists();
-        this.selectedAlbums = this.albumsPersister.getSelectedAlbums(this.albums);
     }
 
     public splitDragEnd(event: any): void {
@@ -61,12 +50,10 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     private fillLists(): void {
-        if (this.albums.length === 0) {
-            try {
-                this.albums = this.albumService.getAllAlbums();
-            } catch (e) {
-                this.logger.error(`Could not get folders. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
-            }
+        try {
+            this.albums = this.albumService.getAllAlbums();
+        } catch (e) {
+            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
         }
     }
 }
