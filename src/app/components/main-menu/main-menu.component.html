@@ -1,5 +1,8 @@
 <div class="window-button" mat-icon-button [matMenuTriggerFor]="menu" matTooltip="{{ 'Tooltips.OpenMenu' | translate }}">
-    <i class="main-menu-icon las la-bars"></i>
+    <div class="main-menu__button">
+        <div class="main-menu__icon las la-bars"></div>
+        <div class="main-menu__updateindicator" *ngIf="this.updateService.isUpdateAvailable"></div>
+    </div>
 </div>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="goToManageCollection()">
@@ -12,4 +15,12 @@
     <button mat-menu-item (click)="goToInformation()">
         {{ 'MainMenu.Information' | translate }}
     </button>
+    <div *ngIf="this.updateService.isUpdateAvailable">
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="downloadLatestRelease()">
+            <div class="accent-color">
+                {{ 'MainMenu.Download' | translate }} {{ this.applicationName }} {{ this.updateService.latestRelease }}
+            </div>
+        </button>
+    </div>
 </mat-menu>

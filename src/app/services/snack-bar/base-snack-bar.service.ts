@@ -1,6 +1,5 @@
 export abstract class BaseSnackBarService {
     public abstract folderAlreadyAddedAsync(): Promise<void>;
-    public abstract newVersionAvailable(version: string): Promise<void>;
     public abstract refreshing(): Promise<void>;
     public abstract removingTracksAsync(): Promise<void>;
     public abstract updatingTracksAsync(): Promise<void>;

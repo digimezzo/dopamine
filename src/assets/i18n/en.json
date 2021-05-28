@@ -147,7 +147,8 @@
     "MainMenu": {
         "ManageCollection": "Manage collection...",
         "Settings": "Settings",
-        "Information": "Information"
+        "Information": "Information",
+        "Download": "Download"
     },
     "Album": {
         "UnknownArtist": "Unknown artist",

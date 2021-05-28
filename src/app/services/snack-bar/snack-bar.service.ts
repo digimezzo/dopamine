@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
-import { ProductInformation } from '../../core/base/product-information';
 import { Scheduler } from '../../core/scheduler/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackBarService } from './base-snack-bar.service';
@@ -24,14 +23,6 @@ export class SnackBarService implements BaseSnackBarService {
     public async folderAlreadyAddedAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('SnackBarMessages.FolderAlreadyAdded');
         this.showSelfClosingSnackBar('las la-folder', message);
-    }
-
-    public async newVersionAvailable(version: string): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.ClickHereToDownloadNewVersion', {
-            version: version,
-        });
-
-        this.showDismissibleSnackBar('las la-download', false, message, true, ProductInformation.releasesDownloadUrl);
     }
 
     public async refreshing(): Promise<void> {

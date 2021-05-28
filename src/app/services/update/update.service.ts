@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
 import { GitHubApi } from '../../core/api/git-hub/git-hub-api';
 import { ProductInformation } from '../../core/base/product-information';
+import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseUpdateService } from './base-update.service';
 import { VersionComparer } from './version-comparer';
 @Injectable({
     providedIn: 'root',
 })
 export class UpdateService implements BaseUpdateService {
-    constructor(
-        private snackBarService: BaseSnackBarService,
-        private settings: BaseSettings,
-        private logger: Logger,
-        private gitHub: GitHubApi
-    ) {}
+    public _isUpdateAvailable: boolean = false;
+    private _latestRelease: string = '';
+
+    constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: Desktop) {}
+
+    public get isUpdateAvailable(): boolean {
+        return this._isUpdateAvailable;
+    }
+
+    public get latestRelease(): string {
+        return this._latestRelease;
+    }
 
     public async checkForUpdatesAsync(): Promise<void> {
         if (this.settings.checkForUpdates) {
@@ -33,7 +39,9 @@ export class UpdateService implements BaseUpdateService {
                         'UpdateService',
                         'checkForUpdatesAsync'
                     );
-                    await this.snackBarService.newVersionAvailable(latestRelease);
+
+                    this._isUpdateAvailable = true;
+                    this._latestRelease = latestRelease;
                 } else {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,
@@ -47,5 +55,11 @@ export class UpdateService implements BaseUpdateService {
         } else {
             this.logger.info('Not checking for updates', 'UpdateService', 'checkForUpdatesAsync');
         }
+    }
+
+    public downloadLatestRelease(): void {
+        this.desktop.openLink(
+            `https://github.com/digimezzo/${ProductInformation.applicationName.toLowerCase()}/releases/tag/v${this.latestRelease}`
+        );
     }
 }
