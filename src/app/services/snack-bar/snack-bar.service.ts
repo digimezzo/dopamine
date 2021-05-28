@@ -11,6 +11,8 @@ import { BaseSnackBarService } from './base-snack-bar.service';
 })
 export class SnackBarService implements BaseSnackBarService {
     private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+    private isDismissRequested: boolean = false;
 
     constructor(
         private zone: NgZone,
@@ -63,6 +65,7 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async dismissAsync(): Promise<void> {
         if (this.currentDismissibleSnackBar != undefined) {
+            this.isDismissRequested = true;
             this.currentDismissibleSnackBar.dismiss();
             this.currentDismissibleSnackBar = undefined;
         }
@@ -73,13 +76,42 @@ export class SnackBarService implements BaseSnackBarService {
         await this.dismissAsync();
     }
 
+    public checkIfDismissWasRequested(): void {
+        if (this.isDismissRequested) {
+            this.isDismissRequested = false;
+
+            if (this.currentDismissibleSnackBar != undefined) {
+                this.currentDismissibleSnackBar.dismiss();
+                this.currentDismissibleSnackBar = undefined;
+            }
+        } else {
+            if (this.currentDismissibleSnackBar != undefined) {
+                this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
+                    data: {
+                        icon: this.currentDismissibleSnackBar.instance.data.icon,
+                        animateIcon: this.currentDismissibleSnackBar.instance.data.animateIcon,
+                        message: this.currentDismissibleSnackBar.instance.data.message,
+                        showCloseButton: this.currentDismissibleSnackBar.instance.data.showCloseButton,
+                        url: this.currentDismissibleSnackBar.instance.data.url,
+                    },
+                    panelClass: ['accent-snack-bar'],
+                    verticalPosition: 'top',
+                });
+            }
+        }
+    }
+
     private showSelfClosingSnackBar(icon: string, message: string): void {
         this.zone.run(() => {
-            this.matSnackBar.openFromComponent(SnackBarComponent, {
+            this.currentSelfClosingSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
                 data: { icon: icon, message: message, showCloseButton: false },
                 panelClass: ['accent-snack-bar'],
                 verticalPosition: 'top',
                 duration: this.calculateDuration(message),
+            });
+
+            this.currentSelfClosingSnackBar.afterDismissed().subscribe((info) => {
+                this.checkIfDismissWasRequested();
             });
         });
     }
