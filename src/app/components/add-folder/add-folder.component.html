@@ -1,8 +1,8 @@
 <div class="add-folder-component">
-    <!-- <div class="add-folder-overlay" *ngIf="indexingService.isIndexingCollection">
+    <div class="add-folder-overlay" *ngIf="indexingService.isIndexingCollection">
         <i class="add-folder-overlay__icon las la-sync rotation"></i><span class="ml-1 add-folder-overlay__text">Indexing collection</span>
-    </div> -->
-    <div class="add-folder-component__content">
+    </div>
+    <div class="add-folder-component__content" [ngClass]="{ inactive: indexingService.isIndexingCollection }">
         <div class="link-button">
             <i class="link-button__icon mr-2 las la-plus"></i>
             <a (click)="addFolderAsync()">{{ 'Pages.ManageCollection.AddFolder' | translate }}</a>
