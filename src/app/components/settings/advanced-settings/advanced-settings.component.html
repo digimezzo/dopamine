@@ -1,6 +1,13 @@
 <div class="p-4">
     <h2>{{ 'Pages.Settings.Updates' | translate }}</h2>
-    <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'Pages.Settings.CheckForUpdates' | translate }}</mat-slide-toggle>
+    <div>
+        <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'Pages.Settings.CheckForUpdates' | translate }}</mat-slide-toggle>
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.checkForUpdatesIncludesPreReleases">
+            {{ 'Pages.Settings.AlsoCheckForPreReleases' | translate }}</mat-slide-toggle
+        >
+    </div>
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
