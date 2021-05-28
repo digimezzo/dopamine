@@ -56,30 +56,46 @@ describe('UpdateService', () => {
         it('should not check for updates if not requested', async () => {
             // Arrange
             settingsMock.setup((x) => x.checkForUpdates).returns(() => false);
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
             // Act
             await service.checkForUpdatesAsync();
 
             // Assert
-            gitHubMock.verify((x) => x.getLatestReleaseAsync('digimezzo', 'Dopamine'), Times.never());
+            gitHubMock.verify((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', It.isAny()), Times.never());
         });
 
-        it('should check for updates if requested', async () => {
+        it('should check for updates excluding pre-releases if requested', async () => {
             // Arrange
             settingsMock.setup((x) => x.checkForUpdates).returns(() => true);
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
             // Act
             await service.checkForUpdatesAsync();
 
             // Assert
-            gitHubMock.verify((x) => x.getLatestReleaseAsync('digimezzo', 'Dopamine'), Times.exactly(1));
+            gitHubMock.verify((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false), Times.exactly(1));
+        });
+
+        it('should check for updates including pre-releases if requested', async () => {
+            // Arrange
+            settingsMock.setup((x) => x.checkForUpdates).returns(() => true);
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => true);
+            service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
+
+            // Act
+            await service.checkForUpdatesAsync();
+
+            // Assert
+            gitHubMock.verify((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', true), Times.exactly(1));
         });
 
         it('should indicate that an update is available if the latest release is newer than the current release', async () => {
             // Arrange
-            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'Dopamine')).returns(async () => '1000.0.0.0');
+            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(async () => '1000.0.0.0');
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
             // Act
@@ -93,8 +109,9 @@ describe('UpdateService', () => {
         it('should not indicate that an update is available if the latest release is equal to the current release', async () => {
             // Arrange
             gitHubMock
-                .setup((x) => x.getLatestReleaseAsync('digimezzo', 'Dopamine'))
+                .setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false))
                 .returns(async () => ProductInformation.applicationVersion);
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
             // Act
@@ -107,7 +124,8 @@ describe('UpdateService', () => {
 
         it('should not indicate that an update is available if the latest release is older than the current release', async () => {
             // Arrange
-            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'Dopamine')).returns(async () => '1.0.0');
+            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(async () => '1.0.0');
+            settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
             // Act

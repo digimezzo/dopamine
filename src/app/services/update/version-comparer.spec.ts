@@ -2,7 +2,7 @@ import { VersionComparer } from './version-comparer';
 
 describe('VersionComparer', () => {
     describe('isNewerVersion', () => {
-        it('should report newer version when old version is older than new version', async () => {
+        it('should report newer version when old version is release and is older than new version which is release', async () => {
             // Arrange
 
             // Act
@@ -12,7 +12,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should not report newer version when old version is same as new version', async () => {
+        it('should not report newer version when old version is release and is same as new version which is release', async () => {
             // Arrange
 
             // Act
@@ -22,7 +22,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should  not report newer version when old version is newer than new version', async () => {
+        it('should  not report newer version when old version is release and is newer than new version which is release', async () => {
             // Arrange
 
             // Act

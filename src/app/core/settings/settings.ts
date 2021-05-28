@@ -36,6 +36,15 @@ export class Settings implements BaseSettings {
         this.settings.set('checkForUpdates', v);
     }
 
+    // Check for updates includes pre releases
+    public get checkForUpdatesIncludesPreReleases(): boolean {
+        return this.settings.get('checkForUpdatesIncludesPreReleases');
+    }
+
+    public set checkForUpdatesIncludesPreReleases(v: boolean) {
+        this.settings.set('checkForUpdatesIncludesPreReleases', v);
+    }
+
     // Use system title bar
     public get useSystemTitleBar(): boolean {
         return this.settings.get('useSystemTitleBar');
@@ -269,6 +278,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('checkForUpdates')) {
             this.settings.set('checkForUpdates', true);
+        }
+
+        if (!this.settings.has('checkForUpdatesIncludesPreReleases')) {
+            this.settings.set('checkForUpdatesIncludesPreReleases', true);
         }
 
         if (!this.settings.has('useSystemTitleBar')) {
