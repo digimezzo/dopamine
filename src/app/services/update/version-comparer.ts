@@ -3,23 +3,44 @@ export class VersionComparer {
         const oldVersionParts: string[] = oldVersion.split('-');
         const newVersionParts: string[] = newVersion.split('-');
 
-        if (oldVersionParts.length === 1 && newVersionParts.length === 1) {
-            return this.isNewerVersionNumber(oldVersionParts[0], newVersionParts[0]);
+        const oldVersionNumberAsString: string = oldVersionParts[0];
+        const newVersionNumberAsString: string = newVersionParts[0];
+
+        const oldVersionHasTag: boolean = oldVersionParts.length > 1;
+        const newVersionHasTag: boolean = newVersionParts.length > 1;
+
+        let oldVersionTag: string;
+        let newVersionTag: string;
+
+        if (oldVersionHasTag) {
+            oldVersionTag = oldVersionParts[1];
         }
 
-        if (oldVersionParts.length === 2 && newVersionParts.length === 2) {
-            if (oldVersionParts[0] === newVersionParts[0]) {
-                return this.isNewerVersionTag(oldVersionParts[1], newVersionParts[1]);
+        if (newVersionHasTag) {
+            newVersionTag = newVersionParts[1];
+        }
+
+        if (!oldVersionHasTag && !newVersionHasTag) {
+            return this.isNewerVersionNumber(oldVersionNumberAsString, newVersionNumberAsString);
+        }
+
+        if (oldVersionHasTag && newVersionHasTag) {
+            if (oldVersionNumberAsString === newVersionNumberAsString) {
+                return this.isNewerVersionTag(oldVersionTag, newVersionTag);
             }
 
             return (
-                this.isNewerVersionNumber(oldVersionParts[0], newVersionParts[0]) &&
-                this.isNewerVersionTag(oldVersionParts[1], newVersionParts[1])
+                this.isNewerVersionNumber(oldVersionNumberAsString, newVersionNumberAsString) &&
+                this.isNewerVersionTag(oldVersionTag, newVersionTag)
             );
         }
 
-        if (oldVersionParts.length === 1 && newVersionParts.length === 2) {
-            return this.isNewerVersionNumber(oldVersionParts[0], newVersionParts[0]);
+        if (!oldVersionHasTag && newVersionHasTag) {
+            return this.isNewerVersionNumber(oldVersionNumberAsString, newVersionNumberAsString);
+        }
+
+        if (oldVersionHasTag && !newVersionHasTag) {
+            return this.isNewerVersionNumber(oldVersionNumberAsString, newVersionNumberAsString);
         }
 
         return false;

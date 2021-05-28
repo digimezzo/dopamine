@@ -52,11 +52,51 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
+        it('should not report newer version if old version is newer than new version and old version has "next" suffix', async () => {
+            // Arrange
+
+            // Act
+            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.1-next.1', '3.0.0');
+
+            // Assert
+            expect(isNewerVersion).toBeFalsy();
+        });
+
+        it('should not report newer version if old version is newer than new version and old version has "rc" suffix', async () => {
+            // Arrange
+
+            // Act
+            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.1-rc.1', '3.0.0');
+
+            // Assert
+            expect(isNewerVersion).toBeFalsy();
+        });
+
+        it('should report newer version if old version is older than new version and old version has "next" suffix', async () => {
+            // Arrange
+
+            // Act
+            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.0-next.1', '3.0.1');
+
+            // Assert
+            expect(isNewerVersion).toBeTruthy();
+        });
+
+        it('should report newer version if old version is older than new version and old version has "rc" suffix', async () => {
+            // Arrange
+
+            // Act
+            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.0-rc.1', '3.0.1');
+
+            // Assert
+            expect(isNewerVersion).toBeTruthy();
+        });
+
         it('should not report newer version if old version is newer than new version and new version has "next" suffix', async () => {
             // Arrange
 
             // Act
-            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.1', '3.0.1-next.1');
+            const isNewerVersion: boolean = VersionComparer.isNewerVersion('3.0.1', '3.0.0-next.1');
 
             // Assert
             expect(isNewerVersion).toBeFalsy();
