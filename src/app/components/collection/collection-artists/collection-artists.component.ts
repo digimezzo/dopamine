@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { AlbumModel } from '../../../services/album/album-model';
+import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { AlbumOrder } from '../album-order';
+import { ArtistsPersister } from './artists-persister';
 
 @Component({
     selector: 'app-collection-artists',
@@ -9,22 +12,48 @@ import { BasePlaybackService } from '../../../services/playback/base-playback.se
     styleUrls: ['./collection-artists.component.scss'],
 })
 export class CollectionArtistsComponent implements OnInit, OnDestroy {
-    constructor(public playbackService: BasePlaybackService, private settings: BaseSettings) {}
+    private _selectedAlbumOrder: AlbumOrder;
 
-    private subscription: Subscription = new Subscription();
+    constructor(
+        public artistsPersister: ArtistsPersister,
+        private albumService: BaseAlbumService,
+        private settings: BaseSettings,
+        private logger: Logger
+    ) {}
 
     public leftPaneSize: number = this.settings.artistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.artistsLeftPaneWidthPercent - this.settings.artistsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.artistsRightPaneWidthPercent;
 
-    public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    public albums: AlbumModel[] = [];
+
+    public get selectedAlbumOrder(): AlbumOrder {
+        return this._selectedAlbumOrder;
+    }
+    public set selectedAlbumOrder(v: AlbumOrder) {
+        this._selectedAlbumOrder = v;
+        this.artistsPersister.setSelectedAlbumOrder(v);
     }
 
-    public ngOnInit(): void {}
+    public ngOnDestroy(): void {
+        this.albums = [];
+    }
+
+    public ngOnInit(): void {
+        this.selectedAlbumOrder = this.artistsPersister.getSelectedAlbumOrder();
+        this.fillLists();
+    }
 
     public splitDragEnd(event: any): void {
         this.settings.artistsLeftPaneWidthPercent = event.sizes[0];
         this.settings.artistsRightPaneWidthPercent = event.sizes[2];
+    }
+
+    private fillLists(): void {
+        try {
+            this.albums = this.albumService.getAllAlbums();
+        } catch (e) {
+            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
+        }
     }
 }

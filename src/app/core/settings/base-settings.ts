@@ -28,4 +28,8 @@ export abstract class BaseSettings {
     public abstract foldersTabOpenedSubfolder: string;
     public abstract albumsTabSelectedAlbum: string;
     public abstract albumsTabSelectedAlbumOrder: string;
+    public abstract artistsTabSelectedAlbum: string;
+    public abstract artistsTabSelectedAlbumOrder: string;
+    public abstract genresTabSelectedAlbum: string;
+    public abstract genresTabSelectedAlbumOrder: string;
 }

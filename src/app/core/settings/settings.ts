@@ -270,6 +270,42 @@ export class Settings implements BaseSettings {
         this.settings.set('albumsTabSelectedAlbumOrder', v);
     }
 
+    //  Artists tab selected album
+    public get artistsTabSelectedAlbum(): string {
+        return this.settings.get('artistsTabSelectedAlbum');
+    }
+
+    public set artistsTabSelectedAlbum(v: string) {
+        this.settings.set('artistsTabSelectedAlbum', v);
+    }
+
+    //  Artists tab selected album order
+    public get artistsTabSelectedAlbumOrder(): string {
+        return this.settings.get('artistsTabSelectedAlbumOrder');
+    }
+
+    public set artistsTabSelectedAlbumOrder(v: string) {
+        this.settings.set('artistsTabSelectedAlbumOrder', v);
+    }
+
+    //  Genres tab selected album
+    public get genresTabSelectedAlbum(): string {
+        return this.settings.get('genresTabSelectedAlbum');
+    }
+
+    public set genresTabSelectedAlbum(v: string) {
+        this.settings.set('genresTabSelectedAlbum', v);
+    }
+
+    //  Genres tab selected album order
+    public get genresTabSelectedAlbumOrder(): string {
+        return this.settings.get('genresTabSelectedAlbumOrder');
+    }
+
+    public set genresTabSelectedAlbumOrder(v: string) {
+        this.settings.set('genresTabSelectedAlbumOrder', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -386,6 +422,22 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('albumsTabSelectedAlbumOrder')) {
             this.settings.set('albumsTabSelectedAlbumOrder', '');
+        }
+
+        if (!this.settings.has('artistsTabSelectedAlbum')) {
+            this.settings.set('artistsTabSelectedAlbum', '');
+        }
+
+        if (!this.settings.has('artistsTabSelectedAlbumOrder')) {
+            this.settings.set('artistsTabSelectedAlbumOrder', '');
+        }
+
+        if (!this.settings.has('genresTabSelectedAlbum')) {
+            this.settings.set('genresTabSelectedAlbum', '');
+        }
+
+        if (!this.settings.has('genresTabSelectedAlbumOrder')) {
+            this.settings.set('genresTabSelectedAlbumOrder', '');
         }
     }
 }

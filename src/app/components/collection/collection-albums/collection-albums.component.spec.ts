@@ -3,14 +3,12 @@ import { Logger } from '../../../core/logger';
 import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumsPersister } from './albums-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
     let albumServiceMock: IMock<BaseAlbumService>;
     let albumsPersisterMock: IMock<AlbumsPersister>;
     let settingsStub: any;
@@ -26,7 +24,6 @@ describe('CollectionAlbumsComponent', () => {
     let albums: AlbumModel[];
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
         albumsPersisterMock = Mock.ofType<AlbumsPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         loggerMock = Mock.ofType<Logger>();
@@ -42,13 +39,7 @@ describe('CollectionAlbumsComponent', () => {
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-        component = new CollectionAlbumsComponent(
-            playbackServiceMock.object,
-            albumsPersisterMock.object,
-            albumServiceMock.object,
-            settingsStub,
-            loggerMock.object
-        );
+        component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {
@@ -59,15 +50,6 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
-        });
-
-        it('should define playbackService', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(component.playbackService).toBeDefined();
         });
 
         it('should set left pane size from settings', () => {
@@ -86,6 +68,18 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             expect(component.rightPaneSize).toEqual(30);
+        });
+    });
+
+    describe('splitDragEnd', () => {
+        it('should save the right pane width to the settings', () => {
+            // Arrange
+
+            // Act
+            component.splitDragEnd({ sizes: [60, 40] });
+
+            // Assert
+            expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
         });
     });
 
@@ -130,13 +124,7 @@ describe('CollectionAlbumsComponent', () => {
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
-            component = new CollectionAlbumsComponent(
-                playbackServiceMock.object,
-                albumsPersisterMock.object,
-                albumServiceMock.object,
-                settingsStub,
-                loggerMock.object
-            );
+            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             // Act
             component.ngOnInit();
@@ -151,13 +139,7 @@ describe('CollectionAlbumsComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionAlbumsComponent(
-                playbackServiceMock.object,
-                albumsPersisterMock.object,
-                albumServiceMock.object,
-                settingsStub,
-                loggerMock.object
-            );
+            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             // Act
             component.ngOnInit();
@@ -174,13 +156,7 @@ describe('CollectionAlbumsComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionAlbumsComponent(
-                playbackServiceMock.object,
-                albumsPersisterMock.object,
-                albumServiceMock.object,
-                settingsStub,
-                loggerMock.object
-            );
+            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             component.ngOnInit();
 
@@ -189,18 +165,6 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             expect(component.albums).toEqual([]);
-        });
-    });
-
-    describe('splitDragEnd', () => {
-        it('should save the right pane width to the settings', () => {
-            // Arrange
-
-            // Act
-            component.splitDragEnd({ sizes: [60, 40] });
-
-            // Assert
-            expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
         });
     });
 });

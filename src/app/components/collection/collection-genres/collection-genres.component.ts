@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { AlbumModel } from '../../../services/album/album-model';
+import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { AlbumOrder } from '../album-order';
+import { GenresPersister } from './genres-persister';
 
 @Component({
     selector: 'app-collection-genres',
@@ -9,22 +12,48 @@ import { BasePlaybackService } from '../../../services/playback/base-playback.se
     styleUrls: ['./collection-genres.component.scss'],
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
-    constructor(public playbackService: BasePlaybackService, private settings: BaseSettings) {}
+    private _selectedAlbumOrder: AlbumOrder;
 
-    private subscription: Subscription = new Subscription();
+    constructor(
+        public genresPersister: GenresPersister,
+        private albumService: BaseAlbumService,
+        private settings: BaseSettings,
+        private logger: Logger
+    ) {}
 
     public leftPaneSize: number = this.settings.genresLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.genresLeftPaneWidthPercent - this.settings.genresRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.genresRightPaneWidthPercent;
 
-    public ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    public albums: AlbumModel[] = [];
+
+    public get selectedAlbumOrder(): AlbumOrder {
+        return this._selectedAlbumOrder;
+    }
+    public set selectedAlbumOrder(v: AlbumOrder) {
+        this._selectedAlbumOrder = v;
+        this.genresPersister.setSelectedAlbumOrder(v);
     }
 
-    public ngOnInit(): void {}
+    public ngOnDestroy(): void {
+        this.albums = [];
+    }
+
+    public ngOnInit(): void {
+        this.selectedAlbumOrder = this.genresPersister.getSelectedAlbumOrder();
+        this.fillLists();
+    }
 
     public splitDragEnd(event: any): void {
         this.settings.genresLeftPaneWidthPercent = event.sizes[0];
         this.settings.genresRightPaneWidthPercent = event.sizes[2];
+    }
+
+    private fillLists(): void {
+        try {
+            this.albums = this.albumService.getAllAlbums();
+        } catch (e) {
+            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
+        }
     }
 }

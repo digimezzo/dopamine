@@ -3,7 +3,6 @@ import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumsPersister } from './albums-persister';
 
@@ -16,7 +15,6 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
 
     constructor(
-        public playbackService: BasePlaybackService,
         public albumsPersister: AlbumsPersister,
         private albumService: BaseAlbumService,
         private settings: BaseSettings,

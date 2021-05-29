@@ -1,0 +1,29 @@
+import { Injectable } from '@angular/core';
+import { Logger } from '../../../core/logger';
+import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseAlbumsPersister } from '../base-albums-persister';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class GenresPersister extends BaseAlbumsPersister {
+    constructor(public settings: BaseSettings, public logger: Logger) {
+        super(settings, logger);
+    }
+
+    public getSelectedAlbumFromSettings(): string {
+        return this.settings.genresTabSelectedAlbum;
+    }
+
+    public saveSelectedAlbumToSettings(selectedAlbumKey: string): void {
+        this.settings.genresTabSelectedAlbum = selectedAlbumKey;
+    }
+
+    public getSelectedAlbumOrderFromSettings(): string {
+        return this.settings.genresTabSelectedAlbumOrder;
+    }
+
+    public saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void {
+        this.settings.genresTabSelectedAlbumOrder = selectedAlbumOrderName;
+    }
+}
