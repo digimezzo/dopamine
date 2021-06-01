@@ -3,9 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { BaseAudioPlayer } from './base-audio-player';
 import { PlaybackProgress } from './playback-progress';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class ProgressUpdater {
     private progressRequestId: number;
     private progressChanged: Subject<PlaybackProgress> = new Subject();

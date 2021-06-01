@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class MetadataPatcher {
     private unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 

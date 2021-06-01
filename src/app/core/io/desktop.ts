@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { OpenDialogReturnValue, remote } from 'electron';
 import { Observable, Subject } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class Desktop {
     private accentColorChanged: Subject<void> = new Subject();
     private nativeThemeUpdated: Subject<void> = new Subject();

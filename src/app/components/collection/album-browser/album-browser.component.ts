@@ -14,6 +14,7 @@ import { AlbumRowsGetter } from './album-rows-getter';
     host: { style: 'display: block' },
     templateUrl: './album-browser.component.html',
     styleUrls: ['./album-browser.component.scss'],
+    providers: [MouseSelectionWatcher],
 })
 export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albums: AlbumModel[] = [];

@@ -5,9 +5,7 @@ import { Scheduler } from '../../core/scheduler/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackBarService } from './base-snack-bar.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class SnackBarService implements BaseSnackBarService {
     private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
     private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;

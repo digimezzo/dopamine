@@ -3,9 +3,7 @@ import { DatabaseFactory } from '../database-factory';
 import { AlbumArtwork } from '../entities/album-artwork';
 import { BaseAlbumArtworkRepository } from './base-album-artwork-repository';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
     constructor(private databaseFactory: DatabaseFactory) {}
 

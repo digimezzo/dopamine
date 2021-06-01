@@ -5,9 +5,7 @@ import { StringCompare } from '../../../core/string-compare';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class FoldersPersister {
     private openedFolderPath: string;
     private openedSubfolderPath: string;

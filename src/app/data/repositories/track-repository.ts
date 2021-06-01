@@ -5,9 +5,7 @@ import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
 import { BaseTrackRepository } from './base-track-repository';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class TrackRepository implements BaseTrackRepository {
     constructor(private databaseFactory: DatabaseFactory) {}
 

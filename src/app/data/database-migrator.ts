@@ -6,9 +6,7 @@ import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';
 import { InitialMigration } from './migrations/001-initial';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new InitialMigration()];
 

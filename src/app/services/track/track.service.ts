@@ -3,17 +3,15 @@ import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
 import { StringCompare } from '../../core/string-compare';
 import { Track } from '../../data/entities/track';
-import { TrackRepository } from '../../data/repositories/track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
 import { TrackModels } from './track-models';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class TrackService implements BaseTrackService {
-    constructor(private trackRepository: TrackRepository, private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
+    constructor(private trackRepository: BaseTrackRepository, private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
         if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {

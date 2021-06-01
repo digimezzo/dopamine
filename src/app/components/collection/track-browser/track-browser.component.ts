@@ -11,6 +11,7 @@ import { TrackOrder } from '../track-order';
     host: { style: 'display: block' },
     templateUrl: './track-browser.component.html',
     styleUrls: ['./track-browser.component.scss'],
+    providers: [MouseSelectionWatcher],
 })
 export class TrackBrowserComponent implements OnInit {
     private _tracks: TrackModels = new TrackModels();

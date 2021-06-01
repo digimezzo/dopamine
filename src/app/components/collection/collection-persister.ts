@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { CollectionTab } from './collection-tab';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class CollectionPersister {
     private selectedTab: CollectionTab;
 

@@ -3,9 +3,7 @@ import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class ArtistsAlbumsPersister extends BaseAlbumsPersister {
     constructor(public settings: BaseSettings, public logger: Logger) {
         super(settings, logger);

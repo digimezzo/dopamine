@@ -12,9 +12,7 @@ import { PlaybackStarted } from './playback-started';
 import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class PlaybackService implements BasePlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
     private playbackStarted: Subject<PlaybackStarted> = new Subject();
