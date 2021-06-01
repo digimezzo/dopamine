@@ -5,12 +5,12 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
-import { AlbumsPersister } from './albums-persister';
+import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {
     let albumServiceMock: IMock<BaseAlbumService>;
-    let albumsPersisterMock: IMock<AlbumsPersister>;
+    let albumsPersisterMock: IMock<AlbumsAlbumsPersister>;
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -24,7 +24,7 @@ describe('CollectionAlbumsComponent', () => {
     let albums: AlbumModel[];
 
     beforeEach(() => {
-        albumsPersisterMock = Mock.ofType<AlbumsPersister>();
+        albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };

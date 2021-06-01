@@ -6,24 +6,24 @@ import { BaseAlbumsPersister } from '../base-albums-persister';
 @Injectable({
     providedIn: 'root',
 })
-export class GenresPersister extends BaseAlbumsPersister {
+export class AlbumsAlbumsPersister extends BaseAlbumsPersister {
     constructor(public settings: BaseSettings, public logger: Logger) {
         super(settings, logger);
     }
 
     public getSelectedAlbumFromSettings(): string {
-        return this.settings.genresTabSelectedAlbum;
+        return this.settings.albumsTabSelectedAlbum;
     }
 
     public saveSelectedAlbumToSettings(selectedAlbumKey: string): void {
-        this.settings.genresTabSelectedAlbum = selectedAlbumKey;
+        this.settings.albumsTabSelectedAlbum = selectedAlbumKey;
     }
 
     public getSelectedAlbumOrderFromSettings(): string {
-        return this.settings.genresTabSelectedAlbumOrder;
+        return this.settings.albumsTabSelectedAlbumOrder;
     }
 
     public saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void {
-        this.settings.genresTabSelectedAlbumOrder = selectedAlbumOrderName;
+        this.settings.albumsTabSelectedAlbumOrder = selectedAlbumOrderName;
     }
 }

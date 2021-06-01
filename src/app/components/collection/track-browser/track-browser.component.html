@@ -1,0 +1,35 @@
+<div class="app-track-browser">
+    <div class="app-track-browser__header m-1 no-select">
+        <div class="app-track-browser__trackscount">
+            <div class="app-track-browser__trackscount__number mr-2">{{ this.tracks.numberOfTracks }}</div>
+            <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'Pages.Collection.Track' | translate }}</div>
+            <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'Pages.Collection.Tracks' | translate }}</div>
+        </div>
+        <div class="app-track-browser__trackorder" (click)="toggleTrackOrder()">
+            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
+                {{ 'Ordering.Tracks.byTrackTitleAscending' | translate }}
+            </div>
+            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
+                {{ 'Ordering.Tracks.byTrackTitleDescending' | translate }}
+            </div>
+            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
+                {{ 'Ordering.Tracks.byAlbum' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
+        <div
+            *cdkVirtualFor="let track of orderedTracks"
+            matRipple
+            (click)="setSelectedTrack(track)"
+            [ngClass]="{ 'selected-item': track === selectedTrack }"
+        >
+            <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlay(tracks.tracks, track)"></app-track>
+        </div>
+    </cdk-virtual-scroll-viewport>
+    <app-totals
+        class="mt-3"
+        [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+        [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+    ></app-totals>
+</div>

@@ -40,7 +40,7 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
-import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
+import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
@@ -52,6 +52,7 @@ import { CollectionPlaylistsComponent } from './components/collection/collection
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
+import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -252,6 +253,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PlaybackIndicatorComponent,
         AlbumComponent,
         AlbumBrowserComponent,
+        TrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -327,7 +329,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
         CollectionPersister,
-        AlbumsPersister,
+        AlbumsAlbumsPersister,
         FoldersPersister,
         PathValidator,
         AlbumRowsGetter,

@@ -6,7 +6,7 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { CollectionGenresComponent } from './collection-genres.component';
-import { GenresPersister } from './genres-persister';
+import { GenresPersister } from './genres-albums-persister';
 
 describe('CollectionGenresComponent', () => {
     let albumServiceMock: IMock<BaseAlbumService>;

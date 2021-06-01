@@ -180,6 +180,12 @@
             "ByYearAscending": "Par année ascendante",
             "ByYearDescending": "Par année décroissante",
             "ByLastPlayed": "Par la dernière lecture"
+        },
+        "Tracks": {
+            "byTrackTitleAscending": "A-Z",
+            "byTrackTitleDescending": "Z-A",
+            "byAlbum": "Par album",
+            "byRating": "Par classement"
         }
     }
 }

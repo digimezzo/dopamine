@@ -3,6 +3,7 @@ import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
 import { StringCompare } from '../../core/string-compare';
 import { Track } from '../../data/entities/track';
+import { TrackRepository } from '../../data/repositories/track-repository';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
@@ -12,7 +13,7 @@ import { TrackModels } from './track-models';
     providedIn: 'root',
 })
 export class TrackService implements BaseTrackService {
-    constructor(private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
+    constructor(private trackRepository: TrackRepository, private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
         if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {
@@ -41,6 +42,18 @@ export class TrackService implements BaseTrackService {
                 const trackModel: TrackModel = new TrackModel(filledTrack);
                 trackModels.addTrack(trackModel);
             }
+        }
+
+        return trackModels;
+    }
+
+    public getAllTracks(): TrackModels {
+        const tracks: Track[] = this.trackRepository.getTracks();
+        const trackModels: TrackModels = new TrackModels();
+
+        for (const track of tracks) {
+            const trackModel: TrackModel = new TrackModel(track);
+            trackModels.addTrack(trackModel);
         }
 
         return trackModels;
