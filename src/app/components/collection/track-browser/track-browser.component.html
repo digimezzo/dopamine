@@ -19,12 +19,12 @@
     </div>
     <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
         <div
-            *cdkVirtualFor="let track of orderedTracks"
+            *cdkVirtualFor="let track of this.orderedTracks"
             matRipple
             (click)="setSelectedTrack(track)"
             [ngClass]="{ 'selected-item': track === selectedTrack }"
         >
-            <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlay(tracks.tracks, track)"></app-track>
+            <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlay(orderedTracks, track)"></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
     <app-totals

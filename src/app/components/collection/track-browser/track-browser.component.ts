@@ -48,7 +48,7 @@ export class TrackBrowserComponent implements OnInit {
 
     public ngOnInit(): void {
         this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
-        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
+        // this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
     }
 
     public setSelectedTrack(track: TrackModel): void {
@@ -77,24 +77,28 @@ export class TrackBrowserComponent implements OnInit {
     }
 
     private orderTracks(): void {
+        let orderedTracks: TrackModel[] = [];
+
         try {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
-                    this.orderedTracks = this.tracks.tracks.sort((a, b) => (a.title < b.title ? -1 : 1));
+                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
                     break;
                 case TrackOrder.byTrackTitleDescending:
-                    this.orderedTracks = this.tracks.tracks.sort((a, b) => (a.title < b.title ? 1 : -1));
+                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
                     break;
                 case TrackOrder.byAlbum:
                     // TODO
                     break;
                 default: {
-                    this.orderedTracks = this.tracks.tracks.sort((a, b) => (a.title < b.title ? -1 : 1));
+                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
                     break;
                 }
             }
         } catch (e) {
             this.logger.error(`Could not order tracks. Error: ${e.message}`, 'TrackBrowserComponent', 'orderTracks');
         }
+
+        this.orderedTracks = [...orderedTracks];
     }
 }
