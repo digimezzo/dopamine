@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Logger } from '../../../core/logger';
 import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTracksPersister } from '../base-tracks-persister';
@@ -19,7 +20,11 @@ export class TrackBrowserComponent implements OnInit {
 
     public orderedTracks: TrackModel[] = [];
 
-    constructor(private mouseSelectionWatcher: MouseSelectionWatcher, private logger: Logger) {}
+    constructor(
+        public playbackService: BasePlaybackService,
+        private mouseSelectionWatcher: MouseSelectionWatcher,
+        private logger: Logger
+    ) {}
 
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;
@@ -48,11 +53,11 @@ export class TrackBrowserComponent implements OnInit {
 
     public ngOnInit(): void {
         this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
-        // this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
+        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
     }
 
-    public setSelectedTrack(track: TrackModel): void {
-        this.selectedTrack = track;
+    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
     public toggleTrackOrder(): void {
@@ -83,15 +88,33 @@ export class TrackBrowserComponent implements OnInit {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
                     orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
+                    for (const track of orderedTracks) {
+                        track.showHeader = false;
+                    }
                     break;
                 case TrackOrder.byTrackTitleDescending:
                     orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
+                    for (const track of orderedTracks) {
+                        track.showHeader = false;
+                    }
                     break;
                 case TrackOrder.byAlbum:
-                    // TODO
+                    orderedTracks = this.getTracksOrderedByAlbum();
+                    let previousAlbumKey: string = 'Raphaël is cool';
+
+                    for (const track of orderedTracks) {
+                        if (track.albumKey !== previousAlbumKey) {
+                            track.showHeader = true;
+                        }
+
+                        previousAlbumKey = track.albumKey;
+                    }
                     break;
                 default: {
                     orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
+                    for (const track of orderedTracks) {
+                        track.showHeader = false;
+                    }
                     break;
                 }
             }
@@ -100,5 +123,29 @@ export class TrackBrowserComponent implements OnInit {
         }
 
         this.orderedTracks = [...orderedTracks];
+    }
+
+    private getTracksOrderedByAlbum(): TrackModel[] {
+        return this.tracks.tracks.sort((a, b) => {
+            if (a.albumArtist > b.albumArtist) {
+                return 1;
+            } else if (a.albumArtist < b.albumArtist) {
+                return -1;
+            }
+
+            if (a.albumTitle > b.albumTitle) {
+                return 1;
+            } else if (a.albumTitle < b.albumTitle) {
+                return -1;
+            }
+
+            if (a.number > b.number) {
+                return 1;
+            } else if (a.number < b.number) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
     }
 }

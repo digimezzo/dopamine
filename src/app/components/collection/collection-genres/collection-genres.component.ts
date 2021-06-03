@@ -53,7 +53,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         try {
             this.albums = this.albumService.getAllAlbums();
         } catch (e) {
-            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
         }
     }
 }

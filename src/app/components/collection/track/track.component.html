@@ -1,16 +1,29 @@
-<div class="app-track mx-1 no-select" [ngClass]="{ 'accent-color': track.isPlaying }">
-    <div class="app-track__left" [ngClass]="{ 'accent-color': !track.isPlaying }">{{ track.number | formatTrackNumber }}</div>
-    <div class="app-track__right">
-        <div class="app-track__top">
-            <span class="app-track__top__title ellipsis">{{ track.title | formatTrackTitle: track.fileName }}</span>
-            <div class="app-track__playback__and__duration">
-                <app-playback-indicator *ngIf="track.isPlaying" class="mx-2"></app-playback-indicator>
-                {{ track.durationInMilliseconds | formatTrackDuration }}
+<div class="app-track no-select">
+    <div class="app-track__header mt-3 mb-1" *ngIf="track.showHeader">
+        <div class="app-track__header__top mb-1">{{ track.albumArtist }}</div>
+        <div class="secondary-color">{{ track.albumTitle }}</div>
+    </div>
+    <div
+        class="app-track__body px-1"
+        [ngClass]="{ 'selected-item': track.isSelected }"
+        matRipple
+        [matRippleTrigger]="trigger"
+        #trigger
+        [ngClass]="{ 'accent-color': track.isPlaying }"
+    >
+        <div class="app-track__left" [ngClass]="{ 'accent-color': !track.isPlaying }">{{ track.number | formatTrackNumber }}</div>
+        <div class="app-track__right">
+            <div class="app-track__top">
+                <span class="app-track__top__title ellipsis">{{ track.title | formatTrackTitle: track.fileName }}</span>
+                <div class="app-track__playback__and__duration">
+                    <app-playback-indicator *ngIf="track.isPlaying" class="mx-2"></app-playback-indicator>
+                    {{ track.durationInMilliseconds | formatTrackDuration }}
+                </div>
             </div>
-        </div>
-        <div class="app-track__bottom" [ngClass]="{ 'secondary-color': !track.isPlaying }">
-            <span class="ellipsis">{{ track.artists | formatTrackArtists }}</span>
-            <span></span>
+            <div class="app-track__bottom" [ngClass]="{ 'secondary-color': !track.isPlaying }">
+                <span class="ellipsis">{{ track.artists | formatTrackArtists }}</span>
+                <span></span>
+            </div>
         </div>
     </div>
 </div>

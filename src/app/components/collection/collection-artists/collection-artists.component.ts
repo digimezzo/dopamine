@@ -53,7 +53,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         try {
             this.albums = this.albumService.getAllAlbums();
         } catch (e) {
-            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
         }
     }
 }

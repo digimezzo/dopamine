@@ -157,7 +157,8 @@
     },
     "Track": {
         "UnknownArtist": "Onbekende artiest",
-        "UnknownTitle": "Onbekende titel"
+        "UnknownTitle": "Onbekende titel",
+        "UnknownAlbum": "Onbekend album"
     },
     "Durations": {
         "Days": "dagen",
