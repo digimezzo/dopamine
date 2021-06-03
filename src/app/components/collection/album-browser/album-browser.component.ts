@@ -14,6 +14,7 @@ import { AlbumRowsGetter } from './album-rows-getter';
     host: { style: 'display: block' },
     templateUrl: './album-browser.component.html',
     styleUrls: ['./album-browser.component.scss'],
+    providers: [MouseSelectionWatcher],
 })
 export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albums: AlbumModel[] = [];
@@ -42,7 +43,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     @Input()
     public set albumsPersister(v: BaseAlbumsPersister) {
         this._albumsPersister = v;
-        this.fillAlbumRows();
+        this.orderAlbums();
     }
 
     public get albums(): AlbumModel[] {
@@ -52,19 +53,19 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     @Input()
     public set albums(v: AlbumModel[]) {
         this._albums = v;
-        this.fillAlbumRows();
+        this.orderAlbums();
     }
 
     public ngOnInit(): void {
         this.applicationService.windowSizeChanged$.subscribe(() => {
             if (this.hasAvailableWidthChanged()) {
-                this.fillAlbumRows();
+                this.orderAlbums();
             }
         });
 
         this.applicationService.mouseButtonReleased$.subscribe(() => {
             if (this.hasAvailableWidthChanged()) {
-                this.fillAlbumRows();
+                this.orderAlbums();
             }
         });
 
@@ -76,7 +77,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
             this.initializeAvailableWidth();
-            this.fillAlbumRows();
+            this.orderAlbums();
         }, 0);
     }
 
@@ -118,8 +119,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }
 
         this.albumsPersister.setSelectedAlbumOrder(this.selectedAlbumOrder);
-
-        this.fillAlbumRows();
+        this.orderAlbums();
     }
 
     private applySelectedAlbums(): void {
@@ -138,16 +138,12 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private fillAlbumRows(): void {
+    private orderAlbums(): void {
         try {
             this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
             this.applySelectedAlbums();
         } catch (e) {
-            this.logger.error(
-                `Could not fill album rows after available width changed. Error: ${e.message}`,
-                'AlbumBrowserComponent',
-                'fillAlbumRows'
-            );
+            this.logger.error(`Could not order albums. Error: ${e.message}`, 'AlbumBrowserComponent', 'orderAlbums');
         }
     }
 

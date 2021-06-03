@@ -6,9 +6,7 @@ import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseUpdateService } from './base-update.service';
 import { VersionComparer } from './version-comparer';
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class UpdateService implements BaseUpdateService {
     public _isUpdateAvailable: boolean = false;
     private _latestRelease: string = '';

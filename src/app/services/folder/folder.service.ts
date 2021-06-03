@@ -9,9 +9,7 @@ import { BaseFolderService } from './base-folder.service';
 import { FolderModel } from './folder-model';
 import { SubfolderModel } from './subfolder-model';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class FolderService implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();
 

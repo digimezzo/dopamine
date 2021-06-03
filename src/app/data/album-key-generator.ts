@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { StringCompare } from '../core/string-compare';
 import { DataDelimiter } from './data-delimiter';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AlbumKeyGenerator {
     constructor() {}
 

@@ -4,7 +4,7 @@ import { BaseSettings } from '../../../core/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { AlbumOrder } from '../album-order';
-import { ArtistsPersister } from './artists-persister';
+import { ArtistsAlbumsPersister } from './artists-albums-persister';
 
 @Component({
     selector: 'app-collection-artists',
@@ -15,7 +15,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
 
     constructor(
-        public artistsPersister: ArtistsPersister,
+        public albumsPersister: ArtistsAlbumsPersister,
         private albumService: BaseAlbumService,
         private settings: BaseSettings,
         private logger: Logger
@@ -32,7 +32,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
     public set selectedAlbumOrder(v: AlbumOrder) {
         this._selectedAlbumOrder = v;
-        this.artistsPersister.setSelectedAlbumOrder(v);
+        this.albumsPersister.setSelectedAlbumOrder(v);
     }
 
     public ngOnDestroy(): void {
@@ -40,7 +40,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.selectedAlbumOrder = this.artistsPersister.getSelectedAlbumOrder();
+        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.fillLists();
     }
 
@@ -53,7 +53,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         try {
             this.albums = this.albumService.getAllAlbums();
         } catch (e) {
-            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
         }
     }
 }

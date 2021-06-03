@@ -5,9 +5,7 @@ import { Language } from '../../core/base/language';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { BaseTranslatorService } from './base-translator.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class TranslatorService implements BaseTranslatorService {
     constructor(private translate: TranslateService, private settings: BaseSettings) {
         this.translate.setDefaultLang(this.settings.defaultLanguage);

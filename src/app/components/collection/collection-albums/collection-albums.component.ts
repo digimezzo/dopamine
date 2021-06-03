@@ -3,8 +3,11 @@ import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
-import { AlbumsPersister } from './albums-persister';
+import { AlbumsAlbumsPersister } from './albums-albums-persister';
+import { AlbumsTracksPersister } from './albums-tracks-persister';
 
 @Component({
     selector: 'app-collection-albums',
@@ -15,8 +18,10 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
 
     constructor(
-        public albumsPersister: AlbumsPersister,
+        public albumsPersister: AlbumsAlbumsPersister,
+        public tracksPersister: AlbumsTracksPersister,
         private albumService: BaseAlbumService,
+        private trackService: BaseTrackService,
         private settings: BaseSettings,
         private logger: Logger
     ) {}
@@ -25,6 +30,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     public rightPaneSize: number = this.settings.albumsRightPaneWidthPercent;
 
     public albums: AlbumModel[] = [];
+    public tracks: TrackModels = new TrackModels();
 
     public get selectedAlbumOrder(): AlbumOrder {
         return this._selectedAlbumOrder;
@@ -36,6 +42,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.albums = [];
+        this.tracks = new TrackModels();
     }
 
     public ngOnInit(): void {
@@ -50,8 +57,9 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private fillLists(): void {
         try {
             this.albums = this.albumService.getAllAlbums();
+            this.tracks = this.trackService.getAllTracks();
         } catch (e) {
-            this.logger.error(`Could not get albums. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
         }
     }
 }

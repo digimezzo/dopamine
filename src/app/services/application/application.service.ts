@@ -4,9 +4,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Constants } from '../../core/base/constants';
 import { BaseApplicationService } from './base-application.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class ApplicationService implements BaseApplicationService {
     private windowSizeChanged: Subject<void> = new Subject();
     private mouseButtonReleased: Subject<void> = new Subject();

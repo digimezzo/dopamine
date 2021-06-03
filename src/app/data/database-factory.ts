@@ -3,9 +3,7 @@ import Database from 'better-sqlite3';
 import * as path from 'path';
 import { FileSystem } from '../core/io/file-system';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class DatabaseFactory {
     constructor(private fileSystem: FileSystem) {}
 

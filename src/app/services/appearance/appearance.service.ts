@@ -13,9 +13,7 @@ import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
 import { Palette } from './palette';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AppearanceService implements BaseAppearanceService {
     private windowHasFrame: boolean;
     private _selectedColorScheme: ColorScheme;

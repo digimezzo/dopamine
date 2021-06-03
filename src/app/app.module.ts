@@ -40,18 +40,22 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
-import { AlbumsPersister } from './components/collection/collection-albums/albums-persister';
+import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
+import { AlbumsTracksPersister } from './components/collection/collection-albums/albums-tracks-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
+import { ArtistsAlbumsPersister } from './components/collection/collection-artists/artists-albums-persister';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
+import { GenresAlbumsPersister } from './components/collection/collection-genres/genres-albums-persister';
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
+import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
 import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -83,6 +87,7 @@ import { StepIndicatorComponent } from './components/step-indicator/step-indicat
 import { VolumeControlComponent } from './components/volume-control/volume-control.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
+import { GitHubApi } from './core/api/git-hub/git-hub-api';
 import { LastfmApi } from './core/api/lastfm/lastfm-api';
 import { Hacks } from './core/hacks';
 import { ImageProcessor } from './core/image-processor';
@@ -93,7 +98,6 @@ import { RemoteProxy } from './core/io/remote-proxy';
 import { ListRandomizer } from './core/list-randomizer';
 import { Logger } from './core/logger';
 import { MathExtensions } from './core/math-extensions';
-import { MouseSelectionWatcher } from './core/mouse-selection-watcher';
 import { NativeElementProxy } from './core/native-element-proxy';
 import { PathValidator } from './core/path-validator';
 import { BaseScheduler } from './core/scheduler/base-scheduler';
@@ -118,6 +122,7 @@ import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
 import { FileMetadataFactory } from './metadata/file-metadata-factory';
+import { MetadataPatcher } from './metadata/metadata-patcher';
 import { MimeTypes } from './metadata/mime-types';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
@@ -252,6 +257,7 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         PlaybackIndicatorComponent,
         AlbumComponent,
         AlbumBrowserComponent,
+        TrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -294,7 +300,6 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         Desktop,
         DatabaseFactory,
         FileSystem,
-        Settings,
         TrackIndexer,
         DirectoryWalker,
         TrackRemover,
@@ -327,13 +332,17 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
         CollectionPersister,
-        AlbumsPersister,
+        ArtistsAlbumsPersister,
+        GenresAlbumsPersister,
+        AlbumsAlbumsPersister,
+        AlbumsTracksPersister,
         FoldersPersister,
         PathValidator,
         AlbumRowsGetter,
         AlbumSpaceCalculator,
         NativeElementProxy,
-        MouseSelectionWatcher,
+        GitHubApi,
+        MetadataPatcher,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

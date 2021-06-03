@@ -8,9 +8,7 @@ import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexingService } from './base-indexing.service';
 import { TrackIndexer } from './track-indexer';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class IndexingService implements BaseIndexingService, OnDestroy {
     constructor(
         private collectionChecker: BaseCollectionChecker,

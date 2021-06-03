@@ -3,10 +3,8 @@ import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 
-@Injectable({
-    providedIn: 'root',
-})
-export class GenresPersister extends BaseAlbumsPersister {
+@Injectable()
+export class GenresAlbumsPersister extends BaseAlbumsPersister {
     constructor(public settings: BaseSettings, public logger: Logger) {
         super(settings, logger);
     }

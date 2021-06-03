@@ -2,7 +2,7 @@
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"><div class="side-pane"></div></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
-            ><app-album-browser class="p-3 fill" [albums]="this.albums" [(albumsPersister)]="this.genresPersister"></app-album-browser
+            ><app-album-browser class="p-3 fill" [albums]="this.albums" [(albumsPersister)]="this.albumsPersister"></app-album-browser
         ></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="side-pane"></div></as-split-area>
     </as-split>

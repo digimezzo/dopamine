@@ -3,16 +3,21 @@ import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
 import { StringCompare } from '../../core/string-compare';
 import { Track } from '../../data/entities/track';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { TrackFiller } from '../indexing/track-filler';
+import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
 import { TrackModels } from './track-models';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class TrackService implements BaseTrackService {
-    constructor(private fileSystem: FileSystem, private trackFiller: TrackFiller) {}
+    constructor(
+        private translatorService: BaseTranslatorService,
+        private trackRepository: BaseTrackRepository,
+        private fileSystem: FileSystem,
+        private trackFiller: TrackFiller
+    ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
         if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {
@@ -38,9 +43,21 @@ export class TrackService implements BaseTrackService {
             if (fileExtensionIsSupported) {
                 const track: Track = new Track(file);
                 const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
-                const trackModel: TrackModel = new TrackModel(filledTrack);
+                const trackModel: TrackModel = new TrackModel(filledTrack, this.translatorService);
                 trackModels.addTrack(trackModel);
             }
+        }
+
+        return trackModels;
+    }
+
+    public getAllTracks(): TrackModels {
+        const tracks: Track[] = this.trackRepository.getTracks();
+        const trackModels: TrackModels = new TrackModels();
+
+        for (const track of tracks) {
+            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+            trackModels.addTrack(trackModel);
         }
 
         return trackModels;

@@ -3,9 +3,7 @@ import { DatabaseFactory } from '../database-factory';
 import { RemovedTrack } from '../entities/removed-track';
 import { BaseRemovedTrackRepository } from './base-removed-track-repository';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class RemovedTrackRepository implements BaseRemovedTrackRepository {
     private folderModel: any;
 

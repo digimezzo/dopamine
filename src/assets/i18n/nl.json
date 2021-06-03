@@ -157,7 +157,8 @@
     },
     "Track": {
         "UnknownArtist": "Onbekende artiest",
-        "UnknownTitle": "Onbekende titel"
+        "UnknownTitle": "Onbekende titel",
+        "UnknownAlbum": "Onbekend album"
     },
     "Durations": {
         "Days": "dagen",
@@ -180,6 +181,12 @@
             "ByYearAscending": "Per jaar oplopend",
             "ByYearDescending": "Per jaar aflopend",
             "ByLastPlayed": "Per laatst gespeeld"
+        },
+        "Tracks": {
+            "byTrackTitleAscending": "A-Z",
+            "byTrackTitleDescending": "Z-A",
+            "byAlbum": "Per Album",
+            "byRating": "Per beoordeling"
         }
     }
 }

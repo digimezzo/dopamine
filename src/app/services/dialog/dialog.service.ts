@@ -5,9 +5,7 @@ import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/erro
 import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
 import { BaseDialogService } from './base-dialog.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class DialogService implements BaseDialogService {
     constructor(private dialog: MatDialog) {}
 

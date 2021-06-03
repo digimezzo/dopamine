@@ -6,9 +6,7 @@ import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 import { BaseAlbumService } from './base-album-service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AlbumService implements BaseAlbumService {
     constructor(
         private trackRepository: BaseTrackRepository,

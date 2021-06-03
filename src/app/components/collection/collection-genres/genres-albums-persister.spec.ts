@@ -4,14 +4,14 @@ import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
-import { GenresPersister } from './genres-persister';
+import { GenresAlbumsPersister } from './genres-albums-persister';
 
 describe('GenresPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
-    let genresPersister: GenresPersister;
+    let persister: GenresAlbumsPersister;
 
     let albumData1: AlbumData;
     let albumData2: AlbumData;
@@ -37,7 +37,7 @@ describe('GenresPersister', () => {
         album3 = new AlbumModel(albumData3, translatorServiceMock.object);
         availableAlbums = [album1, album2, album3];
 
-        genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+        persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {
@@ -47,21 +47,21 @@ describe('GenresPersister', () => {
             // Act
 
             // Assert
-            expect(genresPersister).toBeDefined();
+            expect(persister).toBeDefined();
         });
 
         it('should initialize from the settings', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbum = 'albumKey1';
             settingsStub.genresTabSelectedAlbumOrder = 'byYearDescending';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
 
             // Assert
-            expect(genresPersister.getSelectedAlbums(availableAlbums).length).toEqual(1);
-            expect(genresPersister.getSelectedAlbums(availableAlbums)[0]).toBe(album1);
-            expect(genresPersister.getSelectedAlbumOrder()).toEqual(AlbumOrder.byYearDescending);
+            expect(persister.getSelectedAlbums(availableAlbums).length).toEqual(1);
+            expect(persister.getSelectedAlbums(availableAlbums)[0]).toBe(album1);
+            expect(persister.getSelectedAlbumOrder()).toEqual(AlbumOrder.byYearDescending);
         });
     });
 
@@ -69,10 +69,10 @@ describe('GenresPersister', () => {
         it('should get the selected album from the settings', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbum = 'someAlbumKey';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumFromSettings: string = genresPersister.getSelectedAlbumFromSettings();
+            const selectedAlbumFromSettings: string = persister.getSelectedAlbumFromSettings();
 
             // Assert
             expect(selectedAlbumFromSettings).toEqual('someAlbumKey');
@@ -83,10 +83,10 @@ describe('GenresPersister', () => {
         it('should save the selected album to the settings', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbum = '';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            genresPersister.saveSelectedAlbumToSettings('someAlbumKey');
+            persister.saveSelectedAlbumToSettings('someAlbumKey');
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbum).toEqual('someAlbumKey');
@@ -97,10 +97,10 @@ describe('GenresPersister', () => {
         it('should get the selected album order from the settings', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbumOrder = 'byYearDescending';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumOrderFromSettings: string = genresPersister.getSelectedAlbumOrderFromSettings();
+            const selectedAlbumOrderFromSettings: string = persister.getSelectedAlbumOrderFromSettings();
 
             // Assert
             expect(selectedAlbumOrderFromSettings).toEqual('byYearDescending');
@@ -111,10 +111,10 @@ describe('GenresPersister', () => {
         it('should save the selected album to the settings', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbumOrder = '';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            genresPersister.saveSelectedAlbumOrderToSettings('byYearDescending');
+            persister.saveSelectedAlbumOrderToSettings('byYearDescending');
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbumOrder).toEqual('byYearDescending');
@@ -126,7 +126,7 @@ describe('GenresPersister', () => {
             // Arrange
 
             // Act
-            const selectedAlbums: AlbumModel[] = genresPersister.getSelectedAlbums(undefined);
+            const selectedAlbums: AlbumModel[] = persister.getSelectedAlbums(undefined);
 
             // Assert
             expect(selectedAlbums.length).toEqual(0);
@@ -136,7 +136,7 @@ describe('GenresPersister', () => {
             // Arrange
 
             // Act
-            const selectedAlbums: AlbumModel[] = genresPersister.getSelectedAlbums([]);
+            const selectedAlbums: AlbumModel[] = persister.getSelectedAlbums([]);
 
             // Assert
             expect(selectedAlbums.length).toEqual(0);
@@ -144,10 +144,10 @@ describe('GenresPersister', () => {
 
         it('should return the selected album given valid availableAlbums', () => {
             // Arrange
-            genresPersister.setSelectedAlbums([album1, album2]);
+            persister.setSelectedAlbums([album1, album2]);
 
             // Act
-            const selectedAlbums: AlbumModel[] = genresPersister.getSelectedAlbums(availableAlbums);
+            const selectedAlbums: AlbumModel[] = persister.getSelectedAlbums(availableAlbums);
 
             // Assert
             expect(selectedAlbums.length).toEqual(2);
@@ -161,30 +161,30 @@ describe('GenresPersister', () => {
             // Arrange
 
             // Act
-            genresPersister.setSelectedAlbums(undefined);
+            persister.setSelectedAlbums(undefined);
 
             // Assert
-            expect(genresPersister.getSelectedAlbums(availableAlbums)).toEqual([]);
+            expect(persister.getSelectedAlbums(availableAlbums)).toEqual([]);
         });
 
         it('should empty the selected albums if selectedAlbums is empty', () => {
             // Arrange
 
             // Act
-            genresPersister.setSelectedAlbums([]);
+            persister.setSelectedAlbums([]);
 
             // Assert
-            expect(genresPersister.getSelectedAlbums(availableAlbums)).toEqual([]);
+            expect(persister.getSelectedAlbums(availableAlbums)).toEqual([]);
         });
 
         it('should set the selected albums if selectedAlbums is valid', () => {
             // Arrange
 
             // Act
-            genresPersister.setSelectedAlbums([album2, album3]);
+            persister.setSelectedAlbums([album2, album3]);
 
             // Assert
-            expect(genresPersister.getSelectedAlbums(availableAlbums)).toEqual([album2, album3]);
+            expect(persister.getSelectedAlbums(availableAlbums)).toEqual([album2, album3]);
         });
 
         it('should save an empty selected album to the settings if selectedAlbums is undefined', () => {
@@ -192,7 +192,7 @@ describe('GenresPersister', () => {
             settingsStub.genresTabSelectedAlbum = 'someAlbum';
 
             // Act
-            genresPersister.setSelectedAlbums(undefined);
+            persister.setSelectedAlbums(undefined);
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbum).toEqual('');
@@ -203,7 +203,7 @@ describe('GenresPersister', () => {
             settingsStub.genresTabSelectedAlbum = 'someAlbum';
 
             // Act
-            genresPersister.setSelectedAlbums([]);
+            persister.setSelectedAlbums([]);
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbum).toEqual('');
@@ -214,7 +214,7 @@ describe('GenresPersister', () => {
             settingsStub.genresTabSelectedAlbum = 'someAlbum';
 
             // Act
-            genresPersister.setSelectedAlbums([album2, album3]);
+            persister.setSelectedAlbums([album2, album3]);
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbum).toEqual('albumKey2');
@@ -226,7 +226,7 @@ describe('GenresPersister', () => {
             // Arrange
 
             // Act
-            const selectedAlbumorder: AlbumOrder = genresPersister.getSelectedAlbumOrder();
+            const selectedAlbumorder: AlbumOrder = persister.getSelectedAlbumOrder();
 
             // Assert
             expect(selectedAlbumorder).toEqual(AlbumOrder.byAlbumTitleAscending);
@@ -235,10 +235,10 @@ describe('GenresPersister', () => {
         it('should return the selected album order if there is a selected album order', () => {
             // Arrange
             settingsStub.genresTabSelectedAlbumOrder = 'byYearDescending';
-            genresPersister = new GenresPersister(settingsStub, loggerMock.object);
+            persister = new GenresAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumorder: AlbumOrder = genresPersister.getSelectedAlbumOrder();
+            const selectedAlbumorder: AlbumOrder = persister.getSelectedAlbumOrder();
 
             // Assert
             expect(selectedAlbumorder).toEqual(AlbumOrder.byYearDescending);
@@ -250,17 +250,17 @@ describe('GenresPersister', () => {
             // Arrange
 
             // Act
-            genresPersister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
+            persister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
 
             // Assert
-            expect(genresPersister.getSelectedAlbumOrder()).toEqual(AlbumOrder.byYearDescending);
+            expect(persister.getSelectedAlbumOrder()).toEqual(AlbumOrder.byYearDescending);
         });
 
         it('should save the selected album order to the settings', () => {
             // Arrange
 
             // Act
-            genresPersister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
+            persister.setSelectedAlbumOrder(AlbumOrder.byYearDescending);
 
             // Assert
             expect(settingsStub.genresTabSelectedAlbumOrder).toEqual('byYearDescending');

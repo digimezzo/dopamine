@@ -4,9 +4,7 @@ import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
 import { BasePlaybackIndicationService } from './base-playback-indication.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
     constructor(private pathValidator: PathValidator) {}
 

@@ -1,5 +1,19 @@
 .app-track {
     display: flex;
+    flex-direction: column;
+}
+
+.app-track__header {
+    flex-direction: column;
+}
+
+.app-track__header__top {
+    font-weight: lighter !important;
+    font-size: var(--fontsize-extra-large);
+}
+
+.app-track__body {
+    display: flex;
     flex-direction: row;
     height: 46px;
 }
@@ -27,12 +41,14 @@
     flex-direction: row;
     height: 23px;
     justify-content: space-between;
+    align-items: center;
 }
 
 .app-track__bottom {
     display: flex;
     flex-direction: row;
     height: 23px;
+    align-items: center;
     justify-content: space-between;
 }
 

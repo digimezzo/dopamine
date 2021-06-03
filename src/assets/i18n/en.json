@@ -157,7 +157,8 @@
     },
     "Track": {
         "UnknownArtist": "Unknown artist",
-        "UnknownTitle": "Unknown title"
+        "UnknownTitle": "Unknown title",
+        "UnknownAlbum": "Unknown album"
     },
     "Durations": {
         "Days": "days",
@@ -180,6 +181,12 @@
             "ByYearAscending": "By year ascending",
             "ByYearDescending": "By year descending",
             "ByLastPlayed": "By last played"
+        },
+        "Tracks": {
+            "byTrackTitleAscending": "A-Z",
+            "byTrackTitleDescending": "Z-A",
+            "byAlbum": "By album",
+            "byRating": "By rating"
         }
     }
 }

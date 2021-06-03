@@ -3,9 +3,7 @@ import { DatabaseFactory } from '../database-factory';
 import { Folder } from '../entities/folder';
 import { BaseFolderRepository } from './base-folder-repository';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class FolderRepository implements BaseFolderRepository {
     constructor(private databaseFactory: DatabaseFactory) {}
 

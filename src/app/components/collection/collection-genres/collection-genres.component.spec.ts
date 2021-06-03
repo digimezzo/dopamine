@@ -6,11 +6,11 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { CollectionGenresComponent } from './collection-genres.component';
-import { GenresPersister } from './genres-persister';
+import { GenresAlbumsPersister } from './genres-albums-persister';
 
 describe('CollectionGenresComponent', () => {
     let albumServiceMock: IMock<BaseAlbumService>;
-    let genresPersisterMock: IMock<GenresPersister>;
+    let persisterMock: IMock<GenresAlbumsPersister>;
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -24,7 +24,7 @@ describe('CollectionGenresComponent', () => {
     let albums: AlbumModel[];
 
     beforeEach(() => {
-        genresPersisterMock = Mock.ofType<GenresPersister>();
+        persisterMock = Mock.ofType<GenresAlbumsPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { genresLeftPaneWidthPercent: 25, genresRightPaneWidthPercent: 25 };
@@ -34,12 +34,12 @@ describe('CollectionGenresComponent', () => {
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         albums = [album1, album2];
 
-        genresPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-        genresPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
+        persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+        persisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-        component = new CollectionGenresComponent(genresPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+        component = new CollectionGenresComponent(persisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {
@@ -133,7 +133,7 @@ describe('CollectionGenresComponent', () => {
             const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
             // Assert
-            genresPersisterMock.verify((x) => x.setSelectedAlbumOrder(selectedAlbumOrder), Times.exactly(1));
+            persisterMock.verify((x) => x.setSelectedAlbumOrder(selectedAlbumOrder), Times.exactly(1));
         });
     });
 
@@ -141,9 +141,9 @@ describe('CollectionGenresComponent', () => {
         it('should set the album order', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            genresPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
-            component = new CollectionGenresComponent(genresPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionGenresComponent(persisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             // Act
             component.ngOnInit();
@@ -155,10 +155,10 @@ describe('CollectionGenresComponent', () => {
         it('should get all albums', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            genresPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionGenresComponent(genresPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionGenresComponent(persisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             // Act
             component.ngOnInit();
@@ -172,10 +172,10 @@ describe('CollectionGenresComponent', () => {
         it('should clear the albums', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            genresPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionGenresComponent(genresPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionGenresComponent(persisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
 
             component.ngOnInit();
 

@@ -3,12 +3,8 @@ import { DatabaseFactory } from '../database-factory';
 import { FolderTrack } from '../entities/folder-track';
 import { BaseFolderTrackRepository } from './base-folder-track-repository';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class FolderTrackRepository implements BaseFolderTrackRepository {
-    private folderModel: any;
-
     constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolderTrack(folderTrack: FolderTrack): void {
