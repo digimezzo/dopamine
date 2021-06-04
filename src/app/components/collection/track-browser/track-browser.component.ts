@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Logger } from '../../../core/logger';
 import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
+import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTracksPersister } from '../base-tracks-persister';
@@ -14,14 +17,16 @@ import { TrackOrder } from '../track-order';
     styleUrls: ['./track-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class TrackBrowserComponent implements OnInit {
+export class TrackBrowserComponent implements OnInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
+    private subscription: Subscription = new Subscription();
 
     public orderedTracks: TrackModel[] = [];
 
     constructor(
         public playbackService: BasePlaybackService,
+        private playbackIndicationService: BasePlaybackIndicationService,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         private logger: Logger
     ) {}
@@ -52,7 +57,17 @@ export class TrackBrowserComponent implements OnInit {
 
     public selectedTrack: TrackModel;
 
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
     public ngOnInit(): void {
+        this.subscription.add(
+            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+                this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
+            })
+        );
+
         this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
     }
 
@@ -123,6 +138,8 @@ export class TrackBrowserComponent implements OnInit {
         }
 
         this.orderedTracks = [...orderedTracks];
+
+        this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
     }
 
     private getTracksOrderedByAlbum(): TrackModel[] {
