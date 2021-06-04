@@ -14,6 +14,7 @@ import { AlbumsTracksPersister } from './albums-tracks-persister';
     selector: 'app-collection-albums',
     templateUrl: './collection-albums.component.html',
     styleUrls: ['./collection-albums.component.scss'],
+    providers: [AlbumsAlbumsPersister, AlbumsTracksPersister],
 })
 export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

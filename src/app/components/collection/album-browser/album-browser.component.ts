@@ -53,6 +53,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     @Input()
     public set albums(v: AlbumModel[]) {
         this._albums = v;
+        this.mouseSelectionWatcher.initialize(this.albums, false);
         this.orderAlbums();
     }
 
@@ -70,7 +71,6 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         });
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.mouseSelectionWatcher.initialize(this.albums, false);
     }
 
     public ngAfterViewInit(): void {

@@ -41,15 +41,11 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
-import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
-import { AlbumsTracksPersister } from './components/collection/collection-albums/albums-tracks-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
-import { ArtistsAlbumsPersister } from './components/collection/collection-artists/artists-albums-persister';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
-import { GenresAlbumsPersister } from './components/collection/collection-genres/genres-albums-persister';
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
@@ -358,10 +354,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
         CollectionPersister,
-        ArtistsAlbumsPersister,
-        GenresAlbumsPersister,
-        AlbumsAlbumsPersister,
-        AlbumsTracksPersister,
         FoldersPersister,
         PathValidator,
         AlbumRowsGetter,

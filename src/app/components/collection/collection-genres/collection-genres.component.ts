@@ -11,6 +11,7 @@ import { GenresAlbumsPersister } from './genres-albums-persister';
     selector: 'app-collection-genres',
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
+    providers: [GenresAlbumsPersister],
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

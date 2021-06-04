@@ -46,6 +46,7 @@ export class TrackBrowserComponent implements OnInit {
     @Input()
     public set tracks(v: TrackModels) {
         this._tracks = v;
+        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         this.orderTracks();
     }
 
@@ -53,7 +54,6 @@ export class TrackBrowserComponent implements OnInit {
 
     public ngOnInit(): void {
         this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
-        this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
     }
 
     public setSelectedTracks(event: any, trackToSelect: TrackModel): void {

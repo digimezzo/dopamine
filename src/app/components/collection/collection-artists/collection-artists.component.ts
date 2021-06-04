@@ -11,6 +11,7 @@ import { ArtistsAlbumsPersister } from './artists-albums-persister';
     selector: 'app-collection-artists',
     templateUrl: './collection-artists.component.html',
     styleUrls: ['./collection-artists.component.scss'],
+    providers: [ArtistsAlbumsPersister],
 })
 export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
