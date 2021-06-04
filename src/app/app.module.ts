@@ -1,6 +1,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     GestureConfig,
@@ -27,7 +28,7 @@ import {
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSplitModule } from 'angular-split';
 import 'reflect-metadata';
@@ -199,6 +200,24 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
     touchendHideDelay: 0,
 };
 
+export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
+    return () =>
+        new Promise<any>((resolve: any) => {
+            const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(undefined));
+            locationInitialized.then(() => {
+                const languageToSet: string = 'en';
+                translate.setDefaultLang(languageToSet);
+                translate.use(languageToSet).subscribe(
+                    () => {},
+                    (err) => {},
+                    () => {
+                        resolve(undefined);
+                    }
+                );
+            });
+        });
+}
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -295,7 +314,14 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
             },
         }),
     ],
+
     providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: appInitializerFactory,
+            deps: [TranslateService, Injector],
+            multi: true,
+        },
         ElectronService,
         Desktop,
         DatabaseFactory,

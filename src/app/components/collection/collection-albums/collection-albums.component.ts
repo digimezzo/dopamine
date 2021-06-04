@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
@@ -23,6 +24,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
         private settings: BaseSettings,
+        private scheduler: Scheduler,
         private logger: Logger
     ) {}
 
@@ -45,16 +47,18 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.tracks = new TrackModels();
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.fillLists();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: any): void {
         this.settings.albumsRightPaneWidthPercent = event.sizes[1];
     }
 
-    private fillLists(): void {
+    private async fillListsAsync(): Promise<void> {
+        await this.scheduler.sleepAsync(250);
+
         try {
             this.albums = this.albumService.getAllAlbums();
             this.tracks = this.trackService.getAllTracks();

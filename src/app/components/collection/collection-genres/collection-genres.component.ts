@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
@@ -18,6 +19,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         public albumsPersister: GenresAlbumsPersister,
         private albumService: BaseAlbumService,
         private settings: BaseSettings,
+        private scheduler: Scheduler,
         private logger: Logger
     ) {}
 
@@ -39,9 +41,9 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         this.albums = [];
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.fillLists();
+        this.fillListsAsync();
     }
 
     public splitDragEnd(event: any): void {
@@ -49,7 +51,9 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         this.settings.genresRightPaneWidthPercent = event.sizes[2];
     }
 
-    private fillLists(): void {
+    private async fillListsAsync(): Promise<void> {
+        await this.scheduler.sleepAsync(250);
+
         try {
             this.albums = this.albumService.getAllAlbums();
         } catch (e) {

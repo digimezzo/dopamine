@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Hacks } from '../../../core/hacks';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { BaseSettings } from '../../../core/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -31,6 +32,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private trackService: BaseTrackService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
+        private scheduler: Scheduler,
         private logger: Logger,
         private hacks: Hacks
     ) {}
@@ -122,6 +124,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     private async fillListsAsync(): Promise<void> {
+        await this.scheduler.sleepAsync(250);
         this.getFolders();
 
         const persistedOpenedFolder: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
