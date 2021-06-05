@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Constants } from '../../../core/base/constants';
 import { Logger } from '../../../core/logger';
 import { Scheduler } from '../../../core/scheduler/scheduler';
 import { BaseSettings } from '../../../core/settings/base-settings';
@@ -53,7 +54,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(250);
+        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
             this.albums = this.albumService.getAllAlbums();

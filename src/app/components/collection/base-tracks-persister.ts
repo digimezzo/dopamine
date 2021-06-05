@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
+import { StringCompare } from '../../core/string-compare';
 import { TrackOrder } from './track-order';
 
 @Injectable()
 export abstract class BaseTracksPersister {
     private selectedTrackOrder: TrackOrder;
 
-    constructor(public settings: BaseSettings, public logger: Logger) {}
+    constructor(public settings: BaseSettings, public logger: Logger) {
+        this.initializeFromSettings();
+    }
+
+    public abstract getSelectedTrackOrderFromSettings(): string;
+    public abstract saveSelectedTrackOrderToSettings(selectedTrackOrderName: string): void;
 
     public getSelectedTrackOrder(): TrackOrder {
         if (this.selectedTrackOrder == undefined) {
@@ -26,6 +32,9 @@ export abstract class BaseTracksPersister {
         }
     }
 
-    public abstract getSelectedTrackOrderFromSettings(): string;
-    public abstract saveSelectedTrackOrderToSettings(selectedTrackOrderName: string): void;
+    private initializeFromSettings(): void {
+        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
+            this.selectedTrackOrder = (TrackOrder as any)[this.getSelectedTrackOrderFromSettings()];
+        }
+    }
 }

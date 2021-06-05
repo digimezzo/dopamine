@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Constants } from '../../../core/base/constants';
 import { Hacks } from '../../../core/hacks';
 import { Logger } from '../../../core/logger';
 import { Scheduler } from '../../../core/scheduler/scheduler';
@@ -125,7 +126,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(250);
+        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
         this.getFolders();
 
         const persistedOpenedFolder: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);

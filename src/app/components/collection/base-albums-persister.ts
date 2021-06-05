@@ -14,6 +14,11 @@ export abstract class BaseAlbumsPersister {
         this.initializeFromSettings();
     }
 
+    public abstract getSelectedAlbumFromSettings(): string;
+    public abstract saveSelectedAlbumToSettings(selectedAlbumKey: string): void;
+    public abstract getSelectedAlbumOrderFromSettings(): string;
+    public abstract saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void;
+
     public getSelectedAlbums(availableAlbums: AlbumModel[]): AlbumModel[] {
         if (availableAlbums == undefined) {
             return [];
@@ -76,9 +81,4 @@ export abstract class BaseAlbumsPersister {
             this.selectedAlbumOrder = (AlbumOrder as any)[this.getSelectedAlbumOrderFromSettings()];
         }
     }
-
-    public abstract getSelectedAlbumFromSettings(): string;
-    public abstract saveSelectedAlbumToSettings(selectedAlbumKey: string): void;
-    public abstract getSelectedAlbumOrderFromSettings(): string;
-    public abstract saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void;
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { Logger } from '../../../core/logger';
 import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
@@ -102,34 +103,20 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         try {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
-                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
-                    for (const track of orderedTracks) {
-                        track.showHeader = false;
-                    }
+                    orderedTracks = this.getTracksOrderedByTitleAscending();
+                    this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byTrackTitleDescending:
-                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
-                    for (const track of orderedTracks) {
-                        track.showHeader = false;
-                    }
+                    orderedTracks = this.getTracksOrderedByTitleDescending();
+                    this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byAlbum:
                     orderedTracks = this.getTracksOrderedByAlbum();
-                    let previousAlbumKey: string = 'Raphaël is cool';
-
-                    for (const track of orderedTracks) {
-                        if (track.albumKey !== previousAlbumKey) {
-                            track.showHeader = true;
-                        }
-
-                        previousAlbumKey = track.albumKey;
-                    }
+                    this.enableAlbumHeaders(orderedTracks);
                     break;
                 default: {
-                    orderedTracks = this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
-                    for (const track of orderedTracks) {
-                        track.showHeader = false;
-                    }
+                    orderedTracks = this.getTracksOrderedByTitleAscending();
+                    this.hideAllHeaders(orderedTracks);
                     break;
                 }
             }
@@ -140,6 +127,32 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         this.orderedTracks = [...orderedTracks];
 
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
+    }
+
+    private hideAllHeaders(orderedTracks: TrackModel[]): void {
+        for (const track of orderedTracks) {
+            track.showHeader = false;
+        }
+    }
+
+    private enableAlbumHeaders(orderedTracks: TrackModel[]): void {
+        let previousAlbumKey: string = uuidv4();
+
+        for (const track of orderedTracks) {
+            if (track.albumKey !== previousAlbumKey) {
+                track.showHeader = true;
+            }
+
+            previousAlbumKey = track.albumKey;
+        }
+    }
+
+    private getTracksOrderedByTitleAscending(): TrackModel[] {
+        return this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
+    }
+
+    private getTracksOrderedByTitleDescending(): TrackModel[] {
+        return this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
     }
 
     private getTracksOrderedByAlbum(): TrackModel[] {
