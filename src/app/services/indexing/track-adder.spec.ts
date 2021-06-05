@@ -54,7 +54,7 @@ describe('TrackAdder', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             removedTrackRepositoryMock.setup((x) => x.getRemovedTracks()).returns(() => []);
 
@@ -71,10 +71,7 @@ describe('TrackAdder', () => {
 
             // Assert
             trackRepositoryMock.verify(
-                (x) =>
-                    x.addTrack(
-                        It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })
-                    ),
+                (x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })),
                 Times.exactly(1)
             );
         });
@@ -87,7 +84,7 @@ describe('TrackAdder', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1]);
 
             removedTrackRepositoryMock.setup((x) => x.getRemovedTracks()).returns(() => []);
 
@@ -103,13 +100,7 @@ describe('TrackAdder', () => {
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
 
             // Assert
-            trackRepositoryMock.verify(
-                (x) =>
-                    x.addTrack(
-                        It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })
-                    ),
-                Times.never()
-            );
+            trackRepositoryMock.verify((x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })), Times.never());
         });
 
         it('should add a folderTrack when adding a track to the database', async () => {
@@ -117,7 +108,7 @@ describe('TrackAdder', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
             trackRepositoryMock.setup((x) => x.getTrackByPath('/home/user/Music/Track 1.mp3')).returns(() => track1);
             removedTrackRepositoryMock.setup((x) => x.getRemovedTracks()).returns(() => []);
 
@@ -130,10 +121,7 @@ describe('TrackAdder', () => {
 
             // Assert
             folderTrackRepositoryMock.verify(
-                (x) =>
-                    x.addFolderTrack(
-                        It.isObjectWith<FolderTrack>({ folderId: 1, trackId: track1.trackId })
-                    ),
+                (x) => x.addFolderTrack(It.isObjectWith<FolderTrack>({ folderId: 1, trackId: track1.trackId })),
                 Times.exactly(1)
             );
         });
@@ -143,7 +131,7 @@ describe('TrackAdder', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
             trackRepositoryMock.setup((x) => x.getTrackByPath('/home/user/Music/Track 1.mp3')).returns(() => track1);
             removedTrackRepositoryMock.setup((x) => x.getRemovedTracks()).returns(() => []);
 
@@ -156,10 +144,7 @@ describe('TrackAdder', () => {
 
             // Assert
             trackFillerMock.verify(
-                (x) =>
-                    x.addFileMetadataToTrackAsync(
-                        It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })
-                    ),
+                (x) => x.addFileMetadataToTrackAsync(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })),
                 Times.exactly(1)
             );
         });
@@ -174,7 +159,7 @@ describe('TrackAdder', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             const removedTrack: RemovedTrack = new RemovedTrack('/home/user/Music/Track 3.mp3');
 
@@ -193,10 +178,7 @@ describe('TrackAdder', () => {
 
             // Assert
             trackRepositoryMock.verify(
-                (x) =>
-                    x.addTrack(
-                        It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })
-                    ),
+                (x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })),
                 Times.exactly(1)
             );
         });
@@ -211,7 +193,7 @@ describe('TrackAdder', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             const removedTrack: RemovedTrack = new RemovedTrack('/home/user/Music/Track 3.mp3');
 
@@ -229,13 +211,7 @@ describe('TrackAdder', () => {
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
 
             // Assert
-            trackRepositoryMock.verify(
-                (x) =>
-                    x.addTrack(
-                        It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })
-                    ),
-                Times.never()
-            );
+            trackRepositoryMock.verify((x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })), Times.never());
         });
     });
 });

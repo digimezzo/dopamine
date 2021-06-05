@@ -52,7 +52,7 @@ export class TrackService implements BaseTrackService {
     }
 
     public getAllTracks(): TrackModels {
-        const tracks: Track[] = this.trackRepository.getTracks();
+        const tracks: Track[] = this.trackRepository.getAllTracks();
         const trackModels: TrackModels = new TrackModels();
 
         for (const track of tracks) {

@@ -22,7 +22,7 @@ export class TrackUpdater {
         timer.start();
 
         try {
-            const tracks: Track[] = this.trackRepository.getTracks();
+            const tracks: Track[] = this.trackRepository.getAllTracks();
 
             let numberOfUpdatedTracks: number = 0;
 

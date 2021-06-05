@@ -94,14 +94,14 @@ describe('Trackremover', () => {
             trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracks(), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getAllTracks(), Times.exactly(1));
         });
 
         it('should check if a path exists for each track in the database', async () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
@@ -113,7 +113,7 @@ describe('Trackremover', () => {
 
         it('should not check if a path exists if there are no tracks in the in the database', async () => {
             // Arrange
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
@@ -126,7 +126,7 @@ describe('Trackremover', () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1]);
             fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
 
             // Act
@@ -140,7 +140,7 @@ describe('Trackremover', () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1]);
             fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
 
             // Act
@@ -156,7 +156,7 @@ describe('Trackremover', () => {
             track1.trackId = 1;
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
             fileSystemMock.setup((x) => x.pathExists(track2.path)).returns(() => false);
 
@@ -173,7 +173,7 @@ describe('Trackremover', () => {
             track1.trackId = 1;
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
             fileSystemMock.setup((x) => x.pathExists(track2.path)).returns(() => true);
 

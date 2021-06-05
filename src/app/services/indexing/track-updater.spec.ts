@@ -38,12 +38,12 @@ describe('TrackUpdater', () => {
             trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getTracks(), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getAllTracks(), Times.exactly(1));
         });
 
         it('should not check if tracks are out of date if there are no tracks in the database', async () => {
             // Arrange
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
 
             // Act
             trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -54,7 +54,7 @@ describe('TrackUpdater', () => {
 
         it('should not check if tracks need indexing if there are no tracks in the database', async () => {
             // Arrange
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => []);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
 
             // Act
             trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -68,7 +68,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => true);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
 
@@ -85,7 +85,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => true);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
 
@@ -102,7 +102,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
 
@@ -119,7 +119,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
@@ -140,7 +140,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);
@@ -161,7 +161,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
@@ -192,7 +192,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);
@@ -212,7 +212,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
@@ -240,7 +240,7 @@ describe('TrackUpdater', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
 
-            trackRepositoryMock.setup((x) => x.getTracks()).returns(() => [track1, track2]);
+            trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
             trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);

@@ -76,45 +76,10 @@ export class TrackRepository implements BaseTrackRepository {
         database.prepare('DELETE FROM Track WHERE TrackID = ?;').run(trackId);
     }
 
-    public getTracks(): Track[] {
+    public getAllTracks(): Track[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT TrackID AS trackId,
-                    Artists AS artists,
-                    Genres AS genres,
-                    AlbumTitle AS albumTitle,
-                    AlbumArtists AS albumArtists,
-                    AlbumKey AS albumKey,
-                    Path AS path,
-                    FileName AS fileName,
-                    MimeType AS mimeType,
-                    FileSize AS fileSize,
-                    BitRate AS bitRate,
-                    SampleRate AS sampleRate,
-                    TrackTitle AS trackTitle,
-                    TrackNumber AS trackNumber,
-                    TrackCount AS trackCount,
-                    DiscNumber AS discNumber,
-                    DiscCount AS discCount,
-                    Duration AS duration,
-                    Year AS year,
-                    HasLyrics AS hasLyrics,
-                    DateAdded AS dateAdded,
-                    DateFileCreated AS dateFileCreated,
-                    DateLastSynced AS dateLastSynced,
-                    DateFileModified AS dateFileModified,
-                    NeedsIndexing AS needsIndexing,
-                    NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
-                    IndexingSuccess AS indexingSuccess,
-                    IndexingFailureReason AS indexingFailureReason,
-                    Rating AS rating,
-                    Love AS love,
-                    PlayCount AS playCount,
-                    SkipCount AS skipCount,
-                    DateLastPlayed AS dateLastPlayed
-                    FROM Track;`
-        );
+        const statement = database.prepare(QueryParts.selectTracksQueryPart(true));
 
         const tracks: Track[] = statement.all();
 
@@ -315,43 +280,7 @@ export class TrackRepository implements BaseTrackRepository {
     public getTrackByPath(path: string): Track {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT TrackID AS trackId,
-                    Artists AS artists,
-                    Genres AS genres,
-                    AlbumTitle AS albumTitle,
-                    AlbumArtists AS albumArtists,
-                    AlbumKey AS albumKey,
-                    Path AS path,
-                    FileName AS fileName,
-                    MimeType AS mimeType,
-                    FileSize AS fileSize,
-                    BitRate AS bitRate,
-                    SampleRate AS sampleRate,
-                    TrackTitle AS trackTitle,
-                    TrackNumber AS trackNumber,
-                    TrackCount AS trackCount,
-                    DiscNumber AS discNumber,
-                    DiscCount AS discCount,
-                    Duration AS duration,
-                    Year AS year,
-                    HasLyrics AS hasLyrics,
-                    DateAdded AS dateAdded,
-                    DateFileCreated AS dateFileCreated,
-                    DateLastSynced AS dateLastSynced,
-                    DateFileModified AS dateFileModified,
-                    NeedsIndexing AS needsIndexing,
-                    NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
-                    IndexingSuccess AS indexingSuccess,
-                    IndexingFailureReason AS indexingFailureReason,
-                    Rating AS rating,
-                    Love AS love,
-                    PlayCount AS playCount,
-                    SkipCount AS skipCount,
-                    DateLastPlayed AS dateLastPlayed
-                    FROM Track
-                    WHERE Path=?;`
-        );
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.Path=?;`);
 
         const track: Track = statement.get(path);
 
@@ -362,7 +291,7 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `${QueryParts.selectAlbumDataQueryPart()}
+            `${QueryParts.selectAlbumDataQueryPart(false)}
                 WHERE AlbumKey IS NOT NULL AND AlbumKey <> ''
                 AND (AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
                 GROUP BY AlbumKey;`
@@ -376,7 +305,7 @@ export class TrackRepository implements BaseTrackRepository {
     public getAllAlbumData(): AlbumData[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart()} GROUP BY AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} GROUP BY AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 
@@ -386,43 +315,7 @@ export class TrackRepository implements BaseTrackRepository {
     public getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `SELECT TrackID AS trackId,
-                    Artists AS artists,
-                    Genres AS genres,
-                    AlbumTitle AS albumTitle,
-                    AlbumArtists AS albumArtists,
-                    AlbumKey AS albumKey,
-                    Path AS path,
-                    FileName AS fileName,
-                    MimeType AS mimeType,
-                    FileSize AS fileSize,
-                    BitRate AS bitRate,
-                    SampleRate AS sampleRate,
-                    TrackTitle AS trackTitle,
-                    TrackNumber AS trackNumber,
-                    TrackCount AS trackCount,
-                    DiscNumber AS discNumber,
-                    DiscCount AS discCount,
-                    Duration AS duration,
-                    Year AS year,
-                    HasLyrics AS hasLyrics,
-                    DateAdded AS dateAdded,
-                    DateFileCreated AS dateFileCreated,
-                    DateLastSynced AS dateLastSynced,
-                    DateFileModified AS dateFileModified,
-                    NeedsIndexing AS needsIndexing,
-                    NeedsAlbumArtworkIndexing AS needsAlbumArtworkIndexing,
-                    IndexingSuccess AS indexingSuccess,
-                    IndexingFailureReason AS indexingFailureReason,
-                    Rating AS rating,
-                    Love AS love,
-                    PlayCount AS playCount,
-                    SkipCount AS skipCount,
-                    DateLastPlayed AS dateLastPlayed
-                    FROM Track
-                    WHERE AlbumKey=?;`
-        );
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
 
         const track: Track = statement.get(albumKey);
 

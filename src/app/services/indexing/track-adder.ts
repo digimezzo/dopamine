@@ -80,7 +80,7 @@ export class TrackAdder {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = this.trackrepository.getTracks().map((x) => x.path);
+        const trackPaths: string[] = this.trackrepository.getAllTracks().map((x) => x.path);
         const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
