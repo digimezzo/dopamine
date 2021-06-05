@@ -94,6 +94,14 @@ describe('CollectionAlbumsComponent', () => {
             // Assert
             expect(component.rightPaneSize).toEqual(30);
         });
+
+        it('should define albums as empty', () => {
+            throw new Error();
+        });
+
+        it('should define tracks as empty', () => {
+            throw new Error();
+        });
     });
 
     describe('splitDragEnd', () => {
@@ -188,6 +196,14 @@ describe('CollectionAlbumsComponent', () => {
             // Assert
             expect(component.albums).toEqual(albums);
         });
+
+        it('should get all tracks', async () => {
+            throw new Error();
+        });
+
+        it('should get tracks for the selected albums when the selected albums have changed', async () => {
+            throw new Error();
+        });
     });
 
     describe('ngOnDestroy', () => {
@@ -214,6 +230,10 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             expect(component.albums).toEqual([]);
+        });
+
+        it('should clear the tracks', async () => {
+            throw new Error();
         });
     });
 });

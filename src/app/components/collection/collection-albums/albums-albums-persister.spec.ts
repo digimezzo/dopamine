@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../../core/logger';
 import { AlbumData } from '../../../data/album-data';
@@ -10,6 +11,8 @@ describe('AlbumsAlbumsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+
+    let subscription: Subscription;
 
     let persister: AlbumsAlbumsPersister;
 
@@ -25,6 +28,8 @@ describe('AlbumsAlbumsPersister', () => {
         settingsStub = { albumsTabSelectedAlbum: '', albumsTabSelectedAlbumOrder: '' };
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+
+        subscription = new Subscription();
 
         albumData1 = new AlbumData();
         albumData1.albumKey = 'albumKey1';
@@ -218,6 +223,26 @@ describe('AlbumsAlbumsPersister', () => {
 
             // Assert
             expect(settingsStub.albumsTabSelectedAlbum).toEqual('albumKey2');
+        });
+
+        it('should notify that the selected albums have changed', () => {
+            // Arrange
+            let receivedAlbumKeys: string[] = [];
+
+            subscription.add(
+                persister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                    receivedAlbumKeys = albumKeys;
+                })
+            );
+
+            // Act
+            persister.setSelectedAlbums([album2, album3]);
+
+            // Assert
+            expect(receivedAlbumKeys.length).toEqual(2);
+            expect(receivedAlbumKeys[0]).toEqual('albumKey2');
+            expect(receivedAlbumKeys[1]).toEqual('albumKey3');
+            subscription.unsubscribe();
         });
     });
 

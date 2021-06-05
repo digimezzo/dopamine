@@ -87,6 +87,10 @@ describe('CollectionArtistsComponent', () => {
             // Assert
             expect(component.rightPaneSize).toEqual(25);
         });
+
+        it('should define albums as empty', () => {
+            throw new Error();
+        });
     });
 
     describe('splitDragEnd', () => {
