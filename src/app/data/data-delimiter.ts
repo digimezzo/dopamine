@@ -1,4 +1,4 @@
-import { StringCompare } from '../core/string-compare';
+import { Strings } from '../core/strings';
 
 export class DataDelimiter {
     private static delimiter: string = ';';
@@ -22,7 +22,7 @@ export class DataDelimiter {
     }
 
     public static fromDelimitedString(delimitedString: string): string[] {
-        if (StringCompare.isNullOrWhiteSpace(delimitedString)) {
+        if (Strings.isNullOrWhiteSpace(delimitedString)) {
             return [];
         }
 

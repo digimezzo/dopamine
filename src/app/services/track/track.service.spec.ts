@@ -1,17 +1,23 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { FileSystem } from '../../core/io/file-system';
 import { Track } from '../../data/entities/track';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { TrackFiller } from '../indexing/track-filler';
+import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModels } from './track-models';
 import { TrackService } from './track.service';
 
 describe('TrackService', () => {
+    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let trackRepositoryMock: IMock<BaseTrackRepository>;
     let fileSystemMock: IMock<FileSystem>;
     let trackFillerMock: IMock<TrackFiller>;
 
     let service: TrackService;
 
     beforeEach(() => {
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         fileSystemMock = Mock.ofType<FileSystem>();
         trackFillerMock = Mock.ofType<TrackFiller>();
 
@@ -39,7 +45,7 @@ describe('TrackService', () => {
         filledTrack.trackTitle = 'My track title';
         trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track)).returns(async () => filledTrack);
 
-        service = new TrackService(fileSystemMock.object, trackFillerMock.object);
+        service = new TrackService(translatorServiceMock.object, trackRepositoryMock.object, fileSystemMock.object, trackFillerMock.object);
     });
 
     describe('constructor', () => {

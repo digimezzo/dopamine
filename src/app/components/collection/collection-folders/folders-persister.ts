@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../../core/logger';
 import { BaseSettings } from '../../../core/settings/base-settings';
-import { StringCompare } from '../../../core/string-compare';
+import { Strings } from '../../../core/strings';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 
@@ -23,7 +23,7 @@ export class FoldersPersister {
             return undefined;
         }
 
-        if (StringCompare.isNullOrWhiteSpace(this.openedFolderPath)) {
+        if (Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }
 
@@ -52,11 +52,11 @@ export class FoldersPersister {
     }
 
     public getOpenedSubfolder(): SubfolderModel {
-        if (StringCompare.isNullOrWhiteSpace(this.openedFolderPath)) {
+        if (Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }
 
-        if (StringCompare.isNullOrWhiteSpace(this.openedSubfolderPath)) {
+        if (Strings.isNullOrWhiteSpace(this.openedSubfolderPath)) {
             return undefined;
         }
 

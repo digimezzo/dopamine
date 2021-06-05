@@ -37,7 +37,7 @@ describe('ArtistsAlbumsPersister', () => {
         album3 = new AlbumModel(albumData3, translatorServiceMock.object);
         availableAlbums = [album1, album2, album3];
 
-        persister = new ArtistsPersister(settingsStub, loggerMock.object);
+        persister = new ArtistsAlbumsPersister(settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {

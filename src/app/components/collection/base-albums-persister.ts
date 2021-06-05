@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { AlbumModel } from '../../services/album/album-model';
 import { AlbumOrder } from './album-order';
 
@@ -79,11 +79,11 @@ export abstract class BaseAlbumsPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedAlbumFromSettings())) {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumFromSettings())) {
             this.selectedAlbumKeys = [this.getSelectedAlbumFromSettings()];
         }
 
-        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
             this.selectedAlbumOrder = (AlbumOrder as any)[this.getSelectedAlbumOrderFromSettings()];
         }
     }

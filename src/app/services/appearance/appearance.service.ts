@@ -8,7 +8,7 @@ import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
 import { Desktop } from '../../core/io/desktop';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { BaseAppearanceService } from './base-appearance.service';
 import { ColorScheme } from './color-scheme';
 import { Palette } from './palette';
@@ -124,7 +124,7 @@ export class AppearanceService implements BaseAppearanceService {
         if (this.settings.followSystemColor) {
             const systemAccentColor: string = this.getSystemAccentColor();
 
-            if (!StringCompare.isNullOrWhiteSpace(systemAccentColor)) {
+            if (!Strings.isNullOrWhiteSpace(systemAccentColor)) {
                 primaryColorToApply = systemAccentColor;
                 secondaryColorToApply = systemAccentColor;
                 accentColorToApply = systemAccentColor;

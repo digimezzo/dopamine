@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { StringCompare } from '../core/string-compare';
+import { Strings } from '../core/strings';
 import { BaseTranslatorService } from '../services/translator/base-translator.service';
 
 @Pipe({ name: 'formatTrackArtists' })
@@ -11,7 +11,7 @@ export class FormatTrackArtistsPipe implements PipeTransform {
             return this.translatorService.get('Track.UnknownArtist');
         }
 
-        const commaSeparatedArtists: string = trackArtists.filter((x) => !StringCompare.isNullOrWhiteSpace(x)).join(', ');
+        const commaSeparatedArtists: string = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
 
         if (commaSeparatedArtists.length === 0) {
             return this.translatorService.get('Track.UnknownArtist');

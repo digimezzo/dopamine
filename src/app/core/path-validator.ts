@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StringCompare } from './string-compare';
+import { Strings } from './strings';
 
 @Injectable()
 export class PathValidator {
@@ -8,11 +8,11 @@ export class PathValidator {
      * Based on: https://stackoverflow.com/questions/37521893/determine-if-a-path-is-subdirectory-of-another-in-node-js
      */
     public isParentPath(parentPath: string, childPath: string): boolean {
-        if (StringCompare.isNullOrWhiteSpace(parentPath)) {
+        if (Strings.isNullOrWhiteSpace(parentPath)) {
             return false;
         }
 
-        if (StringCompare.isNullOrWhiteSpace(childPath)) {
+        if (Strings.isNullOrWhiteSpace(childPath)) {
             return false;
         }
 

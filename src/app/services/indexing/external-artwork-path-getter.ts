@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import * as path from 'path';
 import { Defaults } from '../../core/base/defaults';
 import { FileSystem } from '../../core/io/file-system';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
     constructor(private fileSystem: FileSystem) {}
 
     public getExternalArtworkPath(audioFilePath: string): string {
-        if (StringCompare.isNullOrWhiteSpace(audioFilePath)) {
+        if (Strings.isNullOrWhiteSpace(audioFilePath)) {
             return undefined;
         }
 
@@ -19,7 +19,7 @@ export class ExternalArtworkPathGetter {
         for (const externalCoverArtPattern of Defaults.externalCoverArtPatterns) {
             const possibleExternalArtworkFilePath: string = path.join(
                 directory,
-                externalCoverArtPattern.replace('%filename%', fileNameWithoutExtention)
+                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtention)
             );
 
             if (this.fileSystem.pathExists(possibleExternalArtworkFilePath)) {

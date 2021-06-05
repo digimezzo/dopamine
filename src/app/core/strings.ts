@@ -1,4 +1,4 @@
-export class StringCompare {
+export class Strings {
     public static equalsIgnoreCase(string1: string, string2: string): boolean {
         if (string1 == undefined && string2 == undefined) {
             return true;
@@ -25,5 +25,9 @@ export class StringCompare {
         }
 
         return false;
+    }
+
+    public static replaceAll(sourceString: string, oldValue: string, newValue: string): string {
+        return sourceString.split(oldValue).join(newValue);
     }
 }

@@ -1,5 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
@@ -12,6 +13,7 @@ describe('CollectionArtistsComponent', () => {
     let albumServiceMock: IMock<BaseAlbumService>;
     let artistsPersisterMock: IMock<ArtistsAlbumsPersister>;
     let settingsStub: any;
+    let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -26,6 +28,7 @@ describe('CollectionArtistsComponent', () => {
     beforeEach(() => {
         artistsPersisterMock = Mock.ofType<ArtistsAlbumsPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
+        schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { artistsLeftPaneWidthPercent: 25, artistsRightPaneWidthPercent: 25 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -39,7 +42,13 @@ describe('CollectionArtistsComponent', () => {
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-        component = new CollectionArtistsComponent(artistsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+        component = new CollectionArtistsComponent(
+            artistsPersisterMock.object,
+            albumServiceMock.object,
+            settingsStub,
+            schedulerMock.object,
+            loggerMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -147,6 +156,7 @@ describe('CollectionArtistsComponent', () => {
                 artistsPersisterMock.object,
                 albumServiceMock.object,
                 settingsStub,
+                schedulerMock.object,
                 loggerMock.object
             );
 
@@ -167,11 +177,12 @@ describe('CollectionArtistsComponent', () => {
                 artistsPersisterMock.object,
                 albumServiceMock.object,
                 settingsStub,
+                schedulerMock.object,
                 loggerMock.object
             );
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.albums).toEqual(albums);
@@ -189,6 +200,7 @@ describe('CollectionArtistsComponent', () => {
                 artistsPersisterMock.object,
                 albumServiceMock.object,
                 settingsStub,
+                schedulerMock.object,
                 loggerMock.object
             );
 

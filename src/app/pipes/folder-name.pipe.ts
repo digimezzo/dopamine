@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FileSystem } from '../core/io/file-system';
-import { StringCompare } from '../core/string-compare';
+import { Strings } from '../core/strings';
 import { FolderModel } from '../services/folder/folder-model';
 
 @Pipe({ name: 'folderName' })
@@ -12,7 +12,7 @@ export class FolderNamePipe implements PipeTransform {
             return '';
         }
 
-        if (StringCompare.isNullOrWhiteSpace(folder.path)) {
+        if (Strings.isNullOrWhiteSpace(folder.path)) {
             return '';
         }
 

@@ -1,17 +1,23 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { AlbumData } from '../../../data/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
+import { AlbumsTracksPersister } from './albums-tracks-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {
     let albumServiceMock: IMock<BaseAlbumService>;
+    let trackServiceMock: IMock<BaseTrackService>;
     let albumsPersisterMock: IMock<AlbumsAlbumsPersister>;
+    let tracksPersisterMock: IMock<AlbumsTracksPersister>;
     let settingsStub: any;
+    let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -25,7 +31,10 @@ describe('CollectionAlbumsComponent', () => {
 
     beforeEach(() => {
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
+        tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
+        trackServiceMock = Mock.ofType<BaseTrackService>();
+        schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -39,7 +48,15 @@ describe('CollectionAlbumsComponent', () => {
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-        component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+        component = new CollectionAlbumsComponent(
+            albumsPersisterMock.object,
+            tracksPersisterMock.object,
+            albumServiceMock.object,
+            trackServiceMock.object,
+            settingsStub,
+            schedulerMock.object,
+            loggerMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -124,10 +141,18 @@ describe('CollectionAlbumsComponent', () => {
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
-            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
@@ -139,10 +164,18 @@ describe('CollectionAlbumsComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.albums).toEqual(albums);
@@ -156,7 +189,15 @@ describe('CollectionAlbumsComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            component = new CollectionAlbumsComponent(albumsPersisterMock.object, albumServiceMock.object, settingsStub, loggerMock.object);
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
 
             component.ngOnInit();
 

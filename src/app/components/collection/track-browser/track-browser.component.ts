@@ -157,9 +157,9 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
     private getTracksOrderedByAlbum(): TrackModel[] {
         return this.tracks.tracks.sort((a, b) => {
-            if (a.albumArtist > b.albumArtist) {
+            if (a.albumArtists > b.albumArtists) {
                 return 1;
-            } else if (a.albumArtist < b.albumArtist) {
+            } else if (a.albumArtists < b.albumArtists) {
                 return -1;
             }
 

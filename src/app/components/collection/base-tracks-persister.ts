@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { TrackOrder } from './track-order';
 
 @Injectable()
@@ -33,7 +33,7 @@ export abstract class BaseTracksPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!StringCompare.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
             this.selectedTrackOrder = (TrackOrder as any)[this.getSelectedTrackOrderFromSettings()];
         }
     }

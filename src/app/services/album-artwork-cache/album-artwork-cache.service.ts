@@ -3,7 +3,7 @@ import * as path from 'path';
 import { ImageProcessor } from '../../core/image-processor';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
@@ -63,7 +63,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     public getCachedArtworkFilePathAsync(albumKey: string): string {
         const artworkId: string = this.albumArtworkRepository.getArtworkId(albumKey);
 
-        if (StringCompare.isNullOrWhiteSpace(artworkId)) {
+        if (Strings.isNullOrWhiteSpace(artworkId)) {
             return '';
         }
 

@@ -1,4 +1,4 @@
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { AlbumData } from '../../data/album-data';
 import { DataDelimiter } from '../../data/data-delimiter';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -28,7 +28,7 @@ export class AlbumModel {
     }
 
     public get albumTitle(): string {
-        if (StringCompare.isNullOrWhiteSpace(this.albumData.albumTitle)) {
+        if (Strings.isNullOrWhiteSpace(this.albumData.albumTitle)) {
             return this.translatorService.get('Album.UnknownTitle');
         }
 

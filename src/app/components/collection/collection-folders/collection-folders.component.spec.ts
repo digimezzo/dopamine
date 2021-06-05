@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Hacks } from '../../../core/hacks';
 import { Logger } from '../../../core/logger';
+import { Scheduler } from '../../../core/scheduler/scheduler';
 import { Folder } from '../../../data/entities/folder';
 import { Track } from '../../../data/entities/track';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -14,6 +15,7 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 
@@ -25,8 +27,10 @@ describe('CollectionFoldersComponent', () => {
     let trackServiceMock: IMock<BaseTrackService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let foldersPersisterMock: IMock<FoldersPersister>;
+    let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
 
@@ -52,6 +56,8 @@ describe('CollectionFoldersComponent', () => {
         foldersPersisterMock = Mock.ofType<FoldersPersister>();
         loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
+        schedulerMock = Mock.ofType<Scheduler>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -67,7 +73,7 @@ describe('CollectionFoldersComponent', () => {
 
         trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => new TrackModels());
 
-        track1 = new TrackModel(new Track('dummy'));
+        track1 = new TrackModel(new Track('dummy'), translatorServiceMock.object);
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
 
         playbackServicePlaybackStarted = new Subject();
@@ -83,6 +89,7 @@ describe('CollectionFoldersComponent', () => {
             trackServiceMock.object,
             playbackIndicationServiceMock.object,
             foldersPersisterMock.object,
+            schedulerMock.object,
             loggerMock.object,
             hacksMock.object
         );

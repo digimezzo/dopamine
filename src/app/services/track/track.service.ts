@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../core/base/file-formats';
 import { FileSystem } from '../../core/io/file-system';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { Track } from '../../data/entities/track';
 import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { TrackFiller } from '../indexing/track-filler';
@@ -20,7 +20,7 @@ export class TrackService implements BaseTrackService {
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
-        if (StringCompare.isNullOrWhiteSpace(subfolderPath)) {
+        if (Strings.isNullOrWhiteSpace(subfolderPath)) {
             return new TrackModels();
         }
 

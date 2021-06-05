@@ -7,6 +7,7 @@ import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackInformationComponent } from './playback-information.component';
 
 describe('PlaybackInformationComponent', () => {
@@ -15,6 +16,7 @@ describe('PlaybackInformationComponent', () => {
     let formatTrackArtistsPipeMock: IMock<FormatTrackArtistsPipe>;
     let formatTrackTitlePipeMock: IMock<FormatTrackTitlePipe>;
     let schedulerMock: IMock<Scheduler>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
 
@@ -23,6 +25,7 @@ describe('PlaybackInformationComponent', () => {
         formatTrackArtistsPipeMock = Mock.ofType<FormatTrackArtistsPipe>();
         formatTrackTitlePipeMock = Mock.ofType<FormatTrackTitlePipe>();
         schedulerMock = Mock.ofType<Scheduler>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         component = new PlaybackInformationComponent(
             playbackServiceMock.object,
@@ -99,7 +102,7 @@ describe('PlaybackInformationComponent', () => {
             const track1: Track = new Track('/home/user/Music/track1.mp3');
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
-            const trackModel1: TrackModel = new TrackModel(track1);
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
             const scheduler: Scheduler = new Scheduler();
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
@@ -127,7 +130,7 @@ describe('PlaybackInformationComponent', () => {
             const track1: Track = new Track('/home/user/Music/track1.mp3');
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
-            const trackModel1: TrackModel = new TrackModel(track1);
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
             const scheduler: Scheduler = new Scheduler();
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
@@ -155,7 +158,7 @@ describe('PlaybackInformationComponent', () => {
             const track1: Track = new Track('/home/user/Music/track1.mp3');
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
-            const trackModel1: TrackModel = new TrackModel(track1);
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 

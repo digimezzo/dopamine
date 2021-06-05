@@ -1,4 +1,4 @@
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { DataDelimiter } from '../../data/data-delimiter';
 import { Track } from '../../data/entities/track';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -35,24 +35,24 @@ export class TrackModel {
     }
 
     public get albumTitle(): string {
-        if (StringCompare.isNullOrWhiteSpace(this.track.albumTitle)) {
+        if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
             return this.translatorService.get('Track.UnknownAlbum');
         }
 
         return this.track.albumTitle;
     }
 
-    public get albumArtist(): string {
-        const albumArtists = DataDelimiter.fromDelimitedString(this.track.albumArtists);
+    public get albumArtists(): string {
+        const albumArtists: string[] = DataDelimiter.fromDelimitedString(this.track.albumArtists);
 
         if (albumArtists != undefined && albumArtists.length > 0) {
-            return albumArtists[0];
+            return albumArtists.join(', ');
         }
 
-        const trackArtists = DataDelimiter.fromDelimitedString(this.track.artists);
+        const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
 
         if (trackArtists != undefined && trackArtists.length > 0) {
-            return trackArtists[0];
+            return trackArtists.join(', ');
         }
 
         return this.translatorService.get('Track.UnknownArtist');

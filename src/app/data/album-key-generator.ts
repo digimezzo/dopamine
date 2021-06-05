@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StringCompare } from '../core/string-compare';
+import { Strings } from '../core/strings';
 import { DataDelimiter } from './data-delimiter';
 
 @Injectable()
@@ -7,7 +7,7 @@ export class AlbumKeyGenerator {
     constructor() {}
 
     public generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
-        if (!StringCompare.isNullOrWhiteSpace(albumTitle)) {
+        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
             const albumKeyItems: string[] = [];
             albumKeyItems.push(albumTitle);
 

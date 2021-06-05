@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DateTime } from '../../core/date-time';
 import { FileSystem } from '../../core/io/file-system';
 import { Logger } from '../../core/logger';
-import { StringCompare } from '../../core/string-compare';
+import { Strings } from '../../core/strings';
 import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { Track } from '../../data/entities/track';
 import { FileMetadata } from '../../metadata/file-metadata';
@@ -76,7 +76,7 @@ export class TrackFiller {
     }
 
     private gethasLyrics(lyrics: string): number {
-        if (!StringCompare.isNullOrWhiteSpace(lyrics)) {
+        if (!Strings.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }
 
