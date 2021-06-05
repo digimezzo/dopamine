@@ -1,3 +1,4 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../../core/logger';
 import { Scheduler } from '../../../core/scheduler/scheduler';
@@ -21,6 +22,9 @@ describe('CollectionAlbumsComponent', () => {
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
+    let selectedAlbumsChangedMock: Subject<string[]>;
+    let selectedAlbumsChangedMock$: Observable<string[]>;
+
     let component: CollectionAlbumsComponent;
 
     const albumData1: AlbumData = new AlbumData();
@@ -39,12 +43,16 @@ describe('CollectionAlbumsComponent', () => {
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
+        selectedAlbumsChangedMock = new Subject();
+        selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
+
         album1 = new AlbumModel(albumData1, translatorServiceMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         albums = [album1, album2];
 
         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
         albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
+        albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
