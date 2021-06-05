@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Constants } from '../../../core/base/constants';
 import { Logger } from '../../../core/logger';
 import { Scheduler } from '../../../core/scheduler/scheduler';
@@ -19,6 +20,7 @@ import { AlbumsTracksPersister } from './albums-tracks-persister';
 })
 export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
+    private subscription: Subscription = new Subscription();
 
     constructor(
         public albumsPersister: AlbumsAlbumsPersister,
@@ -45,11 +47,18 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
         this.albums = [];
         this.tracks = new TrackModels();
     }
 
     public async ngOnInit(): Promise<void> {
+        this.subscription.add(
+            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                this.getTracksForAlbumKeys(albumKeys);
+            })
+        );
+
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         await this.fillListsAsync();
     }
@@ -62,10 +71,27 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
-            this.albums = this.albumService.getAllAlbums();
-            this.tracks = this.trackService.getAllTracks();
+            this.getAlbums();
+            this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
+        }
+    }
+
+    private getAlbums(): void {
+        this.albums = this.albumService.getAllAlbums();
+    }
+
+    private getTracks(): void {
+        const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
+        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+    }
+
+    private getTracksForAlbumKeys(albumKeys: string[]): void {
+        if (albumKeys.length > 0) {
+            this.tracks = this.trackService.getAlbumTracks(albumKeys);
+        } else {
+            this.tracks = this.trackService.getAllTracks();
         }
     }
 }

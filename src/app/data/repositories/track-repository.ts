@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlbumData } from '../album-data';
+import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
 import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
@@ -80,6 +81,18 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectTracksQueryPart(true));
+
+        const tracks: Track[] = statement.all();
+
+        return tracks;
+    }
+
+    public getAlbumTracks(albumKeys: string[]): Track[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(
+            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.AlbumKey', albumKeys)}`
+        );
 
         const tracks: Track[] = statement.all();
 

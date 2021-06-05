@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../core/logger';
 import { BaseSettings } from '../../core/settings/base-settings';
 import { StringCompare } from '../../core/string-compare';
@@ -9,10 +10,13 @@ import { AlbumOrder } from './album-order';
 export abstract class BaseAlbumsPersister {
     private selectedAlbumKeys: string[] = [];
     private selectedAlbumOrder: AlbumOrder;
+    private selectedAlbumsChanged: Subject<string[]> = new Subject();
 
     constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
+
+    public selectedAlbumsChanged$: Observable<string[]> = this.selectedAlbumsChanged.asObservable();
 
     public abstract getSelectedAlbumFromSettings(): string;
     public abstract saveSelectedAlbumToSettings(selectedAlbumKey: string): void;
@@ -50,6 +54,8 @@ export abstract class BaseAlbumsPersister {
             } else {
                 this.saveSelectedAlbumToSettings('');
             }
+
+            this.selectedAlbumsChanged.next(this.selectedAlbumKeys);
         } catch (e) {
             this.logger.error(`Could not set selected albums. Error: ${e.message}`, 'BaseAlbumsPersister', 'setSelectedAlbums');
         }
