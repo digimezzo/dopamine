@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { AdvancedSettingsComponent } from './advanced-settings.component';
 
 describe('AdvancedSettingsComponent', () => {

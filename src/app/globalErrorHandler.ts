@@ -1,8 +1,8 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { BrowserWindow, remote } from 'electron';
+import { Logger } from './common/logger';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
-import { Logger } from './core/logger';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

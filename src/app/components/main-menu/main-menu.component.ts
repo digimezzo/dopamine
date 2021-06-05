@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ProductInformation } from '../../core/base/product-information';
+import { ProductInformation } from '../../common/application/product-information';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../services/update/base-update.service';
 

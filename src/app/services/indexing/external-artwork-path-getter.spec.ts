@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { IMock, It, Mock } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
+import { FileSystem } from '../../common/io/file-system';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 describe('ExternalArtworkPathGetter', () => {

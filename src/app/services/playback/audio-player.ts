@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Logger } from '../../core/logger';
+import { Logger } from '../../common/logger';
 import { BaseAudioPlayer } from './base-audio-player';
 
 @Injectable()

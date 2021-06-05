@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { FileSystem } from '../core/io/file-system';
+import { FileSystem } from '../common/io/file-system';
 import { SubfolderModel } from '../services/folder/subfolder-model';
 import { SubfolderNamePipe } from './subfolder-name.pipe';
 

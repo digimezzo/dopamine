@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../../core/logger';
-import { Folder } from '../../../data/entities/folder';
+import { Folder } from '../../../common/data/entities/folder';
+import { Logger } from '../../../common/logger';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { FoldersPersister } from './folders-persister';

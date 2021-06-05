@@ -1,8 +1,8 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Desktop } from '../../core/io/desktop';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { Folder } from '../../data/entities/folder';
+import { Folder } from '../../common/data/entities/folder';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { FolderModel } from '../../services/folder/folder-model';

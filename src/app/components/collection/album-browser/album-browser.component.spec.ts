@@ -1,9 +1,9 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Logger } from '../../../core/logger';
-import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
-import { NativeElementProxy } from '../../../core/native-element-proxy';
-import { AlbumData } from '../../../data/album-data';
+import { AlbumData } from '../../../common/data/album-data';
+import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';

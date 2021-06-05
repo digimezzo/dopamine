@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Constants } from '../../../core/base/constants';
-import { Hacks } from '../../../core/hacks';
-import { Logger } from '../../../core/logger';
-import { Scheduler } from '../../../core/scheduler/scheduler';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { Constants } from '../../../common/application/constants';
+import { Hacks } from '../../../common/hacks';
+import { Logger } from '../../../common/logger';
+import { Scheduler } from '../../../common/scheduler/scheduler';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';

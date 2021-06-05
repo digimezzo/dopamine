@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModel } from './track-model';
 

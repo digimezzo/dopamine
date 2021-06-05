@@ -1,5 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { ManageAlbumCoversComponent } from './manage-album-covers.component';
 

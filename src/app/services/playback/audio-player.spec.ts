@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../core/logger';
+import { Logger } from '../../common/logger';
 import { AudioPlayer } from './audio-player';
 import { BaseAudioPlayer } from './base-audio-player';
 

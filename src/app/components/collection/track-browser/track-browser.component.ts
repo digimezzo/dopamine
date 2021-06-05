@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { Logger } from '../../../core/logger';
-import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
+import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';

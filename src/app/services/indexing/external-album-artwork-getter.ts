@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { Strings } from '../../core/strings';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
+import { Strings } from '../../common/strings';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 @Injectable()

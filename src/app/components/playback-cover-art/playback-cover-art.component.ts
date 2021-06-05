@@ -1,11 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { Scheduler } from '../../core/scheduler/scheduler';
-import { FileMetadata } from '../../metadata/file-metadata';
-import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
+import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { Scheduler } from '../../common/scheduler/scheduler';
 import { AlbumArtworkGetter } from '../../services/indexing/album-artwork-getter';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';

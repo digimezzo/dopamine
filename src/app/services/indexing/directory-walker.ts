@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../core/io/file-system';
+import { FileSystem } from '../../common/io/file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
 
 @Injectable()

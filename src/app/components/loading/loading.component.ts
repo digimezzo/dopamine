@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseScheduler } from '../../core/scheduler/base-scheduler';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
+import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
+import { BaseScheduler } from '../../common/scheduler/base-scheduler';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';

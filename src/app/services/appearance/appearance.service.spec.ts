@@ -1,10 +1,10 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
-import { Desktop } from '../../core/io/desktop';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { AppearanceService } from './appearance.service';
 
 describe('AppearanceService', () => {

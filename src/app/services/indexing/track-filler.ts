@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { DateTime } from '../../core/date-time';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Strings } from '../../core/strings';
-import { AlbumKeyGenerator } from '../../data/album-key-generator';
-import { Track } from '../../data/entities/track';
-import { FileMetadata } from '../../metadata/file-metadata';
-import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
-import { MimeTypes } from '../../metadata/mime-types';
+import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
+import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
+import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { MimeTypes } from '../../common/metadata/mime-types';
+import { Strings } from '../../common/strings';
 import { TrackFieldCreator } from './track-field-creator';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { Logger } from '../../core/logger';
-import { MathExtensions } from '../../core/math-extensions';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { Logger } from '../../common/logger';
+import { MathExtensions } from '../../common/math-extensions';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { TrackModel } from '../track/track-model';
 import { BaseAudioPlayer } from './base-audio-player';
 import { BasePlaybackService } from './base-playback.service';

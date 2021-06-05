@@ -1,7 +1,7 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
-import { TrackRepository } from '../../data/repositories/track-repository';
+import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { TrackRepository } from '../../common/data/repositories/track-repository';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';

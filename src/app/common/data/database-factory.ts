@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Database from 'better-sqlite3';
 import * as path from 'path';
-import { FileSystem } from '../core/io/file-system';
+import { FileSystem } from '../io/file-system';
 
 @Injectable()
 export class DatabaseFactory {

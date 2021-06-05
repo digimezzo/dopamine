@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Constants } from '../../../core/base/constants';
-import { Logger } from '../../../core/logger';
-import { Scheduler } from '../../../core/scheduler/scheduler';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { Constants } from '../../../common/application/constants';
+import { Logger } from '../../../common/logger';
+import { Scheduler } from '../../../common/scheduler/scheduler';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTrackService } from '../../../services/track/base-track.service';

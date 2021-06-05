@@ -1,7 +1,7 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Logger } from '../../../core/logger';
-import { Scheduler } from '../../../core/scheduler/scheduler';
-import { AlbumData } from '../../../data/album-data';
+import { AlbumData } from '../../../common/data/album-data';
+import { Logger } from '../../../common/logger';
+import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';

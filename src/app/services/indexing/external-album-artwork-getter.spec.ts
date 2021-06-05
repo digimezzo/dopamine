@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 

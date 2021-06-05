@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Logger } from '../../core/logger';
-import { MathExtensions } from '../../core/math-extensions';
+import { Logger } from '../../common/logger';
+import { MathExtensions } from '../../common/math-extensions';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 

@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
 import { FolderServiceMock } from '../folder/folder-service-mock';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { CollectionChecker } from './collection-checker';

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Constants } from '../../../core/base/constants';
+import { Constants } from '../../../common/application/constants';
 
 @Injectable()
 export class AlbumSpaceCalculator {

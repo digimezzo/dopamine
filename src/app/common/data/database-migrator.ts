@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../core/io/file-system';
-import { Logger } from '../core/logger';
+import { FileSystem } from '../io/file-system';
+import { Logger } from '../logger';
 import { BaseDatabaseMigrator } from './base-database-migrator';
 import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 
 @Component({

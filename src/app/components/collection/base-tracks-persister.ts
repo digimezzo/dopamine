@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { Strings } from '../../core/strings';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 import { TrackOrder } from './track-order';
 
 @Injectable()

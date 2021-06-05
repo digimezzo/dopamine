@@ -1,9 +1,9 @@
 import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Folder } from '../../data/entities/folder';
-import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { Folder } from '../../common/data/entities/folder';
+import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { FolderModel } from './folder-model';
 import { FolderService } from './folder.service';
@@ -46,13 +46,7 @@ describe('FolderService', () => {
             await service.addFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(
-                (x) =>
-                    x.addFolder(
-                        It.isObjectWith<Folder>({ path: '/home/me/Music' })
-                    ),
-                Times.exactly(1)
-            );
+            folderRepositoryMock.verify((x) => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.exactly(1));
         });
 
         it('should not add an existing folder with the selected path to the database', async () => {
@@ -63,13 +57,7 @@ describe('FolderService', () => {
             await service.addFolderAsync('/home/me/Music');
 
             // Assert
-            folderRepositoryMock.verify(
-                (x) =>
-                    x.addFolder(
-                        It.isObjectWith<Folder>({ path: '/home/me/Music' })
-                    ),
-                Times.never()
-            );
+            folderRepositoryMock.verify((x) => x.addFolder(It.isObjectWith<Folder>({ path: '/home/me/Music' })), Times.never());
         });
 
         it('should notify the user if a folder was already added', async () => {

@@ -1,5 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackIndexer } from './track-indexer';

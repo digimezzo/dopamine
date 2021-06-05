@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../../core/logger';
-import { AlbumData } from '../../../data/album-data';
+import { AlbumData } from '../../../common/data/album-data';
+import { Logger } from '../../../common/logger';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';

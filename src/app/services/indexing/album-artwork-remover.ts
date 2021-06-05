@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
-import { AlbumArtwork } from '../../data/entities/album-artwork';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { AlbumArtwork } from '../../common/data/entities/album-artwork';
+import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
@@ -67,7 +67,8 @@ export class AlbumArtworkRemover {
         timer.start();
 
         try {
-            const numberOfAlbumArtworkToRemove: number = this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfAlbumArtworkToRemove: number =
+                this.albumArtworkRepository.getNumberOfAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             if (numberOfAlbumArtworkToRemove === 0) {
                 timer.stop();
@@ -89,7 +90,8 @@ export class AlbumArtworkRemover {
 
             this.snackBarService.updatingAlbumArtworkAsync();
 
-            const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+            const numberOfRemovedAlbumArtwork: number =
+                this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
             timer.stop();
 

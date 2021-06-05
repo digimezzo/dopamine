@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Constants } from '../../../core/base/constants';
+import { Constants } from '../../../common/application/constants';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from '../album-order';
 import { AlbumRow } from './album-row';

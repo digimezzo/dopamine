@@ -1,8 +1,8 @@
 import { IMock, It, Mock } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Folder } from '../../data/entities/folder';
-import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { Folder } from '../../common/data/entities/folder';
+import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 import { IndexablePath } from './indexable-path';

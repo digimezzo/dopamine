@@ -1,4 +1,4 @@
-import { Strings } from '../core/strings';
+import { Strings } from '../strings';
 
 export class DataDelimiter {
     private static delimiter: string = ';';

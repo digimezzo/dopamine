@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ProductInformation } from '../../core/base/product-information';
+import { ProductInformation } from '../../common/application/product-information';
 
 @Component({
     selector: 'app-logo-full',

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FileSystem } from '../core/io/file-system';
-import { Strings } from '../core/strings';
+import { FileSystem } from '../common/io/file-system';
+import { Strings } from '../common/strings';
 import { FolderModel } from '../services/folder/folder-model';
 
 @Pipe({ name: 'folderName' })

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseSettings } from '../../../common/settings/base-settings';
 
 @Component({
     selector: 'app-advanced-settings',

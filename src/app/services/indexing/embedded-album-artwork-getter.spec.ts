@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 
 describe('EmbeddedAlbumArtworkGetter', () => {

@@ -1,9 +1,9 @@
 import { IMock, It, Mock } from 'typemoq';
-import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
-import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
+import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 
 describe('OnlineAlbumArtworkGetter', () => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../core/io/file-system';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
+import { FileSystem } from '../../common/io/file-system';
 
 @Injectable()
 export class TrackVerifier {

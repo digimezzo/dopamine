@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
-import { SensitiveInformation } from '../../base/sensitive-information';
+import { SensitiveInformation } from '../../application/sensitive-information';
 import { DateTime } from '../../date-time';
 import { Strings } from '../../strings';
 import { LastfmAlbum } from './lastfm-album';

@@ -1,7 +1,7 @@
 import { MatDialogRef } from '@angular/material';
 import { IMock, It, Mock } from 'typemoq';
-import { Desktop } from '../../../core/io/desktop';
-import { FileSystem } from '../../../core/io/file-system';
+import { Desktop } from '../../../common/io/desktop';
+import { FileSystem } from '../../../common/io/file-system';
 import { ErrorDialogComponent } from './error-dialog.component';
 
 describe('ErrorDialogComponent', () => {

@@ -1,7 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { Track } from '../../data/entities/track';
-import { TrackRepository } from '../../data/repositories/track-repository';
+import { Track } from '../../common/data/entities/track';
+import { TrackRepository } from '../../common/data/repositories/track-repository';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackFiller } from './track-filler';
 import { TrackUpdater } from './track-updater';

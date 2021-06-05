@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 
 @Injectable()
 export class EmbeddedAlbumArtworkGetter {

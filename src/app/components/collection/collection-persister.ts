@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { CollectionTab } from './collection-tab';
 
 @Injectable()

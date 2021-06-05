@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { Strings } from '../../core/strings';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 import { AlbumModel } from '../../services/album/album-model';
 import { AlbumOrder } from './album-order';
 

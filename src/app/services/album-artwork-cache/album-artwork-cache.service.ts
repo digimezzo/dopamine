@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as path from 'path';
-import { ImageProcessor } from '../../core/image-processor';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Strings } from '../../core/strings';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { ImageProcessor } from '../../common/image-processor';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
+import { Strings } from '../../common/strings';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';

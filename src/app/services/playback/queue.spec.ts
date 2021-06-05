@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { ListRandomizer } from '../../core/list-randomizer';
-import { Logger } from '../../core/logger';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
+import { ListRandomizer } from '../../common/list-randomizer';
+import { Logger } from '../../common/logger';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { Queue } from './queue';

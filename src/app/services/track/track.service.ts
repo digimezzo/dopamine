@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FileFormats } from '../../core/base/file-formats';
-import { FileSystem } from '../../core/io/file-system';
-import { Strings } from '../../core/strings';
-import { Track } from '../../data/entities/track';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { FileFormats } from '../../common/application/file-formats';
+import { Track } from '../../common/data/entities/track';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Strings } from '../../common/strings';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseTrackService } from './base-track.service';

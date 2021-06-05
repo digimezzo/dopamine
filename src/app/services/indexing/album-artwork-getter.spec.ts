@@ -1,5 +1,5 @@
 import { IMock, It, Mock } from 'typemoq';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { AlbumArtworkGetter } from './album-artwork-getter';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';

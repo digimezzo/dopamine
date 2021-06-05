@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ContactInformation } from '../../../core/base/contact-information';
-import { ProductInformation } from '../../../core/base/product-information';
-import { Desktop } from '../../../core/io/desktop';
+import { ContactInformation } from '../../../common/application/contact-information';
+import { ProductInformation } from '../../../common/application/product-information';
+import { Desktop } from '../../../common/io/desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 
 @Component({

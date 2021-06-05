@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';

@@ -1,7 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
-import { Track } from '../../data/entities/track';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { Track } from '../../common/data/entities/track';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { FileSystem } from '../../common/io/file-system';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModels } from './track-models';

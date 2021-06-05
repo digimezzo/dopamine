@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
+import { FileSystem } from '../../common/io/file-system';
 import { TrackVerifier } from './track-verifier';
 
 describe('TrackVerifier', () => {

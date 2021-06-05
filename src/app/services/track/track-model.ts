@@ -1,6 +1,6 @@
-import { Strings } from '../../core/strings';
-import { DataDelimiter } from '../../data/data-delimiter';
-import { Track } from '../../data/entities/track';
+import { DataDelimiter } from '../../common/data/data-delimiter';
+import { Track } from '../../common/data/entities/track';
+import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class TrackModel {

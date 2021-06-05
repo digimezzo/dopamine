@@ -1,8 +1,8 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { AlbumArtwork } from '../../data/entities/album-artwork';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { AlbumArtwork } from '../../common/data/entities/album-artwork';
+import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 

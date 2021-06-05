@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
+import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { WindowControlsComponent } from './window-controls.component';
 
 describe('WindowControlsComponent', () => {

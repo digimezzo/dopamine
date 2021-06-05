@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { Constants } from '../../core/base/constants';
+import { Constants } from '../../common/application/constants';
 import { BaseApplicationService } from './base-application.service';
 
 @Injectable()

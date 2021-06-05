@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../core/scheduler/scheduler';
+import { Scheduler } from '../../common/scheduler/scheduler';
 import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
 import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';

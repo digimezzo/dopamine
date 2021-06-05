@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseScheduler } from '../../core/scheduler/base-scheduler';
-import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
+import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
+import { BaseScheduler } from '../../common/scheduler/base-scheduler';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';

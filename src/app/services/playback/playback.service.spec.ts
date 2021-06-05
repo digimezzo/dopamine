@@ -1,8 +1,8 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { MathExtensions } from '../../core/math-extensions';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
+import { Logger } from '../../common/logger';
+import { MathExtensions } from '../../common/math-extensions';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseAudioPlayer } from './base-audio-player';

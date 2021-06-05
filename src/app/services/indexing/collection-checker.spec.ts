@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
 import { CollectionChecker } from './collection-checker';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';

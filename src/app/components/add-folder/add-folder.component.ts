@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Desktop } from '../../core/io/desktop';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { Strings } from '../../core/strings';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { FolderModel } from '../../services/folder/folder-model';

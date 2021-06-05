@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BrowserWindow } from 'electron';
-import { BaseRemoteProxy } from '../../core/io/base-remote-proxy';
+import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 
 @Component({
     selector: 'app-window-controls',

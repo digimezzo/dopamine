@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { PathValidator } from '../../core/path-validator';
-import { Track } from '../../data/entities/track';
+import { Track } from '../../common/data/entities/track';
+import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';

@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseSettings } from '../../../core/settings/base-settings';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AppearanceSettingsComponent } from './appearance-settings.component';

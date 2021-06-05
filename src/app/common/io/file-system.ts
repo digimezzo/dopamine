@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { ApplicationPaths } from '../base/application-paths';
+import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
 
 @Injectable()

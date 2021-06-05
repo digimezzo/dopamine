@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { GitHubApi } from '../../core/api/git-hub/git-hub-api';
-import { ProductInformation } from '../../core/base/product-information';
-import { Desktop } from '../../core/io/desktop';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
+import { ProductInformation } from '../../common/application/product-information';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseUpdateService } from './base-update.service';
 import { VersionComparer } from './version-comparer';
 @Injectable()

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ListRandomizer } from '../../core/list-randomizer';
-import { Logger } from '../../core/logger';
+import { ListRandomizer } from '../../common/list-randomizer';
+import { Logger } from '../../common/logger';
 import { TrackModel } from '../track/track-model';
 
 @Injectable()

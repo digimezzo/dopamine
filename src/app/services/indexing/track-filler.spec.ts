@@ -1,12 +1,12 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { DateTime } from '../../core/date-time';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { AlbumKeyGenerator } from '../../data/album-key-generator';
-import { Track } from '../../data/entities/track';
-import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
-import { FileMetadataMock } from '../../metadata/file-metadata-mock';
-import { MimeTypes } from '../../metadata/mime-types';
+import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
+import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
+import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { FileMetadataMock } from '../../common/metadata/file-metadata-mock';
+import { MimeTypes } from '../../common/metadata/mime-types';
 import { TrackFieldCreator } from './track-field-creator';
 import { TrackFiller } from './track-filler';
 

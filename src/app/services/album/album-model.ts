@@ -1,6 +1,6 @@
-import { Strings } from '../../core/strings';
-import { AlbumData } from '../../data/album-data';
-import { DataDelimiter } from '../../data/data-delimiter';
+import { AlbumData } from '../../common/data/album-data';
+import { DataDelimiter } from '../../common/data/data-delimiter';
+import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {

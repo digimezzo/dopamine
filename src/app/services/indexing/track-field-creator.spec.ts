@@ -1,5 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { MetadataPatcher } from '../../metadata/metadata-patcher';
+import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 import { TrackFieldCreator } from './track-field-creator';
 
 describe('TrackFieldCreator', () => {

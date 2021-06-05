@@ -1,4 +1,4 @@
-import { Folder } from '../../data/entities/folder';
+import { Folder } from '../../common/data/entities/folder';
 import { FolderModel } from './folder-model';
 
 describe('FolderModel', () => {

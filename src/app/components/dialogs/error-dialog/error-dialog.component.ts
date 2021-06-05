@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as path from 'path';
-import { Constants } from '../../../core/base/constants';
-import { Desktop } from '../../../core/io/desktop';
-import { FileSystem } from '../../../core/io/file-system';
+import { Constants } from '../../../common/application/constants';
+import { Desktop } from '../../../common/io/desktop';
+import { FileSystem } from '../../../common/io/file-system';
 
 @Component({
     selector: 'app-error-dialog',

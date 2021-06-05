@@ -1,8 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Logger } from '../../core/logger';
-import { MathExtensions } from '../../core/math-extensions';
+import { Logger } from '../../common/logger';
+import { MathExtensions } from '../../common/math-extensions';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 import { PlaybackProgressComponent } from './playback-progress.component';

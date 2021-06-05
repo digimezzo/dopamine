@@ -1,10 +1,10 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock } from 'typemoq';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { Scheduler } from '../../core/scheduler/scheduler';
-import { Track } from '../../data/entities/track';
-import { FileMetadataFactory } from '../../metadata/file-metadata-factory';
+import { Track } from '../../common/data/entities/track';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { Scheduler } from '../../common/scheduler/scheduler';
 import { AlbumArtworkGetter } from '../../services/indexing/album-artwork-getter';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';

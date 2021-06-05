@@ -1,5 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Desktop } from '../../core/io/desktop';
+import { Desktop } from '../../common/io/desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarComponent } from './snack-bar.component';
 

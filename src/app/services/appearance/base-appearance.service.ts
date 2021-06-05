@@ -1,4 +1,4 @@
-import { FontSize } from '../../core/base/font-size';
+import { FontSize } from '../../common/application/font-size';
 import { ColorScheme } from './color-scheme';
 
 export abstract class BaseAppearanceService {

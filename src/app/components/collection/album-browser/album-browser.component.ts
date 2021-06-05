@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Logger } from '../../../core/logger';
-import { MouseSelectionWatcher } from '../../../core/mouse-selection-watcher';
-import { NativeElementProxy } from '../../../core/native-element-proxy';
+import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { AlbumOrder } from '../album-order';

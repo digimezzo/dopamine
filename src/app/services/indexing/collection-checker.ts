@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
 import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';

@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { FileSystem } from '../core/io/file-system';
-import { Folder } from '../data/entities/folder';
+import { Folder } from '../common/data/entities/folder';
+import { FileSystem } from '../common/io/file-system';
 import { FolderModel } from '../services/folder/folder-model';
 import { FolderNamePipe } from './folder-name.pipe';
 

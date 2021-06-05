@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Strings } from '../core/strings';
+import { Strings } from '../common/strings';
 import { BaseTranslatorService } from '../services/translator/base-translator.service';
 
 @Pipe({ name: 'formatTrackArtists' })

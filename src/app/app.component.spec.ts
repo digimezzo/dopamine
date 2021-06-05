@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
-import { Logger } from './core/logger';
+import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';

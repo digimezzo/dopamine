@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PathValidator } from '../../core/path-validator';
+import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
 import { BasePlaybackIndicationService } from './base-playback-indication.service';

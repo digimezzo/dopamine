@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { IMock, Mock } from 'typemoq';
-import { BaseSettings } from '../../core/settings/base-settings';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { TranslatorService } from './translator.service';
 
 describe('TranslatorService', () => {

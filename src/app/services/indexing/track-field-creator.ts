@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DataDelimiter } from '../../data/data-delimiter';
-import { MetadataPatcher } from '../../metadata/metadata-patcher';
+import { DataDelimiter } from '../../common/data/data-delimiter';
+import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 
 @Injectable()
 export class TrackFieldCreator {

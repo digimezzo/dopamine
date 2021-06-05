@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Strings } from '../core/strings';
+import { Strings } from '../strings';
 import { DataDelimiter } from './data-delimiter';
 
 @Injectable()

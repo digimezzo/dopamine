@@ -1,4 +1,4 @@
-import { ExternalComponent } from '../../../core/base/external-component';
+import { ExternalComponent } from '../../../common/application/external-component';
 import { ComponentsComponent } from './components.component';
 
 describe('ComponentsComponent', () => {

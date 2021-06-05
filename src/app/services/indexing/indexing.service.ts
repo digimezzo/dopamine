@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Logger } from '../../core/logger';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
 import { BaseFolderService } from '../folder/base-folder.service';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { BaseCollectionChecker } from './base-collection-checker';

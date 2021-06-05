@@ -1,9 +1,9 @@
 import * as path from 'path';
 import { IMock, Mock, Times } from 'typemoq';
-import { ImageProcessor } from '../../core/image-processor';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { ImageProcessor } from '../../common/image-processor';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './album-artwork-cache.service';

@@ -1,10 +1,10 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Hacks } from '../../../core/hacks';
-import { Logger } from '../../../core/logger';
-import { Scheduler } from '../../../core/scheduler/scheduler';
-import { Folder } from '../../../data/entities/folder';
-import { Track } from '../../../data/entities/track';
+import { Folder } from '../../../common/data/entities/folder';
+import { Track } from '../../../common/data/entities/track';
+import { Hacks } from '../../../common/hacks';
+import { Logger } from '../../../common/logger';
+import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material';
-import { Desktop } from '../../core/io/desktop';
+import { Desktop } from '../../common/io/desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 
 @Component({

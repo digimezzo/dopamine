@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { FileSystem } from '../../core/io/file-system';
+import { FileSystem } from '../../common/io/file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 

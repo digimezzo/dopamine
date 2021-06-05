@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
-import { Track } from '../../data/entities/track';
-import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { Track } from '../../common/data/entities/track';
+import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()

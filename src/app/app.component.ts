@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductInformation } from './core/base/product-information';
-import { Logger } from './core/logger';
+import { ProductInformation } from './common/application/product-information';
+import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';

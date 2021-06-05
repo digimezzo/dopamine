@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Folder } from '../../data/entities/folder';
-import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
+import { Folder } from '../../common/data/entities/folder';
+import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { FileSystem } from '../../common/io/file-system';
+import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderService } from './base-folder.service';
 import { FolderModel } from './folder-model';
