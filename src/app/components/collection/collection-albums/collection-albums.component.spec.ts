@@ -1,11 +1,14 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/album-data';
+import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModel } from '../../../services/track/track-model';
+import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
@@ -33,6 +36,12 @@ describe('CollectionAlbumsComponent', () => {
     let album2: AlbumModel;
     let albums: AlbumModel[];
 
+    let track1: Track;
+    let track2: Track;
+    let trackModel1: TrackModel;
+    let trackModel2: TrackModel;
+    let tracks: TrackModels;
+
     beforeEach(() => {
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
@@ -50,11 +59,18 @@ describe('CollectionAlbumsComponent', () => {
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         albums = [album1, album2];
 
+        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
+        tracks = new TrackModels();
+        tracks.addTrack(trackModel1);
+        tracks.addTrack(trackModel2);
+
         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
         albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
         albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
+        trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
 
         component = new CollectionAlbumsComponent(
             albumsPersisterMock.object,
@@ -96,11 +112,21 @@ describe('CollectionAlbumsComponent', () => {
         });
 
         it('should define albums as empty', () => {
-            throw new Error();
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.albums.length).toEqual(0);
         });
 
         it('should define tracks as empty', () => {
-            throw new Error();
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.tracks.tracks.length).toEqual(0);
         });
     });
 

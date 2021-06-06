@@ -89,7 +89,12 @@ describe('CollectionArtistsComponent', () => {
         });
 
         it('should define albums as empty', () => {
-            throw new Error();
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.albums.length).toEqual(0);
         });
     });
 
