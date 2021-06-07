@@ -32,7 +32,9 @@ describe('CollectionAlbumsComponent', () => {
     let component: CollectionAlbumsComponent;
 
     const albumData1: AlbumData = new AlbumData();
+    albumData1.albumKey = 'albumKey1';
     const albumData2: AlbumData = new AlbumData();
+    albumData2.albumKey = 'albumKey2';
     let album1: AlbumModel;
     let album2: AlbumModel;
     let albums: AlbumModel[];
@@ -231,10 +233,13 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should get all tracks if there are no selected albums', async () => {
             // Arrange
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
+            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
+
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
@@ -247,6 +252,7 @@ describe('CollectionAlbumsComponent', () => {
             );
 
             component.albums = albums;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
             // Act
             await component.ngOnInit();
@@ -257,7 +263,34 @@ describe('CollectionAlbumsComponent', () => {
         });
 
         it('should get tracks for the selected albums when the selected albums have changed', async () => {
-            throw new Error();
+            // Arrange
+            albumsPersisterMock.reset();
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
+            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
+
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            component.albums = albums;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            trackServiceMock.verify((x) => x.getAlbumTracks(['albumKey2']), Times.exactly(1));
+            expect(component.tracks).toBe(tracks);
         });
     });
 
