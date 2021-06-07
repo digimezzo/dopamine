@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/album-data';
 import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
@@ -11,6 +11,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
+import { TrackOrder } from '../track-order';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
@@ -59,6 +60,10 @@ describe('CollectionAlbumsComponent', () => {
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         albums = [album1, album2];
 
+        track1 = new Track('Path1');
+        track1.duration = 1;
+        track2 = new Track('Path2');
+        track2.duration = 2;
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
         tracks = new TrackModels();
@@ -71,6 +76,7 @@ describe('CollectionAlbumsComponent', () => {
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
         trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
 
         component = new CollectionAlbumsComponent(
             albumsPersisterMock.object,
@@ -223,8 +229,31 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.albums).toEqual(albums);
         });
 
-        it('should get all tracks', async () => {
-            throw new Error();
+        it('should get all tracks if there are no selected albums', async () => {
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
+
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            component.albums = albums;
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
+            expect(component.tracks).toBe(tracks);
         });
 
         it('should get tracks for the selected albums when the selected albums have changed', async () => {
@@ -237,7 +266,7 @@ describe('CollectionAlbumsComponent', () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
@@ -249,7 +278,7 @@ describe('CollectionAlbumsComponent', () => {
                 loggerMock.object
             );
 
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Act
             component.ngOnDestroy();
@@ -259,7 +288,28 @@ describe('CollectionAlbumsComponent', () => {
         });
 
         it('should clear the tracks', async () => {
-            throw new Error();
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            await component.ngOnInit();
+
+            // Act
+            component.ngOnDestroy();
+
+            // Assert
+            expect(component.tracks.tracks).toEqual([]);
         });
     });
 });
