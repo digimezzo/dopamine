@@ -113,7 +113,7 @@ describe('AlbumsAlbumsPersister', () => {
     });
 
     describe('saveSelectedAlbumOrderToSettings', () => {
-        it('should save the selected album to the settings', () => {
+        it('should save the selected album order to the settings', () => {
             // Arrange
             settingsStub.albumsTabSelectedAlbumOrder = '';
             persister = new AlbumsAlbumsPersister(settingsStub, loggerMock.object);
@@ -251,10 +251,10 @@ describe('AlbumsAlbumsPersister', () => {
             // Arrange
 
             // Act
-            const selectedAlbumorder: AlbumOrder = persister.getSelectedAlbumOrder();
+            const selectedAlbumOrder: AlbumOrder = persister.getSelectedAlbumOrder();
 
             // Assert
-            expect(selectedAlbumorder).toEqual(AlbumOrder.byAlbumTitleAscending);
+            expect(selectedAlbumOrder).toEqual(AlbumOrder.byAlbumTitleAscending);
         });
 
         it('should return the selected album order if there is a selected album order', () => {
@@ -263,10 +263,10 @@ describe('AlbumsAlbumsPersister', () => {
             persister = new AlbumsAlbumsPersister(settingsStub, loggerMock.object);
 
             // Act
-            const selectedAlbumorder: AlbumOrder = persister.getSelectedAlbumOrder();
+            const selectedAlbumOrder: AlbumOrder = persister.getSelectedAlbumOrder();
 
             // Assert
-            expect(selectedAlbumorder).toEqual(AlbumOrder.byYearDescending);
+            expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearDescending);
         });
     });
 
