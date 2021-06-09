@@ -133,7 +133,33 @@ describe('AlbumBrowserComponent', () => {
             expect(component.albums).toBe(albums);
         });
 
-        it('should fill the album rows', () => {
+        it('should initialize mouseSelectionWatcher using albums', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                mouseSelectionWatcherMock.object,
+                loggerMock.object
+            );
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.albumsPersister = albumsPersisterMock.object;
+            component.ngOnInit();
+
+            // Act
+            component.albums = albums;
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.initialize(albums, false), Times.exactly(1));
+        });
+
+        it('should order the albums', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
