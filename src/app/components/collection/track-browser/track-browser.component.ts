@@ -56,8 +56,6 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         this.orderTracks();
     }
 
-    public selectedTrack: TrackModel;
-
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }

@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
@@ -41,13 +41,11 @@ describe('TrackBrowserComponent', () => {
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
-        tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byAlbum);
+        tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
         track1 = new Track('Path1');
-        track1.duration = 1;
-        track1.fileSize = 2;
+        track1.trackTitle = 'Title1';
         track2 = new Track('Path2');
-        track2.duration = 1;
-        track2.fileSize = 2;
+        track2.trackTitle = 'Title2';
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
         tracks = new TrackModels();
@@ -113,7 +111,7 @@ describe('TrackBrowserComponent', () => {
     describe('tracks', () => {
         it('should set and get the tracks', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
             component.ngOnInit();
 
@@ -126,6 +124,34 @@ describe('TrackBrowserComponent', () => {
 
         it('should initialize mouseSelectionWatcher using tracks', () => {
             // Arrange
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            component.tracksPersister = tracksPersisterMock.object;
+            component.ngOnInit();
+
+            // Act
+            component.tracks = tracks;
+
+            // Assert
+            // TODO: TypeMoq does not consider the call with track.track to have been performed (The reference to tracks.tracks seems lost).
+            // So we use a workaround to ensure that the correct call occurs.
+            // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
+            mouseSelectionWatcherMock.verify(
+                (x) =>
+                    x.initialize(
+                        It.is(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 &&
+                                trackModels[0].path === trackModel1.path &&
+                                trackModels[1].path === trackModel2.path
+                        ),
+                        false
+                    ),
+                Times.exactly(1)
+            );
+        });
+
+        it('should order the tracks by the selected track order', () => {
+            // Arrange
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             component.tracksPersister = tracksPersisterMock.object;
             component.ngOnInit();
@@ -134,19 +160,14 @@ describe('TrackBrowserComponent', () => {
             component.tracks = tracks;
 
             // Assert
-            // TODO: typeMoq does not consider this call to have been performed (The referencde to tracks.tracks is lost).
-            // So we use a workaround to ensure that the correct call occurs.
-            // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
-            // mouseSelectionWatcherMock.verify(
-            //     (x) =>
-            //         x.initialize(
-            //             It.is((trackModels: TrackModel[]) => trackModels[0].path === 'Path1' && trackModels[1].path === 'Path2'),
-            //             false
-            //         ),
-            //     Times.exactly(1)
-            // );
+            expect(component.orderedTracks[0]).toBe(trackModel2);
+            expect(component.orderedTracks[1]).toBe(trackModel1);
         });
+    });
 
-        // it('should order the albums', () => {});
+    describe('ngOnInit', () => {
+        it('should get the selected track order from the persister', () => {
+            // TODO
+        });
     });
 });

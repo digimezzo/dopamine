@@ -368,14 +368,10 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.never());
         });
 
-        it('should initialize mouseSelectionWatcher using albums', () => {
+        it('should get the selected album order from the persister', () => {
             // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            const albumData2: AlbumData = new AlbumData();
-            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-            const albums: AlbumModel[] = [album1, album2];
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byDateCreated);
+
             component = new AlbumBrowserComponent(
                 applicationServiceMock.object,
                 albumRowsGetterMock.object,
@@ -385,13 +381,13 @@ describe('AlbumBrowserComponent', () => {
             );
 
             component.albumsPersister = albumsPersisterMock.object;
-            component.albums = albums;
 
             // Act
             component.ngOnInit();
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.initialize(albums, false), Times.exactly(1));
+            albumsPersisterMock.verify((x) => x.getSelectedAlbumOrder(), Times.exactly(1));
+            component.selectedAlbumOrder = AlbumOrder.byDateCreated;
         });
     });
 
