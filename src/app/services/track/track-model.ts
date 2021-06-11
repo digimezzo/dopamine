@@ -22,6 +22,10 @@ export class TrackModel {
         return this.track.trackNumber;
     }
 
+    public get discNumber(): number {
+        return this.track.discNumber;
+    }
+
     public get title(): string {
         return this.track.trackTitle;
     }

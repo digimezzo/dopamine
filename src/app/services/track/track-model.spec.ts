@@ -11,6 +11,7 @@ describe('TrackModel', () => {
     beforeEach(() => {
         track = new Track('/home/user/Music/track1.mp3');
         track.trackNumber = 5;
+        track.discNumber = 1;
         track.fileName = 'track1';
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
@@ -100,6 +101,19 @@ describe('TrackModel', () => {
             expect(number).toEqual(5);
         });
     });
+
+    describe('discNumber', () => {
+        it('should return the track discNumber', () => {
+            // Arrange
+
+            // Act
+            const discNumber: number = trackModel.discNumber;
+
+            // Assert
+            expect(discNumber).toEqual(1);
+        });
+    });
+
     describe('title', () => {
         it('should return the track title', () => {
             // Arrange

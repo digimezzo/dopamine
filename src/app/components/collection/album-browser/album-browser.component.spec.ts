@@ -584,34 +584,34 @@ describe('AlbumBrowserComponent', () => {
             expect(albums[0].isSelected).toBeFalsy();
             expect(albums[1].isSelected).toBeTruthy();
         });
-    });
 
-    it('should persist the selected album order', () => {
-        // Arrange
-        const albumData1: AlbumData = new AlbumData();
-        const albumData2: AlbumData = new AlbumData();
-        const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
-        const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
-        const albums: AlbumModel[] = [album1, album2];
-        nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-        component = new AlbumBrowserComponent(
-            applicationServiceMock.object,
-            albumRowsGetterMock.object,
-            nativeElementProxyMock.object,
-            mouseSelectionWatcherMock.object,
-            loggerMock.object
-        );
-        albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-        component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-        component.albumsPersister = albumsPersisterMock.object;
-        component.ngOnInit();
-        component.albums = albums;
-        albumRowsGetterMock.reset();
+        it('should persist the selected album order', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            component = new AlbumBrowserComponent(
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                mouseSelectionWatcherMock.object,
+                loggerMock.object
+            );
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component.albumsPersister = albumsPersisterMock.object;
+            component.ngOnInit();
+            component.albums = albums;
+            albumRowsGetterMock.reset();
 
-        // Act
-        component.toggleAlbumOrder();
+            // Act
+            component.toggleAlbumOrder();
 
-        // Assert
-        albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(AlbumOrder.byYearAscending), Times.exactly(1));
+            // Assert
+            albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(AlbumOrder.byYearAscending), Times.exactly(1));
+        });
     });
 });

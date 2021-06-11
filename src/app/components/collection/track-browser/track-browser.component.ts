@@ -135,13 +135,15 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
     private enableAlbumHeaders(orderedTracks: TrackModel[]): void {
         let previousAlbumKey: string = uuidv4();
+        let previousDiscNumber: number = -1;
 
         for (const track of orderedTracks) {
-            if (track.albumKey !== previousAlbumKey) {
+            if (track.albumKey !== previousAlbumKey || track.discNumber !== previousDiscNumber) {
                 track.showHeader = true;
             }
 
             previousAlbumKey = track.albumKey;
+            previousDiscNumber = track.discNumber;
         }
     }
 
@@ -164,6 +166,12 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
             if (a.albumTitle > b.albumTitle) {
                 return 1;
             } else if (a.albumTitle < b.albumTitle) {
+                return -1;
+            }
+
+            if (a.discNumber > b.discNumber) {
+                return 1;
+            } else if (a.discNumber < b.discNumber) {
                 return -1;
             }
 
