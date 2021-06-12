@@ -26,6 +26,10 @@ export class TrackModel {
         return this.track.discNumber;
     }
 
+    public get discCount(): number {
+        return this.track.discCount;
+    }
+
     public get title(): string {
         return this.track.trackTitle;
     }

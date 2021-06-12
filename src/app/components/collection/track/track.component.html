@@ -1,7 +1,10 @@
 <div class="app-track no-select">
     <div class="app-track__header mt-3 mb-1" *ngIf="track.showHeader">
         <div class="app-track__header__top mb-1 ellipsis">{{ track.albumArtists }}</div>
-        <div class="secondary-color ellipsis">{{ track.albumTitle }}</div>
+        <div class="secondary-color ellipsis">
+            <span>{{ track.albumTitle }}</span
+            ><span class="ml-1" *ngIf="track.discNumber > 0 && track.discCount > 1">({{ track.discNumber }}/{{ track.discCount }})</span>
+        </div>
     </div>
     <div
         class="app-track__body px-1"

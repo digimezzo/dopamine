@@ -12,6 +12,7 @@ describe('TrackModel', () => {
         track = new Track('/home/user/Music/track1.mp3');
         track.trackNumber = 5;
         track.discNumber = 1;
+        track.discCount = 2;
         track.fileName = 'track1';
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
@@ -111,6 +112,18 @@ describe('TrackModel', () => {
 
             // Assert
             expect(discNumber).toEqual(1);
+        });
+    });
+
+    describe('discCount', () => {
+        it('should return the track discCount', () => {
+            // Arrange
+
+            // Act
+            const discCount: number = trackModel.discCount;
+
+            // Assert
+            expect(discCount).toEqual(2);
         });
     });
 
