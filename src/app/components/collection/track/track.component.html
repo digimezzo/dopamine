@@ -1,9 +1,15 @@
 <div class="app-track no-select">
     <div class="app-track__header mt-3 mb-1" *ngIf="track.showHeader">
-        <div class="app-track__header__top pb-2 ellipsis">{{ track.albumArtists }}</div>
-        <div class="secondary-color ellipsis">
-            <span>{{ track.albumTitle }}</span
-            ><span class="ml-1" *ngIf="track.discNumber > 0 && track.discCount > 1">({{ track.discNumber }}/{{ track.discCount }})</span>
+        <div class="app-track__header__top pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
+        <div class="secondary-color ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
+            {{ track.albumTitle }}
+        </div>
+        <div
+            class="secondary-color ellipsis"
+            *ngIf="track.discNumber > 0 && track.discCount > 1"
+            matTooltip="{{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})"
+        >
+            {{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})
         </div>
     </div>
     <div

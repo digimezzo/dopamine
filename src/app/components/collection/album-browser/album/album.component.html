@@ -13,10 +13,18 @@
         </div>
     </div>
     <div class="app-album__information" [ngClass]="{ 'accent-background-important': this.isSelected }">
-        <div class="app-album__information__line1 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
+        <div
+            class="app-album__information__line1 ellipsis"
+            [ngClass]="{ 'white-color-important': this.isSelected }"
+            matTooltip="{{ album.albumTitle }}"
+        >
             {{ album.albumTitle }}
         </div>
-        <div class="app-album__information__line2 ellipsis" [ngClass]="{ 'white-color-important': this.isSelected }">
+        <div
+            class="app-album__information__line2 ellipsis"
+            [ngClass]="{ 'white-color-important': this.isSelected }"
+            matTooltip="{{ album.albumArtist }}"
+        >
             {{ album.albumArtist }}
         </div>
     </div>
