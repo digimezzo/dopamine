@@ -241,6 +241,8 @@ describe('CollectionAlbumsComponent', () => {
             tracksPersisterMock.reset();
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
+            trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
+
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
@@ -262,7 +264,7 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should get tracks for the selected albums when the selected albums have changed', async () => {
+        it('should get tracks for the selected albums if there are selected albums', async () => {
             // Arrange
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
@@ -290,6 +292,74 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.getAlbumTracks(['albumKey2']), Times.exactly(1));
+            expect(component.tracks).toBe(tracks);
+        });
+
+        it('should get tracks for the selected albums if the selected albums have changed and there are selected albums', async () => {
+            // Arrange
+            albumsPersisterMock.reset();
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
+            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
+
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            component.albums = albums;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            await component.ngOnInit();
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
+
+            // Act
+            selectedAlbumsChangedMock.next([album2.albumKey]);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getAlbumTracks(['albumKey2']), Times.exactly(1));
+            expect(component.tracks).toBe(tracks);
+        });
+
+        it('should get tracks for the selected albums if the selected albums have changed and there are no selected albums', async () => {
+            // Arrange
+            albumsPersisterMock.reset();
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
+            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
+
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+
+            component = new CollectionAlbumsComponent(
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            component.albums = albums;
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            await component.ngOnInit();
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+
+            // Act
+            selectedAlbumsChangedMock.next([]);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
     });
