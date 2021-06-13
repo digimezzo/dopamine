@@ -1,21 +1,29 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/album-data';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { CollectionGenresComponent } from './collection-genres.component';
 import { GenresAlbumsPersister } from './genres-albums-persister';
+import { GenresTracksPersister } from './genres-tracks-persister';
 
 describe('CollectionGenresComponent', () => {
+    let albumsPersisterMock: IMock<GenresAlbumsPersister>;
+    let tracksPersisterMock: IMock<GenresTracksPersister>;
     let albumServiceMock: IMock<BaseAlbumService>;
-    let persisterMock: IMock<GenresAlbumsPersister>;
+    let trackServiceMock: IMock<BaseTrackService>;
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+
+    let selectedAlbumsChangedMock: Subject<string[]>;
+    let selectedAlbumsChangedMock$: Observable<string[]>;
 
     let component: CollectionGenresComponent;
 
@@ -26,25 +34,32 @@ describe('CollectionGenresComponent', () => {
     let albums: AlbumModel[];
 
     beforeEach(() => {
-        persisterMock = Mock.ofType<GenresAlbumsPersister>();
+        albumsPersisterMock = Mock.ofType<GenresAlbumsPersister>();
+        tracksPersisterMock = Mock.ofType<GenresTracksPersister>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
+        trackServiceMock = Mock.ofType<BaseTrackService>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { genresLeftPaneWidthPercent: 25, genresRightPaneWidthPercent: 25 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
+        selectedAlbumsChangedMock = new Subject();
+        selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
+
         album1 = new AlbumModel(albumData1, translatorServiceMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object);
         albums = [album1, album2];
 
-        persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-        persisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
-
+        albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+        albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
+        albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
         component = new CollectionGenresComponent(
-            persisterMock.object,
+            albumsPersisterMock.object,
+            tracksPersisterMock.object,
             albumServiceMock.object,
+            trackServiceMock.object,
             settingsStub,
             schedulerMock.object,
             loggerMock.object
@@ -151,7 +166,7 @@ describe('CollectionGenresComponent', () => {
             const selectedAlbumOrder: AlbumOrder = component.selectedAlbumOrder;
 
             // Assert
-            persisterMock.verify((x) => x.setSelectedAlbumOrder(selectedAlbumOrder), Times.exactly(1));
+            albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(selectedAlbumOrder), Times.exactly(1));
         });
     });
 
@@ -159,11 +174,13 @@ describe('CollectionGenresComponent', () => {
         it('should set the album order', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
             component = new CollectionGenresComponent(
-                persisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
                 albumServiceMock.object,
+                trackServiceMock.object,
                 settingsStub,
                 schedulerMock.object,
                 loggerMock.object
@@ -179,12 +196,14 @@ describe('CollectionGenresComponent', () => {
         it('should get all albums', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionGenresComponent(
-                persisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
                 albumServiceMock.object,
+                trackServiceMock.object,
                 settingsStub,
                 schedulerMock.object,
                 loggerMock.object
@@ -202,12 +221,14 @@ describe('CollectionGenresComponent', () => {
         it('should clear the albums', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            persisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionGenresComponent(
-                persisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
                 albumServiceMock.object,
+                trackServiceMock.object,
                 settingsStub,
                 schedulerMock.object,
                 loggerMock.object
