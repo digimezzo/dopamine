@@ -295,6 +295,15 @@ export class Settings implements BaseSettings {
         this.settings.set('artistsTabSelectedAlbumOrder', v);
     }
 
+    //  Artists tab selected track order
+    public get artistsTabSelectedTrackOrder(): string {
+        return this.settings.get('artistsTabSelectedTrackOrder');
+    }
+
+    public set artistsTabSelectedTrackOrder(v: string) {
+        this.settings.set('artistsTabSelectedTrackOrder', v);
+    }
+
     //  Genres tab selected album
     public get genresTabSelectedAlbum(): string {
         return this.settings.get('genresTabSelectedAlbum');
@@ -311,6 +320,15 @@ export class Settings implements BaseSettings {
 
     public set genresTabSelectedAlbumOrder(v: string) {
         this.settings.set('genresTabSelectedAlbumOrder', v);
+    }
+
+    //  Genres tab selected track order
+    public get genresTabSelectedTrackOrder(): string {
+        return this.settings.get('genresTabSelectedTrackOrder');
+    }
+
+    public set genresTabSelectedTrackOrder(v: string) {
+        this.settings.set('genresTabSelectedTrackOrder', v);
     }
 
     // Initialize
@@ -443,12 +461,20 @@ export class Settings implements BaseSettings {
             this.settings.set('artistsTabSelectedAlbumOrder', '');
         }
 
+        if (!this.settings.has('artistsTabSelectedTrackOrder')) {
+            this.settings.set('artistsTabSelectedTrackOrder', '');
+        }
+
         if (!this.settings.has('genresTabSelectedAlbum')) {
             this.settings.set('genresTabSelectedAlbum', '');
         }
 
         if (!this.settings.has('genresTabSelectedAlbumOrder')) {
             this.settings.set('genresTabSelectedAlbumOrder', '');
+        }
+
+        if (!this.settings.has('genresTabSelectedTrackOrder')) {
+            this.settings.set('genresTabSelectedTrackOrder', '');
         }
     }
 }

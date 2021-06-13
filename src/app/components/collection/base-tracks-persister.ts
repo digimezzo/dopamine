@@ -17,7 +17,7 @@ export abstract class BaseTracksPersister {
 
     public getSelectedTrackOrder(): TrackOrder {
         if (this.selectedTrackOrder == undefined) {
-            return TrackOrder.byTrackTitleAscending;
+            return TrackOrder.byAlbum;
         }
 
         return this.selectedTrackOrder;

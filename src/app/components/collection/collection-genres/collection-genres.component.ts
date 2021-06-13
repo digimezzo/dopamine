@@ -1,25 +1,32 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
 import { GenresAlbumsPersister } from './genres-albums-persister';
+import { GenresTracksPersister } from './genres-tracks-persister';
 
 @Component({
     selector: 'app-collection-genres',
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
-    providers: [GenresAlbumsPersister],
+    providers: [GenresAlbumsPersister, GenresTracksPersister],
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
+    private subscription: Subscription = new Subscription();
 
     constructor(
         public albumsPersister: GenresAlbumsPersister,
+        public tracksPersister: GenresTracksPersister,
         private albumService: BaseAlbumService,
+        private trackService: BaseTrackService,
         private settings: BaseSettings,
         private scheduler: Scheduler,
         private logger: Logger
@@ -30,6 +37,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     public rightPaneSize: number = this.settings.genresRightPaneWidthPercent;
 
     public albums: AlbumModel[] = [];
+    public tracks: TrackModels = new TrackModels();
 
     public get selectedAlbumOrder(): AlbumOrder {
         return this._selectedAlbumOrder;
@@ -40,10 +48,18 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
         this.albums = [];
+        this.tracks = new TrackModels();
     }
 
     public async ngOnInit(): Promise<void> {
+        this.subscription.add(
+            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                this.getTracksForAlbumKeys(albumKeys);
+            })
+        );
+
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.fillListsAsync();
     }
@@ -57,9 +73,27 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
-            this.albums = this.albumService.getAllAlbums();
+            this.getAlbums();
+            this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
+        }
+    }
+
+    private getAlbums(): void {
+        this.albums = this.albumService.getAllAlbums();
+    }
+
+    private getTracks(): void {
+        const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
+        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+    }
+
+    private getTracksForAlbumKeys(albumKeys: string[]): void {
+        if (albumKeys.length > 0) {
+            this.tracks = this.trackService.getAlbumTracks(albumKeys);
+        } else {
+            this.tracks = this.trackService.getAllTracks();
         }
     }
 }

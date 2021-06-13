@@ -1,18 +1,18 @@
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../../common/logger';
 import { TrackOrder } from '../track-order';
-import { AlbumsTracksPersister } from './albums-tracks-persister';
+import { GenresTracksPersister } from './genres-tracks-persister';
 
 describe('AlbumsTracksPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
 
-    let persister: AlbumsTracksPersister;
+    let persister: GenresTracksPersister;
 
     beforeEach(() => {
-        settingsStub = { albumsTabSelectedTrackOrder: '' };
+        settingsStub = { genresTabSelectedTrackOrder: '' };
         loggerMock = Mock.ofType<Logger>();
-        persister = new AlbumsTracksPersister(settingsStub, loggerMock.object);
+        persister = new GenresTracksPersister(settingsStub, loggerMock.object);
     });
 
     describe('constructor', () => {
@@ -27,8 +27,8 @@ describe('AlbumsTracksPersister', () => {
 
         it('should initialize from the settings', () => {
             // Arrange
-            settingsStub.albumsTabSelectedTrackOrder = 'byTrackTitleDescending';
-            persister = new AlbumsTracksPersister(settingsStub, loggerMock.object);
+            settingsStub.genresTabSelectedTrackOrder = 'byTrackTitleDescending';
+            persister = new GenresTracksPersister(settingsStub, loggerMock.object);
 
             // Act
 
@@ -40,8 +40,8 @@ describe('AlbumsTracksPersister', () => {
     describe('getSelectedTrackOrderFromSettings', () => {
         it('should get the selected track order from the settings', () => {
             // Arrange
-            settingsStub.albumsTabSelectedTrackOrder = 'byTrackTitleDescending';
-            persister = new AlbumsTracksPersister(settingsStub, loggerMock.object);
+            settingsStub.genresTabSelectedTrackOrder = 'byTrackTitleDescending';
+            persister = new GenresTracksPersister(settingsStub, loggerMock.object);
 
             // Act
             const selectedTrackOrderFromSettings: string = persister.getSelectedTrackOrderFromSettings();
@@ -54,14 +54,14 @@ describe('AlbumsTracksPersister', () => {
     describe('saveSelectedTrackOrderToSettings', () => {
         it('should save the selected track order to the settings', () => {
             // Arrange
-            settingsStub.albumsTabSelectedTrackOrder = '';
-            persister = new AlbumsTracksPersister(settingsStub, loggerMock.object);
+            settingsStub.genresTabSelectedTrackOrder = '';
+            persister = new GenresTracksPersister(settingsStub, loggerMock.object);
 
             // Act
             persister.saveSelectedTrackOrderToSettings('byTrackTitleDescending');
 
             // Assert
-            expect(settingsStub.albumsTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
+            expect(settingsStub.genresTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
         });
     });
 
@@ -78,8 +78,8 @@ describe('AlbumsTracksPersister', () => {
 
         it('should return the selected track order if there is a selected track order', () => {
             // Arrange
-            settingsStub.albumsTabSelectedTrackOrder = 'byTrackTitleDescending';
-            persister = new AlbumsTracksPersister(settingsStub, loggerMock.object);
+            settingsStub.genresTabSelectedTrackOrder = 'byTrackTitleDescending';
+            persister = new GenresTracksPersister(settingsStub, loggerMock.object);
 
             // Act
             const selectedTrackOrder: TrackOrder = persister.getSelectedTrackOrder();
@@ -107,7 +107,7 @@ describe('AlbumsTracksPersister', () => {
             persister.setSelectedTrackOrder(TrackOrder.byTrackTitleDescending);
 
             // Assert
-            expect(settingsStub.albumsTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
+            expect(settingsStub.genresTabSelectedTrackOrder).toEqual('byTrackTitleDescending');
         });
     });
 });

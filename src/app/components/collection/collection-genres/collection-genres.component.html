@@ -4,6 +4,13 @@
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
             ><app-album-browser class="p-3 fill" [albums]="this.albums" [(albumsPersister)]="this.albumsPersister"></app-album-browser
         ></as-split-area>
-        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="side-pane"></div></as-split-area>
+        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
+            ><div class="side-pane">
+                <app-track-browser
+                    class="p-3 fill"
+                    [tracks]="this.tracks"
+                    [(tracksPersister)]="this.tracksPersister"
+                ></app-track-browser></div
+        ></as-split-area>
     </as-split>
 </div>
