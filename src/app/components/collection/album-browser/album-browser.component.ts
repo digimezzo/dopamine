@@ -4,6 +4,7 @@ import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
@@ -22,6 +23,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private availableWidthInPixels: number = 0;
 
     constructor(
+        public playbackService: BasePlaybackService,
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,

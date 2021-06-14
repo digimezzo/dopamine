@@ -3,7 +3,11 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { TrackOrdering } from '../../common/track-ordering';
+import { AlbumModel } from '../album/album-model';
+import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
+import { TrackModels } from '../track/track-models';
 import { BaseAudioPlayer } from './base-audio-player';
 import { BasePlaybackService } from './base-playback.service';
 import { LoopMode } from './loop-mode';
@@ -26,7 +30,9 @@ export class PlaybackService implements BasePlaybackService {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        private trackService: BaseTrackService,
         private audioPlayer: BaseAudioPlayer,
+        private trackOrdering: TrackOrdering,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
@@ -77,7 +83,7 @@ export class PlaybackService implements BasePlaybackService {
         return this._canResume;
     }
 
-    public enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
+    public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {
             return;
         }
@@ -92,6 +98,12 @@ export class PlaybackService implements BasePlaybackService {
 
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
         this.play(trackToPlay, false);
+    }
+
+    public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
+        const tracksForAlbum: TrackModels = this.trackService.getAlbumTracks([albumToPlay.albumKey]);
+        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
+        this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
     public toggleLoopMode(): void {

@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+import { TrackOrdering } from '../../../common/track-ordering';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
@@ -29,6 +30,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private mouseSelectionWatcher: MouseSelectionWatcher,
+        private trackOrdering: TrackOrdering,
         private logger: Logger
     ) {}
 
@@ -101,19 +103,19 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         try {
             switch (this.selectedTrackOrder) {
                 case TrackOrder.byTrackTitleAscending:
-                    orderedTracks = this.getTracksOrderedByTitleAscending();
+                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleAscending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byTrackTitleDescending:
-                    orderedTracks = this.getTracksOrderedByTitleDescending();
+                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleDescending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 case TrackOrder.byAlbum:
-                    orderedTracks = this.getTracksOrderedByAlbum();
+                    orderedTracks = this.trackOrdering.getTracksOrderedByAlbum(this.tracks.tracks);
                     this.enableAlbumHeaders(orderedTracks);
                     break;
                 default: {
-                    orderedTracks = this.getTracksOrderedByTitleAscending();
+                    orderedTracks = this.trackOrdering.getTracksOrderedByTitleAscending(this.tracks.tracks);
                     this.hideAllHeaders(orderedTracks);
                     break;
                 }
@@ -145,43 +147,5 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
             previousAlbumKey = track.albumKey;
             previousDiscNumber = track.discNumber;
         }
-    }
-
-    private getTracksOrderedByTitleAscending(): TrackModel[] {
-        return this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
-    }
-
-    private getTracksOrderedByTitleDescending(): TrackModel[] {
-        return this.tracks.tracks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
-    }
-
-    private getTracksOrderedByAlbum(): TrackModel[] {
-        return this.tracks.tracks.sort((a, b) => {
-            if (a.albumArtists > b.albumArtists) {
-                return 1;
-            } else if (a.albumArtists < b.albumArtists) {
-                return -1;
-            }
-
-            if (a.albumTitle > b.albumTitle) {
-                return 1;
-            } else if (a.albumTitle < b.albumTitle) {
-                return -1;
-            }
-
-            if (a.discNumber > b.discNumber) {
-                return 1;
-            } else if (a.discNumber < b.discNumber) {
-                return -1;
-            }
-
-            if (a.number > b.number) {
-                return 1;
-            } else if (a.number < b.number) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
     }
 }

@@ -187,7 +187,7 @@ describe('PlaybackService', () => {
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
 
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
             audioPlayerMock.reset();
             progressUpdaterMock.reset();
@@ -215,7 +215,7 @@ describe('PlaybackService', () => {
                 service.toggleLoopMode();
             }
 
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             audioPlayerMock.reset();
 
             // Act
@@ -236,7 +236,7 @@ describe('PlaybackService', () => {
                 service.toggleLoopMode();
             }
 
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
             audioPlayerMock.reset();
 
@@ -258,7 +258,7 @@ describe('PlaybackService', () => {
                 service.toggleLoopMode();
             }
 
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, true)).returns(() => track2);
             audioPlayerMock.reset();
 
@@ -280,7 +280,7 @@ describe('PlaybackService', () => {
                 service.toggleLoopMode();
             }
 
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
             audioPlayerMock.reset();
 
@@ -319,7 +319,7 @@ describe('PlaybackService', () => {
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
 
             let receivedTrack: TrackModel;
@@ -490,7 +490,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = undefined;
 
             // Act
-            service.enqueueAndPlay(undefined, track1);
+            service.enqueueAndPlayTracks(undefined, track1);
 
             // Assert
             queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
@@ -502,7 +502,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = [];
 
             // Act
-            service.enqueueAndPlay(undefined, track1);
+            service.enqueueAndPlayTracks(undefined, track1);
 
             // Assert
             queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
@@ -514,7 +514,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = undefined;
 
             // Act
-            service.enqueueAndPlay(undefined, track1);
+            service.enqueueAndPlayTracks(undefined, track1);
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
@@ -530,7 +530,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = [];
 
             // Act
-            service.enqueueAndPlay(undefined, track1);
+            service.enqueueAndPlayTracks(undefined, track1);
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
@@ -547,7 +547,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = [track1, track2];
 
             // Act
-            service.enqueueAndPlay(tracks, undefined);
+            service.enqueueAndPlayTracks(tracks, undefined);
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
@@ -565,7 +565,7 @@ describe('PlaybackService', () => {
             const tracks: TrackModel[] = [track1, track2, track3];
 
             // Act
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
 
             // Assert
             queueMock.verify((x) => x.setTracks(tracks, false), Times.exactly(1));
@@ -580,7 +580,7 @@ describe('PlaybackService', () => {
             service.toggleIsShuffled();
 
             // Act
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
 
             // Assert
             queueMock.verify((x) => x.setTracks(tracks, true), Times.exactly(1));
@@ -597,7 +597,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.setup((x) => x.play(track1.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
 
             // Act
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
 
             // Assert
             audioPlayerMock.verifyAll();
@@ -624,7 +624,7 @@ describe('PlaybackService', () => {
             );
 
             // Act
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
 
             // Assert
             expect(receivedTrack).toBe(track1);
@@ -639,7 +639,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
 
             // Act
             service.pause();
@@ -660,7 +660,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             audioPlayerMock.reset();
             progressUpdaterMock.reset();
 
@@ -710,7 +710,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 3.1);
             progressUpdaterMock.reset();
@@ -732,7 +732,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => track2);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 2.9);
@@ -755,7 +755,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => undefined);
             audioPlayerMock.reset();
             audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 2.9);
@@ -815,7 +815,7 @@ describe('PlaybackService', () => {
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getPreviousTrack(track1, false)).returns(() => track2);
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;
@@ -862,7 +862,7 @@ describe('PlaybackService', () => {
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2, track3];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
@@ -922,7 +922,7 @@ describe('PlaybackService', () => {
             const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
             const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
             const tracks: TrackModel[] = [track1, track2];
-            service.enqueueAndPlay(tracks, track1);
+            service.enqueueAndPlayTracks(tracks, track1);
             queueMock.setup((x) => x.getNextTrack(track1, false)).returns(() => track2);
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;

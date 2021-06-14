@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { AlbumModel } from '../album/album-model';
 import { TrackModel } from '../track/track-model';
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
@@ -17,7 +18,8 @@ export abstract class BasePlaybackService {
     public abstract canResume: boolean;
     public abstract toggleLoopMode(): void;
     public abstract toggleIsShuffled(): void;
-    public abstract enqueueAndPlay(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
+    public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
+    public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;
     public abstract playPrevious(): void;
     public abstract playNext(): void;
     public abstract skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void;

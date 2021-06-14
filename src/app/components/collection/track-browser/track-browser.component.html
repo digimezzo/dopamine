@@ -19,7 +19,7 @@
     </div>
     <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.orderedTracks" (click)="setSelectedTracks($event, track)">
-            <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlay(this.orderedTracks, track)"></app-track>
+            <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
     <app-totals

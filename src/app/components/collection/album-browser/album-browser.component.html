@@ -42,6 +42,7 @@
                     [album]="album"
                     [isSelected]="album.isSelected"
                     (click)="setSelectedAlbums($event, album)"
+                    (dblclick)="playbackService.enqueueAndPlayAlbum(album)"
                 ></app-album>
             </div>
         </div>
