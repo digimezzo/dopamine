@@ -3,6 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+import { TrackOrdering } from '../../../common/track-ordering';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
@@ -17,6 +18,7 @@ describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let trackOrderingMock: IMock<TrackOrdering>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
@@ -39,6 +41,7 @@ describe('TrackBrowserComponent', () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        trackOrderingMock = Mock.ofType<TrackOrdering>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
@@ -85,10 +88,21 @@ describe('TrackBrowserComponent', () => {
         tracks.addTrack(trackModel3);
         tracks.addTrack(trackModel4);
 
+        trackOrderingMock
+            .setup((x) => x.getTracksOrderedByTitleAscending(It.isAny()))
+            .returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
+        trackOrderingMock
+            .setup((x) => x.getTracksOrderedByTitleDescending(It.isAny()))
+            .returns(() => [trackModel4, trackModel3, trackModel2, trackModel1]);
+        trackOrderingMock
+            .setup((x) => x.getTracksOrderedByAlbum(It.isAny()))
+            .returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
+
         component = new TrackBrowserComponent(
             playbackServiceMock.object,
             playbackIndicationServiceMock.object,
             mouseSelectionWatcherMock.object,
+            trackOrderingMock.object,
             loggerMock.object
         );
     });

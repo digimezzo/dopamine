@@ -3,6 +3,8 @@ import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
+import { TrackOrdering } from '../../common/track-ordering';
+import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseAudioPlayer } from './base-audio-player';
@@ -14,7 +16,9 @@ import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
 
 describe('PlaybackService', () => {
+    let trackServiceMock: IMock<BaseTrackService>;
     let audioPlayerMock: IMock<BaseAudioPlayer>;
+    let trackOrderingMock: IMock<TrackOrdering>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
     let progressUpdaterMock: IMock<ProgressUpdater>;
@@ -27,8 +31,10 @@ describe('PlaybackService', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     beforeEach(() => {
+        trackServiceMock = Mock.ofType<BaseTrackService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
+        trackOrderingMock = Mock.ofType<TrackOrdering>();
         loggerMock = Mock.ofType<Logger>();
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
@@ -45,7 +51,9 @@ describe('PlaybackService', () => {
         subscription = new Subscription();
 
         service = new PlaybackService(
+            trackServiceMock.object,
             audioPlayerMock.object,
+            trackOrderingMock.object,
             queueMock.object,
             progressUpdaterMock.object,
             mathExtensionsMock.object,
