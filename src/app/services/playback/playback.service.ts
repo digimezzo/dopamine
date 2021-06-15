@@ -101,6 +101,10 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
+        if (albumToPlay == undefined) {
+            return;
+        }
+
         const tracksForAlbum: TrackModels = this.trackService.getAlbumTracks([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
