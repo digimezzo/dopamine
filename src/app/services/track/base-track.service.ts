@@ -4,4 +4,5 @@ export abstract class BaseTrackService {
     public abstract getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels>;
     public abstract getAllTracks(): TrackModels;
     public abstract getAlbumTracks(albumKeys: string[]): TrackModels;
+    public abstract getGenreTracks(genres: string[]): TrackModels;
 }

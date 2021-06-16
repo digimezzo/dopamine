@@ -13,6 +13,11 @@ describe('TrackService', () => {
     let fileSystemMock: IMock<FileSystem>;
     let trackFillerMock: IMock<TrackFiller>;
 
+    let track1: Track;
+    let track2: Track;
+    let track3: Track;
+    let track4: Track;
+
     let service: TrackService;
 
     beforeEach(() => {
@@ -40,10 +45,27 @@ describe('TrackService', () => {
                 '/home/user/Music/Subfolder1/track6.wma',
             ]);
 
-        const track: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
+        track1 = new Track('Path 1');
+        track2 = new Track('Path 2');
+        track3 = new Track('Path 3');
+        track4 = new Track('Path 4');
+
+        trackRepositoryMock.setup((x) => x.getAlbumTracks(['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
+        trackRepositoryMock.setup((x) => x.getAlbumTracks(['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getAlbumTracks([])).returns(() => []);
+
+        trackRepositoryMock.setup((x) => x.getGenreTracks(['genre1', 'genre2'])).returns(() => [track1, track3]);
+        trackRepositoryMock.setup((x) => x.getGenreTracks(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getGenreTracks([])).returns(() => []);
+
+        trackRepositoryMock.setup((x) => x.getArtistTracks(['artist1', 'artist2'])).returns(() => [track2, track3]);
+
+        trackRepositoryMock.setup((x) => x.getAlbumArtistTracks(['albumArtist1', 'albumArtist2'])).returns(() => [track3, track4]);
+
+        const trackToFill: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
         const filledTrack: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
         filledTrack.trackTitle = 'My track title';
-        trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track)).returns(async () => filledTrack);
+        trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(trackToFill)).returns(async () => filledTrack);
 
         service = new TrackService(translatorServiceMock.object, trackRepositoryMock.object, fileSystemMock.object, trackFillerMock.object);
     });
@@ -187,6 +209,110 @@ describe('TrackService', () => {
                 (x) => x.addFileMetadataToTrackAsync(It.is<Track>((track) => track.path === '/home/user/Music/Subfolder1/track1.mp3')),
                 Times.exactly(1)
             );
+        });
+    });
+
+    describe('getAlbumTracks', () => {
+        it('should return a TrackModels containing no tracks if albumKeys is undefined', () => {
+            // Arrange
+            const albumKeys: string[] = undefined;
+
+            // Act
+            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing no tracks if albumKeys empty', () => {
+            // Arrange
+            const albumKeys: string[] = [];
+
+            // Act
+            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing tracks if tracks are found for the given albumKeys', () => {
+            // Arrange
+            const albumKeys: string[] = ['albumKey1', 'albumKey2'];
+
+            // Act
+            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.exactly(1));
+            expect(tracksModels.tracks.length).toEqual(2);
+            expect(tracksModels.tracks[0].path).toEqual('Path 1');
+            expect(tracksModels.tracks[1].path).toEqual('Path 2');
+        });
+
+        it('should return a TrackModels containing no tracks if no tracks are found for the given albumKeys', () => {
+            // Arrange
+            const albumKeys: string[] = ['unknownAlbumKey1', 'unknownAlbumKey2'];
+
+            // Act
+            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.exactly(1));
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+    });
+
+    describe('getGenreTracks', () => {
+        it('should return a TrackModels containing no tracks if genres is undefined', () => {
+            // Arrange
+            const genres: string[] = undefined;
+
+            // Act
+            const tracksModels: TrackModels = service.getGenreTracks(genres);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing no tracks if genres empty', () => {
+            // Arrange
+            const genres: string[] = [];
+
+            // Act
+            const tracksModels: TrackModels = service.getGenreTracks(genres);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing tracks if tracks are found for the given genres', () => {
+            // Arrange
+            const genres: string[] = ['genre1', 'genre2'];
+
+            // Act
+            const tracksModels: TrackModels = service.getGenreTracks(genres);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.exactly(1));
+            expect(tracksModels.tracks.length).toEqual(2);
+            expect(tracksModels.tracks[0].path).toEqual('Path 1');
+            expect(tracksModels.tracks[1].path).toEqual('Path 3');
+        });
+
+        it('should return a TrackModels containing no tracks if no tracks are found for the given genres', () => {
+            // Arrange
+            const genres: string[] = ['unknownGenre1', 'unknownGenre2'];
+
+            // Act
+            const tracksModels: TrackModels = service.getGenreTracks(genres);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.exactly(1));
+            expect(tracksModels.tracks.length).toEqual(0);
         });
     });
 });
