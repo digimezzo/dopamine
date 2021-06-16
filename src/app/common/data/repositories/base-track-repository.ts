@@ -10,6 +10,9 @@ export abstract class BaseTrackRepository {
     public abstract deleteTrack(trackId: number): void;
     public abstract getAllTracks(): Track[];
     public abstract getAlbumTracks(albumKeys: string[]): Track[];
+    public abstract getGenreTracks(genres: string[]): Track[];
+    public abstract getArtistTracks(artists: string[]): Track[];
+    public abstract getAlbumArtistTracks(albumArtists: string[]): Track[];
     public abstract updateTrack(track: Track): void;
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
