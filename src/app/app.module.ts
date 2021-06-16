@@ -35,6 +35,7 @@ import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DiscordRichPresenceApi } from './common/api/discord-rich-presence/discord-rich-presence-api';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
@@ -361,6 +362,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumSpaceCalculator,
         NativeElementProxy,
         GitHubApi,
+        DiscordRichPresenceApi,
         MetadataPatcher,
         TrackOrdering,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },

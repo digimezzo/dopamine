@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { DiscordRichPresenceApi } from '../../common/api/discord-rich-presence/discord-rich-presence-api';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -36,6 +37,7 @@ export class PlaybackService implements BasePlaybackService {
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
+        private discordRichPresenceApi: DiscordRichPresenceApi,
         private settings: BaseSettings,
         private logger: Logger
     ) {
@@ -207,6 +209,7 @@ export class PlaybackService implements BasePlaybackService {
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();
 
+        this.discordRichPresenceApi.updatePresence();
         this.logger.info(`Playing '${this.currentTrack?.path}'`, 'PlaybackService', 'play');
     }
 
