@@ -35,7 +35,6 @@ import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DiscordRichPresenceApi } from './common/api/discord-rich-presence/discord-rich-presence-api';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
@@ -145,7 +144,7 @@ import { BaseApplicationService } from './services/application/base-application.
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { DialogService } from './services/dialog/dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
-import { DiscordRichPresenceService } from './services/discord/discord.service';
+import { DiscordService } from './services/discord/discord.service';
 import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
@@ -368,7 +367,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumSpaceCalculator,
         NativeElementProxy,
         GitHubApi,
-        DiscordRichPresenceApi,
         MetadataPatcher,
         TrackOrdering,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
@@ -396,7 +394,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseGenreService, useClass: GenreService },
         { provide: BaseTrackService, useClass: TrackService },
         { provide: BaseAlbumService, useClass: AlbumService },
-        { provide: BaseDiscordService, useClass: DiscordRichPresenceService },
+        { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },

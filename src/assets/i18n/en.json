@@ -188,5 +188,11 @@
             "byAlbum": "By album",
             "byRating": "By rating"
         }
+    },
+    "Discord": {
+        "By": "by",
+        "PlayingWithDopamine": "Playing with Dopamine",
+        "Playing": "Playing",
+        "Paused": "Paused"
     }
 }

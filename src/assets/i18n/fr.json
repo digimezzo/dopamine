@@ -188,5 +188,11 @@
             "byAlbum": "Par album",
             "byRating": "Par classement"
         }
+    },
+    "Discord": {
+        "By": "par",
+        "PlayingWithDopamine": "Lecture avec Dopamine",
+        "Playing": "En lecture",
+        "Paused": "En pause"
     }
 }

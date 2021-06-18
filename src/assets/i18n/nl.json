@@ -188,5 +188,11 @@
             "byAlbum": "Per Album",
             "byRating": "Per beoordeling"
         }
+    },
+    "Discord": {
+        "By": "door",
+        "PlayingWithDopamine": "Afspelen met Dopamine",
+        "Playing": "Wordt afgespeeld",
+        "Paused": "Gepauzeerd"
     }
 }
