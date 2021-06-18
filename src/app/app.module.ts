@@ -87,6 +87,7 @@ import { CollectionPlaybackPaneComponent } from './components/collection/collect
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
+import { GenreBrowserComponent } from './components/collection/genre-browser/genre-browser.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
@@ -143,9 +144,13 @@ import { ApplicationService } from './services/application/application.service';
 import { BaseApplicationService } from './services/application/base-application.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { DialogService } from './services/dialog/dialog.service';
+import { BaseDiscordService } from './services/discord/base-discord.service';
+import { DiscordRichPresenceService } from './services/discord/discord.service';
 import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
+import { BaseGenreService } from './services/genre/base-genre.service';
+import { GenreService } from './services/genre/genre.service';
 import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
@@ -273,6 +278,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TotalsComponent,
         PlaybackIndicatorComponent,
         AlbumComponent,
+        GenreBrowserComponent,
         AlbumBrowserComponent,
         TrackBrowserComponent,
     ],
@@ -387,8 +393,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseSnackBarService, useClass: SnackBarService },
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
+        { provide: BaseGenreService, useClass: GenreService },
         { provide: BaseTrackService, useClass: TrackService },
         { provide: BaseAlbumService, useClass: AlbumService },
+        { provide: BaseDiscordService, useClass: DiscordRichPresenceService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },

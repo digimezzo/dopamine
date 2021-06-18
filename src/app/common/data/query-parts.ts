@@ -1,4 +1,14 @@
 export class QueryParts {
+    public static selectGenresQueryPart(onlyVisibleGenres: boolean): string {
+        let selectGenresQueryPart: string = `SELECT DISTINCT t.Genres FROM Track t`;
+
+        if (onlyVisibleGenres) {
+            selectGenresQueryPart += this.folderJoins;
+        }
+
+        return selectGenresQueryPart;
+    }
+
     public static selectAlbumDataQueryPart(onlyVisibleAlbumData: boolean): string {
         let selectAlbumDataQueryPart: string = `SELECT t.AlbumTitle AS albumTitle,
                                                        t.AlbumArtists AS albumArtists,
@@ -10,9 +20,7 @@ export class QueryParts {
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t`;
 
         if (onlyVisibleAlbumData) {
-            selectAlbumDataQueryPart += ` INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
-                                          INNER JOIN Folder f ON ft.FolderID = f.FolderID
-                                          WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0`;
+            selectAlbumDataQueryPart += this.folderJoins;
         }
 
         return selectAlbumDataQueryPart;
@@ -55,11 +63,15 @@ export class QueryParts {
                                                              FROM Track t`;
 
         if (onlyVisibleTracks) {
-            selectTracksQueryPart += ` INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
-                                       INNER JOIN Folder f ON ft.FolderID = f.FolderID
-                                       WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0`;
+            selectTracksQueryPart += this.folderJoins;
         }
 
         return selectTracksQueryPart;
+    }
+
+    private static folderJoins(): string {
+        return `INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0`;
     }
 }

@@ -1,25 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Client } from 'discord-rpc';
-import { SensitiveInformation } from '../../application/sensitive-information';
-import { Logger } from '../../logger';
+import { Subscription } from 'rxjs';
+import { SensitiveInformation } from '../../common/application/sensitive-information';
+import { Logger } from '../../common/logger';
+import { BaseDiscordService } from './base-discord.service';
 
 @Injectable()
-export class DiscordRichPresenceApi {
+export class DiscordService implements BaseDiscordService {
+    private subscription: Subscription = new Subscription();
+
     constructor(private logger: Logger) {}
 
-    public updatePresence(): void {
-        try {
-            // const client = require('discord-rich-presence-typescript')(SensitiveInformation.discordClientId);
+    public enableRichPresence(): void {
+        throw new Error('Method not implemented.');
+    }
+    public disableRichPresence(): void {
+        throw new Error('Method not implemented.');
+    }
 
-            // client.updatePresence({
-            //     state: 'By track <<< artist >>>',
-            //     details: 'Track <<< title >>>',
-            //     startTimestamp: Date.now(),
-            //     endTimestamp: Date.now() + 1337,
-            //     largeImageKey: 'icon',
-            //     smallImageKey: 'play',
-            //     instance: false,
-            // });
+    private updatePresence(
+        details: string,
+        state: string,
+        startTimestamp: Date,
+        endTimestamp: Date,
+        largeImageKey: string,
+        largeImageText: string,
+        smallImageKey: string,
+        smallImageText: string
+    ): void {
+        try {
             const clientId: string = SensitiveInformation.discordClientId;
             const client = new Client({ transport: 'ipc' });
             client.login({ clientId }).catch(console.error);

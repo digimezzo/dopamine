@@ -361,6 +361,16 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
+    public getGenres(): string[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(QueryParts.selectGenresQueryPart(true));
+
+        const genres: string[] = statement.all();
+
+        return genres;
+    }
+
     public getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track {
         const database: any = this.databaseFactory.create();
 

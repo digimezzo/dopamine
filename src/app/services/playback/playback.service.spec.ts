@@ -182,6 +182,33 @@ describe('PlaybackService', () => {
             expect(service.playbackStarted$).toBeDefined();
         });
 
+        it('should define playbackPaused$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.playbackPaused$).toBeDefined();
+        });
+
+        it('should define playbackResumed$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.playbackResumed$).toBeDefined();
+        });
+
+        it('should define playbackStopped$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.playbackStopped$).toBeDefined();
+        });
+
         it('should initialize loopMode as LoopMode.None', () => {
             // Arrange
 
@@ -253,6 +280,24 @@ describe('PlaybackService', () => {
             expect(service.progress.totalSeconds).toEqual(0);
             expect(service.currentTrack).toBeUndefined();
             progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback is stopped on playback finished if a next track is not found', () => {
+            // Arrange
+            queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
+            let playbackIsStopped: boolean = false;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    playbackIsStopped = true;
+                })
+            );
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(playbackIsStopped).toBeTruthy();
         });
 
         it('should play the next track on playback finished if a next track is found', () => {
@@ -710,6 +755,25 @@ describe('PlaybackService', () => {
             expect(service.isPlaying).toBeTruthy();
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
+
+        it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
+            // Arrange
+            let receivedTrack: TrackModel;
+            let isPlayingPreviousTrack: boolean;
+            subscription.add(
+                service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                    receivedTrack = playbackStarted.currentTrack;
+                    isPlayingPreviousTrack = playbackStarted.isPlayingPreviousTrack;
+                })
+            );
+
+            // Act
+            service.enqueueAndPlayAlbum(album1);
+
+            // Assert
+            expect(receivedTrack).toBe(trackModel2);
+            expect(isPlayingPreviousTrack).toBeFalsy();
+        });
     });
 
     describe('pause', () => {
@@ -726,6 +790,24 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
             progressUpdaterMock.verify((x) => x.pauseUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback is paused.', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            let playbackIsPaused: boolean = false;
+
+            subscription.add(
+                service.playbackPaused$.subscribe(() => {
+                    playbackIsPaused = true;
+                })
+            );
+
+            // Act
+            service.pause();
+
+            // Assert
+            expect(playbackIsPaused).toBeTruthy();
         });
     });
 
@@ -759,6 +841,43 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
+        });
+
+        it('should raise an event that playback is resumed if playing', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+            progressUpdaterMock.reset();
+            let playbackIsResumed: boolean = false;
+
+            subscription.add(
+                service.playbackResumed$.subscribe(() => {
+                    playbackIsResumed = true;
+                })
+            );
+
+            // Act
+            service.resume();
+
+            // Assert
+            expect(playbackIsResumed).toBeTruthy();
+        });
+
+        it('should raise an event that playback is resumed if not playing', () => {
+            // Arrange
+            let playbackIsResumed: boolean = false;
+
+            subscription.add(
+                service.playbackResumed$.subscribe(() => {
+                    playbackIsResumed = true;
+                })
+            );
+
+            // Act
+            service.resume();
+
+            // Assert
+            expect(playbackIsResumed).toBeFalsy();
         });
     });
 
@@ -794,7 +913,7 @@ describe('PlaybackService', () => {
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
-        it('should play the previous track if found playback lasted for less then 3 seconds', () => {
+        it('should play the previous track if found and playback lasted for less then 3 seconds', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
             queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => trackModel2);
@@ -813,7 +932,7 @@ describe('PlaybackService', () => {
             expect(service.currentTrack).toBe(trackModel2);
         });
 
-        it('should stop playback if a previous track was not found playback lasted for less then 3 seconds', () => {
+        it('should stop playback if a previous track was not found and playback lasted for less then 3 seconds', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
             queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => undefined);
@@ -829,6 +948,27 @@ describe('PlaybackService', () => {
             expect(service.canResume).toBeTruthy();
             progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.exactly(1));
             expect(service.currentTrack).toBeUndefined();
+        });
+
+        it('should raise an event that playback is stopped if a previous track was not found and playback lasted for less then 3 seconds.', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => undefined);
+            audioPlayerMock.reset();
+            audioPlayerMock.setup((x) => x.progressSeconds).returns(() => 2.9);
+            let playbackIsStopped: boolean = false;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    playbackIsStopped = true;
+                })
+            );
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(playbackIsStopped).toBeTruthy();
         });
 
         it('should get the previous track without wrap around if loopMode is None', () => {
@@ -910,6 +1050,26 @@ describe('PlaybackService', () => {
             expect(service.progress.totalSeconds).toEqual(0);
             expect(service.currentTrack).toBeUndefined();
             progressUpdaterMock.verify((x) => x.stopUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback is stopped if a next track is not found', () => {
+            // Arrange
+            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
+            progressUpdaterMock.reset();
+            audioPlayerMock.reset();
+            let playbackIsStopped: boolean = false;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    playbackIsStopped = true;
+                })
+            );
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(playbackIsStopped).toBeTruthy();
         });
 
         it('should play the next track if found', () => {

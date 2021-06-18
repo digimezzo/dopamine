@@ -331,6 +331,15 @@ export class Settings implements BaseSettings {
         this.settings.set('genresTabSelectedTrackOrder', v);
     }
 
+    //  Enable Discord Rich Presence
+    public get enableDiscordRichPresence(): boolean {
+        return this.settings.get('enableDiscordRichPresence');
+    }
+
+    public set enableDiscordRichPresence(v: boolean) {
+        this.settings.set('enableDiscordRichPresence', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -475,6 +484,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('genresTabSelectedTrackOrder')) {
             this.settings.set('genresTabSelectedTrackOrder', '');
+        }
+
+        if (!this.settings.has('enableDiscordRichPresence')) {
+            this.settings.set('enableDiscordRichPresence', true);
         }
     }
 }

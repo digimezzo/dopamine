@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { DiscordRichPresenceApi } from '../../common/api/discord-rich-presence/discord-rich-presence-api';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -21,6 +20,9 @@ import { Queue } from './queue';
 export class PlaybackService implements BasePlaybackService {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
     private playbackStarted: Subject<PlaybackStarted> = new Subject();
+    private playbackPaused: Subject<void> = new Subject();
+    private playbackResumed: Subject<void> = new Subject();
+    private playbackStopped: Subject<void> = new Subject();
     private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
     private _volume: number = 0;
     private _loopMode: LoopMode = LoopMode.None;
@@ -37,7 +39,6 @@ export class PlaybackService implements BasePlaybackService {
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
-        private discordRichPresenceApi: DiscordRichPresenceApi,
         private settings: BaseSettings,
         private logger: Logger
     ) {
@@ -49,6 +50,9 @@ export class PlaybackService implements BasePlaybackService {
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
+    public playbackPaused$: Observable<void> = this.playbackPaused.asObservable();
+    public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
+    public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
 
     public get volume(): number {
         return this._volume;
@@ -145,6 +149,7 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.pauseUpdatingProgress();
+        this.playbackPaused.next();
 
         this.logger.info(`Pausing '${this.currentTrack?.path}'`, 'PlaybackService', 'pause');
     }
@@ -158,6 +163,7 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = true;
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();
+        this.playbackResumed.next();
 
         this.logger.info(`Resuming '${this.currentTrack?.path}'`, 'PlaybackService', 'resume');
     }
@@ -203,13 +209,12 @@ export class PlaybackService implements BasePlaybackService {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
         this.currentTrack = trackToPlay;
-        this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
         this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();
+        this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
-        this.discordRichPresenceApi.updatePresence();
         this.logger.info(`Playing '${this.currentTrack?.path}'`, 'PlaybackService', 'play');
     }
 
@@ -219,6 +224,7 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();
+        this.playbackStopped.next();
 
         this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
 
