@@ -62,7 +62,10 @@
             "CheckForUpdates": "Contrôler les mises à jour",
             "AlsoCheckForPreReleases": "Contrôler également les pré-versions",
             "WelcomeScreen": "Ecran d'accueil",
-            "ShowWelcomeScreen": "Afficher l'écran d'accueil au prochain redémarrage"
+            "ShowWelcomeScreen": "Afficher l'écran d'accueil au prochain redémarrage",
+            "Online": "En ligne",
+            "Discord": "Discord",
+            "EnableDiscordRichPresence": "Activer Discord Rich Presence"
         },
         "Information": {
             "About": "À propos",

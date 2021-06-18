@@ -114,6 +114,7 @@ import { PlaybackProgressComponent } from './components/playback-progress/playba
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
+import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
@@ -248,6 +249,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         InformationComponent,
         AppearanceSettingsComponent,
         AdvancedSettingsComponent,
+        OnlineSettingsComponent,
         AboutComponent,
         ComponentsComponent,
         SnackBarComponent,

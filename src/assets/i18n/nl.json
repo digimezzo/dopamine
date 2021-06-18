@@ -62,7 +62,10 @@
             "CheckForUpdates": "Controleren op updates",
             "AlsoCheckForPreReleases": "Controleer ook op pre-releases",
             "WelcomeScreen": "Welkomstscherm",
-            "ShowWelcomeScreen": "Toon het welkomstscherm bij de volgende herstart"
+            "ShowWelcomeScreen": "Toon het welkomstscherm bij de volgende herstart",
+            "Online": "Online",
+            "Discord": "Discord",
+            "EnableDiscordRichPresence": "Schakel Discord Rich Presence in"
         },
         "Information": {
             "About": "Over",

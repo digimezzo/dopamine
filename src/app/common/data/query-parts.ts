@@ -3,7 +3,7 @@ export class QueryParts {
         let selectGenresQueryPart: string = `SELECT DISTINCT t.Genres FROM Track t`;
 
         if (onlyVisibleGenres) {
-            selectGenresQueryPart += this.folderJoins;
+            selectGenresQueryPart += ' ' + this.folderJoins();
         }
 
         return selectGenresQueryPart;
@@ -13,14 +13,14 @@ export class QueryParts {
         let selectAlbumDataQueryPart: string = `SELECT t.AlbumTitle AS albumTitle,
                                                        t.AlbumArtists AS albumArtists,
                                                        t.AlbumKey AS albumKey,
-                                                       MAX(t.Artists) as artists,
+                                                       MAX(t.Artists) AS artists,
                                                        MAX(t.Year) AS year,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
                                                        MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t`;
 
         if (onlyVisibleAlbumData) {
-            selectAlbumDataQueryPart += this.folderJoins;
+            selectAlbumDataQueryPart += ' ' + this.folderJoins();
         }
 
         return selectAlbumDataQueryPart;
@@ -63,7 +63,7 @@ export class QueryParts {
                                                              FROM Track t`;
 
         if (onlyVisibleTracks) {
-            selectTracksQueryPart += this.folderJoins;
+            selectTracksQueryPart += ' ' + this.folderJoins();
         }
 
         return selectTracksQueryPart;

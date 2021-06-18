@@ -62,7 +62,10 @@
             "CheckForUpdates": "Check for updates",
             "AlsoCheckForPreReleases": "Also check for pre-releases",
             "WelcomeScreen": "Welcome screen",
-            "ShowWelcomeScreen": "Show the welcome screen on the next restart"
+            "ShowWelcomeScreen": "Show the welcome screen on the next restart",
+            "Online": "Online",
+            "Discord": "Discord",
+            "EnableDiscordRichPresence": "Enable Discord Rich Presence"
         },
         "Information": {
             "About": "About",
