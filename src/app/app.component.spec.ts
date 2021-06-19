@@ -2,10 +2,12 @@ import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 describe('AppComponent', () => {
+    let discordServiceMock: IMock<BaseDiscordService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -13,12 +15,19 @@ describe('AppComponent', () => {
     let app: AppComponent;
 
     beforeEach(() => {
+        discordServiceMock = Mock.ofType<BaseDiscordService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
 
-        app = new AppComponent(navigationServiceMock.object, appearanceServiceMock.object, translatorServiceMock.object, loggerMock.object);
+        app = new AppComponent(
+            navigationServiceMock.object,
+            appearanceServiceMock.object,
+            translatorServiceMock.object,
+            discordServiceMock.object,
+            loggerMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -62,6 +71,7 @@ describe('AppComponent', () => {
             // Assert
             translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.exactly(1));
         });
+
         it('should navigate to loading', async () => {
             // Arrange
 
@@ -70,6 +80,16 @@ describe('AppComponent', () => {
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
+        });
+
+        it('should initialize Discord', async () => {
+            // Arrange
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            discordServiceMock.verify((x) => x.initialize(), Times.exactly(1));
         });
     });
 });

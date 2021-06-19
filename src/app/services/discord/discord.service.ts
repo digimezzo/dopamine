@@ -21,9 +21,7 @@ export class DiscordService implements BaseDiscordService {
         private translatorService: BaseTranslatorService,
         private settings: BaseSettings,
         private logger: Logger
-    ) {
-        this.initializeFromSettings();
-    }
+    ) {}
 
     public enableRichPresence(): void {
         this.subscription.add(
@@ -58,12 +56,18 @@ export class DiscordService implements BaseDiscordService {
                 this.clearPresence();
             })
         );
+
+        if (this.playbackService.isPlaying) {
+            this.currentTrack = this.playbackService.currentTrack;
+            this.updatePresence('play', this.translatorService.get('Discord.Playing'));
+        }
     }
     public disableRichPresence(): void {
         this.subscription.unsubscribe();
+        this.clearPresence();
     }
 
-    private initializeFromSettings(): void {
+    public initialize(): void {
         if (this.settings.enableDiscordRichPresence) {
             this.enableRichPresence();
         }
@@ -77,14 +81,14 @@ export class DiscordService implements BaseDiscordService {
 
             this.discordClient.on('ready', () => {
                 this.discordClient.discordClientIsReady = true;
-                this.logger.error(`Discord client is ready`, 'DiscordService', 'updatePresence');
+                this.logger.info(`Discord client is ready`, 'DiscordService', 'updatePresence');
 
                 this.setPresence(smallImageKey, smallImageText);
             });
 
             this.discordClient.on('disconnected', () => {
                 this.discordClient.discordClientIsReady = false;
-                this.logger.error(`Discord client has disconnected`, 'DiscordService', 'updatePresence');
+                this.logger.info(`Discord client has disconnected`, 'DiscordService', 'updatePresence');
             });
         } else {
             this.setPresence(smallImageKey, smallImageText);
@@ -117,7 +121,7 @@ export class DiscordService implements BaseDiscordService {
 
     private clearPresence(): void {
         try {
-            this.discordClient.clearPresence();
+            this.discordClient.clearActivity();
         } catch (e) {
             this.logger.error(`Could not clear Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'clearPresence');
         }
