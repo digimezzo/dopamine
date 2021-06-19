@@ -6,6 +6,8 @@ import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseGenreService } from '../../../services/genre/base-genre.service';
+import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -25,6 +27,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     constructor(
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,
+        private genreService: BaseGenreService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
         private settings: BaseSettings,
@@ -36,6 +39,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     public centerPaneSize: number = 100 - this.settings.genresLeftPaneWidthPercent - this.settings.genresRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.genresRightPaneWidthPercent;
 
+    public genres: GenreModel[] = [];
     public albums: AlbumModel[] = [];
     public tracks: TrackModels = new TrackModels();
 
@@ -73,11 +77,16 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
+            this.getGenres();
             this.getAlbums();
             this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
         }
+    }
+
+    private getGenres(): void {
+        this.genres = this.genreService.getGenres();
     }
 
     private getAlbums(): void {

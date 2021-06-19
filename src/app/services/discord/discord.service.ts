@@ -6,14 +6,12 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
-import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseDiscordService } from './base-discord.service';
 
 @Injectable()
 export class DiscordService implements BaseDiscordService {
     private discordClient: any;
-    private currentTrack: TrackModel;
     private subscription: Subscription = new Subscription();
 
     constructor(
@@ -26,39 +24,29 @@ export class DiscordService implements BaseDiscordService {
     public enableRichPresence(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.currentTrack = playbackStarted.currentTrack;
-
-                if (this.currentTrack != undefined) {
-                    this.updatePresence('play', this.translatorService.get('Discord.Playing'));
-                }
+                this.updatePresence('play', this.translatorService.get('Discord.Playing'));
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackPaused$.subscribe(() => {
-                if (this.currentTrack != undefined) {
-                    this.updatePresence('pause', this.translatorService.get('Discord.Paused'));
-                }
+                this.updatePresence('pause', this.translatorService.get('Discord.Paused'));
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
-                if (this.currentTrack != undefined) {
-                    this.updatePresence('play', this.translatorService.get('Discord.Playing'));
-                }
+                this.updatePresence('play', this.translatorService.get('Discord.Playing'));
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
-                this.currentTrack = undefined;
                 this.clearPresence();
             })
         );
 
         if (this.playbackService.isPlaying) {
-            this.currentTrack = this.playbackService.currentTrack;
             this.updatePresence('play', this.translatorService.get('Discord.Playing'));
         }
     }
@@ -96,27 +84,39 @@ export class DiscordService implements BaseDiscordService {
     }
 
     private setPresence(smallImageKey: string, smallImageText: string): void {
+        if (this.playbackService.currentTrack == undefined) {
+            this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
+
+            return;
+        }
+
         try {
-            if (this.currentTrack == undefined) {
-                this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
-
-                return;
-            }
-
             this.discordClient.setActivity({
-                details: this.currentTrack.title,
-                state: this.currentTrack.artists.join(', '),
+                details: this.playbackService.currentTrack.title,
+                state: this.playbackService.currentTrack.artists.join(', '),
                 startTimestamp: Date.now(),
-                endTimestamp: Date.now() + this.currentTrack.durationInMilliseconds,
+                endTimestamp: Date.now() + this.calculateTimeRemainingInMilliseconds(),
                 largeImageKey: 'icon',
                 largeImageText: this.translatorService.get('PlayingWithDopamine'),
                 smallImageKey: smallImageKey,
                 smallImageText: smallImageText,
                 instance: false,
             });
+            this.logger.info(`Set Discord Rich Presence`, 'DiscordService', 'setPresence');
         } catch (e) {
             this.logger.error(`Could not set Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'setPresence');
         }
+    }
+
+    private calculateTimeRemainingInMilliseconds(): number {
+        const timeRemainingInMilliseconds: number =
+            (this.playbackService.progress.totalSeconds - this.playbackService.progress.progressSeconds) * 1000;
+
+        if (timeRemainingInMilliseconds === 0) {
+            return this.playbackService.currentTrack.durationInMilliseconds;
+        }
+
+        return timeRemainingInMilliseconds;
     }
 
     private clearPresence(): void {

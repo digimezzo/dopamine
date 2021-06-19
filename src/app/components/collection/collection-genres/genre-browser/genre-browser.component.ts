@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
+import { Logger } from '../../../../common/logger';
+import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 
 @Component({
     selector: 'app-genre-browser',
