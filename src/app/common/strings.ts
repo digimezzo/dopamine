@@ -57,13 +57,13 @@ export class Strings {
                 const prefixFollowedBySpace: string = `${removablePrefix} `;
 
                 if (trimmedAndLowercasedOriginalString.startsWith(prefixFollowedBySpace)) {
-                    return trimmedAndLowercasedOriginalString.replace(prefixFollowedBySpace, '');
+                    return trimmedAndLowercasedOriginalString.replace(prefixFollowedBySpace, '').trim();
                 }
             }
         } catch (e) {
             // Ignore this error
         }
 
-        return originalString;
+        return originalString.toLowerCase();
     }
 }

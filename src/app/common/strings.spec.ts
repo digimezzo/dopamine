@@ -147,6 +147,26 @@ describe('Strings', () => {
     });
 
     describe('getSortableString', () => {
+        it('should return an empty string given undefined it should not remove prefixes', () => {
+            // Arrange
+
+            // Act
+            const sortableString: string = Strings.getSortableString(undefined, false);
+
+            // Assert
+            expect(sortableString).toEqual('');
+        });
+
+        it('should return an empty string given an empty string it should not remove prefixes', () => {
+            // Arrange
+
+            // Act
+            const sortableString: string = Strings.getSortableString('', false);
+
+            // Assert
+            expect(sortableString).toEqual('');
+        });
+
         it('should return the original string in lowercase if it does not contain a prefix and it should not remove prefixes', () => {
             // Arrange
             const sourceString: string = 'Without prefix';
@@ -158,7 +178,7 @@ describe('Strings', () => {
             expect(sortableString).toEqual('without prefix');
         });
 
-        it('should return the original string in lowercase if it does not contain a prefix and it should remove prefixes', () => {
+        it('should return the original string in lowercase given a string that does not contain a prefix and it should remove prefixes', () => {
             // Arrange
             const sourceString: string = 'Without prefix';
 
@@ -169,9 +189,20 @@ describe('Strings', () => {
             expect(sortableString).toEqual('without prefix');
         });
 
-        it('should return the original string in lowercase if it starts with a prefix without trailing space it should remove prefixes', () => {
+        it('should return the original string in lowercase given a string that starts with a prefix without trailing space and it should not remove prefixes', () => {
             // Arrange
-            const sourceString: string = 'their big reward';
+            const sourceString: string = 'Their big reward';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, false);
+
+            // Assert
+            expect(sortableString).toEqual('their big reward');
+        });
+
+        it('should return the original string in lowercase given a string that starts with a prefix without trailing space and it should remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'Their big reward';
 
             // Act
             const sortableString: string = Strings.getSortableString(sourceString, true);
@@ -180,15 +211,37 @@ describe('Strings', () => {
             expect(sortableString).toEqual('their big reward');
         });
 
-        // it('should return the original string if it does not contain a prefix', () => {
-        //     // Arrange
-        //     const sourceString: string = `Without prefix`;
+        it('should return the original string in lowercase given a string that starts with a prefix with a trailing space and it should not remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'The Gathering';
 
-        //     // Act
-        //     const sortableString: string = Strings.getSortableString(sourceString, true);
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, false);
 
-        //     // Assert
-        //     expect(newString).toEqual(`Creme Brulee`);
-        // });
+            // Assert
+            expect(sortableString).toEqual('the gathering');
+        });
+
+        it('should return the original string without prefix in lowercase given a string that starts with a prefix with a trailing space and it should remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'The Gathering';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('gathering');
+        });
+
+        it('should return the original string without prefix and spaces in lowercase given a string that starts with a prefix with multiple trailing space and it should remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'The    Gathering';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('gathering');
+        });
     });
 });
