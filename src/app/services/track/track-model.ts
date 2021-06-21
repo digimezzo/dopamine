@@ -66,6 +66,14 @@ export class TrackModel {
         return this.translatorService.get('Track.UnknownArtist');
     }
 
+    public get sortableAlbumArtists(): string {
+        return Strings.getSortableString(this.albumArtists, false);
+    }
+
+    public get sortableAlbumTitle(): string {
+        return Strings.getSortableString(this.albumTitle, false);
+    }
+
     public get durationInMilliseconds(): number {
         return this.track.duration;
     }

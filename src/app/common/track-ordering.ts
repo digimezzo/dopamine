@@ -13,15 +13,15 @@ export class TrackOrdering {
 
     public getTracksOrderedByAlbum(tracksToOrder: TrackModel[]): TrackModel[] {
         return tracksToOrder.sort((a, b) => {
-            if (a.albumArtists > b.albumArtists) {
+            if (a.sortableAlbumArtists > b.sortableAlbumArtists) {
                 return 1;
-            } else if (a.albumArtists < b.albumArtists) {
+            } else if (a.sortableAlbumArtists < b.sortableAlbumArtists) {
                 return -1;
             }
 
-            if (a.albumTitle > b.albumTitle) {
+            if (a.sortableAlbumTitle > b.sortableAlbumTitle) {
                 return 1;
-            } else if (a.albumTitle < b.albumTitle) {
+            } else if (a.sortableAlbumTitle < b.sortableAlbumTitle) {
                 return -1;
             }
 

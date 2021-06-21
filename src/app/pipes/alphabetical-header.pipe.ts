@@ -1,22 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Constants } from '../common/application/constants';
 
 @Pipe({ name: 'alphabeticalHeader' })
 export class AlphabeticalHeaderPipe implements PipeTransform {
     constructor() {}
 
     public transform(name: string): string {
-        if (trackNumber == undefined) {
-            return '';
+        const firstCharacter: string = name.charAt(0);
+
+        if (Constants.alphabeticalHeaders.includes(firstCharacter)) {
+            return firstCharacter;
         }
 
-        if (trackNumber <= 0) {
-            return '';
-        }
-
-        if (trackNumber >= 1 && trackNumber <= 9) {
-            return trackNumber.toString();
-        }
-
-        return trackNumber.toString();
+        return '#';
     }
 }

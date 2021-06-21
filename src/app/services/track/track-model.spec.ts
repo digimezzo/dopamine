@@ -210,6 +210,18 @@ describe('TrackModel', () => {
         });
     });
 
+    describe('albumTitle', () => {
+        it('should return the track album title in lowercase if the track has an album title', () => {
+            // Arrange
+
+            // Act
+            const sortableAlbumTitle: string = trackModel.sortableAlbumTitle;
+
+            // Assert
+            expect(sortableAlbumTitle).toEqual('album title');
+        });
+    });
+
     describe('albumArtist', () => {
         it('should return the album artist if the track has only 1 album artist', () => {
             // Arrange
@@ -272,6 +284,19 @@ describe('TrackModel', () => {
 
             // Assert
             expect(albumArtists).toEqual('Unknown artist');
+        });
+
+        it('should return all track artists separated by a comma in lowercase if the track has no album artists and has multiple track artists', () => {
+            // Arrange
+            track.albumArtists = '';
+            track.artists = ';Artist 1;;Artist 2;';
+            trackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const sortableAlbumArtists: string = trackModel.sortableAlbumArtists;
+
+            // Assert
+            expect(sortableAlbumArtists).toEqual('artist 1, artist 2');
         });
     });
 

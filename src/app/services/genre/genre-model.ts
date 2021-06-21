@@ -13,4 +13,8 @@ export class GenreModel {
 
         return this.genre;
     }
+
+    public get sortableName(): string {
+        return Strings.getSortableString(this.genre, true);
+    }
 }
