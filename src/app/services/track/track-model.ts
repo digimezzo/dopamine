@@ -34,6 +34,10 @@ export class TrackModel {
         return this.track.trackTitle;
     }
 
+    public get sortableTitle(): string {
+        return Strings.getSortableString(this.track.trackTitle, false);
+    }
+
     public get artists(): string[] {
         return DataDelimiter.fromDelimitedString(this.track.artists);
     }

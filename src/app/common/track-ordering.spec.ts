@@ -29,7 +29,7 @@ describe('TrackOrdering', () => {
         track1.discNumber = 1;
 
         track2 = new Track('Path 2');
-        track2.trackTitle = 'Title 2';
+        track2.trackTitle = 'title 2';
         track2.albumArtists = ';Album artist 1;';
         track2.albumTitle = 'Album title 1';
         track2.trackNumber = 1;
@@ -38,7 +38,7 @@ describe('TrackOrdering', () => {
         track3 = new Track('Path 3');
         track3.trackTitle = 'Title 3';
         track3.albumArtists = ';Album artist 2;';
-        track3.albumTitle = 'Album title 3';
+        track3.albumTitle = 'album title 3';
         track3.trackNumber = 1;
         track3.discNumber = 1;
 

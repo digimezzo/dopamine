@@ -139,6 +139,18 @@ describe('TrackModel', () => {
         });
     });
 
+    describe('sortableTitle', () => {
+        it('should return the track title in lowercase', () => {
+            // Arrange
+
+            // Act
+            const sortableTitle: string = trackModel.sortableTitle;
+
+            // Assert
+            expect(sortableTitle).toEqual('track title');
+        });
+    });
+
     describe('artists', () => {
         it('should return the track artists', () => {
             // Arrange

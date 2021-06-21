@@ -82,6 +82,7 @@ import { CollectionFoldersComponent } from './components/collection/collection-f
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
 import { GenreBrowserComponent } from './components/collection/collection-genres/genre-browser/genre-browser.component';
+import { GenreComponent } from './components/collection/collection-genres/genre/genre.component';
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
@@ -278,6 +279,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaybackInformationComponent,
         PlaybackCoverArtComponent,
         TrackComponent,
+        GenreComponent,
         TotalsComponent,
         PlaybackIndicatorComponent,
         AlbumComponent,

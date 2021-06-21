@@ -4,11 +4,11 @@ import { TrackModel } from '../services/track/track-model';
 @Injectable()
 export class TrackOrdering {
     public getTracksOrderedByTitleAscending(tracksToOrder: TrackModel[]): TrackModel[] {
-        return tracksToOrder.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
+        return tracksToOrder.sort((a, b) => (a.sortableTitle > b.sortableTitle ? 1 : -1));
     }
 
     public getTracksOrderedByTitleDescending(tracksToOrder: TrackModel[]): TrackModel[] {
-        return tracksToOrder.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
+        return tracksToOrder.sort((a, b) => (a.sortableTitle < b.sortableTitle ? 1 : -1));
     }
 
     public getTracksOrderedByAlbum(tracksToOrder: TrackModel[]): TrackModel[] {
