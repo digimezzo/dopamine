@@ -163,6 +163,9 @@
         "UnknownTitle": "Unknown title",
         "UnknownAlbum": "Unknown album"
     },
+    "Genre": {
+        "UnknownGenre": "Unknown genre"
+    },
     "Durations": {
         "Days": "days",
         "Hours": "hours",

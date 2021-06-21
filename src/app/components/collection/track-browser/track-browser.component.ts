@@ -24,8 +24,6 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
 
-    public orderedTracks: TrackModel[] = [];
-
     constructor(
         public playbackService: BasePlaybackService,
         private playbackIndicationService: BasePlaybackIndicationService,
@@ -34,12 +32,14 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    public get tracksPersister(): BaseTracksPersister {
-        return this._tracksPersister;
-    }
+    public orderedTracks: TrackModel[] = [];
 
     public trackOrderEnum: typeof TrackOrder = TrackOrder;
     public selectedTrackOrder: TrackOrder;
+
+    public get tracksPersister(): BaseTracksPersister {
+        return this._tracksPersister;
+    }
 
     @Input()
     public set tracksPersister(v: BaseTracksPersister) {

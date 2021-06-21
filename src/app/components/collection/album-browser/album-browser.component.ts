@@ -56,7 +56,11 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     public set albums(v: AlbumModel[]) {
         this._albums = v;
         this.mouseSelectionWatcher.initialize(this.albums, false);
-        this.orderAlbums();
+
+        // When the component is first rendered, it happens that albumsPersister is undefined.
+        if (this.albumsPersister != undefined) {
+            this.orderAlbums();
+        }
     }
 
     public ngOnInit(): void {

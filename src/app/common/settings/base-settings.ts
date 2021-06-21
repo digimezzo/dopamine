@@ -32,7 +32,9 @@ export abstract class BaseSettings {
     public abstract artistsTabSelectedAlbum: string;
     public abstract artistsTabSelectedAlbumOrder: string;
     public abstract artistsTabSelectedTrackOrder: string;
+    public abstract genresTabSelectedGenre: string;
     public abstract genresTabSelectedAlbum: string;
+    public abstract genresTabSelectedGenreOrder: string;
     public abstract genresTabSelectedAlbumOrder: string;
     public abstract genresTabSelectedTrackOrder: string;
     public abstract enableDiscordRichPresence: boolean;

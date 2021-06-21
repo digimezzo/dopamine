@@ -174,7 +174,7 @@ describe('AlbumBrowserComponent', () => {
             mouseSelectionWatcherMock.verify((x) => x.initialize(albums, false), Times.exactly(1));
         });
 
-        it('should order the albums', () => {
+        it('should order the albums if albumsPersister is not undefined', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const albumData2: AlbumData = new AlbumData();
@@ -193,13 +193,38 @@ describe('AlbumBrowserComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
-            component.ngOnInit();
 
             // Act
             component.albums = albums;
 
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
+        });
+
+        it('should not order the albums if albumsPersister is undefined', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const albumData2: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object);
+            const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object);
+            const albums: AlbumModel[] = [album1, album2];
+            nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
+            component = new AlbumBrowserComponent(
+                playbackServiceMock.object,
+                applicationServiceMock.object,
+                albumRowsGetterMock.object,
+                nativeElementProxyMock.object,
+                mouseSelectionWatcherMock.object,
+                loggerMock.object
+            );
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+
+            // Act
+            component.albums = albums;
+
+            // Assert
+            albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
         it('should apply the selected albums', () => {

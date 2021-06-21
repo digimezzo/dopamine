@@ -1,0 +1,30 @@
+.app-genre-browser {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-genre-browser__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.app-genre-browser__genrescount {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-genre-browser__genrescount__number {
+    color: var(--theme-accent-color);
+}
+
+.app-genre-browser__genres {
+    flex: 1;
+}
+
+.app-genre-browser__genreorder {
+    color: var(--theme-text-secondary-foreground);
+    cursor: pointer;
+}

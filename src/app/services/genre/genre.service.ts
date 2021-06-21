@@ -9,12 +9,15 @@ export class GenreService implements BaseGenreService {
     constructor(private trackRepository: BaseTrackRepository) {}
 
     public getGenres(): GenreModel[] {
-        const rawGenres: string[] = this.trackRepository.getGenres();
-        const genres: string[] = rawGenres.flatMap((x) => DataDelimiter.fromDelimitedString(x));
+        const splittableGenres: string[] = this.trackRepository.getGenres();
         const genreModels: GenreModel[] = [];
 
-        for (const genre of genres) {
-            genreModels.push(new GenreModel(genre));
+        for (const splittableGenre of splittableGenres) {
+            const genres: string[] = DataDelimiter.fromDelimitedString(splittableGenre);
+
+            for (const genre of genres) {
+                genreModels.push(new GenreModel(genre));
+            }
         }
 
         return genreModels;

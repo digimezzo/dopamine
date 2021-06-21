@@ -12,6 +12,7 @@ export class GenresTracksPersister extends BaseTracksPersister {
     public getSelectedTrackOrderFromSettings(): string {
         return this.settings.genresTabSelectedTrackOrder;
     }
+
     public saveSelectedTrackOrderToSettings(selectedTrackOrderName: string): void {
         this.settings.genresTabSelectedTrackOrder = selectedTrackOrderName;
     }

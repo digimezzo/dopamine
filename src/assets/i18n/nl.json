@@ -163,6 +163,9 @@
         "UnknownTitle": "Onbekende titel",
         "UnknownAlbum": "Onbekend album"
     },
+    "Genre": {
+        "UnknownGenre": "Onbekend genre"
+    },
     "Durations": {
         "Days": "dagen",
         "Hours": "uren",

@@ -11,6 +11,7 @@ import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
+import { GenresPersister } from './genre-browser/genres-persister';
 import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
@@ -18,13 +19,14 @@ import { GenresTracksPersister } from './genres-tracks-persister';
     selector: 'app-collection-genres',
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
-    providers: [GenresAlbumsPersister, GenresTracksPersister],
+    providers: [GenresPersister, GenresAlbumsPersister, GenresTracksPersister],
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,
         private genreService: BaseGenreService,

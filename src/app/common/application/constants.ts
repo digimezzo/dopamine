@@ -33,6 +33,38 @@ export class Constants {
         '%filename%.jpeg',
     ];
 
+    public static readonly alphabeticalHeaders: string[] = [
+        '#',
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
+    ];
+
+    public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
+
     public static readonly externalComponents: ExternalComponent[] = [
         new ExternalComponent(
             'Angular',

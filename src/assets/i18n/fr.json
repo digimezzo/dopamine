@@ -156,12 +156,15 @@
     },
     "Album": {
         "UnknownArtist": "Artiste inconnu",
-        "UnknownTitle": "Titre inconnu",
-        "UnknownAlbum": "Album inconnu"
+        "UnknownTitle": "Titre inconnu"
     },
     "Track": {
         "UnknownArtist": "Artiste inconnu",
-        "UnknownTitle": "Titre inconnu"
+        "UnknownTitle": "Titre inconnu",
+        "UnknownAlbum": "Album inconnu"
+    },
+    "Genre": {
+        "UnknownGenre": "Genre inconnu"
     },
     "Durations": {
         "Days": "jours",

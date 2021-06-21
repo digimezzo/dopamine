@@ -1,1 +1,22 @@
-Hello genres
+<div class="app-genre-browser">
+    <div class="app-genre-browser__header m-1 no-select">
+        <div class="app-genre-browser__genrescount">
+            <div class="app-genre-browser__genrescount__number mr-2">{{ this.genres.length }}</div>
+            <div *ngIf="this.genres.length === 1">{{ 'Pages.Collection.Genre' | translate }}</div>
+            <div *ngIf="this.genres.length !== 1">{{ 'Pages.Collection.Genres' | translate }}</div>
+        </div>
+        <div class="app-genre-browser__genreorder" (click)="toggleGenreOrder()">
+            <div *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
+                {{ 'Ordering.Tracks.byTrackTitleAscending' | translate }}
+            </div>
+            <div *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
+                {{ 'Ordering.Tracks.byTrackTitleDescending' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="46">
+        <div *cdkVirtualFor="let genre of this.orderedGenres" (click)="setSelectedGenres($event, genre)">
+            <app-genre [genre]="genre"></app-genre>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>

@@ -132,4 +132,63 @@ describe('Strings', () => {
             expect(newString).toEqual(`A string ''with'' single ''quotes''`);
         });
     });
+
+    describe('removeAccents', () => {
+        it('should remove all accents', () => {
+            // Arrange
+            const sourceString: string = 'Crème Brulée';
+
+            // Act
+            const newString: string = Strings.removeAccents(sourceString);
+
+            // Assert
+            expect(newString).toEqual('Creme Brulee');
+        });
+    });
+
+    describe('getSortableString', () => {
+        it('should return the original string in lowercase if it does not contain a prefix and it should not remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'Without prefix';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, false);
+
+            // Assert
+            expect(sortableString).toEqual('without prefix');
+        });
+
+        it('should return the original string in lowercase if it does not contain a prefix and it should remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'Without prefix';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('without prefix');
+        });
+
+        it('should return the original string in lowercase if it starts with a prefix without trailing space it should remove prefixes', () => {
+            // Arrange
+            const sourceString: string = 'their big reward';
+
+            // Act
+            const sortableString: string = Strings.getSortableString(sourceString, true);
+
+            // Assert
+            expect(sortableString).toEqual('their big reward');
+        });
+
+        // it('should return the original string if it does not contain a prefix', () => {
+        //     // Arrange
+        //     const sourceString: string = `Without prefix`;
+
+        //     // Act
+        //     const sortableString: string = Strings.getSortableString(sourceString, true);
+
+        //     // Assert
+        //     expect(newString).toEqual(`Creme Brulee`);
+        // });
+    });
 });
