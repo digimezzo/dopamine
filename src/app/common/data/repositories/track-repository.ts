@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AlbumData } from '../album-data';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
+import { AlbumData } from '../entities/album-data';
+import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
 import { BaseTrackRepository } from './base-track-repository';
@@ -361,12 +362,12 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
-    public getGenres(): string[] {
+    public getGenreData(): GenreData[] {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectGenresQueryPart(true));
 
-        const genres: string[] = statement.all();
+        const genres: GenreData[] = statement.all();
 
         return genres;
     }

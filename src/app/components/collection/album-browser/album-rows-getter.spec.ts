@@ -1,5 +1,5 @@
 import { IMock, It, Mock } from 'typemoq';
-import { AlbumData } from '../../../common/data/album-data';
+import { AlbumData } from '../../../common/data/entities/album-data';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';

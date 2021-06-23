@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { AlbumData } from '../../../common/data/album-data';
+import { AlbumData } from '../../../common/data/entities/album-data';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../common/native-element-proxy';

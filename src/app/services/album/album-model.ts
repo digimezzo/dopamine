@@ -1,5 +1,5 @@
-import { AlbumData } from '../../common/data/album-data';
 import { DataDelimiter } from '../../common/data/data-delimiter';
+import { AlbumData } from '../../common/data/entities/album-data';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 

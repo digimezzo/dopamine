@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="46">
+    <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="24">
         <div *cdkVirtualFor="let genre of this.orderedGenres" (click)="setSelectedGenres($event, genre)">
             <app-genre [genre]="genre"></app-genre>
         </div>

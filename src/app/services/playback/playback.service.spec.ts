@@ -1,6 +1,6 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
-import { AlbumData } from '../../common/data/album-data';
+import { AlbumData } from '../../common/data/entities/album-data';
 import { Track } from '../../common/data/entities/track';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';

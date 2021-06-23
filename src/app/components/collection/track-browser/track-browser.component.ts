@@ -112,7 +112,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
                     break;
                 case TrackOrder.byAlbum:
                     orderedTracks = this.trackOrdering.getTracksOrderedByAlbum(this.tracks.tracks);
-                    this.enableAlbumHeaders(orderedTracks);
+                    this.showAlbumHeaders(orderedTracks);
                     break;
                 default: {
                     orderedTracks = this.trackOrdering.getTracksOrderedByTitleAscending(this.tracks.tracks);
@@ -135,7 +135,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    private enableAlbumHeaders(orderedTracks: TrackModel[]): void {
+    private showAlbumHeaders(orderedTracks: TrackModel[]): void {
         let previousAlbumKey: string = uuidv4();
         let previousDiscNumber: number = -1;
 

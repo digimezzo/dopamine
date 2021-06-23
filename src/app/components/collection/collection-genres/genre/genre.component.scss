@@ -1,0 +1,18 @@
+.app-genre {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-genre__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--theme-accent-color);
+    width: 24px;
+    height: 24px;
+    border-radius: 12px 0px 12px 12px;
+}
+
+.app-genre__name {
+    height: 24px;
+}

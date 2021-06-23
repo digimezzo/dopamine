@@ -1,3 +1,4 @@
+import { Constants } from '../../common/application/constants';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
@@ -16,5 +17,15 @@ export class GenreModel {
 
     public get sortableName(): string {
         return Strings.getSortableString(this.genre, true);
+    }
+
+    public get alphabeticalHeader(): string {
+        const firstCharacter: string = this.sortableName.charAt(0);
+
+        if (Constants.alphabeticalHeaders.includes(firstCharacter)) {
+            return firstCharacter;
+        }
+
+        return '#';
     }
 }

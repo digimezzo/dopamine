@@ -1,6 +1,6 @@
 export class QueryParts {
     public static selectGenresQueryPart(onlyVisibleGenres: boolean): string {
-        let selectGenresQueryPart: string = `SELECT DISTINCT t.Genres FROM Track t`;
+        let selectGenresQueryPart: string = `SELECT DISTINCT t.Genres as genres FROM Track t`;
 
         if (onlyVisibleGenres) {
             selectGenresQueryPart += ' ' + this.folderJoins();

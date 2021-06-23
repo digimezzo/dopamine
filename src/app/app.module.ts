@@ -51,6 +51,7 @@ import { FolderRepository } from './common/data/repositories/folder-repository';
 import { FolderTrackRepository } from './common/data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './common/data/repositories/removed-track-repository';
 import { TrackRepository } from './common/data/repositories/track-repository';
+import { GenreOrdering } from './common/genre-ordering';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
@@ -125,7 +126,6 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
-import { AlphabeticalHeaderPipe } from './pipes/alphabetical-header.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
@@ -267,7 +267,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
-        AlphabeticalHeaderPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -374,6 +373,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NativeElementProxy,
         GitHubApi,
         MetadataPatcher,
+        GenreOrdering,
         TrackOrdering,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
