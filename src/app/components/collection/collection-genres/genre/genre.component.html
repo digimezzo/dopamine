@@ -1,4 +1,12 @@
 <div class="app-genre no-select">
-    <div class="app-genre__header mt-2 mb-1" *ngIf="genre.showHeader">{{ genre.alphabeticalHeader }}</div>
-    <div class="app-genre__name ellipsis">{{ genre.name }}</div>
+    <div class="app-genre__header mt-2 mb-1 mx-1" *ngIf="genre.showHeader">{{ genre.alphabeticalHeader }}</div>
+    <div
+        class="app-genre__name ellipsis px-1"
+        [ngClass]="{ 'selected-item': genre.isSelected }"
+        matRipple
+        [matRippleTrigger]="trigger"
+        #trigger
+    >
+        {{ genre.name }}
+    </div>
 </div>

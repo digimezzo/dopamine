@@ -5,6 +5,7 @@ import { BaseTranslatorService } from '../translator/base-translator.service';
 export class GenreModel {
     constructor(private genre: string, private translatorService: BaseTranslatorService) {}
 
+    public isSelected: boolean = false;
     public showHeader: boolean = false;
 
     public get name(): string {
