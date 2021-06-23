@@ -19,15 +19,6 @@ describe('PlaybackProgress', () => {
             expect(playbackProgress).toBeDefined();
         });
 
-        it('should define progressSeconds as 0', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(playbackProgress.progressSeconds).toEqual(0);
-        });
-
         it('should set progressSeconds', () => {
             // Arrange
 
@@ -35,15 +26,6 @@ describe('PlaybackProgress', () => {
 
             // Assert
             expect(playbackProgress.progressSeconds).toEqual(20);
-        });
-
-        it('should define totalSeconds as 0', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(playbackProgress.totalSeconds).toEqual(0);
         });
 
         it('should set totalSeconds', () => {
