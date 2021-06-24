@@ -70,6 +70,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
             this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
                 this.getAlbumsForGenres(genres);
+                this.getTracksForGenres(genres);
             })
         );
 
@@ -104,8 +105,21 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private getTracks(): void {
+        const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
+
+        if (selectedGenres.length > 0) {
+            this.getTracksForGenres(selectedGenres.map((x) => x.name));
+        }
         this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+    }
+
+    private getTracksForGenres(genres: string[]): void {
+        if (genres.length > 0) {
+            this.tracks = this.trackService.getTracksForGenres(genres);
+        } else {
+            this.tracks = this.trackService.getAllTracks();
+        }
     }
 
     private getTracksForAlbumKeys(albumKeys: string[]): void {
