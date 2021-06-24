@@ -101,12 +101,16 @@ export class TrackRepository implements BaseTrackRepository {
         return tracks;
     }
 
-    public getGenreTracks(genres: string[]): Track[] {
+    public getTracksForGenres(genres: string[]): Track[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(
-            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.Genre', genres)}`
-        );
+        let filterQuery: string = '';
+
+        if (genres != undefined && genres.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
 
         const tracks: Track[] = statement.all();
 
