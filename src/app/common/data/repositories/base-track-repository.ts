@@ -10,16 +10,14 @@ export abstract class BaseTrackRepository {
     public abstract deleteTracksThatDoNotBelongFolders(): number;
     public abstract deleteTrack(trackId: number): void;
     public abstract getAllTracks(): Track[];
-    public abstract getAlbumTracks(albumKeys: string[]): Track[];
+    public abstract getTracksForAlbums(albumKeys: string[]): Track[];
     public abstract getGenreTracks(genres: string[]): Track[];
-    public abstract getArtistTracks(artists: string[]): Track[];
-    public abstract getAlbumArtistTracks(albumArtists: string[]): Track[];
     public abstract updateTrack(track: Track): void;
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
     public abstract getAllAlbumData(): AlbumData[];
-    public abstract getGenreAlbumData(genres: string[]): AlbumData[];
+    public abstract getAlbumDataForGenres(genres: string[]): AlbumData[];
     public abstract getGenreData(): GenreData[];
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
     public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;

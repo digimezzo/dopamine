@@ -116,7 +116,7 @@ describe('PlaybackService', () => {
         tracks.addTrack(trackModel3);
         tracks.addTrack(trackModel4);
 
-        trackServiceMock.setup((x) => x.getAlbumTracks([album1.albumKey])).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getTracksForAlbums([album1.albumKey])).returns(() => tracks);
         trackOrderingMock.setup((x) => x.getTracksOrderedByAlbum(tracks.tracks)).returns(() => orderedTrackModels);
 
         service = new PlaybackService(
@@ -705,7 +705,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayAlbum(undefined);
 
             // Assert
-            trackServiceMock.verify((x) => x.getAlbumTracks(It.isAny()), Times.never());
+            trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
         });
 
         it('should get tracks for the album if albumToPlay is not undefined', () => {
@@ -715,7 +715,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayAlbum(album1);
 
             // Assert
-            trackServiceMock.verify((x) => x.getAlbumTracks([album1.albumKey]), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey]), Times.exactly(1));
         });
 
         it('should order tracks for the album byAlbum', () => {

@@ -33,23 +33,5 @@ export class ClauseCreator {
         orLikeClause += ')';
 
         return orLikeClause;
-
-        // var sb = new StringBuilder();
-        // sb.AppendLine("(");
-        // var orClauses = new List<string>();
-        // foreach (string clauseItem in clauseItems)
-        // {
-        //     if (string.IsNullOrEmpty(clauseItem))
-        //     {
-        //         orClauses.Add($@"({columnName} IS NULL OR {columnName}='')");
-        //     }
-        //     else
-        //     {
-        //         orClauses.Add($@"(LOWER({columnName}) LIKE LOWER('%{delimiter}{clauseItem.Replace("'", "''")}{delimiter}%'))");
-        //     }
-        // }
-        // sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
-        // sb.AppendLine(")");
-        // return sb.ToString();
     }
 }

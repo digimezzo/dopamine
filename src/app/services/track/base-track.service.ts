@@ -3,6 +3,6 @@ import { TrackModels } from './track-models';
 export abstract class BaseTrackService {
     public abstract getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels>;
     public abstract getAllTracks(): TrackModels;
-    public abstract getAlbumTracks(albumKeys: string[]): TrackModels;
-    public abstract getGenreTracks(genres: string[]): TrackModels;
+    public abstract getTracksForAlbums(albumKeys: string[]): TrackModels;
+    public abstract getTracksForGenres(genres: string[]): TrackModels;
 }

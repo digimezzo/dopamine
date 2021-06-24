@@ -91,7 +91,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     private getTracksForAlbumKeys(albumKeys: string[]): void {
         if (albumKeys.length > 0) {
-            this.tracks = this.trackService.getAlbumTracks(albumKeys);
+            this.tracks = this.trackService.getTracksForAlbums(albumKeys);
         } else {
             this.tracks = this.trackService.getAllTracks();
         }

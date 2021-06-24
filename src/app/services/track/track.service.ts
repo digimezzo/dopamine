@@ -63,7 +63,7 @@ export class TrackService implements BaseTrackService {
         return trackModels;
     }
 
-    public getAlbumTracks(albumKeys: string[]): TrackModels {
+    public getTracksForAlbums(albumKeys: string[]): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
         if (albumKeys == undefined) {
@@ -74,7 +74,7 @@ export class TrackService implements BaseTrackService {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getAlbumTracks(albumKeys);
+        const tracks: Track[] = this.trackRepository.getTracksForAlbums(albumKeys);
 
         for (const track of tracks) {
             const trackModel: TrackModel = new TrackModel(track, this.translatorService);
@@ -84,7 +84,7 @@ export class TrackService implements BaseTrackService {
         return trackModels;
     }
 
-    public getGenreTracks(genres: string[]): TrackModels {
+    public getTracksForGenres(genres: string[]): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
         if (genres == undefined) {

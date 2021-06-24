@@ -50,17 +50,13 @@ describe('TrackService', () => {
         track3 = new Track('Path 3');
         track4 = new Track('Path 4');
 
-        trackRepositoryMock.setup((x) => x.getAlbumTracks(['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
-        trackRepositoryMock.setup((x) => x.getAlbumTracks(['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
-        trackRepositoryMock.setup((x) => x.getAlbumTracks([])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums(['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums(['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbums([])).returns(() => []);
 
         trackRepositoryMock.setup((x) => x.getGenreTracks(['genre1', 'genre2'])).returns(() => [track1, track3]);
         trackRepositoryMock.setup((x) => x.getGenreTracks(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
         trackRepositoryMock.setup((x) => x.getGenreTracks([])).returns(() => []);
-
-        trackRepositoryMock.setup((x) => x.getArtistTracks(['artist1', 'artist2'])).returns(() => [track2, track3]);
-
-        trackRepositoryMock.setup((x) => x.getAlbumArtistTracks(['albumArtist1', 'albumArtist2'])).returns(() => [track3, track4]);
 
         const trackToFill: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
         const filledTrack: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
@@ -218,10 +214,10 @@ describe('TrackService', () => {
             const albumKeys: string[] = undefined;
 
             // Act
-            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+            const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.never());
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
@@ -230,10 +226,10 @@ describe('TrackService', () => {
             const albumKeys: string[] = [];
 
             // Act
-            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+            const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.never());
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
@@ -242,10 +238,10 @@ describe('TrackService', () => {
             const albumKeys: string[] = ['albumKey1', 'albumKey2'];
 
             // Act
-            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+            const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(2);
             expect(tracksModels.tracks[0].path).toEqual('Path 1');
             expect(tracksModels.tracks[1].path).toEqual('Path 2');
@@ -256,10 +252,10 @@ describe('TrackService', () => {
             const albumKeys: string[] = ['unknownAlbumKey1', 'unknownAlbumKey2'];
 
             // Act
-            const tracksModels: TrackModels = service.getAlbumTracks(albumKeys);
+            const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.getAlbumTracks(albumKeys), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(0);
         });
     });
@@ -270,7 +266,7 @@ describe('TrackService', () => {
             const genres: string[] = undefined;
 
             // Act
-            const tracksModels: TrackModels = service.getGenreTracks(genres);
+            const tracksModels: TrackModels = service.getTracksForGenres(genres);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.never());
@@ -282,7 +278,7 @@ describe('TrackService', () => {
             const genres: string[] = [];
 
             // Act
-            const tracksModels: TrackModels = service.getGenreTracks(genres);
+            const tracksModels: TrackModels = service.getTracksForGenres(genres);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.never());
@@ -294,7 +290,7 @@ describe('TrackService', () => {
             const genres: string[] = ['genre1', 'genre2'];
 
             // Act
-            const tracksModels: TrackModels = service.getGenreTracks(genres);
+            const tracksModels: TrackModels = service.getTracksForGenres(genres);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.exactly(1));
@@ -308,7 +304,7 @@ describe('TrackService', () => {
             const genres: string[] = ['unknownGenre1', 'unknownGenre2'];
 
             // Act
-            const tracksModels: TrackModels = service.getGenreTracks(genres);
+            const tracksModels: TrackModels = service.getTracksForGenres(genres);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getGenreTracks(genres), Times.exactly(1));

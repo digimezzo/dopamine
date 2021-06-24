@@ -21,7 +21,7 @@ export class AlbumService implements BaseAlbumService {
     }
 
     public getGenreAlbums(genres: string[]): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getGenreAlbumData(genres);
+        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(genres);
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }

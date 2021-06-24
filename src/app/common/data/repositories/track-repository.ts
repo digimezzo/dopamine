@@ -89,7 +89,7 @@ export class TrackRepository implements BaseTrackRepository {
         return tracks;
     }
 
-    public getAlbumTracks(albumKeys: string[]): Track[] {
+    public getTracksForAlbums(albumKeys: string[]): Track[] {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -106,30 +106,6 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(
             `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.Genre', genres)}`
-        );
-
-        const tracks: Track[] = statement.all();
-
-        return tracks;
-    }
-
-    public getArtistTracks(artists: string[]): Track[] {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare(
-            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.Artist', artists)}`
-        );
-
-        const tracks: Track[] = statement.all();
-
-        return tracks;
-    }
-
-    public getAlbumArtistTracks(albumArtists: string[]): Track[] {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare(
-            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.AlbumArtist', albumArtists)}`
         );
 
         const tracks: Track[] = statement.all();
@@ -363,7 +339,7 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
-    public getGenreAlbumData(genres: string[]): AlbumData[] {
+    public getAlbumDataForGenres(genres: string[]): AlbumData[] {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';

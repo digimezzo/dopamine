@@ -78,7 +78,7 @@ describe('CollectionArtistsComponent', () => {
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
         trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
-        trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
         component = new CollectionArtistsComponent(
             albumsPersisterMock.object,
@@ -260,7 +260,7 @@ describe('CollectionArtistsComponent', () => {
             tracksPersisterMock.reset();
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
-            trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             component = new CollectionArtistsComponent(
                 albumsPersisterMock.object,
@@ -310,7 +310,7 @@ describe('CollectionArtistsComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAlbumTracks(['albumKey2']), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForAlbums(['albumKey2']), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
 
@@ -338,13 +338,13 @@ describe('CollectionArtistsComponent', () => {
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             await component.ngOnInit();
             trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getAlbumTracks(It.isAny())).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             // Act
             selectedAlbumsChangedMock.next([album2.albumKey]);
 
             // Assert
-            trackServiceMock.verify((x) => x.getAlbumTracks(['albumKey2']), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForAlbums(['albumKey2']), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
 
