@@ -3,11 +3,12 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
 import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Strings } from '../../../../common/strings';
+import { GenreModel } from '../../../../services/genre/genre-model';
 import { GenreOrder } from './genre-order';
 
 @Injectable()
 export class GenresPersister {
-    private selectedGenres: string[] = [];
+    private selectedGenreNames: string[] = [];
     private selectedGenreOrder: GenreOrder;
     private selectedGenresChanged: Subject<string[]> = new Subject();
 
@@ -17,7 +18,7 @@ export class GenresPersister {
 
     public selectedGenresChanged$: Observable<string[]> = this.selectedGenresChanged.asObservable();
 
-    public getSelectedGenres(availableGenres: string[]): string[] {
+    public getSelectedGenres(availableGenres: GenreModel[]): GenreModel[] {
         if (availableGenres == undefined) {
             return [];
         }
@@ -27,7 +28,7 @@ export class GenresPersister {
         }
 
         try {
-            return availableGenres.filter((x) => this.selectedGenres.includes(x));
+            return availableGenres.filter((x) => this.selectedGenreNames.includes(x.name));
         } catch (e) {
             this.logger.error(`Could not get selected genres. Error: ${e.message}`, 'GenresPersister', 'getSelectedGenres');
         }
@@ -35,21 +36,21 @@ export class GenresPersister {
         return [];
     }
 
-    public setSelectedGenres(selectedGenres: string[]): void {
+    public setSelectedGenres(selectedGenres: GenreModel[]): void {
         try {
             if (selectedGenres != undefined && selectedGenres.length > 0) {
-                this.selectedGenres = selectedGenres;
+                this.selectedGenreNames = selectedGenres.map((x) => x.name);
             } else {
-                this.selectedGenres = [];
+                this.selectedGenreNames = [];
             }
 
-            if (this.selectedGenres.length > 0) {
-                this.saveSelectedGenreToSettings(this.selectedGenres[0]);
+            if (this.selectedGenreNames.length > 0) {
+                this.saveSelectedGenreToSettings(this.selectedGenreNames[0]);
             } else {
                 this.saveSelectedGenreToSettings('');
             }
 
-            this.selectedGenresChanged.next(this.selectedGenres);
+            this.selectedGenresChanged.next(this.selectedGenreNames);
         } catch (e) {
             this.logger.error(`Could not set selected genres. Error: ${e.message}`, 'GenresPersister', 'setSelectedGenres');
         }

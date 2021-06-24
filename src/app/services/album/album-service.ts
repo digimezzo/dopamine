@@ -17,6 +17,16 @@ export class AlbumService implements BaseAlbumService {
     public getAllAlbums(): AlbumModel[] {
         const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData();
 
+        return this.createAlbumsFromAlbumData(albumDatas);
+    }
+
+    public getGenreAlbums(genres: string[]): AlbumModel[] {
+        const albumDatas: AlbumData[] = this.trackRepository.getGenreAlbumData(genres);
+
+        return this.createAlbumsFromAlbumData(albumDatas);
+    }
+
+    private createAlbumsFromAlbumData(albumDatas: AlbumData[]): AlbumModel[] {
         if (albumDatas != undefined) {
             const albums: AlbumModel[] = albumDatas.map((x) => new AlbumModel(x, this.translatorService));
 

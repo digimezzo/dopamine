@@ -1,6 +1,7 @@
 import { Strings } from '../strings';
 
 export class ClauseCreator {
+    public static string;
     public static escapeQuotes(sourceString: string): string {
         return Strings.replaceAll(sourceString, `'`, `''`);
     }
@@ -10,5 +11,45 @@ export class ClauseCreator {
         const commaSeparatedItems: string = quotedClauseItems.join(',');
 
         return `${columnName} IN (${commaSeparatedItems})`;
+    }
+    public static createOrLikeClause(columnName: string, clauseItems: string[], delimiter: string) {
+        let orLikeClause: string = '';
+
+        orLikeClause += ' (';
+
+        const orClauses: string[] = [];
+
+        for (const clauseItem of clauseItems) {
+            if (Strings.isNullOrWhiteSpace(clauseItem)) {
+                orClauses.push(`(${columnName} IS NULL OR ${columnName}='')`);
+            } else {
+                orClauses.push(
+                    `(LOWER(${columnName}) LIKE LOWER('%${delimiter}${Strings.replaceAll(clauseItem, `'`, `''`)}${delimiter}%'))`
+                );
+            }
+        }
+
+        orLikeClause += orClauses.join(' OR ');
+        orLikeClause += ')';
+
+        return orLikeClause;
+
+        // var sb = new StringBuilder();
+        // sb.AppendLine("(");
+        // var orClauses = new List<string>();
+        // foreach (string clauseItem in clauseItems)
+        // {
+        //     if (string.IsNullOrEmpty(clauseItem))
+        //     {
+        //         orClauses.Add($@"({columnName} IS NULL OR {columnName}='')");
+        //     }
+        //     else
+        //     {
+        //         orClauses.Add($@"(LOWER({columnName}) LIKE LOWER('%{delimiter}{clauseItem.Replace("'", "''")}{delimiter}%'))");
+        //     }
+        // }
+        // sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
+        // sb.AppendLine(")");
+        // return sb.ToString();
     }
 }

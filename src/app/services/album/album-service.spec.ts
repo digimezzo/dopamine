@@ -91,4 +91,8 @@ describe('AlbumService', () => {
             expect(albums[1].artworkPath).toEqual('');
         });
     });
+
+    describe('getGenreAlbums', () => {
+        throw new Error();
+    });
 });

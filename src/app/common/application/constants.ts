@@ -11,6 +11,8 @@ export class Constants {
         new Language('nl', 'Nederlands'),
     ];
 
+    public static readonly columnValueDelimiter: string = ';';
+
     public static readonly albumSizeInPixels: number = 120;
     public static readonly albumMarginInPixels: number = 8;
     public static readonly listLoadDelayMilliseconds: number = 50;

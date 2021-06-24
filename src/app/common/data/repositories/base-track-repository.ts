@@ -19,6 +19,7 @@ export abstract class BaseTrackRepository {
     public abstract getTrackByPath(path: string): Track;
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
     public abstract getAllAlbumData(): AlbumData[];
+    public abstract getGenreAlbumData(genres: string[]): AlbumData[];
     public abstract getGenreData(): GenreData[];
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
     public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;

@@ -1,8 +1,9 @@
+import { Constants } from '../application/constants';
 import { Strings } from '../strings';
 
 export class DataDelimiter {
-    private static delimiter: string = ';';
-    private static doubleDelimiter: string = `;;`;
+    private static delimiter: string = Constants.columnValueDelimiter;
+    private static doubleDelimiter: string = `${DataDelimiter.delimiter}${DataDelimiter.delimiter}`;
 
     public static toDelimitedString(stringArray: string[]): string {
         if (stringArray == undefined) {

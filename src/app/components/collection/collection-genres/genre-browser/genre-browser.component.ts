@@ -54,6 +54,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
     public setSelectedGenres(event: any, genreToSelect: GenreModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
+        this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems);
     }
 
     public toggleGenreOrder(): void {

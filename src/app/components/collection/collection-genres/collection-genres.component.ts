@@ -66,6 +66,12 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subscription.add(
+            this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
+                this.getAlbumsForGenres(genres);
+            })
+        );
+
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.fillListsAsync();
     }
@@ -92,7 +98,8 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private getAlbums(): void {
-        this.albums = this.albumService.getAllAlbums();
+        const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
+        this.getAlbumsForGenres(selectedGenres.map((x) => x.name));
     }
 
     private getTracks(): void {
@@ -105,6 +112,14 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
             this.tracks = this.trackService.getAlbumTracks(albumKeys);
         } else {
             this.tracks = this.trackService.getAllTracks();
+        }
+    }
+
+    private getAlbumsForGenres(genres: string[]): void {
+        if (genres.length > 0) {
+            this.albums = this.albumService.getGenreAlbums(genres);
+        } else {
+            this.albums = this.albumService.getAllAlbums();
         }
     }
 }

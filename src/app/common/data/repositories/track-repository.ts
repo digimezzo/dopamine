@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Constants } from '../../application/constants';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
 import { AlbumData } from '../entities/album-data';
@@ -356,6 +357,22 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} GROUP BY AlbumKey;`);
+
+        const albumData: AlbumData[] = statement.all();
+
+        return albumData;
+    }
+
+    public getGenreAlbumData(genres: string[]): AlbumData[] {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (genres != undefined && genres.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 

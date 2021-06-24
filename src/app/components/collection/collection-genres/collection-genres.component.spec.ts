@@ -348,7 +348,7 @@ describe('CollectionGenresComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should get tracks for the selected albums if the selected albums have changed and there are no selected albums', async () => {
+        it('should get all tracks if the selected albums have changed and there are no selected albums', async () => {
             // Arrange
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
@@ -380,6 +380,14 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
+        });
+
+        it('should get albums for the selected genres if the selected genres have changed and there are selected genres', async () => {
+            throw new Error();
+        });
+
+        it('should get all albums if the selected genres have changed and there are no selected genres', async () => {
+            throw new Error();
         });
     });
 

@@ -27,4 +27,8 @@ describe('ClauseCreator', () => {
             expect(inClause).toEqual(`TheColumn IN ('Item1','Item2','Item3')`);
         });
     });
+
+    describe('createOrLikeClause', () => {
+        throw new Error();
+    });
 });
