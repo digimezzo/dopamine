@@ -11,6 +11,8 @@ export class Constants {
         new Language('nl', 'Nederlands'),
     ];
 
+    public static readonly previewApplicationTag: string = 'preview';
+    public static readonly releaseCandidateApplicationTag: string = 'rc';
     public static readonly columnValueDelimiter: string = ';';
 
     public static readonly albumSizeInPixels: number = 120;

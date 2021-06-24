@@ -1,3 +1,5 @@
+import { Constants } from '../../common/application/constants';
+
 export class VersionComparer {
     public static isNewerVersion(oldVersion: string, newVersion: string): boolean {
         const oldVersionParts: string[] = oldVersion.split('-');
@@ -70,17 +72,18 @@ export class VersionComparer {
     }
 
     private static isNewerVersionTag(oldVersionTag: string, newVersionTag: string): boolean {
-        if (oldVersionTag.includes('rc') && newVersionTag.includes('next')) {
+        if (oldVersionTag.includes(Constants.releaseCandidateApplicationTag) && newVersionTag.includes(Constants.previewApplicationTag)) {
             return false;
         }
 
-        if (oldVersionTag.includes('next') && newVersionTag.includes('rc')) {
+        if (oldVersionTag.includes(Constants.previewApplicationTag) && newVersionTag.includes(Constants.releaseCandidateApplicationTag)) {
             return true;
         }
 
         if (
-            (oldVersionTag.includes('next') && newVersionTag.includes('next')) ||
-            (oldVersionTag.includes('rc') && newVersionTag.includes('rc'))
+            (oldVersionTag.includes(Constants.previewApplicationTag) && newVersionTag.includes(Constants.previewApplicationTag)) ||
+            (oldVersionTag.includes(Constants.releaseCandidateApplicationTag) &&
+                newVersionTag.includes(Constants.releaseCandidateApplicationTag))
         ) {
             const oldVersionTagParts: string[] = oldVersionTag.split('.');
             const newVersionTagParts: string[] = newVersionTag.split('.');
