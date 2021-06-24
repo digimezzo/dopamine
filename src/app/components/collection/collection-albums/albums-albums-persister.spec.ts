@@ -246,6 +246,30 @@ describe('AlbumsAlbumsPersister', () => {
         });
     });
 
+    describe('resetSelectedAlbums', () => {
+        it('should reset the selected albums', () => {
+            // Arrange
+            persister.setSelectedAlbums([album1, album2]);
+
+            const previouslySelectedAlbums: AlbumModel[] = persister.getSelectedAlbums(availableAlbums);
+            const previousAlbumsTabSelectedAlbum: string = settingsStub.albumsTabSelectedAlbum;
+
+            // Act
+            persister.resetSelectedAlbums();
+            const newlySelectedAlbums: AlbumModel[] = persister.getSelectedAlbums(availableAlbums);
+            const newGenresTabSelectedAlbum: string = settingsStub.albumsTabSelectedAlbum;
+
+            // Assert
+            expect(previouslySelectedAlbums.length).toEqual(2);
+            expect(previouslySelectedAlbums[0]).toEqual(album1);
+            expect(previouslySelectedAlbums[1]).toEqual(album2);
+            expect(previousAlbumsTabSelectedAlbum).toEqual('albumKey1');
+
+            expect(newlySelectedAlbums.length).toEqual(0);
+            expect(newGenresTabSelectedAlbum).toEqual('');
+        });
+    });
+
     describe('getSelectedAlbumOrder', () => {
         it('should return byAlbumTitleAscending if there is no selected album order', () => {
             // Arrange

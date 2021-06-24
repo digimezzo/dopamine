@@ -61,6 +61,11 @@ export abstract class BaseAlbumsPersister {
         }
     }
 
+    public resetSelectedAlbums(): void {
+        this.selectedAlbumKeys = [];
+        this.saveSelectedAlbumToSettings('');
+    }
+
     public getSelectedAlbumOrder(): AlbumOrder {
         if (this.selectedAlbumOrder == undefined) {
             return AlbumOrder.byAlbumTitleAscending;
