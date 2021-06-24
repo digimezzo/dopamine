@@ -68,6 +68,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
+                this.albumsPersister.resetSelectedAlbums();
                 this.getAlbumsForGenres(genres);
             })
         );

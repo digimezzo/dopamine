@@ -6,6 +6,7 @@ import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseGenreService } from '../../../services/genre/base-genre.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -13,12 +14,15 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AlbumOrder } from '../album-order';
 import { TrackOrder } from '../track-order';
 import { CollectionGenresComponent } from './collection-genres.component';
+import { GenresPersister } from './genre-browser/genres-persister';
 import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
 describe('CollectionGenresComponent', () => {
+    let genresPersisterMock: IMock<GenresPersister>;
     let albumsPersisterMock: IMock<GenresAlbumsPersister>;
     let tracksPersisterMock: IMock<GenresTracksPersister>;
+    let genreServiceMock: IMock<BaseGenreService>;
     let albumServiceMock: IMock<BaseAlbumService>;
     let trackServiceMock: IMock<BaseTrackService>;
     let settingsStub: any;
@@ -46,8 +50,10 @@ describe('CollectionGenresComponent', () => {
     let tracks: TrackModels;
 
     beforeEach(() => {
+        genresPersisterMock = Mock.ofType<GenresPersister>();
         albumsPersisterMock = Mock.ofType<GenresAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<GenresTracksPersister>();
+        genreServiceMock = Mock.ofType<BaseGenreService>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
         schedulerMock = Mock.ofType<Scheduler>();
@@ -81,8 +87,10 @@ describe('CollectionGenresComponent', () => {
         trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
         component = new CollectionGenresComponent(
+            genresPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
+            genreServiceMock.object,
             albumServiceMock.object,
             trackServiceMock.object,
             settingsStub,
@@ -211,8 +219,10 @@ describe('CollectionGenresComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -234,8 +244,10 @@ describe('CollectionGenresComponent', () => {
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -263,8 +275,10 @@ describe('CollectionGenresComponent', () => {
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -294,8 +308,10 @@ describe('CollectionGenresComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -325,8 +341,10 @@ describe('CollectionGenresComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -359,8 +377,10 @@ describe('CollectionGenresComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -389,6 +409,14 @@ describe('CollectionGenresComponent', () => {
         it('should get all albums if the selected genres have changed and there are no selected genres', async () => {
             throw new Error();
         });
+
+        it('should reset the selected albums if the selected genres have changed and there are selected genres', async () => {
+            throw new Error();
+        });
+
+        it('should reset the selected albums if the selected genres have changed and there are no selected genres', async () => {
+            throw new Error();
+        });
     });
 
     describe('ngOnDestroy', () => {
@@ -399,8 +427,10 @@ describe('CollectionGenresComponent', () => {
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -424,8 +454,10 @@ describe('CollectionGenresComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionGenresComponent(
+                genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
