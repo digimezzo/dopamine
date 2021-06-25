@@ -14,8 +14,8 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AlbumOrder } from '../album-order';
 import { TrackOrder } from '../track-order';
 import { CollectionGenresComponent } from './collection-genres.component';
-import { GenresPersister } from './genre-browser/genres-persister';
 import { GenresAlbumsPersister } from './genres-albums-persister';
+import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
 describe('CollectionGenresComponent', () => {

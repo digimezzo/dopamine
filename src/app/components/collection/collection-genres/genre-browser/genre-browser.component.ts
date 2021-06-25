@@ -4,8 +4,8 @@ import { GenreOrdering } from '../../../../common/genre-ordering';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreModel } from '../../../../services/genre/genre-model';
+import { GenresPersister } from '../genres-persister';
 import { GenreOrder } from './genre-order';
-import { GenresPersister } from './genres-persister';
 
 @Component({
     selector: 'app-genre-browser',

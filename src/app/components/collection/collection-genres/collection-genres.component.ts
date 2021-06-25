@@ -11,8 +11,8 @@ import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
-import { GenresPersister } from './genre-browser/genres-persister';
 import { GenresAlbumsPersister } from './genres-albums-persister';
+import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
 @Component({

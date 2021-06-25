@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Logger } from '../../../../common/logger';
-import { BaseSettings } from '../../../../common/settings/base-settings';
-import { Strings } from '../../../../common/strings';
-import { GenreModel } from '../../../../services/genre/genre-model';
-import { GenreOrder } from './genre-order';
+import { Logger } from '../../../common/logger';
+import { BaseSettings } from '../../../common/settings/base-settings';
+import { Strings } from '../../../common/strings';
+import { GenreModel } from '../../../services/genre/genre-model';
+import { GenreOrder } from './genre-browser/genre-order';
 
 @Injectable()
 export class GenresPersister {
