@@ -277,6 +277,24 @@ export class Settings implements BaseSettings {
         this.settings.set('albumsTabSelectedTrackOrder', v);
     }
 
+    //  Artists tab selected artist
+    public get artistsTabSelectedArtist(): string {
+        return this.settings.get('artistsTabSelectedArtist');
+    }
+
+    public set artistsTabSelectedArtist(v: string) {
+        this.settings.set('artistsTabSelectedArtist', v);
+    }
+
+    //  Artists tab selected artist order
+    public get artistsTabSelectedArtistOrder(): string {
+        return this.settings.get('artistsTabSelectedArtistOrder');
+    }
+
+    public set artistsTabSelectedArtistOrder(v: string) {
+        this.settings.set('artistsTabSelectedArtistOrder', v);
+    }
+
     //  Artists tab selected album
     public get artistsTabSelectedAlbum(): string {
         return this.settings.get('artistsTabSelectedAlbum');
@@ -478,6 +496,14 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('albumsTabSelectedTrackOrder')) {
             this.settings.set('albumsTabSelectedTrackOrder', '');
+        }
+
+        if (!this.settings.has('artistsTabSelectedArtist')) {
+            this.settings.set('artistsTabSelectedArtist', '');
+        }
+
+        if (!this.settings.has('artistsTabSelectedArtistOrder')) {
+            this.settings.set('artistsTabSelectedArtistOrder', '');
         }
 
         if (!this.settings.has('artistsTabSelectedAlbum')) {

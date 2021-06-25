@@ -29,6 +29,8 @@ export abstract class BaseSettings {
     public abstract albumsTabSelectedAlbum: string;
     public abstract albumsTabSelectedAlbumOrder: string;
     public abstract albumsTabSelectedTrackOrder: string;
+    public abstract artistsTabSelectedArtist: string;
+    public abstract artistsTabSelectedArtistOrder: string;
     public abstract artistsTabSelectedAlbum: string;
     public abstract artistsTabSelectedAlbumOrder: string;
     public abstract artistsTabSelectedTrackOrder: string;
