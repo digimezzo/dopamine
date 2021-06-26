@@ -46,7 +46,7 @@ describe('VolumeControlComponent', () => {
         });
     });
     describe('onMouseWheel', () => {
-        it('should increase the playbackService volume by 0.1 when scrolling up', () => {
+        it('should increase the playbackService volume by 0.05 when scrolling up', () => {
             // Arrange
             const event: any = { deltaY: -50 };
             const playbackServiceStub: any = { volume: 0.5 };
@@ -56,10 +56,10 @@ describe('VolumeControlComponent', () => {
             component.onMouseWheel(event);
 
             // Assert
-            expect(playbackServiceStub.volume).toEqual(0.6);
+            expect(playbackServiceStub.volume).toEqual(0.55);
         });
 
-        it('should decrease the playbackService volume by 0.1 when scrolling down', () => {
+        it('should decrease the playbackService volume by 0.05 when scrolling down', () => {
             // Arrange
             const event: any = { deltaY: 50 };
             const playbackServiceStub: any = { volume: 0.5 };
@@ -69,7 +69,7 @@ describe('VolumeControlComponent', () => {
             component.onMouseWheel(event);
 
             // Assert
-            expect(playbackServiceStub.volume).toEqual(0.4);
+            expect(playbackServiceStub.volume).toEqual(0.45);
         });
     });
 });

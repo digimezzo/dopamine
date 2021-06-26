@@ -37,6 +37,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
+import { ArtistOrdering } from './common/artists-ordering';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
 import { BaseDatabaseMigrator } from './common/data/base-database-migrator';
 import { DatabaseFactory } from './common/data/database-factory';
@@ -78,6 +79,8 @@ import { AlbumRowsGetter } from './components/collection/album-browser/album-row
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
+import { ArtistBrowserComponent } from './components/collection/collection-artists/artist-browser/artist-browser.component';
+import { ArtistComponent } from './components/collection/collection-artists/artist/artist.component';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
@@ -144,6 +147,8 @@ import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { ApplicationService } from './services/application/application.service';
 import { BaseApplicationService } from './services/application/base-application.service';
+import { ArtistService } from './services/artist/artist.service';
+import { BaseArtistService } from './services/artist/base-artist.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { DialogService } from './services/dialog/dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
@@ -278,10 +283,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaybackInformationComponent,
         PlaybackCoverArtComponent,
         TrackComponent,
+        ArtistComponent,
         GenreComponent,
         TotalsComponent,
         PlaybackIndicatorComponent,
         AlbumComponent,
+        ArtistBrowserComponent,
         GenreBrowserComponent,
         AlbumBrowserComponent,
         TrackBrowserComponent,
@@ -373,6 +380,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NativeElementProxy,
         GitHubApi,
         MetadataPatcher,
+        ArtistOrdering,
         GenreOrdering,
         TrackOrdering,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
@@ -397,6 +405,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseSnackBarService, useClass: SnackBarService },
         { provide: BasePlaybackService, useClass: PlaybackService },
         { provide: BaseDialogService, useClass: DialogService },
+        { provide: BaseArtistService, useClass: ArtistService },
         { provide: BaseGenreService, useClass: GenreService },
         { provide: BaseTrackService, useClass: TrackService },
         { provide: BaseAlbumService, useClass: AlbumService },

@@ -1,4 +1,5 @@
 import { AlbumData } from '../entities/album-data';
+import { ArtistData } from '../entities/artist-data';
 import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 
@@ -11,13 +12,16 @@ export abstract class BaseTrackRepository {
     public abstract deleteTrack(trackId: number): void;
     public abstract getAllTracks(): Track[];
     public abstract getTracksForAlbums(albumKeys: string[]): Track[];
+    public abstract getTracksForArtists(artists: string[]): Track[];
     public abstract getTracksForGenres(genres: string[]): Track[];
     public abstract updateTrack(track: Track): void;
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
     public abstract getAllAlbumData(): AlbumData[];
+    public abstract getAlbumDataForArtists(artists: string[]): AlbumData[];
     public abstract getAlbumDataForGenres(genres: string[]): AlbumData[];
+    public abstract getArtistData(): ArtistData[];
     public abstract getGenreData(): GenreData[];
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
     public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;

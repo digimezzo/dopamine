@@ -260,7 +260,11 @@ describe('TrackService', () => {
         });
     });
 
-    describe('getGenreTracks', () => {
+    describe('getTracksForArtists', () => {
+        throw new Error();
+    });
+
+    describe('getTracksForGenres', () => {
         it('should return a TrackModels containing no tracks if genres is undefined', () => {
             // Arrange
             const genres: string[] = undefined;

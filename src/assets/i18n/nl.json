@@ -163,6 +163,9 @@
         "UnknownTitle": "Onbekende titel",
         "UnknownAlbum": "Onbekend album"
     },
+    "Artist": {
+        "UnknownGenre": "Onbekend artiest"
+    },
     "Genre": {
         "UnknownGenre": "Onbekend genre"
     },
@@ -178,6 +181,14 @@
         "kB": "kB"
     },
     "Ordering": {
+        "Artists": {
+            "byArtistAscending": "A-Z",
+            "byArtistDescending": "Z-A"
+        },
+        "Genres": {
+            "byGenreAscending": "A-Z",
+            "byGenreDescending": "Z-A"
+        },
         "Albums": {
             "ByAlbumTitleAscending": "A-Z",
             "ByAlbumTitleDescending": "Z-A",

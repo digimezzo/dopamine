@@ -45,6 +45,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     @Input()
     public set albumsPersister(v: BaseAlbumsPersister) {
         this._albumsPersister = v;
+        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         this.orderAlbums();
     }
 
@@ -75,8 +76,6 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
                 this.orderAlbums();
             }
         });
-
-        this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
     }
 
     public ngAfterViewInit(): void {

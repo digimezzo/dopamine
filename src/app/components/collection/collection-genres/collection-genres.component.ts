@@ -111,6 +111,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         if (selectedGenres.length > 0) {
             this.getTracksForGenres(selectedGenres.map((x) => x.name));
         }
+
         this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
     }
 
@@ -132,7 +133,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
     private getAlbumsForGenres(genres: string[]): void {
         if (genres.length > 0) {
-            this.albums = this.albumService.getGenreAlbums(genres);
+            this.albums = this.albumService.getAlbumsForGenres(genres);
         } else {
             this.albums = this.albumService.getAllAlbums();
         }

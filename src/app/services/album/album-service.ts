@@ -20,7 +20,13 @@ export class AlbumService implements BaseAlbumService {
         return this.createAlbumsFromAlbumData(albumDatas);
     }
 
-    public getGenreAlbums(genres: string[]): AlbumModel[] {
+    public getAlbumsForArtists(artists: string[]): AlbumModel[] {
+        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForArtists(artists);
+
+        return this.createAlbumsFromAlbumData(albumDatas);
+    }
+
+    public getAlbumsForGenres(genres: string[]): AlbumModel[] {
         const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(genres);
 
         return this.createAlbumsFromAlbumData(albumDatas);

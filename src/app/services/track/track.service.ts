@@ -84,6 +84,27 @@ export class TrackService implements BaseTrackService {
         return trackModels;
     }
 
+    public getTracksForArtists(artists: string[]): TrackModels {
+        const trackModels: TrackModels = new TrackModels();
+
+        if (artists == undefined) {
+            return trackModels;
+        }
+
+        if (artists.length === 0) {
+            return trackModels;
+        }
+
+        const tracks: Track[] = this.trackRepository.getTracksForArtists(artists);
+
+        for (const track of tracks) {
+            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+            trackModels.addTrack(trackModel);
+        }
+
+        return trackModels;
+    }
+
     public getTracksForGenres(genres: string[]): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 

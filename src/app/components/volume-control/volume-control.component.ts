@@ -8,8 +8,6 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     styleUrls: ['./volume-control.component.scss'],
 })
 export class VolumeControlComponent implements OnInit {
-    private hasScrolled: boolean;
-
     constructor(public playbackService: BasePlaybackService) {}
 
     public ngOnInit(): void {}
@@ -25,9 +23,9 @@ export class VolumeControlComponent implements OnInit {
 
     public onMouseWheel(event: any): void {
         if (event.deltaY > 0) {
-            this.playbackService.volume -= 0.1;
+            this.playbackService.volume -= 0.05;
         } else {
-            this.playbackService.volume += 0.1;
+            this.playbackService.volume += 0.05;
         }
     }
 }

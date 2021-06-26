@@ -163,6 +163,9 @@
         "UnknownTitle": "Unknown title",
         "UnknownAlbum": "Unknown album"
     },
+    "Artist": {
+        "UnknownGenre": "Unknown artist"
+    },
     "Genre": {
         "UnknownGenre": "Unknown genre"
     },
@@ -178,6 +181,14 @@
         "KiloBytes": "kB"
     },
     "Ordering": {
+        "Artists": {
+            "byArtistAscending": "A-Z",
+            "byArtistDescending": "Z-A"
+        },
+        "Genres": {
+            "byGenreAscending": "A-Z",
+            "byGenreDescending": "Z-A"
+        },
         "Albums": {
             "ByAlbumTitleAscending": "A-Z",
             "ByAlbumTitleDescending": "Z-A",

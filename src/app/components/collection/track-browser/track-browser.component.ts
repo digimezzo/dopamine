@@ -44,6 +44,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
     @Input()
     public set tracksPersister(v: BaseTracksPersister) {
         this._tracksPersister = v;
+        this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
         this.orderTracks();
     }
 
@@ -68,8 +69,6 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
             })
         );
-
-        this.selectedTrackOrder = this.tracksPersister.getSelectedTrackOrder();
     }
 
     public setSelectedTracks(event: any, trackToSelect: TrackModel): void {

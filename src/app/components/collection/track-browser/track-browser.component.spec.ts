@@ -217,18 +217,6 @@ describe('TrackBrowserComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should get the selected track order from the persister', () => {
-            // Arrange
-            component.selectedTrackOrder = TrackOrder.byAlbum;
-            component.tracksPersister = tracksPersisterMock.object;
-
-            // Act
-            component.ngOnInit();
-
-            // Assert
-            expect(component.selectedTrackOrder).toEqual(TrackOrder.byTrackTitleDescending);
-        });
-
         it('should set the playing track on playback started', () => {
             // Arrange
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
@@ -333,5 +321,9 @@ describe('TrackBrowserComponent', () => {
             // Assert
             tracksPersisterMock.verify((x) => x.setSelectedTrackOrder(TrackOrder.byTrackTitleAscending), Times.exactly(1));
         });
+    });
+
+    describe('tracksPersister', () => {
+        throw new Error();
     });
 });

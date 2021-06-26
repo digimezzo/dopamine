@@ -1,6 +1,13 @@
 <div class="collection-viewport">
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
-        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"><div class="side-pane"></div></as-split-area>
+        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
+            ><div class="side-pane">
+                <app-artist-browser
+                    class="p-3 fill"
+                    [artists]="this.artists"
+                    [(artistsPersister)]="this.artistsPersister"
+                ></app-artist-browser></div
+        ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
             ><app-album-browser class="p-3 fill" [albums]="this.albums" [(albumsPersister)]="this.albumsPersister"></app-album-browser
         ></as-split-area>

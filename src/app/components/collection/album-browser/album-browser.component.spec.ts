@@ -414,29 +414,6 @@ describe('AlbumBrowserComponent', () => {
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(It.isAny(), albums, AlbumOrder.byAlbumArtist), Times.never());
         });
-
-        it('should get the selected album order from the persister', () => {
-            // Arrange
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byDateCreated);
-
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
-
-            component.albumsPersister = albumsPersisterMock.object;
-
-            // Act
-            component.ngOnInit();
-
-            // Assert
-            albumsPersisterMock.verify((x) => x.getSelectedAlbumOrder(), Times.exactly(1));
-            component.selectedAlbumOrder = AlbumOrder.byDateCreated;
-        });
     });
 
     describe('setSelectedAlbums', () => {
@@ -664,5 +641,31 @@ describe('AlbumBrowserComponent', () => {
             // Assert
             albumsPersisterMock.verify((x) => x.setSelectedAlbumOrder(AlbumOrder.byYearAscending), Times.exactly(1));
         });
+    });
+
+    describe('albumsPersister', () => {
+        throw new Error();
+        // it('should get the selected album order from the persister', () => {
+        //     // Arrange
+        //     albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byDateCreated);
+
+        //     component = new AlbumBrowserComponent(
+        //         playbackServiceMock.object,
+        //         applicationServiceMock.object,
+        //         albumRowsGetterMock.object,
+        //         nativeElementProxyMock.object,
+        //         mouseSelectionWatcherMock.object,
+        //         loggerMock.object
+        //     );
+
+        //     component.albumsPersister = albumsPersisterMock.object;
+
+        //     // Act
+        //     component.ngOnInit();
+
+        //     // Assert
+        //     albumsPersisterMock.verify((x) => x.getSelectedAlbumOrder(), Times.exactly(1));
+        //     component.selectedAlbumOrder = AlbumOrder.byDateCreated;
+        // });
     });
 });

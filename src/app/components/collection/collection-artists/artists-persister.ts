@@ -3,7 +3,8 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
-import { ArtistOrder } from './artist-order';
+import { ArtistModel } from '../../../services/artist/artist-model';
+import { ArtistOrder } from './artist-browser/artist-order';
 
 @Injectable()
 export class ArtistsPersister {

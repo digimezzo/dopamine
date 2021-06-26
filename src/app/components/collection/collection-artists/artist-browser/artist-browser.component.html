@@ -1,0 +1,22 @@
+<div class="app-artist-browser">
+    <div class="app-artist-browser__header m-1 no-select">
+        <div class="app-artist-browser__genrescount">
+            <div class="app-artist-browser__artistscount__number mr-2">{{ this.artists.length }}</div>
+            <div *ngIf="this.artists.length === 1">{{ 'Pages.Collection.Artist' | translate }}</div>
+            <div *ngIf="this.artists.length !== 1">{{ 'Pages.Collection.Artists' | translate }}</div>
+        </div>
+        <div class="app-artist-browser__artistorder" (click)="toggleArtistOrder()">
+            <div *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
+                {{ 'Ordering.Artists.byArtistAscending' | translate }}
+            </div>
+            <div *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
+                {{ 'Ordering.Artists.byArtistDescending' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-artist-browser__artists mt-3" itemSize="24">
+        <div *cdkVirtualFor="let artist of this.orderedArtists" (click)="setSelectedArtists($event, artist)">
+            <app-artist [artist]="artist"></app-artist>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>

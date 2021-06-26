@@ -3,6 +3,7 @@ import { Constants } from '../../application/constants';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
 import { AlbumData } from '../entities/album-data';
+import { ArtistData } from '../entities/artist-data';
 import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
@@ -95,6 +96,22 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.AlbumKey', albumKeys)}`
         );
+
+        const tracks: Track[] = statement.all();
+
+        return tracks;
+    }
+
+    public getTracksForArtists(artists: string[]): Track[] {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (artists != undefined && artists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', artists, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
 
         const tracks: Track[] = statement.all();
 
@@ -343,6 +360,22 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
+    public getAlbumDataForArtists(artists: string[]): AlbumData[] {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (artists != undefined && artists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', artists, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
+
+        const albumData: AlbumData[] = statement.all();
+
+        return albumData;
+    }
+
     public getAlbumDataForGenres(genres: string[]): AlbumData[] {
         const database: any = this.databaseFactory.create();
 
@@ -357,6 +390,16 @@ export class TrackRepository implements BaseTrackRepository {
         const albumData: AlbumData[] = statement.all();
 
         return albumData;
+    }
+
+    public getArtistData(): ArtistData[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(QueryParts.selectArtistsQueryPart(true));
+
+        const artists: ArtistData[] = statement.all();
+
+        return artists;
     }
 
     public getGenreData(): GenreData[] {

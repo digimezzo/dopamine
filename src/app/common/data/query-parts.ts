@@ -1,4 +1,14 @@
 export class QueryParts {
+    public static selectArtistsQueryPart(onlyVisibleArtists: boolean): string {
+        let selectArtistsQueryPart: string = `SELECT DISTINCT t.Artists as artists FROM Track t`;
+
+        if (onlyVisibleArtists) {
+            selectArtistsQueryPart += ' ' + this.folderJoins();
+        }
+
+        return selectArtistsQueryPart;
+    }
+
     public static selectGenresQueryPart(onlyVisibleGenres: boolean): string {
         let selectGenresQueryPart: string = `SELECT DISTINCT t.Genres as genres FROM Track t`;
 

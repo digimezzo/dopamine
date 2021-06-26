@@ -32,6 +32,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     @Input()
     public set genresPersister(v: GenresPersister) {
         this._genresPersister = v;
+        this.selectedGenreOrder = this.genresPersister.getSelectedGenreOrder();
         this.orderGenres();
     }
 
@@ -48,9 +49,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {}
 
-    public ngOnInit(): void {
-        this.selectedGenreOrder = this.genresPersister.getSelectedGenreOrder();
-    }
+    public ngOnInit(): void {}
 
     public setSelectedGenres(event: any, genreToSelect: GenreModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
@@ -94,7 +93,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
             this.showGenreHeaders(orderedGenres);
         } catch (e) {
-            this.logger.error(`Could not order genres. Error: ${e.message}`, 'TrackBrowserComponent', 'orderTracks');
+            this.logger.error(`Could not order genres. Error: ${e.message}`, 'GenreBrowserComponent', 'orderGenres');
         }
 
         this.orderedGenres = [...orderedGenres];
