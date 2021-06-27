@@ -103,6 +103,8 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         let previousAlphabeticalHeader: string = uuidv4();
 
         for (const genre of orderedGenres) {
+            genre.showHeader = false;
+
             if (genre.alphabeticalHeader !== previousAlphabeticalHeader) {
                 genre.showHeader = true;
             }

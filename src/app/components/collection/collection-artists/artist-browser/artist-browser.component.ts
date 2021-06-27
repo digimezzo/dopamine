@@ -4,6 +4,7 @@ import { ArtistOrdering } from '../../../../common/artists-ordering';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
+import { ArtistType } from '../../../../services/artist/artist-type';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
 
@@ -25,6 +26,9 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     public artistOrderEnum: typeof ArtistOrder = ArtistOrder;
     public selectedArtistOrder: ArtistOrder;
 
+    public artistTypeEnum: typeof ArtistType = ArtistType;
+    public selectedArtistType: ArtistType;
+
     public get artistsPersister(): ArtistsPersister {
         return this._artistsPersister;
     }
@@ -32,6 +36,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     @Input()
     public set artistsPersister(v: ArtistsPersister) {
         this._artistsPersister = v;
+        this.selectedArtistType = this.artistsPersister.getSelectedArtistType();
         this.selectedArtistOrder = this.artistsPersister.getSelectedArtistOrder();
         this.orderArtists();
     }
@@ -54,6 +59,26 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     public setSelectedArtists(event: any, artistToSelect: ArtistModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
         this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
+    }
+
+    public toggleArtistType(): void {
+        switch (this.selectedArtistType) {
+            case ArtistType.trackArtists:
+                this.selectedArtistType = ArtistType.albumArtists;
+                break;
+            case ArtistType.albumArtists:
+                this.selectedArtistType = ArtistType.allArtists;
+                break;
+            case ArtistType.allArtists:
+                this.selectedArtistType = ArtistType.trackArtists;
+                break;
+            default: {
+                this.selectedArtistType = ArtistType.trackArtists;
+                break;
+            }
+        }
+
+        this.artistsPersister.setSelectedArtistType(this.selectedArtistType);
     }
 
     public toggleArtistOrder(): void {
@@ -103,6 +128,8 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         let previousAlphabeticalHeader: string = uuidv4();
 
         for (const artist of orderedArtists) {
+            artist.showHeader = false;
+
             if (artist.alphabeticalHeader !== previousAlphabeticalHeader) {
                 artist.showHeader = true;
             }

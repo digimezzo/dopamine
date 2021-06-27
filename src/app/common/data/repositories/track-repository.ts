@@ -102,13 +102,29 @@ export class TrackRepository implements BaseTrackRepository {
         return tracks;
     }
 
-    public getTracksForArtists(artists: string[]): Track[] {
+    public getTracksForTrackArtists(trackArtists: string[]): Track[] {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
 
-        if (artists != undefined && artists.length > 0) {
-            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', artists, Constants.columnValueDelimiter)}`;
+        if (trackArtists != undefined && trackArtists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
+
+        const tracks: Track[] = statement.all();
+
+        return tracks;
+    }
+
+    public getTracksForAlbumArtists(albumArtists: string[]): Track[] {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (albumArtists != undefined && albumArtists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
@@ -360,13 +376,29 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
-    public getAlbumDataForArtists(artists: string[]): AlbumData[] {
+    public getAlbumDataForTrackArtists(trackArtists: string[]): AlbumData[] {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
 
-        if (artists != undefined && artists.length > 0) {
-            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', artists, Constants.columnValueDelimiter)}`;
+        if (trackArtists != undefined && trackArtists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
+        }
+
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
+
+        const albumData: AlbumData[] = statement.all();
+
+        return albumData;
+    }
+
+    public getAlbumDataForAlbumArtists(albumArtists: string[]): AlbumData[] {
+        const database: any = this.databaseFactory.create();
+
+        let filterQuery: string = '';
+
+        if (albumArtists != undefined && albumArtists.length > 0) {
+            filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
         const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
@@ -392,14 +424,24 @@ export class TrackRepository implements BaseTrackRepository {
         return albumData;
     }
 
-    public getArtistData(): ArtistData[] {
+    public getTrackArtistData(): ArtistData[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(QueryParts.selectArtistsQueryPart(true));
+        const statement = database.prepare(QueryParts.selectTrackArtistsQueryPart(true));
 
-        const artists: ArtistData[] = statement.all();
+        const trackArtistData: ArtistData[] = statement.all();
 
-        return artists;
+        return trackArtistData;
+    }
+
+    public getAlbumArtistData(): ArtistData[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(QueryParts.selectAlbumArtistsQueryPart(true));
+
+        const albumArtistsData: ArtistData[] = statement.all();
+
+        return albumArtistsData;
     }
 
     public getGenreData(): GenreData[] {

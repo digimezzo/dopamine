@@ -1,9 +1,16 @@
 <div class="app-artist-browser">
     <div class="app-artist-browser__header m-1 no-select">
-        <div class="app-artist-browser__genrescount">
+        <div class="app-artist-browser__artistscount">
             <div class="app-artist-browser__artistscount__number mr-2">{{ this.artists.length }}</div>
-            <div *ngIf="this.artists.length === 1">{{ 'Pages.Collection.Artist' | translate }}</div>
-            <div *ngIf="this.artists.length !== 1">{{ 'Pages.Collection.Artists' | translate }}</div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.trackArtists" (click)="this.toggleArtistType()">
+                {{ 'Pages.Collection.TrackArtists' | translate }}
+            </div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.albumArtists" (click)="this.toggleArtistType()">
+                {{ 'Pages.Collection.AlbumArtists' | translate }}
+            </div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.allArtists" (click)="this.toggleArtistType()">
+                {{ 'Pages.Collection.AllArtists' | translate }}
+            </div>
         </div>
         <div class="app-artist-browser__artistorder" (click)="toggleArtistOrder()">
             <div *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">

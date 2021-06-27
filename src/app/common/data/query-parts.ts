@@ -1,12 +1,22 @@
 export class QueryParts {
-    public static selectArtistsQueryPart(onlyVisibleArtists: boolean): string {
-        let selectArtistsQueryPart: string = `SELECT DISTINCT t.Artists as artists FROM Track t`;
+    public static selectTrackArtistsQueryPart(onlyVisibleArtists: boolean): string {
+        let selectTrackArtistsQueryPart: string = `SELECT DISTINCT t.Artists as artists FROM Track t`;
 
         if (onlyVisibleArtists) {
-            selectArtistsQueryPart += ' ' + this.folderJoins();
+            selectTrackArtistsQueryPart += ' ' + this.folderJoins();
         }
 
-        return selectArtistsQueryPart;
+        return selectTrackArtistsQueryPart;
+    }
+
+    public static selectAlbumArtistsQueryPart(onlyVisibleArtists: boolean): string {
+        let selectAlbumArtistsQueryPart: string = `SELECT DISTINCT t.AlbumArtists as artists FROM Track t`;
+
+        if (onlyVisibleArtists) {
+            selectAlbumArtistsQueryPart += ' ' + this.folderJoins();
+        }
+
+        return selectAlbumArtistsQueryPart;
     }
 
     public static selectGenresQueryPart(onlyVisibleGenres: boolean): string {

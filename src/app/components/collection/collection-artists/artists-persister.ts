@@ -4,18 +4,22 @@ import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { ArtistModel } from '../../../services/artist/artist-model';
+import { ArtistType } from '../../../services/artist/artist-type';
 import { ArtistOrder } from './artist-browser/artist-order';
 
 @Injectable()
 export class ArtistsPersister {
     private selectedArtistNames: string[] = [];
+    private selectedArtistType: ArtistType;
     private selectedArtistOrder: ArtistOrder;
+    private selectedArtistTypeChanged: Subject<ArtistType> = new Subject();
     private selectedArtistsChanged: Subject<string[]> = new Subject();
 
     constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
+    public selectedArtistTypeChanged$: Observable<ArtistType> = this.selectedArtistTypeChanged.asObservable();
     public selectedArtistsChanged$: Observable<string[]> = this.selectedArtistsChanged.asObservable();
 
     public getSelectedArtists(availableArtists: ArtistModel[]): ArtistModel[] {
@@ -56,6 +60,25 @@ export class ArtistsPersister {
         }
     }
 
+    public getSelectedArtistType(): ArtistType {
+        if (this.selectedArtistType == undefined) {
+            return ArtistType.trackArtists;
+        }
+
+        return this.selectedArtistType;
+    }
+
+    public setSelectedArtistType(selectedArtistType: ArtistType): void {
+        try {
+            this.selectedArtistType = selectedArtistType;
+            this.saveSelectedArtistTypeToSettings(ArtistType[selectedArtistType]);
+            this.resetSelectedArtists();
+            this.selectedArtistTypeChanged.next(selectedArtistType);
+        } catch (e) {
+            this.logger.error(`Could not set selected artist type. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtistType');
+        }
+    }
+
     public getSelectedArtistOrder(): ArtistOrder {
         if (this.selectedArtistOrder == undefined) {
             return ArtistOrder.byArtistAscending;
@@ -74,6 +97,10 @@ export class ArtistsPersister {
     }
 
     private initializeFromSettings(): void {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
+            this.selectedArtistType = (ArtistType as any)[this.getSelectedArtistTypeFromSettings()];
+        }
+
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistOrderFromSettings())) {
             this.selectedArtistOrder = (ArtistOrder as any)[this.getSelectedArtistOrderFromSettings()];
         }
@@ -87,11 +114,23 @@ export class ArtistsPersister {
         this.settings.artistsTabSelectedArtist = selectedArtist;
     }
 
+    private getSelectedArtistTypeFromSettings(): string {
+        return this.settings.artistsTabSelectedArtistType;
+    }
+
+    private saveSelectedArtistTypeToSettings(selectedArtistTypeName: string): void {
+        this.settings.artistsTabSelectedArtistType = selectedArtistTypeName;
+    }
+
     private getSelectedArtistOrderFromSettings(): string {
         return this.settings.artistsTabSelectedArtistOrder;
     }
 
     private saveSelectedArtistOrderToSettings(selectedArtistOrderName: string): void {
         this.settings.artistsTabSelectedArtistOrder = selectedArtistOrderName;
+    }
+
+    public resetSelectedArtists(): void {
+        this.setSelectedArtists([]);
     }
 }

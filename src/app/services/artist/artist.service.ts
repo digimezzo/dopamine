@@ -4,21 +4,37 @@ import { ArtistData } from '../../common/data/entities/artist-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { ArtistModel } from './artist-model';
+import { ArtistType } from './artist-type';
 import { BaseArtistService } from './base-artist.service';
 
 @Injectable()
 export class ArtistService implements BaseArtistService {
     constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
 
-    public getArtists(): ArtistModel[] {
-        const artistDatas: ArtistData[] = this.trackRepository.getArtistData();
+    public getArtists(artistType: ArtistType): ArtistModel[] {
+        const artistDatas: ArtistData[] = [];
+
+        if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
+            const trackArtistDatas: ArtistData[] = this.trackRepository.getTrackArtistData();
+            artistDatas.push(...trackArtistDatas);
+        }
+
+        if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
+            const albumArtistDatas: ArtistData[] = this.trackRepository.getAlbumArtistData();
+            artistDatas.push(...albumArtistDatas);
+        }
+
         const artistModels: ArtistModel[] = [];
+        const alreadyAddedArtists: string[] = [];
 
         for (const artistData of artistDatas) {
             const artists: string[] = DataDelimiter.fromDelimitedString(artistData.artists);
 
             for (const artist of artists) {
-                artistModels.push(new ArtistModel(artist, this.translatorService));
+                if (!alreadyAddedArtists.includes(artist)) {
+                    alreadyAddedArtists.push(artist);
+                    artistModels.push(new ArtistModel(artist, this.translatorService));
+                }
             }
         }
 

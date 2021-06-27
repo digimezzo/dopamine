@@ -7,6 +7,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { ArtistModel } from '../../../services/artist/artist-model';
+import { ArtistType } from '../../../services/artist/artist-type';
 import { BaseArtistService } from '../../../services/artist/base-artist.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
@@ -74,6 +75,13 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subscription.add(
+            this.artistsPersister.selectedArtistTypeChanged$.subscribe((artistType: ArtistType) => {
+                this.albumsPersister.resetSelectedAlbums();
+                this.fillListsAsync();
+            })
+        );
+
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
         await this.fillListsAsync();
     }
@@ -96,7 +104,8 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     private getArtists(): void {
-        this.artists = this.artistService.getArtists();
+        const selectedArtistType: ArtistType = this.artistsPersister.getSelectedArtistType();
+        this.artists = this.artistService.getArtists(selectedArtistType);
     }
 
     private getAlbums(): void {

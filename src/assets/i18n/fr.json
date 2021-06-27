@@ -33,6 +33,9 @@
         },
         "Collection": {
             "Artists": "Artistes",
+            "TrackArtists": "Artistes de morceaux",
+            "AlbumArtists": "Artistes d'albums",
+            "AllArtists": "Tous les artistes",
             "Album": "Album",
             "Albums": "Albums",
             "Genres": "Genres",

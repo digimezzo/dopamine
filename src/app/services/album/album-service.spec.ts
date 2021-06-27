@@ -92,7 +92,15 @@ describe('AlbumService', () => {
         });
     });
 
-    describe('getGenreAlbums', () => {
+    describe('getAlbumsForArtists', () => {
+        throw new Error();
+    });
+
+    describe('getAlbumsForGenres', () => {
+        throw new Error();
+    });
+
+    describe('getAlbumsForArtists', () => {
         throw new Error();
     });
 });

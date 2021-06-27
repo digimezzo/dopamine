@@ -95,7 +95,7 @@ export class TrackService implements BaseTrackService {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForArtists(artists);
+        const tracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists);
 
         for (const track of tracks) {
             const trackModel: TrackModel = new TrackModel(track, this.translatorService);
