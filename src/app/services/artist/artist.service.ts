@@ -25,7 +25,7 @@ export class ArtistService implements BaseArtistService {
         }
 
         const artistModels: ArtistModel[] = [];
-        const alreadyAddedArtists: string[] = [];
+        let alreadyAddedArtists: string[] = [];
 
         for (const artistData of artistDatas) {
             const artists: string[] = DataDelimiter.fromDelimitedString(artistData.artists);
@@ -37,6 +37,8 @@ export class ArtistService implements BaseArtistService {
                 }
             }
         }
+
+        alreadyAddedArtists = [];
 
         return artistModels;
     }

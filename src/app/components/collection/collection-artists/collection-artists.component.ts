@@ -78,7 +78,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.artistsPersister.selectedArtistTypeChanged$.subscribe((artistType: ArtistType) => {
                 this.albumsPersister.resetSelectedAlbums();
-                this.fillListsAsync();
+                this.getArtists();
             })
         );
 
@@ -95,6 +95,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
+            this.logger.info(`FILLING LISTS`, 'CollectionArtistsComponent', 'fillLists');
             this.getArtists();
             this.getAlbums();
             this.getTracks();
