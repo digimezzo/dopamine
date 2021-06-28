@@ -56,9 +56,28 @@ describe('AlbumArtworkAdder', () => {
             trackRepositoryMock.verify((x) => x.getAlbumDataThatNeedsIndexing(), Times.exactly(1));
         });
 
-        it('should not notify that album artwork is being updated if there is no album data that needs indexing', async () => {
+        it('should notify that album artwork is being updated if it is the first time that indexing runs', async () => {
             // Arrange
-            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => []);
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'AlbumKey1';
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
+            albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtwork()).returns(() => 0);
+
+            // Act
+            await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
+
+            // Assert
+            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('should not notify that album artwork is being updated if it is not the first time that indexing runs', async () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'AlbumKey1';
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
+            albumArtworkRepositoryMock.setup((x) => x.getNumberOfAlbumArtwork()).returns(() => 10);
 
             // Act
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();

@@ -37,6 +37,16 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         return albumArtwork;
     }
 
+    public getNumberOfAlbumArtwork(): number {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`SELECT COUNT(*) AS numberOfAlbumArtwork FROM AlbumArtwork;`);
+
+        const result: any = statement.get();
+
+        return result.numberOfAlbumArtwork;
+    }
+
     public getNumberOfAlbumArtworkThatHasNoTrack(): number {
         const database: any = this.databaseFactory.create();
 

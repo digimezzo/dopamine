@@ -44,7 +44,13 @@ export class AlbumArtworkAdder {
                 'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
             );
 
-            // this.snackbarService.updatingAlbumArtworkAsync(); // TODO: not sure about this notification
+            const numberOfAlbumArtwork: number = this.albumArtworkRepository.getNumberOfAlbumArtwork();
+
+            // TODO: remove this when album artwork fetching is async
+            // For now, as a workaround, we only show this notification the 1st time indexing runs.
+            if (numberOfAlbumArtwork === 0) {
+                this.snackbarService.updatingAlbumArtworkAsync();
+            }
 
             for (const albumData of albumDataThatNeedsIndexing) {
                 try {
