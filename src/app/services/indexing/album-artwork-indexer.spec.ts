@@ -76,17 +76,6 @@ describe('AlbumArtworkIndexer', () => {
             albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(), Times.exactly(1));
         });
 
-        it('should indicate that album artwork is being indexed', async () => {
-            // Arrange
-            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => []);
-
-            // Act
-            await albumArtworkIndexer.indexAlbumArtworkAsync();
-
-            // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
-        });
-
         it('should dismiss the indexing notification with a short delay', async () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => []);

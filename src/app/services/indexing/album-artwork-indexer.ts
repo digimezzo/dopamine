@@ -17,8 +17,6 @@ export class AlbumArtworkIndexer {
     public async indexAlbumArtworkAsync(): Promise<void> {
         this.logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
 
-        await this.snackBarService.updatingAlbumArtworkAsync();
-
         const timer: Timer = new Timer();
         timer.start();
 
