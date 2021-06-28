@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { BaseFolderService } from '../folder/base-folder.service';
@@ -10,6 +10,10 @@ import { TrackIndexer } from './track-indexer';
 
 @Injectable()
 export class IndexingService implements BaseIndexingService, OnDestroy {
+    private indexingFinished: Subject<void> = new Subject();
+    private subscription: Subscription = new Subscription();
+    private foldersHaveChanged: boolean = false;
+
     constructor(
         private collectionChecker: BaseCollectionChecker,
         private trackIndexer: TrackIndexer,
@@ -25,8 +29,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
         );
     }
 
-    private subscription: Subscription = new Subscription();
-    private foldersHaveChanged: boolean = false;
+    public indexingFinished$: Observable<void> = this.indexingFinished.asObservable();
 
     public isIndexingCollection: boolean = false;
 
@@ -58,6 +61,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
+        this.indexingFinished.next();
     }
 
     public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
@@ -84,6 +88,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
+        this.indexingFinished.next();
     }
 
     public async indexCollectionAlwaysAsync(): Promise<void> {
@@ -102,6 +107,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
+        this.indexingFinished.next();
     }
 
     public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
@@ -120,5 +126,6 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
         await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
+        this.indexingFinished.next();
     }
 }

@@ -8,6 +8,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -27,6 +28,7 @@ import { FoldersPersister } from './folders-persister';
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
     constructor(
+        private indexingService: BaseIndexingService,
         public playbackService: BasePlaybackService,
         private settings: BaseSettings,
         private folderService: BaseFolderService,
@@ -63,6 +65,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
                 this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, playbackStarted.currentTrack);
+            })
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
+                this.fillListsAsync();
             })
         );
     }

@@ -6,6 +6,7 @@ import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -25,6 +26,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     constructor(
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
+        private indexingService: BaseIndexingService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
         private settings: BaseSettings,
@@ -56,6 +58,12 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
                 this.getTracksForAlbumKeys(albumKeys);
+            })
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
+                this.fillListsAsync();
             })
         );
 

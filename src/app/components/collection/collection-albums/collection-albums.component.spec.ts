@@ -2,10 +2,12 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
+import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -24,6 +26,8 @@ describe('CollectionAlbumsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
+    let fileSystemMock: IMock<FileSystem>;
+    let indexingServiceMock: IMock<BaseIndexingService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let selectedAlbumsChangedMock: Subject<string[]>;
@@ -48,18 +52,20 @@ describe('CollectionAlbumsComponent', () => {
     beforeEach(() => {
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
+        indexingServiceMock = Mock.ofType<BaseIndexingService>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
+        fileSystemMock = Mock.ofType<FileSystem>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         selectedAlbumsChangedMock = new Subject();
         selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
         albums = [album1, album2];
 
         track1 = new Track('Path1');
@@ -83,6 +89,7 @@ describe('CollectionAlbumsComponent', () => {
         component = new CollectionAlbumsComponent(
             albumsPersisterMock.object,
             tracksPersisterMock.object,
+            indexingServiceMock.object,
             albumServiceMock.object,
             trackServiceMock.object,
             settingsStub,
@@ -194,6 +201,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -217,6 +225,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -246,6 +255,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -277,6 +287,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -308,6 +319,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -342,6 +354,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -362,6 +375,10 @@ describe('CollectionAlbumsComponent', () => {
             trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
+
+        it('should refresh the lists when indexing is finished', async () => {
+            throw new Error();
+        });
     });
 
     describe('ngOnDestroy', () => {
@@ -374,6 +391,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -399,6 +417,7 @@ describe('CollectionAlbumsComponent', () => {
             component = new CollectionAlbumsComponent(
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,

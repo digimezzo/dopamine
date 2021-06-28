@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as Store from 'electron-store';
-import * as os from 'os';
 import { BaseSettings } from './base-settings';
 
 @Injectable()
@@ -400,11 +399,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('useSystemTitleBar')) {
-            if (os.platform() === 'win32') {
-                this.settings.set('useSystemTitleBar', false);
-            } else {
-                this.settings.set('useSystemTitleBar', true);
-            }
+            this.settings.set('useSystemTitleBar', false);
         }
 
         if (!this.settings.has('fontSize')) {

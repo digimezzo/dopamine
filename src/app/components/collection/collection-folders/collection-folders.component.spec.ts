@@ -8,6 +8,7 @@ import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -21,6 +22,7 @@ import { FoldersPersister } from './folders-persister';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
+    let indexingServiceMock: IMock<BaseIndexingService>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let folderServiceMock: IMock<BaseFolderService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -48,6 +50,7 @@ describe('CollectionFoldersComponent', () => {
 
     beforeEach(() => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
+        indexingServiceMock = Mock.ofType<BaseIndexingService>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
@@ -82,6 +85,7 @@ describe('CollectionFoldersComponent', () => {
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
 
         component = new CollectionFoldersComponent(
+            indexingServiceMock.object,
             playbackServiceMock.object,
             settingsStub,
             folderServiceMock.object,
@@ -380,6 +384,10 @@ describe('CollectionFoldersComponent', () => {
                 (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
                 Times.exactly(1)
             );
+        });
+
+        it('should refresh the lists when indexing is finished', async () => {
+            throw new Error();
         });
     });
 

@@ -8,6 +8,7 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
 import { GenreModel } from '../../../services/genre/genre-model';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -29,6 +30,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,
+        private indexingService: BaseIndexingService,
         private genreService: BaseGenreService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
@@ -71,6 +73,12 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
                 this.albumsPersister.resetSelectedAlbums();
                 this.getAlbumsForGenres(genres);
                 this.getTracksForGenres(genres);
+            })
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(() => {
+                this.fillListsAsync();
             })
         );
 

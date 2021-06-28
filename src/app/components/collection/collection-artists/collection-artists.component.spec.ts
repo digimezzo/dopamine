@@ -2,10 +2,13 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
+import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseArtistService } from '../../../services/artist/base-artist.service';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -13,17 +16,22 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AlbumOrder } from '../album-order';
 import { TrackOrder } from '../track-order';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
+import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
 import { CollectionArtistsComponent } from './collection-artists.component';
 
 describe('CollectionArtistsComponent', () => {
+    let artistServiceMock: IMock<BaseArtistService>;
     let albumServiceMock: IMock<BaseAlbumService>;
     let trackServiceMock: IMock<BaseTrackService>;
+    let artistPersisterMock: IMock<ArtistsPersister>;
     let albumsPersisterMock: IMock<ArtistsAlbumsPersister>;
     let tracksPersisterMock: IMock<ArtistsTracksPersister>;
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
+    let fileSystemMock: IMock<FileSystem>;
+    let indexingServiceMock: IMock<BaseIndexingService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let selectedAlbumsChangedMock: Subject<string[]>;
@@ -46,20 +54,24 @@ describe('CollectionArtistsComponent', () => {
     let tracks: TrackModels;
 
     beforeEach(() => {
+        artistPersisterMock = Mock.ofType<ArtistsPersister>();
         albumsPersisterMock = Mock.ofType<ArtistsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<ArtistsTracksPersister>();
+        artistServiceMock = Mock.ofType<BaseArtistService>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
+        fileSystemMock = Mock.ofType<FileSystem>();
         settingsStub = { artistsLeftPaneWidthPercent: 25, artistsRightPaneWidthPercent: 25 };
+        indexingServiceMock = Mock.ofType<BaseIndexingService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         selectedAlbumsChangedMock = new Subject();
         selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
         albums = [album1, album2];
 
         track1 = new Track('Path1');
@@ -81,8 +93,11 @@ describe('CollectionArtistsComponent', () => {
         trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
         component = new CollectionArtistsComponent(
+            artistPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
+            indexingServiceMock.object,
+            artistServiceMock.object,
             albumServiceMock.object,
             trackServiceMock.object,
             settingsStub,
@@ -211,8 +226,11 @@ describe('CollectionArtistsComponent', () => {
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -234,8 +252,11 @@ describe('CollectionArtistsComponent', () => {
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -263,8 +284,11 @@ describe('CollectionArtistsComponent', () => {
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -294,8 +318,11 @@ describe('CollectionArtistsComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -325,8 +352,11 @@ describe('CollectionArtistsComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -359,8 +389,11 @@ describe('CollectionArtistsComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -381,6 +414,10 @@ describe('CollectionArtistsComponent', () => {
             trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
+
+        it('should refresh the lists when indexing is finished', async () => {
+            throw new Error();
+        });
     });
 
     describe('ngOnDestroy', () => {
@@ -391,8 +428,11 @@ describe('CollectionArtistsComponent', () => {
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,
@@ -416,8 +456,11 @@ describe('CollectionArtistsComponent', () => {
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
 
             component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
                 settingsStub,

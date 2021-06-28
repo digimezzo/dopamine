@@ -29,11 +29,7 @@ function windowHasFrame(): boolean {
     const settings: Store<any> = new Store();
 
     if (!settings.has('useSystemTitleBar')) {
-        if (os.platform() === 'win32') {
-            settings.set('useSystemTitleBar', false);
-        } else {
-            settings.set('useSystemTitleBar', true);
-        }
+        settings.set('useSystemTitleBar', false);
     }
 
     return settings.get('useSystemTitleBar');

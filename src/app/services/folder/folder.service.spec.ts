@@ -35,6 +35,15 @@ describe('FolderService', () => {
             // Assert
             expect(service).toBeDefined();
         });
+
+        it('should define foldersChanged$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.foldersChanged$).toBeDefined();
+        });
     });
 
     describe('addFolderAsync', () => {

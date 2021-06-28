@@ -25,12 +25,7 @@ if (process.env.NODE_ENV !== 'development') {
 function windowHasFrame() {
     var settings = new Store();
     if (!settings.has('useSystemTitleBar')) {
-        if (os.platform() === 'win32') {
-            settings.set('useSystemTitleBar', false);
-        }
-        else {
-            settings.set('useSystemTitleBar', true);
-        }
+        settings.set('useSystemTitleBar', false);
     }
     return settings.get('useSystemTitleBar');
 }

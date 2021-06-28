@@ -470,6 +470,10 @@ describe('CollectionGenresComponent', () => {
         it('should get all tracks if the selected genres have changed and there are no selected genres', async () => {
             throw new Error();
         });
+
+        it('should refresh the lists when indexing is finished', async () => {
+            throw new Error();
+        });
     });
 
     describe('ngOnDestroy', () => {

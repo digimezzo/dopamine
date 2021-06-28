@@ -14,7 +14,7 @@ describe('IndexingService', () => {
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let folderServiceMock: FolderServiceMock;
     let loggerMock: IMock<Logger>;
-    let indexingService: IndexingService;
+    let service: IndexingService;
 
     beforeEach(() => {
         collectionCheckerMock = Mock.ofType<CollectionChecker>();
@@ -23,7 +23,7 @@ describe('IndexingService', () => {
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         folderServiceMock = new FolderServiceMock();
         loggerMock = Mock.ofType<Logger>();
-        indexingService = new IndexingService(
+        service = new IndexingService(
             collectionCheckerMock.object,
             trackIndexerMock.object,
             albumArtworkIndexerMock.object,
@@ -33,13 +33,33 @@ describe('IndexingService', () => {
         );
     });
 
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service).toBeDefined();
+        });
+
+        it('should define indexingFinished$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.indexingFinished$).toBeDefined();
+        });
+    });
+
     describe('indexCollectionIfOutdatedAsync', () => {
         it('should check if the collection is out of date', async () => {
             // Arrange
             collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
-            await indexingService.indexCollectionIfOutdatedAsync();
+            await service.indexCollectionIfOutdatedAsync();
 
             // Assert
             collectionCheckerMock.verify((x) => x.isCollectionOutdatedAsync(), Times.exactly(1));
@@ -50,7 +70,7 @@ describe('IndexingService', () => {
             collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
-            await indexingService.indexCollectionIfOutdatedAsync();
+            await service.indexCollectionIfOutdatedAsync();
 
             // Assert
             trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
@@ -61,7 +81,7 @@ describe('IndexingService', () => {
             collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
 
             // Act
-            await indexingService.indexCollectionIfOutdatedAsync();
+            await service.indexCollectionIfOutdatedAsync();
 
             // Assert
             trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.never());
@@ -72,7 +92,7 @@ describe('IndexingService', () => {
             collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
 
             // Act
-            await indexingService.indexCollectionIfOutdatedAsync();
+            await service.indexCollectionIfOutdatedAsync();
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
@@ -83,10 +103,14 @@ describe('IndexingService', () => {
             collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
 
             // Act
-            await indexingService.indexCollectionIfOutdatedAsync();
+            await service.indexCollectionIfOutdatedAsync();
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('should notify that indexing is finished', async () => {
+            throw new Error();
         });
     });
 
@@ -96,7 +120,7 @@ describe('IndexingService', () => {
             folderServiceMock.onFoldersChanged();
 
             // Act
-            await indexingService.indexCollectionIfFoldersHaveChangedAsync();
+            await service.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
             trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
@@ -107,7 +131,7 @@ describe('IndexingService', () => {
             folderServiceMock.onFoldersChanged();
 
             // Act
-            await indexingService.indexCollectionIfFoldersHaveChangedAsync();
+            await service.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
@@ -117,7 +141,7 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexCollectionIfFoldersHaveChangedAsync();
+            await service.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
             trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.never());
@@ -127,10 +151,14 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexCollectionIfFoldersHaveChangedAsync();
+            await service.indexCollectionIfFoldersHaveChangedAsync();
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.never());
+        });
+
+        it('should notify that indexing is finished', async () => {
+            throw new Error();
         });
     });
 
@@ -139,7 +167,7 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexCollectionAlwaysAsync();
+            await service.indexCollectionAlwaysAsync();
 
             // Assert
             trackIndexerMock.verify((x) => x.indexTracksAsync(), Times.exactly(1));
@@ -149,10 +177,14 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexCollectionAlwaysAsync();
+            await service.indexCollectionAlwaysAsync();
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('should notify that indexing is finished', async () => {
+            throw new Error();
         });
     });
 
@@ -161,7 +193,7 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexAlbumArtworkOnlyAsync(true);
+            await service.indexAlbumArtworkOnlyAsync(true);
 
             // Assert
             trackRepositoryMock.verify((x) => x.enableNeedsAlbumArtworkIndexingForAllTracks(true), Times.exactly(1));
@@ -171,7 +203,7 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexAlbumArtworkOnlyAsync(false);
+            await service.indexAlbumArtworkOnlyAsync(false);
 
             // Assert
             trackRepositoryMock.verify((x) => x.enableNeedsAlbumArtworkIndexingForAllTracks(false), Times.exactly(1));
@@ -181,7 +213,7 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexAlbumArtworkOnlyAsync(true);
+            await service.indexAlbumArtworkOnlyAsync(true);
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
@@ -191,10 +223,14 @@ describe('IndexingService', () => {
             // Arrange
 
             // Act
-            await indexingService.indexAlbumArtworkOnlyAsync(false);
+            await service.indexAlbumArtworkOnlyAsync(false);
 
             // Assert
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.exactly(1));
+        });
+
+        it('should notify that indexing is finished', async () => {
+            throw new Error();
         });
     });
 });
