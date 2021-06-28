@@ -356,9 +356,9 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(false)}
-                WHERE AlbumKey IS NOT NULL AND AlbumKey <> ''
-                AND (AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
-                GROUP BY AlbumKey;`
+                WHERE t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                AND (t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
+                GROUP BY t.AlbumKey;`
         );
 
         const albumData: AlbumData[] = statement.all();
@@ -369,7 +369,7 @@ export class TrackRepository implements BaseTrackRepository {
     public getAllAlbumData(): AlbumData[] {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} GROUP BY AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} GROUP BY t.AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 
@@ -385,7 +385,7 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 
@@ -401,7 +401,7 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 
@@ -417,7 +417,7 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
 
         const albumData: AlbumData[] = statement.all();
 

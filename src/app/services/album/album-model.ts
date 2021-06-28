@@ -1,15 +1,20 @@
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { AlbumData } from '../../common/data/entities/album-data';
+import { FileSystem } from '../../common/io/file-system';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {
-    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService) {}
+    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: FileSystem) {}
 
     public isSelected: boolean = false;
-    public artworkPath: string;
     public showYear: boolean = false;
     public yearHeader: string = '';
+
+    public get artworkPath(): string {
+        return this.fileSystem.coverArtFullPath(this.albumData.artworkId);
+        // return this.albumData.artworkId;
+    }
 
     public get albumArtist(): string {
         const albumArtists = DataDelimiter.fromDelimitedString(this.albumData.albumArtists);

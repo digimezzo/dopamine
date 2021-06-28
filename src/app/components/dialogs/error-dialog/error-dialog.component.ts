@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import * as path from 'path';
 import { Constants } from '../../../common/application/constants';
 import { Desktop } from '../../../common/io/desktop';
 import { FileSystem } from '../../../common/io/file-system';
@@ -25,6 +24,6 @@ export class ErrorDialogComponent implements OnInit {
 
     public viewLog(): void {
         // See: https://stackoverflow.com/questions/30381450/open-external-file-with-electron
-        this.desktop.showFileInDirectory(path.join(this.fileSystem.applicationDataDirectory(), Constants.logFileName));
+        this.desktop.showFileInDirectory(this.fileSystem.combinePath([this.fileSystem.applicationDataDirectory(), Constants.logFileName]));
     }
 }

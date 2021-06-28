@@ -1,6 +1,7 @@
 import { IMock, Mock } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { FileSystem } from '../../common/io/file-system';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
@@ -9,6 +10,7 @@ import { AlbumService } from './album-service';
 describe('AlbumService', () => {
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let fileSystemMock: IMock<FileSystem>;
     let albumArtworkCacheServiceMock: IMock<BaseAlbumArtworkCacheService>;
     let service: AlbumService;
 
@@ -16,7 +18,8 @@ describe('AlbumService', () => {
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         albumArtworkCacheServiceMock = Mock.ofType<BaseAlbumArtworkCacheService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, albumArtworkCacheServiceMock.object);
+        fileSystemMock = Mock.ofType<FileSystem>();
+        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, fileSystemMock.object);
     });
 
     describe('constructor', () => {
@@ -52,8 +55,6 @@ describe('AlbumService', () => {
             albumData2.albumKey = 'Album key 2';
 
             trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => [albumData1, albumData2]);
-            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 1')).returns(() => 'Path 1');
-            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 2')).returns(() => 'Path 2');
 
             // Act
             const albums: AlbumModel[] = service.getAllAlbums();
@@ -77,8 +78,6 @@ describe('AlbumService', () => {
             albumData2.albumKey = 'Album key 2';
 
             trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => [albumData1, albumData2]);
-            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 1')).returns(() => '');
-            albumArtworkCacheServiceMock.setup((x) => x.getCachedArtworkFilePathAsync('Album key 2')).returns(() => '');
 
             // Act
             const albums: AlbumModel[] = service.getAllAlbums();

@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as path from 'path';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { Strings } from '../../common/strings';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
@@ -12,7 +9,6 @@ import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service
 @Injectable()
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(
-        private albumArtworkRepository: BaseAlbumArtworkRepository,
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
         private fileSystem: FileSystem,
@@ -23,7 +19,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
     public async removeArtworkDataFromCacheAsync(artworkId: string): Promise<void> {
         try {
-            const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(artworkId);
+            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(artworkId);
             await this.fileSystem.deleteFileIfExistsAsync(cachedArtworkFilePath);
         } catch (e) {
             this.logger.error(
@@ -45,7 +41,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath: string = this.createCachedArtworkFilePath(albumArtworkCacheId.id);
+            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
             await this.imageProcessor.convertImageBufferToFileAsync(data, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
@@ -58,16 +54,6 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         }
 
         return undefined;
-    }
-
-    public getCachedArtworkFilePathAsync(albumKey: string): string {
-        const artworkId: string = this.albumArtworkRepository.getArtworkId(albumKey);
-
-        if (Strings.isNullOrWhiteSpace(artworkId)) {
-            return '';
-        }
-
-        return this.createCachedArtworkFilePath(artworkId);
     }
 
     private createCoverArtCacheOnDisk(): void {
@@ -83,9 +69,5 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             // We cannot proceed if the above fails
             throw e;
         }
-    }
-
-    private createCachedArtworkFilePath(artworkId: string): string {
-        return path.join(this.fileSystem.coverArtCacheFullPath(), `${artworkId}.jpg`);
     }
 }

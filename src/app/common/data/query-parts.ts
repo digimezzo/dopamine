@@ -33,11 +33,13 @@ export class QueryParts {
         let selectAlbumDataQueryPart: string = `SELECT t.AlbumTitle AS albumTitle,
                                                        t.AlbumArtists AS albumArtists,
                                                        t.AlbumKey AS albumKey,
+                                                       a.ArtworkID as artworkId,
                                                        MAX(t.Artists) AS artists,
                                                        MAX(t.Year) AS year,
                                                        MAX(t.DateFileCreated) AS dateFileCreated,
                                                        MAX(t.DateAdded) AS dateAdded,
-                                                       MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t`;
+                                                       MAX(t.DateLastPlayed) AS dateLastPlayed FROM Track t
+                                                       LEFT JOIN AlbumArtwork a ON t.AlbumKey=a.AlbumKey`;
 
         if (onlyVisibleAlbumData) {
             selectAlbumDataQueryPart += ' ' + this.folderJoins();

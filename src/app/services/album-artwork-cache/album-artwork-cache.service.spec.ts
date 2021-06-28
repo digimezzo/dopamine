@@ -1,6 +1,5 @@
 import * as path from 'path';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
@@ -9,7 +8,6 @@ import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './album-artwork-cache.service';
 
 describe('AlbumArtworkCacheService', () => {
-    let albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository>;
     let albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory>;
     let imageProcessorMock: IMock<ImageProcessor>;
     let fileSystemMock: IMock<FileSystem>;
@@ -17,13 +15,11 @@ describe('AlbumArtworkCacheService', () => {
     let service: AlbumArtworkCacheService;
 
     beforeEach(() => {
-        albumArtworkRepositoryMock = Mock.ofType<BaseAlbumArtworkRepository>();
         albumArtworkCacheIdFactoryMock = Mock.ofType<AlbumArtworkCacheIdFactory>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         fileSystemMock = Mock.ofType<FileSystem>();
         loggerMock = Mock.ofType<Logger>();
         service = new AlbumArtworkCacheService(
-            albumArtworkRepositoryMock.object,
             albumArtworkCacheIdFactoryMock.object,
             imageProcessorMock.object,
             fileSystemMock.object,
@@ -42,7 +38,6 @@ describe('AlbumArtworkCacheService', () => {
 
             // Act
             service = new AlbumArtworkCacheService(
-                albumArtworkRepositoryMock.object,
                 albumArtworkCacheIdFactoryMock.object,
                 imageProcessorMock.object,
                 fileSystemMock.object,
@@ -126,38 +121,6 @@ describe('AlbumArtworkCacheService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(expectedCachedArtworkFilePath), Times.exactly(1));
-        });
-    });
-
-    describe('getCachedArtworkFilePathAsync', () => {
-        it('should return an empty path if no artworkId is found in the database', async () => {
-            // Arrange
-            albumArtworkRepositoryMock.setup((x) => x.getArtworkId('myAlbumKey')).returns(() => undefined);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-
-            // Act
-            const cachedArtworkFilePath: string = service.getCachedArtworkFilePathAsync('myAlbumKey');
-
-            // Assert
-            expect(cachedArtworkFilePath).toEqual('');
-        });
-
-        it('should return the cached artwork file path if no artworkId is found in the database', async () => {
-            // Arrange
-            albumArtworkRepositoryMock
-                .setup((x) => x.getArtworkId('myAlbumKey'))
-                .returns(() => 'album-4c315456-43ba-4984-8a7e-403837514638');
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            const expectedCachedArtworkFilePath: string = path.join(
-                fileSystemMock.object.coverArtCacheFullPath(),
-                'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
-            );
-
-            // Act
-            const cachedArtworkFilePath: string = service.getCachedArtworkFilePathAsync('myAlbumKey');
-
-            // Assert
-            expect(cachedArtworkFilePath).toEqual(expectedCachedArtworkFilePath);
         });
     });
 });

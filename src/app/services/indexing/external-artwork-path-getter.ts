@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as path from 'path';
 import { Constants } from '../../common/application/constants';
 import { FileSystem } from '../../common/io/file-system';
 import { Strings } from '../../common/strings';
@@ -17,10 +16,10 @@ export class ExternalArtworkPathGetter {
         const fileNameWithoutExtention: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
 
         for (const externalCoverArtPattern of Constants.externalCoverArtPatterns) {
-            const possibleExternalArtworkFilePath: string = path.join(
+            const possibleExternalArtworkFilePath: string = this.fileSystem.combinePath([
                 directory,
-                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtention)
-            );
+                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtention),
+            ]);
 
             if (this.fileSystem.pathExists(possibleExternalArtworkFilePath)) {
                 return possibleExternalArtworkFilePath;
