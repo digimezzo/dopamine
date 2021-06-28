@@ -1327,4 +1327,8 @@ describe('PlaybackService', () => {
             expect(settingsStub.volume).toEqual(1);
         });
     });
+
+    describe('playbackQueue', () => {
+        throw new Error();
+    }); 
 });

@@ -17,4 +17,10 @@ describe('CollectionPlaybackPaneComponent', () => {
             expect(component).toBeDefined();
         });
     });
+
+    describe('showNowPlaying', () => {
+        it('should request to show Now playing', () => {
+            throw new Error();
+        });
+    });
 });

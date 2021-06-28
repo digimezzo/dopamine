@@ -106,6 +106,9 @@
             "DownloadMissingAlbumCovers": "Télécharger les pochettes d'album manquantes",
             "RefreshAllCovers": "Actualiser les pochettes de tous les albums, y compris ceux qui ont déjà une pochette.",
             "RefreshMissingCovers": "Actualiser les pochettes uniquement pour les albums qui n'ont pas encore de pochette"
+        },
+        "PlaybackQueue": {
+            "PlaybackQueue": "File d’attente de lecture"
         }
     },
     "SnackBarMessages": {
@@ -135,7 +138,14 @@
         "OpenMenu": "Ouvrir menu",
         "Back": "Retour",
         "Close": "Fermer",
-        "ChooseFolder": "Choisissez un dossier"
+        "ChooseFolder": "Choisissez un dossier",
+        "PlaybackQueue": "File d’attente de lecture",
+        "Play": "Lecture",
+        "Pause": "Pause",
+        "Next": "Suivant",
+        "Previous": "Précédent",
+        "Loop": "Répétition",
+        "Shuffle": "Aléatoire"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Supprimer dossier?",

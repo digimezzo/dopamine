@@ -106,6 +106,9 @@
             "DownloadMissingAlbumCovers": "Download ontbrekende albumhoezen",
             "RefreshAllCovers": "Ververs albumhoezen voor alle albums, inclusief albums die al een albumhoes hebben.",
             "RefreshMissingCovers": "Ververs albumhoezen alleen voor albums die nog geen albumhoes hebben"
+        },
+        "PlaybackQueue": {
+            "PlaybackQueue": "Afspeelwachtrij"
         }
     },
     "SnackBarMessages": {
@@ -135,7 +138,14 @@
         "OpenMenu": "Open menu",
         "Back": "Terug",
         "Close": "Sluiten",
-        "ChooseFolder": "Kies een map"
+        "ChooseFolder": "Kies een map",
+        "PlaybackQueue": "Afspeelwachtrij",
+        "Play": "Afspelen",
+        "Pause": "Pauzeren",
+        "Next": "Volgende",
+        "Previous": "Vorige",
+        "Loop": "Herhalen",
+        "Shuffle": "Mixen"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Map verwijderen?",

@@ -106,6 +106,9 @@
             "DownloadMissingAlbumCovers": "Download missing album covers",
             "RefreshAllCovers": "Refresh covers for all albums, including those that already have a cover.",
             "RefreshMissingCovers": "Refresh covers only for albums that have no cover yet"
+        },
+        "PlaybackQueue": {
+            "PlaybackQueue": "Playback queue"
         }
     },
     "SnackBarMessages": {
@@ -135,7 +138,14 @@
         "OpenMenu": "Open menu",
         "Back": "Back",
         "Close": "Close",
-        "ChooseFolder": "Choose a folder"
+        "ChooseFolder": "Choose a folder",
+        "PlaybackQueue": "Playback queue",
+        "Play": "Play",
+        "Pause": "Pause",
+        "Next": "Next",
+        "Previous": "Previous",
+        "Loop": "Loop",
+        "Shuffle": "Shuffle"
     },
     "DialogTitles": {
         "ConfirmDeleteFolder": "Delete folder?",

@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<mat-drawer-container class="mat-drawer-container" hasBackdrop="True">
+    <mat-drawer class="mat-drawer-container__drawer" #drawer mode="Over" position="end"
+        ><app-playback-queue></app-playback-queue
+    ></mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

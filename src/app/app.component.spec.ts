@@ -39,6 +39,15 @@ describe('AppComponent', () => {
             // Assert
             expect(app).toBeDefined();
         });
+
+        it('should declare but not define drawer', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(app.drawer).toBeUndefined();
+        });
     });
 
     describe('ngOnInit', () => {
@@ -90,6 +99,14 @@ describe('AppComponent', () => {
 
             // Assert
             discordServiceMock.verify((x) => x.initialize(), Times.exactly(1));
+        });
+
+        it('should not toggle the drawer on showNowPlayingRequested when it is undefined', async () => {
+            throw new Error();
+        });
+
+        it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
+            throw new Error();
         });
     });
 });

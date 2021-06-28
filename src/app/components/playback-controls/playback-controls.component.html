@@ -5,6 +5,7 @@
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'Tooltips.Loop' | translate }}"
     >
         <i class="app-playback-controls__icon las la-redo-alt"></i>
     </button>
@@ -13,6 +14,7 @@
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'Tooltips.Loop' | translate }}"
     >
         <i class="app-playback-controls__accenticon las la-redo-alt"></i>
     </button>
@@ -21,26 +23,49 @@
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'Tooltips.Loop' | translate }}"
     >
         <i class="app-playback-controls__accenticon las la-redo-alt"></i>
         <span class="loop-one-button__number">1</span>
     </button>
 
     <!-- Play previous -->
-    <button class="app-playback-controls__button" mat-icon-button (click)="playbackService.playPrevious()">
+    <button
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.playPrevious()"
+        matTooltip="{{ 'Tooltips.Previous' | translate }}"
+    >
         <i class="app-playback-controls__icon las la-step-backward"></i>
     </button>
 
     <!-- Play/Pause -->
-    <button *ngIf="playbackService.canPause" class="app-playback-controls__button" mat-icon-button (click)="playbackService.pause()">
+    <button
+        *ngIf="playbackService.canPause"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.pause()"
+        matTooltip="{{ 'Tooltips.Pause' | translate }}"
+    >
         <i class="app-playback-controls__icon las la-pause"></i>
     </button>
-    <button *ngIf="playbackService.canResume" class="app-playback-controls__button" mat-icon-button (click)="playbackService.resume()">
+    <button
+        *ngIf="playbackService.canResume"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.resume()"
+        matTooltip="{{ 'Tooltips.Play' | translate }}"
+    >
         <i class="app-playback-controls__icon las la-play"></i>
     </button>
 
     <!-- Play next -->
-    <button class="app-playback-controls__button" mat-icon-button (click)="playbackService.playNext()">
+    <button
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.playNext()"
+        matTooltip="{{ 'Tooltips.Next' | translate }}"
+    >
         <i class="app-playback-controls__icon las la-step-forward"></i>
     </button>
 
@@ -50,6 +75,7 @@
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleIsShuffled()"
+        matTooltip="{{ 'Tooltips.Shuffle' | translate }}"
     >
         <i class="app-playback-controls__icon las la-random"></i>
     </button>
@@ -58,6 +84,7 @@
         class="app-playback-controls__button"
         mat-icon-button
         (click)="playbackService.toggleIsShuffled()"
+        matTooltip="{{ 'Tooltips.Shuffle' | translate }}"
     >
         <i class="app-playback-controls__accenticon las la-random"></i>
     </button>

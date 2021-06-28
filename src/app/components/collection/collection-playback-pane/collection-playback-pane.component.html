@@ -10,7 +10,12 @@
             <app-playback-controls></app-playback-controls>
         </div>
         <div class="app-collection-playback-pane-controls__right">
-            <app-playback-time class="mr-4"></app-playback-time>
+            <app-playback-time class="mx-2"></app-playback-time>
+            <i
+                class="app-collection__nowplaying las la-tasks pointer mx-4"
+                (click)="this.showNowPlaying()"
+                matTooltip="{{ 'Tooltips.PlaybackQueue' | translate }}"
+            ></i>
             <app-volume-control></app-volume-control>
         </div>
     </div>

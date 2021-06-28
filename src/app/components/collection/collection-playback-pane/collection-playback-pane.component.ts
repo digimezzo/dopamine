@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 
 @Component({
     selector: 'app-collection-playback-pane',
@@ -8,7 +9,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionPlaybackPaneComponent implements OnInit {
-    constructor() {}
+    constructor(private navigationService: BaseNavigationService) {}
 
     public ngOnInit(): void {}
+
+    public showNowPlaying(): void {
+        this.navigationService.showNowPlaying();
+    }
 }

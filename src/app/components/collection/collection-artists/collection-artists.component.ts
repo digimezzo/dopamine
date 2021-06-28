@@ -103,7 +103,6 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
 
         try {
-            this.logger.info(`FILLING LISTS`, 'CollectionArtistsComponent', 'fillLists');
             this.getArtists();
             this.getAlbums();
             this.getTracks();

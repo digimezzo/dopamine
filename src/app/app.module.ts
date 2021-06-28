@@ -17,6 +17,7 @@ import {
     MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
+    MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
@@ -116,6 +117,7 @@ import { PlaybackCoverArtComponent } from './components/playback-cover-art/playb
 import { PlaybackIndicatorComponent } from './components/playback-indicator/playback-indicator.component';
 import { PlaybackInformationComponent } from './components/playback-information/playback-information.component';
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
+import { PlaybackQueueComponent } from './components/playback-queue/playback-queue.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
@@ -292,10 +294,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenreBrowserComponent,
         AlbumBrowserComponent,
         TrackBrowserComponent,
+        PlaybackQueueComponent,
     ],
     imports: [
         BrowserAnimationsModule,
         BrowserModule,
+        MatSidenavModule,
         MatProgressSpinnerModule,
         MatStepperModule,
         MatFormFieldModule,
