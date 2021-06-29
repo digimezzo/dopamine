@@ -1,12 +1,13 @@
 import { Observable } from 'rxjs';
 import { AlbumModel } from '../album/album-model';
 import { TrackModel } from '../track/track-model';
+import { TrackModels } from '../track/track-models';
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
 
 export abstract class BasePlaybackService {
-    public abstract playbackQueue: TrackModel[];
+    public abstract playbackQueue: TrackModels;
     public abstract progressChanged$: Observable<PlaybackProgress>;
     public abstract playbackStarted$: Observable<PlaybackStarted>;
     public abstract playbackPaused$: Observable<void>;

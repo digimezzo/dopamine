@@ -54,12 +54,16 @@ export class PlaybackService implements BasePlaybackService {
     public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
     public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
 
-    public get playbackQueue(): TrackModel[] {
+    public get playbackQueue(): TrackModels {
+        const trackModels: TrackModels = new TrackModels();
+
         if (this.queue.tracks != undefined) {
-            return this.queue.tracks;
+            for (const track of this.queue.tracks) {
+                trackModels.addTrack(track);
+            }
         }
 
-        return [];
+        return trackModels;
     }
 
     public get volume(): number {

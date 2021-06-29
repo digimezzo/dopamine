@@ -108,7 +108,9 @@
             "RefreshMissingCovers": "Ververs albumhoezen alleen voor albums die nog geen albumhoes hebben"
         },
         "PlaybackQueue": {
-            "PlaybackQueue": "Afspeelwachtrij"
+            "PlaybackQueue": "Afspeelwachtrij",
+            "Track": "Nummer",
+            "Tracks": "Nummers"
         }
     },
     "SnackBarMessages": {

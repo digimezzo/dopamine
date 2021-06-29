@@ -108,7 +108,9 @@
             "RefreshMissingCovers": "Refresh covers only for albums that have no cover yet"
         },
         "PlaybackQueue": {
-            "PlaybackQueue": "Playback queue"
+            "PlaybackQueue": "Playback queue",
+            "Track": "Song",
+            "Tracks": "Songs"
         }
     },
     "SnackBarMessages": {

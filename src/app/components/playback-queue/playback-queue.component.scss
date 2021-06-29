@@ -5,6 +5,15 @@
     flex-direction: column;
 }
 
+.playback-queue__header {
+    display: flex;
+    flex-direction: row;
+}
+
+.playback-queue__trackscount {
+    color: var(--theme-accent-color);
+}
+
 .playback-queue__tracks {
     flex: 1;
 }

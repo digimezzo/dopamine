@@ -108,7 +108,9 @@
             "RefreshMissingCovers": "Actualiser les pochettes uniquement pour les albums qui n'ont pas encore de pochette"
         },
         "PlaybackQueue": {
-            "PlaybackQueue": "File d’attente de lecture"
+            "PlaybackQueue": "File d’attente de lecture",
+            "Track": "Morceau",
+            "Tracks": "Morceaux"
         }
     },
     "SnackBarMessages": {
