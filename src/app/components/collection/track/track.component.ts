@@ -11,6 +11,7 @@ export class TrackComponent implements OnInit {
     constructor() {}
 
     @Input() public track: TrackModel;
+    @Input() public canShowHeader: boolean = false;
 
     public ngOnInit(): void {}
 }

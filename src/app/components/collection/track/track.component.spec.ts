@@ -25,5 +25,14 @@ describe('TrackComponent', () => {
             // Assert
             expect(component.track).toBeUndefined();
         });
+
+        it('should define canShowHeader as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.canShowHeader).toBeFalsy();
+        });
     });
 });

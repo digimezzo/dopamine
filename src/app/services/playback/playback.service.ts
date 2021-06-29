@@ -128,6 +128,10 @@ export class PlaybackService implements BasePlaybackService {
         this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
+    public playQueuedTrack(trackToPlay: TrackModel): void {
+        this.play(trackToPlay, false);
+    }
+
     public toggleLoopMode(): void {
         const oldLoopMode: LoopMode = this._loopMode;
 

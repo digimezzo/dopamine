@@ -25,6 +25,7 @@ export abstract class BasePlaybackService {
     public abstract toggleIsShuffled(): void;
     public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
     public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;
+    public abstract playQueuedTrack(trackToPlay: TrackModel): void;
     public abstract playPrevious(): void;
     public abstract playNext(): void;
     public abstract skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void;

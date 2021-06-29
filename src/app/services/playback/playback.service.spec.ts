@@ -1330,5 +1330,9 @@ describe('PlaybackService', () => {
 
     describe('playbackQueue', () => {
         throw new Error();
-    }); 
+    });
+
+    describe('playQueuedTrack', () => {
+        throw new Error();
+    });
 });

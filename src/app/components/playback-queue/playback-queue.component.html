@@ -7,7 +7,7 @@
     </div>
     <cdk-virtual-scroll-viewport class="playback-queue__tracks mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.playbackService.playbackQueue.tracks">
-            <app-track [track]="track"></app-track>
+            <app-track [track]="track" (dblclick)="this.playbackService.playQueuedTrack(track)"></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
     <app-totals
