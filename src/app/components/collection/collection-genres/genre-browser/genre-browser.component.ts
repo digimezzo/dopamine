@@ -4,6 +4,7 @@ import { GenreOrdering } from '../../../../common/genre-ordering';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreModel } from '../../../../services/genre/genre-model';
+import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { GenresPersister } from '../genres-persister';
 import { GenreOrder } from './genre-order';
 
@@ -18,7 +19,12 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private _genres: GenreModel[] = [];
     private _genresPersister: GenresPersister;
 
-    constructor(private mouseSelectionWatcher: MouseSelectionWatcher, private genreOrdering: GenreOrdering, private logger: Logger) {}
+    constructor(
+        public playbackService: BasePlaybackService,
+        private mouseSelectionWatcher: MouseSelectionWatcher,
+        private genreOrdering: GenreOrdering,
+        private logger: Logger
+    ) {}
 
     public orderedGenres: GenreModel[] = [];
 

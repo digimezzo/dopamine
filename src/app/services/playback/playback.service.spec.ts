@@ -697,6 +697,10 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('enqueueAndPlayGenre', () => {
+        throw new Error();
+    });
+
     describe('enqueueAndPlayAlbum', () => {
         it('should not get tracks for the album if albumToPlay is undefined', () => {
             // Arrange
