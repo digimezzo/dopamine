@@ -46,16 +46,27 @@ describe('MimeTypes', () => {
             expect(mimeType).toEqual('audio/m4a');
         });
 
-        // it('should return audio/x-ms-wma for file extension .wma', () => {
-        //     // Arrange
-        //     const mimeTypes: MimeTypes = new MimeTypes();
+        it('should return audio/ogg for file extension .opus', () => {
+            // Arrange
+            const mimeTypes: MimeTypes = new MimeTypes();
 
-        //     // Act
-        //     const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.wma');
+            // Act
+            const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.opus');
 
-        //     // Assert
-        //     expect(mimeType).toEqual('audio/x-ms-wma');
-        // });
+            // Assert
+            expect(mimeType).toEqual('audio/ogg');
+        });
+
+        it('should return audio/wav for file extension .wav', () => {
+            // Arrange
+            const mimeTypes: MimeTypes = new MimeTypes();
+
+            // Act
+            const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.wav');
+
+            // Assert
+            expect(mimeType).toEqual('audio/wav');
+        });
 
         it('should return an empty string for an unknown file extension', () => {
             // Arrange

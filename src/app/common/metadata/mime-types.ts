@@ -13,8 +13,10 @@ export class MimeTypes {
                 return 'audio/ogg';
             case FileFormats.m4a:
                 return 'audio/m4a';
-            // case FileFormats.wma:
-            //     return 'audio/x-ms-wma';
+            case FileFormats.opus:
+                return 'audio/ogg';
+            case FileFormats.wav:
+                return 'audio/wav';
             default:
                 return '';
         }

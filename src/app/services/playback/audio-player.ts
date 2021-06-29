@@ -31,10 +31,18 @@ export class AudioPlayer implements BaseAudioPlayer {
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
 
     public get progressSeconds(): number {
+        if (isNaN(this.audio.currentTime)) {
+            return 0;
+        }
+
         return this.audio.currentTime;
     }
 
     public get totalSeconds(): number {
+        if (isNaN(this.audio.duration)) {
+            return 0;
+        }
+
         return this.audio.duration;
     }
 
