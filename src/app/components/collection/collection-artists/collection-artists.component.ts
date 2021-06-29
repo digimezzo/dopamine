@@ -133,7 +133,8 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     private getTracksForArtists(artists: string[]): void {
         if (artists.length > 0) {
-            this.tracks = this.trackService.getTracksForArtists(artists);
+            const artistType: ArtistType = this.artistsPersister.getSelectedArtistType();
+            this.tracks = this.trackService.getTracksForArtists(artists, artistType);
         } else {
             this.tracks = this.trackService.getAllTracks();
         }

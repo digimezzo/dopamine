@@ -5,6 +5,7 @@ import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
+import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
 
@@ -19,7 +20,12 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private _artists: ArtistModel[] = [];
     private _artistsPersister: ArtistsPersister;
 
-    constructor(private mouseSelectionWatcher: MouseSelectionWatcher, private artistOrdering: ArtistOrdering, private logger: Logger) {}
+    constructor(
+        public playbackService: BasePlaybackService,
+        private mouseSelectionWatcher: MouseSelectionWatcher,
+        private artistOrdering: ArtistOrdering,
+        private logger: Logger
+    ) {}
 
     public orderedArtists: ArtistModel[] = [];
 

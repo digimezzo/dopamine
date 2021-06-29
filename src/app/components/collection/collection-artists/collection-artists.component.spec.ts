@@ -220,6 +220,10 @@ describe('CollectionArtistsComponent', () => {
     });
 
     describe('ngOnInit', () => {
+        it('should get all artists', async () => {
+            throw new Error();
+        });
+
         it('should set the album order', async () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -413,6 +417,30 @@ describe('CollectionArtistsComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
+        });
+
+        it('should reset the selected albums if the selected artists have changed and there are selected artists', async () => {
+            throw new Error();
+        });
+
+        it('should reset the selected albums if the selected artists have changed and there are no selected artists', async () => {
+            throw new Error();
+        });
+
+        it('should get albums for the selected artists if the selected artists have changed and there are selected artists', async () => {
+            throw new Error();
+        });
+
+        it('should get all albums if the selected artists have changed and there are no selected artists', async () => {
+            throw new Error();
+        });
+
+        it('should get tracks for the selected artists if the selected artists have changed and there are selected artists', async () => {
+            throw new Error();
+        });
+
+        it('should get all tracks if the selected artists have changed and there are no selected artists', async () => {
+            throw new Error();
         });
 
         it('should refresh the lists when indexing is finished', async () => {

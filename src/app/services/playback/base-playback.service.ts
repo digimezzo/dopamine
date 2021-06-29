@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 import { AlbumModel } from '../album/album-model';
+import { ArtistModel } from '../artist/artist-model';
+import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -25,6 +27,7 @@ export abstract class BasePlaybackService {
     public abstract toggleLoopMode(): void;
     public abstract toggleIsShuffled(): void;
     public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
+    public abstract enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void;
     public abstract enqueueAndPlayGenre(genreToPlay: GenreModel): void;
     public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;
     public abstract playQueuedTrack(trackToPlay: TrackModel): void;

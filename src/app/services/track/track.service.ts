@@ -4,6 +4,7 @@ import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
 import { Strings } from '../../common/strings';
+import { ArtistType } from '../artist/artist-type';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseTrackService } from './base-track.service';
@@ -84,7 +85,7 @@ export class TrackService implements BaseTrackService {
         return trackModels;
     }
 
-    public getTracksForArtists(artists: string[]): TrackModels {
+    public getTracksForArtists(artists: string[], artistType: ArtistType): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
         if (artists == undefined) {
@@ -95,11 +96,22 @@ export class TrackService implements BaseTrackService {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists);
+        if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
+            const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists);
 
-        for (const track of tracks) {
-            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
-            trackModels.addTrack(trackModel);
+            for (const track of trackArtistTracks) {
+                const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+                trackModels.addTrack(trackModel);
+            }
+        }
+
+        if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
+            const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists);
+
+            for (const track of albumArtistTracks) {
+                const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+                trackModels.addTrack(trackModel);
+            }
         }
 
         return trackModels;

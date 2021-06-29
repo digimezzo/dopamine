@@ -697,6 +697,10 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('enqueueAndPlayArtist', () => {
+        throw new Error();
+    });
+
     describe('enqueueAndPlayGenre', () => {
         throw new Error();
     });

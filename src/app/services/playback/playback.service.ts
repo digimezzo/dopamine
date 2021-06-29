@@ -5,6 +5,8 @@ import { MathExtensions } from '../../common/math-extensions';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { TrackOrdering } from '../../common/track-ordering';
 import { AlbumModel } from '../album/album-model';
+import { ArtistModel } from '../artist/artist-model';
+import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
@@ -117,6 +119,20 @@ export class PlaybackService implements BasePlaybackService {
 
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
         this.play(trackToPlay, false);
+    }
+
+    public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
+        if (artistToPlay == undefined) {
+            return;
+        }
+
+        if (artistType == undefined) {
+            return;
+        }
+
+        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.name], artistType);
+        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
+        this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
     public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
