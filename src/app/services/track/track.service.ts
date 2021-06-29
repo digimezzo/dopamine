@@ -110,7 +110,12 @@ export class TrackService implements BaseTrackService {
 
             for (const track of albumArtistTracks) {
                 const trackModel: TrackModel = new TrackModel(track, this.translatorService);
-                trackModels.addTrack(trackModel);
+
+                // Avoid adding a track twice
+                // TODO: can this be done better?
+                if (!trackModels.tracks.map((x) => x.path).includes(trackModel.path)) {
+                    trackModels.addTrack(trackModel);
+                }
             }
         }
 

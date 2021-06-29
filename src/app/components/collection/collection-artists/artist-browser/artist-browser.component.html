@@ -23,7 +23,10 @@
     </div>
     <cdk-virtual-scroll-viewport class="app-artist-browser__artists mt-3" itemSize="24">
         <div *cdkVirtualFor="let artist of this.orderedArtists" (click)="setSelectedArtists($event, artist)">
-            <app-artist [artist]="artist" (dblclick)="this.playbackService.enqueueAndPlayArtist(artist)"></app-artist>
+            <app-artist
+                [artist]="artist"
+                (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
+            ></app-artist>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
