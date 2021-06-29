@@ -13,6 +13,17 @@ describe('MimeTypes', () => {
             expect(mimeType).toEqual('audio/mpeg');
         });
 
+        it('should return audio/flac for file extension .flac', () => {
+            // Arrange
+            const mimeTypes: MimeTypes = new MimeTypes();
+
+            // Act
+            const mimeType: string = mimeTypes.getMimeTypeForFileExtension('.flac');
+
+            // Assert
+            expect(mimeType).toEqual('audio/flac');
+        });
+
         it('should return an empty string for an unknown file extension', () => {
             // Arrange
             const mimeTypes: MimeTypes = new MimeTypes();

@@ -7,6 +7,8 @@ export class MimeTypes {
         switch (fileExtension) {
             case FileFormats.mp3:
                 return 'audio/mpeg';
+            case FileFormats.flac:
+                return 'audio/flac';
             default:
                 return '';
         }
