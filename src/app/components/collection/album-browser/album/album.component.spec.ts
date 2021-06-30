@@ -26,6 +26,15 @@ describe('AlbumComponent', () => {
             expect(component.album).toBeUndefined();
         });
 
+        it('should define sanitizer', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.sanitizer).toBeDefined();
+        });
+
         it('should define isSelected as false', () => {
             // Arrange
 

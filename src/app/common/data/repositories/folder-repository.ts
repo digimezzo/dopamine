@@ -11,7 +11,7 @@ export class FolderRepository implements BaseFolderRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('INSERT INTO Folder (Path, SafePath, ShowInCollection) VALUES (?, ?, 1);');
-        statement.run(folder.path, folder.path);
+        statement.run(folder.path, folder.path.toLowerCase());
     }
 
     public getFolders(): Folder[] {

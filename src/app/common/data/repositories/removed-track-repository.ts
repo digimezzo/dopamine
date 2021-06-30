@@ -13,7 +13,7 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare('INSERT INTO RemovedTrack (TrackID, Path, SafePath, DateRemoved) VALUES (?, ?, ?, ?);');
-        statement.run(removedTrack.trackId, removedTrack.path, removedTrack.path, removedTrack.dateRemoved);
+        statement.run(removedTrack.trackId, removedTrack.path, removedTrack.path.toLowerCase(), removedTrack.dateRemoved);
     }
 
     public deleteRemovedTrackByTrackId(trackId: number): void {
