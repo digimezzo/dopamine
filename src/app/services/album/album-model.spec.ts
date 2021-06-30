@@ -54,6 +54,10 @@ describe('AlbumModel', () => {
         });
     });
 
+    describe('constructor', () => {
+        throw new Error();
+    });
+
     describe('albumArtist', () => {
         it('should return "Unknown artist" if albumData albumArtists and artists are undefined', () => {
             // Arrange

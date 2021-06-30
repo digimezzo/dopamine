@@ -12,8 +12,11 @@ export class AlbumModel {
     public yearHeader: string = '';
 
     public get artworkPath(): string {
+        if (this.albumData.artworkId == undefined) {
+            return '';
+        }
+
         return this.fileSystem.coverArtFullPath(this.albumData.artworkId);
-        // return this.albumData.artworkId;
     }
 
     public get albumArtist(): string {
