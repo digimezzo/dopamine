@@ -19,7 +19,7 @@ export class GitHubApi {
         }
 
         if (latestRelease != undefined && latestRelease.tag_name != undefined) {
-            return Strings.replaceAll(latestRelease.tag_name, 'v', '');
+            return Strings.replaceFirst(latestRelease.tag_name, 'v', '');
         }
 
         return '';

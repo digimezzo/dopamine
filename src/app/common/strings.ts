@@ -33,6 +33,10 @@ export class Strings {
         return false;
     }
 
+    public static replaceFirst(sourceString: string, oldValue: string, newValue: string): string {
+        return sourceString.replace(oldValue, newValue);
+    }
+
     public static replaceAll(sourceString: string, oldValue: string, newValue: string): string {
         return sourceString.split(oldValue).join(newValue);
     }
