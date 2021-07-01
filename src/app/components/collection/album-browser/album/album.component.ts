@@ -9,7 +9,7 @@ import { AlbumModel } from '../../../../services/album/album-model';
     styleUrls: ['./album.component.scss'],
 })
 export class AlbumComponent implements OnInit {
-    constructor(public sanitizer: DomSanitizer) {}
+    constructor(public domSanitizer: DomSanitizer) {}
 
     @Input() public album: AlbumModel;
     @Input() public isSelected: boolean = false;

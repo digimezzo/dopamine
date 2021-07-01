@@ -11,7 +11,7 @@
         <div>
             <img
                 *ngIf="album.artworkPath"
-                [src]="this.sanitizer.bypassSecurityTrustResourceUrl(album.artworkPath)"
+                [src]="this.domSanitizer.bypassSecurityTrustResourceUrl(album.artworkPath)"
                 width="120"
                 height="120"
                 loading="lazy"

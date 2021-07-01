@@ -2,11 +2,13 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
+import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
+import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -25,6 +27,8 @@ describe('CollectionGenresComponent', () => {
     let genreServiceMock: IMock<BaseGenreService>;
     let albumServiceMock: IMock<BaseAlbumService>;
     let trackServiceMock: IMock<BaseTrackService>;
+    let indexingServiceMock: IMock<BaseIndexingService>;
+    let fileSystemMock: IMock<FileSystem>;
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
@@ -56,6 +60,8 @@ describe('CollectionGenresComponent', () => {
         genreServiceMock = Mock.ofType<BaseGenreService>();
         albumServiceMock = Mock.ofType<BaseAlbumService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
+        indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        fileSystemMock = Mock.ofType<FileSystem>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { genresLeftPaneWidthPercent: 25, genresRightPaneWidthPercent: 25 };
@@ -64,8 +70,8 @@ describe('CollectionGenresComponent', () => {
         selectedAlbumsChangedMock = new Subject();
         selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
         albums = [album1, album2];
 
         track1 = new Track('Path1');
@@ -90,6 +96,7 @@ describe('CollectionGenresComponent', () => {
             genresPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
+            indexingServiceMock.object,
             genreServiceMock.object,
             albumServiceMock.object,
             trackServiceMock.object,
@@ -222,6 +229,7 @@ describe('CollectionGenresComponent', () => {
                 genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
@@ -389,6 +397,7 @@ describe('CollectionGenresComponent', () => {
                 genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
@@ -425,6 +434,7 @@ describe('CollectionGenresComponent', () => {
                 genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
@@ -487,6 +497,7 @@ describe('CollectionGenresComponent', () => {
                 genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,
@@ -514,6 +525,7 @@ describe('CollectionGenresComponent', () => {
                 genresPersisterMock.object,
                 albumsPersisterMock.object,
                 tracksPersisterMock.object,
+                indexingServiceMock.object,
                 genreServiceMock.object,
                 albumServiceMock.object,
                 trackServiceMock.object,

@@ -1,10 +1,14 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { IMock, Mock } from 'typemoq';
 import { AlbumComponent } from './album.component';
 
 describe('AlbumComponent', () => {
+    let domSanitizerMock: IMock<DomSanitizer>;
     let component: AlbumComponent;
 
     beforeEach(() => {
-        component = new AlbumComponent();
+        domSanitizerMock = Mock.ofType<DomSanitizer>();
+        component = new AlbumComponent(domSanitizerMock.object);
     });
 
     describe('constructor', () => {
@@ -32,7 +36,7 @@ describe('AlbumComponent', () => {
             // Act
 
             // Assert
-            expect(component.sanitizer).toBeDefined();
+            expect(component.domSanitizer).toBeDefined();
         });
 
         it('should define isSelected as false', () => {
@@ -42,6 +46,15 @@ describe('AlbumComponent', () => {
 
             // Assert
             expect(component.isSelected).toBeFalsy();
+        });
+
+        it('should define domSanitizer', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.domSanitizer).toBeDefined();
         });
     });
 });

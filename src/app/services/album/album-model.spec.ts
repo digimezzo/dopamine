@@ -1,11 +1,13 @@
 import { IMock, Mock } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
+import { FileSystem } from '../../common/io/file-system';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 
 describe('AlbumModel', () => {
     let albumData: AlbumData;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let fileSystemMock: IMock<FileSystem>;
     let albumModel: AlbumModel;
 
     beforeEach(() => {
@@ -20,9 +22,10 @@ describe('AlbumModel', () => {
         albumData.year = 2021;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        fileSystemMock = Mock.ofType<FileSystem>();
         translatorServiceMock.setup((x) => x.get('Album.UnknownArtist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('Album.UnknownTitle')).returns(() => 'Unknown title');
-        albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+        albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
     });
 
     describe('constructor', () => {
@@ -65,7 +68,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = undefined;
             albumData.artists = undefined;
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -80,7 +83,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = '';
             albumData.artists = '';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -95,7 +98,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = undefined;
             albumData.artists = '';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -110,7 +113,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = '';
             albumData.artists = undefined;
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -125,7 +128,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = ';Album artist 1;;Album artist 2;';
             albumData.artists = undefined;
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -140,7 +143,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = ';Album artist 1;;Album artist 2;';
             albumData.artists = '';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -155,7 +158,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = ';Album artist 1;;Album artist 2;';
             albumData.artists = ';Artist 1;;Artist 2;';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -170,7 +173,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = undefined;
             albumData.artists = ';Artist 1;;Artist 2;';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -185,7 +188,7 @@ describe('AlbumModel', () => {
 
             albumData.albumArtists = '';
             albumData.artists = ';Artist 1;;Artist 2;';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumArtist: string = albumModel.albumArtist;
@@ -214,7 +217,7 @@ describe('AlbumModel', () => {
             const expectedAlbumTitle: string = 'Unknown title';
 
             albumData.albumTitle = undefined;
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumTitle: string = albumModel.albumTitle;
@@ -228,7 +231,7 @@ describe('AlbumModel', () => {
             const expectedAlbumTitle: string = 'Unknown title';
 
             albumData.albumTitle = '';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumTitle: string = albumModel.albumTitle;
@@ -242,7 +245,7 @@ describe('AlbumModel', () => {
             const expectedAlbumTitle: string = 'Unknown title';
 
             albumData.albumTitle = ' ';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumTitle: string = albumModel.albumTitle;
@@ -256,7 +259,7 @@ describe('AlbumModel', () => {
             const expectedAlbumTitle: string = 'Album title';
 
             albumData.albumTitle = 'Album title';
-            albumModel = new AlbumModel(albumData, translatorServiceMock.object);
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
 
             // Act
             const albumTitle: string = albumModel.albumTitle;

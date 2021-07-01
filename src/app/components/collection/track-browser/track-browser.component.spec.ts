@@ -201,8 +201,8 @@ describe('TrackBrowserComponent', () => {
 
         it('should order the tracks by the selected track order', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.ngOnInit();
 
             // Act
@@ -270,8 +270,8 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byTrackTitleDescending to byAlbum', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracks = tracks;
 
             // Act
@@ -291,8 +291,8 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byAlbum to byTrackTitleAscending', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byAlbum;
             component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byAlbum;
             component.tracks = tracks;
 
             // Act
@@ -312,8 +312,8 @@ describe('TrackBrowserComponent', () => {
 
         it('should persist the selected track order', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byAlbum;
             component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byAlbum;
 
             // Act
             component.toggleTrackOrder();
