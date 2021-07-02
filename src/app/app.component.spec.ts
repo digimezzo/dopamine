@@ -1,3 +1,5 @@
+import { MatDrawer } from '@angular/material';
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
@@ -12,6 +14,11 @@ describe('AppComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let loggerMock: IMock<Logger>;
+    let matDrawerMock: IMock<MatDrawer>;
+
+    let showNowPlayingRequestedMock: Subject<void>;
+    let showNowPlayingRequestedMock$: Observable<void>;
+
     let app: AppComponent;
 
     beforeEach(() => {
@@ -20,6 +27,12 @@ describe('AppComponent', () => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
+        matDrawerMock = Mock.ofType<MatDrawer>();
+
+        showNowPlayingRequestedMock = new Subject();
+        showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
+
+        navigationServiceMock.setup((x) => x.showNowPlayingRequested$).returns(() => showNowPlayingRequestedMock$);
 
         app = new AppComponent(
             navigationServiceMock.object,
@@ -102,11 +115,28 @@ describe('AppComponent', () => {
         });
 
         it('should not toggle the drawer on showNowPlayingRequested when it is undefined', async () => {
-            throw new Error();
+            // Arrange
+            let test: boolean = false;
+
+            // Act
+            await app.ngOnInit();
+            showNowPlayingRequestedMock.next();
+            test = true;
+
+            // Assert
+            expect(test).toBeTruthy();
         });
 
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
-            throw new Error();
+            // Arrange
+            app.drawer = matDrawerMock.object;
+
+            // Act
+            await app.ngOnInit();
+            showNowPlayingRequestedMock.next();
+
+            // Assert
+            matDrawerMock.verify((x) => x.toggle(), Times.exactly(1));
         });
     });
 });

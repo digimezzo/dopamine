@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild('drawer') public drawer: any;
+    @ViewChild('drawer') public drawer: MatDrawer;
 
     public ngOnDestroy(): void {}
 

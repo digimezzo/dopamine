@@ -29,6 +29,19 @@ describe('ClauseCreator', () => {
     });
 
     describe('createOrLikeClause', () => {
-        throw new Error();
+        it('should create an or like clause given a column name and clause items and a delimiter', () => {
+            // Arrange
+            const columnName: string = 'TheColumn';
+            const clauseItems: string[] = ['Item1', '', 'Item3'];
+            const delimiter: string = ';';
+
+            // Act
+            const orLikeClause: string = ClauseCreator.createOrLikeClause(columnName, clauseItems, delimiter);
+
+            // Assert
+            expect(orLikeClause).toEqual(
+                ` ((LOWER(TheColumn) LIKE LOWER('%;Item1;%')) OR (TheColumn IS NULL OR TheColumn='') OR (LOWER(TheColumn) LIKE LOWER('%;Item3;%')))`
+            );
+        });
     });
 });

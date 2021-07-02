@@ -1,7 +1,6 @@
 import { Strings } from '../strings';
 
 export class ClauseCreator {
-    public static string;
     public static escapeQuotes(sourceString: string): string {
         return Strings.replaceAll(sourceString, `'`, `''`);
     }
@@ -12,7 +11,8 @@ export class ClauseCreator {
 
         return `${columnName} IN (${commaSeparatedItems})`;
     }
-    public static createOrLikeClause(columnName: string, clauseItems: string[], delimiter: string) {
+
+    public static createOrLikeClause(columnName: string, clauseItems: string[], delimiter: string): string {
         let orLikeClause: string = '';
 
         orLikeClause += ' (';
