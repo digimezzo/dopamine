@@ -12,7 +12,7 @@ export class AlbumModel {
     public yearHeader: string = '';
 
     public get artworkPath(): string {
-        if (this.albumData.artworkId == undefined) {
+        if (Strings.isNullOrWhiteSpace(this.albumData.artworkId)) {
             return '';
         }
 

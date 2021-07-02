@@ -23,6 +23,7 @@ describe('AlbumModel', () => {
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileSystemMock = Mock.ofType<FileSystem>();
+
         translatorServiceMock.setup((x) => x.get('Album.UnknownArtist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('Album.UnknownTitle')).returns(() => 'Unknown title');
         albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
@@ -38,13 +39,13 @@ describe('AlbumModel', () => {
             expect(albumModel).toBeDefined();
         });
 
-        it('should declare but not define artworkPath', () => {
+        it('should define artworkPath', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(albumModel.artworkPath).toBeUndefined();
+            expect(albumModel.artworkPath).toBeDefined();
         });
 
         it('should initialize isSelected as false', () => {
@@ -57,8 +58,55 @@ describe('AlbumModel', () => {
         });
     });
 
-    describe('constructor', () => {
-        throw new Error();
+    describe('artworkPath', () => {
+        it('should return empty string if albumData.artworkId is undefined', () => {
+            // Arrange
+            albumData.artworkId = undefined;
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
+
+            // Act
+            const artworkPath: string = albumModel.artworkPath;
+
+            // Assert
+            expect(artworkPath).toEqual('');
+        });
+
+        it('should return empty string if albumData.artworkId is empty', () => {
+            // Arrange
+            albumData.artworkId = '';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
+
+            // Act
+            const artworkPath: string = albumModel.artworkPath;
+
+            // Assert
+            expect(artworkPath).toEqual('');
+        });
+
+        it('should return empty string if albumData.artworkId is space', () => {
+            // Arrange
+            albumData.artworkId = ' ';
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
+
+            // Act
+            const artworkPath: string = albumModel.artworkPath;
+
+            // Assert
+            expect(artworkPath).toEqual('');
+        });
+
+        it('should return full artwork path if albumData.artworkId is not undefined, empty or space.', () => {
+            // Arrange
+            albumData.artworkId = 'dummy';
+            fileSystemMock.setup((x) => x.coverArtFullPath('dummy')).returns(() => '/root/directory/dummy');
+            albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
+
+            // Act
+            const artworkPath: string = albumModel.artworkPath;
+
+            // Assert
+            expect(artworkPath).toEqual('/root/directory/dummy');
+        });
     });
 
     describe('albumArtist', () => {
