@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild('drawer') public drawer: MatDrawer;
+    @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
 
     public ngOnDestroy(): void {}
 
@@ -36,9 +36,9 @@ export class AppComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.navigationService.showNowPlayingRequested$.subscribe(() => {
-                if (this.drawer != undefined) {
-                    this.drawer.toggle();
+            this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
+                if (this.playbackQueueDrawer != undefined) {
+                    this.playbackQueueDrawer.toggle();
                 }
             })
         );

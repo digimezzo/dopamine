@@ -9,7 +9,7 @@ export class NavigationService implements BaseNavigationService {
 
     constructor(public router: Router) {}
 
-    public showNowPlayingRequested$: Observable<void> = this.showNowPlayingRequested.asObservable();
+    public showPlaybackQueueRequested$: Observable<void> = this.showNowPlayingRequested.asObservable();
 
     public navigateToLoading(): void {
         this.router.navigate(['/loading']);
@@ -35,7 +35,7 @@ export class NavigationService implements BaseNavigationService {
         this.router.navigate(['/information']);
     }
 
-    public showNowPlaying(): void {
+    public showPlaybackQueue(): void {
         this.showNowPlayingRequested.next();
     }
 }

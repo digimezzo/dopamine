@@ -22,15 +22,15 @@ describe('CollectionPlaybackPaneComponent', () => {
         });
     });
 
-    describe('showNowPlaying', () => {
-        it('should request to show Now playing', () => {
+    describe('showPlaybackQueue', () => {
+        it('should request to show the playback queue', () => {
             // Arrange
 
             // Act
-            component.showNowPlaying();
+            component.showPlaybackQueue();
 
             // Assert
-            navigationServiceMock.verify((x) => x.showNowPlaying(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.showPlaybackQueue(), Times.exactly(1));
         });
     });
 });

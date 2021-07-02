@@ -249,8 +249,8 @@ describe('TrackBrowserComponent', () => {
     describe('toggleTrackOrder', () => {
         it('should change TrackOrder from byTrackTitleAscending to byTrackTitleDescending', () => {
             // Arrange
-            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             component.tracks = tracks;
 
             // Act
