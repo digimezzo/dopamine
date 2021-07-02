@@ -13,7 +13,7 @@ export class CollectionPlaybackPaneComponent implements OnInit {
 
     public ngOnInit(): void {}
 
-    public showNowPlaying(): void {
-        this.navigationService.showNowPlaying();
+    public showPlaybackQueue(): void {
+        this.navigationService.showPlaybackQueue();
     }
 }

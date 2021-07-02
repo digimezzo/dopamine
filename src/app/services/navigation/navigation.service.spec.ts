@@ -96,4 +96,10 @@ describe('NavigationService', () => {
             routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
         });
     });
+
+    describe('showPlaybackQueue', () => {
+        it('should request to show the playback queue', async () => {
+            throw new Error();
+        });
+    });
 });

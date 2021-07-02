@@ -32,7 +32,7 @@ describe('AppComponent', () => {
         showNowPlayingRequestedMock = new Subject();
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
 
-        navigationServiceMock.setup((x) => x.showNowPlayingRequested$).returns(() => showNowPlayingRequestedMock$);
+        navigationServiceMock.setup((x) => x.showPlaybackQueueRequested$).returns(() => showNowPlayingRequestedMock$);
 
         app = new AppComponent(
             navigationServiceMock.object,
@@ -59,7 +59,7 @@ describe('AppComponent', () => {
             // Act
 
             // Assert
-            expect(app.drawer).toBeUndefined();
+            expect(app.playbackQueueDrawer).toBeUndefined();
         });
     });
 
@@ -114,22 +114,9 @@ describe('AppComponent', () => {
             discordServiceMock.verify((x) => x.initialize(), Times.exactly(1));
         });
 
-        it('should not toggle the drawer on showNowPlayingRequested when it is undefined', async () => {
-            // Arrange
-            let test: boolean = false;
-
-            // Act
-            await app.ngOnInit();
-            showNowPlayingRequestedMock.next();
-            test = true;
-
-            // Assert
-            expect(test).toBeTruthy();
-        });
-
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
             // Arrange
-            app.drawer = matDrawerMock.object;
+            app.playbackQueueDrawer = matDrawerMock.object;
 
             // Act
             await app.ngOnInit();
