@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseNavigationService } from './base-navigation.service';
 import { NavigationService } from './navigation.service';
@@ -62,11 +63,9 @@ describe('NavigationService', () => {
     describe('navigateToManageCollection', () => {
         it('should navigate to manage collection', async () => {
             // Arrange
-            const routerMock: IMock<Router> = Mock.ofType<Router>();
-            const navigationService: BaseNavigationService = new NavigationService(routerMock.object);
 
             // Act
-            navigationService.navigateToManageCollection();
+            service.navigateToManageCollection();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/managecollection']), Times.exactly(1));
@@ -98,8 +97,23 @@ describe('NavigationService', () => {
     });
 
     describe('showPlaybackQueue', () => {
-        it('should request to show the playback queue', async () => {
-            throw new Error();
+        it('should request to show the playback queue', () => {
+            // Arrange
+            let isPlaybackQueueRequested: boolean = false;
+
+            const subscription: Subscription = new Subscription();
+            subscription.add(
+                service.showPlaybackQueueRequested$.subscribe(() => {
+                    isPlaybackQueueRequested = true;
+                })
+            );
+
+            // Act
+            service.showPlaybackQueue();
+            subscription.unsubscribe();
+
+            // Assert
+            expect(isPlaybackQueueRequested).toBeTruthy();
         });
     });
 });

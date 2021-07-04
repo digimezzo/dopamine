@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -155,6 +155,7 @@ import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { DialogService } from './services/dialog/dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { DiscordService } from './services/discord/discord.service';
+import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
@@ -387,6 +388,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ArtistOrdering,
         GenreOrdering,
         TrackOrdering,
+        PresenceUpdater,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

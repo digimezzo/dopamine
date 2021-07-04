@@ -5,11 +5,11 @@ import { BaseNavigationService } from './base-navigation.service';
 
 @Injectable()
 export class NavigationService implements BaseNavigationService {
-    private showNowPlayingRequested: Subject<void> = new Subject();
+    private showPlaybackQueueRequested: Subject<void> = new Subject();
 
     constructor(public router: Router) {}
 
-    public showPlaybackQueueRequested$: Observable<void> = this.showNowPlayingRequested.asObservable();
+    public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 
     public navigateToLoading(): void {
         this.router.navigate(['/loading']);
@@ -36,6 +36,6 @@ export class NavigationService implements BaseNavigationService {
     }
 
     public showPlaybackQueue(): void {
-        this.showNowPlayingRequested.next();
+        this.showPlaybackQueueRequested.next();
     }
 }

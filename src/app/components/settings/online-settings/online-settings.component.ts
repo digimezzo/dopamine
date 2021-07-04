@@ -15,6 +15,7 @@ export class OnlineSettingsComponent implements OnInit {
     public get enableDiscordRichPresence(): boolean {
         return this.settings.enableDiscordRichPresence;
     }
+
     public set enableDiscordRichPresence(v: boolean) {
         if (v) {
             this.discordService.enableRichPresence();

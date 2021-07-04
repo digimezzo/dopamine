@@ -7,6 +7,8 @@ import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { ArtistModel } from '../../../services/artist/artist-model';
+import { ArtistType } from '../../../services/artist/artist-type';
 import { BaseArtistService } from '../../../services/artist/base-artist.service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -37,7 +39,20 @@ describe('CollectionArtistsComponent', () => {
     let selectedAlbumsChangedMock: Subject<string[]>;
     let selectedAlbumsChangedMock$: Observable<string[]>;
 
+    let selectedArtistsChangedMock: Subject<string[]>;
+    let selectedArtistsChangedMock$: Observable<string[]>;
+
+    let selectedArtistTypeChangedMock: Subject<ArtistType>;
+    let selectedArtistTypeChangedMock$: Observable<ArtistType>;
+
+    let indexingFinishedMock: Subject<void>;
+    let indexingFinishedMock$: Observable<void>;
+
     let component: CollectionArtistsComponent;
+
+    let artist1: ArtistModel;
+    let artist2: ArtistModel;
+    let artists: ArtistModel[];
 
     const albumData1: AlbumData = new AlbumData();
     albumData1.albumKey = 'albumKey1';
@@ -70,6 +85,20 @@ describe('CollectionArtistsComponent', () => {
         selectedAlbumsChangedMock = new Subject();
         selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
 
+        indexingFinishedMock = new Subject();
+        indexingFinishedMock$ = indexingFinishedMock.asObservable();
+
+        selectedArtistsChangedMock = new Subject();
+        selectedArtistsChangedMock$ = selectedArtistsChangedMock.asObservable();
+
+        selectedArtistTypeChangedMock = new Subject();
+        selectedArtistTypeChangedMock$ = selectedArtistTypeChangedMock.asObservable();
+
+        artist1 = new ArtistModel('Artist 1', translatorServiceMock.object);
+        artist2 = new ArtistModel('Artist 2', translatorServiceMock.object);
+
+        artists = [artist1, artist2];
+
         album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
         albums = [album1, album2];
@@ -83,6 +112,14 @@ describe('CollectionArtistsComponent', () => {
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);
+
+        artistPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.trackArtists);
+        artistPersisterMock.setup((x) => x.selectedArtistsChanged$).returns(() => selectedArtistsChangedMock$);
+        artistPersisterMock.setup((x) => x.selectedArtistTypeChanged$).returns(() => selectedArtistTypeChangedMock$);
+
+        artistServiceMock.setup((x) => x.getArtists(ArtistType.trackArtists)).returns(() => artists);
+
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingFinishedMock$);
 
         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
         albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
@@ -221,7 +258,29 @@ describe('CollectionArtistsComponent', () => {
 
     describe('ngOnInit', () => {
         it('should get all artists', async () => {
-            throw new Error();
+            // Arrange
+            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
+
+            component = new CollectionArtistsComponent(
+                artistPersisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                indexingServiceMock.object,
+                artistServiceMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.artists).toEqual(artists);
         });
 
         it('should set the album order', async () => {

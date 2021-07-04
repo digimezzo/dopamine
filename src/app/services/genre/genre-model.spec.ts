@@ -1,67 +1,161 @@
-// describe('transform', () => {
-//     it('should return "g" when given "gathering"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+import { IMock, Mock } from 'typemoq';
+import { BaseTranslatorService } from '../translator/base-translator.service';
+import { GenreModel } from './genre-model';
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('gathering');
+describe('GenreModel', () => {
+    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let genreModel: GenreModel;
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('g');
-//     });
+    beforeEach(() => {
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-//     it('should return "z" when given "zz top"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+        translatorServiceMock.setup((x) => x.get('Genre.UnknownGenre')).returns(() => 'Unknown genre');
+        genreModel = new GenreModel('My genre', translatorServiceMock.object);
+    });
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('zz top');
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('z');
-//     });
+            // Act
 
-//     it('should return "l" when given "lacuna coil"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+            // Assert
+            expect(genreModel).toBeDefined();
+        });
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('lacuna coil');
+        it('should define isSelected', () => {
+            // Arrange
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('l');
-//     });
+            // Act
 
-//     it('should return "#" when given "% alcohol"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+            // Assert
+            expect(genreModel.isSelected).toBeDefined();
+        });
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('% alcohol');
+        it('should define showHeader', () => {
+            // Arrange
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('#');
-//     });
+            // Act
 
-//     it('should return "#" when given "1 singer"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+            // Assert
+            expect(genreModel.showHeader).toBeDefined();
+        });
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('1 singer');
+        it('should define name', () => {
+            // Arrange
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('#');
-//     });
+            // Act
 
-//     it('should return "#" when given "1979"', () => {
-//         // Arrange
-//         const alphabeticalHeaderPipe: AlphabeticalHeaderPipe = new AlphabeticalHeaderPipe();
+            // Assert
+            expect(genreModel.name).toBeDefined();
+        });
 
-//         // Act
-//         const alphabeticalHeader: string = alphabeticalHeaderPipe.transform('1979');
+        it('should define sortableName', () => {
+            // Arrange
 
-//         // Assert
-//         expect(alphabeticalHeader).toEqual('#');
-//     });
-// });
+            // Act
+
+            // Assert
+            expect(genreModel.sortableName).toBeDefined();
+        });
+
+        it('should define alphabeticalHeader', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(genreModel.alphabeticalHeader).toBeDefined();
+        });
+    });
+
+    describe('name', () => {
+        it('should return "Unknown genre" if genre is undefined', () => {
+            // Arrange
+            const genre: string = undefined;
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const name: string = genreModel.name;
+
+            // Assert
+            expect(name).toEqual('Unknown genre');
+        });
+
+        it('should return "Unknown genre" if genre is empty', () => {
+            // Arrange
+            const genre: string = '';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const name: string = genreModel.name;
+
+            // Assert
+            expect(name).toEqual('Unknown genre');
+        });
+
+        it('should return "Unknown genre" if genre is space', () => {
+            // Arrange
+            const genre: string = ' ';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const name: string = genreModel.name;
+
+            // Assert
+            expect(name).toEqual('Unknown genre');
+        });
+
+        it('should return the genre name if genre is not undefined, empty or space.', () => {
+            // Arrange
+            const genre: string = 'My genre';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const name: string = genreModel.name;
+
+            // Assert
+            expect(name).toEqual('My genre');
+        });
+    });
+
+    describe('sortableName', () => {
+        it('should return a sortable name', () => {
+            // Arrange
+            const genre: string = 'The Genre';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const sortableName: string = genreModel.sortableName;
+
+            // Assert
+            expect(sortableName).toEqual('genre');
+        });
+    });
+
+    describe('alphabeticalHeader', () => {
+        it('should return an alphabetical header containing a letter if the first letter is known as alphabetical header', () => {
+            // Arrange
+            const genre: string = 'The Genre';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const alphabeticalHeader: string = genreModel.alphabeticalHeader;
+
+            // Assert
+            expect(alphabeticalHeader).toEqual('g');
+        });
+
+        it('should return an alphabetical header containing a letter if the first letter is not known as alphabetical header', () => {
+            // Arrange
+            const genre: string = '1 Genre';
+            genreModel = new GenreModel(genre, translatorServiceMock.object);
+
+            // Act
+            const alphabeticalHeader: string = genreModel.alphabeticalHeader;
+
+            // Assert
+            expect(alphabeticalHeader).toEqual('#');
+        });
+    });
+});

@@ -2,7 +2,7 @@ import { MatDialog } from '@angular/material';
 import { IMock, Mock } from 'typemoq';
 import { DialogService } from './dialog.service';
 
-describe('ColorScheme', () => {
+describe('DialogService', () => {
     let matDialogMock: IMock<MatDialog>;
 
     let service: DialogService;
