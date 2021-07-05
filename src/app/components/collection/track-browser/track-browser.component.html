@@ -2,8 +2,8 @@
     <div class="app-track-browser__header m-1 no-select">
         <div class="app-track-browser__trackscount">
             <div class="app-track-browser__trackscount__number mr-2">{{ this.tracks.numberOfTracks }}</div>
-            <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'Pages.Collection.Track' | translate }}</div>
-            <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'Pages.Collection.Tracks' | translate }}</div>
+            <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
+            <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
         <div class="app-track-browser__trackorder" (click)="toggleTrackOrder()">
             <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">

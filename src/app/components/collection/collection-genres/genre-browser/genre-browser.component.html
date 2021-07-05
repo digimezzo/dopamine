@@ -2,8 +2,8 @@
     <div class="app-genre-browser__header m-1 no-select">
         <div class="app-genre-browser__genrescount">
             <div class="app-genre-browser__genrescount__number mr-2">{{ this.genres.length }}</div>
-            <div *ngIf="this.genres.length === 1">{{ 'Pages.Collection.Genre' | translate }}</div>
-            <div *ngIf="this.genres.length !== 1">{{ 'Pages.Collection.Genres' | translate }}</div>
+            <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
+            <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
         </div>
         <div class="app-genre-browser__genreorder" (click)="toggleGenreOrder()">
             <div *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">

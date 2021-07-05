@@ -3,13 +3,13 @@
         <div class="app-artist-browser__artistscount">
             <div class="app-artist-browser__artistscount__number mr-2">{{ this.artists.length }}</div>
             <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.trackArtists" (click)="this.toggleArtistType()">
-                {{ 'Pages.Collection.TrackArtists' | translate }}
+                {{ 'track-artists' | translate }}
             </div>
             <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.albumArtists" (click)="this.toggleArtistType()">
-                {{ 'Pages.Collection.AlbumArtists' | translate }}
+                {{ 'album-artists' | translate }}
             </div>
             <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.allArtists" (click)="this.toggleArtistType()">
-                {{ 'Pages.Collection.AllArtists' | translate }}
+                {{ 'all-artists' | translate }}
             </div>
         </div>
         <div class="app-artist-browser__artistorder" (click)="toggleArtistOrder()">

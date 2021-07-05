@@ -2,8 +2,8 @@
     <div class="app-album-browser__header m-1 no-select">
         <div class="app-album-browser__albumscount">
             <div class="app-album-browser__albumscount__number mr-2">{{ this.albums.length }}</div>
-            <div *ngIf="this.albums.length === 1">{{ 'Pages.Collection.Album' | translate }}</div>
-            <div *ngIf="this.albums.length !== 1">{{ 'Pages.Collection.Albums' | translate }}</div>
+            <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
+            <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
         </div>
 
         <div class="app-album-browser__albumorder" (click)="toggleAlbumOrder()">
