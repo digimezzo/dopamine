@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed a bug that causes incorrect detection of available updates
+-   Fixed high CPU usage caused by playback progress bar
 
 ## [3.0.0-preview.1] - 2021-06-30
 
