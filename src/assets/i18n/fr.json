@@ -1,36 +1,20 @@
 {
+    "hi": "Salut!",
+    "welcome-to-dopamine": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses.",
+    "language": "Langue",
+    "pick-your-language": "Choisissez votre langue",
+    "appearance": "Apparence",
+    "what-should-dopamine-look-like": "Quelle apparence voulez-vous donner à Dopamine?",
+    "use-light-theme": "Utiliser le thème clair",
+    "music": "Musique",
+    "let-us-set-up-collection": "Maintenant, configurons votre collection. Où stockez-vous votre musique?",
+    "donate": "Faire un don",
+    "please-consider-donating": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!",
+    "donate-now": "Faire un don maintenant",
+    "done": "Prêt!",
+    "let-us-start-dopamine": "Nous sommes prêts. Maintenant, lançons Dopamine!",
+    "loading": "Chargement...",
     "Pages": {
-        "Welcome": {
-            "Greeting": {
-                "Title": "Salut!",
-                "Content": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses."
-            },
-            "Language": {
-                "Title": "Langue",
-                "Content": "Choisissez votre langue"
-            },
-            "Appearance": {
-                "Title": "Apparence",
-                "Content": "Quelle apparence voulez-vous donner à Dopamine?",
-                "UseLightTheme": "Utiliser le thème clair"
-            },
-            "Music": {
-                "Title": "Musique",
-                "Content": "Maintenant, configurons votre collection. Où stockez-vous votre musique?"
-            },
-            "Donate": {
-                "Title": "Faire un don",
-                "Content": "Si Dopamine vous plaît, pensez à faire un don. Vous pouvez faire un don maintenant, ou plus tard sur la page 'À propos'. Merci!",
-                "DonateNow": "Faire un don maintenant"
-            },
-            "Done": {
-                "Title": "Prêt!",
-                "Content": "Nous sommes prêts. Maintenant, lançons Dopamine!"
-            }
-        },
-        "Loading": {
-            "Text": "Chargement..."
-        },
         "Collection": {
             "Artists": "Artistes",
             "TrackArtists": "Artistes de morceaux",

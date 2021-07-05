@@ -1,36 +1,20 @@
 {
+    "hi": "Hallo!",
+    "welcome-to-dopamine": "Welkom bij Dopamine, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen.",
+    "language": "Taal",
+    "pick-your-language": "Kies je taal",
+    "appearance": "Uitzicht",
+    "what-should-dopamine-look-like": "Hoe wil je dat Dopamine eruit ziet?",
+    "use-light-theme": "Gebruik een licht thema",
+    "music": "Muziek",
+    "let-us-set-up-collection": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?",
+    "donate": "Doneer",
+    "please-consider-donating": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!",
+    "donate-now": "Nu doneren",
+    "done": "Klaar!",
+    "let-us-start-dopamine": "Helemaal klaar. Laat ons Dopamine opstarten!",
+    "loading": "Laden...",
     "Pages": {
-        "Welcome": {
-            "Greeting": {
-                "Title": "Hallo!",
-                "Content": "Welkom bij Dopamine, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen."
-            },
-            "Language": {
-                "Title": "Taal",
-                "Content": "Kies je taal"
-            },
-            "Appearance": {
-                "Title": "Uitzicht",
-                "Content": "Hoe wil je dat Dopamine eruit ziet?",
-                "UseLightTheme": "Gebruik een licht thema"
-            },
-            "Music": {
-                "Title": "Muziek",
-                "Content": "Laat ons nu jouw verzameling instellen. Waar bewaar je je muziek?"
-            },
-            "Donate": {
-                "Title": "Doneer",
-                "Content": "Als je Dopamine leuk vindt, gelieve te overwegen om te doneren. Je kunt nu doneren, of later in het 'Over' scherm. Dank u!",
-                "DonateNow": "Nu doneren"
-            },
-            "Done": {
-                "Title": "Klaar!",
-                "Content": "Helemaal klaar. Laat ons Dopamine opstarten!"
-            }
-        },
-        "Loading": {
-            "Text": "Laden..."
-        },
         "Collection": {
             "Artists": "Artiesten",
             "TrackArtists": "Songartiesten",

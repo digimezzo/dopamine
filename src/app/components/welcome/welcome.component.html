@@ -11,10 +11,10 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
-                            {{ 'Pages.Welcome.Greeting.Title' | translate }}
+                            {{ 'hi' | translate }}
                         </h1>
                         <h3 class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
-                            {{ 'Pages.Welcome.Greeting.Content' | translate }}
+                            {{ 'welcome-to-dopamine' | translate }}
                         </h3>
                     </div>
                 </mat-step>
@@ -22,10 +22,10 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2">
-                            {{ 'Pages.Welcome.Language.Title' | translate }}
+                            {{ 'language' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Language.Content' | translate }}
+                            {{ 'pick-your-language' | translate }}
                         </h3>
                         <mat-form-field class="mt-3">
                             <mat-select [(ngModel)]="translatorService.selectedLanguage">
@@ -40,13 +40,13 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2">
-                            {{ 'Pages.Welcome.Appearance.Title' | translate }}
+                            {{ 'appearance' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Appearance.Content' | translate }}
+                            {{ 'what-should-dopamine-look-like' | translate }}
                         </h3>
                         <mat-slide-toggle class="mt-3" [(ngModel)]="appearanceService.useLightBackgroundTheme">
-                            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle
+                            {{ 'use-light-theme' | translate }}</mat-slide-toggle
                         >
                         <app-color-scheme-switcher class="mt-3"></app-color-scheme-switcher>
                     </div>
@@ -55,10 +55,10 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2">
-                            {{ 'Pages.Welcome.Music.Title' | translate }}
+                            {{ 'music' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Music.Content' | translate }}
+                            {{ 'let-us-set-up-collection' | translate }}
                         </h3>
                         <app-add-folder class="mt-3" [showCheckBoxes]="false"></app-add-folder>
                     </div>
@@ -67,14 +67,14 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2">
-                            {{ 'Pages.Welcome.Donate.Title' | translate }}
+                            {{ 'donate' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Donate.Content' | translate }}
+                            {{ 'please-consider-donating' | translate }}
                         </h3>
                         <div class="link-button mt-3">
                             <i class="link-button__icon mr-2 lar la-heart"></i>
-                            <a href="{{ donateUrl }}">{{ 'Pages.Welcome.Donate.DonateNow' | translate }}</a>
+                            <a href="{{ donateUrl }}">{{ 'donate-now' | translate }}</a>
                         </div>
                     </div>
                 </mat-step>
@@ -82,10 +82,10 @@
                 <mat-step>
                     <div class="p-3">
                         <h1 class="mb-2">
-                            {{ 'Pages.Welcome.Done.Title' | translate }}
+                            {{ 'done' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Done.Content' | translate }}
+                            {{ 'let-us-start-dopamine' | translate }}
                         </h3>
                     </div>
                 </mat-step>

@@ -1,36 +1,20 @@
 {
+    "hi": "Hi!",
+    "welcome-to-dopamine": "Welcome to Dopamine, we think you'll love it! First, let's set things up.",
+    "language": "Language",
+    "pick-your-language": "Pick your language",
+    "appearance": "Appearance",
+    "what-should-dopamine-look-like": "What should your Dopamine look like?",
+    "use-light-theme": "Use light theme",
+    "music": "Music",
+    "let-us-set-up-collection": "Let's now set up your collection. Where do you store your music?",
+    "donate": "Donate",
+    "please-consider-donating": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!",
+    "donate-now": "Donate now",
+    "done": "Done!",
+    "let-us-start-dopamine": "All done. Let's now start up Dopamine!",
+    "loading": "Loading...",
     "Pages": {
-        "Welcome": {
-            "Greeting": {
-                "Title": "Hi!",
-                "Content": "Welcome to Dopamine, we think you'll love it! First, let's set things up."
-            },
-            "Language": {
-                "Title": "Language",
-                "Content": "Pick your language"
-            },
-            "Appearance": {
-                "Title": "Appearance",
-                "Content": "What should your Dopamine look like?",
-                "UseLightTheme": "Use light theme"
-            },
-            "Music": {
-                "Title": "Music",
-                "Content": "Let's now set up your collection. Where do you store your music?"
-            },
-            "Donate": {
-                "Title": "Donate",
-                "Content": "If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!",
-                "DonateNow": "Donate now"
-            },
-            "Done": {
-                "Title": "Done!",
-                "Content": "All done. Let's now start up Dopamine!"
-            }
-        },
-        "Loading": {
-            "Text": "Loading..."
-        },
         "Collection": {
             "Artists": "Artists",
             "TrackArtists": "Song artists",
