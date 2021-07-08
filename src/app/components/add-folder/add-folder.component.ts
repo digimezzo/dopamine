@@ -82,7 +82,7 @@ export class AddFolderComponent implements OnInit {
     }
 
     public async addFolderAsync(): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('Pages.ManageCollection.SelectFolder');
+        const dialogTitle: string = await this.translatorService.getAsync('select-folder');
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 

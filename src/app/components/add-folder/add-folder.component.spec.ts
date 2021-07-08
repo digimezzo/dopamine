@@ -32,7 +32,7 @@ describe('AddFolderComponent', () => {
         settingsStub = { showAllFoldersInCollection: false };
         settingsMock = Mock.ofType<BaseSettings>();
 
-        translatorServiceMock.setup((x) => x.getAsync('Pages.ManageCollection.SelectFolder')).returns(async () => 'Select a folder');
+        translatorServiceMock.setup((x) => x.getAsync('select-folder')).returns(async () => 'Select a folder');
         translatorServiceMock.setup((x) => x.getAsync('ErrorTexts.DeleteFolderError')).returns(async () => 'Error while deleting folder');
 
         component = new AddFolderComponent(
@@ -103,7 +103,7 @@ describe('AddFolderComponent', () => {
             await component.addFolderAsync();
 
             // Assert
-            translatorServiceMock.verify((x) => x.getAsync('Pages.ManageCollection.SelectFolder'), Times.exactly(1));
+            translatorServiceMock.verify((x) => x.getAsync('select-folder'), Times.exactly(1));
         });
 
         it('should allow selecting for a folder on the computer', async () => {
