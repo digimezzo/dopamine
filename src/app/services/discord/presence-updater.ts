@@ -71,7 +71,9 @@ export class PresenceUpdater {
 
     public clearPresence(): void {
         try {
-            this.discordClient.clearActivity();
+            if (this.discordClient != undefined && this.discordClient.discordClientIsReady) {
+                this.discordClient.clearActivity();
+            }
         } catch (e) {
             this.logger.error(`Could not clear Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'clearPresence');
         }

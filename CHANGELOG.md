@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.2] - 2021-07-01
+## [3.0.0-preview.2] - 2021-07-08
 
 ### Added
 
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Fixed a bug that causes incorrect detection of available updates
 -   Fixed high CPU usage caused by playback progress bar
+-   Fixed a crash caused by Discord Rich Presence which happens when the start or end of the playback queue is reached
 
 ## [3.0.0-preview.1] - 2021-06-30
 
