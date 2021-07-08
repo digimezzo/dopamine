@@ -76,18 +76,13 @@
     "refresh-all-covers": "Ververs albumhoezen voor alle albums, inclusief albums die al een albumhoes hebben.",
     "refresh-missing-covers": "Ververs albumhoezen alleen voor albums die nog geen albumhoes hebben",
     "playback-queue": "Afspeelwachtrij",
-    "SnackBarMessages": {
-        "FolderAlreadyAdded": "Deze map werd al toegevoegd",
-        "Refreshing": "Verversen...",
-        "RemovingTracks": "Verwijderen van nummers",
-        "AddedTracks": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
-        "UpdatingTracks": "Bijwerken van nummers",
-        "UpdatingAlbumArtwork": "Verversen van albumhoezen",
-        "ClickHereToDownloadNewVersion": "Klik hier om de versie {{version}} te downloaden"
-    },
-    "SnackBarActions": {
-        "Ok": "OK"
-    },
+    "folder-already-added": "Deze map werd al toegevoegd",
+    "refreshing": "Verversen...",
+    "removing-tracks": "Verwijderen van nummers",
+    "added-tracks": "{{numberOfAddedTracks}} nummers toegevoegd ({{percentageOfAddedTracks}}%)",
+    "updating-tracks": "Bijwerken van nummers",
+    "updating-album-artwork": "Verversen van albumhoezen",
+    "click-here-to-download-new-version": "Klik hier om de versie {{version}} te downloaden",
     "Buttons": {
         "Yes": "JA",
         "No": "NEE",

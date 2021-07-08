@@ -19,27 +19,27 @@ export class SnackBarService implements BaseSnackBarService {
     ) {}
 
     public async folderAlreadyAddedAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.FolderAlreadyAdded');
+        const message: string = await this.translatorService.getAsync('folder-already-added');
         this.showSelfClosingSnackBar('las la-folder', message);
     }
 
     public async refreshing(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.Refreshing');
+        const message: string = await this.translatorService.getAsync('refreshing');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
     public async removingTracksAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.RemovingTracks');
+        const message: string = await this.translatorService.getAsync('removing-tracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
     public async updatingTracksAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingTracks');
+        const message: string = await this.translatorService.getAsync('updating-tracks');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
     public async addedTracksAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.AddedTracks', {
+        const message: string = await this.translatorService.getAsync('added-tracks', {
             numberOfAddedTracks: numberOfAddedTracks,
             percentageOfAddedTracks: percentageOfAddedTracks,
         });
@@ -48,7 +48,7 @@ export class SnackBarService implements BaseSnackBarService {
     }
 
     public async updatingAlbumArtworkAsync(): Promise<void> {
-        const message: string = await this.translatorService.getAsync('SnackBarMessages.UpdatingAlbumArtwork');
+        const message: string = await this.translatorService.getAsync('updating-album-artwork');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 

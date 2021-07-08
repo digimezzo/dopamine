@@ -76,18 +76,13 @@
     "refresh-all-covers": "Refresh covers for all albums, including those that already have a cover.",
     "refresh-missing-covers": "Refresh covers only for albums that have no cover yet",
     "playback-queue": "Playback queue",
-    "SnackBarMessages": {
-        "FolderAlreadyAdded": "This folder was already added",
-        "Refreshing": "Refreshing...",
-        "RemovingTracks": "Removing songs",
-        "AddedTracks": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
-        "UpdatingTracks": "Updating songs",
-        "UpdatingAlbumArtwork": "Updating album covers",
-        "ClickHereToDownloadNewVersion": "Click here to download version {{version}}"
-    },
-    "SnackBarActions": {
-        "Ok": "OK"
-    },
+    "folder-already-added": "This folder was already added",
+    "refreshing": "Refreshing...",
+    "removing-tracks": "Removing songs",
+    "added-tracks": "Added {{numberOfAddedTracks}} songs ({{percentageOfAddedTracks}}%)",
+    "updating-tracks": "Updating songs",
+    "updating-album-artwork": "Updating album covers",
+    "click-here-to-download-new-version": "Click here to download version {{version}}",
     "Buttons": {
         "Yes": "YES",
         "No": "NO",

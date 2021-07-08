@@ -76,18 +76,13 @@
     "refresh-all-covers": "Actualiser les pochettes de tous les albums, y compris ceux qui ont déjà une pochette.",
     "refresh-missing-covers": "Actualiser les pochettes uniquement pour les albums qui n'ont pas encore de pochette",
     "playback-queue": "File d’attente de lecture",
-    "SnackBarMessages": {
-        "FolderAlreadyAdded": "Ce dossier a déjà été ajouté",
-        "Refreshing": "Actualisation...",
-        "RemovingTracks": "Suppression de morceaux",
-        "AddedTracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
-        "UpdatingTracks": "Mise à jour des morceaux",
-        "UpdatingAlbumArtwork": "Mise à jour des pochettes des albums",
-        "ClickHereToDownloadNewVersion": "Cliquez ici pour télécharger la version {{version}}"
-    },
-    "SnackBarActions": {
-        "Ok": "OK"
-    },
+    "folder-already-added": "Ce dossier a déjà été ajouté",
+    "refreshing": "Actualisation...",
+    "removing-tracks": "Suppression de morceaux",
+    "added-tracks": "Ajouté {{numberOfAddedTracks}} morceaux ({{percentageOfAddedTracks}}%)",
+    "updating-tracks": "Mise à jour des morceaux",
+    "updating-album-artwork": "Mise à jour des pochettes des albums",
+    "click-here-to-download-new-version": "Cliquez ici pour télécharger la version {{version}}",
     "Buttons": {
         "Yes": "OUI",
         "No": "NON",
