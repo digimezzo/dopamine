@@ -1,16 +1,16 @@
 <div class="p-4">
-    <h2>{{ 'Pages.Settings.Updates' | translate }}</h2>
+    <h2>{{ 'updates' | translate }}</h2>
     <div>
-        <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'Pages.Settings.CheckForUpdates' | translate }}</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'check-for-updates' | translate }}</mat-slide-toggle>
     </div>
     <div>
         <mat-slide-toggle class="mt-3" [(ngModel)]="settings.checkForUpdatesIncludesPreReleases">
-            {{ 'Pages.Settings.AlsoCheckForPreReleases' | translate }}</mat-slide-toggle
+            {{ 'also-check-for-pre-releases' | translate }}</mat-slide-toggle
         >
     </div>
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'Pages.Settings.WelcomeScreen' | translate }}</h2>
-    <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'Pages.Settings.ShowWelcomeScreen' | translate }}</mat-slide-toggle>
+    <h2>{{ 'welcome-screen' | translate }}</h2>
+    <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen' | translate }}</mat-slide-toggle>
 </div>

@@ -21,19 +21,19 @@ export class DiscordService implements BaseDiscordService {
     public enableRichPresence(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.presenceUpdater.updatePresence('play', this.translatorService.get('Discord.Playing'));
+                this.presenceUpdater.updatePresence('play', this.translatorService.get('Discordd.Playing'));
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackPaused$.subscribe(() => {
-                this.presenceUpdater.updatePresence('pause', this.translatorService.get('Discord.Paused'));
+                this.presenceUpdater.updatePresence('pause', this.translatorService.get('Discordd.Paused'));
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
-                this.presenceUpdater.updatePresence('play', this.translatorService.get('Discord.Playing'));
+                this.presenceUpdater.updatePresence('play', this.translatorService.get('Discordd.Playing'));
             })
         );
 
@@ -44,7 +44,7 @@ export class DiscordService implements BaseDiscordService {
         );
 
         if (this.playbackService.isPlaying) {
-            this.presenceUpdater.updatePresence('play', this.translatorService.get('Discord.Playing'));
+            this.presenceUpdater.updatePresence('play', this.translatorService.get('Discordd.Playing'));
         }
     }
 

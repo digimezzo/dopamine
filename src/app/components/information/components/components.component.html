@@ -1,15 +1,15 @@
 <div class="p-4">
-    <h2>{{ 'Pages.Information.Components' | translate }}</h2>
+    <h2>{{ 'components' | translate }}</h2>
     <div class="mb-3" *ngFor="let externalComponent of externalComponents">
         <strong>{{ externalComponent.name }}</strong
         ><br />
         {{ externalComponent.description }}<br />
-        <a href="{{ externalComponent.url }}">{{ 'Pages.Information.Website' | translate }}</a>
+        <a href="{{ externalComponent.url }}">{{ 'website' | translate }}</a>
         <a
             *ngIf="externalComponent.licenseUrl != undefined && externalComponent.licenseUrl != ''"
             class="ml-2"
             href="{{ externalComponent.licenseUrl }}"
-            >{{ 'Pages.Information.License' | translate }}</a
+            >{{ 'license' | translate }}</a
         >
     </div>
 </div>
