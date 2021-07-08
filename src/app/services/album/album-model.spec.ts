@@ -105,7 +105,7 @@ describe('AlbumModel', () => {
             const artworkPath: string = albumModel.artworkPath;
 
             // Assert
-            expect(artworkPath).toEqual('/root/directory/dummy');
+            expect(artworkPath).toEqual('file:////root/directory/dummy');
         });
     });
 

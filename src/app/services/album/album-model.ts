@@ -16,7 +16,7 @@ export class AlbumModel {
             return '';
         }
 
-        return this.fileSystem.coverArtFullPath(this.albumData.artworkId);
+        return 'file:///' + this.fileSystem.coverArtFullPath(this.albumData.artworkId);
     }
 
     public get albumArtist(): string {

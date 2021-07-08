@@ -125,6 +125,13 @@ try {
             createWindow();
         }
     });
+    // See: https://github.com/electron/electron/issues/23757
+    electron_1.app.whenReady().then(function () {
+        electron_1.protocol.registerFileProtocol('file', function (request, callback) {
+            var pathname = decodeURI(request.url.replace('file:///', ''));
+            callback(pathname);
+        });
+    });
 }
 catch (e) {
     // Catch Error

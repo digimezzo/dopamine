@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, screen } from 'electron';
+import { app, BrowserWindow, Menu, protocol, screen } from 'electron';
 // Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
 // See post by megahertz: https://github.com/megahertz/electron-log/issues/60
 // "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
@@ -148,6 +148,14 @@ try {
         if (win == undefined) {
             createWindow();
         }
+    });
+
+    // See: https://github.com/electron/electron/issues/23757
+    app.whenReady().then(() => {
+        protocol.registerFileProtocol('file', (request, callback) => {
+            const pathname = decodeURI(request.url.replace('file:///', ''));
+            callback(pathname);
+        });
     });
 } catch (e) {
     // Catch Error

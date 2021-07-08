@@ -47,7 +47,7 @@ export class AudioPlayer implements BaseAudioPlayer {
     }
 
     public play(audioFilePath: string): void {
-        this.audio.src = audioFilePath;
+        this.audio.src = 'file:///' + audioFilePath;
         this.audio.play();
     }
 
