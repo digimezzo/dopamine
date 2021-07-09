@@ -229,6 +229,10 @@ describe('TrackBrowserComponent', () => {
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
         });
+
+        it('should clear the playing track on playback stopped', () => {
+            throw new Error();
+        });
     });
 
     describe('setSelectedTracks', () => {

@@ -95,6 +95,10 @@ describe('SnackBarService', () => {
         });
     });
 
+    describe('clearPlayingSubfolder', () => {
+        throw new Error();
+    });
+
     describe('setPlayingTrack', () => {
         it('should not throw an error when tracks is undefined', () => {
             // Arrange
@@ -144,5 +148,9 @@ describe('SnackBarService', () => {
             expect(tracks[1].isPlaying).toBeTruthy();
             expect(tracks[2].isPlaying).toBeFalsy();
         });
+    });
+
+    describe('clearPlayingTrack', () => {
+        throw new Error();
     });
 });

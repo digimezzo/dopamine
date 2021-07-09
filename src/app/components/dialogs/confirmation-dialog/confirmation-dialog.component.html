@@ -3,6 +3,6 @@
     {{ data?.dialogText }}
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button [mat-dialog-close]="true">{{ 'Buttons.Yes' | translate }}</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'Buttons.No' | translate }}</button>
+    <button mat-raised-button [mat-dialog-close]="true">{{ 'yes' | translate | uppercase }}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'no' | translate | uppercase }}</button>
 </mat-dialog-actions>

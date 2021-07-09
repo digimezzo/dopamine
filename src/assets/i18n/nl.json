@@ -83,54 +83,35 @@
     "updating-tracks": "Bijwerken van nummers",
     "updating-album-artwork": "Verversen van albumhoezen",
     "click-here-to-download-new-version": "Klik hier om de versie {{version}} te downloaden",
-    "Buttons": {
-        "Yes": "JA",
-        "No": "NEE",
-        "Ok": "OK",
-        "ViewLog": "BEKIJK LOG",
-        "License": "LICENTIE",
-        "Donate": "DONEER",
-        "RefreshNow": "VERVERS NU",
-        "RefreshAll": "VERVERS ALLE",
-        "RefreshMissing": "VERVERS ONTBREKENDE"
-    },
-    "Tooltips": {
-        "OpenMenu": "Open menu",
-        "Back": "Terug",
-        "Close": "Sluiten",
-        "ChooseFolder": "Kies een map",
-        "PlaybackQueue": "Afspeelwachtrij",
-        "Play": "Afspelen",
-        "Pause": "Pauzeren",
-        "Next": "Volgende",
-        "Previous": "Vorige",
-        "Loop": "Herhalen",
-        "Shuffle": "Mixen"
-    },
-    "DialogTitles": {
-        "ConfirmDeleteFolder": "Map verwijderen?",
-        "Error": "Fout",
-        "License": "Licentie"
-    },
-    "DialogTexts": {
-        "ConfirmDeleteFolder": "Weet u zeker dat u de map '{{folderPath}}' wilt verwijderen?"
-    },
-    "ErrorTexts": {
-        "DeleteFolderError": "Er is een fout opgetreden bij het verwijderen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
-        "GetFoldersError": "Er is een fout opgetreden bij het ophalen van de mappen. Controleer het log bestand als u meer informatie nodig hebt.",
-        "AddFolderError": "Er is een fout opgetreden bij het toevoegen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
-        "GlobalError": "Er is een fout opgetreden waardoor de toepassing wordt gesloten. Controleer het log bestand als u meer informatie nodig hebt."
-    },
-    "MainMenu": {
-        "ManageCollection": "Collectie beheren...",
-        "Settings": "Instellingen",
-        "Information": "Informatie",
-        "Download": "Download"
-    },
-    "Album": {
-        "UnknownArtist": "Onbekende artiest",
-        "UnknownTitle": "Onbekende titel"
-    },
+    "yes": "Ja",
+    "no": "Nee",
+    "ok": "Ok",
+    "view-log": "Bekijk log",
+    "refresh-now": "Ververs nu",
+    "refresh-all": "Ververs alles",
+    "refresh-missing": "Ververs ontbrekende",
+    "open-menu": "Open menu",
+    "back": "Terug",
+    "close": "Sluiten",
+    "choose-folder": "Kies een map",
+    "play": "Afspelen",
+    "pause": "Pauzeren",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "loop": "Herhalen",
+    "shuffle": "Mixen",
+    "confirm-delete-folder": "Map verwijderen?",
+    "error": "Fout",
+    "confirm-delete-folder-long": "Weet u zeker dat u de map '{{folderPath}}' wilt verwijderen?",
+    "delete-folder-error": "Er is een fout opgetreden bij het verwijderen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
+    "get-folders-error": "Er is een fout opgetreden bij het ophalen van de mappen. Controleer het log bestand als u meer informatie nodig hebt.",
+    "add-folder-error": "Er is een fout opgetreden bij het toevoegen van de map. Controleer het log bestand als u meer informatie nodig hebt.",
+    "global-error": "Er is een fout opgetreden waardoor de toepassing wordt gesloten. Controleer het log bestand als u meer informatie nodig hebt.",
+    "manage-collection": "Collectie beheren...",
+    "settings": "Instellingen",
+    "information": "Informatie",
+    "unknown-artist": "Onbekende artiest",
+    "unknown-title": "Onbekende titel",
     "Track": {
         "UnknownArtist": "Onbekende artiest",
         "UnknownTitle": "Onbekende titel",

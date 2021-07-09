@@ -24,8 +24,8 @@ describe('AlbumModel', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileSystemMock = Mock.ofType<FileSystem>();
 
-        translatorServiceMock.setup((x) => x.get('Album.UnknownArtist')).returns(() => 'Unknown artist');
-        translatorServiceMock.setup((x) => x.get('Album.UnknownTitle')).returns(() => 'Unknown title');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
         albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
     });
 

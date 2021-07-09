@@ -83,54 +83,35 @@
     "updating-tracks": "Mise à jour des morceaux",
     "updating-album-artwork": "Mise à jour des pochettes des albums",
     "click-here-to-download-new-version": "Cliquez ici pour télécharger la version {{version}}",
-    "Buttons": {
-        "Yes": "OUI",
-        "No": "NON",
-        "Ok": "OK",
-        "ViewLog": "VÉRIFIER LOG",
-        "License": "LICENCE",
-        "Donate": "FAIRE UN DON",
-        "RefreshNow": "ACTUALISER MAINTENANT",
-        "RefreshAll": "ACTUALISER TOUS",
-        "RefreshMissing": "ACTUALISER MANQUANTS"
-    },
-    "Tooltips": {
-        "OpenMenu": "Ouvrir menu",
-        "Back": "Retour",
-        "Close": "Fermer",
-        "ChooseFolder": "Choisissez un dossier",
-        "PlaybackQueue": "File d’attente de lecture",
-        "Play": "Lecture",
-        "Pause": "Pause",
-        "Next": "Suivant",
-        "Previous": "Précédent",
-        "Loop": "Répétition",
-        "Shuffle": "Aléatoire"
-    },
-    "DialogTitles": {
-        "ConfirmDeleteFolder": "Supprimer dossier?",
-        "Error": "Erreur",
-        "License": "Licence"
-    },
-    "DialogTexts": {
-        "ConfirmDeleteFolder": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?"
-    },
-    "ErrorTexts": {
-        "DeleteFolderError": "Une erreur s'est produite lors de la suppression du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-        "GetFoldersError": "Une erreur s'est produite lors de l'obtention des dossiers. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-        "AddFolderError": "Une erreur s'est produite lors de l'ajout du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-        "GlobalError": "Une erreur s'est produite qui entraînera la fermeture de l'application. Veuillez vérifier le log si vous avez besoin de plus d'informations."
-    },
-    "MainMenu": {
-        "ManageCollection": "Gérer la collection...",
-        "Settings": "Paramètres",
-        "Information": "Information",
-        "Download": "Télécharger"
-    },
-    "Album": {
-        "UnknownArtist": "Artiste inconnu",
-        "UnknownTitle": "Titre inconnu"
-    },
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "Ok",
+    "view-log": "Vérifier log",
+    "refresh-now": "Actualiser maintenant",
+    "refresh-all": "Actualiser tout",
+    "refresh-missing": "Actualiser manquants",
+    "open-menu": "Ouvrir menu",
+    "back": "Retour",
+    "close": "Fermer",
+    "choose-folder": "Choisissez un dossier",
+    "play": "Lecture",
+    "pause": "Pause",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loop": "Répétition",
+    "shuffle": "Aléatoire",
+    "confirm-delete-folder": "Supprimer dossier?",
+    "confirm-delete-folder-long": "Voulez-vous vraiment supprimer le dossier '{{folderPath}}'?",
+    "error": "Erreur",
+    "delete-folder-error": "Une erreur s'est produite lors de la suppression du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "get-folders-error": "Une erreur s'est produite lors de l'obtention des dossiers. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "add-folder-error": "Une erreur s'est produite lors de l'ajout du dossier. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "global-error": "Une erreur s'est produite qui entraînera la fermeture de l'application. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "manage-collection": "Gérer la collection...",
+    "settings": "Paramètres",
+    "information": "Information",
+    "unknown-artist": "Artiste inconnu",
+    "unknown-title": "Titre inconnu",
     "Track": {
         "UnknownArtist": "Artiste inconnu",
         "UnknownTitle": "Titre inconnu",

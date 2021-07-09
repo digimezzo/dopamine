@@ -7,7 +7,7 @@
         <br />{{ applicationCopyright }}
     </div>
     <button class="mt-3" mat-raised-button color="primary" (click)="showLicenseDialog()">
-        {{ 'Buttons.License' | translate }}
+        {{ 'license' | translate | uppercase }}
     </button>
 </div>
 <mat-divider></mat-divider>
@@ -15,7 +15,7 @@
     <h2>{{ 'donate' | translate }}</h2>
     <div>{{ 'donate-instructions' | translate }}</div>
     <button class="mt-3" mat-raised-button color="primary" (click)="browseToDonateLink()">
-        {{ 'Buttons.Donate' | translate }}
+        {{ 'donate' | translate | uppercase }}
     </button>
 </div>
 <mat-divider></mat-divider>

@@ -32,12 +32,12 @@ export class AlbumModel {
             return trackArtists[0];
         }
 
-        return this.translatorService.get('Album.UnknownArtist');
+        return this.translatorService.get('unknown-artist');
     }
 
     public get albumTitle(): string {
         if (Strings.isNullOrWhiteSpace(this.albumData.albumTitle)) {
-            return this.translatorService.get('Album.UnknownTitle');
+            return this.translatorService.get('unknown-title');
         }
 
         return this.albumData.albumTitle;

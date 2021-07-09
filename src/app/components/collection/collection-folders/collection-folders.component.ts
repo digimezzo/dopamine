@@ -62,9 +62,16 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         await this.fillListsAsync();
 
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
                 this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, playbackStarted.currentTrack);
+            })
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackStopped$.subscribe(() => {
+                this.playbackIndicationService.clearPlayingSubfolder(this.subfolders);
+                this.playbackIndicationService.clearPlayingTrack(this.tracks.tracks);
             })
         );
 

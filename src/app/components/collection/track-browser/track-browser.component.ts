@@ -65,8 +65,14 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
+            })
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackStopped$.subscribe(() => {
+                this.playbackIndicationService.clearPlayingTrack(this.orderedTracks);
             })
         );
     }

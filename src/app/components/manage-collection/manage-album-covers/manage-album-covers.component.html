@@ -11,10 +11,10 @@
     <h2>{{ 'refresh' | translate }}</h2>
     <div>{{ 'refresh-all-covers' | translate }}</div>
     <button class="mt-3" mat-raised-button color="primary" (click)="refreshAllCoversAsync()">
-        {{ 'Buttons.RefreshAll' | translate }}
+        {{ 'refresh-all' | translate | uppercase }}
     </button>
     <div class="mt-3">{{ 'refresh-missing-covers' | translate }}</div>
     <button class="mt-3" mat-raised-button color="primary" (click)="refreshMissingCoversAsync()">
-        {{ 'Buttons.RefreshMissing' | translate }}
+        {{ 'refresh-missing' | translate | uppercase }}
     </button>
 </div>

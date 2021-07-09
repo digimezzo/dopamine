@@ -8,7 +8,7 @@ import { BasePlaybackIndicationService } from './base-playback-indication.servic
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
     constructor(private pathValidator: PathValidator) {}
 
-    public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): Promise<void> {
+    public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): void {
         if (subfolders == undefined) {
             return;
         }
@@ -26,7 +26,13 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         }
     }
 
-    public setPlayingTrack(tracks: TrackModel[], playingTrack: TrackModel): Promise<void> {
+    public clearPlayingSubfolder(subfolders: SubfolderModel[]): void {
+        for (const subfolder of subfolders) {
+            subfolder.isPlaying = false;
+        }
+    }
+
+    public setPlayingTrack(tracks: TrackModel[], playingTrack: TrackModel): void {
         if (tracks == undefined) {
             return;
         }
@@ -41,6 +47,12 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
             if (track.path === playingTrack.path) {
                 track.isPlaying = true;
             }
+        }
+    }
+
+    public clearPlayingTrack(tracks: TrackModel[]): void {
+        for (const track of tracks) {
+            track.isPlaying = false;
         }
     }
 }

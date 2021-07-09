@@ -72,7 +72,7 @@ export class AddFolderComponent implements OnInit {
             this.folders = this.folderService.getFolders();
         } catch (e) {
             this.logger.error(`Could not get folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
-            const errorText: string = await this.translatorService.getAsync('ErrorTexts.GetFoldersError');
+            const errorText: string = await this.translatorService.getAsync('get-folders-error');
             this.dialogService.showErrorDialog(errorText);
         }
     }
@@ -96,14 +96,14 @@ export class AddFolderComponent implements OnInit {
                     'AddFolderComponent',
                     'addFolderAsync'
                 );
-                const errorText: string = await this.translatorService.getAsync('ErrorTexts.AddFolderError');
+                const errorText: string = await this.translatorService.getAsync('add-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }
     }
 
     public async deleteFolderAsync(folder: FolderModel): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
+        const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-folder');
         const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
 
         const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
@@ -114,7 +114,7 @@ export class AddFolderComponent implements OnInit {
                 await this.getFoldersAsync();
             } catch (e) {
                 this.logger.error(`Could not delete folder. Error: ${e.message}`, 'AddFolderComponent', 'deleteFolderAsync');
-                const errorText: string = await this.translatorService.getAsync('ErrorTexts.DeleteFolderError');
+                const errorText: string = await this.translatorService.getAsync('delete-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }

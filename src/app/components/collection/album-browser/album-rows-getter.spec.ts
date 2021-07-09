@@ -70,8 +70,8 @@ describe('AlbumRowsGetter', () => {
         fileSystemMock = Mock.ofType<FileSystem>();
 
         albumSpaceCalculatorMock.setup((x) => x.calculateNumberOfAlbumsPerRow(It.isAny(), It.isAny())).returns(() => 2);
-        translatorServiceMock.setup((x) => x.get('Album.UnknownArtist')).returns(() => 'Unknown artist');
-        translatorServiceMock.setup((x) => x.get('Album.UnknownTitle')).returns(() => 'Unknown title');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
 
         album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
