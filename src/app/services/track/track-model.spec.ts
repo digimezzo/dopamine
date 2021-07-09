@@ -23,8 +23,8 @@ describe('TrackModel', () => {
         track.fileSize = 7704126;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        translatorServiceMock.setup((x) => x.get('Track.UnknownAlbum')).returns(() => 'Unknown album');
-        translatorServiceMock.setup((x) => x.get('Track.UnknownArtist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
 
         trackModel = new TrackModel(track, translatorServiceMock.object);
     });

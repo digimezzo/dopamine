@@ -8,13 +8,13 @@ export class FormatTrackArtistsPipe implements PipeTransform {
 
     public transform(trackArtists: string[]): string {
         if (trackArtists == undefined || trackArtists.length === 0) {
-            return this.translatorService.get('Track.UnknownArtist');
+            return this.translatorService.get('unknown-artist');
         }
 
         const commaSeparatedArtists: string = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
 
         if (commaSeparatedArtists.length === 0) {
-            return this.translatorService.get('Track.UnknownArtist');
+            return this.translatorService.get('unknown-artist');
         }
 
         return commaSeparatedArtists;

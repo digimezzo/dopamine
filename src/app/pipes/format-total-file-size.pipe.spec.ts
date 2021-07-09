@@ -8,9 +8,9 @@ describe('FormatTotalFileSizePipe', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        translatorServiceMock.setup((x) => x.get('FileSizes.GigaBytes')).returns(() => 'GB');
-        translatorServiceMock.setup((x) => x.get('FileSizes.MegaBytes')).returns(() => 'MB');
-        translatorServiceMock.setup((x) => x.get('FileSizes.KiloBytes')).returns(() => 'kB');
+        translatorServiceMock.setup((x) => x.get('giga-bytes')).returns(() => 'GB');
+        translatorServiceMock.setup((x) => x.get('mega-bytes')).returns(() => 'MB');
+        translatorServiceMock.setup((x) => x.get('kilo-bytes')).returns(() => 'kB');
         formatTotalFileSizePipe = new FormatTotalFileSizePipe(translatorServiceMock.object);
     });
 

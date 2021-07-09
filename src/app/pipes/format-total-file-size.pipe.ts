@@ -10,9 +10,9 @@ export class FormatTotalFileSizePipe implements PipeTransform {
             return '';
         }
 
-        const gigaBytesText: string = this.translatorService.get('FileSizes.GigaBytes');
-        const megaBytesText: string = this.translatorService.get('FileSizes.MegaBytes');
-        const kiloBytesText: string = this.translatorService.get('FileSizes.KiloBytes');
+        const gigaBytesText: string = this.translatorService.get('giga-bytes');
+        const megaBytesText: string = this.translatorService.get('mega-bytes');
+        const kiloBytesText: string = this.translatorService.get('kilo-bytes');
 
         const gigaBytes: number = Math.floor(totalFileSizeInBytes / (1024 * 1024 * 1024));
         const megaBytes: number = Math.floor(totalFileSizeInBytes / (1024 * 1024));

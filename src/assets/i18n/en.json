@@ -102,6 +102,7 @@
     "shuffle": "Shuffle",
     "confirm-delete-folder": "Delete folder?",
     "confirm-delete-folder-long": "Are you sure you want to delete the folder '{{folderPath}}'?",
+    "error": "Error",
     "delete-folder-error": "An error occurred while deleting the folder. Please verify the log if you need more information.",
     "get-folders-error": "An error occurred while getting the folders. Please verify the log if you need more information.",
     "add-folder-error": "An error occurred while adding the folder. Please verify the log if you need more information.",
@@ -111,28 +112,15 @@
     "information": "Information",
     "unknown-artist": "Unknown artist",
     "unknown-title": "Unknown title",
-    "Track": {
-        "UnknownArtist": "Unknown artist",
-        "UnknownTitle": "Unknown title",
-        "UnknownAlbum": "Unknown album"
-    },
-    "Artist": {
-        "UnknownGenre": "Unknown artist"
-    },
-    "Genre": {
-        "UnknownGenre": "Unknown genre"
-    },
-    "Durations": {
-        "Days": "days",
-        "Hours": "hours",
-        "Minutes": "minutes",
-        "Seconds": "seconds"
-    },
-    "FileSizes": {
-        "GigaBytes": "GB",
-        "MegaBytes": "MB",
-        "KiloBytes": "kB"
-    },
+    "unknown-album": "Unknown album",
+    "unknown-genre": "Unknown genre",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "giga-bytes": "GB",
+    "mega-bytes": "MB",
+    "kilo-bytes": "kB",
     "Ordering": {
         "Artists": {
             "byArtistAscending": "A-Z",

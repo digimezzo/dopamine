@@ -8,7 +8,7 @@ describe('FormatTrackArtistsPipe', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        translatorServiceMock.setup((x) => x.get('Track.UnknownArtist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         formatTrackArtistsPipe = new FormatTrackArtistsPipe(translatorServiceMock.object);
     });
 

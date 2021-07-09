@@ -9,7 +9,7 @@ describe('GenreModel', () => {
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        translatorServiceMock.setup((x) => x.get('Genre.UnknownGenre')).returns(() => 'Unknown genre');
+        translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
         genreModel = new GenreModel('My genre', translatorServiceMock.object);
     });
 

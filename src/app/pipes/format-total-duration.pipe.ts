@@ -10,9 +10,9 @@ export class FormatTotalDurationPipe implements PipeTransform {
             return '';
         }
 
-        const hoursText: string = this.translatorService.get('Durations.Hours');
-        const minutesText: string = this.translatorService.get('Durations.Minutes');
-        const secondsText: string = this.translatorService.get('Durations.Seconds');
+        const hoursText: string = this.translatorService.get('hours');
+        const minutesText: string = this.translatorService.get('minutes');
+        const secondsText: string = this.translatorService.get('seconds');
 
         const totalDurationInSeconds: number = Math.floor(totalDurationInMilliseconds / 1000);
 

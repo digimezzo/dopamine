@@ -9,7 +9,7 @@ describe('FormatTrackTitlePipe', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        translatorServiceMock.setup((x) => x.get('Track.UnknownTitle')).returns(() => 'Unknown title');
+        translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
         formatTrackTitlePipe = new FormatTrackTitlePipe(translatorServiceMock.object);
     });
 

@@ -112,28 +112,15 @@
     "information": "Information",
     "unknown-artist": "Artiste inconnu",
     "unknown-title": "Titre inconnu",
-    "Track": {
-        "UnknownArtist": "Artiste inconnu",
-        "UnknownTitle": "Titre inconnu",
-        "UnknownAlbum": "Album inconnu"
-    },
-    "Artist": {
-        "UnknownGenre": "Artiste inconnu"
-    },
-    "Genre": {
-        "UnknownGenre": "Genre inconnu"
-    },
-    "Durations": {
-        "Days": "jours",
-        "Hours": "heures",
-        "Minutes": "minutes",
-        "Seconds": "secondes"
-    },
-    "FileSizes": {
-        "GB": "Go",
-        "MB": "Mo",
-        "kB": "ko"
-    },
+    "unknown-album": "Album inconnu",
+    "unknown-genre": "Genre inconnu",
+    "days": "jours",
+    "hours": "heures",
+    "minutes": "minutes",
+    "seconds": "secondes",
+    "giga-bytes": "Go",
+    "mega-bytes": "Mo",
+    "kilo-bytes": "ko",
     "Ordering": {
         "Artists": {
             "byArtistAscending": "A-Z",

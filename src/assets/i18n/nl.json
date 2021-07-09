@@ -112,28 +112,15 @@
     "information": "Informatie",
     "unknown-artist": "Onbekende artiest",
     "unknown-title": "Onbekende titel",
-    "Track": {
-        "UnknownArtist": "Onbekende artiest",
-        "UnknownTitle": "Onbekende titel",
-        "UnknownAlbum": "Onbekend album"
-    },
-    "Artist": {
-        "UnknownGenre": "Onbekend artiest"
-    },
-    "Genre": {
-        "UnknownGenre": "Onbekend genre"
-    },
-    "Durations": {
-        "Days": "dagen",
-        "Hours": "uren",
-        "Minutes": "minuten",
-        "Seconds": "seconden"
-    },
-    "FileSizes": {
-        "GB": "GB",
-        "MB": "MB",
-        "kB": "kB"
-    },
+    "unknown-album": "Onbekend album",
+    "unknown-genre": "Onbekend genre",
+    "days": "dagen",
+    "hours": "uren",
+    "minutes": "minuten",
+    "seconds": "seconden",
+    "giga-bytes": "GB",
+    "mega-bytes": "MB",
+    "kilo-bytes": "kB",
     "Ordering": {
         "Artists": {
             "byArtistAscending": "A-Z",

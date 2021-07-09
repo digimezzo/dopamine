@@ -10,7 +10,7 @@ export class GenreModel {
 
     public get name(): string {
         if (Strings.isNullOrWhiteSpace(this.genre)) {
-            return this.translatorService.get('Genre.UnknownGenre');
+            return this.translatorService.get('unknown-genre');
         }
 
         return this.genre;

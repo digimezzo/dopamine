@@ -48,7 +48,7 @@ export class TrackModel {
 
     public get albumTitle(): string {
         if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
-            return this.translatorService.get('Track.UnknownAlbum');
+            return this.translatorService.get('unknown-album');
         }
 
         return this.track.albumTitle;
@@ -67,7 +67,7 @@ export class TrackModel {
             return trackArtists.join(', ');
         }
 
-        return this.translatorService.get('Track.UnknownArtist');
+        return this.translatorService.get('unknown-artist');
     }
 
     public get sortableAlbumArtists(): string {

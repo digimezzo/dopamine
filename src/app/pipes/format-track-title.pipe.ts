@@ -15,6 +15,6 @@ export class FormatTrackTitlePipe implements PipeTransform {
             return trackFileName;
         }
 
-        return this.translatorService.get('Track.UnknownTitle');
+        return this.translatorService.get('unknown-title');
     }
 }

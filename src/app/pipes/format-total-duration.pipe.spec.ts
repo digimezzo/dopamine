@@ -8,10 +8,10 @@ describe('FormatTotalDurationPipe', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        translatorServiceMock.setup((x) => x.get('Durations.Days')).returns(() => 'days');
-        translatorServiceMock.setup((x) => x.get('Durations.Hours')).returns(() => 'hours');
-        translatorServiceMock.setup((x) => x.get('Durations.Minutes')).returns(() => 'minutes');
-        translatorServiceMock.setup((x) => x.get('Durations.Seconds')).returns(() => 'seconds');
+        translatorServiceMock.setup((x) => x.get('days')).returns(() => 'days');
+        translatorServiceMock.setup((x) => x.get('hours')).returns(() => 'hours');
+        translatorServiceMock.setup((x) => x.get('minutes')).returns(() => 'minutes');
+        translatorServiceMock.setup((x) => x.get('seconds')).returns(() => 'seconds');
         formatTotalDurationPipe = new FormatTotalDurationPipe(translatorServiceMock.object);
     });
 
