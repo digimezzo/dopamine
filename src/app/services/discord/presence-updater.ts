@@ -3,15 +3,14 @@ import { Client } from 'discord-rpc';
 import { SensitiveInformation } from '../../common/application/sensitive-information';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 
 @Injectable()
 export class PresenceUpdater {
     private discordClient: any;
 
-    constructor(private playbackService: BasePlaybackService, private translatorService: BaseTranslatorService, private logger: Logger) {}
+    constructor(private playbackService: BasePlaybackService, private logger: Logger) {}
 
-    public updatePresence(smallImageKey: string, smallImageText: string): void {
+    public updatePresence(smallImageKey: string, smallImageText: string, largeImageKey: string, largeImageText: string): void {
         if (this.discordClient == undefined || !this.discordClient.discordClientIsReady) {
             const clientId: string = SensitiveInformation.discordClientId;
             this.discordClient = new Client({ transport: 'ipc' });
@@ -21,7 +20,7 @@ export class PresenceUpdater {
                 this.discordClient.discordClientIsReady = true;
                 this.logger.info(`Discord client is ready`, 'DiscordService', 'updatePresence');
 
-                this.setPresence(smallImageKey, smallImageText);
+                this.setPresence(smallImageKey, smallImageText, largeImageKey, largeImageText);
             });
 
             this.discordClient.on('disconnected', () => {
@@ -29,11 +28,11 @@ export class PresenceUpdater {
                 this.logger.info(`Discord client has disconnected`, 'DiscordService', 'updatePresence');
             });
         } else {
-            this.setPresence(smallImageKey, smallImageText);
+            this.setPresence(smallImageKey, smallImageText, largeImageKey, largeImageText);
         }
     }
 
-    public setPresence(smallImageKey: string, smallImageText: string): void {
+    public setPresence(smallImageKey: string, smallImageText: string, largeImageKey: string, largeImageText: string): void {
         if (this.playbackService.currentTrack == undefined) {
             this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
 
@@ -46,8 +45,8 @@ export class PresenceUpdater {
                 state: this.playbackService.currentTrack.artists.join(', '),
                 startTimestamp: Date.now(),
                 endTimestamp: Date.now() + this.calculateTimeRemainingInMilliseconds(),
-                largeImageKey: 'icon',
-                largeImageText: this.translatorService.get('PlayingWithDopamine'),
+                largeImageKey: largeImageKey,
+                largeImageText: largeImageText,
                 smallImageKey: smallImageKey,
                 smallImageText: smallImageText,
                 instance: false,

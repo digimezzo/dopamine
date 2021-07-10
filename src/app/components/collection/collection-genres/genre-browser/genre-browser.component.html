@@ -7,10 +7,10 @@
         </div>
         <div class="app-genre-browser__genreorder" (click)="toggleGenreOrder()">
             <div *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
-                {{ 'Ordering.Genres.byGenreAscending' | translate }}
+                {{ 'by-genre-ascending' | translate }}
             </div>
             <div *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
-                {{ 'Ordering.Genres.byGenreDescending' | translate }}
+                {{ 'by-genre-descending' | translate }}
             </div>
         </div>
     </div>

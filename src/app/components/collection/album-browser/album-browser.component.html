@@ -8,28 +8,28 @@
 
         <div class="app-album-browser__albumorder" (click)="toggleAlbumOrder()">
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
-                {{ 'Ordering.Albums.ByAlbumTitleAscending' | translate }}
+                {{ 'by-album-title-ascending' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
-                {{ 'Ordering.Albums.ByAlbumTitleDescending' | translate }}
+                {{ 'by-album-title-descending' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
-                {{ 'Ordering.Albums.ByDateAdded' | translate }}
+                {{ 'by-date-added' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
-                {{ 'Ordering.Albums.ByDateCreated' | translate }}
+                {{ 'by-date-created' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
-                {{ 'Ordering.Albums.ByAlbumArtist' | translate }}
+                {{ 'by-album-artist' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
-                {{ 'Ordering.Albums.ByYearAscending' | translate }}
+                {{ 'by-year-ascending' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
-                {{ 'Ordering.Albums.ByYearDescending' | translate }}
+                {{ 'by-year-descending' | translate }}
             </div>
             <div *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
-                {{ 'Ordering.Albums.ByLastPlayed' | translate }}
+                {{ 'by-last-played' | translate }}
             </div>
         </div>
     </div>

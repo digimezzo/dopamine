@@ -121,36 +121,24 @@
     "giga-bytes": "GB",
     "mega-bytes": "MB",
     "kilo-bytes": "kB",
-    "Ordering": {
-        "Artists": {
-            "byArtistAscending": "A-Z",
-            "byArtistDescending": "Z-A"
-        },
-        "Genres": {
-            "byGenreAscending": "A-Z",
-            "byGenreDescending": "Z-A"
-        },
-        "Albums": {
-            "ByAlbumTitleAscending": "A-Z",
-            "ByAlbumTitleDescending": "Z-A",
-            "ByDateAdded": "Per toevoegdatum",
-            "ByDateCreated": "Per aanmaakdatum",
-            "ByAlbumArtist": "Per album artiest",
-            "ByYearAscending": "Per jaar oplopend",
-            "ByYearDescending": "Per jaar aflopend",
-            "ByLastPlayed": "Per laatst gespeeld"
-        },
-        "Tracks": {
-            "byTrackTitleAscending": "A-Z",
-            "byTrackTitleDescending": "Z-A",
-            "byAlbum": "Per Album",
-            "byRating": "Per beoordeling"
-        }
-    },
-    "Discordd": {
-        "By": "door",
-        "PlayingWithDopamine": "Afspelen met Dopamine",
-        "Playing": "Wordt afgespeeld",
-        "Paused": "Gepauzeerd"
-    }
+    "by-artist-ascending": "A-Z",
+    "by-artist-descending": "Z-A",
+    "by-genre-ascending": "A-Z",
+    "by-genre-descending": "Z-A",
+    "by-album-title-ascending": "A-Z",
+    "by-album-title-descending": "Z-A",
+    "by-date-added": "Per toevoegdatum",
+    "by-date-created": "Per aanmaakdatum",
+    "by-album-artist": "Per album artiest",
+    "by-year-ascending": "Per jaar oplopend",
+    "by-year-descending": "Per jaar aflopend",
+    "by-last-played": "Per laatst gespeeld",
+    "by-track-title-ascending": "A-Z",
+    "by-track-title-descending": "Z-A",
+    "by-album": "Per Album",
+    "by-rating": "Per beoordeling",
+    "by": "door",
+    "playing-with-dopamine": "Afspelen met Dopamine",
+    "playing": "Wordt afgespeeld",
+    "paused": "Gepauzeerd"
 }

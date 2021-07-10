@@ -121,36 +121,24 @@
     "giga-bytes": "Go",
     "mega-bytes": "Mo",
     "kilo-bytes": "ko",
-    "Ordering": {
-        "Artists": {
-            "byArtistAscending": "A-Z",
-            "byArtistDescending": "Z-A"
-        },
-        "Genres": {
-            "byGenreAscending": "A-Z",
-            "byGenreDescending": "Z-A"
-        },
-        "Albums": {
-            "ByAlbumTitleAscending": "A-Z",
-            "ByAlbumTitleDescending": "Z-A",
-            "ByDateAdded": "Par date d'ajout",
-            "ByDateCreated": "Par date de creation",
-            "ByAlbumArtist": "Par artiste de l'album",
-            "ByYearAscending": "Par année ascendante",
-            "ByYearDescending": "Par année décroissante",
-            "ByLastPlayed": "Par la dernière lecture"
-        },
-        "Tracks": {
-            "byTrackTitleAscending": "A-Z",
-            "byTrackTitleDescending": "Z-A",
-            "byAlbum": "Par album",
-            "byRating": "Par classement"
-        }
-    },
-    "Discordd": {
-        "By": "par",
-        "PlayingWithDopamine": "Lecture avec Dopamine",
-        "Playing": "En lecture",
-        "Paused": "En pause"
-    }
+    "by-artist-ascending": "A-Z",
+    "by-artist-descending": "Z-A",
+    "by-genre-ascending": "A-Z",
+    "by-genre-descending": "Z-A",
+    "by-album-title-ascending": "A-Z",
+    "by-album-title-descending": "Z-A",
+    "by-date-added": "Par date d'ajout",
+    "by-date-created": "Par date de creation",
+    "by-album-artist": "Par artiste de l'album",
+    "by-year-ascending": "Par année ascendante",
+    "by-year-descending": "Par année décroissante",
+    "by-last-played": "Par la dernière lecture",
+    "by-track-title-ascending": "A-Z",
+    "by-track-title-descending": "Z-A",
+    "by-album": "Par album",
+    "by-rating": "Par classement",
+    "by": "par",
+    "playing-with-dopamine": "Lecture avec Dopamine",
+    "playing": "En lecture",
+    "paused": "En pause"
 }

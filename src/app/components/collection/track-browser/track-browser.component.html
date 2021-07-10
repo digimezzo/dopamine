@@ -7,13 +7,13 @@
         </div>
         <div class="app-track-browser__trackorder" (click)="toggleTrackOrder()">
             <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
-                {{ 'Ordering.Tracks.byTrackTitleAscending' | translate }}
+                {{ 'by-track-title-ascending' | translate }}
             </div>
             <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
-                {{ 'Ordering.Tracks.byTrackTitleDescending' | translate }}
+                {{ 'by-track-title-descending' | translate }}
             </div>
             <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
-                {{ 'Ordering.Tracks.byAlbum' | translate }}
+                {{ 'by-album' | translate }}
             </div>
         </div>
     </div>

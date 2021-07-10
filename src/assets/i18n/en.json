@@ -121,36 +121,24 @@
     "giga-bytes": "GB",
     "mega-bytes": "MB",
     "kilo-bytes": "kB",
-    "Ordering": {
-        "Artists": {
-            "byArtistAscending": "A-Z",
-            "byArtistDescending": "Z-A"
-        },
-        "Genres": {
-            "byGenreAscending": "A-Z",
-            "byGenreDescending": "Z-A"
-        },
-        "Albums": {
-            "ByAlbumTitleAscending": "A-Z",
-            "ByAlbumTitleDescending": "Z-A",
-            "ByDateAdded": "By date added",
-            "ByDateCreated": "By date created",
-            "ByAlbumArtist": "By album artist",
-            "ByYearAscending": "By year ascending",
-            "ByYearDescending": "By year descending",
-            "ByLastPlayed": "By last played"
-        },
-        "Tracks": {
-            "byTrackTitleAscending": "A-Z",
-            "byTrackTitleDescending": "Z-A",
-            "byAlbum": "By album",
-            "byRating": "By rating"
-        }
-    },
-    "Discordd": {
-        "By": "by",
-        "PlayingWithDopamine": "Playing with Dopamine",
-        "Playing": "Playing",
-        "Paused": "Paused"
-    }
+    "by-artist-ascending": "A-Z",
+    "by-artist-descending": "Z-A",
+    "by-genre-ascending": "A-Z",
+    "by-genre-descending": "Z-A",
+    "by-album-title-ascending": "A-Z",
+    "by-album-title-descending": "Z-A",
+    "by-date-added": "By date added",
+    "by-date-created": "By date created",
+    "by-album-artist": "By album artist",
+    "by-year-ascending": "By year ascending",
+    "by-year-descending": "By year descending",
+    "by-last-played": "By last played",
+    "by-track-title-ascending": "A-Z",
+    "by-track-title-descending": "Z-A",
+    "by-album": "By album",
+    "by-rating": "By rating",
+    "by": "by",
+    "playing-with-dopamine": "Playing with Dopamine",
+    "playing": "Playing",
+    "paused": "Paused"
 }
