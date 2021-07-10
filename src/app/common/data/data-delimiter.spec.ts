@@ -135,5 +135,16 @@ describe('DataDelimiter', () => {
             // Assert
             expect(collection).toEqual(['the string 1', 'the string 2']);
         });
+
+        it('should return a collection containing multiple strings if the string has multiple malformed delimited strings', () => {
+            // Arrange
+            const delimitedString: string = ';the string 1;the string 2;';
+
+            // Act
+            const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);
+
+            // Assert
+            expect(collection).toEqual(['the string 1', 'the string 2']);
+        });
     });
 });

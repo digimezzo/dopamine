@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed high CPU usage caused by playback progress bar
 -   Fixed a crash caused by Discord Rich Presence which happens when the start or end of the playback queue is reached
 -   Fixed a bug where the playing song is not cleared when playback stops when reaching the start or end of the playback queue
+-   Fixed a bug that caused duplicate genres in the Genres screen
 
 ## [3.0.0-preview.1] - 2021-06-30
 

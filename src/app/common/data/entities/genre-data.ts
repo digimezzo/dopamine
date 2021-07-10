@@ -1,3 +1,3 @@
 export class GenreData {
-    public genres: string;
+    public constructor(public genres: string) {}
 }

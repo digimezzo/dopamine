@@ -11,6 +11,7 @@ export class GenreService implements BaseGenreService {
     constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
 
     public getGenres(): GenreModel[] {
+        const addedGenres: string[] = [];
         const genreDatas: GenreData[] = this.trackRepository.getGenreData();
         const genreModels: GenreModel[] = [];
 
@@ -18,7 +19,12 @@ export class GenreService implements BaseGenreService {
             const genres: string[] = DataDelimiter.fromDelimitedString(genreData.genres);
 
             for (const genre of genres) {
-                genreModels.push(new GenreModel(genre, this.translatorService));
+                const processedGenre: string = genre.toLowerCase().trim();
+
+                if (!addedGenres.includes(processedGenre)) {
+                    addedGenres.push(processedGenre);
+                    genreModels.push(new GenreModel(genre, this.translatorService));
+                }
             }
         }
 

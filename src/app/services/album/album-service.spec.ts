@@ -3,6 +3,7 @@ import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
+import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 import { AlbumService } from './album-service';
@@ -78,10 +79,51 @@ describe('AlbumService', () => {
             trackRepositoryMock.setup((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2'])).returns(() => albumDatas);
 
             // Act
-            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2']);
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.trackArtists);
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2']), Times.exactly(1));
+            expect(returnedAlbums.length).toEqual(2);
+            expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
+            expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
+        });
+
+        it('should return albums for album artists if albumData is found in the database', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'Album key 1';
+            const albumData2: AlbumData = new AlbumData();
+            albumData2.albumKey = 'Album key 2';
+            const albumDatas: AlbumData[] = [albumData1, albumData2];
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumArtists(['Artist 1', 'Artist 2'])).returns(() => albumDatas);
+
+            // Act
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.albumArtists);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumDataForAlbumArtists(['Artist 1', 'Artist 2']), Times.exactly(1));
+            expect(returnedAlbums.length).toEqual(2);
+            expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
+            expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
+        });
+
+        it('should return albums for all artists if albumData is found in the database', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'Album key 1';
+            const albumData2: AlbumData = new AlbumData();
+            albumData2.albumKey = 'Album key 2';
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2'])).returns(() => [albumData1]);
+            trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumArtists(['Artist 1', 'Artist 2'])).returns(() => [albumData2]);
+
+            // Act
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2'], ArtistType.allArtists);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2']), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.getAlbumDataForAlbumArtists(['Artist 1', 'Artist 2']), Times.exactly(1));
             expect(returnedAlbums.length).toEqual(2);
             expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
             expect(returnedAlbums[1].albumKey).toEqual('Album key 2');

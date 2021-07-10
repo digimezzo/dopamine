@@ -27,9 +27,9 @@ export class DataDelimiter {
             return [];
         }
 
-        const delimitedStrings: string[] = delimitedString.split(DataDelimiter.doubleDelimiter);
+        const delimitedStrings: string[] = delimitedString.split(DataDelimiter.delimiter);
 
-        return delimitedStrings.map((x) => this.removeDelimiters(x));
+        return delimitedStrings.filter((x) => x !== '').map((x) => this.removeDelimiters(x));
     }
 
     private static addDelimiters(originalString: string): string {
