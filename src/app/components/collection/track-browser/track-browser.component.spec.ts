@@ -22,8 +22,12 @@ describe('TrackBrowserComponent', () => {
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
+
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
+
+    let playbackStoppedMock: Subject<void>;
+    let playbackStoppedMock$: Observable<void>;
 
     let track1: Track;
     let track2: Track;
@@ -47,7 +51,10 @@ describe('TrackBrowserComponent', () => {
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
+        playbackStoppedMock = new Subject();
+        playbackStoppedMock$ = playbackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
 
         track1 = new Track('Path 1');
@@ -231,7 +238,16 @@ describe('TrackBrowserComponent', () => {
         });
 
         it('should clear the playing track on playback stopped', () => {
-            throw new Error();
+            // Arrange
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Act
+            component.ngOnInit();
+            playbackStoppedMock.next();
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.clearPlayingTrack(component.orderedTracks), Times.exactly(1));
         });
     });
 

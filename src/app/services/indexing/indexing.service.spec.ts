@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
@@ -110,7 +111,21 @@ describe('IndexingService', () => {
         });
 
         it('should notify that indexing is finished', async () => {
-            throw new Error();
+            // Arrange
+            let indexingIsFinished: boolean = false;
+            const subscription: Subscription = new Subscription();
+
+            subscription.add(
+                service.indexingFinished$.subscribe(() => {
+                    indexingIsFinished = true;
+                })
+            );
+
+            // Act
+            await service.indexCollectionIfOutdatedAsync();
+
+            // Assert
+            expect(indexingIsFinished).toBeTruthy();
         });
     });
 
@@ -157,8 +172,42 @@ describe('IndexingService', () => {
             albumArtworkIndexerMock.verify((x) => x.indexAlbumArtworkAsync(), Times.never());
         });
 
-        it('should notify that indexing is finished', async () => {
-            throw new Error();
+        it('should notify that indexing is finished if the folders have changed', async () => {
+            // Arrange
+            folderServiceMock.onFoldersChanged();
+
+            let indexingIsFinished: boolean = false;
+            const subscription: Subscription = new Subscription();
+
+            subscription.add(
+                service.indexingFinished$.subscribe(() => {
+                    indexingIsFinished = true;
+                })
+            );
+
+            // Act
+            await service.indexCollectionIfFoldersHaveChangedAsync();
+
+            // Assert
+            expect(indexingIsFinished).toBeTruthy();
+        });
+
+        it('should not notify that indexing is finished if the folders have not changed', async () => {
+            // Arrange
+            let indexingIsFinished: boolean = false;
+            const subscription: Subscription = new Subscription();
+
+            subscription.add(
+                service.indexingFinished$.subscribe(() => {
+                    indexingIsFinished = true;
+                })
+            );
+
+            // Act
+            await service.indexCollectionIfFoldersHaveChangedAsync();
+
+            // Assert
+            expect(indexingIsFinished).toBeFalsy();
         });
     });
 
@@ -184,7 +233,21 @@ describe('IndexingService', () => {
         });
 
         it('should notify that indexing is finished', async () => {
-            throw new Error();
+            // Arrange
+            let indexingIsFinished: boolean = false;
+            const subscription: Subscription = new Subscription();
+
+            subscription.add(
+                service.indexingFinished$.subscribe(() => {
+                    indexingIsFinished = true;
+                })
+            );
+
+            // Act
+            await service.indexCollectionAlwaysAsync();
+
+            // Assert
+            expect(indexingIsFinished).toBeTruthy();
         });
     });
 
@@ -230,7 +293,21 @@ describe('IndexingService', () => {
         });
 
         it('should notify that indexing is finished', async () => {
-            throw new Error();
+            // Arrange
+            let indexingIsFinished: boolean = false;
+            const subscription: Subscription = new Subscription();
+
+            subscription.add(
+                service.indexingFinished$.subscribe(() => {
+                    indexingIsFinished = true;
+                })
+            );
+
+            // Act
+            await service.indexAlbumArtworkOnlyAsync(false);
+
+            // Assert
+            expect(indexingIsFinished).toBeTruthy();
         });
     });
 });

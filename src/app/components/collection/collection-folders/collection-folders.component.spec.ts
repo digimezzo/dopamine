@@ -34,7 +34,9 @@ describe('CollectionFoldersComponent', () => {
     let hacksMock: IMock<Hacks>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
-    let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
+    let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
+    let playbackServicePlaybackStoppedMock: Subject<void>;
+    let indexingServiceIndexingFinishedMock: Subject<void>;
 
     let folder1: FolderModel;
     let folder2: FolderModel;
@@ -79,10 +81,17 @@ describe('CollectionFoldersComponent', () => {
         track1 = new TrackModel(new Track('dummy'), translatorServiceMock.object);
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
 
-        playbackServicePlaybackStarted = new Subject();
-        const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
+        playbackServicePlaybackStartedMock = new Subject();
+        const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStartedMock$);
 
-        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
+        playbackServicePlaybackStoppedMock = new Subject();
+        const playbackServicePlaybackStoppedMock$: Observable<void> = playbackServicePlaybackStoppedMock.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStoppedMock$);
+
+        indexingServiceIndexingFinishedMock = new Subject();
+        const indexingServiceIndexingFinishedMock$: Observable<void> = indexingServiceIndexingFinishedMock.asObservable();
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingServiceIndexingFinishedMock$);
 
         component = new CollectionFoldersComponent(
             indexingServiceMock.object,
@@ -333,7 +342,7 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.reset();
 
             // Act
-            playbackServicePlaybackStarted.next(new PlaybackStarted(track1, false));
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(track1, false));
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, track1), Times.exactly(1));
@@ -347,7 +356,7 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.reset();
 
             // Act
-            playbackServicePlaybackStarted.next(new PlaybackStarted(track1, false));
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(track1, false));
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, track1), Times.exactly(1));
