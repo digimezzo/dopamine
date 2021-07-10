@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { ArtistOrdering } from '../../../../common/artists-ordering';
+import { ArtistOrdering } from '../../../../common/artist-ordering';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';

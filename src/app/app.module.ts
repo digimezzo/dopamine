@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -38,7 +38,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
-import { ArtistOrdering } from './common/artists-ordering';
+import { ArtistOrdering } from './common/artist-ordering';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
 import { BaseDatabaseMigrator } from './common/data/base-database-migrator';
 import { DatabaseFactory } from './common/data/database-factory';
