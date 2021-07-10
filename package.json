@@ -93,7 +93,7 @@
         "angular-split": "^5.0.0-beta.2",
         "better-sqlite3": "7.1.1",
         "discord-rpc": "^4.0.1",
-        "electron-log": "3.0.6",
+        "electron-log": "4.3.5",
         "electron-store": "5.0.0",
         "electron-window-state": "5.0.3",
         "fs-extra": "8.1.0",

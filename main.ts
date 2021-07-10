@@ -1,7 +1,4 @@
 import { app, BrowserWindow, Menu, protocol, screen } from 'electron';
-// Logging needs to be imported in main.ts also. Otherwise it just doesn't work anywhere else.
-// See post by megahertz: https://github.com/megahertz/electron-log/issues/60
-// "You need to import electron-log in the main process. Without it, electron-log doesn't works in a renderer process."
 import log from 'electron-log';
 import * as Store from 'electron-store';
 import * as windowStateKeeper from 'electron-window-state';
@@ -11,6 +8,9 @@ import * as url from 'url';
 
 app.commandLine.appendSwitch('disable-color-correct-rendering');
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
+log.create('main');
+log.transports.file.resolvePath = () => path.join(app.getPath('userData'), 'logs', 'Dopamine.log');
 
 let win, serve;
 const args = process.argv.slice(1);

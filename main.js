@@ -12,6 +12,8 @@ var path = require("path");
 var url = require("url");
 electron_1.app.commandLine.appendSwitch('disable-color-correct-rendering');
 electron_1.app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+electron_log_1.default.create('main');
+electron_log_1.default.transports.file.resolvePath = function () { return path.join(electron_1.app.getPath('userData'), 'logs', 'Dopamine.log'); };
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });

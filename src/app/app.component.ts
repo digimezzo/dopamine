@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
+import { remote } from 'electron';
+import log from 'electron-log';
+import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
@@ -7,7 +10,6 @@ import { BaseAppearanceService } from './services/appearance/base-appearance.ser
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -22,7 +24,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private translatorService: BaseTranslatorService,
         private discordService: BaseDiscordService,
         private logger: Logger
-    ) {}
+    ) {
+        log.create('renderer');
+        log.transports.file.resolvePath = () => path.join(remote.app.getPath('userData'), 'logs', 'Dopamine.log');
+    }
 
     @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
 
