@@ -5,7 +5,7 @@ import { PlaybackProgress } from './playback-progress';
 
 @Injectable()
 export class ProgressUpdater {
-    private interval: NodeJS.Timeout;
+    private interval: number;
     private progressChanged: Subject<PlaybackProgress> = new Subject();
 
     constructor(private audioPlayer: BaseAudioPlayer) {}
@@ -13,7 +13,7 @@ export class ProgressUpdater {
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
 
     public startUpdatingProgress(): void {
-        this.interval = setInterval(() => {
+        this.interval = window.setInterval(() => {
             this.progressChanged.next(new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds));
         }, 500);
     }
