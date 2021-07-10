@@ -1,4 +1,4 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
@@ -45,58 +45,69 @@ describe('AlbumService', () => {
             expect(albums.length).toEqual(0);
         });
 
-        it('should return albums with artwork if albumData is found in the database and artwork is found', () => {
+        it('should return all albums if albumData is found in the database', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
-            albumData1.albumTitle = 'Album title 1';
             albumData1.albumKey = 'Album key 1';
             const albumData2: AlbumData = new AlbumData();
-            albumData2.albumTitle = 'Album title 2';
             albumData2.albumKey = 'Album key 2';
+            const albumDatas: AlbumData[] = [albumData1, albumData2];
 
-            trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => [albumData1, albumData2]);
+            trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => albumDatas);
 
             // Act
-            const albums: AlbumModel[] = service.getAllAlbums();
+            const returnedAlbums: AlbumModel[] = service.getAllAlbums();
 
             // Assert
-            expect(albums.length).toEqual(2);
-            expect(albums[0].albumTitle).toEqual('Album title 1');
-            expect(albums[0].artworkPath).toEqual('Path 1');
-            expect(albums[1].albumTitle).toEqual('Album title 2');
-            expect(albums[1].artworkPath).toEqual('Path 2');
-        });
-
-        it('should return albums without artwork if albumData is found in the database but no artwork is found', () => {
-            // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            albumData1.albumTitle = 'Album title 1';
-            albumData1.albumKey = 'Album key 1';
-
-            const albumData2: AlbumData = new AlbumData();
-            albumData2.albumTitle = 'Album title 2';
-            albumData2.albumKey = 'Album key 2';
-
-            trackRepositoryMock.setup((x) => x.getAllAlbumData()).returns(() => [albumData1, albumData2]);
-
-            // Act
-            const albums: AlbumModel[] = service.getAllAlbums();
-
-            // Assert
-            expect(albums.length).toEqual(2);
-            expect(albums[0].albumTitle).toEqual('Album title 1');
-            expect(albums[0].artworkPath).toEqual('');
-            expect(albums[1].albumTitle).toEqual('Album title 2');
-            expect(albums[1].artworkPath).toEqual('');
+            trackRepositoryMock.verify((x) => x.getAllAlbumData(), Times.exactly(1));
+            expect(returnedAlbums.length).toEqual(2);
+            expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
+            expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
         });
     });
 
     describe('getAlbumsForArtists', () => {
-        throw new Error();
+        it('should return albums for track artists if albumData is found in the database', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'Album key 1';
+            const albumData2: AlbumData = new AlbumData();
+            albumData2.albumKey = 'Album key 2';
+            const albumDatas: AlbumData[] = [albumData1, albumData2];
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2'])).returns(() => albumDatas);
+
+            // Act
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForArtists(['Artist 1', 'Artist 2']);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumDataForTrackArtists(['Artist 1', 'Artist 2']), Times.exactly(1));
+            expect(returnedAlbums.length).toEqual(2);
+            expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
+            expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
+        });
     });
 
     describe('getAlbumsForGenres', () => {
-        throw new Error();
+        it('should return albums for genres if albumData is found in the database', () => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            albumData1.albumKey = 'Album key 1';
+            const albumData2: AlbumData = new AlbumData();
+            albumData2.albumKey = 'Album key 2';
+            const albumDatas: AlbumData[] = [albumData1, albumData2];
+
+            trackRepositoryMock.setup((x) => x.getAlbumDataForGenres(['Genre 1', 'Genre 2'])).returns(() => albumDatas);
+
+            // Act
+            const returnedAlbums: AlbumModel[] = service.getAlbumsForGenres(['Genre 1', 'Genre 2']);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getAlbumDataForGenres(['Genre 1', 'Genre 2']), Times.exactly(1));
+            expect(returnedAlbums.length).toEqual(2);
+            expect(returnedAlbums[0].albumKey).toEqual('Album key 1');
+            expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
+        });
     });
 
     describe('getAlbumsForArtists', () => {

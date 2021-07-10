@@ -150,7 +150,8 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     private getAlbumsForArtists(artists: string[]): void {
         if (artists.length > 0) {
-            this.albums = this.albumService.getAlbumsForArtists(artists);
+            const selectedArtistType: ArtistType = this.artistsPersister.getSelectedArtistType();
+            this.albums = this.albumService.getAlbumsForArtists(artists, selectedArtistType);
         } else {
             this.albums = this.albumService.getAllAlbums();
         }

@@ -96,7 +96,48 @@ describe('SnackBarService', () => {
     });
 
     describe('clearPlayingSubfolder', () => {
-        throw new Error();
+        it('should not throw an error when subfolders is undefined', () => {
+            // Arrange
+
+            // Act
+            service.clearPlayingSubfolder(undefined);
+
+            // Assert
+        });
+
+        it('should set all subfolders as not playing', () => {
+            // Arrange
+            const playingTrack: TrackModel = new TrackModel(
+                new Track('/home/user/Music/Subfolder1/track1.mp3'),
+                translatorServiceMock.object
+            );
+            const isGoToParentSubfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', true);
+            const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
+            const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder2', false);
+            const subfolder3: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder3', false);
+            const subfolders: SubfolderModel[] = [isGoToParentSubfolder, subfolder1, subfolder2, subfolder3];
+
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder1', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => true);
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder2', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => false);
+            pathValidator
+                .setup((x) => x.isParentPath('/home/user/Music/Subfolder3', '/home/user/Music/Subfolder1/track1.mp3'))
+                .returns(() => false);
+
+            subfolders[1].isPlaying = true;
+
+            // Act
+            service.clearPlayingSubfolder(subfolders);
+
+            // Assert
+            expect(subfolders[0].isPlaying).toBeFalsy();
+            expect(subfolders[1].isPlaying).toBeFalsy();
+            expect(subfolders[2].isPlaying).toBeFalsy();
+            expect(subfolders[3].isPlaying).toBeFalsy();
+        });
     });
 
     describe('setPlayingTrack', () => {
@@ -151,6 +192,32 @@ describe('SnackBarService', () => {
     });
 
     describe('clearPlayingTrack', () => {
-        throw new Error();
+        it('should not throw an error when tracks is undefined', () => {
+            // Arrange
+
+            // Act
+            service.clearPlayingTrack(undefined);
+
+            // Assert
+        });
+
+        it('should set all tracks as not playing', () => {
+            // Arrange
+            const playingTrack: TrackModel = new TrackModel(new Track('/home/user/Music/track2.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/track1.mp3'), translatorServiceMock.object);
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/track2.mp3'), translatorServiceMock.object);
+            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/track3.mp3'), translatorServiceMock.object);
+            const tracks: TrackModel[] = [track1, track2, track3];
+
+            tracks[0].isPlaying = true;
+
+            // Act
+            service.clearPlayingTrack(tracks);
+
+            // Assert
+            expect(tracks[0].isPlaying).toBeFalsy();
+            expect(tracks[1].isPlaying).toBeFalsy();
+            expect(tracks[2].isPlaying).toBeFalsy();
+        });
     });
 });

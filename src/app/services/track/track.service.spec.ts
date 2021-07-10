@@ -28,22 +28,9 @@ describe('TrackService', () => {
 
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track2.ogg')).returns(() => '.ogg');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track3.flac')).returns(() => '.flac');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track4.wav')).returns(() => '.wav');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track5.aac')).returns(() => '.aac');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track6.wma')).returns(() => '.wma');
         fileSystemMock
             .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'))
-            .returns(async () => [
-                '/home/user/Music/Subfolder1/track1.mp3',
-                '/home/user/Music/Subfolder1/track1.png',
-                '/home/user/Music/Subfolder1/track2.ogg',
-                '/home/user/Music/Subfolder1/track3.flac',
-                '/home/user/Music/Subfolder1/track4.wav',
-                '/home/user/Music/Subfolder1/track5.aac',
-                '/home/user/Music/Subfolder1/track6.wma',
-            ]);
+            .returns(async () => ['/home/user/Music/Subfolder1/track1.mp3', '/home/user/Music/Subfolder1/track1.png']);
 
         track1 = new Track('Path 1');
         track2 = new Track('Path 2');

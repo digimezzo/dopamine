@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
+import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 import { BaseAlbumService } from './base-album-service';
@@ -20,8 +21,28 @@ export class AlbumService implements BaseAlbumService {
         return this.createAlbumsFromAlbumData(albumDatas);
     }
 
-    public getAlbumsForArtists(artists: string[]): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(artists);
+    public getAlbumsForArtists(artists: string[], artistType: ArtistType): AlbumModel[] {
+        const albumDatas: AlbumData[] = [];
+
+        if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
+            const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(artists);
+
+            for (const albumData of trackArtistsAlbumDatas) {
+                albumDatas.push(albumData);
+            }
+        }
+
+        if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
+            const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(artists);
+
+            for (const albumData of albumArtistsAlbumDatas) {
+                // Avoid adding a track twice
+                // TODO: can this be done better?
+                if (!albumDatas.map((x) => x.albumKey).includes(albumData.albumKey)) {
+                    albumDatas.push(albumData);
+                }
+            }
+        }
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }

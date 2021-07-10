@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { IMock, Mock, Times } from 'typemoq';
 import { ImageProcessor } from '../../common/image-processor';
 import { FileSystem } from '../../common/io/file-system';
@@ -90,14 +89,12 @@ describe('AlbumArtworkCacheService', () => {
 
         it('should save data to file when the data is not empty', async () => {
             // Arrange
-            albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
-
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const imagePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
+            albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => imagePath);
 
             const data = Buffer.from([1, 2, 3]);
-
-            const imagePath = path.join(fileSystemMock.object.coverArtCacheFullPath(), `${albumArtworkCacheIdToCreate.id}.jpg`);
 
             // Act
             const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
@@ -110,17 +107,16 @@ describe('AlbumArtworkCacheService', () => {
     describe('removeArtworkDataFromCache', () => {
         it('should delete cached artwork file if it exists', async () => {
             // Arrange
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            const expectedCachedArtworkFilePath: string = path.join(
-                fileSystemMock.object.coverArtCacheFullPath(),
-                'album-4c315456-43ba-4984-8a7e-403837514638.jpg'
-            );
+            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const imagePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
+            albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
+            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => imagePath);
 
             // Act
-            await service.removeArtworkDataFromCacheAsync('album-4c315456-43ba-4984-8a7e-403837514638');
+            await service.removeArtworkDataFromCacheAsync(albumArtworkCacheIdToCreate.id);
 
             // Assert
-            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(expectedCachedArtworkFilePath), Times.exactly(1));
+            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(imagePath), Times.exactly(1));
         });
     });
 });

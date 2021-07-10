@@ -104,7 +104,7 @@ export class AddFolderComponent implements OnInit {
 
     public async deleteFolderAsync(folder: FolderModel): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-folder');
-        const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
+        const dialogText: string = await this.translatorService.getAsync('confirm-delete-folder-long', { folderPath: folder.path });
 
         const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
 
