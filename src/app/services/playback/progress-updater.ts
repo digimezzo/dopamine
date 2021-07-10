@@ -6,6 +6,7 @@ import { PlaybackProgress } from './playback-progress';
 @Injectable()
 export class ProgressUpdater {
     private interval: number;
+    private shouldReportProgress: boolean = false;
     private progressChanged: Subject<PlaybackProgress> = new Subject();
 
     constructor(private audioPlayer: BaseAudioPlayer) {}
@@ -13,8 +14,10 @@ export class ProgressUpdater {
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
 
     public startUpdatingProgress(): void {
+        this.shouldReportProgress = true;
+
         this.interval = window.setInterval(() => {
-            this.progressChanged.next(new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds));
+            this.reportProgress();
         }, 500);
     }
 
@@ -24,6 +27,13 @@ export class ProgressUpdater {
     }
 
     public pauseUpdatingProgress(): void {
+        this.shouldReportProgress = false;
         clearInterval(this.interval);
+    }
+
+    private reportProgress(): void {
+        if (this.shouldReportProgress) {
+            this.progressChanged.next(new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds));
+        }
     }
 }
