@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.2] - 2021-07-08
+## [3.0.0-preview.2] - 2021-07-11
 
 ### Added
 
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed a bug where the playing song is not cleared when playback stops when reaching the start or end of the playback queue
 -   Fixed a bug that caused duplicate artists in the Artists screen
 -   Fixed a bug that caused duplicate genres in the Genres screen
+-   Fixed incorrect color of chevron text in Artists and Genres screens when using the light theme
 
 ## [3.0.0-preview.1] - 2021-06-30
 
