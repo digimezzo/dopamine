@@ -31,8 +31,10 @@ export class ArtistService implements BaseArtistService {
             const artists: string[] = DataDelimiter.fromDelimitedString(artistData.artists);
 
             for (const artist of artists) {
-                if (!alreadyAddedArtists.includes(artist)) {
-                    alreadyAddedArtists.push(artist);
+                const processedArtist: string = artist.toLowerCase().trim();
+
+                if (!alreadyAddedArtists.includes(processedArtist)) {
+                    alreadyAddedArtists.push(processedArtist);
                     artistModels.push(new ArtistModel(artist, this.translatorService));
                 }
             }

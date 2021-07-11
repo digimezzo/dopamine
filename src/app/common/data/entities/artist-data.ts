@@ -1,3 +1,3 @@
 export class ArtistData {
-    public artists: string;
+    public constructor(public artists: string) {}
 }

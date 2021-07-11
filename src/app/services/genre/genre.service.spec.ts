@@ -30,7 +30,7 @@ describe('GenreService', () => {
     });
 
     describe('getGenres', () => {
-        it('should get all genres without duplicates', async () => {
+        it('should get all genres without duplicates', () => {
             // Arrange
             const genreDatas: GenreData[] = [];
 
