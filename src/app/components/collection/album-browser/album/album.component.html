@@ -9,13 +9,7 @@
             </svg>
         </div>
         <div>
-            <img
-                *ngIf="album.artworkPath"
-                [src]="this.domSanitizer.bypassSecurityTrustResourceUrl(album.artworkPath)"
-                width="120"
-                height="120"
-                loading="lazy"
-            />
+            <img [attr.src]="album.artworkPath" width="120" height="120" loading="lazy" alt="" />
         </div>
     </div>
     <div class="app-album__information">

@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
