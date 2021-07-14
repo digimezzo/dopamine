@@ -16,20 +16,38 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 **IMPORTANT: the code in this repository is the base for Dopamine 3. It is still work in progress and building it, does NOT provide you with a functional audio player. If you want a functional audio player, try <a href="https://www.digimezzo.com/content/software/dopamine/">Dopamine 2</a> instead. The source code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.**
 
-## Build prerequisites for GNU/Linux
+## Build prerequisites
 
 -   rpm: required to build rpm package
 -   libarchive-tools: contains bsdtar, which is required to build pacman package.
 
-**To install the prerequisites on Ubuntu:**
+**Build prerequisites on Ubuntu:**
 
-`sudo apt install wine rpm libarchive-tools`
+-   Install Node.js LTS
+-   Install Visual Studio Code
+-   Install rpm (required to build rpm package) and libarchive-tools (contains bsdtar, which is required to build pacman package): `sudo apt install rpm libarchive-tools`
 
-## Build prerequisites for Windows
+Follow the build instructions below to start or build Dopamine for your platform.
 
-Open a PowerShell prompt as Administrator and run this command to instal the Windows build tools:
+**Build prerequisites on Manjaro:**
 
-`npm install --global --production windows-build-tools --vs2015`
+-   Install Node.js LTS:
+    -   `yay -S nvm`
+    -   `nvm install 14`
+-   Install Visual Studio Code: `yay -S visual-studio-code-bin`
+-   Install rpm (required to build rpm package): `sudo pacman -S rpm-tools`
+
+Follow the build instructions below to start or build Dopamine for your platform.
+
+**Build prerequisites on Windows:**
+
+-   Download and install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
+-   After the installation of Node.js, restart computer to ensure that npm is added to the path.
+-   Download and install Visual Studio Code from https://code.visualstudio.com/
+-   Download the Dopamine source code
+-   Open Visual Studio Code and open the "dopamine" folder (the folder containing package.json)
+
+Follow the build instructions below to start or build Dopamine for your platform.
 
 ## Build instructions
 
@@ -39,7 +57,6 @@ Due to the native dependency better-sqlite3, this project cannot be built for al
 $ git clone https://github.com/digimezzo/dopamine.git
 $ cd dopamine
 $ npm install                # Install dependencies
-$ npm run rebuild-sqlite     # Rebuild better-sqlite3 for the version of node.js which is used by Electron
 $ npm start                  # Start Dopamine
 $ npm run electron:windows   # Build for Windows
 $ npm run electron:linux     # Build for Linux
