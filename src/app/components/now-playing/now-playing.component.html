@@ -1,11 +1,12 @@
 <div class="window-frame">
     <div class="window-frame__titlebar">
+        <div class="window-button back-button" (click)="this.goBackToCollection()"><i class="back-button__icon las la-arrow-left"></i></div>
         <div class="window-frame__dragarea"></div>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <div class="window-frame__content">
         <div class="app-now-playing">
-            <div class="app-now-playing__content"></div>
+            <div class="app-now-playing__content"><div class="app-now-playing__songinfo"></div></div>
             <app-now-playing-playback-pane class="app-now-playing__playbackpane"></app-now-playing-playback-pane>
         </div>
     </div>

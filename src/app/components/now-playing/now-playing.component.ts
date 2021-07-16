@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 
 @Component({
     selector: 'app-now-playing',
@@ -9,7 +10,11 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     encapsulation: ViewEncapsulation.None,
 })
 export class NowPlayingComponent implements OnInit {
-    constructor(public appearanceService: BaseAppearanceService) {}
+    constructor(public appearanceService: BaseAppearanceService, private navigationService: BaseNavigationService) {}
 
     public ngOnInit(): void {}
+
+    public goBackToCollection(): void {
+        this.navigationService.navigateToCollection();
+    }
 }

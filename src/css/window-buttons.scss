@@ -1,5 +1,6 @@
 .window-button {
     fill: var(--theme-window-button-foreground);
+    color: var(--theme-window-button-foreground);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +9,6 @@
     user-select: none;
     cursor: default;
     opacity: 0.8;
-    font-size: 10px;
     -webkit-app-region: no-drag;
 }
 
