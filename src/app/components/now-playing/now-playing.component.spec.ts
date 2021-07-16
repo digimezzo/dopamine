@@ -32,6 +32,24 @@ describe('NowPlayingComponent', () => {
             // Assert
             expect(component.appearanceService).toBeDefined();
         });
+
+        it('should define appearanceService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
+        });
+
+        it('should initialize controlsVisibility as "visible"', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.controlsVisibility).toEqual('visible');
+        });
     });
 
     describe('goBackToCollection', () => {
