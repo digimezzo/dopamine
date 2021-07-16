@@ -1,0 +1,13 @@
+.app-now-playing {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.app-now-playing__content {
+    display: flex;
+    flex: 1;
+}
+
+.app-now-playing__playbackpane {
+}

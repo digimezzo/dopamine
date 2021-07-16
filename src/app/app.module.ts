@@ -112,6 +112,8 @@ import { ManageAlbumCoversComponent } from './components/manage-collection/manag
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
+import { NowPlayingPlaybackPaneComponent } from './components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
+import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { PlaybackCoverArtComponent } from './components/playback-cover-art/playback-cover-art.component';
 import { PlaybackIndicatorComponent } from './components/playback-indicator/playback-indicator.component';
@@ -296,6 +298,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumBrowserComponent,
         TrackBrowserComponent,
         PlaybackQueueComponent,
+        NowPlayingComponent,
+        NowPlayingPlaybackPaneComponent,
     ],
     imports: [
         BrowserAnimationsModule,

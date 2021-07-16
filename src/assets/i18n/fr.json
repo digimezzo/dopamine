@@ -140,5 +140,6 @@
     "by": "par",
     "playing-with-dopamine": "Lecture avec Dopamine",
     "playing": "En lecture",
-    "paused": "En pause"
+    "paused": "En pause",
+    "now-playing": "Lecture en cours"
 }

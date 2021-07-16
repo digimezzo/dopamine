@@ -96,6 +96,18 @@ describe('NavigationService', () => {
         });
     });
 
+    describe('navigateToNowPlaying', () => {
+        it('should navigate to now playing', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToNowPlaying();
+
+            // Assert
+            routerMock.verify((x) => x.navigate(['/nowplaying']), Times.exactly(1));
+        });
+    });
+
     describe('showPlaybackQueue', () => {
         it('should request to show the playback queue', () => {
             // Arrange

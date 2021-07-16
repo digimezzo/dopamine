@@ -35,6 +35,10 @@ export class NavigationService implements BaseNavigationService {
         this.router.navigate(['/information']);
     }
 
+    public navigateToNowPlaying(): void {
+        this.router.navigate(['/nowplaying']);
+    }
+
     public showPlaybackQueue(): void {
         this.showPlaybackQueueRequested.next();
     }

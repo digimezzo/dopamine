@@ -4,6 +4,7 @@ import { CollectionComponent } from './components/collection/collection.componen
 import { InformationComponent } from './components/information/information.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
+import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
@@ -24,6 +25,10 @@ const routes: Routes = [
     {
         path: 'collection',
         component: CollectionComponent,
+    },
+    {
+        path: 'nowplaying',
+        component: NowPlayingComponent,
     },
     {
         path: 'managecollection',

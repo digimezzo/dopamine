@@ -1,5 +1,6 @@
 mat-tab-group {
     height: 100%;
+    width: 100%;
 }
 
 .mat-tab-body-content {
@@ -13,6 +14,7 @@ mat-tab-group {
 
 .mat-tab-body-wrapper {
     flex-grow: 1;
+    width: 100%;
 }
 
 .mat-tab-label {

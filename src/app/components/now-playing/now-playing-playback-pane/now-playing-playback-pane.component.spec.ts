@@ -1,14 +1,14 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { NavigationService } from '../../../services/navigation/navigation.service';
-import { CollectionPlaybackPaneComponent } from './collection-playback-pane.component';
+import { NowPlayingPlaybackPaneComponent } from './now-playing-playback-pane.component';
 
-describe('CollectionPlaybackPaneComponent', () => {
+describe('NowPlayingPlaybackPaneComponent', () => {
     let navigationServiceMock: IMock<NavigationService>;
-    let component: CollectionPlaybackPaneComponent;
+    let component: NowPlayingPlaybackPaneComponent;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<NavigationService>();
-        component = new CollectionPlaybackPaneComponent(navigationServiceMock.object);
+        component = new NowPlayingPlaybackPaneComponent(navigationServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -31,18 +31,6 @@ describe('CollectionPlaybackPaneComponent', () => {
 
             // Assert
             navigationServiceMock.verify((x) => x.showPlaybackQueue(), Times.exactly(1));
-        });
-    });
-
-    describe('showNowPlaying', () => {
-        it('should request to show now playing', () => {
-            // Arrange
-
-            // Act
-            component.showNowPlaying();
-
-            // Assert
-            navigationServiceMock.verify((x) => x.navigateToNowPlaying(), Times.exactly(1));
         });
     });
 });

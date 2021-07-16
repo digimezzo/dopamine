@@ -8,5 +8,6 @@ export abstract class BaseNavigationService {
     public abstract navigateToManageCollection(): void;
     public abstract navigateToSettings(): void;
     public abstract navigateToInformation(): void;
+    public abstract navigateToNowPlaying(): void;
     public abstract showPlaybackQueue(): void;
 }
