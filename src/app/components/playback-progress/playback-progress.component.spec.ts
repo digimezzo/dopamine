@@ -191,7 +191,9 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.progress).returns(() => new PlaybackProgress(30, 300));
 
             // Act
+            jest.useFakeTimers();
             component.ngAfterViewInit();
+            jest.runAllTimers();
 
             // Assert
             expect(component.progressBarPosition).toEqual(50);

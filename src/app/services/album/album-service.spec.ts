@@ -151,8 +151,4 @@ describe('AlbumService', () => {
             expect(returnedAlbums[1].albumKey).toEqual('Album key 2');
         });
     });
-
-    describe('getAlbumsForArtists', () => {
-        throw new Error();
-    });
 });
