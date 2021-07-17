@@ -1,6 +1,4 @@
 .app-playback-cover-art {
-    width: 70px;
-    height: 70px;
     overflow: hidden;
     background: var(--theme-cover-art-background);
     display: grid;
@@ -13,8 +11,6 @@
 }
 
 .app-playback-cover-art__logo {
-    width: 70px;
-    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,28 +26,6 @@
 }
 
 .app-playback-cover-art__content {
-    width: 70px;
-    height: 70px;
     display: flex;
     flex-direction: column;
-}
-
-.app-playback-cover-art__top__content {
-    min-height: 70px;
-    min-width: 70px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.app-playback-cover-art__bottom__content {
-    min-height: 70px;
-    min-width: 70px;
-    display: flex;
-    flex-direction: column;
-}
-
-.app-playback-cover-art__content div {
-    min-height: 70px;
-    min-width: 70px;
 }

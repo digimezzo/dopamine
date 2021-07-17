@@ -1,14 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { NavigationService } from '../../../services/navigation/navigation.service';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
+import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { CollectionPlaybackPaneComponent } from './collection-playback-pane.component';
 
 describe('CollectionPlaybackPaneComponent', () => {
-    let navigationServiceMock: IMock<NavigationService>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let navigationServiceMock: IMock<BaseNavigationService>;
     let component: CollectionPlaybackPaneComponent;
 
     beforeEach(() => {
-        navigationServiceMock = Mock.ofType<NavigationService>();
-        component = new CollectionPlaybackPaneComponent(navigationServiceMock.object);
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        component = new CollectionPlaybackPaneComponent(appearanceServiceMock.object, navigationServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -19,6 +22,15 @@ describe('CollectionPlaybackPaneComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
+        });
+
+        it('should define appearanceService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
         });
     });
 

@@ -3,7 +3,7 @@ import { FontSize } from './font-size';
 import { Language } from './language';
 
 export class Constants {
-    public static readonly logFileName: string = 'log.log';
+    public static readonly logFileName: string = 'Dopamine.log';
 
     public static readonly languages: Language[] = [
         new Language('en', 'English'),

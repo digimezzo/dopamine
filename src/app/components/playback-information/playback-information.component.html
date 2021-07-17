@@ -1,10 +1,40 @@
-<div class="app-playback-information no-select">
-    <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation">
-        <div class="app-playback-information__artist">{{ this.topContentArtist }}</div>
-        <div class="app-playback-information__title">{{ this.topContentTitle }}</div>
+<div class="app-playback-information no-select" [style.height.px]="height">
+    <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
+        <div
+            class="app-playback-information__artist ellipsis"
+            [style.font-size.px]="largeFontSize"
+            [style.line-height.px]="largeFontSize"
+            [style.padding-top.px]="smallFontSize / 2"
+            [style.padding-bottom.px]="largeFontSize / 2"
+        >
+            {{ this.topContentArtist }}
+        </div>
+        <div
+            class="app-playback-information__title ellipsis"
+            [style.font-size.px]="smallFontSize"
+            [style.line-height.px]="smallFontSize"
+            [style.padding-bottom.px]="smallFontSize / 2"
+        >
+            {{ this.topContentTitle }}
+        </div>
     </div>
-    <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation">
-        <div class="app-playback-information__artist ellipsis">{{ this.bottomContentArtist }}</div>
-        <div class="ellipsis">{{ this.bottomContentTitle }}</div>
+    <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
+        <div
+            class="app-playback-information__artist ellipsis"
+            [style.font-size.px]="largeFontSize"
+            [style.line-height.px]="largeFontSize"
+            [style.padding-top.px]="smallFontSize / 2"
+            [style.padding-bottom.px]="largeFontSize / 2"
+        >
+            {{ this.bottomContentArtist }}
+        </div>
+        <div
+            class="app-playback-information__title ellipsis"
+            [style.font-size.px]="smallFontSize"
+            [style.line-height.px]="smallFontSize"
+            [style.padding-bottom.px]="smallFontSize / 2"
+        >
+            {{ this.bottomContentTitle }}
+        </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
@@ -61,6 +61,9 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     ) {}
 
     public contentAnimation: string = 'down';
+
+    @Input()
+    public size: number = 0;
 
     public topImageUrl: string = '';
     public bottomImageUrl: string = '';

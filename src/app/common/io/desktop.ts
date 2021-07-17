@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OpenDialogReturnValue, remote } from 'electron';
 import { Observable, Subject } from 'rxjs';
+import { WindowSize } from './window-size';
 
 @Injectable()
 export class Desktop {
@@ -51,5 +52,9 @@ export class Desktop {
 
     public getAccentColor(): string {
         return remote.systemPreferences.getAccentColor();
+    }
+
+    public getApplicationWindowSize(): WindowSize {
+        return new WindowSize(window.innerWidth, window.innerHeight);
     }
 }

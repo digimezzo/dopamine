@@ -45,7 +45,10 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     public ngAfterViewInit(): void {
-        this.applyPlaybackProgress(this.playbackService.progress);
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.applyPlaybackProgress(this.playbackService.progress);
+        }, 0);
     }
 
     public progressThumbMouseDown(): void {

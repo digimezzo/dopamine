@@ -11,13 +11,19 @@
     justify-content: center;
 }
 
-.app-now-playing__songinfo {
-    width: 800px;
-    height: 300px;
-    background: red;
+.app-now-playing__song {
+    display: flex;
+    flex-direction: row;
 }
 
-.app-now-playing__playbackpane {
+.app-now-playing__cover {
+    -webkit-box-reflect: below 0 -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
+}
+
+.app-now-playing__songinfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .back-button__icon {

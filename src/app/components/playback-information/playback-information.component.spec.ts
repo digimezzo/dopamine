@@ -94,6 +94,33 @@ describe('PlaybackInformationComponent', () => {
             // Assert
             expect(component.bottomContentTitle).toEqual('');
         });
+
+        it('should initialize height as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.height).toEqual(0);
+        });
+
+        it('should largeFontSize height as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.largeFontSize).toEqual(0);
+        });
+
+        it('should smallFontSize height as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.smallFontSize).toEqual(0);
+        });
     });
 
     describe('ngOnInit', () => {

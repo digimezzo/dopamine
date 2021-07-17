@@ -1,5 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Desktop } from '../../common/io/desktop';
+import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 
@@ -29,19 +31,31 @@ import { BaseNavigationService } from '../../services/navigation/base-navigation
     ],
 })
 export class NowPlayingComponent implements OnInit {
-    private shouldHideControls: boolean = false;
-
-    constructor(public appearanceService: BaseAppearanceService, private navigationService: BaseNavigationService) {}
-
     private timerId: number = 0;
+    constructor(
+        public appearanceService: BaseAppearanceService,
+        private navigationService: BaseNavigationService,
+        private desktop: Desktop
+    ) {}
+
+    public coverArtSize: number = 0;
+    public playbackInformationHeight: number = 0;
+    public playbackInformationLargeFontSize: number = 0;
+    public playbackInformationSmallFontSize: number = 0;
     public controlsVisibility: string = 'visible';
 
-    public ngOnInit(): void {
-        this.resetTimer();
+    @HostListener('window:resize', ['$event'])
+    public onResize(event: any): void {
+        this.setSizes();
+    }
 
+    public ngOnInit(): void {
         document.addEventListener('mousemove', () => {
             this.resetTimer();
         });
+
+        this.resetTimer();
+        this.setSizes();
     }
 
     public goBackToCollection(): void {
@@ -56,5 +70,27 @@ export class NowPlayingComponent implements OnInit {
         this.timerId = window.setTimeout(() => {
             this.controlsVisibility = 'hidden';
         }, 5000);
+    }
+
+    private setSizes(): void {
+        const applicationWindowSize: WindowSize = this.desktop.getApplicationWindowSize();
+        const playbackControlsHeight: number = 70;
+        const windowControlsHeight: number = 46;
+        const horizontalMargin: number = 100;
+
+        const availableWidth: number = applicationWindowSize.width - horizontalMargin;
+        const availableHeight: number = applicationWindowSize.height - (playbackControlsHeight + windowControlsHeight);
+
+        const proposedCoverArtSize: number = availableHeight / 2;
+
+        if (proposedCoverArtSize * 3 > availableWidth) {
+            this.coverArtSize = availableWidth / 3;
+        } else {
+            this.coverArtSize = proposedCoverArtSize;
+        }
+
+        this.playbackInformationHeight = this.coverArtSize / 2;
+        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 2.5;
+        this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 2;
     }
 }

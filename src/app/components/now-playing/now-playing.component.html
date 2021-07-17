@@ -11,7 +11,23 @@
     </div>
     <div class="window-frame__content">
         <div class="app-now-playing">
-            <div class="app-now-playing__content"><div class="app-now-playing__songinfo"></div></div>
+            <div class="app-now-playing__content">
+                <div class="app-now-playing__song">
+                    <div class="app-now-playing__cover">
+                        <app-playback-cover-art [size]="coverArtSize"></app-playback-cover-art>
+                    </div>
+
+                    <div class="app-now-playing__songinfo" [style.width.px]="coverArtSize * 2" [style.height.px]="coverArtSize">
+                        <app-playback-information
+                            class="ml-5"
+                            [height]="playbackInformationHeight"
+                            [largeFontSize]="playbackInformationLargeFontSize"
+                            [smallFontSize]="playbackInformationSmallFontSize"
+                        >
+                        </app-playback-information>
+                    </div>
+                </div>
+            </div>
             <app-now-playing-playback-pane
                 class="app-now-playing__playbackpane"
                 [@controlsVisibility]="controlsVisibility"

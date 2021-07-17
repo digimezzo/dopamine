@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduler/scheduler';
 import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
@@ -54,6 +54,15 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         private formatTrackTitlePipe: FormatTrackTitlePipe,
         private scheduler: Scheduler
     ) {}
+
+    @Input()
+    public height: number = 0;
+
+    @Input()
+    public largeFontSize: number = 0;
+
+    @Input()
+    public smallFontSize: number = 0;
 
     public contentAnimation: string = 'down';
 

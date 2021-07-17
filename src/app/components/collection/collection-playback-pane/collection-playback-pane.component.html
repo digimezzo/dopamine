@@ -4,7 +4,13 @@
     </div>
     <div class="app-collection-playback-pane__controls">
         <div class="app-collection-playback-pane-controls__left">
-            <app-playback-cover-art></app-playback-cover-art><app-playback-information class="ml-3"></app-playback-information>
+            <app-playback-cover-art [size]="70"></app-playback-cover-art
+            ><app-playback-information
+                class="ml-3"
+                [height]="70"
+                [largeFontSize]="this.appearanceService.selectedFontSize.mediumSize"
+                [smallFontSize]="this.appearanceService.selectedFontSize.mediumSize"
+            ></app-playback-information>
         </div>
         <div class="app-collection-playback-pane-controls__center">
             <app-playback-controls></app-playback-controls>

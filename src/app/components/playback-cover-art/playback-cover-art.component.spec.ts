@@ -84,6 +84,15 @@ describe('PlaybackInformationComponent', () => {
             // Assert
             expect(component.bottomImageUrl).toEqual('');
         });
+
+        it('should initialize size as 0', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.size).toEqual(0);
+        });
     });
 
     describe('ngOnInit', () => {
