@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.2] - 2021-07-11
+## [3.0.0-preview.2] - 2021-07-17
 
 ### Added
+
+-   Add a "Now playing" screen
 
 ### Changed
 
