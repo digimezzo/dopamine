@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed a bug that caused duplicate artists in the Artists screen
 -   Fixed a bug that caused duplicate genres in the Genres screen
 -   Fixed incorrect color of chevron text in Artists and Genres screens when using the light theme
+-   Fixed a bug where the Dopamine 2 shortcut in Windows is overwritten and points to Dopamine 3 after installing Dopamine 3
 
 ## [3.0.0-preview.1] - 2021-06-30
 

@@ -1,6 +1,9 @@
 {
     "appId": "com.digimezzo.dopamine",
     "productName": "Dopamine",
+    "nsis": {
+        "shortcutName": "Dopamine 3"
+    },
     "directories": {
         "output": "release"
     },
