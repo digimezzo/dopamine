@@ -7,6 +7,9 @@ import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { TrackOrdering } from '../../common/track-ordering';
 import { AlbumModel } from '../album/album-model';
+import { ArtistModel } from '../artist/artist-model';
+import { ArtistType } from '../artist/artist-type';
+import { GenreModel } from '../genre/genre-model';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -120,6 +123,8 @@ describe('PlaybackService', () => {
         tracks.addTrack(trackModel4);
 
         trackServiceMock.setup((x) => x.getTracksForAlbums([album1.albumKey])).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getTracksForArtists(It.isAny(), It.isAny())).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getTracksForGenres(It.isAny())).returns(() => tracks);
         trackOrderingMock.setup((x) => x.getTracksOrderedByAlbum(tracks.tracks)).returns(() => orderedTrackModels);
 
         service = new PlaybackService(
@@ -701,11 +706,184 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayArtist', () => {
-        throw new Error();
+        it('should not get tracks for the artist if artistToPlay is undefined', () => {
+            // Arrange
+
+            // Act
+            service.enqueueAndPlayArtist(undefined, It.isAny());
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not get tracks for the artist if artistType is undefined', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, undefined);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should get tracks for the artist if artistToPlay and artistType are not undefined', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists([artistToPlay.name], ArtistType.trackArtists), Times.exactly(1));
+        });
+
+        it('should order tracks for the artist byAlbum', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
+
+            // Assert
+            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+        });
+
+        it('should add tracks to the queue ordered by album', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
+
+            // Assert
+            queueMock.verify((x) => x.setTracks(orderedTrackModels, It.isAny()), Times.exactly(1));
+        });
+
+        it('should start playback', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            audioPlayerMock.reset();
+            audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
+
+            // Assert
+            audioPlayerMock.verifyAll();
+            expect(service.currentTrack).toBe(trackModel2);
+            expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            expect(service.isPlaying).toBeTruthy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
+            // Arrange
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            let receivedTrack: TrackModel;
+            let isPlayingPreviousTrack: boolean;
+            subscription.add(
+                service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                    receivedTrack = playbackStarted.currentTrack;
+                    isPlayingPreviousTrack = playbackStarted.isPlayingPreviousTrack;
+                })
+            );
+
+            // Act
+            service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
+
+            // Assert
+            expect(receivedTrack).toBe(trackModel2);
+            expect(isPlayingPreviousTrack).toBeFalsy();
+        });
     });
 
     describe('enqueueAndPlayGenre', () => {
-        throw new Error();
+        it('should not get tracks for the genre if genreToPlay is undefined', () => {
+            // Arrange
+
+            // Act
+            service.enqueueAndPlayGenre(undefined);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should get tracks for the genre if genreToPlay is not undefined', () => {
+            // Arrange
+            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreToPlay.name]), Times.exactly(1));
+        });
+
+        it('should order tracks for the artist byAlbum', () => {
+            // Arrange
+            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+        });
+
+        it('should add tracks to the queue ordered by album', () => {
+            // Arrange
+            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            queueMock.verify((x) => x.setTracks(orderedTrackModels, It.isAny()), Times.exactly(1));
+        });
+
+        it('should start playback', () => {
+            // Arrange
+            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            audioPlayerMock.reset();
+            audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+
+            // Act
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            audioPlayerMock.verifyAll();
+            expect(service.currentTrack).toBe(trackModel2);
+            expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            expect(service.isPlaying).toBeTruthy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
+            // Arrange
+            const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+            audioPlayerMock.reset();
+            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+            let receivedTrack: TrackModel;
+            let isPlayingPreviousTrack: boolean;
+            subscription.add(
+                service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                    receivedTrack = playbackStarted.currentTrack;
+                    isPlayingPreviousTrack = playbackStarted.isPlayingPreviousTrack;
+                })
+            );
+
+            service.enqueueAndPlayGenre(genreToPlay);
+
+            // Assert
+            expect(receivedTrack).toBe(trackModel2);
+            expect(isPlayingPreviousTrack).toBeFalsy();
+        });
     });
 
     describe('enqueueAndPlayAlbum', () => {
@@ -1340,10 +1518,91 @@ describe('PlaybackService', () => {
     });
 
     describe('playbackQueue', () => {
-        throw new Error();
+        it('should return an empty queue if it has no tracks', () => {
+            // Arrange
+            queueMock.reset();
+            queueMock.setup((x) => x.tracks).returns(() => []);
+            service = new PlaybackService(
+                trackServiceMock.object,
+                audioPlayerMock.object,
+                trackOrderingMock.object,
+                queueMock.object,
+                progressUpdaterMock.object,
+                mathExtensionsMock.object,
+                settingsStub,
+                loggerMock.object
+            );
+
+            // Act
+            const queue: TrackModels = service.playbackQueue;
+
+            // Assert
+            expect(queue.tracks.length).toEqual(0);
+        });
+
+        it('should return the queued tracks if the queue has tracks', () => {
+            // Arrange
+            queueMock.reset();
+            queueMock.setup((x) => x.tracks).returns(() => tracks.tracks);
+            service = new PlaybackService(
+                trackServiceMock.object,
+                audioPlayerMock.object,
+                trackOrderingMock.object,
+                queueMock.object,
+                progressUpdaterMock.object,
+                mathExtensionsMock.object,
+                settingsStub,
+                loggerMock.object
+            );
+
+            // Act
+            const queue: TrackModels = service.playbackQueue;
+
+            // Assert
+            expect(queue.tracks.length).toEqual(4);
+            expect(queue.tracks[0]).toBe(tracks.tracks[0]);
+            expect(queue.tracks[1]).toBe(tracks.tracks[1]);
+            expect(queue.tracks[2]).toBe(tracks.tracks[2]);
+            expect(queue.tracks[3]).toBe(tracks.tracks[3]);
+        });
     });
 
     describe('playQueuedTrack', () => {
-        throw new Error();
+        it('should start playback', () => {
+            // Arrange
+            audioPlayerMock.reset();
+            audioPlayerMock.setup((x) => x.stop()).verifiable(Times.once(), ExpectedCallType.InSequence);
+            audioPlayerMock.setup((x) => x.play(trackModel2.path)).verifiable(Times.once(), ExpectedCallType.InSequence);
+
+            // Act
+            service.playQueuedTrack(trackModel2);
+
+            // Assert
+            audioPlayerMock.verifyAll();
+            expect(service.currentTrack).toBe(trackModel2);
+            expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            expect(service.isPlaying).toBeTruthy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
+        });
+
+        it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
+            // Arrange
+            let receivedTrack: TrackModel;
+            let isPlayingPreviousTrack: boolean;
+            subscription.add(
+                service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                    receivedTrack = playbackStarted.currentTrack;
+                    isPlayingPreviousTrack = playbackStarted.isPlayingPreviousTrack;
+                })
+            );
+
+            // Act
+            service.playQueuedTrack(trackModel2);
+
+            // Assert
+            expect(receivedTrack).toBe(trackModel2);
+            expect(isPlayingPreviousTrack).toBeFalsy();
+        });
     });
 });
