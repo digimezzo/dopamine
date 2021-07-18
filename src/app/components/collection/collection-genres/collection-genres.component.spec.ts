@@ -8,6 +8,7 @@ import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
+import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
@@ -37,21 +38,49 @@ describe('CollectionGenresComponent', () => {
     let selectedAlbumsChangedMock: Subject<string[]>;
     let selectedAlbumsChangedMock$: Observable<string[]>;
 
+    let selectedGenresChangedMock: Subject<string[]>;
+    let selectedGenresChangedMock$: Observable<string[]>;
+
+    let indexingFinishedMock: Subject<void>;
+    let indexingFinishedMock$: Observable<void>;
+
     let component: CollectionGenresComponent;
+
+    let genre1: GenreModel;
+    let genre2: GenreModel;
+    let genre3: GenreModel;
+    let genre4: GenreModel;
+    let genres: GenreModel[];
 
     const albumData1: AlbumData = new AlbumData();
     albumData1.albumKey = 'albumKey1';
     const albumData2: AlbumData = new AlbumData();
     albumData2.albumKey = 'albumKey2';
+    const albumData3: AlbumData = new AlbumData();
+    albumData3.albumKey = 'albumKey3';
+    const albumData4: AlbumData = new AlbumData();
+    albumData4.albumKey = 'albumKey4';
+
     let album1: AlbumModel;
     let album2: AlbumModel;
+    let album3: AlbumModel;
+    let album4: AlbumModel;
     let albums: AlbumModel[];
 
-    let track1: Track;
-    let track2: Track;
     let trackModel1: TrackModel;
     let trackModel2: TrackModel;
+    let trackModel3: TrackModel;
+    let trackModel4: TrackModel;
     let tracks: TrackModels;
+
+    const track1: Track = new Track('Path1');
+    track1.duration = 1;
+    const track2: Track = new Track('Path2');
+    track2.duration = 2;
+    const track3: Track = new Track('Path3');
+    track3.duration = 3;
+    const track4: Track = new Track('Path4');
+    track4.duration = 4;
 
     beforeEach(() => {
         genresPersisterMock = Mock.ofType<GenresPersister>();
@@ -67,30 +96,48 @@ describe('CollectionGenresComponent', () => {
         settingsStub = { genresLeftPaneWidthPercent: 25, genresRightPaneWidthPercent: 25 };
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        selectedAlbumsChangedMock = new Subject();
-        selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
+        genre1 = new GenreModel('genre1', translatorServiceMock.object);
+        genre2 = new GenreModel('genre2', translatorServiceMock.object);
+        genre3 = new GenreModel('genre3', translatorServiceMock.object);
+        genre4 = new GenreModel('genre4', translatorServiceMock.object);
+        genres = [genre1, genre2, genre3, genre4];
 
         album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
-        albums = [album1, album2];
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileSystemMock.object);
+        album4 = new AlbumModel(albumData4, translatorServiceMock.object, fileSystemMock.object);
+        albums = [album1, album2, album3, album4];
 
-        track1 = new Track('Path1');
-        track1.duration = 1;
-        track2 = new Track('Path2');
-        track2.duration = 2;
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, translatorServiceMock.object);
+        trackModel4 = new TrackModel(track4, translatorServiceMock.object);
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);
+        tracks.addTrack(trackModel3);
+        tracks.addTrack(trackModel4);
+
+        selectedAlbumsChangedMock = new Subject();
+        selectedAlbumsChangedMock$ = selectedAlbumsChangedMock.asObservable();
+
+        selectedGenresChangedMock = new Subject();
+        selectedGenresChangedMock$ = selectedGenresChangedMock.asObservable();
+
+        indexingFinishedMock = new Subject();
+        indexingFinishedMock$ = indexingFinishedMock.asObservable();
 
         albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
         albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
         albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
 
+        genresPersisterMock.setup((x) => x.selectedGenresChanged$).returns(() => selectedGenresChangedMock$);
+
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
         trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
         trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
+
+        indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingFinishedMock$);
 
         component = new CollectionGenresComponent(
             genresPersisterMock.object,
@@ -220,7 +267,7 @@ describe('CollectionGenresComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should set the album order', async () => {
+        it('should set the album order', () => {
             // Arrange
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
@@ -246,73 +293,134 @@ describe('CollectionGenresComponent', () => {
         });
 
         it('should get all genres', async () => {
-            throw new Error();
+            // Arrange
+            const selectedGenres: GenreModel[] = [genre1];
+
+            genreServiceMock.setup((x) => x.getGenres()).returns(() => genres);
+
+            component = new CollectionGenresComponent(
+                genresPersisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                indexingServiceMock.object,
+                genreServiceMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.genres.length).toEqual(4);
+            expect(component.genres[0]).toEqual(genres[0]);
+            expect(component.genres[1]).toEqual(genres[1]);
+            expect(component.genres[2]).toEqual(genres[2]);
+            expect(component.genres[3]).toEqual(genres[3]);
         });
 
         it('should get all albums if there are no selected genres', async () => {
-            throw new Error();
-            // // Arrange
-            // component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-            // albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-            // albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
+            // Arrange
+            genreServiceMock.setup((x) => x.getGenres()).returns(() => []);
+            genresPersisterMock.setup((x) => x.getSelectedGenres([])).returns(() => []);
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            // component = new CollectionGenresComponent(
-            //     genresPersisterMock.object,
-            //     albumsPersisterMock.object,
-            //     tracksPersisterMock.object,
-            //     genreServiceMock.object,
-            //     albumServiceMock.object,
-            //     trackServiceMock.object,
-            //     settingsStub,
-            //     schedulerMock.object,
-            //     loggerMock.object
-            // );
+            component = new CollectionGenresComponent(
+                genresPersisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                indexingServiceMock.object,
+                genreServiceMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
 
-            // // Act
-            // await component.ngOnInit();
+            // Act
+            await component.ngOnInit();
 
-            // // Assert
-            // expect(component.albums).toEqual(albums);
+            // Assert
+            expect(component.albums.length).toEqual(4);
+            expect(component.albums[0]).toEqual(albums[0]);
+            expect(component.albums[1]).toEqual(albums[1]);
+            expect(component.albums[2]).toEqual(albums[2]);
+            expect(component.albums[3]).toEqual(albums[3]);
         });
 
         it('should get albums for the selected genres if there are selected genres', async () => {
-            throw new Error();
+            // Arrange
+            const selectedGenres: GenreModel[] = [genre1];
+
+            genreServiceMock.setup((x) => x.getGenres()).returns(() => genres);
+            genresPersisterMock.setup((x) => x.getSelectedGenres([])).returns(() => selectedGenres);
+            albumServiceMock.setup((x) => x.getAlbumsForGenres(['genre1'])).returns(() => [album1, album2]);
+
+            component = new CollectionGenresComponent(
+                genresPersisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                indexingServiceMock.object,
+                genreServiceMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.albums.length).toEqual(2);
+            expect(component.albums[0]).toEqual(albums[0]);
+            expect(component.albums[1]).toEqual(albums[1]);
         });
 
         it('should get all tracks if there are no selected genres and no selected albums', async () => {
-            throw new Error();
-            // // Arrange
-            // albumsPersisterMock.reset();
-            // albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
-            // albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            // albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
+            // Arrange
+            albumsPersisterMock.reset();
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
+            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
 
-            // tracksPersisterMock.reset();
-            // tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+            genresPersisterMock.reset();
+            genresPersisterMock.setup((x) => x.getSelectedGenres(genres)).returns(() => []);
+            genresPersisterMock.setup((x) => x.selectedGenresChanged$).returns(() => selectedGenresChangedMock$);
 
-            // trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
 
-            // component = new CollectionGenresComponent(
-            //     genresPersisterMock.object,
-            //     albumsPersisterMock.object,
-            //     tracksPersisterMock.object,
-            //     genreServiceMock.object,
-            //     albumServiceMock.object,
-            //     trackServiceMock.object,
-            //     settingsStub,
-            //     schedulerMock.object,
-            //     loggerMock.object
-            // );
+            genreServiceMock.setup((x) => x.getGenres()).returns(() => genres);
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
-            // component.albums = albums;
-            // component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
+            component = new CollectionGenresComponent(
+                genresPersisterMock.object,
+                albumsPersisterMock.object,
+                tracksPersisterMock.object,
+                indexingServiceMock.object,
+                genreServiceMock.object,
+                albumServiceMock.object,
+                trackServiceMock.object,
+                settingsStub,
+                schedulerMock.object,
+                loggerMock.object
+            );
 
-            // // Act
-            // await component.ngOnInit();
+            // Act
+            await component.ngOnInit();
 
-            // // Assert
-            // trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
-            // expect(component.tracks).toBe(tracks);
+            // Assert
+            expect(component.tracks.tracks.length).toEqual(4);
+            expect(component.tracks.tracks[0]).toBe(tracks.tracks[0]);
+            expect(component.tracks.tracks[1]).toBe(tracks.tracks[1]);
+            expect(component.tracks.tracks[2]).toBe(tracks.tracks[2]);
+            expect(component.tracks.tracks[3]).toBe(tracks.tracks[3]);
         });
 
         it('should get tracks for the selected genres if there are selected genres', async () => {
