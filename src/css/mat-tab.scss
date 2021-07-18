@@ -46,3 +46,24 @@ mat-tab-group {
     margin-right: 200px;
     height: 50px;
 }
+
+// Start of workaround for issue https://github.com/angular/components/issues/3048 */
+.mat-tab-label-active {
+    .mat-tab-label-content {
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--theme-accent-color);
+            right: 0;
+            bottom: 0;
+        }
+    }
+}
+
+mat-ink-bar {
+    display: none !important;
+}
+// End of workaround for issue https://github.com/angular/components/issues/3048 */
