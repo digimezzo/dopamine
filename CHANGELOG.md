@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.3] - 2021-07-18
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Fixed misalignment of menu selector after startup
+
 ## [3.0.0-preview.2] - 2021-07-17
 
 ### Added
