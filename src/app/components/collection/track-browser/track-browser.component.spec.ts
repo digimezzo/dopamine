@@ -55,6 +55,7 @@ describe('TrackBrowserComponent', () => {
         playbackStoppedMock$ = playbackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
+        playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
 
         track1 = new Track('Path 1');
@@ -228,6 +229,7 @@ describe('TrackBrowserComponent', () => {
             // Arrange
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
+            playbackIndicationServiceMock.reset();
 
             // Act
             component.ngOnInit();
@@ -341,9 +343,108 @@ describe('TrackBrowserComponent', () => {
             // Assert
             tracksPersisterMock.verify((x) => x.setSelectedTrackOrder(TrackOrder.byTrackTitleAscending), Times.exactly(1));
         });
+
+        it('should set the playing track', () => {
+            // Arrange
+            component.tracksPersister = tracksPersisterMock.object;
+            component.selectedTrackOrder = TrackOrder.byAlbum;
+
+            // Act
+            component.toggleTrackOrder();
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
+        });
     });
 
     describe('tracksPersister', () => {
-        throw new Error();
+        it('should set the selected track order', () => {
+            // Arrange
+            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byAlbum);
+
+            // Act
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(TrackOrder.byAlbum);
+        });
+
+        it('should change TrackOrder from byTrackTitleAscending to byTrackTitleDescending', () => {
+            // Arrange
+            component.tracks = tracks;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
+
+            // Act
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(TrackOrder.byTrackTitleDescending);
+            expect(component.orderedTracks[0]).toBe(trackModel4);
+            expect(component.orderedTracks[0].showHeader).toBeFalsy();
+            expect(component.orderedTracks[1]).toBe(trackModel3);
+            expect(component.orderedTracks[1].showHeader).toBeFalsy();
+            expect(component.orderedTracks[2]).toBe(trackModel2);
+            expect(component.orderedTracks[2].showHeader).toBeFalsy();
+            expect(component.orderedTracks[3]).toBe(trackModel1);
+            expect(component.orderedTracks[3].showHeader).toBeFalsy();
+        });
+
+        it('should change TrackOrder from byTrackTitleDescending to byAlbum', () => {
+            // Arrange
+            component.tracks = tracks;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byAlbum);
+
+            // Act
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(TrackOrder.byAlbum);
+            expect(component.orderedTracks[0]).toBe(trackModel1);
+            expect(component.orderedTracks[0].showHeader).toBeTruthy();
+            expect(component.orderedTracks[1]).toBe(trackModel2);
+            expect(component.orderedTracks[1].showHeader).toBeTruthy();
+            expect(component.orderedTracks[2]).toBe(trackModel3);
+            expect(component.orderedTracks[2].showHeader).toBeTruthy();
+            expect(component.orderedTracks[3]).toBe(trackModel4);
+            expect(component.orderedTracks[3].showHeader).toBeFalsy();
+        });
+
+        it('should change TrackOrder from byAlbum to byTrackTitleAscending', () => {
+            // Arrange
+            component.tracks = tracks;
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            tracksPersisterMock.reset();
+            tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleAscending);
+
+            // Act
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Assert
+            expect(component.selectedTrackOrder).toEqual(TrackOrder.byTrackTitleAscending);
+            expect(component.orderedTracks[0]).toBe(trackModel1);
+            expect(component.orderedTracks[0].showHeader).toBeFalsy();
+            expect(component.orderedTracks[1]).toBe(trackModel2);
+            expect(component.orderedTracks[1].showHeader).toBeFalsy();
+            expect(component.orderedTracks[2]).toBe(trackModel3);
+            expect(component.orderedTracks[2].showHeader).toBeFalsy();
+            expect(component.orderedTracks[3]).toBe(trackModel4);
+            expect(component.orderedTracks[3].showHeader).toBeFalsy();
+        });
+
+        it('should set the playing track', () => {
+            // Arrange
+
+            // Act
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
+        });
     });
 });
