@@ -4,7 +4,12 @@
     </div>
     <div class="app-collection-playback-pane__controls">
         <div class="app-collection-playback-pane-controls__left">
-            <app-playback-cover-art [size]="70"></app-playback-cover-art
+            <app-playback-cover-art
+                class="pointer"
+                [size]="70"
+                (click)="this.showNowPlaying()"
+                matTooltip="{{ 'now-playing' | translate }}"
+            ></app-playback-cover-art
             ><app-playback-information
                 class="ml-3"
                 [height]="70"
