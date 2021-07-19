@@ -2,6 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
+import { ArtistType } from '../artist/artist-type';
 import { TrackFiller } from '../indexing/track-filler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModels } from './track-models';
@@ -248,7 +249,51 @@ describe('TrackService', () => {
     });
 
     describe('getTracksForArtists', () => {
-        throw new Error();
+        it('should return a TrackModels containing no tracks if artists is undefined', () => {
+            // Arrange
+            const artists: string[] = undefined;
+            const artistType: ArtistType = ArtistType.albumArtists;
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing no tracks if artists is empty', () => {
+            // Arrange
+            const artists: string[] = [];
+            const artistType: ArtistType = ArtistType.albumArtists;
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should return a TrackModels containing no tracks if artistType is undefined', () => {
+            // Arrange
+            const artists: string[] = ['artist1'];
+            const artistType: ArtistType = undefined;
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
+            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
+            expect(tracksModels.tracks.length).toEqual(0);
+        });
+
+        it('should do more', () => {
+            throw new Error();
+        });
     });
 
     describe('getTracksForGenres', () => {
