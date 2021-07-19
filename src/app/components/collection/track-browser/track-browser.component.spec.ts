@@ -358,6 +358,17 @@ describe('TrackBrowserComponent', () => {
     });
 
     describe('tracksPersister', () => {
+        it('should set and return tracksPersister', () => {
+            // Arrange
+            component.tracksPersister = tracksPersisterMock.object;
+
+            // Act
+            const persister: BaseTracksPersister = component.tracksPersister;
+
+            // Assert
+            expect(persister).toBe(tracksPersisterMock.object);
+        });
+
         it('should set the selected track order', () => {
             // Arrange
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
