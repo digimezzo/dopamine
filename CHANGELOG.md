@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.3] - 2021-07-18
+## [3.0.0-preview.3] - 2021-07-19
 
 ### Added
+
+-   Clicking on the album cover of the currently playing song, opens the "Now playing" screen.
 
 ### Changed
 
