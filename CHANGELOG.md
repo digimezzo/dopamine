@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+-   Pressing the ENTER key pauses and resumes playback
 -   Clicking on the album cover of the currently playing song, opens the "Now playing" screen.
 
 ### Changed
