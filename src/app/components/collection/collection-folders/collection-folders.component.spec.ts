@@ -1,5 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Constants } from '../../../common/application/constants';
 import { Folder } from '../../../common/data/entities/folder';
 import { Track } from '../../../common/data/entities/track';
 import { Hacks } from '../../../common/hacks';
@@ -395,8 +396,34 @@ describe('CollectionFoldersComponent', () => {
             );
         });
 
-        it('should refresh the lists when indexing is finished', async () => {
-            throw new Error();
+        it('should get the folders when indexing is finished', async () => {
+            // Arrange
+            await component.ngOnInit();
+            folderServiceMock.reset();
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => subfolders);
+
+            component = new CollectionFoldersComponent(
+                indexingServiceMock.object,
+                playbackServiceMock.object,
+                settingsStub,
+                folderServiceMock.object,
+                navigationServiceMock.object,
+                trackServiceMock.object,
+                playbackIndicationServiceMock.object,
+                foldersPersisterMock.object,
+                schedulerMock.object,
+                loggerMock.object,
+                hacksMock.object
+            );
+
+            // Act
+            indexingServiceIndexingFinishedMock.next();
+            const scheduler: Scheduler = new Scheduler();
+            await scheduler.sleepAsync(Constants.listLoadDelayMilliseconds + 100);
+
+            // Assert
+            folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
         });
     });
 
