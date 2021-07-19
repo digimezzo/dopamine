@@ -4,6 +4,7 @@ import { Desktop } from '../../common/io/desktop';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
     selector: 'app-now-playing',
@@ -35,6 +36,7 @@ export class NowPlayingComponent implements OnInit {
     constructor(
         public appearanceService: BaseAppearanceService,
         private navigationService: BaseNavigationService,
+        private playbackService: BasePlaybackService,
         private desktop: Desktop
     ) {}
 
@@ -43,6 +45,13 @@ export class NowPlayingComponent implements OnInit {
     public playbackInformationLargeFontSize: number = 0;
     public playbackInformationSmallFontSize: number = 0;
     public controlsVisibility: string = 'visible';
+
+    @HostListener('document:keyup', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent): void {
+        if (event.key === ' ') {
+            this.playbackService.togglePlayback();
+        }
+    }
 
     @HostListener('window:resize', ['$event'])
     public onResize(event: any): void {

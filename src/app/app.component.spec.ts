@@ -126,4 +126,32 @@ describe('AppComponent', () => {
             matDrawerMock.verify((x) => x.toggle(), Times.exactly(1));
         });
     });
+
+    describe('ngOnInit', () => {
+        it('should prevent the default action when space is pressed', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+
+            // Act
+            app.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            keyboardEventMock.verify((x) => x.preventDefault(), Times.once());
+        });
+
+        it('should not prevent the default action when another key then space is pressed', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+
+            // Act
+            app.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            keyboardEventMock.verify((x) => x.preventDefault(), Times.never());
+        });
+    });
 });

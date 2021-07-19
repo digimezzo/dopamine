@@ -24,6 +24,7 @@ export abstract class BasePlaybackService {
     public abstract isPlaying: boolean;
     public abstract canPause: boolean;
     public abstract canResume: boolean;
+    public abstract togglePlayback(): void;
     public abstract toggleLoopMode(): void;
     public abstract toggleIsShuffled(): void;
     public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;

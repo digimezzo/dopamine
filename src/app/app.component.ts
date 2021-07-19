@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
 import { remote } from 'electron';
 import log from 'electron-log';
@@ -30,6 +30,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;
+
+    @HostListener('document:keydown', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent): void {
+        if (event.key === ' ') {
+            event.preventDefault(); // Prevents scrolling when pressing SPACE
+        }
+    }
 
     public ngOnDestroy(): void {}
 

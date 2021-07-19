@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { CollectionPersister } from './collection-persister';
 
 @Component({
@@ -12,7 +13,18 @@ import { CollectionPersister } from './collection-persister';
 export class CollectionComponent implements OnInit {
     private _selectedIndex: number;
 
-    constructor(public appearanceService: BaseAppearanceService, private collectionPersister: CollectionPersister) {}
+    constructor(
+        public appearanceService: BaseAppearanceService,
+        private playbackService: BasePlaybackService,
+        private collectionPersister: CollectionPersister
+    ) {}
+
+    @HostListener('document:keyup', ['$event'])
+    public handleKeyboardEvent(event: KeyboardEvent): void {
+        if (event.key === ' ') {
+            this.playbackService.togglePlayback();
+        }
+    }
 
     public get selectedIndex(): number {
         return this._selectedIndex;

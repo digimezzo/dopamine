@@ -1605,4 +1605,35 @@ describe('PlaybackService', () => {
             expect(isPlayingPreviousTrack).toBeFalsy();
         });
     });
+
+    describe('togglePlayback', () => {
+        it('should resume playback if paused', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+            service.pause();
+
+            // Act
+            service.togglePlayback();
+
+            // Assert
+            expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            audioPlayerMock.verify((x) => x.resume(), Times.once());
+        });
+
+        it('should pause playback if playing', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+
+            // Act
+            service.togglePlayback();
+
+            // Assert
+            expect(service.canPause).toBeFalsy();
+            expect(service.canResume).toBeTruthy();
+            audioPlayerMock.verify((x) => x.pause(), Times.once());
+        });
+    });
 });

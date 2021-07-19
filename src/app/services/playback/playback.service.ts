@@ -248,6 +248,14 @@ export class PlaybackService implements BasePlaybackService {
         this.audioPlayer.skipToSeconds(seconds);
     }
 
+    public togglePlayback(): void {
+        if (this.canPause) {
+            this.pause();
+        } else {
+            this.resume();
+        }
+    }
+
     private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
