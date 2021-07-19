@@ -3,22 +3,30 @@ import { Desktop } from '../../common/io/desktop';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { NowPlayingComponent } from './now-playing.component';
 
 describe('NowPlayingComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
+    let playbackServiceMock: IMock<BasePlaybackService>;
     let desktopMock: IMock<Desktop>;
     let component: NowPlayingComponent;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        playbackServiceMock = Mock.ofType<BasePlaybackService>();
         desktopMock = Mock.ofType<Desktop>();
 
         desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(1000, 600));
 
-        component = new NowPlayingComponent(appearanceServiceMock.object, navigationServiceMock.object, desktopMock.object);
+        component = new NowPlayingComponent(
+            appearanceServiceMock.object,
+            navigationServiceMock.object,
+            playbackServiceMock.object,
+            desktopMock.object
+        );
     });
 
     describe('constructor', () => {
@@ -117,7 +125,12 @@ describe('NowPlayingComponent', () => {
             // Arrange
             desktopMock.reset();
             desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
-            component = new NowPlayingComponent(appearanceServiceMock.object, navigationServiceMock.object, desktopMock.object);
+            component = new NowPlayingComponent(
+                appearanceServiceMock.object,
+                navigationServiceMock.object,
+                playbackServiceMock.object,
+                desktopMock.object
+            );
             const event: any = {};
 
             // Act
@@ -150,7 +163,12 @@ describe('NowPlayingComponent', () => {
             // Arrange
             desktopMock.reset();
             desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
-            component = new NowPlayingComponent(appearanceServiceMock.object, navigationServiceMock.object, desktopMock.object);
+            component = new NowPlayingComponent(
+                appearanceServiceMock.object,
+                navigationServiceMock.object,
+                playbackServiceMock.object,
+                desktopMock.object
+            );
             const event: any = {};
 
             // Act
@@ -161,6 +179,34 @@ describe('NowPlayingComponent', () => {
             expect(component.playbackInformationHeight).toEqual(75);
             expect(component.playbackInformationLargeFontSize).toEqual(30);
             expect(component.playbackInformationSmallFontSize).toEqual(15);
+        });
+    });
+
+    describe('handleKeyboardEvent', () => {
+        it('should toggle playback when space is pressed', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.togglePlayback(), Times.once());
+        });
+
+        it('should not toggle playback when another key then space is pressed', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
+            keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+
+            // Act
+            component.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.togglePlayback(), Times.never());
         });
     });
 });

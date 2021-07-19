@@ -127,7 +127,7 @@ describe('AppComponent', () => {
         });
     });
 
-    describe('ngOnInit', () => {
+    describe('handleKeyboardEvent', () => {
         it('should prevent the default action when space is pressed', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
