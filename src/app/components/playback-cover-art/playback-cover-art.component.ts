@@ -1,12 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ImageProcessor } from '../../common/image-processor';
-import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { Scheduler } from '../../common/scheduler/scheduler';
-import { AlbumArtworkGetter } from '../../services/indexing/album-artwork-getter';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
@@ -51,14 +47,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
-        private playbackService: BasePlaybackService,
-        private fileMetadataFactory: FileMetadataFactory,
-        private albumArtworkGetter: AlbumArtworkGetter,
-        private imageProcessor: ImageProcessor,
-        private scheduler: Scheduler,
-        private logger: Logger
-    ) {}
+    constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService, private scheduler: Scheduler) {}
 
     public contentAnimation: string = 'down';
 
@@ -93,7 +82,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const newImage: string = await this.createImageUrlAsync(track);
+        const newImage: string = await this.metadataService.createImageUrlAsync(track);
 
         if (this.contentAnimation !== 'down') {
             this.topImageUrl = this.currentImageUrl;
@@ -113,7 +102,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const newImage: string = await this.createImageUrlAsync(track);
+        const newImage: string = await this.metadataService.createImageUrlAsync(track);
 
         if (performAnimation) {
             if (this.contentAnimation !== 'up') {
@@ -133,24 +122,5 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         } else {
             this.contentAnimation = 'down';
         }
-    }
-
-    private async createImageUrlAsync(track: TrackModel): Promise<string> {
-        try {
-            const fileMetaData: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
-            const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
-
-            if (coverArt !== undefined) {
-                return this.imageProcessor.convertBufferToImageUrl(coverArt);
-            }
-        } catch (error) {
-            this.logger.error(
-                `Could not create image URL for track with path=${track.path}`,
-                'PlaybackCoverArtComponent',
-                'createImageUrlAsync'
-            );
-        }
-
-        return '';
     }
 }

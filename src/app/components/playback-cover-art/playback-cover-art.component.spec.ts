@@ -1,11 +1,8 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
-import { ImageProcessor } from '../../common/image-processor';
-import { Logger } from '../../common/logger';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { Scheduler } from '../../common/scheduler/scheduler';
-import { AlbumArtworkGetter } from '../../services/indexing/album-artwork-getter';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
@@ -15,32 +12,20 @@ import { PlaybackCoverArtComponent } from './playback-cover-art.component';
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
-    let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
-    let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
-    let imageProcessorMock: IMock<ImageProcessor>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
     let schedulerMock: IMock<Scheduler>;
-    let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
 
     beforeEach(async () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
-        albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
-        imageProcessorMock = Mock.ofType<ImageProcessor>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
         schedulerMock = Mock.ofType<Scheduler>();
-        loggerMock = Mock.ofType<Logger>();
+
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        component = new PlaybackCoverArtComponent(
-            playbackServiceMock.object,
-            fileMetadataFactoryMock.object,
-            albumArtworkGetterMock.object,
-            imageProcessorMock.object,
-            schedulerMock.object,
-            loggerMock.object
-        );
+        component = new PlaybackCoverArtComponent(playbackServiceMock.object, metadataServiceMock.object, schedulerMock.object);
 
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
@@ -105,10 +90,7 @@ describe('PlaybackInformationComponent', () => {
             const scheduler: Scheduler = new Scheduler();
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(It.isAny())).returns(async () => It.isAny());
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(It.isAny(), false)).returns(async () => It.isAny());
-            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(It.isAny())).returns(() => 'image-url-mock');
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(It.isAny())).returns(async () => 'image-url-mock');
 
             // Act
             await component.ngOnInit();
@@ -133,10 +115,7 @@ describe('PlaybackInformationComponent', () => {
             const scheduler: Scheduler = new Scheduler();
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(It.isAny())).returns(async () => It.isAny());
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(It.isAny(), false)).returns(async () => It.isAny());
-            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(It.isAny())).returns(() => 'image-url-mock');
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(It.isAny())).returns(async () => 'image-url-mock');
 
             // Act
             await component.ngOnInit();
@@ -160,10 +139,7 @@ describe('PlaybackInformationComponent', () => {
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
-
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(It.isAny())).returns(async () => It.isAny());
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(It.isAny(), false)).returns(async () => It.isAny());
-            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(It.isAny())).returns(() => 'image-url-mock');
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(It.isAny())).returns(async () => 'image-url-mock');
 
             // Act
             await component.ngOnInit();

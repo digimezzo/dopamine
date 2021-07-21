@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -185,6 +185,8 @@ import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
+import { BaseMetadataService } from './services/metadata/base-metadata.service';
+import { MetadataService } from './services/metadata/metadata.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
 import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
@@ -421,6 +423,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseAlbumService, useClass: AlbumService },
         { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
+        { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
