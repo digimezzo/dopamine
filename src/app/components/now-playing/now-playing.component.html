@@ -1,3 +1,13 @@
+<div
+    class="app-now-playing__backgroundimage"
+    [ngStyle]="{ 'background-image': 'url(' + cover1 + ')' }"
+    [@cover1Animation]="cover1Animation"
+></div>
+<div
+    class="app-now-playing__backgroundimage"
+    [ngStyle]="{ 'background-image': 'url(' + cover2 + ')' }"
+    [@cover2Animation]="cover2Animation"
+></div>
 <div class="window-frame">
     <div class="window-frame__titlebar">
         <div class="window-button back-button" (click)="this.goBackToCollection()" [@controlsVisibility]="controlsVisibility">

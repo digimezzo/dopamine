@@ -75,13 +75,15 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
                 }
             })
         );
+
+        this.subscription.add(
+            this.playbackService.playbackStopped$.subscribe(async () => {
+                await this.switchUp(undefined);
+            })
+        );
     }
 
     private async switchUp(track: TrackModel): Promise<void> {
-        if (track == undefined) {
-            return;
-        }
-
         const newImage: string = await this.metadataService.createImageUrlAsync(track);
 
         if (this.contentAnimation !== 'down') {
@@ -98,10 +100,6 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     }
 
     private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        if (track == undefined) {
-            return;
-        }
-
         const newImage: string = await this.metadataService.createImageUrlAsync(track);
 
         if (performAnimation) {

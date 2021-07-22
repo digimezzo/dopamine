@@ -1,10 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Desktop } from '../../common/io/desktop';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
+import { PlaybackStarted } from '../../services/playback/playback-started';
 
 @Component({
     selector: 'app-now-playing',
@@ -29,16 +32,57 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
+        trigger('cover1Animation', [
+            state(
+                'fade-out',
+                style({
+                    opacity: 0,
+                })
+            ),
+            state(
+                'fade-in',
+                style({
+                    opacity: 0.05,
+                })
+            ),
+            transition('fade-out => fade-in', animate('1s')),
+            transition('fade-in => fade-out', animate('1s')),
+        ]),
+        trigger('cover2Animation', [
+            state(
+                'fade-out',
+                style({
+                    opacity: 0,
+                })
+            ),
+            state(
+                'fade-in',
+                style({
+                    opacity: 0.05,
+                })
+            ),
+            transition('fade-out => fade-in', animate('1s')),
+            transition('fade-in => fade-out', animate('1s')),
+        ]),
     ],
 })
 export class NowPlayingComponent implements OnInit {
     private timerId: number = 0;
+    private subscription: Subscription = new Subscription();
+
     constructor(
         public appearanceService: BaseAppearanceService,
         private navigationService: BaseNavigationService,
+        private metadataService: BaseMetadataService,
         private playbackService: BasePlaybackService,
         private desktop: Desktop
     ) {}
+
+    private cover1IsUsed: boolean = false;
+    public cover1: string = '';
+    public cover2: string = '';
+    public cover1Animation: string = 'fade-out';
+    public cover2Animation: string = 'fade-in';
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;
@@ -58,10 +102,84 @@ export class NowPlayingComponent implements OnInit {
         this.setSizes();
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        this.subscription.add(
+            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+                const proposedCover: string = await this.metadataService.createImageUrlAsync(playbackStarted.currentTrack);
+
+                if (this.cover1IsUsed) {
+                    if (proposedCover !== this.cover1) {
+                        this.cover2 = proposedCover;
+                        this.cover1Animation = 'fade-out';
+                        this.cover2Animation = 'fade-in';
+                        this.cover1IsUsed = false;
+                    }
+                } else {
+                    if (proposedCover !== this.cover2) {
+                        this.cover1 = proposedCover;
+                        this.cover1Animation = 'fade-in';
+                        this.cover2Animation = 'fade-out';
+                        this.cover1IsUsed = true;
+                    }
+                }
+            })
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackStopped$.subscribe(async () => {
+                if (this.cover1IsUsed) {
+                    this.cover2 = '';
+                    this.cover1Animation = 'fade-out';
+                    this.cover2Animation = 'fade-in';
+                    this.cover1IsUsed = false;
+                } else {
+                    this.cover1 = '';
+                    this.cover1Animation = 'fade-in';
+                    this.cover2Animation = 'fade-out';
+                    this.cover1IsUsed = true;
+                }
+            })
+        );
+
         document.addEventListener('mousemove', () => {
             this.resetTimer();
         });
+
+        document.addEventListener('mousedown', () => {
+            this.resetTimer();
+        });
+
+        if (this.playbackService.isPlaying && this.playbackService.currentTrack != undefined) {
+            const proposedCover: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
+
+            if (this.cover1IsUsed) {
+                if (proposedCover !== this.cover1) {
+                    this.cover2 = proposedCover;
+                    this.cover1Animation = 'fade-out';
+                    this.cover2Animation = 'fade-in';
+                    this.cover1IsUsed = false;
+                }
+            } else {
+                if (proposedCover !== this.cover2) {
+                    this.cover1 = proposedCover;
+                    this.cover1Animation = 'fade-in';
+                    this.cover2Animation = 'fade-out';
+                    this.cover1IsUsed = true;
+                }
+            }
+        } else {
+            if (this.cover1IsUsed) {
+                this.cover2 = '';
+                this.cover1Animation = 'fade-out';
+                this.cover2Animation = 'fade-in';
+                this.cover1IsUsed = false;
+            } else {
+                this.cover1 = '';
+                this.cover1Animation = 'fade-in';
+                this.cover2Animation = 'fade-out';
+                this.cover1IsUsed = true;
+            }
+        }
 
         this.resetTimer();
         this.setSizes();

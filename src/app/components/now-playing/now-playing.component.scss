@@ -1,7 +1,30 @@
 .app-now-playing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+}
+
+.app-now-playing__backgroundimage {
+    overflow: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    height: 100%;
+    // opacity: 0.05;
+    filter: blur(8px);
+    //background-image: url('https://www.learningcontainer.com/wp-content/uploads/2020/07/Sample-JPEG-file-download-for-Testing.png?ezimgfmt=rs%3Adevice%2Frscb4-1');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .app-now-playing__content {

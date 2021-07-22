@@ -90,15 +90,22 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
                 }
             })
         );
+
+        this.subscription.add(
+            this.playbackService.playbackStopped$.subscribe(async () => {
+                await this.switchUp(undefined);
+            })
+        );
     }
 
     private async switchUp(track: TrackModel): Promise<void> {
-        if (track == undefined) {
-            return;
-        }
+        let newArtist: string = '';
+        let newTitle: string = '';
 
-        const newArtist: string = this.formatTrackArtistsPipe.transform(track.artists);
-        const newTitle: string = this.formatTrackTitlePipe.transform(track.title, undefined);
+        if (track != undefined) {
+            newArtist = this.formatTrackArtistsPipe.transform(track.artists);
+            newTitle = this.formatTrackTitlePipe.transform(track.title, undefined);
+        }
 
         if (this.contentAnimation !== 'down') {
             this.topContentArtist = this.currentArtist;
@@ -118,12 +125,13 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        if (track == undefined) {
-            return;
-        }
+        let newArtist: string = '';
+        let newTitle: string = '';
 
-        const newArtist: string = this.formatTrackArtistsPipe.transform(track.artists);
-        const newTitle: string = this.formatTrackTitlePipe.transform(track.title, undefined);
+        if (track != undefined) {
+            newArtist = this.formatTrackArtistsPipe.transform(track.artists);
+            newTitle = this.formatTrackTitlePipe.transform(track.title, undefined);
+        }
 
         if (performAnimation) {
             if (this.contentAnimation !== 'up') {
