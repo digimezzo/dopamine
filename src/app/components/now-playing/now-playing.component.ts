@@ -32,7 +32,7 @@ import { PlaybackStarted } from '../../services/playback/playback-started';
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
         ]),
-        trigger('cover1Animation', [
+        trigger('background1Animation', [
             state(
                 'fade-out',
                 style({
@@ -48,7 +48,7 @@ import { PlaybackStarted } from '../../services/playback/playback-started';
             transition('fade-out => fade-in', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
-        trigger('cover2Animation', [
+        trigger('background2Animation', [
             state(
                 'fade-out',
                 style({
@@ -78,11 +78,11 @@ export class NowPlayingComponent implements OnInit {
         private desktop: Desktop
     ) {}
 
-    private cover1IsUsed: boolean = false;
-    public cover1: string = '';
-    public cover2: string = '';
-    public cover1Animation: string = 'fade-out';
-    public cover2Animation: string = 'fade-in';
+    private backgroundIsUsed: boolean = false;
+    public background1: string = '';
+    public background2: string = '';
+    public background1Animation: string = 'fade-out';
+    public background2Animation: string = 'fade-in';
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;
@@ -105,21 +105,21 @@ export class NowPlayingComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const proposedCover: string = await this.metadataService.createImageUrlAsync(playbackStarted.currentTrack);
+                const proposedbackground: string = await this.metadataService.createImageUrlAsync(playbackStarted.currentTrack);
 
-                if (this.cover1IsUsed) {
-                    if (proposedCover !== this.cover1) {
-                        this.cover2 = proposedCover;
-                        this.cover1Animation = 'fade-out';
-                        this.cover2Animation = 'fade-in';
-                        this.cover1IsUsed = false;
+                if (this.backgroundIsUsed) {
+                    if (proposedbackground !== this.background1) {
+                        this.background2 = proposedbackground;
+                        this.background1Animation = 'fade-out';
+                        this.background2Animation = 'fade-in';
+                        this.backgroundIsUsed = false;
                     }
                 } else {
-                    if (proposedCover !== this.cover2) {
-                        this.cover1 = proposedCover;
-                        this.cover1Animation = 'fade-in';
-                        this.cover2Animation = 'fade-out';
-                        this.cover1IsUsed = true;
+                    if (proposedbackground !== this.background2) {
+                        this.background1 = proposedbackground;
+                        this.background1Animation = 'fade-in';
+                        this.background2Animation = 'fade-out';
+                        this.backgroundIsUsed = true;
                     }
                 }
             })
@@ -127,16 +127,16 @@ export class NowPlayingComponent implements OnInit {
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(async () => {
-                if (this.cover1IsUsed) {
-                    this.cover2 = '';
-                    this.cover1Animation = 'fade-out';
-                    this.cover2Animation = 'fade-in';
-                    this.cover1IsUsed = false;
+                if (this.backgroundIsUsed) {
+                    this.background2 = '';
+                    this.background1Animation = 'fade-out';
+                    this.background2Animation = 'fade-in';
+                    this.backgroundIsUsed = false;
                 } else {
-                    this.cover1 = '';
-                    this.cover1Animation = 'fade-in';
-                    this.cover2Animation = 'fade-out';
-                    this.cover1IsUsed = true;
+                    this.background1 = '';
+                    this.background1Animation = 'fade-in';
+                    this.background2Animation = 'fade-out';
+                    this.backgroundIsUsed = true;
                 }
             })
         );
@@ -150,34 +150,34 @@ export class NowPlayingComponent implements OnInit {
         });
 
         if (this.playbackService.isPlaying && this.playbackService.currentTrack != undefined) {
-            const proposedCover: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
+            const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
 
-            if (this.cover1IsUsed) {
-                if (proposedCover !== this.cover1) {
-                    this.cover2 = proposedCover;
-                    this.cover1Animation = 'fade-out';
-                    this.cover2Animation = 'fade-in';
-                    this.cover1IsUsed = false;
+            if (this.backgroundIsUsed) {
+                if (proposedBackground !== this.background1) {
+                    this.background2 = proposedBackground;
+                    this.background1Animation = 'fade-out';
+                    this.background2Animation = 'fade-in';
+                    this.backgroundIsUsed = false;
                 }
             } else {
-                if (proposedCover !== this.cover2) {
-                    this.cover1 = proposedCover;
-                    this.cover1Animation = 'fade-in';
-                    this.cover2Animation = 'fade-out';
-                    this.cover1IsUsed = true;
+                if (proposedBackground !== this.background2) {
+                    this.background1 = proposedBackground;
+                    this.background1Animation = 'fade-in';
+                    this.background2Animation = 'fade-out';
+                    this.backgroundIsUsed = true;
                 }
             }
         } else {
-            if (this.cover1IsUsed) {
-                this.cover2 = '';
-                this.cover1Animation = 'fade-out';
-                this.cover2Animation = 'fade-in';
-                this.cover1IsUsed = false;
+            if (this.backgroundIsUsed) {
+                this.background2 = '';
+                this.background1Animation = 'fade-out';
+                this.background2Animation = 'fade-in';
+                this.backgroundIsUsed = false;
             } else {
-                this.cover1 = '';
-                this.cover1Animation = 'fade-in';
-                this.cover2Animation = 'fade-out';
-                this.cover1IsUsed = true;
+                this.background1 = '';
+                this.background1Animation = 'fade-in';
+                this.background2Animation = 'fade-out';
+                this.backgroundIsUsed = true;
             }
         }
 
