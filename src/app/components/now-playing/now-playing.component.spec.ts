@@ -1,29 +1,45 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Desktop } from '../../common/io/desktop';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
+import { PlaybackStarted } from '../../services/playback/playback-started';
 import { NowPlayingComponent } from './now-playing.component';
 
 describe('NowPlayingComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let desktopMock: IMock<Desktop>;
     let component: NowPlayingComponent;
 
+    let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
+    let playbackServicePlaybackStopped: Subject<void>;
+
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         desktopMock = Mock.ofType<Desktop>();
 
         desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(1000, 600));
 
+        playbackServicePlaybackStarted = new Subject();
+        const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
+        playbackServicePlaybackStopped = new Subject();
+        const playbackServicePlaybackStopped$: Observable<void> = playbackServicePlaybackStopped.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStopped$);
+
         component = new NowPlayingComponent(
             appearanceServiceMock.object,
             navigationServiceMock.object,
+            metadataServiceMock.object,
             playbackServiceMock.object,
             desktopMock.object
         );
@@ -128,6 +144,7 @@ describe('NowPlayingComponent', () => {
             component = new NowPlayingComponent(
                 appearanceServiceMock.object,
                 navigationServiceMock.object,
+                metadataServiceMock.object,
                 playbackServiceMock.object,
                 desktopMock.object
             );
@@ -145,12 +162,12 @@ describe('NowPlayingComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should set the now playing sizes', () => {
+        it('should set the now playing sizes', async () => {
             // Arrange
             const event: any = {};
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.coverArtSize).toEqual(242);
@@ -159,20 +176,21 @@ describe('NowPlayingComponent', () => {
             expect(component.playbackInformationSmallFontSize).toEqual(24.2);
         });
 
-        it('should set the now playing sizes in relation to window width if width is too small', () => {
+        it('should set the now playing sizes in relation to window width if width is too small', async () => {
             // Arrange
             desktopMock.reset();
             desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
             component = new NowPlayingComponent(
                 appearanceServiceMock.object,
                 navigationServiceMock.object,
+                metadataServiceMock.object,
                 playbackServiceMock.object,
                 desktopMock.object
             );
             const event: any = {};
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.coverArtSize).toEqual(150);

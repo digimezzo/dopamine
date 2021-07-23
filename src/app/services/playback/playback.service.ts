@@ -275,11 +275,10 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();
+        this.currentTrack = undefined;
         this.playbackStopped.next();
 
         this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
-
-        this.currentTrack = undefined;
     }
 
     private playNextOnPlaybackFinished(): void {

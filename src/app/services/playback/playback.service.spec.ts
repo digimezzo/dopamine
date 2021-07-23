@@ -308,6 +308,25 @@ describe('PlaybackService', () => {
             expect(playbackIsStopped).toBeTruthy();
         });
 
+        it('should set the current track to undefined before raising a playback finished event', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
+            let currentTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    currentTrack = service.currentTrack;
+                })
+            );
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            expect(currentTrack).toBeUndefined();
+        });
+
         it('should play the next track on playback finished if a next track is found', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
@@ -1130,6 +1149,7 @@ describe('PlaybackService', () => {
 
             // Act
             service.playPrevious();
+
             // Assert
             audioPlayerMock.verify((x) => x.stop(), Times.exactly(1));
             expect(service.isPlaying).toBeFalsy();
@@ -1158,6 +1178,25 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(playbackIsStopped).toBeTruthy();
+        });
+
+        it('should set the current track to undefined before raising a stop event', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
+            let currentTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    currentTrack = service.currentTrack;
+                })
+            );
+
+            // Act
+            service.playPrevious();
+
+            // Assert
+            expect(currentTrack).toBeUndefined();
         });
 
         it('should get the previous track without wrap around if loopMode is None', () => {
@@ -1243,6 +1282,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback is stopped if a next track is not found', () => {
             // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
             queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
@@ -1259,6 +1299,27 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(playbackIsStopped).toBeTruthy();
+        });
+
+        it('should set the current track to undefined before raising a stop event', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
+            progressUpdaterMock.reset();
+            audioPlayerMock.reset();
+            let currentTrack: TrackModel;
+
+            subscription.add(
+                service.playbackStopped$.subscribe(() => {
+                    currentTrack = service.currentTrack;
+                })
+            );
+
+            // Act
+            service.playNext();
+
+            // Assert
+            expect(currentTrack).toBeUndefined();
         });
 
         it('should play the next track if found', () => {

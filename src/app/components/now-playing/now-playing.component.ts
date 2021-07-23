@@ -105,39 +105,13 @@ export class NowPlayingComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const proposedbackground: string = await this.metadataService.createImageUrlAsync(playbackStarted.currentTrack);
-
-                if (this.backgroundIsUsed) {
-                    if (proposedbackground !== this.background1) {
-                        this.background2 = proposedbackground;
-                        this.background1Animation = 'fade-out';
-                        this.background2Animation = 'fade-in';
-                        this.backgroundIsUsed = false;
-                    }
-                } else {
-                    if (proposedbackground !== this.background2) {
-                        this.background1 = proposedbackground;
-                        this.background1Animation = 'fade-in';
-                        this.background2Animation = 'fade-out';
-                        this.backgroundIsUsed = true;
-                    }
-                }
+                await this.setBackgroundsAsync();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(async () => {
-                if (this.backgroundIsUsed) {
-                    this.background2 = '';
-                    this.background1Animation = 'fade-out';
-                    this.background2Animation = 'fade-in';
-                    this.backgroundIsUsed = false;
-                } else {
-                    this.background1 = '';
-                    this.background1Animation = 'fade-in';
-                    this.background2Animation = 'fade-out';
-                    this.backgroundIsUsed = true;
-                }
+                await this.setBackgroundsAsync();
             })
         );
 
@@ -149,37 +123,7 @@ export class NowPlayingComponent implements OnInit {
             this.resetTimer();
         });
 
-        if (this.playbackService.isPlaying && this.playbackService.currentTrack != undefined) {
-            const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
-
-            if (this.backgroundIsUsed) {
-                if (proposedBackground !== this.background1) {
-                    this.background2 = proposedBackground;
-                    this.background1Animation = 'fade-out';
-                    this.background2Animation = 'fade-in';
-                    this.backgroundIsUsed = false;
-                }
-            } else {
-                if (proposedBackground !== this.background2) {
-                    this.background1 = proposedBackground;
-                    this.background1Animation = 'fade-in';
-                    this.background2Animation = 'fade-out';
-                    this.backgroundIsUsed = true;
-                }
-            }
-        } else {
-            if (this.backgroundIsUsed) {
-                this.background2 = '';
-                this.background1Animation = 'fade-out';
-                this.background2Animation = 'fade-in';
-                this.backgroundIsUsed = false;
-            } else {
-                this.background1 = '';
-                this.background1Animation = 'fade-in';
-                this.background2Animation = 'fade-out';
-                this.backgroundIsUsed = true;
-            }
-        }
+        await this.setBackgroundsAsync();
 
         this.resetTimer();
         this.setSizes();
@@ -219,5 +163,25 @@ export class NowPlayingComponent implements OnInit {
         this.playbackInformationHeight = this.coverArtSize / 2;
         this.playbackInformationLargeFontSize = this.playbackInformationHeight / 2.5;
         this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 2;
+    }
+
+    private async setBackgroundsAsync(): Promise<void> {
+        const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
+
+        if (this.backgroundIsUsed) {
+            if (proposedBackground !== this.background1) {
+                this.background2 = proposedBackground;
+                this.background1Animation = 'fade-out';
+                this.background2Animation = 'fade-in';
+                this.backgroundIsUsed = false;
+            }
+        } else {
+            if (proposedBackground !== this.background2) {
+                this.background1 = proposedBackground;
+                this.background1Animation = 'fade-in';
+                this.background2Animation = 'fade-out';
+                this.backgroundIsUsed = true;
+            }
+        }
     }
 }
