@@ -109,12 +109,13 @@ describe('PlaybackInformationComponent', () => {
         it('should subscribe to playbackService.playbackStarted, set bottom image URL and animate up when playing a next track', async () => {
             // Arrange
             const scheduler: Scheduler = new Scheduler();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(It.isAny())).returns(async () => 'image-url-mock');
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel1)).returns(async () => 'image-url-mock');
             component = new PlaybackCoverArtComponent(playbackServiceMock.object, metadataServiceMock.object, schedulerMock.object);
 
             // Act
             await component.ngOnInit();
+            component.bottomImageUrl = '';
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, false));
             while (component.bottomImageUrl === '') {
                 await scheduler.sleepAsync(10);
@@ -125,15 +126,16 @@ describe('PlaybackInformationComponent', () => {
             expect(component.contentAnimation).toEqual('animated-up');
         });
 
-        it('should subscribe to playbackService.playbackStarted, set top image URL and animate up when playing a previous track', async () => {
+        it('should subscribe to playbackService.playbackStarted, set top image URL and animate down when playing a previous track', async () => {
             // Arrange
             const scheduler: Scheduler = new Scheduler();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(It.isAny())).returns(async () => 'image-url-mock');
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel1)).returns(async () => 'image-url-mock');
             component = new PlaybackCoverArtComponent(playbackServiceMock.object, metadataServiceMock.object, schedulerMock.object);
 
             // Act
             await component.ngOnInit();
+            component.topImageUrl = '';
             playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, true));
             while (component.topImageUrl === '') {
                 await scheduler.sleepAsync(10);
@@ -142,6 +144,26 @@ describe('PlaybackInformationComponent', () => {
             // Assert
             expect(component.topImageUrl).toEqual('image-url-mock');
             expect(component.contentAnimation).toEqual('animated-down');
+        });
+
+        it('should subscribe to playbackService.playbackStopped, set bottom image URL and animate up when stopping playback', async () => {
+            // Arrange
+            const scheduler: Scheduler = new Scheduler();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(undefined)).returns(async () => '');
+            component = new PlaybackCoverArtComponent(playbackServiceMock.object, metadataServiceMock.object, schedulerMock.object);
+
+            // Act
+            await component.ngOnInit();
+            component.bottomImageUrl = 'image-url-mock';
+            playbackServicePlaybackStopped.next();
+            while (component.bottomImageUrl === 'image-url-mock') {
+                await scheduler.sleepAsync(10);
+            }
+
+            // Assert
+            expect(component.bottomImageUrl).toEqual('');
+            expect(component.contentAnimation).toEqual('animated-up');
         });
     });
 });
