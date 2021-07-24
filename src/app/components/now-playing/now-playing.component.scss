@@ -19,9 +19,7 @@
     right: 0;
     z-index: 0;
     height: 100%;
-    // opacity: 0.05;
     filter: blur(8px);
-    //background-image: url('https://www.learningcontainer.com/wp-content/uploads/2020/07/Sample-JPEG-file-download-for-Testing.png?ezimgfmt=rs%3Adevice%2Frscb4-1');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -40,7 +38,7 @@
 }
 
 .app-now-playing__cover {
-    -webkit-box-reflect: below 0 -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
+    -webkit-box-reflect: below 4px -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
 }
 
 .app-now-playing__songinfo {
