@@ -78,7 +78,7 @@ export class NowPlayingComponent implements OnInit {
         private desktop: Desktop
     ) {}
 
-    private backgroundIsUsed: boolean = false;
+    public background1IsUsed: boolean = false;
     public background1: string = '';
     public background2: string = '';
     public background1Animation: string = 'fade-out';
@@ -168,19 +168,19 @@ export class NowPlayingComponent implements OnInit {
     private async setBackgroundsAsync(): Promise<void> {
         const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
 
-        if (this.backgroundIsUsed) {
+        if (this.background1IsUsed) {
             if (proposedBackground !== this.background1) {
                 this.background2 = proposedBackground;
                 this.background1Animation = 'fade-out';
                 this.background2Animation = 'fade-in';
-                this.backgroundIsUsed = false;
+                this.background1IsUsed = false;
             }
         } else {
             if (proposedBackground !== this.background2) {
                 this.background1 = proposedBackground;
                 this.background1Animation = 'fade-in';
                 this.background2Animation = 'fade-out';
-                this.backgroundIsUsed = true;
+                this.background1IsUsed = true;
             }
         }
     }
