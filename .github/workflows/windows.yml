@@ -1,13 +1,16 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Dopamine Build - Windows 
+
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # Controls when the workflow will run
 on:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    push:
+        tags:
+            - '*'
+    workflow_dispatch:
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -46,3 +49,11 @@ jobs:
             release_name: ${{ steps.version.outputs.version }}
             tag_name: ${{ github.ref }}
             body_path: CHANGELOG.md
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release\Dopamine Setup 3.0.0-preview.3.exe
+          asset_name: Dopamine Setup 3.0.0-auto.exe
