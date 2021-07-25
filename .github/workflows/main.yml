@@ -1,4 +1,4 @@
-name: Build
+name: Test Builds
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # No build on push for now #
