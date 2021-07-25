@@ -26,7 +26,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v2.3.0
-      - uses: yinxulai/actions-electron-forge@0.05
         with:
           node-version: '14.x'
       # Runs a set of commands using the runners shell
@@ -37,5 +36,5 @@ jobs:
           cd dopamine
           npm install
           npm start
-          npm run electron:windows
+          npm build electron:windows
           echo Done
