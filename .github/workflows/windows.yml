@@ -34,4 +34,11 @@ jobs:
       - name: Build    
         run: |
           npm run electron:windows
-          echo Done
+      - name: Publish 
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+            draft: true
+            prerelease: true
+            release_name: ${{ steps.version.outputs.version }}
+            tag_name: ${{ github.ref }}
