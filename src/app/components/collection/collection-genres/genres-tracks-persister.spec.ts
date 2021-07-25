@@ -3,7 +3,7 @@ import { Logger } from '../../../common/logger';
 import { TrackOrder } from '../track-order';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
-describe('AlbumsTracksPersister', () => {
+describe('GenresTracksPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
 

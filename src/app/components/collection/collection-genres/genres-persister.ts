@@ -74,16 +74,20 @@ export class GenresPersister {
     }
 
     private initializeFromSettings(): void {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreFromSettings())) {
+            this.selectedGenreNames = [this.getSelectedGenreFromSettings()];
+        }
+
         if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreOrderFromSettings())) {
             this.selectedGenreOrder = (GenreOrder as any)[this.getSelectedGenreOrderFromSettings()];
         }
     }
 
-    public getSelectedGenreFromSettings(): string {
+    private getSelectedGenreFromSettings(): string {
         return this.settings.genresTabSelectedGenre;
     }
 
-    public saveSelectedGenreToSettings(selectedGenre: string): void {
+    private saveSelectedGenreToSettings(selectedGenre: string): void {
         this.settings.genresTabSelectedGenre = selectedGenre;
     }
 
