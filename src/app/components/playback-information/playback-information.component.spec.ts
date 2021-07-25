@@ -18,7 +18,10 @@ describe('PlaybackInformationComponent', () => {
     let schedulerMock: IMock<Scheduler>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
-    let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
+    let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
+    let playbackServicePlaybackStoppedMock: Subject<void>;
+
+    const flushPromises = () => new Promise(setImmediate);
 
     beforeEach(async () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
@@ -34,10 +37,13 @@ describe('PlaybackInformationComponent', () => {
             schedulerMock.object
         );
 
-        playbackServicePlaybackStarted = new Subject();
-        const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();
+        playbackServicePlaybackStartedMock = new Subject();
+        const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStartedMock$);
 
-        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
+        playbackServicePlaybackStoppedMock = new Subject();
+        const playbackServicePlaybackStoppedMock$: Observable<void> = playbackServicePlaybackStoppedMock.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStoppedMock$);
     });
 
     describe('constructor', () => {
@@ -124,62 +130,6 @@ describe('PlaybackInformationComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should subscribe to playbackService.playbackStarted, set bottom content items and animate up when playing a next track', async () => {
-            // Arrange
-            const track1: Track = new Track('/home/user/Music/track1.mp3');
-            track1.artists = 'My artist';
-            track1.trackTitle = 'My title';
-            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
-            const scheduler: Scheduler = new Scheduler();
-
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
-            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
-
-            // Act
-            await component.ngOnInit();
-
-            playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, false));
-
-            while (component.bottomContentArtist === '' || component.bottomContentTitle === '') {
-                await scheduler.sleepAsync(10);
-            }
-
-            // Assert
-            expect(component.bottomContentArtist).toEqual('My artist');
-            expect(component.bottomContentTitle).toEqual('My title');
-            expect(component.contentAnimation).toEqual('animated-up');
-        });
-
-        it('should subscribe to playbackService.playbackStarted, set top content items and animate down when playing a previous track', async () => {
-            // Arrange
-            const track1: Track = new Track('/home/user/Music/track1.mp3');
-            track1.artists = 'My artist';
-            track1.trackTitle = 'My title';
-            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
-            const scheduler: Scheduler = new Scheduler();
-
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
-            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
-
-            // Act
-            await component.ngOnInit();
-
-            playbackServicePlaybackStarted.next(new PlaybackStarted(trackModel1, true));
-
-            while (component.topContentArtist === '' || component.topContentTitle === '') {
-                await scheduler.sleepAsync(10);
-            }
-
-            // Assert
-            expect(component.topContentArtist).toEqual('My artist');
-            expect(component.topContentTitle).toEqual('My title');
-            expect(component.contentAnimation).toEqual('animated-down');
-        });
-
         it('should set top content items and go down without animation if there is a current track playing', async () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/track1.mp3');
@@ -199,6 +149,70 @@ describe('PlaybackInformationComponent', () => {
             expect(component.topContentArtist).toEqual('My artist');
             expect(component.topContentTitle).toEqual('My title');
             expect(component.contentAnimation).toEqual('down');
+        });
+
+        it('should set bottom content items and animate up when playing a next track on playbackStarted', async () => {
+            // Arrange
+            const track1: Track = new Track('/home/user/Music/track1.mp3');
+            track1.artists = 'My artist';
+            track1.trackTitle = 'My title';
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
+
+            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
+            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
+
+            // Act
+            await component.ngOnInit();
+
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, false));
+
+            await flushPromises();
+
+            // Assert
+            expect(component.bottomContentArtist).toEqual('My artist');
+            expect(component.bottomContentTitle).toEqual('My title');
+            expect(component.contentAnimation).toEqual('animated-up');
+        });
+
+        it('should set top content items and animate down when playing a previous track on playbackStarted', async () => {
+            // Arrange
+            const track1: Track = new Track('/home/user/Music/track1.mp3');
+            track1.artists = 'My artist';
+            track1.trackTitle = 'My title';
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
+
+            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
+            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
+
+            // Act
+            await component.ngOnInit();
+
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, true));
+
+            await flushPromises();
+
+            // Assert
+            expect(component.topContentArtist).toEqual('My artist');
+            expect(component.topContentTitle).toEqual('My title');
+            expect(component.contentAnimation).toEqual('animated-down');
+        });
+
+        it('should set bottom content items and animate up when playing a next track on playbackStopped', async () => {
+            // Arrange
+
+            // Act
+            await component.ngOnInit();
+            component.bottomContentArtist = 'My artist';
+            component.bottomContentTitle = 'My title';
+
+            playbackServicePlaybackStoppedMock.next();
+
+            await flushPromises();
+
+            // Assert
+            expect(component.bottomContentArtist).toEqual('');
+            expect(component.bottomContentTitle).toEqual('');
+            expect(component.contentAnimation).toEqual('animated-up');
         });
     });
 });
