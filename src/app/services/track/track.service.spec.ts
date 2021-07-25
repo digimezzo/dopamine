@@ -33,10 +33,10 @@ describe('TrackService', () => {
             .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'))
             .returns(async () => ['/home/user/Music/Subfolder1/track1.mp3', '/home/user/Music/Subfolder1/track1.png']);
 
-        track1 = new Track('Path 1');
-        track2 = new Track('Path 2');
-        track3 = new Track('Path 3');
-        track4 = new Track('Path 4');
+        track1 = new Track('path1');
+        track2 = new Track('path2');
+        track3 = new Track('path3');
+        track4 = new Track('path4');
 
         trackRepositoryMock.setup((x) => x.getTracksForAlbums(['albumKey1', 'albumKey2'])).returns(() => [track1, track2]);
         trackRepositoryMock.setup((x) => x.getTracksForAlbums(['unknownAlbumKey1', 'unknownAlbumKey2'])).returns(() => []);
@@ -45,6 +45,9 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['genre1', 'genre2'])).returns(() => [track1, track3]);
         trackRepositoryMock.setup((x) => x.getTracksForGenres(['unknownGenre1', 'unknownGenre2'])).returns(() => []);
         trackRepositoryMock.setup((x) => x.getTracksForGenres([])).returns(() => []);
+
+        trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['artist3', 'artist4'])).returns(() => [track2]);
+        trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['artist3', 'artist4'])).returns(() => [track3]);
 
         const trackToFill: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
         const filledTrack: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
@@ -291,8 +294,38 @@ describe('TrackService', () => {
             expect(tracksModels.tracks.length).toEqual(0);
         });
 
-        it('should do more', () => {
-            throw new Error();
+        it('should return a TrackModels for track artists only if artistType is trackArtists', () => {
+            // Arrange
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.trackArtists);
+
+            // Assert
+            expect(tracksModels.tracks.length).toEqual(1);
+            expect(tracksModels.tracks[0].path).toEqual(track2.path);
+        });
+
+        it('should return a TrackModels for album artists only if artistType is albumArtists', () => {
+            // Arrange
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.albumArtists);
+
+            // Assert
+            expect(tracksModels.tracks.length).toEqual(1);
+            expect(tracksModels.tracks[0].path).toEqual(track3.path);
+        });
+
+        it('should return a TrackModels for both track and album artists if artistType is allArtists', () => {
+            // Arrange
+
+            // Act
+            const tracksModels: TrackModels = service.getTracksForArtists(['artist3', 'artist4'], ArtistType.allArtists);
+
+            // Assert
+            expect(tracksModels.tracks.length).toEqual(2);
+            expect(tracksModels.tracks[0].path).toEqual(track2.path);
+            expect(tracksModels.tracks[1].path).toEqual(track3.path);
         });
     });
 
