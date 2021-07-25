@@ -97,6 +97,10 @@ export class ArtistsPersister {
     }
 
     private initializeFromSettings(): void {
+        if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistFromSettings())) {
+            this.selectedArtistNames = [this.getSelectedArtistFromSettings()];
+        }
+
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
             this.selectedArtistType = (ArtistType as any)[this.getSelectedArtistTypeFromSettings()];
         }
@@ -106,11 +110,11 @@ export class ArtistsPersister {
         }
     }
 
-    public getSelectedArtistFromSettings(): string {
+    private getSelectedArtistFromSettings(): string {
         return this.settings.artistsTabSelectedArtist;
     }
 
-    public saveSelectedArtistToSettings(selectedArtist: string): void {
+    private saveSelectedArtistToSettings(selectedArtist: string): void {
         this.settings.artistsTabSelectedArtist = selectedArtist;
     }
 
@@ -130,7 +134,7 @@ export class ArtistsPersister {
         this.settings.artistsTabSelectedArtistOrder = selectedArtistOrderName;
     }
 
-    public resetSelectedArtists(): void {
+    private resetSelectedArtists(): void {
         this.setSelectedArtists([]);
     }
 }
