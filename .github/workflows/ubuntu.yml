@@ -36,6 +36,5 @@ jobs:
           git clone https://github.com/digimezzo/dopamine.git
           cd dopamine
           npm install
-          npm start
           npm build electron:linux
           echo Done
