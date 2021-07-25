@@ -56,3 +56,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: release\Dopamine Setup 3.0.0-preview.3.exe
           asset_name: Dopamine Setup 3.0.0-auto.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
