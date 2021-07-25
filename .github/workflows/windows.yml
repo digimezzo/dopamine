@@ -36,5 +36,5 @@ jobs:
           cd dopamine
           npm install
           npm start
-          npm build electron:windows
+          npm run electron:windows
           echo Done
