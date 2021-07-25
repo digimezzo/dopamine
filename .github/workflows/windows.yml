@@ -38,7 +38,7 @@ jobs:
         run: |
           npm run electron:windows
       - name: Publish 
-      
+        run: echo Creating Release
       - uses: actions/create-release@v1
         id: create_release
         with:
@@ -48,7 +48,7 @@ jobs:
             tag_name: ${{ github.ref }}
             body_path: CHANGELOG.md
       - name: upload artifact
-      
+        run: echo Uploading Artifact
       - uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
