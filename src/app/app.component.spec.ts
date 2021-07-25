@@ -111,7 +111,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            discordServiceMock.verify((x) => x.initialize(), Times.exactly(1));
+            discordServiceMock.verify((x) => x.setRichPresenceFromSettings(), Times.exactly(1));
         });
 
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {

@@ -47,24 +47,14 @@ describe('OnlineSettingsComponent', () => {
             expect(enableDiscordRichPresenceFromSettings).toBeTruthy();
         });
 
-        it('should enable Discord Rich Presence if true', () => {
+        it('should set Discord Rich Presence from settings', () => {
             // Arrange
 
             // Act
             component.enableDiscordRichPresence = true;
 
             // Assert
-            discordServiceMock.verify((x) => x.enableRichPresence(), Times.exactly(1));
-        });
-
-        it('should disable Discord Rich Presence if false', () => {
-            // Arrange
-
-            // Act
-            component.enableDiscordRichPresence = false;
-
-            // Assert
-            discordServiceMock.verify((x) => x.disableRichPresence(), Times.exactly(1));
+            discordServiceMock.verify((x) => x.setRichPresenceFromSettings(), Times.exactly(1));
         });
     });
 });

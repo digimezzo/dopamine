@@ -18,7 +18,27 @@ export class DiscordService implements BaseDiscordService {
         private settings: BaseSettings
     ) {}
 
-    public enableRichPresence(): void {
+    public setRichPresenceFromSettings(): void {
+        if (!this.settings.enableDiscordRichPresence) {
+            this.removeSubscriptions();
+            this.presenceUpdater.clearPresence();
+
+            return;
+        }
+
+        this.addSubscriptions();
+
+        if (this.playbackService.isPlaying) {
+            this.presenceUpdater.updatePresence(
+                'play',
+                this.translatorService.get('playing'),
+                'icon',
+                this.translatorService.get('playing-with-dopamine')
+            );
+        }
+    }
+
+    private addSubscriptions(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.presenceUpdater.updatePresence(
@@ -57,25 +77,9 @@ export class DiscordService implements BaseDiscordService {
                 this.presenceUpdater.clearPresence();
             })
         );
-
-        if (this.playbackService.isPlaying) {
-            this.presenceUpdater.updatePresence(
-                'play',
-                this.translatorService.get('playing'),
-                'icon',
-                this.translatorService.get('playing-with-dopamine')
-            );
-        }
     }
 
-    public disableRichPresence(): void {
+    private removeSubscriptions(): void {
         this.subscription.unsubscribe();
-        this.presenceUpdater.clearPresence();
-    }
-
-    public initialize(): void {
-        if (this.settings.enableDiscordRichPresence) {
-            this.enableRichPresence();
-        }
     }
 }

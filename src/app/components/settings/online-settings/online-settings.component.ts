@@ -17,12 +17,7 @@ export class OnlineSettingsComponent implements OnInit {
     }
 
     public set enableDiscordRichPresence(v: boolean) {
-        if (v) {
-            this.discordService.enableRichPresence();
-        } else {
-            this.discordService.disableRichPresence();
-        }
-
+        this.discordService.setRichPresenceFromSettings();
         this.settings.enableDiscordRichPresence = v;
     }
 

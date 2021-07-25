@@ -234,8 +234,8 @@ describe('TrackService', () => {
             // Assert
             trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(2);
-            expect(tracksModels.tracks[0].path).toEqual('Path 1');
-            expect(tracksModels.tracks[1].path).toEqual('Path 2');
+            expect(tracksModels.tracks[0].path).toEqual('path1');
+            expect(tracksModels.tracks[1].path).toEqual('path2');
         });
 
         it('should return a TrackModels containing no tracks if no tracks are found for the given albumKeys', () => {
@@ -364,8 +364,8 @@ describe('TrackService', () => {
             // Assert
             trackRepositoryMock.verify((x) => x.getTracksForGenres(genres), Times.exactly(1));
             expect(tracksModels.tracks.length).toEqual(2);
-            expect(tracksModels.tracks[0].path).toEqual('Path 1');
-            expect(tracksModels.tracks[1].path).toEqual('Path 3');
+            expect(tracksModels.tracks[0].path).toEqual('path1');
+            expect(tracksModels.tracks[1].path).toEqual('path3');
         });
 
         it('should return a TrackModels containing no tracks if no tracks are found for the given genres', () => {
