@@ -3,7 +3,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # No build on push for now #
 on: 
-  workflow_dispatch:
+  workflow_dispatch: 
   
 jobs:
   build_on_linux:
@@ -17,6 +17,8 @@ jobs:
       run: npm install
     - name: build
       run: npm run electron:linux
+    - name: publish
+      run: npm publish
 
   build_on_mac:
     runs-on: macos-latest
@@ -29,6 +31,8 @@ jobs:
       run: npm install
     - name: build
       run: npm run electron:mac
+    - name: publish
+      run: npm publish
 
   build_on_win:
     runs-on: windows-latest
@@ -41,3 +45,5 @@ jobs:
       run: npm install
     - name: build
       run: npm run electron:windows
+    - name: publish
+      run: npm publish
