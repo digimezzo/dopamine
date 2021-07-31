@@ -130,7 +130,7 @@ export class PlaybackService implements BasePlaybackService {
             return;
         }
 
-        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.name], artistType);
+        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
         this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
@@ -140,7 +140,7 @@ export class PlaybackService implements BasePlaybackService {
             return;
         }
 
-        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.name]);
+        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.displayName]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
         this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }

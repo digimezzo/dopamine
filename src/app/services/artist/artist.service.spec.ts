@@ -70,12 +70,12 @@ describe('ArtistService', () => {
 
             // Assert
             expect(artists.length).toEqual(6);
-            expect(artists[0].name).toEqual('Aerosmith');
-            expect(artists[1].name).toEqual('Alanis Morissette');
-            expect(artists[2].name).toEqual('Bon Jovi');
-            expect(artists[3].name).toEqual('Madonna');
-            expect(artists[4].name).toEqual('Metallica');
-            expect(artists[5].name).toEqual('Scorpions');
+            expect(artists[0].displayName).toEqual('Aerosmith');
+            expect(artists[1].displayName).toEqual('Alanis Morissette');
+            expect(artists[2].displayName).toEqual('Bon Jovi');
+            expect(artists[3].displayName).toEqual('Madonna');
+            expect(artists[4].displayName).toEqual('Metallica');
+            expect(artists[5].displayName).toEqual('Scorpions');
         });
 
         it('should get all album artists without duplicates when given ArtistType.albumArtists', () => {
@@ -117,13 +117,13 @@ describe('ArtistService', () => {
 
             // Assert
             expect(artists.length).toEqual(7);
-            expect(artists[0].name).toEqual('Aerosmith');
-            expect(artists[1].name).toEqual('Alanis Morissette');
-            expect(artists[2].name).toEqual('Bon Jovi');
-            expect(artists[3].name).toEqual('Madonna');
-            expect(artists[4].name).toEqual('Megadeth');
-            expect(artists[5].name).toEqual('Rihanna');
-            expect(artists[6].name).toEqual('Jennifer Lopez');
+            expect(artists[0].displayName).toEqual('Aerosmith');
+            expect(artists[1].displayName).toEqual('Alanis Morissette');
+            expect(artists[2].displayName).toEqual('Bon Jovi');
+            expect(artists[3].displayName).toEqual('Madonna');
+            expect(artists[4].displayName).toEqual('Megadeth');
+            expect(artists[5].displayName).toEqual('Rihanna');
+            expect(artists[6].displayName).toEqual('Jennifer Lopez');
         });
 
         it('should get all track and album artists without duplicates when given ArtistType.allArtists', () => {
@@ -165,15 +165,15 @@ describe('ArtistService', () => {
 
             // Assert
             expect(artists.length).toEqual(9);
-            expect(artists[0].name).toEqual('Aerosmith');
-            expect(artists[1].name).toEqual('Alanis Morissette');
-            expect(artists[2].name).toEqual('Bon Jovi');
-            expect(artists[3].name).toEqual('Madonna');
-            expect(artists[4].name).toEqual('Metallica');
-            expect(artists[5].name).toEqual('Scorpions');
-            expect(artists[6].name).toEqual('Megadeth');
-            expect(artists[7].name).toEqual('Rihanna');
-            expect(artists[8].name).toEqual('Jennifer Lopez');
+            expect(artists[0].displayName).toEqual('Aerosmith');
+            expect(artists[1].displayName).toEqual('Alanis Morissette');
+            expect(artists[2].displayName).toEqual('Bon Jovi');
+            expect(artists[3].displayName).toEqual('Madonna');
+            expect(artists[4].displayName).toEqual('Metallica');
+            expect(artists[5].displayName).toEqual('Scorpions');
+            expect(artists[6].displayName).toEqual('Megadeth');
+            expect(artists[7].displayName).toEqual('Rihanna');
+            expect(artists[8].displayName).toEqual('Jennifer Lopez');
         });
     });
 });

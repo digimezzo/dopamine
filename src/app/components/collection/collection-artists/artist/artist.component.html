@@ -1,5 +1,5 @@
 <div class="app-artist no-select">
-    <div class="app-artist__header mt-2 mb-1 mx-1" *ngIf="artist.showHeader">{{ artist.alphabeticalHeader }}</div>
+    <div class="app-artist__header mt-2 mb-1 mx-1" *ngIf="artist.showHeader">{{ artist.header }}</div>
     <div
         class="app-artist__name ellipsis px-1"
         [ngClass]="{ 'selected-item': artist.isSelected }"
@@ -7,6 +7,6 @@
         [matRippleTrigger]="trigger"
         #trigger
     >
-        {{ artist.name }}
+        {{ artist.displayName }}
     </div>
 </div>
