@@ -754,7 +754,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists([artistToPlay.name], ArtistType.trackArtists), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForArtists([artistToPlay.displayName], ArtistType.trackArtists), Times.exactly(1));
         });
 
         it('should order tracks for the artist byAlbum', () => {
@@ -838,7 +838,7 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayGenre(genreToPlay);
 
             // Assert
-            trackServiceMock.verify((x) => x.getTracksForGenres([genreToPlay.name]), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreToPlay.displayName]), Times.exactly(1));
         });
 
         it('should order tracks for the artist byAlbum', () => {

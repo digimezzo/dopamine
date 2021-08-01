@@ -420,7 +420,7 @@ describe('AlbumBrowserComponent', () => {
     });
 
     describe('setSelectedAlbums', () => {
-        it('should set the selected item on mouseSelectionWatcher', () => {
+        it('should set the selected items on mouseSelectionWatcher', () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);

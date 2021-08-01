@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -55,6 +55,7 @@ import { RemovedTrackRepository } from './common/data/repositories/removed-track
 import { TrackRepository } from './common/data/repositories/track-repository';
 import { GenreOrdering } from './common/genre-ordering';
 import { Hacks } from './common/hacks';
+import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
 import { Desktop } from './common/io/desktop';
@@ -395,6 +396,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenreOrdering,
         TrackOrdering,
         PresenceUpdater,
+        HeaderShower,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { GenreOrdering } from '../../../../common/genre-ordering';
+import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreModel } from '../../../../services/genre/genre-model';
@@ -23,6 +23,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
+        private headerShower: HeaderShower,
         private logger: Logger
     ) {}
 
@@ -97,25 +98,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.showGenreHeaders(orderedGenres);
+            this.headerShower.showHeaders(orderedGenres);
         } catch (e) {
             this.logger.error(`Could not order genres. Error: ${e.message}`, 'GenreBrowserComponent', 'orderGenres');
         }
 
         this.orderedGenres = [...orderedGenres];
-    }
-
-    private showGenreHeaders(orderedGenres: GenreModel[]): void {
-        let previousAlphabeticalHeader: string = uuidv4();
-
-        for (const genre of orderedGenres) {
-            genre.showHeader = false;
-
-            if (genre.alphabeticalHeader !== previousAlphabeticalHeader) {
-                genre.showHeader = true;
-            }
-
-            previousAlphabeticalHeader = genre.alphabeticalHeader;
-        }
     }
 }

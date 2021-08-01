@@ -32,13 +32,13 @@ describe('GenreModel', () => {
             expect(genreModel.isSelected).toBeDefined();
         });
 
-        it('should define showHeader', () => {
+        it('should define showHeader as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(genreModel.showHeader).toBeDefined();
+            expect(genreModel.showHeader).toBeFalsy();
         });
 
         it('should define name', () => {
@@ -47,7 +47,7 @@ describe('GenreModel', () => {
             // Act
 
             // Assert
-            expect(genreModel.name).toBeDefined();
+            expect(genreModel.displayName).toBeDefined();
         });
 
         it('should define sortableName', () => {
@@ -59,13 +59,13 @@ describe('GenreModel', () => {
             expect(genreModel.sortableName).toBeDefined();
         });
 
-        it('should define alphabeticalHeader', () => {
+        it('should define header', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(genreModel.alphabeticalHeader).toBeDefined();
+            expect(genreModel.header).toBeDefined();
         });
     });
 
@@ -76,7 +76,7 @@ describe('GenreModel', () => {
             genreModel = new GenreModel(genre, translatorServiceMock.object);
 
             // Act
-            const name: string = genreModel.name;
+            const name: string = genreModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown genre');
@@ -88,7 +88,7 @@ describe('GenreModel', () => {
             genreModel = new GenreModel(genre, translatorServiceMock.object);
 
             // Act
-            const name: string = genreModel.name;
+            const name: string = genreModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown genre');
@@ -100,7 +100,7 @@ describe('GenreModel', () => {
             genreModel = new GenreModel(genre, translatorServiceMock.object);
 
             // Act
-            const name: string = genreModel.name;
+            const name: string = genreModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown genre');
@@ -112,50 +112,10 @@ describe('GenreModel', () => {
             genreModel = new GenreModel(genre, translatorServiceMock.object);
 
             // Act
-            const name: string = genreModel.name;
+            const name: string = genreModel.displayName;
 
             // Assert
             expect(name).toEqual('My genre');
-        });
-    });
-
-    describe('sortableName', () => {
-        it('should return a sortable name', () => {
-            // Arrange
-            const genre: string = 'The Genre';
-            genreModel = new GenreModel(genre, translatorServiceMock.object);
-
-            // Act
-            const sortableName: string = genreModel.sortableName;
-
-            // Assert
-            expect(sortableName).toEqual('genre');
-        });
-    });
-
-    describe('alphabeticalHeader', () => {
-        it('should return an alphabetical header containing a letter if the first letter is known as alphabetical header', () => {
-            // Arrange
-            const genre: string = 'The Genre';
-            genreModel = new GenreModel(genre, translatorServiceMock.object);
-
-            // Act
-            const alphabeticalHeader: string = genreModel.alphabeticalHeader;
-
-            // Assert
-            expect(alphabeticalHeader).toEqual('g');
-        });
-
-        it('should return an alphabetical header containing a letter if the first letter is not known as alphabetical header', () => {
-            // Arrange
-            const genre: string = '1 Genre';
-            genreModel = new GenreModel(genre, translatorServiceMock.object);
-
-            // Act
-            const alphabeticalHeader: string = genreModel.alphabeticalHeader;
-
-            // Assert
-            expect(alphabeticalHeader).toEqual('#');
         });
     });
 });

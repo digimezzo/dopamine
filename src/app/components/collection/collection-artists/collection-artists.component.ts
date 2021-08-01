@@ -125,7 +125,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
         if (selectedArtists.length > 0) {
-            this.getTracksForArtists(selectedArtists.map((x) => x.name));
+            this.getTracksForArtists(selectedArtists.map((x) => x.displayName));
         }
 
         this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));

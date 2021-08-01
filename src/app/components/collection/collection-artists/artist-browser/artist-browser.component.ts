@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { ArtistOrdering } from '../../../../common/artist-ordering';
+import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
@@ -24,6 +24,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         private artistOrdering: ArtistOrdering,
+        private headerShower: HeaderShower,
         private logger: Logger
     ) {}
 
@@ -122,25 +123,11 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.showArtistHeaders(orderedArtists);
+            this.headerShower.showHeaders(orderedArtists);
         } catch (e) {
             this.logger.error(`Could not order artists. Error: ${e.message}`, 'ArtistBrowserComponent', 'orderArtists');
         }
 
         this.orderedArtists = [...orderedArtists];
-    }
-
-    private showArtistHeaders(orderedArtists: ArtistModel[]): void {
-        let previousAlphabeticalHeader: string = uuidv4();
-
-        for (const artist of orderedArtists) {
-            artist.showHeader = false;
-
-            if (artist.alphabeticalHeader !== previousAlphabeticalHeader) {
-                artist.showHeader = true;
-            }
-
-            previousAlphabeticalHeader = artist.alphabeticalHeader;
-        }
     }
 }

@@ -32,13 +32,13 @@ describe('ArtistModel', () => {
             expect(artistModel.isSelected).toBeDefined();
         });
 
-        it('should define showHeader', () => {
+        it('should define showHeader as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(artistModel.showHeader).toBeDefined();
+            expect(artistModel.showHeader).toBeFalsy();
         });
 
         it('should define name', () => {
@@ -47,7 +47,7 @@ describe('ArtistModel', () => {
             // Act
 
             // Assert
-            expect(artistModel.name).toBeDefined();
+            expect(artistModel.displayName).toBeDefined();
         });
 
         it('should define sortableName', () => {
@@ -59,13 +59,13 @@ describe('ArtistModel', () => {
             expect(artistModel.sortableName).toBeDefined();
         });
 
-        it('should define alphabeticalHeader', () => {
+        it('should define header', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(artistModel.alphabeticalHeader).toBeDefined();
+            expect(artistModel.header).toBeDefined();
         });
     });
 
@@ -76,7 +76,7 @@ describe('ArtistModel', () => {
             artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
-            const name: string = artistModel.name;
+            const name: string = artistModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown artist');
@@ -88,7 +88,7 @@ describe('ArtistModel', () => {
             artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
-            const name: string = artistModel.name;
+            const name: string = artistModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown artist');
@@ -100,7 +100,7 @@ describe('ArtistModel', () => {
             artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
-            const name: string = artistModel.name;
+            const name: string = artistModel.displayName;
 
             // Assert
             expect(name).toEqual('Unknown artist');
@@ -112,50 +112,10 @@ describe('ArtistModel', () => {
             artistModel = new ArtistModel(artist, translatorServiceMock.object);
 
             // Act
-            const name: string = artistModel.name;
+            const name: string = artistModel.displayName;
 
             // Assert
             expect(name).toEqual('My artist');
-        });
-    });
-
-    describe('sortableName', () => {
-        it('should return a sortable name', () => {
-            // Arrange
-            const artist: string = 'The Artist';
-            artistModel = new ArtistModel(artist, translatorServiceMock.object);
-
-            // Act
-            const sortableName: string = artistModel.sortableName;
-
-            // Assert
-            expect(sortableName).toEqual('artist');
-        });
-    });
-
-    describe('alphabeticalHeader', () => {
-        it('should return an alphabetical header containing a letter if the first letter is known as alphabetical header', () => {
-            // Arrange
-            const artist: string = 'The Artist';
-            artistModel = new ArtistModel(artist, translatorServiceMock.object);
-
-            // Act
-            const alphabeticalHeader: string = artistModel.alphabeticalHeader;
-
-            // Assert
-            expect(alphabeticalHeader).toEqual('a');
-        });
-
-        it('should return an alphabetical header containing a letter if the first letter is not known as alphabetical header', () => {
-            // Arrange
-            const artist: string = '1 Artist';
-            artistModel = new ArtistModel(artist, translatorServiceMock.object);
-
-            // Act
-            const alphabeticalHeader: string = artistModel.alphabeticalHeader;
-
-            // Assert
-            expect(alphabeticalHeader).toEqual('#');
         });
     });
 });

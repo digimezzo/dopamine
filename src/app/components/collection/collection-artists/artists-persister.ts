@@ -32,7 +32,7 @@ export class ArtistsPersister {
         }
 
         try {
-            return availableArtists.filter((x) => this.selectedArtistNames.includes(x.name));
+            return availableArtists.filter((x) => this.selectedArtistNames.includes(x.displayName));
         } catch (e) {
             this.logger.error(`Could not get selected artists. Error: ${e.message}`, 'ArtistsPersister', 'getSelectedArtists');
         }
@@ -43,7 +43,7 @@ export class ArtistsPersister {
     public setSelectedArtists(selectedArtists: ArtistModel[]): void {
         try {
             if (selectedArtists != undefined && selectedArtists.length > 0) {
-                this.selectedArtistNames = selectedArtists.map((x) => x.name);
+                this.selectedArtistNames = selectedArtists.map((x) => x.displayName);
             } else {
                 this.selectedArtistNames = [];
             }
