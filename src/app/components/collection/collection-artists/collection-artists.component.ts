@@ -58,17 +58,12 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.artists = [];
         this.albums = [];
         this.tracks = new TrackModels();
     }
 
     public async ngOnInit(): Promise<void> {
-        this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
-            })
-        );
-
         this.subscription.add(
             this.artistsPersister.selectedArtistsChanged$.subscribe((artists: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
@@ -81,6 +76,12 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             this.artistsPersister.selectedArtistTypeChanged$.subscribe((artistType: ArtistType) => {
                 this.albumsPersister.resetSelectedAlbums();
                 this.getArtists();
+            })
+        );
+
+        this.subscription.add(
+            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                this.getTracksForAlbumKeys(albumKeys);
             })
         );
 
@@ -117,18 +118,19 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     private getAlbums(): void {
-        this.albums = this.albumService.getAllAlbums();
+        const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
+        this.getAlbumsForArtists(selectedArtists.map((x) => x.displayName));
     }
 
     private getTracks(): void {
-        const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
-        if (selectedArtists.length > 0) {
+        if (selectedAlbums.length > 0) {
+            this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+        } else {
+            const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
             this.getTracksForArtists(selectedArtists.map((x) => x.displayName));
         }
-
-        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
     }
 
     private getTracksForArtists(artists: string[]): void {

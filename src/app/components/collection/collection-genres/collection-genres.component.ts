@@ -57,17 +57,12 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.genres = [];
         this.albums = [];
         this.tracks = new TrackModels();
     }
 
     public async ngOnInit(): Promise<void> {
-        this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
-            })
-        );
-
         this.subscription.add(
             this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
@@ -77,13 +72,19 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.indexingService.indexingFinished$.subscribe(() => {
-                this.fillListsAsync();
+            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                this.getTracksForAlbumKeys(albumKeys);
+            })
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(async () => {
+                await this.fillListsAsync();
             })
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.fillListsAsync();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: any): void {
@@ -113,14 +114,14 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private getTracks(): void {
-        const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
-        if (selectedGenres.length > 0) {
+        if (selectedAlbums.length > 0) {
+            this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+        } else {
+            const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
             this.getTracksForGenres(selectedGenres.map((x) => x.displayName));
         }
-
-        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
     }
 
     private getTracksForGenres(genres: string[]): void {
