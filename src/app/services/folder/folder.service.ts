@@ -18,11 +18,16 @@ export class FolderService implements BaseFolderService {
         private logger: Logger,
         private snackBarService: BaseSnackBarService,
         private fileSystem: FileSystem
-    ) {}
+    ) {
+        this.evaluateFolders();
+    }
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
+    public collectionHasFolders: boolean = false;
+
     public onFoldersChanged(): void {
+        this.evaluateFolders();
         this.foldersChanged.next();
     }
 
@@ -40,10 +45,16 @@ export class FolderService implements BaseFolderService {
         }
     }
 
+    private evaluateFolders(): void {
+        const numberOfFoldersInCollection: number = this.getFolders().length;
+
+        this.collectionHasFolders = numberOfFoldersInCollection > 0;
+    }
+
     public getFolders(): FolderModel[] {
         const folders: Folder[] = this.folderRepository.getFolders();
 
-        if (folders != undefined) {
+        if (folders != undefined && folders.length > 0) {
             return folders.map((x) => new FolderModel(x));
         }
 

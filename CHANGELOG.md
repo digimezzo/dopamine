@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.3] - 2021-07-24
+## [3.0.0-preview.3] - 2021-08-05
 
 ### Added
 
 -   Pressing the ENTER key pauses and resumes playback
 -   Clicking on the album cover of the currently playing song, opens the "Now playing" screen.
 -   Added now playing background
+-   Smoother transitions between screens
+-   Lower memory usage
 
 ### Changed
 

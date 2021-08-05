@@ -4,6 +4,7 @@ import { SubfolderModel } from './subfolder-model';
 
 export abstract class BaseFolderService {
     public abstract foldersChanged$: Observable<void>;
+    public abstract collectionHasFolders: boolean;
     public abstract onFoldersChanged(): void;
     public abstract addFolderAsync(path: string): Promise<void>;
     public abstract getFolders(): FolderModel[];

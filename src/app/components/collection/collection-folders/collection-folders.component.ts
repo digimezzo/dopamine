@@ -16,6 +16,8 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { CollectionPersister } from '../collection-persister';
+import { CollectionTab } from '../collection-tab';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -28,10 +30,11 @@ import { FoldersPersister } from './folders-persister';
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
     constructor(
-        private indexingService: BaseIndexingService,
+        public folderService: BaseFolderService,
         public playbackService: BasePlaybackService,
+        private indexingService: BaseIndexingService,
+        private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
-        private folderService: BaseFolderService,
         private navigationService: BaseNavigationService,
         private trackService: BaseTrackService,
         private playbackIndicationService: BasePlaybackIndicationService,
@@ -56,11 +59,10 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.clearLists();
     }
 
     public async ngOnInit(): Promise<void> {
-        await this.fillListsAsync();
-
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
@@ -77,9 +79,17 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                this.fillListsAsync();
+                this.processListsAsync();
             })
         );
+
+        this.subscription.add(
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                this.processListsAsync();
+            })
+        );
+
+        await this.processListsAsync();
     }
 
     public splitDragEnd(event: any): void {
@@ -140,12 +150,28 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.navigationService.navigateToManageCollection();
     }
 
+    private async processListsAsync(): Promise<void> {
+        if (this.collectionPersister.selectedTab === CollectionTab.folders) {
+            await this.fillListsAsync();
+        } else {
+            this.clearLists();
+        }
+    }
+
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
+        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
         this.getFolders();
 
+        await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
         const persistedOpenedFolder: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
         await this.setOpenedFolderAsync(persistedOpenedFolder);
+    }
+
+    private clearLists(): void {
+        this.folders = [];
+        this.subfolders = [];
+        this.subfolderBreadCrumbs = [];
+        this.tracks = new TrackModels();
     }
 
     private getOpenedSubfolderPath(): string {

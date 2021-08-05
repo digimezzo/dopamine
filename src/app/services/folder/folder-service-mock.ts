@@ -5,6 +5,7 @@ import { SubfolderModel } from './subfolder-model';
 
 export class FolderServiceMock implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();
+    public collectionHasFolders: boolean = false;
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
     public onFoldersChanged(): void {

@@ -13,6 +13,8 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
+import { CollectionPersister } from '../collection-persister';
+import { CollectionTab } from '../collection-tab';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
@@ -31,6 +33,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         public artistsPersister: ArtistsPersister,
         public albumsPersister: ArtistsAlbumsPersister,
         public tracksPersister: ArtistsTracksPersister,
+        private collectionPersister: CollectionPersister,
         private indexingService: BaseIndexingService,
         private artistService: BaseArtistService,
         private albumService: BaseAlbumService,
@@ -58,9 +61,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
-        this.artists = [];
-        this.albums = [];
-        this.tracks = new TrackModels();
+        this.clearLists();
     }
 
     public async ngOnInit(): Promise<void> {
@@ -87,12 +88,18 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                this.fillListsAsync();
+                this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                this.processListsAsync();
             })
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        await this.fillListsAsync();
+        await this.processListsAsync();
     }
 
     public splitDragEnd(event: any): void {
@@ -100,16 +107,35 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         this.settings.artistsRightPaneWidthPercent = event.sizes[2];
     }
 
+    private async processListsAsync(): Promise<void> {
+        if (this.collectionPersister.selectedTab === CollectionTab.artists) {
+            await this.fillListsAsync();
+        } else {
+            this.clearLists();
+        }
+    }
+
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
+        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
 
         try {
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getArtists();
+
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getAlbums();
+
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
         }
+    }
+
+    private clearLists(): void {
+        this.artists = [];
+        this.albums = [];
+        this.tracks = new TrackModels();
     }
 
     private getArtists(): void {
