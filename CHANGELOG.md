@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.4] - 2021-08-06
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   No folder is selected when opening the folders screen for the first time
+
 ## [3.0.0-preview.3] - 2021-08-05
 
 ### Added
