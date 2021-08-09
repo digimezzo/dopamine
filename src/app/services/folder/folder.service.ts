@@ -12,22 +12,28 @@ import { SubfolderModel } from './subfolder-model';
 @Injectable()
 export class FolderService implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();
+    private _collectionHasFolders: boolean;
+    private shouldCheckIfCollectionHasFolders: boolean = true;
 
     constructor(
         private folderRepository: BaseFolderRepository,
         private logger: Logger,
         private snackBarService: BaseSnackBarService,
         private fileSystem: FileSystem
-    ) {
-        this.evaluateFolders();
-    }
+    ) {}
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
-    public collectionHasFolders: boolean = false;
+    public get collectionHasFolders(): boolean {
+        if (this.shouldCheckIfCollectionHasFolders) {
+            this.checkIfCollectionHasFolders();
+        }
+
+        return this._collectionHasFolders;
+    }
 
     public onFoldersChanged(): void {
-        this.evaluateFolders();
+        this.checkIfCollectionHasFolders();
         this.foldersChanged.next();
     }
 
@@ -43,12 +49,6 @@ export class FolderService implements BaseFolderService {
             await this.snackBarService.folderAlreadyAddedAsync();
             this.logger.info(`Folder with path '${path}' was already added`, 'FolderService', 'addNewFolderAsync');
         }
-    }
-
-    private evaluateFolders(): void {
-        const numberOfFoldersInCollection: number = this.getFolders().length;
-
-        this.collectionHasFolders = numberOfFoldersInCollection > 0;
     }
 
     public getFolders(): FolderModel[] {
@@ -154,5 +154,10 @@ export class FolderService implements BaseFolderService {
         subfolderBreadCrumbs.push(new SubfolderModel(rootFolder.path, false));
 
         return subfolderBreadCrumbs.reverse();
+    }
+
+    private checkIfCollectionHasFolders(): void {
+        const numberOfFoldersInCollection: number = this.getFolders().length;
+        this._collectionHasFolders = numberOfFoldersInCollection > 0;
     }
 }
