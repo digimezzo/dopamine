@@ -147,7 +147,7 @@ try {
     }
 }
 catch (e) {
-    // Catch Error
-    // throw e;
+    electron_log_1.default.info("[Main] [] Could not start. Error: " + e.message);
+    throw e;
 }
 //# sourceMappingURL=main.js.map

@@ -60,6 +60,8 @@ export class AppearanceService implements BaseAppearanceService {
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
         new ColorScheme('Beats', '#98247f', '#e21839', '#e21839'),
         new ColorScheme('Naughty', '#f5004a', '#9300ef', '#f5004a'),
+        new ColorScheme('Manjaro', '#16a085', '#16a085', '#16a085'),
+        new ColorScheme('Ubuntu', '#e95420', '#e95420', '#e95420'),
     ];
 
     public fontSizes: FontSize[] = Constants.fontSizes;
