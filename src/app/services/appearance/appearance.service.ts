@@ -55,6 +55,13 @@ export class AppearanceService implements BaseAppearanceService {
         return this.windowHasFrame;
     }
 
+    public get isUsingLightTheme(): boolean {
+        return (
+            (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
+            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
+        );
+    }
+
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
@@ -173,10 +180,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-cover-art-foreground', '#5E5E5E');
         element.style.setProperty('--theme-album-info-background', '#272727');
 
-        if (
-            (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
-            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
-        ) {
+        if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
             element.style.setProperty('--theme-window-button-foreground', '#838383');
             element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');
