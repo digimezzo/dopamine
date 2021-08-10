@@ -82,10 +82,6 @@ function createWindow(): void {
         );
     }
 
-    // if (serve) {
-    //   win.webContents.openDevTools();
-    // }
-
     // Emitted when the window is closed.
     win.on('closed', () => {
         // Dereference the window object, usually you would store window
@@ -127,37 +123,57 @@ function createWindow(): void {
 try {
     log.info('[Main] [] +++ Starting +++');
 
-    // This method will be called when Electron has finished
-    // initialization and is ready to create browser windows.
-    // Some APIs can only be used after this event occurs.
-    app.on('ready', createWindow);
+    const gotTheLock = app.requestSingleInstanceLock();
 
-    // Quit when all windows are closed.
-    app.on('window-all-closed', () => {
-        log.info('[App] [window-all-closed] +++ Stopping +++');
-        // On OS X it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
-    });
+    if (!gotTheLock) {
+        log.info('[Main] [] There is already another instance running. Closing.');
+        app.quit();
+    } else {
+        app.on('second-instance', (event, commandLine, workingDirectory) => {
+            log.info('[Main] [] Attempt to run second instance. Showing current window.');
 
-    app.on('activate', () => {
-        // On OS X it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (win == undefined) {
-            createWindow();
-        }
-    });
+            // Someone tried to run a second instance, we should focus our window.
+            if (win) {
+                if (win.isMinimized()) {
+                    win.restore();
+                }
 
-    // See: https://github.com/electron/electron/issues/23757
-    app.whenReady().then(() => {
-        protocol.registerFileProtocol('file', (request, callback) => {
-            const pathname = decodeURI(request.url.replace('file:///', ''));
-            callback(pathname);
+                win.focus();
+            }
         });
-    });
+
+        // This method will be called when Electron has finished
+        // initialization and is ready to create browser windows.
+        // Some APIs can only be used after this event occurs.
+        app.on('ready', createWindow);
+
+        // Quit when all windows are closed.
+        app.on('window-all-closed', () => {
+            log.info('[App] [window-all-closed] +++ Stopping +++');
+            // On OS X it is common for applications and their menu bar
+            // to stay active until the user quits explicitly with Cmd + Q
+            if (process.platform !== 'darwin') {
+                app.quit();
+            }
+        });
+
+        app.on('activate', () => {
+            // On OS X it's common to re-create a window in the app when the
+            // dock icon is clicked and there are no other windows open.
+            if (win == undefined) {
+                createWindow();
+            }
+        });
+
+        // See: https://github.com/electron/electron/issues/23757
+        app.whenReady().then(() => {
+            protocol.registerFileProtocol('file', (request, callback) => {
+                const pathname = decodeURI(request.url.replace('file:///', ''));
+                callback(pathname);
+            });
+        });
+    }
 } catch (e) {
-    // Catch Error
-    // throw e;
+    log.info(`[Main] [] Could not start. Error: ${e.message}`);
+    throw e;
 }

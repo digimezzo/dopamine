@@ -160,6 +160,8 @@ import { BaseDiscordService } from './services/discord/base-discord.service';
 import { DiscordService } from './services/discord/discord.service';
 import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
+import { BaseFileService } from './services/file/base-file.service';
+import { FileService } from './services/file/file.service';
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
 import { BaseGenreService } from './services/genre/base-genre.service';
@@ -412,6 +414,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
         { provide: BaseAppearanceService, useClass: AppearanceService },
         { provide: BaseFolderService, useClass: FolderService },
+        { provide: BaseFileService, useClass: FileService },
         { provide: BaseNavigationService, useClass: NavigationService },
         { provide: BaseIndexingService, useClass: IndexingService },
         { provide: BaseTranslatorService, useClass: TranslatorService },

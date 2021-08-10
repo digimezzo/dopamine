@@ -1,6 +1,13 @@
 {
     "appId": "com.digimezzo.dopamine",
     "productName": "Dopamine",
+    "fileAssociations": [
+        {
+            "name": "MP3 Files",
+            "description": "MP3 Files",
+            "ext": "mp3"
+        }
+    ],
     "nsis": {
         "shortcutName": "Dopamine 3"
     },
@@ -10,12 +17,20 @@
     "files": ["**/*"],
     "extraResources": ["LICENSE"],
     "win": {
-        "target": ["nsis"]
+        "target": ["nsis"],
+        "artifactName": "${productName}-${version}.${ext}"
     },
     "mac": {
-        "target": ["dmg"]
+        "target": ["dmg"],
+        "artifactName": "${productName}-${version}.${ext}"
     },
     "linux": {
-        "target": ["AppImage", "deb", "rpm", "pacman", "snap"]
+        "target": ["pacman"],
+        "category": "Audio",
+        "artifactName": "${productName}-${version}.${ext}",
+        "desktop": {
+            "Name": "Dopamine 3",
+            "Terminal": "false"
+        }
     }
 }
