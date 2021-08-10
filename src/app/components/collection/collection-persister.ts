@@ -22,10 +22,6 @@ export class CollectionPersister {
                 return 1;
             case CollectionTab.albums:
                 return 2;
-            // case CollectionTab.tracks:
-            //     return 3;
-            // case CollectionTab.playlists:
-            //     return 4;
             case CollectionTab.folders:
                 return 3;
             default: {
@@ -45,12 +41,6 @@ export class CollectionPersister {
             case 2:
                 this.saveSelectedTab(CollectionTab.albums);
                 break;
-            // case 3:
-            //     this.saveSelectedTab(CollectionTab.tracks);
-            //     break;
-            // case 4:
-            //     this.saveSelectedTab(CollectionTab.playlists);
-            //     break;
             case 3:
                 this.saveSelectedTab(CollectionTab.folders);
                 break;

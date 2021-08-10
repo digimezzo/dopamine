@@ -12,7 +12,7 @@ import { SubfolderModel } from './subfolder-model';
 @Injectable()
 export class FolderService implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();
-    private _collectionHasFolders: boolean;
+    private _collectionHasFolders: boolean = false;
     private shouldCheckIfCollectionHasFolders: boolean = true;
 
     constructor(
@@ -26,6 +26,7 @@ export class FolderService implements BaseFolderService {
 
     public get collectionHasFolders(): boolean {
         if (this.shouldCheckIfCollectionHasFolders) {
+            this.shouldCheckIfCollectionHasFolders = false;
             this.checkIfCollectionHasFolders();
         }
 

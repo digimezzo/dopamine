@@ -44,6 +44,15 @@ describe('FolderService', () => {
             // Assert
             expect(service.foldersChanged$).toBeDefined();
         });
+
+        it('should initialize collectionHasFolders as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.collectionHasFolders).toBeFalsy();
+        });
     });
 
     describe('addFolderAsync', () => {
@@ -406,6 +415,137 @@ describe('FolderService', () => {
             expect(subfolderBreadCrumbs[1].path).toEqual('/home/user/Music/subfolder1');
             expect(subfolderBreadCrumbs[2].path).toEqual('/home/user/Music/subfolder1/subfolder2');
             expect(subfolderBreadCrumbs[3].path).toEqual('/home/user/Music/subfolder1/subfolder2/subfolder3');
+        });
+    });
+
+    describe('collectionHasFolders', () => {
+        it('should count the folders from the database the first time it is called', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+
+            // Act
+            const collectionHasFolders: boolean = service.collectionHasFolders;
+
+            // Assert
+            folderRepositoryMock.verify((x) => x.getFolders(), Times.once());
+        });
+
+        it('should not count the folders from the database the second time it is called', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+            const collectionHasFoldersFirstTime: boolean = service.collectionHasFolders;
+            folderRepositoryMock.reset();
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+
+            // Act
+            const collectionHasFoldersSecondTime: boolean = service.collectionHasFolders;
+
+            // Assert
+            folderRepositoryMock.verify((x) => x.getFolders(), Times.never());
+        });
+
+        it('should return true if the number of folders is larger than 0', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+
+            // Act
+            const collectionHasFolders: boolean = service.collectionHasFolders;
+
+            // Assert
+            expect(collectionHasFolders).toBeTruthy();
+        });
+
+        it('should return false if the number of folders is 0', () => {
+            // Arrange
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => []);
+
+            // Act
+            const collectionHasFolders: boolean = service.collectionHasFolders;
+
+            // Assert
+            expect(collectionHasFolders).toBeFalsy();
+        });
+    });
+
+    describe('onFoldersChanged', () => {
+        it('should count the folders from the database the first time it is called', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+
+            // Act
+            service.onFoldersChanged();
+
+            // Assert
+            folderRepositoryMock.verify((x) => x.getFolders(), Times.once());
+        });
+
+        it('should count the folders from the database the second time it is called', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+            service.onFoldersChanged();
+            folderRepositoryMock.reset();
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+
+            // Act
+            service.onFoldersChanged();
+
+            // Assert
+            folderRepositoryMock.verify((x) => x.getFolders(), Times.once());
+        });
+
+        it('should update collectionHasFolders each time it is called', () => {
+            // Arrange
+            const folder1: Folder = new Folder('path1');
+            const folder2: Folder = new Folder('path2');
+
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => []);
+
+            // Act
+            service.onFoldersChanged();
+            const collectionHasFoldersFirstTime: boolean = service.collectionHasFolders;
+            folderRepositoryMock.reset();
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
+            service.onFoldersChanged();
+            const collectionHasFoldersSecondTime: boolean = service.collectionHasFolders;
+
+            // Assert
+            expect(collectionHasFoldersFirstTime).toBeFalsy();
+            expect(collectionHasFoldersSecondTime).toBeTruthy();
+        });
+
+        it('should trigger a foldersChanged event', () => {
+            // Arrange
+            folderRepositoryMock.setup((x) => x.getFolders()).returns(() => []);
+
+            const subscription: Subscription = new Subscription();
+            let foldersHaveChanged: boolean = false;
+
+            subscription.add(
+                service.foldersChanged$.subscribe(() => {
+                    foldersHaveChanged = true;
+                })
+            );
+
+            // Act
+            service.onFoldersChanged();
+
+            // Assert
+            expect(foldersHaveChanged).toBeTruthy();
         });
     });
 });
