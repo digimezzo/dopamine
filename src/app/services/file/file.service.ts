@@ -1,10 +1,25 @@
 import { Injectable } from '@angular/core';
+import { FileFormats } from '../../common/application/file-formats';
+import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseFileService } from './base-file.service';
 
 @Injectable()
 export class FileService implements BaseFileService {
-    constructor(private logger: Logger) {}
+    constructor(private fileSystem: FileSystem, private remoteProxy: BaseRemoteProxy, private logger: Logger) {}
+
+    public hasPlayableFilesAsParameters(): boolean {
+        const parameters: string[] = this.remoteProxy.getParameters();
+
+        for (const parameter of parameters) {
+            if (this.isSupportedAudioFile(parameter)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     // public processParameters(): void {
     // if (remote.app.isPackaged) {
@@ -17,4 +32,14 @@ export class FileService implements BaseFileService {
     //     this.logger.info(`Found parameters: ${parameters.join(', ')}`, 'AppComponent', 'ngOnInit');
     // }
     // }
+
+    private isSupportedAudioFile(filePath: string): boolean {
+        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+
+        if (FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
+            return true;
+        }
+
+        return false;
+    }
 }

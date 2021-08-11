@@ -45,14 +45,5 @@ describe('AppearanceService', () => {
             // Assert
             expect(service).toBeDefined();
         });
-
-        it('should define isSystemUsingDarkTheme', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(service.isSystemUsingDarkTheme).toBeDefined();
-        });
     });
 });

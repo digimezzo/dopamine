@@ -3,6 +3,7 @@ import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
 import { BaseScheduler } from '../../common/scheduler/base-scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { BaseFileService } from '../../services/file/base-file.service';
 import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../services/update/base-update.service';
@@ -22,6 +23,7 @@ export class LoadingComponent implements OnInit {
         private settings: BaseSettings,
         private updateService: BaseUpdateService,
         private indexingService: BaseIndexingService,
+        private fileService: BaseFileService,
         private scheduler: BaseScheduler
     ) {}
 
@@ -32,8 +34,12 @@ export class LoadingComponent implements OnInit {
             this.settings.showWelcome = false;
             this.navigationService.navigateToWelcome();
         } else {
-            this.navigationService.navigateToCollection();
-            this.initializeAsync();
+            if (this.fileService.hasPlayableFilesAsParameters()) {
+                this.navigationService.navigateToNowPlaying();
+            } else {
+                this.navigationService.navigateToCollection();
+                this.initializeAsync();
+            }
         }
     }
 

@@ -1,1 +1,3 @@
-export abstract class BaseFileService {}
+export abstract class BaseFileService {
+    public abstract hasPlayableFilesAsParameters(): boolean;
+}
