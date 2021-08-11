@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.4] - 2021-08-06
+## [3.0.0-preview.4] - 2021-08-10
 
 ### Added
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   No folder is selected when opening the folders screen for the first time
+-   Background cover of Now playing screen is almost invisible when using light theme
 
 ## [3.0.0-preview.3] - 2021-08-05
 
@@ -41,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Add a "Now playing" screen
+-   Added a "Now playing" screen
 
 ### Changed
 

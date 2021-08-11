@@ -40,12 +40,19 @@ import { PlaybackStarted } from '../../services/playback/playback-started';
                 })
             ),
             state(
-                'fade-in',
+                'fade-in-dark',
                 style({
                     opacity: 0.05,
                 })
             ),
-            transition('fade-out => fade-in', animate('1s')),
+            state(
+                'fade-in-light',
+                style({
+                    opacity: 0.15,
+                })
+            ),
+            transition('fade-out => fade-in-dark', animate('1s')),
+            transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
         trigger('background2Animation', [
@@ -56,12 +63,19 @@ import { PlaybackStarted } from '../../services/playback/playback-started';
                 })
             ),
             state(
-                'fade-in',
+                'fade-in-dark',
                 style({
                     opacity: 0.05,
                 })
             ),
-            transition('fade-out => fade-in', animate('1s')),
+            state(
+                'fade-in-light',
+                style({
+                    opacity: 0.15,
+                })
+            ),
+            transition('fade-out => fade-in-dark', animate('1s')),
+            transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
     ],
@@ -82,7 +96,7 @@ export class NowPlayingComponent implements OnInit {
     public background1: string = '';
     public background2: string = '';
     public background1Animation: string = 'fade-out';
-    public background2Animation: string = 'fade-in';
+    public background2Animation: string = this.appearanceService.isUsingLightTheme ? 'fade-in-light' : 'fade-in-dark';
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;
@@ -172,13 +186,25 @@ export class NowPlayingComponent implements OnInit {
             if (proposedBackground !== this.background1) {
                 this.background2 = proposedBackground;
                 this.background1Animation = 'fade-out';
-                this.background2Animation = 'fade-in';
+
+                if (this.appearanceService.isUsingLightTheme) {
+                    this.background2Animation = 'fade-in-light';
+                } else {
+                    this.background2Animation = 'fade-in-dark';
+                }
+
                 this.background1IsUsed = false;
             }
         } else {
             if (proposedBackground !== this.background2) {
                 this.background1 = proposedBackground;
-                this.background1Animation = 'fade-in';
+
+                if (this.appearanceService.isUsingLightTheme) {
+                    this.background1Animation = 'fade-in-light';
+                } else {
+                    this.background1Animation = 'fade-in-dark';
+                }
+
                 this.background2Animation = 'fade-out';
                 this.background1IsUsed = true;
             }
