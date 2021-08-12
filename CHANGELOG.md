@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.4] - 2021-08-10
+## [3.0.0-preview.4] - 2021-08-12
 
 ### Added
+
+-   Dopamine now reacts to the OS's "Open with..." command and plays the selected files
 
 ### Changed
 

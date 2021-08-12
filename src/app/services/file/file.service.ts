@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FileFormats } from '../../common/application/file-formats';
 import { Track } from '../../common/data/entities/track';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
@@ -12,7 +13,7 @@ import { BaseFileService } from './base-file.service';
 
 @Injectable()
 export class FileService implements BaseFileService {
-    // private subscription: Subscription = new Subscription();
+    private subscription: Subscription = new Subscription();
 
     constructor(
         private playbackService: BasePlaybackService,
@@ -22,13 +23,13 @@ export class FileService implements BaseFileService {
         private remoteProxy: BaseRemoteProxy,
         private logger: Logger
     ) {
-        // this.subscription.add(
-        //     this.remoteProxy.argumentsReceived$.subscribe((argv: string[]) => {
-        //         if (this.hasPlayableFilesAsGivenParameters(argv)) {
-        //             this.enqueueGivenParameterFilesAsync(argv);
-        //         }
-        //     })
-        // );
+        this.subscription.add(
+            this.remoteProxy.argumentsReceived$.subscribe((argv: string[]) => {
+                if (this.hasPlayableFilesAsGivenParameters(argv)) {
+                    this.enqueueGivenParameterFilesAsync(argv);
+                }
+            })
+        );
     }
 
     public hasPlayableFilesAsParameters(): boolean {

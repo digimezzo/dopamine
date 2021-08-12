@@ -1,3 +1,4 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
@@ -17,6 +18,11 @@ describe('FolderService', () => {
     let fileSystemMock: IMock<FileSystem>;
     let remoteProxyMock: IMock<BaseRemoteProxy>;
     let loggerMock: IMock<Logger>;
+
+    let argumentsReceivedMock: Subject<string[]>;
+    let argumentsReceivedMock$: Observable<string[]>;
+
+    const flushPromises = () => new Promise(setImmediate);
 
     function createService(): BaseFileService {
         return new FileService(
@@ -45,6 +51,11 @@ describe('FolderService', () => {
         fileSystemMock.setup((x) => x.getFileExtension('file 3.bmp')).returns(() => '.bmp');
 
         trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(It.isAny())).returns(async () => new Track('dummypath'));
+
+        argumentsReceivedMock = new Subject();
+        argumentsReceivedMock$ = argumentsReceivedMock.asObservable();
+
+        remoteProxyMock.setup((x) => x.argumentsReceived$).returns(() => argumentsReceivedMock$);
     });
 
     describe('constructor', () => {
@@ -56,6 +67,64 @@ describe('FolderService', () => {
 
             // Assert
             expect(service).toBeDefined();
+        });
+
+        it('should enqueue all playable tracks found as parameters and play the first track when arguments are received', async () => {
+            // Arrange
+            const service: BaseFileService = createService();
+
+            // Act
+            argumentsReceivedMock.next(['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
+                        ),
+                        It.is<TrackModel>((trackModel: TrackModel) => trackModel.path === 'file 1.mp3')
+                    ),
+                Times.once()
+            );
+        });
+
+        it('should not enqueue and play anything if parameters are undefined when arguments are received', async () => {
+            // Arrange
+            const service: BaseFileService = createService();
+
+            // Act
+            argumentsReceivedMock.next(undefined);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not enqueue and play anything if parameters are empty when arguments are received', async () => {
+            // Arrange
+            const service: BaseFileService = createService();
+
+            // Act
+            argumentsReceivedMock.next([]);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not enqueue and play anything if there are no playable tracks found as parameters when arguments are received', async () => {
+            // Arrange
+            const service: BaseFileService = createService();
+
+            // Act
+            argumentsReceivedMock.next(['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            await flushPromises();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
     });
 
