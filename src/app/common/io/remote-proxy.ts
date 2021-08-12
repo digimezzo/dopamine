@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
-import { remote } from 'electron';
+import { ipcRenderer, remote } from 'electron';
+import { Observable, Subject } from 'rxjs';
 import { BaseRemoteProxy } from './base-remote-proxy';
 
 @Injectable()
 export class RemoteProxy implements BaseRemoteProxy {
-    constructor() {}
+    private argumentsReceived: Subject<string[]> = new Subject();
+
+    constructor() {
+        ipcRenderer.on('arguments-received', (event, argv) => {
+            this.argumentsReceived.next(argv);
+        });
+    }
+
+    public argumentsReceived$: Observable<string[]> = this.argumentsReceived.asObservable();
 
     public getGlobal(name: string): any {
         return remote.getGlobal(name);
@@ -15,12 +24,6 @@ export class RemoteProxy implements BaseRemoteProxy {
     }
 
     public getParameters(): string[] {
-        const parameters = remote.process.argv;
-
-        if (parameters != undefined && parameters.length > 0) {
-            return parameters;
-        }
-
-        return [];
+        return remote.process.argv;
     }
 }

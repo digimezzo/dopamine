@@ -129,8 +129,9 @@ try {
         log.info('[Main] [] There is already another instance running. Closing.');
         app.quit();
     } else {
-        app.on('second-instance', (event, commandLine, workingDirectory) => {
+        app.on('second-instance', (event, argv, workingDirectory) => {
             log.info('[Main] [] Attempt to run second instance. Showing current window.');
+            win.webContents.send('arguments-received', argv);
 
             // Someone tried to run a second instance, we should focus our window.
             if (win) {

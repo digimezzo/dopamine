@@ -107,8 +107,9 @@ try {
         electron_1.app.quit();
     }
     else {
-        electron_1.app.on('second-instance', function (event, commandLine, workingDirectory) {
+        electron_1.app.on('second-instance', function (event, argv, workingDirectory) {
             electron_log_1.default.info('[Main] [] Attempt to run second instance. Showing current window.');
+            win.webContents.send('arguments-received', argv);
             // Someone tried to run a second instance, we should focus our window.
             if (win) {
                 if (win.isMinimized()) {

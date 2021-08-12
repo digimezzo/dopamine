@@ -12,6 +12,8 @@ import { BaseFileService } from './base-file.service';
 
 @Injectable()
 export class FileService implements BaseFileService {
+    // private subscription: Subscription = new Subscription();
+
     constructor(
         private playbackService: BasePlaybackService,
         private translatorService: BaseTranslatorService,
@@ -19,38 +21,25 @@ export class FileService implements BaseFileService {
         private fileSystem: FileSystem,
         private remoteProxy: BaseRemoteProxy,
         private logger: Logger
-    ) {}
+    ) {
+        // this.subscription.add(
+        //     this.remoteProxy.argumentsReceived$.subscribe((argv: string[]) => {
+        //         if (this.hasPlayableFilesAsGivenParameters(argv)) {
+        //             this.enqueueGivenParameterFilesAsync(argv);
+        //         }
+        //     })
+        // );
+    }
 
     public hasPlayableFilesAsParameters(): boolean {
         const parameters: string[] = this.remoteProxy.getParameters();
-        this.logger.info(`Found parameters: ${parameters.join(', ')}`, 'FileService', 'hasPlayableFilesAsParameters');
 
-        for (const parameter of parameters) {
-            if (this.isSupportedAudioFile(parameter)) {
-                return true;
-            }
-        }
-
-        return false;
+        return this.hasPlayableFilesAsGivenParameters(parameters);
     }
 
     public async enqueueParameterFilesAsync(): Promise<void> {
         const parameters: string[] = this.remoteProxy.getParameters();
-        this.logger.info(`Found parameters: ${parameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
-
-        const trackModels: TrackModel[] = [];
-
-        for (const parameter of parameters) {
-            if (this.isSupportedAudioFile(parameter)) {
-                const track: Track = new Track(parameter);
-                await this.trackFiller.addFileMetadataToTrackAsync(track);
-                trackModels.push(new TrackModel(track, this.translatorService));
-            }
-        }
-
-        if (trackModels.length > 0) {
-            this.playbackService.enqueueAndPlayTracks(trackModels, trackModels[0]);
-        }
+        await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
     private isSupportedAudioFile(filePath: string): boolean {
@@ -61,5 +50,45 @@ export class FileService implements BaseFileService {
         }
 
         return false;
+    }
+
+    private getSafeParameters(parameters: string[]): string[] {
+        if (parameters != undefined && parameters.length > 0) {
+            return parameters;
+        }
+
+        return [];
+    }
+
+    private hasPlayableFilesAsGivenParameters(parameters: string[]): boolean {
+        const safeParameters: string[] = this.getSafeParameters(parameters);
+        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'hasPlayableFilesAsParameters');
+
+        for (const safeParameter of safeParameters) {
+            if (this.isSupportedAudioFile(safeParameter)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
+        const safeParameters: string[] = this.getSafeParameters(parameters);
+        this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
+
+        const trackModels: TrackModel[] = [];
+
+        for (const safeParameter of safeParameters) {
+            if (this.isSupportedAudioFile(safeParameter)) {
+                const track: Track = new Track(safeParameter);
+                await this.trackFiller.addFileMetadataToTrackAsync(track);
+                trackModels.push(new TrackModel(track, this.translatorService));
+            }
+        }
+
+        if (trackModels.length > 0) {
+            this.playbackService.enqueueAndPlayTracks(trackModels, trackModels[0]);
+        }
     }
 }
