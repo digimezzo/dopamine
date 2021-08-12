@@ -109,6 +109,30 @@ describe('FolderService', () => {
             );
         });
 
+        it('should not enqueue and play anything if parameters are undefined', async () => {
+            // Arrange
+            remoteProxyMock.setup((x) => x.getParameters()).returns(() => undefined);
+            const service: BaseFileService = createService();
+
+            // Act
+            await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not enqueue and play anything if parameters are empty', async () => {
+            // Arrange
+            remoteProxyMock.setup((x) => x.getParameters()).returns(() => []);
+            const service: BaseFileService = createService();
+
+            // Act
+            await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
+        });
+
         it('should not enqueue and play anything if there are no playable tracks found as parameters', async () => {
             // Arrange
             remoteProxyMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);

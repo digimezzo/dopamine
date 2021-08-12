@@ -77,18 +77,26 @@ export class FileService implements BaseFileService {
         const safeParameters: string[] = this.getSafeParameters(parameters);
         this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
 
-        const trackModels: TrackModel[] = [];
+        try {
+            const trackModels: TrackModel[] = [];
 
-        for (const safeParameter of safeParameters) {
-            if (this.isSupportedAudioFile(safeParameter)) {
-                const track: Track = new Track(safeParameter);
-                await this.trackFiller.addFileMetadataToTrackAsync(track);
-                trackModels.push(new TrackModel(track, this.translatorService));
+            for (const safeParameter of safeParameters) {
+                if (this.isSupportedAudioFile(safeParameter)) {
+                    const track: Track = new Track(safeParameter);
+                    await this.trackFiller.addFileMetadataToTrackAsync(track);
+                    trackModels.push(new TrackModel(track, this.translatorService));
+                }
             }
-        }
 
-        if (trackModels.length > 0) {
-            this.playbackService.enqueueAndPlayTracks(trackModels, trackModels[0]);
+            if (trackModels.length > 0) {
+                this.playbackService.enqueueAndPlayTracks(trackModels, trackModels[0]);
+            }
+        } catch (e) {
+            this.logger.error(
+                `Could not enqueue given parameter files. Error: ${e.message}`,
+                'FileService',
+                'enqueueGivenParameterFilesAsync'
+            );
         }
     }
 }
