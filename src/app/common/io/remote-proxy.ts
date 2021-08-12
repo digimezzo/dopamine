@@ -15,13 +15,7 @@ export class RemoteProxy implements BaseRemoteProxy {
     }
 
     public getParameters(): string[] {
-        if (remote.app.isPackaged) {
-            // Workaround for missing executable argument
-            process.argv.unshift(undefined);
-        }
-
-        // Parameters is now an array containing any files/folders that the OS will pass to the application
-        const parameters = remote.process.argv.slice(2);
+        const parameters = remote.process.argv;
 
         if (parameters != undefined && parameters.length > 0) {
             return parameters;

@@ -35,6 +35,7 @@ export class LoadingComponent implements OnInit {
             this.navigationService.navigateToWelcome();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
+                await this.fileService.enqueueParameterFilesAsync();
                 this.navigationService.navigateToNowPlaying();
             } else {
                 this.navigationService.navigateToCollection();

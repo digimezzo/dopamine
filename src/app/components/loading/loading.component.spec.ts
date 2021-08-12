@@ -145,6 +145,21 @@ describe('LoadingComponent', () => {
             navigationServiceMock.verify((x) => x.navigateToNowPlaying(), Times.exactly(1));
         });
 
+        it('should enqueue parameter files if welcome should not be shown and there are playable files as parameters', async () => {
+            // Arrange
+            settingsStub.showWelcome = false;
+            settingsStub.refreshCollectionAutomatically = false;
+            fileServiceMock.setup((x) => x.hasPlayableFilesAsParameters()).returns(() => true);
+
+            const component: LoadingComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            fileServiceMock.verify((x) => x.enqueueParameterFilesAsync(), Times.exactly(1));
+        });
+
         it('should check for updates when navigating to collection', async () => {
             // Arrange
             settingsStub.showWelcome = false;
