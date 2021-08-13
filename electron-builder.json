@@ -5,11 +5,13 @@
         {
             "name": "MP3 Files",
             "description": "MP3 Files",
-            "ext": "mp3"
+            "ext": "mp3",
+            "icon": "build/mp3.ico"
         }
     ],
     "nsis": {
-        "shortcutName": "Dopamine 3"
+        "shortcutName": "Dopamine 3",
+        "perMachine": true
     },
     "directories": {
         "output": "release"
