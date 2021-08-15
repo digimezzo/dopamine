@@ -4,7 +4,7 @@
             <div class="side-pane">
                 <div class="folder-browser p-3">
                     <!-- Folders in collection -->
-                    <div *ngIf="folders.length > 0" class="folder-browser__header m-1">
+                    <div *ngIf="this.folderService.collectionHasFolders" class="folder-browser__header m-1">
                         <div class="folder-browser__title no-select">{{ 'folder' | translate }}</div>
                         <div
                             mat-icon-button
@@ -41,7 +41,7 @@
                         </div>
                     </cdk-virtual-scroll-viewport>
                     <!-- No folders in collection -->
-                    <div class="folder-browser__message" *ngIf="folders.length === 0">
+                    <div class="folder-browser__message" *ngIf="!this.folderService.collectionHasFolders">
                         {{ 'no-folders-in-collection' | translate }}
                         <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollection()">
                             {{ 'add-folder' | translate }}

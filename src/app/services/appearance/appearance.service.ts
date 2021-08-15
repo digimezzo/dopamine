@@ -55,11 +55,20 @@ export class AppearanceService implements BaseAppearanceService {
         return this.windowHasFrame;
     }
 
+    public get isUsingLightTheme(): boolean {
+        return (
+            (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
+            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
+        );
+    }
+
     public colorSchemes: ColorScheme[] = [
         new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
         new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
         new ColorScheme('Beats', '#98247f', '#e21839', '#e21839'),
         new ColorScheme('Naughty', '#f5004a', '#9300ef', '#f5004a'),
+        new ColorScheme('Manjaro', '#16a085', '#16a085', '#16a085'),
+        new ColorScheme('Ubuntu', '#e95420', '#e95420', '#e95420'),
     ];
 
     public fontSizes: FontSize[] = Constants.fontSizes;
@@ -171,10 +180,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-cover-art-foreground', '#5E5E5E');
         element.style.setProperty('--theme-album-info-background', '#272727');
 
-        if (
-            (!this.settings.followSystemTheme && this.settings.useLightBackgroundTheme) ||
-            (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
-        ) {
+        if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
             element.style.setProperty('--theme-window-button-foreground', '#838383');
             element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');

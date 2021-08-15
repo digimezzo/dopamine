@@ -23,19 +23,17 @@ export class FoldersPersister {
             return undefined;
         }
 
-        if (Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
-            return undefined;
-        }
-
-        try {
-            if (availableFolders.map((x) => x.path).includes(this.openedFolderPath)) {
-                return availableFolders.filter((x) => x.path === this.openedFolderPath)[0];
+        if (!Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
+            try {
+                if (availableFolders.map((x) => x.path).includes(this.openedFolderPath)) {
+                    return availableFolders.filter((x) => x.path === this.openedFolderPath)[0];
+                }
+            } catch (e) {
+                this.logger.error(`Could not get opened folder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedFolder');
             }
-        } catch (e) {
-            this.logger.error(`Could not get opened folder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedFolder');
         }
 
-        return undefined;
+        return availableFolders[0];
     }
 
     public setOpenedFolder(openedFolder: FolderModel): void {

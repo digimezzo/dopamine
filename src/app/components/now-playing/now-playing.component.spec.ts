@@ -16,12 +16,21 @@ describe('NowPlayingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let desktopMock: IMock<Desktop>;
-    let component: NowPlayingComponent;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
 
     const flushPromises = () => new Promise(setImmediate);
+
+    function createComponent(): NowPlayingComponent {
+        return new NowPlayingComponent(
+            appearanceServiceMock.object,
+            navigationServiceMock.object,
+            metadataServiceMock.object,
+            playbackServiceMock.object,
+            desktopMock.object
+        );
+    }
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
@@ -32,20 +41,14 @@ describe('NowPlayingComponent', () => {
 
         desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(1000, 600));
 
+        appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
+
         playbackServicePlaybackStartedMock = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
         playbackServicePlaybackStoppedMock = new Subject();
         const playbackServicePlaybackStopped$: Observable<void> = playbackServicePlaybackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStopped$);
-
-        component = new NowPlayingComponent(
-            appearanceServiceMock.object,
-            navigationServiceMock.object,
-            metadataServiceMock.object,
-            playbackServiceMock.object,
-            desktopMock.object
-        );
     });
 
     describe('constructor', () => {
@@ -53,6 +56,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -62,6 +66,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.appearanceService).toBeDefined();
@@ -71,6 +76,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.coverArtSize).toEqual(0);
@@ -80,6 +86,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.playbackInformationHeight).toEqual(0);
@@ -89,6 +96,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.playbackInformationLargeFontSize).toEqual(0);
@@ -98,6 +106,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.playbackInformationSmallFontSize).toEqual(0);
@@ -107,15 +116,81 @@ describe('NowPlayingComponent', () => {
             // Arrange
 
             // Act
+            const component: NowPlayingComponent = createComponent();
 
             // Assert
             expect(component.controlsVisibility).toEqual('visible');
+        });
+
+        it('should initialize background1IsUsed as false', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background1IsUsed).toBeFalsy();
+        });
+
+        it('should initialize background1 as empty', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background1).toEqual('');
+        });
+
+        it('should initialize background2 as empty', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background2).toEqual('');
+        });
+
+        it('should initialize background1Animation as "fade-out"', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background1Animation).toEqual('fade-out');
+        });
+
+        it('should initialize background2Animation as "fade-in-light" if the light theme is being used', () => {
+            // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background2Animation).toEqual('fade-in-light');
+        });
+
+        it('should initialize background2Animation as "fade-in-dark" if the light theme is not being used', () => {
+            // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.background2Animation).toEqual('fade-in-dark');
         });
     });
 
     describe('goBackToCollection', () => {
         it('should request to go back to the collection', () => {
             // Arrange
+            const component: NowPlayingComponent = createComponent();
 
             // Act
             component.goBackToCollection();
@@ -129,6 +204,7 @@ describe('NowPlayingComponent', () => {
         it('should set the now playing sizes in relation to window height', () => {
             // Arrange
             const event: any = {};
+            const component: NowPlayingComponent = createComponent();
 
             // Act
             component.onResize(event);
@@ -144,13 +220,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
             desktopMock.reset();
             desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
             const event: any = {};
 
             // Act
@@ -168,6 +238,7 @@ describe('NowPlayingComponent', () => {
         it('should set the now playing sizes', async () => {
             // Arrange
             const event: any = {};
+            const component: NowPlayingComponent = createComponent();
 
             // Act
             await component.ngOnInit();
@@ -183,13 +254,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
             desktopMock.reset();
             desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
             const event: any = {};
 
             // Act
@@ -202,18 +267,14 @@ describe('NowPlayingComponent', () => {
             expect(component.playbackInformationSmallFontSize).toEqual(15);
         });
 
-        it('should set background2 if background1 is used and background1 is different than the proposed background', async () => {
+        it('should set background2 if background1 is used and background1 is different than the proposed background and light theme is used', async () => {
             // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             component.background1IsUsed = true;
             component.background1 = 'another-background';
@@ -228,7 +289,33 @@ describe('NowPlayingComponent', () => {
             // Assert
             expect(component.background2).toEqual('dummy-background');
             expect(component.background1Animation).toEqual('fade-out');
-            expect(component.background2Animation).toEqual('fade-in');
+            expect(component.background2Animation).toEqual('fade-in-light');
+            expect(component.background1IsUsed).toBeFalsy();
+        });
+
+        it('should set background2 if background1 is used and background1 is different than the proposed background and light theme is not used', async () => {
+            // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            const component: NowPlayingComponent = createComponent();
+
+            component.background1IsUsed = true;
+            component.background1 = 'another-background';
+
+            component.background2 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.background2).toEqual('dummy-background');
+            expect(component.background1Animation).toEqual('fade-out');
+            expect(component.background2Animation).toEqual('fade-in-dark');
             expect(component.background1IsUsed).toBeFalsy();
         });
 
@@ -237,13 +324,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             component.background1IsUsed = false;
             component.background2 = 'another-background';
@@ -257,7 +338,7 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.background1).toEqual('dummy-background');
-            expect(component.background1Animation).toEqual('fade-in');
+            expect(component.background1Animation).toEqual('fade-in-dark');
             expect(component.background2Animation).toEqual('fade-out');
             expect(component.background1IsUsed).toBeTruthy();
         });
@@ -267,13 +348,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             component.background1IsUsed = true;
             component.background1 = 'dummy-background';
@@ -297,13 +372,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             component.background1IsUsed = false;
             component.background2 = 'dummy-background';
@@ -322,18 +391,14 @@ describe('NowPlayingComponent', () => {
             expect(component.background1IsUsed).toBeFalsy();
         });
 
-        it('should set background2 if background1 is used and background1 is different than the proposed background on playback started', async () => {
+        it('should set background2 if background1 is used and background1 is different than the proposed background on playback started and light theme is used', async () => {
             // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -351,7 +416,36 @@ describe('NowPlayingComponent', () => {
             // Assert
             expect(component.background2).toEqual('dummy-background');
             expect(component.background1Animation).toEqual('fade-out');
-            expect(component.background2Animation).toEqual('fade-in');
+            expect(component.background2Animation).toEqual('fade-in-light');
+            expect(component.background1IsUsed).toBeFalsy();
+        });
+
+        it('should set background2 if background1 is used and background1 is different than the proposed background on playback started and light theme is not used', async () => {
+            // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            const component: NowPlayingComponent = createComponent();
+
+            await component.ngOnInit();
+
+            component.background1IsUsed = true;
+            component.background1 = 'another-background';
+
+            component.background2 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModelMock.object, false));
+            await flushPromises();
+
+            // Assert
+            expect(component.background2).toEqual('dummy-background');
+            expect(component.background1Animation).toEqual('fade-out');
+            expect(component.background2Animation).toEqual('fade-in-dark');
             expect(component.background1IsUsed).toBeFalsy();
         });
 
@@ -360,13 +454,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -383,7 +471,7 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.background1).toEqual('dummy-background');
-            expect(component.background1Animation).toEqual('fade-in');
+            expect(component.background1Animation).toEqual('fade-in-dark');
             expect(component.background2Animation).toEqual('fade-out');
             expect(component.background1IsUsed).toBeTruthy();
         });
@@ -393,13 +481,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -426,13 +508,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -454,18 +530,14 @@ describe('NowPlayingComponent', () => {
             expect(component.background1IsUsed).toBeFalsy();
         });
 
-        it('should set background2 if background1 is used and background1 is different than the proposed background on playback stopped', async () => {
+        it('should set background2 if background1 is used and background1 is different than the proposed background on playback stopped and light theme is used', async () => {
             // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -483,7 +555,36 @@ describe('NowPlayingComponent', () => {
             // Assert
             expect(component.background2).toEqual('dummy-background');
             expect(component.background1Animation).toEqual('fade-out');
-            expect(component.background2Animation).toEqual('fade-in');
+            expect(component.background2Animation).toEqual('fade-in-light');
+            expect(component.background1IsUsed).toBeFalsy();
+        });
+
+        it('should set background2 if background1 is used and background1 is different than the proposed background on playback stopped and light theme is not used', async () => {
+            // Arrange
+            appearanceServiceMock.reset();
+            appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            const component: NowPlayingComponent = createComponent();
+
+            await component.ngOnInit();
+
+            component.background1IsUsed = true;
+            component.background1 = 'another-background';
+
+            component.background2 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStoppedMock.next();
+            await flushPromises();
+
+            // Assert
+            expect(component.background2).toEqual('dummy-background');
+            expect(component.background1Animation).toEqual('fade-out');
+            expect(component.background2Animation).toEqual('fade-in-dark');
             expect(component.background1IsUsed).toBeFalsy();
         });
 
@@ -492,13 +593,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -515,7 +610,7 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.background1).toEqual('dummy-background');
-            expect(component.background1Animation).toEqual('fade-in');
+            expect(component.background1Animation).toEqual('fade-in-dark');
             expect(component.background2Animation).toEqual('fade-out');
             expect(component.background1IsUsed).toBeTruthy();
         });
@@ -525,13 +620,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -558,13 +647,7 @@ describe('NowPlayingComponent', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
             metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
-            component = new NowPlayingComponent(
-                appearanceServiceMock.object,
-                navigationServiceMock.object,
-                metadataServiceMock.object,
-                playbackServiceMock.object,
-                desktopMock.object
-            );
+            const component: NowPlayingComponent = createComponent();
 
             await component.ngOnInit();
 
@@ -593,6 +676,7 @@ describe('NowPlayingComponent', () => {
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+            const component: NowPlayingComponent = createComponent();
 
             // Act
             component.handleKeyboardEvent(keyboardEventMock.object);
@@ -606,6 +690,7 @@ describe('NowPlayingComponent', () => {
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keyup');
             keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+            const component: NowPlayingComponent = createComponent();
 
             // Act
             component.handleKeyboardEvent(keyboardEventMock.object);

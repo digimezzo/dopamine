@@ -10,6 +10,8 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
+import { CollectionPersister } from '../collection-persister';
+import { CollectionTab } from '../collection-tab';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
 
@@ -26,6 +28,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     constructor(
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
+        private collectionPersister: CollectionPersister,
         private indexingService: BaseIndexingService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
@@ -50,8 +53,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
-        this.albums = [];
-        this.tracks = new TrackModels();
+        this.clearLists();
     }
 
     public async ngOnInit(): Promise<void> {
@@ -63,27 +65,49 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                this.fillListsAsync();
+                this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                this.processListsAsync();
             })
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        await this.fillListsAsync();
+        await this.processListsAsync();
     }
 
     public splitDragEnd(event: any): void {
         this.settings.albumsRightPaneWidthPercent = event.sizes[1];
     }
 
+    private async processListsAsync(): Promise<void> {
+        if (this.collectionPersister.selectedTab === CollectionTab.albums) {
+            await this.fillListsAsync();
+        } else {
+            this.clearLists();
+        }
+    }
+
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
+        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
 
         try {
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getAlbums();
+
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
         }
+    }
+
+    private clearLists(): void {
+        this.albums = [];
+        this.tracks = new TrackModels();
     }
 
     private getAlbums(): void {

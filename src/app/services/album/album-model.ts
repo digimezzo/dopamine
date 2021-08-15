@@ -13,7 +13,9 @@ export class AlbumModel {
 
     public get artworkPath(): string {
         if (Strings.isNullOrWhiteSpace(this.albumData.artworkId)) {
-            return '';
+            // Transparent 1x1 Gif to avoid broken image icon on albums.
+            // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
+            return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         }
 
         return 'file:///' + this.fileSystem.coverArtFullPath(this.albumData.artworkId);

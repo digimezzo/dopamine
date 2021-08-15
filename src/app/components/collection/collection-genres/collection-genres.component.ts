@@ -12,6 +12,8 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
+import { CollectionPersister } from '../collection-persister';
+import { CollectionTab } from '../collection-tab';
 import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
@@ -30,6 +32,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,
+        private collectionPersister: CollectionPersister,
         private indexingService: BaseIndexingService,
         private genreService: BaseGenreService,
         private albumService: BaseAlbumService,
@@ -57,17 +60,10 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
-        this.albums = [];
-        this.tracks = new TrackModels();
+        this.clearLists();
     }
 
     public async ngOnInit(): Promise<void> {
-        this.subscription.add(
-            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
-                this.getTracksForAlbumKeys(albumKeys);
-            })
-        );
-
         this.subscription.add(
             this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
@@ -77,13 +73,25 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.indexingService.indexingFinished$.subscribe(() => {
-                this.fillListsAsync();
+            this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
+                this.getTracksForAlbumKeys(albumKeys);
+            })
+        );
+
+        this.subscription.add(
+            this.indexingService.indexingFinished$.subscribe(async () => {
+                await this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                this.processListsAsync();
             })
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        this.fillListsAsync();
+        await this.processListsAsync();
     }
 
     public splitDragEnd(event: any): void {
@@ -91,16 +99,35 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         this.settings.genresRightPaneWidthPercent = event.sizes[2];
     }
 
+    private async processListsAsync(): Promise<void> {
+        if (this.collectionPersister.selectedTab === CollectionTab.genres) {
+            await this.fillListsAsync();
+        } else {
+            this.clearLists();
+        }
+    }
+
     private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(Constants.listLoadDelayMilliseconds);
+        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
 
         try {
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getGenres();
+
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getAlbums();
+
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
         }
+    }
+
+    private clearLists(): void {
+        this.genres = [];
+        this.albums = [];
+        this.tracks = new TrackModels();
     }
 
     private getGenres(): void {
@@ -113,14 +140,14 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private getTracks(): void {
-        const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
-        if (selectedGenres.length > 0) {
+        if (selectedAlbums.length > 0) {
+            this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
+        } else {
+            const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
             this.getTracksForGenres(selectedGenres.map((x) => x.displayName));
         }
-
-        this.getTracksForAlbumKeys(selectedAlbums.map((x) => x.albumKey));
     }
 
     private getTracksForGenres(genres: string[]): void {

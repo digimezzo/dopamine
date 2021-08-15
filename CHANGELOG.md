@@ -7,13 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.3] - 2021-07-24
+## [3.0.0-preview.4] - 2021-08-15
+
+### Added
+
+-   It is now possible to associate audio files to Dopamine and play them with Dopamine from the file manager
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   No folder is selected when opening the folders screen for the first time
+-   Background cover of Now playing screen is almost invisible when using light theme
+
+## [3.0.0-preview.3] - 2021-08-05
 
 ### Added
 
 -   Pressing the ENTER key pauses and resumes playback
 -   Clicking on the album cover of the currently playing song, opens the "Now playing" screen.
 -   Added now playing background
+-   Smoother transitions between screens
+-   Lower memory usage
 
 ### Changed
 
@@ -27,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Add a "Now playing" screen
+-   Added a "Now playing" screen
 
 ### Changed
 

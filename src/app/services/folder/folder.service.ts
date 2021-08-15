@@ -12,6 +12,8 @@ import { SubfolderModel } from './subfolder-model';
 @Injectable()
 export class FolderService implements BaseFolderService {
     private foldersChanged: Subject<void> = new Subject();
+    private _collectionHasFolders: boolean = false;
+    private shouldCheckIfCollectionHasFolders: boolean = true;
 
     constructor(
         private folderRepository: BaseFolderRepository,
@@ -22,7 +24,17 @@ export class FolderService implements BaseFolderService {
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
 
+    public get collectionHasFolders(): boolean {
+        if (this.shouldCheckIfCollectionHasFolders) {
+            this.shouldCheckIfCollectionHasFolders = false;
+            this.checkIfCollectionHasFolders();
+        }
+
+        return this._collectionHasFolders;
+    }
+
     public onFoldersChanged(): void {
+        this.checkIfCollectionHasFolders();
         this.foldersChanged.next();
     }
 
@@ -43,7 +55,7 @@ export class FolderService implements BaseFolderService {
     public getFolders(): FolderModel[] {
         const folders: Folder[] = this.folderRepository.getFolders();
 
-        if (folders != undefined) {
+        if (folders != undefined && folders.length > 0) {
             return folders.map((x) => new FolderModel(x));
         }
 
@@ -143,5 +155,10 @@ export class FolderService implements BaseFolderService {
         subfolderBreadCrumbs.push(new SubfolderModel(rootFolder.path, false));
 
         return subfolderBreadCrumbs.reverse();
+    }
+
+    private checkIfCollectionHasFolders(): void {
+        const numberOfFoldersInCollection: number = this.getFolders().length;
+        this._collectionHasFolders = numberOfFoldersInCollection > 0;
     }
 }

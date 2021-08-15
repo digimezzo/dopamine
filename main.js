@@ -49,6 +49,8 @@ function createWindow() {
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
+            enableRemoteModule: true,
+            contextIsolation: false,
         },
         show: false,
     });
@@ -67,9 +69,6 @@ function createWindow() {
             slashes: true,
         }));
     }
-    // if (serve) {
-    //   win.webContents.openDevTools();
-    // }
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window
@@ -104,36 +103,54 @@ function createWindow() {
 }
 try {
     electron_log_1.default.info('[Main] [] +++ Starting +++');
-    // This method will be called when Electron has finished
-    // initialization and is ready to create browser windows.
-    // Some APIs can only be used after this event occurs.
-    electron_1.app.on('ready', createWindow);
-    // Quit when all windows are closed.
-    electron_1.app.on('window-all-closed', function () {
-        electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
-        // On OS X it is common for applications and their menu bar
-        // to stay active until the user quits explicitly with Cmd + Q
-        if (process.platform !== 'darwin') {
-            electron_1.app.quit();
-        }
-    });
-    electron_1.app.on('activate', function () {
-        // On OS X it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (win == undefined) {
-            createWindow();
-        }
-    });
-    // See: https://github.com/electron/electron/issues/23757
-    electron_1.app.whenReady().then(function () {
-        electron_1.protocol.registerFileProtocol('file', function (request, callback) {
-            var pathname = decodeURI(request.url.replace('file:///', ''));
-            callback(pathname);
+    var gotTheLock = electron_1.app.requestSingleInstanceLock();
+    if (!gotTheLock) {
+        electron_log_1.default.info('[Main] [] There is already another instance running. Closing.');
+        electron_1.app.quit();
+    }
+    else {
+        electron_1.app.on('second-instance', function (event, argv, workingDirectory) {
+            electron_log_1.default.info('[Main] [] Attempt to run second instance. Showing current window.');
+            win.webContents.send('arguments-received', argv);
+            // Someone tried to run a second instance, we should focus our window.
+            if (win) {
+                if (win.isMinimized()) {
+                    win.restore();
+                }
+                win.focus();
+            }
         });
-    });
+        // This method will be called when Electron has finished
+        // initialization and is ready to create browser windows.
+        // Some APIs can only be used after this event occurs.
+        electron_1.app.on('ready', createWindow);
+        // Quit when all windows are closed.
+        electron_1.app.on('window-all-closed', function () {
+            electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
+            // On OS X it is common for applications and their menu bar
+            // to stay active until the user quits explicitly with Cmd + Q
+            if (process.platform !== 'darwin') {
+                electron_1.app.quit();
+            }
+        });
+        electron_1.app.on('activate', function () {
+            // On OS X it's common to re-create a window in the app when the
+            // dock icon is clicked and there are no other windows open.
+            if (win == undefined) {
+                createWindow();
+            }
+        });
+        // See: https://github.com/electron/electron/issues/23757
+        electron_1.app.whenReady().then(function () {
+            electron_1.protocol.registerFileProtocol('file', function (request, callback) {
+                var pathname = decodeURI(request.url.replace('file:///', ''));
+                callback(pathname);
+            });
+        });
+    }
 }
 catch (e) {
-    // Catch Error
-    // throw e;
+    electron_log_1.default.info("[Main] [] Could not start. Error: " + e.message);
+    throw e;
 }
 //# sourceMappingURL=main.js.map

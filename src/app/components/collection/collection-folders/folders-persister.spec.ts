@@ -53,7 +53,7 @@ describe('FoldersPersister', () => {
             expect(openedFolder).toBeUndefined();
         });
 
-        it('should return undefined given that there is no saved opened folder', () => {
+        it('should return the first folder of the provided list of available folders given that there is no saved opened folder', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
             const availableFolders: FolderModel[] = [folder1];
@@ -65,10 +65,10 @@ describe('FoldersPersister', () => {
             const openedFolder: FolderModel = foldersPersister.getOpenedFolder(availableFolders);
 
             // Assert
-            expect(openedFolder).toBeUndefined();
+            expect(openedFolder).toBe(availableFolders[0]);
         });
 
-        it('should return undefined given that the saved opened folder is not found in the provided list of available folders', () => {
+        it('should return the first folder of the provided list of available folders given that the saved opened folder is not found in the provided list of available folders', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
             const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
@@ -81,7 +81,7 @@ describe('FoldersPersister', () => {
             const openedFolder: FolderModel = foldersPersister.getOpenedFolder(availableFolders);
 
             // Assert
-            expect(openedFolder).toBeUndefined();
+            expect(openedFolder).toBe(availableFolders[0]);
         });
 
         it('should return the opened folder given that the saved opened folder is found in the provided list of available folders', () => {
@@ -106,7 +106,6 @@ describe('FoldersPersister', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
             const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
-            const availableFolders: FolderModel[] = [folder1, folder2];
 
             settingsStub.foldersTabOpenedFolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
@@ -115,7 +114,7 @@ describe('FoldersPersister', () => {
             foldersPersister.setOpenedFolder(undefined);
 
             // Assert
-            expect(foldersPersister.getOpenedFolder(availableFolders)).toBe(undefined);
+            expect(foldersPersister.getOpenedFolder(undefined)).toBeUndefined();
         });
 
         it('should set an empty opened folder in the settings given that the opened folder is undefined', () => {

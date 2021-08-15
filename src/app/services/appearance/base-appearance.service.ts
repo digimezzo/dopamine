@@ -3,6 +3,7 @@ import { ColorScheme } from './color-scheme';
 
 export abstract class BaseAppearanceService {
     public abstract get windowHasNativeTitleBar(): boolean;
+    public abstract get isUsingLightTheme(): boolean;
     public abstract fontSizes: FontSize[];
     public abstract colorSchemes: ColorScheme[];
     public abstract followSystemTheme: boolean;

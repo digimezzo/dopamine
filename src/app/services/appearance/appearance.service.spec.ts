@@ -25,6 +25,7 @@ describe('AppearanceService', () => {
 
         desktopMock.setup((x) => x.accentColorChanged$).returns(() => new Observable());
         desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => new Observable());
+        desktopMock.setup((x) => x.shouldUseDarkColors()).returns(() => true);
 
         service = new AppearanceService(
             settingsMock.object,
