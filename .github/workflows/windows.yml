@@ -47,13 +47,13 @@ jobs:
             release_name: 'Dopamine 3 Preview AutoBuild' 
             tag_name: ${{ github.ref }}
             body_path: CHANGELOG.md
-      - name: upload artifact
+      - name: Upload Artifact
         run: echo Uploading Artifact
       - uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: release\Dopamine Setup 3.0.0-preview.3.exe
+          asset_path: release\Dopamine-3.0.0-preview.3.exe
           asset_name: Dopamine Setup 3.0.0-auto.exe
           asset_content_type: application/vnd.microsoft.portable-executable
