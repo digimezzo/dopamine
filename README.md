@@ -12,10 +12,6 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 <a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-## About this repository
-
-**IMPORTANT: the code in this repository is the base for Dopamine 3. It is still work in progress and building it, does NOT provide you with a functional audio player. If you want a functional audio player, try <a href="https://www.digimezzo.com/content/software/dopamine/">Dopamine 2</a> instead. The source code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.**
-
 ## Build prerequisites
 
 -   rpm: required to build rpm package

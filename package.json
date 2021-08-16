@@ -1,6 +1,6 @@
 {
     "name": "Dopamine",
-    "version": "3.0.0-preview.3",
+    "version": "3.0.0-preview.4",
     "description": "Audio player",
     "homepage": "https://github.com/digimezzo/dopamine",
     "author": {
@@ -84,7 +84,7 @@
         "zone.js": "~0.10.2"
     },
     "engines": {
-        "node": ">=10.9.0"
+        "node": ">=12.20.1"
     },
     "dependencies": {
         "@angular/animations": "9.1.13",
