@@ -59,7 +59,7 @@ describe('AlbumModel', () => {
     });
 
     describe('artworkPath', () => {
-        it('should return empty string if albumData.artworkId is undefined', () => {
+        it('should return empty Gif if albumData.artworkId is undefined', () => {
             // Arrange
             albumData.artworkId = undefined;
             albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
@@ -68,10 +68,10 @@ describe('AlbumModel', () => {
             const artworkPath: string = albumModel.artworkPath;
 
             // Assert
-            expect(artworkPath).toEqual('');
+            expect(artworkPath).toEqual('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
         });
 
-        it('should return empty string if albumData.artworkId is empty', () => {
+        it('should return empty Gif if albumData.artworkId is empty', () => {
             // Arrange
             albumData.artworkId = '';
             albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
@@ -80,10 +80,10 @@ describe('AlbumModel', () => {
             const artworkPath: string = albumModel.artworkPath;
 
             // Assert
-            expect(artworkPath).toEqual('');
+            expect(artworkPath).toEqual('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
         });
 
-        it('should return empty string if albumData.artworkId is space', () => {
+        it('should return empty gif if albumData.artworkId is space', () => {
             // Arrange
             albumData.artworkId = ' ';
             albumModel = new AlbumModel(albumData, translatorServiceMock.object, fileSystemMock.object);
@@ -92,7 +92,7 @@ describe('AlbumModel', () => {
             const artworkPath: string = albumModel.artworkPath;
 
             // Assert
-            expect(artworkPath).toEqual('');
+            expect(artworkPath).toEqual('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
         });
 
         it('should return full artwork path if albumData.artworkId is not undefined, empty or space.', () => {

@@ -16,10 +16,20 @@ describe('ApplicationPaths', () => {
             // Arrange
 
             // Act
-            const coverArtCacheFolder: string = ApplicationPaths.CoverArtCacheFolder;
+            const coverArtCacheFolder: string = ApplicationPaths.coverArtCacheFolder;
 
             // Assert
             expect(coverArtCacheFolder).toEqual('CoverArt');
+        });
+
+        it('should return the themes folder', () => {
+            // Arrange
+
+            // Act
+            const themesFolder: string = ApplicationPaths.themesFolder;
+
+            // Assert
+            expect(themesFolder).toEqual('Themes');
         });
     });
 });
