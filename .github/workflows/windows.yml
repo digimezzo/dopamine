@@ -51,7 +51,7 @@ jobs:
             draft: true
             prerelease: true
             release_name: 'Dopamine 3 Preview - CI' 
-            tag_name: ${{ github.ref }}
+            tag_name: ${{ steps.ver_name.outputs.prop }}
             body_path: CHANGELOG.md
       - name: Upload Artifact
         run: echo Uploading Artifact
