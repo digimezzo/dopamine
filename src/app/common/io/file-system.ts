@@ -34,7 +34,7 @@ export class FileSystem {
     }
 
     public coverArtCacheFullPath(): string {
-        return this.combinePath([this._applicationDataDirectory, ApplicationPaths.cacheFolder, ApplicationPaths.CoverArtCacheFolder]);
+        return this.combinePath([this._applicationDataDirectory, ApplicationPaths.cacheFolder, ApplicationPaths.coverArtCacheFolder]);
     }
 
     public coverArtFullPath(artworkId: string): string {

@@ -1,11 +1,13 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { ProductInformation } from '../../common/application/product-information';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
+import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
@@ -25,6 +27,7 @@ export class AppearanceService implements BaseAppearanceService {
         private logger: Logger,
         private overlayContainer: OverlayContainer,
         private remoteProxy: BaseRemoteProxy,
+        private fileSystem: FileSystem,
         private desktop: Desktop
     ) {
         this.windowHasFrame = this.remoteProxy.getGlobal('windowHasFrame');
@@ -252,5 +255,17 @@ export class AppearanceService implements BaseAppearanceService {
         }
 
         return systemAccentColor;
+    }
+
+    private ensureThemesDirectoryExists(): void {
+        const applicatonDirectory: string = this.fileSystem.applicationDataDirectory();
+        const themesDirectoryPath: string = this.fileSystem.combinePath([applicatonDirectory, ApplicationPaths.themesFolder]);
+        this.fileSystem.createFullDirectoryPathIfDoesNotExist(themesDirectoryPath);
+    }
+
+    private async ensureDefaultThemesExistAsync(): Promise<void> {
+        const applicatonDirectory: string = this.fileSystem.applicationDataDirectory();
+        const themesDirectoryPath: string = this.fileSystem.combinePath([applicatonDirectory, ApplicationPaths.themesFolder]);
+        const themeFiles: string[] = await this.fileSystem.getFilesInDirectoryAsync(themesDirectoryPath);
     }
 }

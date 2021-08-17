@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
+import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AppearanceService } from './appearance.service';
@@ -12,6 +13,7 @@ describe('AppearanceService', () => {
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
     let remoteProxyMock: IMock<BaseRemoteProxy>;
+    let fileSystemMock: IMock<FileSystem>;
     let desktopMock: IMock<Desktop>;
 
     let service: AppearanceService;
@@ -21,6 +23,7 @@ describe('AppearanceService', () => {
         loggerMock = Mock.ofType<Logger>();
         overlayContainerMock = Mock.ofType<OverlayContainer>();
         remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
+        fileSystemMock = Mock.ofType<FileSystem>();
         desktopMock = Mock.ofType<Desktop>();
 
         desktopMock.setup((x) => x.accentColorChanged$).returns(() => new Observable());
@@ -32,6 +35,7 @@ describe('AppearanceService', () => {
             loggerMock.object,
             overlayContainerMock.object,
             remoteProxyMock.object,
+            fileSystemMock.object,
             desktopMock.object
         );
     });

@@ -6,15 +6,11 @@ Dopamine is an audio player which tries to make organizing and listening to musi
 
 Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
-[![Release](https://img.shields.io/github/release/digimezzo/dopamine.svg?style=flat-square)](https://github.com/digimezzo/dopamine/releases/latest)
+[![Release](https://img.shields.io/github/release/digimezzo/dopamine.svg?style=flat-square&include_prereleases)](https://github.com/digimezzo/dopamine/releases/latest)
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine.svg?style=flat-square)](https://github.com/digimezzo/dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
 <a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-## About this repository
-
-**IMPORTANT: the code in this repository is the base for Dopamine 3. It is still work in progress and building it, does NOT provide you with a functional audio player. If you want a functional audio player, try <a href="https://www.digimezzo.com/content/software/dopamine/">Dopamine 2</a> instead. The source code of Dopamine 2 can be found <a href="https://github.com/digimezzo/dopamine-windows">here</a>.**
 
 ## Build prerequisites
 
