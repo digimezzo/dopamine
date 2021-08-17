@@ -61,5 +61,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
-          asset_name: Dopamine Setup ${{ steps.ver_name.outputs.prop }}
+          asset_name: Dopamine Setup ${{ steps.ver_name.outputs.prop }}.exe
           asset_content_type: application/vnd.microsoft.portable-executable
