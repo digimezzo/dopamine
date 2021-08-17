@@ -37,6 +37,12 @@ jobs:
       - name: Build    
         run: |
           npm run electron:windows
+      - name: Fetch current version, create name variable
+        id: ver_name
+        uses: notiz-dev/github-action-json-property@release
+        with:
+            path: 'package.json'
+            prop_path: 'version'
       - name: Publish 
         run: echo Creating Release
       - uses: actions/create-release@v1
@@ -44,7 +50,7 @@ jobs:
         with:
             draft: true
             prerelease: true
-            release_name: 'Dopamine 3 Preview AutoBuild' 
+            release_name: 'Dopamine 3 Preview - CI' 
             tag_name: ${{ github.ref }}
             body_path: CHANGELOG.md
       - name: Upload Artifact
@@ -54,6 +60,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: release\Dopamine-3.0.0-preview.3.exe
-          asset_name: Dopamine Setup 3.0.0-auto.exe
+          asset_path: release\Dopamine${{ steps.ver_name.outputs.prop }}
+          asset_name: Dopamine Setup ${{ steps.ver_name.outputs.prop }}
           asset_content_type: application/vnd.microsoft.portable-executable
