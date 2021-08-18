@@ -189,6 +189,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.darkColors.sliderThumbBackground);
         element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
         element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.darkColors.albumCoverLogo);
+        element.style.setProperty('--theme-album-cover-border', this.selectedTheme.darkColors.albumCoverBorder);
         element.style.setProperty('--theme-album-info-background', this.selectedTheme.darkColors.albumInfoBackground);
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
@@ -211,6 +212,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.lightColors.sliderThumbBackground);
             element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
             element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.lightColors.albumCoverLogo);
+            element.style.setProperty('--theme-album-cover-border', this.selectedTheme.lightColors.albumCoverBorder);
             element.style.setProperty('--theme-album-info-background', this.selectedTheme.lightColors.albumInfoBackground);
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
@@ -346,6 +348,7 @@ export class AppearanceService implements BaseAppearanceService {
             '#fff',
             '#5e5e5e',
             '#202020',
+            'transparent',
             '#272727',
             'transparent',
             '#363636'
@@ -368,6 +371,7 @@ export class AppearanceService implements BaseAppearanceService {
             '#000',
             '#838383',
             '#cecece',
+            'transparent',
             '#dfdfdf',
             'transparent',
             '#d7d7d7'
