@@ -15,7 +15,7 @@
 
 .folder-browser__menu {
     cursor: pointer;
-    color: var(--theme-text-secondary-foreground);
+    color: var(--theme-secondary-text);
 }
 
 .folder-browser__message {
@@ -35,11 +35,11 @@
 }
 
 .subfolder:hover {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
 }
 
 .subfolder:active {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
 }
 
 .subfolder__icon {

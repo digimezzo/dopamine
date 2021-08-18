@@ -1,6 +1,6 @@
 .window-button {
-    fill: var(--theme-window-button-foreground);
-    color: var(--theme-window-button-foreground);
+    fill: var(--theme-window-button-icon);
+    color: var(--theme-window-button-icon);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,6 +13,6 @@
 }
 
 .window-button:hover {
-    background-color: var(--theme-item-hovered-background);
+    background-color: var(--theme-hovered-item-background);
     opacity: 1;
 }

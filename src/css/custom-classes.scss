@@ -5,7 +5,7 @@
 }
 
 .selected-item {
-    background-color: var(--theme-item-selected-background);
+    background-color: var(--theme-selected-item-background);
 }
 
 .hidden {
@@ -67,7 +67,7 @@
 }
 
 .secondary-color {
-    color: var(--theme-text-secondary-foreground);
+    color: var(--theme-secondary-text);
 }
 
 .white-color-important {

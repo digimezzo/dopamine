@@ -5,7 +5,7 @@ export abstract class BaseSettings {
     public abstract checkForUpdatesIncludesPreReleases: boolean;
     public abstract useSystemTitleBar: boolean;
     public abstract fontSize: number;
-    public abstract colorScheme: string;
+    public abstract theme: string;
     public abstract showWelcome: boolean;
     public abstract followSystemTheme: boolean;
     public abstract useLightBackgroundTheme: boolean;

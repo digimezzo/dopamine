@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
-import { ProductInformation } from '../../common/application/product-information';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { FileSystem } from '../../common/io/file-system';
@@ -12,15 +11,15 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { BaseAppearanceService } from './base-appearance.service';
-import { ColorScheme } from './color-scheme';
 import { Palette } from './palette';
+import { Theme } from './theme/theme';
+import { ThemeCoreColors } from './theme/theme-core-colors';
+import { ThemeCreator } from './theme/theme-creator';
+import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 
 @Injectable()
 export class AppearanceService implements BaseAppearanceService {
-    private windowHasFrame: boolean;
-    private _selectedColorScheme: ColorScheme;
-    private _selectedFontSize: FontSize;
-    private subscription: Subscription = new Subscription();
+    private interval: number;
 
     constructor(
         private settings: BaseSettings,
@@ -29,30 +28,7 @@ export class AppearanceService implements BaseAppearanceService {
         private remoteProxy: BaseRemoteProxy,
         private fileSystem: FileSystem,
         private desktop: Desktop
-    ) {
-        this.windowHasFrame = this.remoteProxy.getGlobal('windowHasFrame');
-
-        let colorSchemeFromSettings: ColorScheme = this.colorSchemes.find((x) => x.name === this.settings.colorScheme);
-
-        if (colorSchemeFromSettings == undefined) {
-            colorSchemeFromSettings = this.colorSchemes[0];
-        }
-
-        this._selectedColorScheme = colorSchemeFromSettings;
-        this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
-
-        this.subscription.add(
-            this.desktop.accentColorChanged$.subscribe(() => {
-                this.applyTheme();
-            })
-        );
-
-        this.subscription.add(
-            this.desktop.nativeThemeUpdated$.subscribe(() => {
-                this.applyTheme();
-            })
-        );
-    }
+    ) {}
 
     public get windowHasNativeTitleBar(): boolean {
         return this.windowHasFrame;
@@ -64,17 +40,6 @@ export class AppearanceService implements BaseAppearanceService {
             (this.settings.followSystemTheme && !this.isSystemUsingDarkTheme())
         );
     }
-
-    public colorSchemes: ColorScheme[] = [
-        new ColorScheme(ProductInformation.applicationName, '#6260e3', '#3fdcdd', '#4883e0'),
-        new ColorScheme('Zune', '#f78f1e', '#ed008c', '#f0266f'),
-        new ColorScheme('Beats', '#98247f', '#e21839', '#e21839'),
-        new ColorScheme('Naughty', '#f5004a', '#9300ef', '#f5004a'),
-        new ColorScheme('Manjaro', '#16a085', '#16a085', '#16a085'),
-        new ColorScheme('Ubuntu', '#e95420', '#e95420', '#e95420'),
-    ];
-
-    public fontSizes: FontSize[] = Constants.fontSizes;
 
     public get followSystemTheme(): boolean {
         return this.settings.followSystemTheme;
@@ -103,13 +68,13 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyTheme();
     }
 
-    public get selectedColorScheme(): ColorScheme {
-        return this._selectedColorScheme;
+    public get selectedTheme(): Theme {
+        return this._selectedTheme;
     }
 
-    public set selectedColorScheme(v: ColorScheme) {
-        this._selectedColorScheme = v;
-        this.settings.colorScheme = v.name;
+    public set selectedTheme(v: Theme) {
+        this._selectedTheme = v;
+        this.settings.theme = v.name;
 
         this.applyTheme();
     }
@@ -125,13 +90,54 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyFontSize();
     }
 
-    public applyTheme(): void {
+    public get themes(): Theme[] {
+        if (this._themes == undefined || this._themes.length === 0) {
+            this._themes = this.getThemesFromThemesDirectory();
+        }
+        return this._themes;
+    }
+    public set themes(v: Theme[]) {
+        this._themes = v;
+    }
+    private _themes: Theme[] = [];
+
+    private windowHasFrame: boolean;
+    private _selectedTheme: Theme;
+    private _selectedFontSize: FontSize;
+    private subscription: Subscription = new Subscription();
+
+    public fontSizes: FontSize[] = Constants.fontSizes;
+
+    public startWatchingThemesDirectory(): void {
+        this.interval = window.setInterval(() => {
+            this._themes = this.getThemesFromThemesDirectory();
+        }, 5000);
+    }
+    public stopWatchingThemesDirectory(): void {
+        clearInterval(this.interval);
+    }
+
+    private addSubscriptions(): void {
+        this.subscription.add(
+            this.desktop.accentColorChanged$.subscribe(() => {
+                this.applyTheme();
+            })
+        );
+
+        this.subscription.add(
+            this.desktop.nativeThemeUpdated$.subscribe(() => {
+                this.applyTheme();
+            })
+        );
+    }
+
+    private applyTheme(): void {
         const element = document.documentElement;
 
         // Color
-        let primaryColorToApply: string = this.selectedColorScheme.primaryColor;
-        let secondaryColorToApply: string = this.selectedColorScheme.secondaryColor;
-        let accentColorToApply: string = this.selectedColorScheme.accentColor;
+        let primaryColorToApply: string = this.selectedTheme.coreColors.primaryColor;
+        let secondaryColorToApply: string = this.selectedTheme.coreColors.secondaryColor;
+        let accentColorToApply: string = this.selectedTheme.coreColors.accentColor;
 
         if (this.settings.followSystemColor) {
             const systemAccentColor: string = this.getSystemAccentColor();
@@ -166,41 +172,45 @@ export class AppearanceService implements BaseAppearanceService {
 
         // Theme
         let themeName: string = 'default-theme-dark';
-        element.style.setProperty('--theme-window-button-foreground', '#5e5e5e');
-        element.style.setProperty('--theme-item-hovered-background', 'rgba(255, 255, 255, 0.05)');
-        element.style.setProperty('--theme-item-selected-background', 'rgba(255, 255, 255, 0.1)');
-        element.style.setProperty('--theme-tab-text-foreground', '#666');
-        element.style.setProperty('--theme-tab-selected-text-foreground', '#FFF');
-        element.style.setProperty('--theme-header-background', '#111');
-        element.style.setProperty('--theme-snack-bar-background', '#111');
-        element.style.setProperty('--theme-snack-bar-text-foreground', '#FFF');
-        element.style.setProperty('--theme-side-pane-background', '#171717');
-        element.style.setProperty('--theme-text-secondary-foreground', '#5E5E5E');
-        element.style.setProperty('--theme-breadcrumb-background', '#272727');
-        element.style.setProperty('--theme-slider-background', '#999999');
-        element.style.setProperty('--theme-slider-thumb-background', '#FFF');
-        element.style.setProperty('--theme-cover-art-background', '#202020');
-        element.style.setProperty('--theme-cover-art-foreground', '#5E5E5E');
-        element.style.setProperty('--theme-album-info-background', '#272727');
+        element.style.setProperty('--theme-window-button-icon', this.selectedTheme.darkColors.windowButtonIcon);
+        element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.darkColors.hoveredItemBackground);
+        element.style.setProperty('--theme-selected-item-background', this.selectedTheme.darkColors.selectedItemBackground);
+        element.style.setProperty('--theme-tab-text', this.selectedTheme.darkColors.tabText);
+        element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.darkColors.selectedTabText);
+        element.style.setProperty('--theme-header-background', this.selectedTheme.darkColors.headerBackground);
+        element.style.setProperty('--theme-footer-background', this.selectedTheme.darkColors.footerBackground);
+        element.style.setProperty('--theme-side-pane-background', this.selectedTheme.darkColors.sidePaneBackground);
+        element.style.setProperty('--theme-primary-text', this.selectedTheme.darkColors.primaryText);
+        element.style.setProperty('--theme-secondary-text', this.selectedTheme.darkColors.secondaryText);
+        element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.darkColors.breadcrumbBackground);
+        element.style.setProperty('--theme-slider-background', this.selectedTheme.darkColors.sliderBackground);
+        element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.darkColors.sliderThumbBackground);
+        element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
+        element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.darkColors.albumCoverLogo);
+        element.style.setProperty('--theme-album-info-background', this.selectedTheme.darkColors.albumInfoBackground);
+        element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
+        element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
 
         if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
-            element.style.setProperty('--theme-window-button-foreground', '#838383');
-            element.style.setProperty('--theme-item-hovered-background', 'rgba(0, 0, 0, 0.05)');
-            element.style.setProperty('--theme-item-selected-background', 'rgba(0, 0, 0, 0.1)');
-            element.style.setProperty('--theme-tab-text-foreground', '#909090');
-            element.style.setProperty('--theme-tab-selected-text-foreground', '#000');
-            element.style.setProperty('--theme-header-background', '#fdfdfd');
-            element.style.setProperty('--theme-snack-bar-background', '#fdfdfd');
-            element.style.setProperty('--theme-snack-bar-text-foreground', '#000');
-            element.style.setProperty('--theme-side-pane-background', '#EFEFEF');
-            element.style.setProperty('--theme-text-secondary-foreground', '#838383');
-            element.style.setProperty('--theme-breadcrumb-background', '#DFDFDF');
-            element.style.setProperty('--theme-slider-background', '#666666');
-            element.style.setProperty('--theme-slider-thumb-background', '#000');
-            element.style.setProperty('--theme-cover-art-background', '#CECECE');
-            element.style.setProperty('--theme-cover-art-foreground', '#838383');
-            element.style.setProperty('--theme-album-info-background', '#DFDFDF');
+            element.style.setProperty('--theme-window-button-icon', this.selectedTheme.lightColors.windowButtonIcon);
+            element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.lightColors.hoveredItemBackground);
+            element.style.setProperty('--theme-selected-item-background', this.selectedTheme.lightColors.selectedItemBackground);
+            element.style.setProperty('--theme-tab-text', this.selectedTheme.lightColors.tabText);
+            element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.lightColors.selectedTabText);
+            element.style.setProperty('--theme-header-background', this.selectedTheme.lightColors.headerBackground);
+            element.style.setProperty('--theme-footer-background', this.selectedTheme.lightColors.footerBackground);
+            element.style.setProperty('--theme-side-pane-background', this.selectedTheme.lightColors.sidePaneBackground);
+            element.style.setProperty('--theme-primary-text', this.selectedTheme.lightColors.primaryText);
+            element.style.setProperty('--theme-secondary-text', this.selectedTheme.lightColors.secondaryText);
+            element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.lightColors.breadcrumbBackground);
+            element.style.setProperty('--theme-slider-background', this.selectedTheme.lightColors.sliderBackground);
+            element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.lightColors.sliderThumbBackground);
+            element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
+            element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.lightColors.albumCoverLogo);
+            element.style.setProperty('--theme-album-info-background', this.selectedTheme.lightColors.albumInfoBackground);
+            element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
+            element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
         }
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
@@ -209,15 +219,58 @@ export class AppearanceService implements BaseAppearanceService {
         // Apply theme to body
         this.applyThemeClasses(document.body, themeName);
 
-        this.logger.info(`Applied theme '${themeName}'`, 'AppearanceService', 'applyTheme');
+        this.logger.info(
+            `Applied theme name=${this.selectedTheme.name}' and theme classes='${themeName}'`,
+            'AppearanceService',
+            'applyTheme'
+        );
     }
 
-    public applyFontSize(): void {
+    private applyFontSize(): void {
         const element = document.documentElement;
         element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
         element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
+    }
+
+    public initialize(): void {
+        this.windowHasFrame = this.remoteProxy.getGlobal('windowHasFrame');
+
+        this.ensureThemesDirectoryExists();
+        this.ensureDefaultThemesExist();
+
+        this.setSelectedThemeFromSettings();
+        this.applyTheme();
+
+        this.setSelectedFontSizeFromSettings();
+        this.applyFontSize();
+
+        this.addSubscriptions();
+    }
+
+    private setSelectedThemeFromSettings(): void {
+        let themeFromSettings: Theme = this.themes.find((x) => x.name === this.settings.theme);
+
+        if (themeFromSettings == undefined) {
+            themeFromSettings = this.themes.find((x) => x.name === 'Dopamine');
+
+            if (themeFromSettings == undefined) {
+                themeFromSettings = this.themes[0];
+            }
+
+            this.logger.info(
+                `Theme '${this.settings.theme}' from settings was not found. Applied theme '${themeFromSettings.name}' instead.`,
+                'AppearanceService',
+                'setSelectedThemeFromSettings'
+            );
+        }
+
+        this._selectedTheme = themeFromSettings;
+    }
+
+    private setSelectedFontSizeFromSettings(): void {
+        this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
     }
 
     private isSystemUsingDarkTheme(): boolean {
@@ -258,14 +311,90 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private ensureThemesDirectoryExists(): void {
-        const applicatonDirectory: string = this.fileSystem.applicationDataDirectory();
-        const themesDirectoryPath: string = this.fileSystem.combinePath([applicatonDirectory, ApplicationPaths.themesFolder]);
-        this.fileSystem.createFullDirectoryPathIfDoesNotExist(themesDirectoryPath);
+        this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.getThemesDirectoryPath());
     }
 
-    private async ensureDefaultThemesExistAsync(): Promise<void> {
-        const applicatonDirectory: string = this.fileSystem.applicationDataDirectory();
-        const themesDirectoryPath: string = this.fileSystem.combinePath([applicatonDirectory, ApplicationPaths.themesFolder]);
-        const themeFiles: string[] = await this.fileSystem.getFilesInDirectoryAsync(themesDirectoryPath);
+    private ensureDefaultThemesExist(): void {
+        const defaultThemes: Theme[] = this.createDefaultThemes();
+
+        for (const defaultTheme of defaultThemes) {
+            const themeFilePath: string = this.fileSystem.combinePath([this.getThemesDirectoryPath(), `${defaultTheme.name}.theme`]);
+            const stringifiedTheme: string = JSON.stringify(defaultTheme, undefined, 2);
+            this.fileSystem.writeToFile(themeFilePath, stringifiedTheme);
+        }
+    }
+
+    private createDefaultThemes(): Theme[] {
+        const creator: ThemeCreator = new ThemeCreator('Digimezzo', 'info@digimezzo.com');
+        const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
+            '#5e5e5e',
+            'rgba(255, 255, 255, 0.05)',
+            'rgba(255, 255, 255, 0.1)',
+            '#666',
+            '#fff',
+            '#111',
+            '#111',
+            '#171717',
+            '#fff',
+            '#5e5e5e',
+            '#272727',
+            '#999',
+            '#fff',
+            '#5e5e5e',
+            '#202020',
+            '#272727',
+            'transparent',
+            '#363636'
+        );
+
+        const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
+            '#838383',
+            'rgba(0, 0, 0, 0.05)',
+            'rgba(0, 0, 0, 0.1)',
+            '#909090',
+            '#000',
+            '#fdfdfd',
+            '#fdfdfd',
+            '#efefef',
+            '#000',
+            '#838383',
+            '#dfdfdf',
+            '#666',
+            '#000',
+            '#838383',
+            '#cecece',
+            '#dfdfdf',
+            'transparent',
+            '#d7d7d7'
+        );
+
+        const themes: Theme[] = [];
+
+        themes.push(new Theme('Dopamine', creator, new ThemeCoreColors('#6260e3', '#3fdcdd', '#4883e0'), darkColors, lightColors));
+        themes.push(new Theme('Zune', creator, new ThemeCoreColors('#f78f1e', '#ed008c', '#f0266f'), darkColors, lightColors));
+        themes.push(new Theme('Beats', creator, new ThemeCoreColors('#98247f', '#e21839', '#e21839'), darkColors, lightColors));
+        themes.push(new Theme('Naughty', creator, new ThemeCoreColors('#f5004a', '#9300ef', '#f5004a'), darkColors, lightColors));
+
+        return themes;
+    }
+
+    private getThemesFromThemesDirectory(): Theme[] {
+        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.getThemesDirectoryPath());
+        const themes: Theme[] = [];
+
+        for (const themeFile of themeFiles) {
+            const themeFileContent: string = this.fileSystem.getFileContent(themeFile);
+            const theme: Theme = JSON.parse(themeFileContent);
+            themes.push(theme);
+        }
+
+        return themes;
+    }
+
+    private getThemesDirectoryPath(): string {
+        const applicationDirectory: string = this.fileSystem.applicationDataDirectory();
+        const themesDirectoryPath: string = this.fileSystem.combinePath([applicationDirectory, ApplicationPaths.themesFolder]);
+
+        return themesDirectoryPath;
     }
 }

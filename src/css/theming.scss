@@ -60,3 +60,7 @@ $default-theme-light: custom-mat-light-theme($default-theme-primary, $default-th
 .theme-header-background {
     background-color: var(--theme-header-background) !important;
 }
+
+.theme-footer-background {
+    background-color: var(--theme-footer-background) !important;
+}

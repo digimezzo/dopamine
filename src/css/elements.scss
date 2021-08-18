@@ -9,6 +9,7 @@
     outline: none; // Removes yellow outline on elements
     -webkit-font-smoothing: subpixel-antialiased;
     font-size: var(--fontsize-medium);
+    color: var(--theme-primary-text);
 }
 
 html {

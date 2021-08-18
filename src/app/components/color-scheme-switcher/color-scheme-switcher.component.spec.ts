@@ -32,7 +32,7 @@ describe('ColorSchemeSwitcherComponent', () => {
 
             // Act
             const defaultColorScheme: ColorScheme = new ColorScheme('Default', '#fff', '#fff', '#fff');
-            component.setColorScheme(defaultColorScheme);
+            component.setTheme(defaultColorScheme);
 
             // Assert
             appearanceServiceMock.verify((x) => (x.selectedColorScheme = defaultColorScheme), Times.atLeastOnce());
