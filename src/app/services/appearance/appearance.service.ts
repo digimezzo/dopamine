@@ -77,6 +77,7 @@ export class AppearanceService implements BaseAppearanceService {
         this.settings.theme = v.name;
 
         this.applyTheme();
+        this._themes = this.getThemesFromThemesDirectory();
     }
 
     public get selectedFontSize(): FontSize {
