@@ -1,7 +1,7 @@
 <div class="app-playback-information no-select" [style.height.px]="height">
     <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
         <div
-            class="app-playback-information__artist ellipsis"
+            class="ellipsis secondary-text"
             [style.font-size.px]="largeFontSize"
             [style.line-height.px]="largeFontSize"
             [style.padding-top.px]="smallFontSize / 2"
@@ -10,7 +10,7 @@
             {{ this.topContentArtist }}
         </div>
         <div
-            class="app-playback-information__title ellipsis"
+            class="ellipsis"
             [style.font-size.px]="smallFontSize"
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"
@@ -20,7 +20,7 @@
     </div>
     <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
         <div
-            class="app-playback-information__artist ellipsis"
+            class="ellipsis secondary-text"
             [style.font-size.px]="largeFontSize"
             [style.line-height.px]="largeFontSize"
             [style.padding-top.px]="smallFontSize / 2"
@@ -29,7 +29,7 @@
             {{ this.bottomContentArtist }}
         </div>
         <div
-            class="app-playback-information__title ellipsis"
+            class="ellipsis"
             [style.font-size.px]="smallFontSize"
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"

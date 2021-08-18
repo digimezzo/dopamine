@@ -177,6 +177,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-selected-item-background', this.selectedTheme.darkColors.selectedItemBackground);
         element.style.setProperty('--theme-tab-text', this.selectedTheme.darkColors.tabText);
         element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.darkColors.selectedTabText);
+        element.style.setProperty('--theme-main-background', this.selectedTheme.darkColors.mainBackground);
         element.style.setProperty('--theme-header-background', this.selectedTheme.darkColors.headerBackground);
         element.style.setProperty('--theme-footer-background', this.selectedTheme.darkColors.footerBackground);
         element.style.setProperty('--theme-side-pane-background', this.selectedTheme.darkColors.sidePaneBackground);
@@ -198,6 +199,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-selected-item-background', this.selectedTheme.lightColors.selectedItemBackground);
             element.style.setProperty('--theme-tab-text', this.selectedTheme.lightColors.tabText);
             element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.lightColors.selectedTabText);
+            element.style.setProperty('--theme-main-background', this.selectedTheme.lightColors.mainBackground);
             element.style.setProperty('--theme-header-background', this.selectedTheme.lightColors.headerBackground);
             element.style.setProperty('--theme-footer-background', this.selectedTheme.lightColors.footerBackground);
             element.style.setProperty('--theme-side-pane-background', this.selectedTheme.lightColors.sidePaneBackground);
@@ -332,6 +334,7 @@ export class AppearanceService implements BaseAppearanceService {
             'rgba(255, 255, 255, 0.1)',
             '#666',
             '#fff',
+            '#1a1a1a',
             '#111',
             '#111',
             '#171717',
@@ -353,6 +356,7 @@ export class AppearanceService implements BaseAppearanceService {
             'rgba(0, 0, 0, 0.1)',
             '#909090',
             '#000',
+            '#f5f5f5',
             '#fdfdfd',
             '#fdfdfd',
             '#efefef',

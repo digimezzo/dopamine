@@ -63,7 +63,7 @@ $mat-grey: (
 $custom-mat-dark-theme-background: (
     status-bar: black,
     app-bar: map_get($mat-grey, 900),
-    background: #1a1a1a,
+    background: var(--theme-main-background),
     hover: rgba(white, 0.06),
     card: map_get($mat-grey, 900),
     dialog: #1a1a1a,
@@ -116,7 +116,7 @@ $custom-mat-dark-theme-foreground: (
 $custom-mat-light-theme-background: (
     status-bar: map_get($mat-grey, 300),
     app-bar: map_get($mat-grey, 100),
-    background: map_get($mat-grey, 100),
+    background: var(--theme-main-background),
     hover: rgba(black, 0.06),
     card: white,
     dialog: map_get($mat-grey, 100),

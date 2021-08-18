@@ -1,7 +1,7 @@
 <div class="collection-viewport">
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
-            <div class="side-pane">
+            <div class="left-side-pane">
                 <div class="folder-browser p-3">
                     <!-- Folders in collection -->
                     <div *ngIf="this.folderService.collectionHasFolders" class="folder-browser__header m-1">
@@ -12,7 +12,9 @@
                             matTooltip="{{ 'choose-folder' | translate }}"
                             (click)="getFolders()"
                         >
-                            <div class="folder-browser__menu">{{ openedFolder | folderName }}<i class="ml-1 las la-angle-down"></i></div>
+                            <div class="pointer secondary-text">
+                                {{ openedFolder | folderName }}<i class="ml-1 las la-angle-down secondary-text"></i>
+                            </div>
                         </div>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item *ngFor="let folder of folders" (click)="setOpenedFolderAsync(folder)">

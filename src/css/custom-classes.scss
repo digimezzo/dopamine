@@ -47,9 +47,16 @@
     height: calc(100vh - 120px);
 }
 
-.side-pane {
+.left-side-pane {
     height: 100%;
     background-color: var(--theme-side-pane-background);
+    border-right: 1px solid var(--theme-pane-separators);
+}
+
+.right-side-pane {
+    height: 100%;
+    background-color: var(--theme-side-pane-background);
+    border-left: 1px solid var(--theme-pane-separators);
 }
 
 .ellipsis {
@@ -66,10 +73,6 @@
     background-color: var(--theme-accent-color) !important;
 }
 
-.secondary-color {
-    color: var(--theme-secondary-text);
-}
-
 .white-color-important {
     color: white !important;
 }
@@ -81,4 +84,8 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.secondary-text {
+    color: var(--theme-secondary-text) !important;
 }

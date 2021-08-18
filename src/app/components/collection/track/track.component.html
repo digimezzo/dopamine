@@ -1,11 +1,11 @@
 <div class="app-track no-select">
     <div class="app-track__header mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
         <div class="app-track__header__top pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
-        <div class="secondary-color ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
+        <div class="secondary-text ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
             {{ track.albumTitle }}
         </div>
         <div
-            class="secondary-color ellipsis"
+            class="secondary-text ellipsis"
             *ngIf="track.discNumber > 0 && track.discCount > 1"
             matTooltip="{{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})"
         >
@@ -24,8 +24,10 @@
                     <div [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.durationInMilliseconds | formatTrackDuration }}</div>
                 </div>
             </div>
-            <div class="app-track__bottom" [ngClass]="{ 'secondary-color': !track.isPlaying }">
-                <span class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.artists | formatTrackArtists }}</span>
+            <div class="app-track__bottom">
+                <span class="ellipsis" [ngClass]="{ 'secondary-text': !track.isPlaying, 'accent-color': track.isPlaying }">{{
+                    track.artists | formatTrackArtists
+                }}</span>
                 <span></span>
             </div>
         </div>

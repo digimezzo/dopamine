@@ -5,6 +5,7 @@ export class ThemeNeutralColors {
         public selectedItemBackground: string,
         public tabText: string,
         public selectedTabText: string,
+        public mainBackground: string,
         public headerBackground: string,
         public footerBackground: string,
         public sidePaneBackground: string,

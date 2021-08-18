@@ -53,5 +53,8 @@
 
 .back-button:hover {
     background-color: var(--theme-accent-color);
+}
+
+.back-button:hover .back-button__icon {
     color: #fff;
 }
