@@ -20,17 +20,18 @@ jobs:
     - name: build
       run: npm run electron:linux
 
-  build_on_mac:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 14
-    - name: install dependencies
-      run: npm install
-    - name: build
-      run: npm run electron:mac
+    # MacOS build is completely borked due to bettersqlite being unable to complete its install script #
+  #build_on_mac:
+    #runs-on: macos-latest
+    #steps:
+    #- uses: actions/checkout@v2
+    #- uses: actions/setup-node@master
+    #  with:
+    #    node-version: 14
+    #- name: install dependencies
+    #  run: npm install
+    #- name: build
+    #  run: npm run electron:mac
 
   build_on_win:
     runs-on: windows-latest
