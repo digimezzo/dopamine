@@ -1,0 +1,54 @@
+{
+  "name": "Manjaro",
+  "creator": {
+    "name": "Digimezzo",
+    "email": "info@digimezzo.com"
+  },
+  "coreColors": {
+    "primaryColor": "#009378",
+    "secondaryColor": "#2eae92",
+    "accentColor": "#16a085"
+  },
+  "darkColors": {
+    "windowButtonIcon": "white",
+    "hoveredItemBackground": "rgba(255, 255, 255, 0.05)",
+    "selectedItemBackground": "rgba(255, 255, 255, 0.1)",
+    "tabText": "#818181",
+    "selectedTabText": "white",
+    "mainBackground": "#2d2d2d",
+    "headerBackground": "#313131",
+    "footerBackground": "#313131",
+    "sidePaneBackground": "#313131",
+    "primaryText": "white",
+    "secondaryText": "#818181",
+    "breadcrumbBackground": "#373737",
+    "sliderBackground": "#999",
+    "sliderThumbBackground": "white",
+    "albumCoverLogo": "#5e5e5e",
+    "albumCoverBackground": "#272727",
+    "albumInfoBackground": "#373737",
+    "paneSeparators": "#1b1b1b",
+    "settingsSeparators": "#1b1b1b"
+  },
+  "lightColors": {
+    "windowButtonIcon": "black",
+    "hoveredItemBackground": "rgba(0, 0, 0, 0.05)",
+    "selectedItemBackground": "rgba(0, 0, 0, 0.1)",
+    "tabText": "#838383",
+    "selectedTabText": "black",
+    "mainBackground": "white",
+    "headerBackground": "#fafafa",
+    "footerBackground": "#fafafa",
+    "sidePaneBackground": "#fafafa",
+    "primaryText": "black",
+    "secondaryText": "#838383",
+    "breadcrumbBackground": "#e7e7e7",
+    "sliderBackground": "#666",
+    "sliderThumbBackground": "black",
+    "albumCoverLogo": "#838383",
+    "albumCoverBackground": "#cecece",
+    "albumInfoBackground": "#e7e7e7",
+    "paneSeparators": "#c7c7c7",
+    "settingsSeparators": "#c7c7c7"
+  }
+}
