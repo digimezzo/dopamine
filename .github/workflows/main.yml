@@ -13,7 +13,9 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 14
-    - name: install dependencies
+    - name: install rpm and libarchive
+      run: sudo apt install rpm libarchive-tools
+    - name: install dependencies 
       run: npm install
     - name: build
       run: npm run electron:linux
