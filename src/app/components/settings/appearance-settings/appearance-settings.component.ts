@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Desktop } from '../../../common/io/desktop';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
@@ -14,7 +15,8 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
     constructor(
         public appearanceService: BaseAppearanceService,
         public translatorService: BaseTranslatorService,
-        public settings: BaseSettings
+        public settings: BaseSettings,
+        private desktop: Desktop
     ) {}
 
     public ngOnDestroy(): void {
@@ -23,5 +25,9 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.appearanceService.startWatchingThemesDirectory();
+    }
+
+    public openThemesDirectory(): void {
+        this.desktop.openPath(this.appearanceService.themesDirectoryPath);
     }
 }

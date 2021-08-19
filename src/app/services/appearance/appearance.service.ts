@@ -20,6 +20,14 @@ import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 @Injectable()
 export class AppearanceService implements BaseAppearanceService {
     private interval: number;
+    private _themes: Theme[] = [];
+
+    private windowHasFrame: boolean;
+    private _selectedTheme: Theme;
+    private _selectedFontSize: FontSize;
+    private subscription: Subscription = new Subscription();
+
+    private _themesDirectoryPath: string;
 
     constructor(
         private settings: BaseSettings,
@@ -28,7 +36,9 @@ export class AppearanceService implements BaseAppearanceService {
         private remoteProxy: BaseRemoteProxy,
         private fileSystem: FileSystem,
         private desktop: Desktop
-    ) {}
+    ) {
+        this._themesDirectoryPath = this.getThemesDirectoryPath();
+    }
 
     public get windowHasNativeTitleBar(): boolean {
         return this.windowHasFrame;
@@ -100,12 +110,9 @@ export class AppearanceService implements BaseAppearanceService {
     public set themes(v: Theme[]) {
         this._themes = v;
     }
-    private _themes: Theme[] = [];
-
-    private windowHasFrame: boolean;
-    private _selectedTheme: Theme;
-    private _selectedFontSize: FontSize;
-    private subscription: Subscription = new Subscription();
+    public get themesDirectoryPath(): string {
+        return this._themesDirectoryPath;
+    }
 
     public fontSizes: FontSize[] = Constants.fontSizes;
 
@@ -316,14 +323,14 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private ensureThemesDirectoryExists(): void {
-        this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.getThemesDirectoryPath());
+        this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.themesDirectoryPath);
     }
 
     private ensureDefaultThemesExist(): void {
         const defaultThemes: Theme[] = this.createDefaultThemes();
 
         for (const defaultTheme of defaultThemes) {
-            const themeFilePath: string = this.fileSystem.combinePath([this.getThemesDirectoryPath(), `${defaultTheme.name}.theme`]);
+            const themeFilePath: string = this.fileSystem.combinePath([this.themesDirectoryPath, `${defaultTheme.name}.theme`]);
             const stringifiedTheme: string = JSON.stringify(defaultTheme, undefined, 2);
             this.fileSystem.writeToFile(themeFilePath, stringifiedTheme);
         }
@@ -388,7 +395,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private getThemesFromThemesDirectory(): Theme[] {
-        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.getThemesDirectoryPath());
+        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
         const themes: Theme[] = [];
 
         for (const themeFile of themeFiles) {

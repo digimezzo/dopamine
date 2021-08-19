@@ -42,6 +42,10 @@ export class Desktop {
         remote.shell.openExternal(url);
     }
 
+    public openPath(path: string): void {
+        remote.shell.openPath(path);
+    }
+
     public showFileInDirectory(filePath: string): void {
         remote.shell.showItemInFolder(filePath);
     }

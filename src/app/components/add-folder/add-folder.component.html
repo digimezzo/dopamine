@@ -3,9 +3,9 @@
         <i class="add-folder-overlay__icon las la-sync rotation"></i><span class="ml-1 add-folder-overlay__text">Indexing collection</span>
     </div>
     <div class="add-folder-component__content" [ngClass]="{ inactive: indexingService.isIndexingCollection }">
-        <div class="link-button">
+        <div class="link-button" (click)="addFolderAsync()">
             <i class="link-button__icon mr-2 las la-plus"></i>
-            <a (click)="addFolderAsync()">{{ 'add-folder' | translate }}</a>
+            <a>{{ 'add-folder' | translate }}</a>
         </div>
         <mat-checkbox class="ml-1 mt-3" [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
             {{ 'show-all-folders-in-the-collection' | translate }}</mat-checkbox
