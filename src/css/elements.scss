@@ -47,10 +47,19 @@ h2 {
 h3 {
     font-weight: lighter !important;
     font-size: var(--fontsize-large) !important;
-    //height: var(--fontsize-large) !important;
 }
 
 a {
-    color: var(--theme-accent-color);
+    color: var(--theme-accent-color) !important;
     outline: none; // Removes yellow outline on links
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a > * {
+    color: var(--theme-accent-color) !important;
+}
+
+a:hover {
+    opacity: 0.8;
 }

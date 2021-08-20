@@ -12,32 +12,6 @@
     visibility: hidden;
 }
 
-.link-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-}
-
-.link-button:hover {
-    opacity: 0.8;
-}
-
-.link-button > a {
-    text-decoration: none;
-    user-select: none;
-}
-
-.link-button__icon {
-    font-size: var(--fontsize-large);
-    color: var(--theme-accent-color);
-}
-
-.link-button__text {
-    font-size: var(--fontsize-medium);
-    color: var(--theme-accent-color);
-}
-
 .inactive {
     pointer-events: none;
     opacity: 0.4;
