@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.4] - 2021-08-15
+## [3.0.0-preview.4] - 2021-08-20
 
 ### Added
 
 -   It is now possible to associate audio files to Dopamine and play them with Dopamine from the file manager
+-   It is now possible to create custom themes
+-   Added Manjaro light and dark theme
+-   Added Ubuntu light and dark theme
 
 ### Changed
 
