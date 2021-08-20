@@ -1,12 +1,12 @@
-<div class="color-scheme-switcher-component">
+<div class="theme-switcher-component">
     <div *ngFor="let theme of appearanceService.themes">
-        <div class="color-scheme-switcher-component-button mr-2 mb-2" matTooltip="{{ theme.name }}" (click)="setTheme(theme)">
+        <div class="theme-switcher-component-button mr-2 mb-2" matTooltip="{{ theme.name }}" (click)="setTheme(theme)">
             <i
-                class="color-scheme-switcher-component-button__selector las la-check"
+                class="theme-switcher-component-button__selector las la-check"
                 *ngIf="theme.name === appearanceService.selectedTheme.name"
             ></i>
             <div
-                class="color-scheme-switcher-component-button__color"
+                class="theme-switcher-component-button__color"
                 [ngStyle]="{
                     background:
                         'linear-gradient(45deg, ' + theme.coreColors.primaryColor + ' 30%, ' + theme.coreColors.secondaryColor + ' 100%)'

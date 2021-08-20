@@ -1,18 +1,18 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { ColorScheme } from '../../services/appearance/color-scheme';
-import { ColorSchemeSwitcherComponent } from './color-scheme-switcher.component';
+import { ThemeSwitcherComponent } from './theme-switcher.component';
 
 describe('ColorSchemeSwitcherComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
 
-    let component: ColorSchemeSwitcherComponent;
+    let component: ThemeSwitcherComponent;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         appearanceServiceMock.setup((x) => x.colorSchemes).returns(() => []);
 
-        component = new ColorSchemeSwitcherComponent(appearanceServiceMock.object);
+        component = new ThemeSwitcherComponent(appearanceServiceMock.object);
     });
 
     describe('constructor', () => {

@@ -3,13 +3,13 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
 import { Theme } from '../../services/appearance/theme/theme';
 
 @Component({
-    selector: 'app-color-scheme-switcher',
+    selector: 'app-theme-switcher',
     host: { style: 'display: block' },
-    templateUrl: './color-scheme-switcher.component.html',
-    styleUrls: ['./color-scheme-switcher.component.scss'],
+    templateUrl: './theme-switcher.component.html',
+    styleUrls: ['./theme-switcher.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ColorSchemeSwitcherComponent implements OnInit {
+export class ThemeSwitcherComponent implements OnInit {
     constructor(public appearanceService: BaseAppearanceService) {}
 
     public ngOnInit(): void {}

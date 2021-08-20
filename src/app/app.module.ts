@@ -97,7 +97,6 @@ import { CollectionComponent } from './components/collection/collection.componen
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
-import { ColorSchemeSwitcherComponent } from './components/color-scheme-switcher/color-scheme-switcher.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
@@ -128,6 +127,7 @@ import { OnlineSettingsComponent } from './components/settings/online-settings/o
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
+import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { VolumeControlComponent } from './components/volume-control/volume-control.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WindowControlsComponent } from './components/window-controls/window-controls.component';
@@ -250,7 +250,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         LogoFullComponent,
         LogoSmallComponent,
         StepIndicatorComponent,
-        ColorSchemeSwitcherComponent,
+        ThemeSwitcherComponent,
         AddFolderComponent,
         DialogHeaderComponent,
         ConfirmationDialogComponent,
