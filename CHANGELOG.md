@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+-   Fixes a crash that happens after a clean install of Preview 3
 -   No folder is selected when opening the folders screen for the first time
 -   Background cover of Now playing screen is almost invisible when using light theme
 -   Hopefully fixed blurry fonts in Windows
