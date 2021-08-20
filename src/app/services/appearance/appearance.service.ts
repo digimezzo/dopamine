@@ -11,11 +11,9 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { BaseAppearanceService } from './base-appearance.service';
+import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
 import { Theme } from './theme/theme';
-import { ThemeCoreColors } from './theme/theme-core-colors';
-import { ThemeCreator } from './theme/theme-creator';
-import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 
 @Injectable()
 export class AppearanceService implements BaseAppearanceService {
@@ -35,7 +33,8 @@ export class AppearanceService implements BaseAppearanceService {
         private overlayContainer: OverlayContainer,
         private remoteProxy: BaseRemoteProxy,
         private fileSystem: FileSystem,
-        private desktop: Desktop
+        private desktop: Desktop,
+        private defaultThemesCreator: DefaultThemesCreator
     ) {
         this._themesDirectoryPath = this.getThemesDirectoryPath();
     }
@@ -325,69 +324,13 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private ensureDefaultThemesExist(): void {
-        const defaultThemes: Theme[] = this.createDefaultThemes();
+        const defaultThemes: Theme[] = this.defaultThemesCreator.createAllThemes();
 
         for (const defaultTheme of defaultThemes) {
             const themeFilePath: string = this.fileSystem.combinePath([this.themesDirectoryPath, `${defaultTheme.name}.theme`]);
             const stringifiedTheme: string = JSON.stringify(defaultTheme, undefined, 2);
             this.fileSystem.writeToFile(themeFilePath, stringifiedTheme);
         }
-    }
-
-    private createDefaultThemes(): Theme[] {
-        const creator: ThemeCreator = new ThemeCreator('Digimezzo', 'info@digimezzo.com');
-        const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#5e5e5e',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#666',
-            '#fff',
-            '#1a1a1a',
-            '#111',
-            '#111',
-            '#171717',
-            '#fff',
-            '#5e5e5e',
-            '#272727',
-            '#999',
-            '#fff',
-            '#5e5e5e',
-            '#202020',
-            '#272727',
-            'transparent',
-            '#363636'
-        );
-
-        const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#838383',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#909090',
-            '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
-            '#000',
-            '#838383',
-            '#dfdfdf',
-            '#666',
-            '#000',
-            '#838383',
-            '#cecece',
-            '#dfdfdf',
-            'transparent',
-            '#d7d7d7'
-        );
-
-        const themes: Theme[] = [];
-
-        themes.push(new Theme('Dopamine', creator, new ThemeCoreColors('#6260e3', '#3fdcdd', '#4883e0'), darkColors, lightColors));
-        themes.push(new Theme('Zune', creator, new ThemeCoreColors('#f78f1e', '#ed008c', '#f0266f'), darkColors, lightColors));
-        themes.push(new Theme('Beats', creator, new ThemeCoreColors('#98247f', '#e21839', '#e21839'), darkColors, lightColors));
-        themes.push(new Theme('Naughty', creator, new ThemeCoreColors('#f5004a', '#9300ef', '#f5004a'), darkColors, lightColors));
-
-        return themes;
     }
 
     private getThemesFromThemesDirectory(): Theme[] {
