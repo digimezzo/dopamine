@@ -13,11 +13,6 @@
     flex: 1;
 }
 
-.folder-browser__menu {
-    cursor: pointer;
-    color: var(--theme-text-secondary-foreground);
-}
-
 .folder-browser__message {
     display: flex;
     flex-direction: column;
@@ -35,11 +30,11 @@
 }
 
 .subfolder:hover {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
 }
 
 .subfolder:active {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
 }
 
 .subfolder__icon {

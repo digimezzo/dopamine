@@ -25,6 +25,10 @@
     justify-content: flex-start;
 }
 
+.app-collection-playback-pane-controls__left > .app-collection-playback-pane-controls__playbackinformation {
+    width: calc(33vw - 90px);
+}
+
 .app-collection-playback-pane-controls__center {
     height: 100%;
     width: 33vw;

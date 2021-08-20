@@ -5,14 +5,14 @@
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
-        <div class="app-track-browser__trackorder" (click)="toggleTrackOrder()">
-            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
+        <div class="pointer" (click)="toggleTrackOrder()">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
                 {{ 'by-track-title-ascending' | translate }}
             </div>
-            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
                 {{ 'by-track-title-descending' | translate }}
             </div>
-            <div *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
                 {{ 'by-album' | translate }}
             </div>
         </div>

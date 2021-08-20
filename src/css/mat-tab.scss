@@ -24,7 +24,6 @@ mat-tab-group {
     -webkit-app-region: no-drag;
     margin-top: 4px;
     opacity: 1 !important;
-    color: var(--theme-tab-text-foreground) !important;
 }
 
 .mat-tab-label-container {
@@ -33,10 +32,11 @@ mat-tab-group {
 
 .mat-tab-label-content {
     font-size: var(--fontsize-large) !important;
+    color: var(--theme-tab-text) !important;
 }
 
-.mat-tab-label.mat-tab-label-active {
-    color: var(--theme-tab-selected-text-foreground) !important;
+.mat-tab-label-active .mat-tab-label-content {
+    color: var(--theme-selected-tab-text) !important;
 }
 
 .mat-tab-header {
@@ -67,3 +67,8 @@ mat-ink-bar {
     display: none !important;
 }
 // End of workaround for issue https://github.com/angular/components/issues/3048 */
+
+.cdk-focused,
+.cdk-keyboard-focused {
+    background-color: transparent !important;
+}

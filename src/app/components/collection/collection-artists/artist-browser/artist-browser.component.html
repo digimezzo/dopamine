@@ -12,11 +12,11 @@
                 {{ 'all-artists' | translate }}
             </div>
         </div>
-        <div class="app-artist-browser__artistorder" (click)="toggleArtistOrder()">
-            <div *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
+        <div class="pointer" (click)="toggleArtistOrder()">
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
                 {{ 'by-artist-ascending' | translate }}
             </div>
-            <div *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
                 {{ 'by-artist-descending' | translate }}
             </div>
         </div>

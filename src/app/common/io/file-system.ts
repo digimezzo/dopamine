@@ -49,6 +49,14 @@ export class FileSystem {
             .map((fileName) => this.combinePath([directoryPath, fileName]));
     }
 
+    public getFilesInDirectory(directoryPath: string): string[] {
+        const fileNames: string[] = fs.readdirSync(directoryPath);
+
+        return fileNames
+            .filter((fileName) => fs.lstatSync(this.combinePath([directoryPath, fileName])).isFile())
+            .map((fileName) => this.combinePath([directoryPath, fileName]));
+    }
+
     public async getDirectoriesInDirectoryAsync(directoryPath: string): Promise<string[]> {
         const directoryNames: string[] = await fs.readdir(directoryPath);
 
@@ -117,5 +125,13 @@ export class FileSystem {
 
     public getDirectoryName(directoryPath: string): string {
         return path.basename(directoryPath);
+    }
+
+    public getFileContent(filePath: string): string {
+        return fs.readFileSync(filePath, 'utf-8');
+    }
+
+    public writeToFile(filePath: string, textToWrite: string): void {
+        fs.writeFileSync(filePath, textToWrite);
     }
 }

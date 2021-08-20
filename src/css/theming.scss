@@ -59,4 +59,9 @@ $default-theme-light: custom-mat-light-theme($default-theme-primary, $default-th
 
 .theme-header-background {
     background-color: var(--theme-header-background) !important;
+    border-bottom: 1px solid var(--theme-pane-separators);
+}
+
+.theme-footer-background {
+    background-color: var(--theme-footer-background) !important;
 }

@@ -1,6 +1,6 @@
 .app-playback-cover-art {
     overflow: hidden;
-    background: var(--theme-cover-art-background);
+    background: var(--theme-album-cover-background);
     display: grid;
     grid-template-columns: 1fr;
 }
@@ -22,7 +22,7 @@
 }
 
 .app-playback-cover-art__logo path {
-    fill: var(--theme-cover-art-foreground);
+    fill: var(--theme-album-cover-logo);
 }
 
 .app-playback-cover-art__content {

@@ -43,7 +43,7 @@
 }
 
 .folder:hover {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
 }
 
 .folder__icon {
@@ -63,7 +63,7 @@
 }
 
 .folder:hover .folder-item__action {
-    background: var(--theme-item-hovered-background);
+    background: var(--theme-hovered-item-background);
     display: block !important;
 }
 

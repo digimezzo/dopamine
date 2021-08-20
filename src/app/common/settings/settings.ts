@@ -60,13 +60,13 @@ export class Settings implements BaseSettings {
         this.settings.set('fontSize', v);
     }
 
-    // Color scheme
-    public get colorScheme(): string {
-        return this.settings.get('colorScheme');
+    // Theme
+    public get theme(): string {
+        return this.settings.get('theme');
     }
 
-    public set colorScheme(v: string) {
-        this.settings.set('colorScheme', v);
+    public set theme(v: string) {
+        this.settings.set('theme', v);
     }
 
     // Show welcome
@@ -406,8 +406,8 @@ export class Settings implements BaseSettings {
             this.settings.set('fontSize', 13);
         }
 
-        if (!this.settings.has('colorScheme')) {
-            this.settings.set('colorScheme', 'Default');
+        if (!this.settings.has('theme')) {
+            this.settings.set('theme', 'Dopamine');
         }
 
         if (!this.settings.has('showWelcome')) {
