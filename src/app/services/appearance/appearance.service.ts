@@ -117,9 +117,24 @@ export class AppearanceService implements BaseAppearanceService {
 
     public startWatchingThemesDirectory(): void {
         this.interval = window.setInterval(() => {
-            this._themes = this.getThemesFromThemesDirectory();
-        }, 5000);
+            this.checkIfThemesDirectoryHasChanged();
+        }, 2000);
     }
+
+    private checkIfThemesDirectoryHasChanged(): void {
+        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
+
+        if (themeFiles.length !== this.themes.length) {
+            this.refreshThemes();
+        }
+    }
+
+    public refreshThemes(): void {
+        this.ensureDefaultThemesExist();
+        this._themes = this.getThemesFromThemesDirectory();
+        this.applyTheme();
+    }
+
     public stopWatchingThemesDirectory(): void {
         clearInterval(this.interval);
     }

@@ -15,4 +15,5 @@ export abstract class BaseAppearanceService {
     public abstract initialize(): void;
     public abstract startWatchingThemesDirectory(): void;
     public abstract stopWatchingThemesDirectory(): void;
+    public abstract refreshThemes(): void;
 }

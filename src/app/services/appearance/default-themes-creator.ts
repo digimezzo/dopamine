@@ -163,6 +163,6 @@ export class DefaultThemesCreator {
             '#c7c7c7'
         );
 
-        return new Theme('Manjaro', this.creator, new ThemeCoreColors('#d94612', '#f9622d', '#e95420'), darkColors, lightColors);
+        return new Theme('Manjaro', this.creator, new ThemeCoreColors('#009378', '#2eae92', '#16a085'), darkColors, lightColors);
     }
 }

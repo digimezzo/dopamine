@@ -150,6 +150,7 @@ import { AlbumService } from './services/album/album-service';
 import { BaseAlbumService } from './services/album/base-album-service';
 import { AppearanceService } from './services/appearance/appearance.service';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { DefaultThemesCreator } from './services/appearance/default-themes-creator';
 import { ApplicationService } from './services/application/application.service';
 import { BaseApplicationService } from './services/application/base-application.service';
 import { ArtistService } from './services/artist/artist.service';
@@ -399,6 +400,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TrackOrdering,
         PresenceUpdater,
         HeaderShower,
+        DefaultThemesCreator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

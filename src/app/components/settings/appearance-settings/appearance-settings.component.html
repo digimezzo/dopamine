@@ -20,7 +20,11 @@
         <mat-slide-toggle [(ngModel)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</mat-slide-toggle>
     </div>
     <app-color-scheme-switcher class="mt-3" [ngClass]="{ inactive: appearanceService.followSystemColor }"> </app-color-scheme-switcher>
-    <div class="link-button mt-3" (click)="this.openThemesDirectory()">
+    <div class="link-button mt-3" (click)="this.appearanceService.refreshThemes()">
+        <i class="link-button__icon mr-2 las la-sync"></i>
+        <a>{{ 'refresh-themes' | translate }}</a>
+    </div>
+    <div class="link-button mt-1" (click)="this.openThemesDirectory()">
         <i class="link-button__icon mr-2 las la-plus"></i>
         <a>{{ 'add-more-themes' | translate }}</a>
     </div>
