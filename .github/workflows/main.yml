@@ -25,28 +25,28 @@ jobs:
               with:
                 path: 'package.json'
                 prop_path: 'version'
-            - name: uploading build artifacts - rpm
+            - name: uploading rpm artifact
               uses: actions/upload-artifact@v2
               with:
                 name: dopamine-artifacts-rpm
                 path:
                     release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-            - name: upload build artifacts - deb                    
+            - name: upload deb artifact
               uses: actions/upload-artifact@v2
               with:
                 name: dopamine-artifacts-deb
                 path: dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
-            - name: upload build artifacts - appimage    
+            - name: upload appimage artifact
               uses: actions/upload-artifact@v2
               with:
                 name: dopamine-artifacts-appimage
                 path: dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
-            - name: upload build artifacts - snap        
+            - name: upload snap artifact
               uses: actions/upload-artifact@v2
               with:
                 name: dopamine-artifacts-snap
                 path: dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
-            - name: upload build artifacts - pacman
+            - name: upload pacman artifact
               uses: actions/upload-artifact@v2
               with:
                 name: dopamine-artifacts-pacman
