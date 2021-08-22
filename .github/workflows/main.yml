@@ -24,8 +24,11 @@ jobs:
               with:
                 name: dopamine-artifacts-linux
                 path: |
-                    release
-                    !release/linux-unpacked
+                    release/Dopamine-**.rpm
+                    release/Dopamine-**.deb
+                    release/Dopamine-**.AppImage
+                    release/Dopamine-**.snap
+                    release/Dopamine-**.pacman
 
     build_on_mac:
         runs-on: macos-latest
@@ -43,8 +46,8 @@ jobs:
               with:
                 name: dopamine-artifacts-macos
                 path: |
-                    release
-                    !release/mac-unpacked
+                    #release/Dopamine-**. I don't know about macos extensions
+                    
 
     build_on_win:
         runs-on: windows-latest
@@ -62,5 +65,5 @@ jobs:
               with:
                 name: dopamine-artifacts-win
                 path: |
-                    release
-                    !release/win-unpacked
+                    release/Dopamine-**.exe
+                    
