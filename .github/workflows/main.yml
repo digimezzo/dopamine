@@ -30,11 +30,11 @@ jobs:
               with:
                 name: dopamine-artifacts-linux
                 path: |
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     build_on_mac:
         runs-on: macos-latest
@@ -58,7 +58,7 @@ jobs:
               with:
                 name: dopamine-artifacts-macos
                 path: |
-                    #release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
                     
 
     build_on_win:
@@ -83,5 +83,5 @@ jobs:
               with:
                 name: dopamine-artifacts-win
                 path: |
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.exe
+                    Dopamine-${{ steps.ver_name.outputs.prop }}.exe
                     
