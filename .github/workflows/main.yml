@@ -1,8 +1,9 @@
-name: Test Builds
+name: Build - All platforms
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # No build on push for now #
 on:
+    push:
     workflow_dispatch:
 
 jobs:
