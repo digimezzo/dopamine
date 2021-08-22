@@ -1,6 +1,9 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { ColorScheme } from '../../services/appearance/color-scheme';
+import { Theme } from '../../services/appearance/theme/theme';
+import { ThemeCoreColors } from '../../services/appearance/theme/theme-core-colors';
+import { ThemeCreator } from '../../services/appearance/theme/theme-creator';
+import { ThemeNeutralColors } from '../../services/appearance/theme/theme-neutral-colors';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
 
 describe('ColorSchemeSwitcherComponent', () => {
@@ -10,7 +13,6 @@ describe('ColorSchemeSwitcherComponent', () => {
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        appearanceServiceMock.setup((x) => x.colorSchemes).returns(() => []);
 
         component = new ThemeSwitcherComponent(appearanceServiceMock.object);
     });
@@ -24,18 +26,71 @@ describe('ColorSchemeSwitcherComponent', () => {
             // Assert
             expect(component).toBeDefined();
         });
-    });
 
-    describe('setColorScheme', () => {
-        it('should change the selected color scheme', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
-            const defaultColorScheme: ColorScheme = new ColorScheme('Default', '#fff', '#fff', '#fff');
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
+        });
+    });
+
+    describe('setTheme', () => {
+        it('should change the selected theme', () => {
+            // Arrange
+            const themeCreator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const coreColors: ThemeCoreColors = new ThemeCoreColors('red', 'green', 'blue');
+            const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
+                'red',
+                'green',
+                'blue',
+                '#000',
+                '#111',
+                '#222',
+                '#333',
+                '#444',
+                '#555',
+                '#666',
+                '#777',
+                '#888',
+                '#999',
+                '#aaa',
+                '#bbb',
+                '#ccc',
+                '#ddd',
+                '#eee',
+                '#fff'
+            );
+            const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
+                'red',
+                'green',
+                'blue',
+                '#000',
+                '#111',
+                '#222',
+                '#333',
+                '#444',
+                '#555',
+                '#666',
+                '#777',
+                '#888',
+                '#999',
+                '#aaa',
+                '#bbb',
+                '#ccc',
+                '#ddd',
+                '#eee',
+                '#fff'
+            );
+
+            // Act
+            const defaultColorScheme: Theme = new Theme('My theme', themeCreator, coreColors, darkColors, lightColors);
             component.setTheme(defaultColorScheme);
 
             // Assert
-            appearanceServiceMock.verify((x) => (x.selectedColorScheme = defaultColorScheme), Times.atLeastOnce());
+            appearanceServiceMock.verify((x) => (x.selectedTheme = defaultColorScheme), Times.once());
         });
     });
 });

@@ -20,7 +20,7 @@ export class AppearanceService implements BaseAppearanceService {
     private interval: number;
     private _themes: Theme[] = [];
 
-    private windowHasFrame: boolean;
+    private _windowHasNativeTitleBar: boolean;
     private _selectedTheme: Theme;
     private _selectedFontSize: FontSize;
     private subscription: Subscription = new Subscription();
@@ -36,11 +36,12 @@ export class AppearanceService implements BaseAppearanceService {
         private desktop: Desktop,
         private defaultThemesCreator: DefaultThemesCreator
     ) {
+        this._windowHasNativeTitleBar = this.remoteProxy.getGlobal('windowHasFrame');
         this._themesDirectoryPath = this.getThemesDirectoryPath();
     }
 
     public get windowHasNativeTitleBar(): boolean {
-        return this.windowHasFrame;
+        return this._windowHasNativeTitleBar;
     }
 
     public get isUsingLightTheme(): boolean {
@@ -106,9 +107,11 @@ export class AppearanceService implements BaseAppearanceService {
         }
         return this._themes;
     }
+
     public set themes(v: Theme[]) {
         this._themes = v;
     }
+
     public get themesDirectoryPath(): string {
         return this._themesDirectoryPath;
     }
@@ -137,6 +140,27 @@ export class AppearanceService implements BaseAppearanceService {
 
     public stopWatchingThemesDirectory(): void {
         clearInterval(this.interval);
+    }
+
+    public initialize(): void {
+        this.ensureThemesDirectoryExists();
+        this.ensureDefaultThemesExist();
+
+        this.setSelectedThemeFromSettings();
+        this.applyTheme();
+
+        this.setSelectedFontSizeFromSettings();
+        this.applyFontSize();
+
+        this.addSubscriptions();
+    }
+
+    private applyFontSize(): void {
+        const element = document.documentElement;
+        element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
+        element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
+        element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
+        element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
     }
 
     private addSubscriptions(): void {
@@ -248,29 +272,6 @@ export class AppearanceService implements BaseAppearanceService {
             'AppearanceService',
             'applyTheme'
         );
-    }
-
-    private applyFontSize(): void {
-        const element = document.documentElement;
-        element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
-        element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
-        element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
-        element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
-    }
-
-    public initialize(): void {
-        this.windowHasFrame = this.remoteProxy.getGlobal('windowHasFrame');
-
-        this.ensureThemesDirectoryExists();
-        this.ensureDefaultThemesExist();
-
-        this.setSelectedThemeFromSettings();
-        this.applyTheme();
-
-        this.setSelectedFontSizeFromSettings();
-        this.applyFontSize();
-
-        this.addSubscriptions();
     }
 
     private setSelectedThemeFromSettings(): void {

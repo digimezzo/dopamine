@@ -4,6 +4,30 @@ import { ThemeCreator } from './theme-creator';
 import { ThemeNeutralColors } from './theme-neutral-colors';
 
 describe('Theme', () => {
+    function createNeutralColors(): ThemeNeutralColors {
+        return new ThemeNeutralColors(
+            'red',
+            'green',
+            'blue',
+            'black',
+            'white',
+            '#aaa',
+            '#bbb',
+            '#ccc',
+            '#ddd',
+            '#eee',
+            '#fff',
+            '#111',
+            '#222',
+            '#333',
+            '#444',
+            '#555',
+            '#666',
+            '#777',
+            '#888'
+        );
+    }
+
     beforeEach(() => {});
 
     describe('constructor', () => {
@@ -11,8 +35,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
@@ -25,8 +49,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
@@ -39,8 +63,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
@@ -53,8 +77,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
@@ -67,8 +91,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
@@ -81,8 +105,8 @@ describe('Theme', () => {
             // Arrange
             const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
             const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
-            const darkColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
-            const lightColors: ThemeNeutralColors = new ThemeNeutralColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
 
             // Act
             const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);

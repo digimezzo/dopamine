@@ -64,24 +64,14 @@ describe('AppComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should apply theme', async () => {
+        it('should initialize appearanceService', async () => {
             // Arrange
 
             // Act
             await app.ngOnInit();
 
             // Assert
-            appearanceServiceMock.verify((x) => x.applyTheme(), Times.exactly(1));
-        });
-
-        it('should apply font size', async () => {
-            // Arrange
-
-            // Act
-            await app.ngOnInit();
-
-            // Assert
-            appearanceServiceMock.verify((x) => x.applyFontSize(), Times.exactly(1));
+            appearanceServiceMock.verify((x) => x.initialize(), Times.once());
         });
 
         it('should apply language', async () => {
@@ -91,7 +81,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.exactly(1));
+            translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.once());
         });
 
         it('should navigate to loading', async () => {
@@ -101,7 +91,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.once());
         });
 
         it('should initialize Discord', async () => {
@@ -111,7 +101,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            discordServiceMock.verify((x) => x.setRichPresenceFromSettings(), Times.exactly(1));
+            discordServiceMock.verify((x) => x.setRichPresenceFromSettings(), Times.once());
         });
 
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
