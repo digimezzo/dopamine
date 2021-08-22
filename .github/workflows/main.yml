@@ -12,23 +12,29 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: 14
+                  node-version: '14.x'
             - name: install rpm and libarchive
               run: sudo apt install rpm libarchive-tools
             - name: install dependencies
               run: npm install
             - name: build
               run: npm run electron:linux
-            - name: Upload build artifacts
+            - name: fetch current version
+              id: ver_name
+              uses: notiz-dev/github-action-json-property@release
+              with:
+                path: 'package.json'
+                prop_path: 'version'
+            - name: upload build artifacts
               uses: actions/upload-artifact@v1
               with:
                 name: dopamine-artifacts-linux
                 path: |
-                    release/Dopamine-**.rpm
-                    release/Dopamine-**.deb
-                    release/Dopamine-**.AppImage
-                    release/Dopamine-**.snap
-                    release/Dopamine-**.pacman
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     build_on_mac:
         runs-on: macos-latest
@@ -36,17 +42,23 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: 14
+                  node-version: '14.x'
             - name: install dependencies
               run: npm install
             - name: build
               run: npm run electron:mac
-            - name: Upload build artifacts
+            - name: fetch current version
+              id: ver_name
+              uses: notiz-dev/github-action-json-property@release
+              with:
+                path: 'package.json'
+                prop_path: 'version'
+            - name: upload build artifacts
               uses: actions/upload-artifact@v1
               with:
                 name: dopamine-artifacts-macos
                 path: |
-                    #release/Dopamine-**. I don't know about macos extensions
+                    #release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
                     
 
     build_on_win:
@@ -55,15 +67,21 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: 14
+                  node-version: '14.x'
             - name: install dependencies
               run: npm install
             - name: build
               run: npm run electron:windows
-            - name: Upload build artifacts
+            - name: fetch current version
+              id: ver_name
+              uses: notiz-dev/github-action-json-property@release
+              with:
+                path: 'package.json'
+                prop_path: 'version'
+            - name: upload build artifacts
               uses: actions/upload-artifact@v1
               with:
                 name: dopamine-artifacts-win
                 path: |
-                    release/Dopamine-**.exe
+                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.exe
                     
