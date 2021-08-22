@@ -91,7 +91,7 @@
         "@angular/cdk": "8.1.2",
         "@angular/material": "8.1.2",
         "angular-split": "^5.0.0-beta.2",
-        "better-sqlite3": "7.1.1",
+        "better-sqlite3": "7.1.2",
         "discord-rpc": "^4.0.1",
         "electron-log": "4.3.5",
         "electron-store": "5.0.0",
