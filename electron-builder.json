@@ -6,37 +6,37 @@
             "name": "MP3 Files",
             "description": "MP3 Files",
             "ext": "mp3",
-            "icon": "build/mp3.ico"
+            "icon": "build/mp3"
         },
         {
             "name": "FLAC Files",
             "description": "FLAC Files",
             "ext": "flac",
-            "icon": "build/flac.ico"
+            "icon": "build/flac"
         },
         {
             "name": "OGG Files",
             "description": "OGG Files",
             "ext": "ogg",
-            "icon": "build/ogg.ico"
+            "icon": "build/ogg"
         },
         {
             "name": "M4A Files",
             "description": "M4A Files",
             "ext": "m4a",
-            "icon": "build/m4a.ico"
+            "icon": "build/m4a"
         },
         {
             "name": "OPUS Files",
             "description": "OPUS Files",
             "ext": "opus",
-            "icon": "build/opus.ico"
+            "icon": "build/opus"
         },
         {
             "name": "WAV Files",
             "description": "WAV Files",
             "ext": "wav",
-            "icon": "build/wav.ico"
+            "icon": "build/wav"
         }
     ],
     "nsis": {
