@@ -44,7 +44,7 @@ jobs:
                 name: dopamine-artifacts-macos
                 path: |
                     release
-                    !release/macos-unpacked
+                    !release/mac-unpacked
 
     build_on_win:
         runs-on: windows-latest
