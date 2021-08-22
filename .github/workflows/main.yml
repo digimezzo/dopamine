@@ -2,44 +2,44 @@ name: Test Builds
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # No build on push for now #
-on: 
-  workflow_dispatch: 
-  
+on:
+    workflow_dispatch:
+
 jobs:
-  build_on_linux:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 14
-    - name: install rpm and libarchive
-      run: sudo apt install rpm libarchive-tools
-    - name: install dependencies 
-      run: npm install
-    - name: build
-      run: npm run electron:linux
+    build_on_linux:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@master
+              with:
+                  node-version: 14
+            - name: install rpm and libarchive
+              run: sudo apt install rpm libarchive-tools
+            - name: install dependencies
+              run: npm install
+            - name: build
+              run: npm run electron:linux
 
-  build_on_mac:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-     with:
-       node-version: 14
-    - name: install dependencies
-     run: npm install
-    - name: build
-     run: npm run electron:mac
+    build_on_mac:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@master
+              with:
+                  node-version: 14
+            - name: install dependencies
+              run: npm install
+            - name: build
+              run: npm run electron:mac
 
-  build_on_win:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 14
-    - name: install dependencies
-      run: npm install
-    - name: build
-      run: npm run electron:windows
+    build_on_win:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@master
+              with:
+                  node-version: 14
+            - name: install dependencies
+              run: npm install
+            - name: build
+              run: npm run electron:windows
