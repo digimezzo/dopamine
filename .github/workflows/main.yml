@@ -29,17 +29,12 @@ jobs:
               uses: actions/upload-artifact@v1
               with:
                 name: dopamine-artifacts-linux
-                path: |
-                    ${{ github.workspace }}
-                    */release
-                    ./release
-                    ./release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-                    ${{ github.workspace }}/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-                #dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-                #dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
-                #dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
-                #dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
-                #dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
+                path:
+                    dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                    dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                    dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                    dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                    dopamine/release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     build_on_mac:
         runs-on: macos-latest
