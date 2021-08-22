@@ -23,7 +23,9 @@ jobs:
               uses: actions/upload-artifact@v1
               with:
                 name: dopamine-artifacts-linux
-                path: release
+                path: |
+                    release
+                    !release/linux-unpacked
 
     build_on_mac:
         runs-on: macos-latest
@@ -39,8 +41,10 @@ jobs:
             - name: Upload build artifacts
               uses: actions/upload-artifact@v1
               with:
-                name: dopamine-artifacts
-                path: release
+                name: dopamine-artifacts-macos
+                path: |
+                    release
+                    !release/macos-unpacked
 
     build_on_win:
         runs-on: windows-latest
@@ -56,5 +60,7 @@ jobs:
             - name: Upload build artifacts
               uses: actions/upload-artifact@v1
               with:
-                name: dopamine-artifacts
-                path: release
+                name: dopamine-artifacts-win
+                path: |
+                    release
+                    !release/win-unpacked
