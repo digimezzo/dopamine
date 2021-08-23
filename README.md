@@ -46,9 +46,19 @@ Follow the build instructions below to start or build Dopamine for your platform
 
 Follow the build instructions below to start or build Dopamine for your platform.
 
+**Build prerequisites on MacOS:**
+
+-   Install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
+-   Make sure npm is accessible via the console
+    - Press command + space and search for console
+    - Write `npm --v` and press enter, this should give you the version number if npm is properly installed.
+-   Download and install Visual Studio Code from https://code.visualstudio.com/
+-   Download the Dopamine source code
+-   Open Visual Studio Code and open the "dopamine" folder (the folder containing package.json)
+
 ## Build instructions
 
-Due to the native dependency better-sqlite3, this project cannot be built for all platforms on GNU/Linux. The GNU/Linux packages must be built on GNU/Linux. The Windows package must be built on Windows. For mac, you're on your own. I have no means to test it out.
+Due to the native dependency better-sqlite3, this project cannot be built for all platforms on GNU/Linux. The GNU/Linux packages must be built on GNU/Linux, the Windows package must be built on Windows and the MacOS package must be built on MacOS.
 
 ```bash
 $ git clone https://github.com/digimezzo/dopamine.git
