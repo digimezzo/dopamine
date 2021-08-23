@@ -59,6 +59,7 @@ import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
 import { Desktop } from './common/io/desktop';
+import { DocumentProxy } from './common/io/document-proxy';
 import { FileSystem } from './common/io/file-system';
 import { RemoteProxy } from './common/io/remote-proxy';
 import { ListRandomizer } from './common/list-randomizer';
@@ -393,6 +394,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumRowsGetter,
         AlbumSpaceCalculator,
         NativeElementProxy,
+        DocumentProxy,
         GitHubApi,
         MetadataPatcher,
         ArtistOrdering,

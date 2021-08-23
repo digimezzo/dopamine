@@ -6,6 +6,7 @@ import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
+import { DocumentProxy } from '../../common/io/document-proxy';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -34,7 +35,8 @@ export class AppearanceService implements BaseAppearanceService {
         private remoteProxy: BaseRemoteProxy,
         private fileSystem: FileSystem,
         private desktop: Desktop,
-        private defaultThemesCreator: DefaultThemesCreator
+        private defaultThemesCreator: DefaultThemesCreator,
+        private documentProxy: DocumentProxy
     ) {
         this._windowHasNativeTitleBar = this.remoteProxy.getGlobal('windowHasFrame');
         this._themesDirectoryPath = this.getThemesDirectoryPath();
@@ -156,7 +158,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private applyFontSize(): void {
-        const element = document.documentElement;
+        const element: HTMLElement = this.documentProxy.getDocumentElement();
         element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
@@ -178,7 +180,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private applyTheme(): void {
-        const element = document.documentElement;
+        const element: HTMLElement = this.documentProxy.getDocumentElement();
 
         // Color
         let primaryColorToApply: string = this.selectedTheme.coreColors.primaryColor;
@@ -232,8 +234,8 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.darkColors.breadcrumbBackground);
         element.style.setProperty('--theme-slider-background', this.selectedTheme.darkColors.sliderBackground);
         element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.darkColors.sliderThumbBackground);
-        element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
         element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.darkColors.albumCoverLogo);
+        element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
         element.style.setProperty('--theme-album-info-background', this.selectedTheme.darkColors.albumInfoBackground);
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
@@ -254,8 +256,8 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.lightColors.breadcrumbBackground);
             element.style.setProperty('--theme-slider-background', this.selectedTheme.lightColors.sliderBackground);
             element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.lightColors.sliderThumbBackground);
-            element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
             element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.lightColors.albumCoverLogo);
+            element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
             element.style.setProperty('--theme-album-info-background', this.selectedTheme.lightColors.albumInfoBackground);
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
@@ -265,7 +267,7 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyThemeClasses(this.overlayContainer.getContainerElement(), themeName);
 
         // Apply theme to body
-        this.applyThemeClasses(document.body, themeName);
+        this.applyThemeClasses(this.documentProxy.getBody(), themeName);
 
         this.logger.info(
             `Applied theme name=${this.selectedTheme.name}' and theme classes='${themeName}'`,
