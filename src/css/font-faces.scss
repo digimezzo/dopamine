@@ -10,6 +10,12 @@
 
 @font-face {
     font-family: opensans;
+    font-weight: 700;
+    src: url(assets/fonts/OpenSans-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: opensans;
     font-weight: 100;
     src: url(assets/fonts/OpenSans-Light.ttf) format('truetype');
 }

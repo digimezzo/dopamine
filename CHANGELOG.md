@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.5] - 2021-08-23
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Hopefully fixes blurry bold fonts in Windows
+
 ## [3.0.0-preview.4] - 2021-08-20
 
 ### Added
