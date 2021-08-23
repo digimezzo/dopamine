@@ -70,4 +70,90 @@ describe('AppearanceService', () => {
             expect(windowHasNativeTitleBar).toBeTruthy();
         });
     });
+
+    describe('isUsingLightTheme', () => {
+        it('should return true when not following the system theme and settings request to use a light theme', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => false);
+            settingsMock.setup((x) => x.useLightBackgroundTheme).returns(() => true);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const isUsingLightTheme: boolean = service.isUsingLightTheme;
+
+            // Assert
+            expect(isUsingLightTheme).toBeTruthy();
+        });
+
+        it('should return false when not following the system theme and settings do not request to use a light theme', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => false);
+            settingsMock.setup((x) => x.useLightBackgroundTheme).returns(() => false);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const isUsingLightTheme: boolean = service.isUsingLightTheme;
+
+            // Assert
+            expect(isUsingLightTheme).toBeFalsy();
+        });
+
+        it('should return true when following the system theme and the system is not using a dark theme', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => true);
+            desktopMock.setup((x) => x.shouldUseDarkColors()).returns(() => false);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const isUsingLightTheme: boolean = service.isUsingLightTheme;
+
+            // Assert
+            expect(isUsingLightTheme).toBeTruthy();
+        });
+
+        it('should return false when following the system theme and the system is using a dark theme', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => true);
+            desktopMock.setup((x) => x.shouldUseDarkColors()).returns(() => true);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const isUsingLightTheme: boolean = service.isUsingLightTheme;
+
+            // Assert
+            expect(isUsingLightTheme).toBeFalsy();
+        });
+    });
+
+    describe('followSystemTheme', () => {
+        it('should return false if the settings contain false', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => false);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const followSystemTheme: boolean = service.followSystemTheme;
+
+            // Assert
+            expect(followSystemTheme).toBeFalsy();
+        });
+
+        it('should return true if the settings contain true', () => {
+            // Arrange
+            settingsMock.setup((x) => x.followSystemTheme).returns(() => true);
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const followSystemTheme: boolean = service.followSystemTheme;
+
+            // Assert
+            expect(followSystemTheme).toBeTruthy();
+        });
+    });
 });
