@@ -8,7 +8,6 @@ on:
 jobs:
     merge_build_on_linux:
         runs-on: ubuntu-latest
-        if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
@@ -56,7 +55,6 @@ jobs:
 
     merge_build_on_mac:
         runs-on: macos-latest
-        if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
@@ -82,7 +80,6 @@ jobs:
 
     merge_build_on_win:
         runs-on: windows-latest
-        if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
