@@ -3,7 +3,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
     schedule:
-        - cron: '0 * * * *'
+        - cron: '46 * * * *'
 
 jobs:
     nightly_build_on_linux:
