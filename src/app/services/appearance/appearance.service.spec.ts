@@ -25,7 +25,7 @@ describe('AppearanceService', () => {
     let defaultThemesCreator: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
 
-    var containerElementMock: HTMLElement;
+    let containerElementMock: HTMLElement;
     let documentElementMock: HTMLElement;
     let bodyMock: HTMLElement;
 
@@ -176,6 +176,12 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-album-info-background')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#1fffff');
+    }
+
+    function resetElements(): void {
+        containerElementMock = document.createElement('div');
+        documentElementMock = document.createElement('div');
+        bodyMock = document.createElement('div');
     }
 
     beforeEach(() => {
@@ -346,6 +352,7 @@ describe('AppearanceService', () => {
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
             service.selectedTheme = createTheme();
+            resetElements();
 
             // Act
             service.followSystemTheme = false;
@@ -363,6 +370,7 @@ describe('AppearanceService', () => {
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
             service.selectedTheme = createTheme();
+            resetElements();
 
             // Act
             service.followSystemTheme = false;
@@ -416,8 +424,40 @@ describe('AppearanceService', () => {
             expect(settingsStub.useLightBackgroundTheme).toBeTruthy();
         });
 
-        it('should apply the theme', () => {
-            throw new Error();
+        it('should apply the light theme if using the light theme', () => {
+            // Arrange
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme();
+            resetElements();
+
+            // Act
+            service.useLightBackgroundTheme = true;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertLightColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-light');
+            expect(bodyMock.classList).toContain('default-theme-light');
+        });
+
+        it('should apply the dark theme if using the dark theme', () => {
+            // Arrange
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme();
+            resetElements();
+
+            // Act
+            service.useLightBackgroundTheme = false;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertDarkColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-dark');
+            expect(bodyMock.classList).toContain('default-theme-dark');
         });
     });
 
@@ -462,8 +502,40 @@ describe('AppearanceService', () => {
             expect(settingsStub.followSystemColor).toBeTruthy();
         });
 
-        it('should apply the theme', () => {
-            throw new Error();
+        it('should apply the light theme if using the light theme', () => {
+            // Arrange
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme();
+            resetElements();
+
+            // Act
+            service.followSystemColor = false;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertLightColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-light');
+            expect(bodyMock.classList).toContain('default-theme-light');
+        });
+
+        it('should apply the dark theme if using the dark theme', () => {
+            // Arrange
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme();
+            resetElements();
+
+            // Act
+            service.followSystemColor = false;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertDarkColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-dark');
+            expect(bodyMock.classList).toContain('default-theme-dark');
         });
     });
 });
