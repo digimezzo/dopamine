@@ -7,7 +7,7 @@ Dopamine is an audio player which tries to make organizing and listening to musi
 Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 [![Release](https://img.shields.io/github/release/digimezzo/dopamine.svg?style=flat-square&include_prereleases)](https://github.com/digimezzo/dopamine/releases/latest)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/digimezzo/dopamine/Build%20-%20All%20platforms?style=flat-square)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/digimezzo/dopamine/Build%20-%20All%20platforms?style=flat-square)](https://github.com/digimezzo/dopamine/actions/workflows/main.yml)
 [![Issues](https://img.shields.io/github/issues/digimezzo/dopamine.svg?style=flat-square)](https://github.com/digimezzo/dopamine/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
