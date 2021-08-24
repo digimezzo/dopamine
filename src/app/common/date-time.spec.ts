@@ -10,7 +10,7 @@ describe('DateTime', () => {
             const ticks: number = DateTime.convertDateToTicks(someDate);
 
             // Assert
-            expect(ticks).toEqual(637471059302630000);
+            expect(ticks).toEqual(637471095302630000);
         });
     });
 
@@ -23,7 +23,7 @@ describe('DateTime', () => {
             const unixTime: number = DateTime.convertDateToUnixTime(someDate);
 
             // Assert
-            expect(unixTime).toEqual(1611509130);
+            expect(unixTime).toEqual(1611512730);
         });
     });
 });
