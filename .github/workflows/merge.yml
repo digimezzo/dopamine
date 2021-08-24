@@ -7,101 +7,101 @@ on:
 
 jobs:
     merge_build_on_linux:
-      if: github.event.pull_request.merged == true
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@master
-              with:
-                  node-version: '14.x'
-            - name: install rpm and libarchive
-              run: sudo apt install rpm libarchive-tools
-            - name: install dependencies
-              run: npm install
-            - name: run unit tests
-              run: npm run test
-            - name: build
-              run: npm run electron:linux
-            - name: fetch current version
-              id: ver_name
-              uses: notiz-dev/github-action-json-property@release
-              with:
-                  path: 'package.json'
-                  prop_path: 'version'
-            - name: uploading rpm artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-rpm
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
-            - name: upload deb artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-deb
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
-            - name: upload appimage artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-appimage
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
-            - name: upload snap artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-snap
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
-            - name: upload pacman artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-pacman
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
+        if: github.event.pull_request.merged == true
+            runs-on: ubuntu-latest
+            steps:
+                - uses: actions/checkout@v2
+                - uses: actions/setup-node@master
+                  with:
+                      node-version: '14.x'
+                - name: install rpm and libarchive
+                  run: sudo apt install rpm libarchive-tools
+                - name: install dependencies
+                  run: npm install
+                - name: run unit tests
+                  run: npm run test
+                - name: build
+                  run: npm run electron:linux
+                - name: fetch current version
+                  id: ver_name
+                  uses: notiz-dev/github-action-json-property@release
+                  with:
+                      path: 'package.json'
+                      prop_path: 'version'
+                - name: uploading rpm artifact
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-rpm
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                - name: upload deb artifact
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-deb
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                - name: upload appimage artifact
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-appimage
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                - name: upload snap artifact
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-snap
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                - name: upload pacman artifact
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-pacman
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     merge_build_on_mac:
-      if: github.event.pull_request.merged == true
-        runs-on: macos-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@master
-              with:
-                  node-version: '14.x'
-            - name: install dependencies
-              run: npm install
-            - name: run unit tests
-              run: npm run test
-            - name: build
-              run: npm run electron:mac
-            - name: fetch current version
-              id: ver_name
-              uses: notiz-dev/github-action-json-property@release
-              with:
-                  path: 'package.json'
-                  prop_path: 'version'
-            - name: upload build artifacts
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-macos
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
+        if: github.event.pull_request.merged == true
+            runs-on: macos-latest
+            steps:
+                - uses: actions/checkout@v2
+                - uses: actions/setup-node@master
+                  with:
+                      node-version: '14.x'
+                - name: install dependencies
+                  run: npm install
+                - name: run unit tests
+                  run: npm run test
+                - name: build
+                  run: npm run electron:mac
+                - name: fetch current version
+                  id: ver_name
+                  uses: notiz-dev/github-action-json-property@release
+                  with:
+                      path: 'package.json'
+                      prop_path: 'version'
+                - name: upload build artifacts
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-macos
+                      path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
     merge_build_on_win:
-      if: github.event.pull_request.merged == true
-        runs-on: windows-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@master
-              with:
-                  node-version: '14.x'
-            - name: install dependencies
-              run: npm install
-            - name: run unit tests
-              run: npm run test
-            - name: build
-              run: npm run electron:windows
-            - name: fetch current version
-              id: ver_name
-              uses: notiz-dev/github-action-json-property@release
-              with:
-                  path: 'package.json'
-                  prop_path: 'version'
-            - name: upload build artifacts
-              uses: actions/upload-artifact@v2
-              with:
-                  name: dopamine-merge-win
-                  path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
+        if: github.event.pull_request.merged == true
+            runs-on: windows-latest
+            steps:
+                - uses: actions/checkout@v2
+                - uses: actions/setup-node@master
+                  with:
+                      node-version: '14.x'
+                - name: install dependencies
+                  run: npm install
+                - name: run unit tests
+                  run: npm run test
+                - name: build
+                  run: npm run electron:windows
+                - name: fetch current version
+                  id: ver_name
+                  uses: notiz-dev/github-action-json-property@release
+                  with:
+                      path: 'package.json'
+                      prop_path: 'version'
+                - name: upload build artifacts
+                  uses: actions/upload-artifact@v2
+                  with:
+                      name: dopamine-merge-win
+                      path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
