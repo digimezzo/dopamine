@@ -18,7 +18,7 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `SELECT (*) AS numberOfFolderTracks
+            `SELECT COUNT(*) AS numberOfFolderTracks
             FROM FolderTrack
             WHERE TrackID NOT IN (SELECT TrackID FROM Track);`
         );
