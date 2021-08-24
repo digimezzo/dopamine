@@ -17,40 +17,41 @@ jobs:
               run: sudo apt install rpm libarchive-tools
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:linux
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
               with:
-                path: 'package.json'
-                prop_path: 'version'
+                  path: 'package.json'
+                  prop_path: 'version'
             - name: uploading rpm artifact
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-rpm
-                path:
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                  name: dopamine-artifacts-rpm
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
             - name: upload deb artifact
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-deb
-                path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                  name: dopamine-artifacts-deb
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
             - name: upload appimage artifact
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-appimage
-                path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                  name: dopamine-artifacts-appimage
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
             - name: upload snap artifact
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-snap
-                path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                  name: dopamine-artifacts-snap
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
             - name: upload pacman artifact
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-pacman
-                path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
+                  name: dopamine-artifacts-pacman
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     build_on_mac:
         runs-on: macos-latest
@@ -61,21 +62,21 @@ jobs:
                   node-version: '14.x'
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:mac
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
               with:
-                path: 'package.json'
-                prop_path: 'version'
+                  path: 'package.json'
+                  prop_path: 'version'
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-macos
-                path: 
-                    release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
-                    
+                  name: dopamine-artifacts-macos
+                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
     build_on_win:
         runs-on: windows-latest
@@ -86,17 +87,18 @@ jobs:
                   node-version: '14.x'
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:windows
             - name: fetch current version
               id: ver_name
               uses: notiz-dev/github-action-json-property@release
               with:
-                path: 'package.json'
-                prop_path: 'version'
+                  path: 'package.json'
+                  prop_path: 'version'
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                name: dopamine-artifacts-win
-                path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
-                    
+                  name: dopamine-artifacts-win
+                  path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
