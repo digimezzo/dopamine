@@ -1,4 +1,4 @@
-name: Build - All platforms
+name: Manual builds
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    build_on_linux:
+    manual_build_on_linux:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -30,30 +30,30 @@ jobs:
             - name: uploading rpm artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-rpm
+                  name: dopamine-manual-rpm
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
             - name: upload deb artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-deb
+                  name: dopamine-manual-deb
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
             - name: upload appimage artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-appimage
+                  name: dopamine-manual-appimage
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
             - name: upload snap artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-snap
+                  name: dopamine-manual-snap
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
             - name: upload pacman artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-pacman
+                  name: dopamine-manual-pacman
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
-    build_on_mac:
+    manual_build_on_mac:
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v2
@@ -75,10 +75,10 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-macos
+                  name: dopamine-manual-macos
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
-    build_on_win:
+    manual_build_on_win:
         runs-on: windows-latest
         steps:
             - uses: actions/checkout@v2
@@ -100,5 +100,5 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-artifacts-win
+                  name: dopamine-manual-win
                   path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe

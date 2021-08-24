@@ -1,12 +1,13 @@
-name: Nightly builds
+name: Merge builds
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
-    schedule:
-        - cron: '0 0 * * *'
+    pull_request:
+        types: [closed]
 
 jobs:
-    nightly_build_on_linux:
+    merge_build_on_linux:
+      if: github.event.pull_request.merged == true
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -30,30 +31,31 @@ jobs:
             - name: uploading rpm artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-rpm
+                  name: dopamine-merge-rpm
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
             - name: upload deb artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-deb
+                  name: dopamine-merge-deb
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
             - name: upload appimage artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-appimage
+                  name: dopamine-merge-appimage
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
             - name: upload snap artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-snap
+                  name: dopamine-merge-snap
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
             - name: upload pacman artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-pacman
+                  name: dopamine-merge-pacman
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
-    nightly_build_on_mac:
+    merge_build_on_mac:
+      if: github.event.pull_request.merged == true
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v2
@@ -75,10 +77,11 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-macos
+                  name: dopamine-merge-macos
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
-    nightly_build_on_win:
+    merge_build_on_win:
+      if: github.event.pull_request.merged == true
         runs-on: windows-latest
         steps:
             - uses: actions/checkout@v2
@@ -100,5 +103,5 @@ jobs:
             - name: upload build artifacts
               uses: actions/upload-artifact@v2
               with:
-                  name: dopamine-nightly-win
+                  name: dopamine-merge-win
                   path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
