@@ -14,7 +14,7 @@ export class CollectionChecker implements BaseCollectionChecker {
     ) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
-        let collectionNeedsIndexing: boolean = false;
+        let collectionIsOutdated: boolean = false;
 
         try {
             const numberOfDatabaseTracksThatNeedIndexing: number = this.trackRepository.getNumberOfTracksThatNeedIndexing();
@@ -23,21 +23,26 @@ export class CollectionChecker implements BaseCollectionChecker {
             const lastDateFileModifiedInDatabase: number = this.trackRepository.getMaximumDateFileModified();
             const lastDateFileModifiedOnDisk: number = this.getLastDateFileModifiedOnDisk(indexablePathsOnDisk);
 
-            collectionNeedsIndexing =
-                numberOfDatabaseTracksThatNeedIndexing > 0 ||
-                numberOfDatabaseTracks !== indexablePathsOnDisk.length ||
-                lastDateFileModifiedInDatabase < lastDateFileModifiedOnDisk;
+            const tracksNeedIndexing: boolean = numberOfDatabaseTracksThatNeedIndexing > 0;
+            const numberOfTracksHasChanged: boolean = numberOfDatabaseTracks !== indexablePathsOnDisk.length;
+            const lastDateModifiedHasChanged: boolean = lastDateFileModifiedInDatabase < lastDateFileModifiedOnDisk;
 
-            this.logger.info(`Collection needs indexing=${collectionNeedsIndexing}`, 'CollectionChecker', 'isCollectionOutdatedAsync');
+            collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
+
+            this.logger.info(
+                `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
+                'CollectionChecker',
+                'isCollectionOutdatedAsync'
+            );
         } catch (e) {
             this.logger.error(
-                `An error occurred while checking if collection needs indexing. Error ${e.message}`,
+                `An error occurred while checking if collection is outdated. Error ${e.message}`,
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );
         }
 
-        return collectionNeedsIndexing;
+        return collectionIsOutdated;
     }
 
     private getLastDateFileModifiedOnDisk(indexablePathsOnDisk: IndexablePath[]): number {
