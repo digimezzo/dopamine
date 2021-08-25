@@ -538,4 +538,17 @@ describe('AppearanceService', () => {
             expect(bodyMock.classList).toContain('default-theme-dark');
         });
     });
+
+    // describe('fontSizes', () => {
+    //     it('should return the font sizes', () => {
+    //         // Arrange
+    //         const service: BaseAppearanceService = createService();
+
+    //         // Act
+    //         const fontSizes: FontSize[] = service.fontSizes;
+
+    //         // Assert
+    //         expect(fontSizes).toEqual(Constants.fontSizes);
+    //     });
+    // });
 });
