@@ -80,17 +80,7 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyTheme();
     }
 
-    public get selectedTheme(): Theme {
-        return this._selectedTheme;
-    }
-
-    public set selectedTheme(v: Theme) {
-        this._selectedTheme = v;
-        this.settings.theme = v.name;
-
-        this.applyTheme();
-        this._themes = this.getThemesFromThemesDirectory();
-    }
+    public fontSizes: FontSize[] = Constants.fontSizes;
 
     public get selectedFontSize(): FontSize {
         return this._selectedFontSize;
@@ -101,6 +91,10 @@ export class AppearanceService implements BaseAppearanceService {
         this.settings.fontSize = v.mediumSize;
 
         this.applyFontSize();
+    }
+
+    public get themesDirectoryPath(): string {
+        return this._themesDirectoryPath;
     }
 
     public get themes(): Theme[] {
@@ -114,11 +108,17 @@ export class AppearanceService implements BaseAppearanceService {
         this._themes = v;
     }
 
-    public get themesDirectoryPath(): string {
-        return this._themesDirectoryPath;
+    public get selectedTheme(): Theme {
+        return this._selectedTheme;
     }
 
-    public fontSizes: FontSize[] = Constants.fontSizes;
+    public set selectedTheme(v: Theme) {
+        this._selectedTheme = v;
+        this.settings.theme = v.name;
+
+        this.applyTheme();
+        this._themes = this.getThemesFromThemesDirectory();
+    }
 
     public startWatchingThemesDirectory(): void {
         this.interval = window.setInterval(() => {
@@ -126,22 +126,14 @@ export class AppearanceService implements BaseAppearanceService {
         }, 2000);
     }
 
-    private checkIfThemesDirectoryHasChanged(): void {
-        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
-
-        if (themeFiles.length !== this.themes.length) {
-            this.refreshThemes();
-        }
+    public stopWatchingThemesDirectory(): void {
+        clearInterval(this.interval);
     }
 
     public refreshThemes(): void {
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
         this.applyTheme();
-    }
-
-    public stopWatchingThemesDirectory(): void {
-        clearInterval(this.interval);
     }
 
     public initialize(): void {
@@ -155,6 +147,14 @@ export class AppearanceService implements BaseAppearanceService {
         this.applyFontSize();
 
         this.addSubscriptions();
+    }
+
+    private checkIfThemesDirectoryHasChanged(): void {
+        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
+
+        if (themeFiles.length !== this.themes.length) {
+            this.refreshThemes();
+        }
     }
 
     private applyFontSize(): void {
