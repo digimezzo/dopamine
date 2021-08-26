@@ -64,14 +64,14 @@ describe('AppComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should initialize appearanceService', async () => {
+        it('should apply appearance', async () => {
             // Arrange
 
             // Act
             await app.ngOnInit();
 
             // Assert
-            appearanceServiceMock.verify((x) => x.initialize(), Times.once());
+            appearanceServiceMock.verify((x) => x.applyAppearance(), Times.once());
         });
 
         it('should apply language', async () => {

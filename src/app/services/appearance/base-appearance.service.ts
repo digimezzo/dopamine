@@ -12,8 +12,8 @@ export abstract class BaseAppearanceService {
     public abstract followSystemColor: boolean;
     public abstract selectedTheme: Theme;
     public abstract selectedFontSize: FontSize;
-    public abstract initialize(): void;
     public abstract startWatchingThemesDirectory(): void;
     public abstract stopWatchingThemesDirectory(): void;
     public abstract refreshThemes(): void;
+    public abstract applyAppearance(): void;
 }

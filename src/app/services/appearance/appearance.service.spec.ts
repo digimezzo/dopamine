@@ -199,6 +199,8 @@ describe('AppearanceService', () => {
         desktopMock.setup((x) => x.accentColorChanged$).returns(() => new Observable());
         desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => new Observable());
 
+        defaultThemesCreator.setup((x) => x.createAllThemes()).returns(() => [dummyTheme]);
+
         fileSystemMock
             .setup((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'))
             .returns(() => ['/home/user/.config/Dopamine/Themes/Dopamine.theme']);
@@ -542,27 +544,11 @@ describe('AppearanceService', () => {
     });
 
     describe('themes', () => {
-        it('should return themes if themes is set to undefined', () => {
+        it('should return themes', () => {
             // Arrange
             const settingsStub: any = { theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.themes = undefined;
-
-            // Act
-            const themes: Theme[] = service.themes;
-
-            // Assert
-            expect(themes.length).toEqual(1);
-            expect(themes[0].name).toBe('My theme');
-        });
-
-        it('should return themes if themes is set to empty', () => {
-            // Arrange
-            const settingsStub: any = { theme: '' };
-
-            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.themes = [];
 
             // Act
             const themes: Theme[] = service.themes;
@@ -697,5 +683,53 @@ describe('AppearanceService', () => {
             // Assert
             expect(settingsStub.fontSize).toEqual(13);
         });
+
+        it('should apply the font size', () => {
+            // Arrange
+            const settingsStub: any = { fontSize: 15 };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            resetElements();
+
+            // Act
+            service.selectedFontSize = new FontSize(13);
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('13px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
+        });
     });
+
+    describe('themesDirectoryPath', () => {
+        it('should return the themes directory path', () => {
+            // Arrange
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const themesDirectoryPath: string = service.themesDirectoryPath;
+
+            // Assert
+            expect(themesDirectoryPath).toEqual('/home/user/.config/Dopamine/Themes');
+        });
+    });
+
+    // describe('startWatchingThemesDirectory', () => {
+    //     it('should get new themes from the themes directory', () => {
+    //         // Arrange
+    //         const service: BaseAppearanceService = createService();
+    //         service.themes = [];
+
+    //         // Act
+    //         // jest.useFakeTimers();
+    //         //service.startWatchingThemesDirectory();
+    //         // jest.runAllTimers();
+    //         //service.stopWatchingThemesDirectory();
+
+    //         // Assert
+    //         expect(service.themes.length).toEqual(1);
+    //         expect(service.themes[0].name).toBe('My theme');
+    //     });
+    // });
 });

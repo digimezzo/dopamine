@@ -38,8 +38,7 @@ export class AppearanceService implements BaseAppearanceService {
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy
     ) {
-        this._windowHasNativeTitleBar = this.remoteProxy.getGlobal('windowHasFrame');
-        this._themesDirectoryPath = this.getThemesDirectoryPath();
+        this.initialize();
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -81,10 +80,6 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     public get themes(): Theme[] {
-        if (this._themes == undefined || this._themes.length === 0) {
-            this._themes = this.getThemesFromThemesDirectory();
-        }
-
         return this._themes;
     }
 
@@ -131,25 +126,31 @@ export class AppearanceService implements BaseAppearanceService {
     public refreshThemes(): void {
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
+        this.setSelectedThemeFromSettings();
         this.applyTheme();
     }
 
-    public initialize(): void {
+    public applyAppearance(): void {
+        this.applyTheme();
+        this.applyFontSize();
+    }
+
+    private initialize(): void {
+        this._windowHasNativeTitleBar = this.remoteProxy.getGlobal('windowHasFrame');
+
+        this._themesDirectoryPath = this.getThemesDirectoryPath();
         this.ensureThemesDirectoryExists();
         this.ensureDefaultThemesExist();
-
+        this._themes = this.getThemesFromThemesDirectory();
         this.setSelectedThemeFromSettings();
-        this.applyTheme();
 
         this.setSelectedFontSizeFromSettings();
-        this.applyFontSize();
 
         this.addSubscriptions();
     }
 
     private checkIfThemesDirectoryHasChanged(): void {
         const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
-
         if (themeFiles.length !== this.themes.length) {
             this.refreshThemes();
         }

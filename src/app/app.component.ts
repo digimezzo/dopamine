@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
         );
 
         this.discordService.setRichPresenceFromSettings();
-        this.appearanceService.initialize();
+        this.appearanceService.applyAppearance();
         await this.translatorService.applyLanguageAsync();
 
         this.navigationService.navigateToLoading();
