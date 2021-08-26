@@ -1,6 +1,8 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
+import { Constants } from '../../common/application/constants';
+import { FontSize } from '../../common/application/font-size';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
@@ -90,13 +92,13 @@ describe('AppearanceService', () => {
         );
     }
 
-    function createTheme(): Theme {
+    function createTheme(name: string): Theme {
         const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
         const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
         const darkColors: ThemeNeutralColors = createDarkColors();
         const lightColors: ThemeNeutralColors = createLightColors();
 
-        const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors);
+        const theme: Theme = new Theme(name, creator, coreColors, darkColors, lightColors);
 
         return theme;
     }
@@ -205,7 +207,7 @@ describe('AppearanceService', () => {
             .setup((x) => x.combinePath(['/home/user/.config/Dopamine', 'Themes']))
             .returns(() => '/home/user/.config/Dopamine/Themes');
 
-        const dummyTheme: Theme = createTheme();
+        const dummyTheme: Theme = createTheme('My theme');
 
         fileSystemMock
             .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Dopamine.theme'))
@@ -337,7 +339,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.followSystemTheme = true;
@@ -351,7 +353,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -369,7 +371,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -415,7 +417,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.useLightBackgroundTheme = true;
@@ -429,7 +431,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -447,7 +449,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -493,7 +495,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemColor: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.followSystemColor = true;
@@ -507,7 +509,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -525,7 +527,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme();
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -539,16 +541,161 @@ describe('AppearanceService', () => {
         });
     });
 
-    // describe('fontSizes', () => {
-    //     it('should return the font sizes', () => {
-    //         // Arrange
-    //         const service: BaseAppearanceService = createService();
+    describe('themes', () => {
+        it('should return themes if themes is set to undefined', () => {
+            // Arrange
+            const settingsStub: any = { theme: '' };
 
-    //         // Act
-    //         const fontSizes: FontSize[] = service.fontSizes;
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.themes = undefined;
 
-    //         // Assert
-    //         expect(fontSizes).toEqual(Constants.fontSizes);
-    //     });
-    // });
+            // Act
+            const themes: Theme[] = service.themes;
+
+            // Assert
+            expect(themes.length).toEqual(1);
+            expect(themes[0].name).toBe('My theme');
+        });
+
+        it('should return themes if themes is set to empty', () => {
+            // Arrange
+            const settingsStub: any = { theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.themes = [];
+
+            // Act
+            const themes: Theme[] = service.themes;
+
+            // Assert
+            expect(themes.length).toEqual(1);
+            expect(themes[0].name).toBe('My theme');
+        });
+
+        it('should set themes', () => {
+            // Arrange
+            const theme1: Theme = createTheme('My theme 1');
+            const theme2: Theme = createTheme('My theme 2');
+            const settingsStub: any = { theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+
+            // Act
+            service.themes = [theme1, theme2];
+
+            // Assert
+            expect(service.themes.length).toEqual(2);
+            expect(service.themes[0]).toBe(theme1);
+            expect(service.themes[1]).toBe(theme2);
+        });
+    });
+
+    describe('selectedTheme', () => {
+        it('should return the selected theme', () => {
+            // Arrange
+            const theme: Theme = createTheme('My theme');
+            const settingsStub: any = { theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+
+            service.selectedTheme = theme;
+
+            // Act
+            const selectedTheme: Theme = service.selectedTheme;
+
+            // Assert
+            expect(selectedTheme).toBe(theme);
+        });
+
+        it('should save the theme in the settings', () => {
+            // Arrange
+            const theme: Theme = createTheme('My theme');
+            const settingsStub: any = { theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+
+            // Act
+            service.selectedTheme = theme;
+
+            // Assert
+            expect(settingsStub.theme).toEqual('My theme');
+        });
+
+        it('should apply the light theme if using the light theme', () => {
+            // Arrange
+            const theme: Theme = createTheme('My theme');
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true, theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme('My theme');
+            resetElements();
+
+            // Act
+            service.selectedTheme = theme;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertLightColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-light');
+            expect(bodyMock.classList).toContain('default-theme-light');
+        });
+
+        it('should apply the dark theme if using the dark theme', () => {
+            // Arrange
+            const theme: Theme = createTheme('My theme');
+            const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false, theme: '' };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            service.selectedTheme = createTheme('My theme');
+            resetElements();
+
+            // Act
+            service.selectedTheme = theme;
+
+            // Assert
+            assertAccentColorCssProperties();
+            assertDarkColorCssProperties();
+            expect(containerElementMock.classList).toContain('default-theme-dark');
+            expect(bodyMock.classList).toContain('default-theme-dark');
+        });
+    });
+
+    describe('fontSizes', () => {
+        it('should return the font sizes', () => {
+            // Arrange
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const fontSizes: FontSize[] = service.fontSizes;
+
+            // Assert
+            expect(fontSizes).toEqual(Constants.fontSizes);
+        });
+    });
+
+    describe('selectedFontSize', () => {
+        it('should return the selected font size', () => {
+            // Arrange
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const fontSizes: FontSize[] = service.fontSizes;
+
+            // Assert
+            expect(fontSizes).toEqual(Constants.fontSizes);
+        });
+
+        it('should save font size in the settings', () => {
+            // Arrange
+            const settingsStub: any = { fontSize: 15 };
+
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+
+            // Act
+            service.selectedFontSize = new FontSize(13);
+
+            // Assert
+            expect(settingsStub.fontSize).toEqual(13);
+        });
+    });
 });
