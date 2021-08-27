@@ -113,16 +113,6 @@ export class AppearanceService implements BaseAppearanceService {
         return this._themesDirectoryPath;
     }
 
-    public startWatchingThemesDirectory(): void {
-        this.interval = window.setInterval(() => {
-            this.checkIfThemesDirectoryHasChanged();
-        }, 2000);
-    }
-
-    public stopWatchingThemesDirectory(): void {
-        clearInterval(this.interval);
-    }
-
     public refreshThemes(): void {
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
@@ -133,6 +123,16 @@ export class AppearanceService implements BaseAppearanceService {
     public applyAppearance(): void {
         this.applyTheme();
         this.applyFontSize();
+    }
+
+    public startWatchingThemesDirectory(): void {
+        this.interval = window.setInterval(() => {
+            this.checkIfThemesDirectoryHasChanged();
+        }, 2000);
+    }
+
+    public stopWatchingThemesDirectory(): void {
+        clearInterval(this.interval);
     }
 
     private initialize(): void {
