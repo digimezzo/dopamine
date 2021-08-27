@@ -170,7 +170,6 @@ export class AppearanceService implements BaseAppearanceService {
                 this.applyTheme();
             })
         );
-
         this.subscription.add(
             this.desktop.nativeThemeUpdated$.subscribe(() => {
                 this.applyTheme();

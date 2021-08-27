@@ -1,5 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
@@ -30,6 +30,12 @@ describe('AppearanceService', () => {
     let containerElementMock: HTMLElement;
     let documentElementMock: HTMLElement;
     let bodyMock: HTMLElement;
+
+    let theme1: Theme;
+    let theme2: Theme;
+
+    let desktopAccentColorChangedMock: Subject<void>;
+    let desktopNativeThemeUpdatedMock: Subject<void>;
 
     function createService(): BaseAppearanceService {
         return new AppearanceService(
@@ -186,6 +192,37 @@ describe('AppearanceService', () => {
         bodyMock = document.createElement('div');
     }
 
+    function resetFileSystemMock(): void {
+        fileSystemMock.reset();
+        fileSystemMock
+            .setup((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'))
+            .returns(() => ['/home/user/.config/Dopamine/Themes/Theme 1.theme', '/home/user/.config/Dopamine/Themes/Theme 2.theme']);
+        fileSystemMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/user/.config/Dopamine');
+        fileSystemMock
+            .setup((x) => x.combinePath(['/home/user/.config/Dopamine', 'Themes']))
+            .returns(() => '/home/user/.config/Dopamine/Themes');
+
+        fileSystemMock
+            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
+            .returns(() => JSON.stringify(theme1));
+
+        fileSystemMock
+            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
+            .returns(() => JSON.stringify(theme2));
+
+        fileSystemMock
+            .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Theme 1.theme']))
+            .returns(() => '/home/user/.config/Dopamine/Themes/Theme 1.theme');
+        fileSystemMock
+            .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Theme 2.theme']))
+            .returns(() => '/home/user/.config/Dopamine/Themes/Theme 2.theme');
+    }
+
+    function resetDefaultThemesCreatorMock(): void {
+        defaultThemesCreatorMock.reset();
+        defaultThemesCreatorMock.setup((x) => x.createAllThemes()).returns(() => [theme1, theme2]);
+    }
+
     beforeEach(() => {
         settingsMock = Mock.ofType<BaseSettings>();
         loggerMock = Mock.ofType<Logger>();
@@ -196,24 +233,11 @@ describe('AppearanceService', () => {
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
 
-        desktopMock.setup((x) => x.accentColorChanged$).returns(() => new Observable());
-        desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => new Observable());
+        theme1 = createTheme('Theme 1');
+        theme2 = createTheme('Theme 2');
 
-        defaultThemesCreatorMock.setup((x) => x.createAllThemes()).returns(() => [dummyTheme]);
-
-        fileSystemMock
-            .setup((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'))
-            .returns(() => ['/home/user/.config/Dopamine/Themes/Dopamine.theme']);
-        fileSystemMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/user/.config/Dopamine');
-        fileSystemMock
-            .setup((x) => x.combinePath(['/home/user/.config/Dopamine', 'Themes']))
-            .returns(() => '/home/user/.config/Dopamine/Themes');
-
-        const dummyTheme: Theme = createTheme('My theme');
-
-        fileSystemMock
-            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Dopamine.theme'))
-            .returns(() => JSON.stringify(dummyTheme));
+        resetDefaultThemesCreatorMock();
+        resetFileSystemMock();
 
         containerElementMock = document.createElement('div');
         overlayContainerMock.setup((x) => x.getContainerElement()).returns(() => containerElementMock);
@@ -223,6 +247,14 @@ describe('AppearanceService', () => {
 
         bodyMock = document.createElement('div');
         documentProxyMock.setup((x) => x.getBody()).returns(() => bodyMock);
+
+        desktopAccentColorChangedMock = new Subject();
+        const desktopAccentColorChangedMock$: Observable<void> = desktopAccentColorChangedMock.asObservable();
+        desktopMock.setup((x) => x.accentColorChanged$).returns(() => desktopAccentColorChangedMock$);
+
+        desktopNativeThemeUpdatedMock = new Subject();
+        const desktopNativeThemeUpdatedMock$: Observable<void> = desktopNativeThemeUpdatedMock.asObservable();
+        desktopMock.setup((x) => x.nativeThemeUpdated$).returns(() => desktopNativeThemeUpdatedMock$);
     });
 
     describe('constructor', () => {
@@ -235,11 +267,134 @@ describe('AppearanceService', () => {
             // Assert
             expect(service).toBeDefined();
         });
+
+        it('should set windowHasNativeTitleBar to true if the window has a frame', () => {
+            // Arrange
+            remoteProxyMock.reset();
+            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            expect(service.windowHasNativeTitleBar).toBeTruthy();
+        });
+
+        it('should set windowHasNativeTitleBar to false if the window has no frame', () => {
+            // Arrange
+            remoteProxyMock.reset();
+            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            expect(service.windowHasNativeTitleBar).toBeFalsy();
+        });
+
+        it('should set the themes directory path', () => {
+            // Arrange
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            expect(service.themesDirectoryPath).toEqual('/home/user/.config/Dopamine/Themes');
+        });
+
+        it('should ensure that the themes directory exists', () => {
+            // Arrange
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            fileSystemMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Themes'), Times.once());
+        });
+
+        it('should ensure that the default themes exist', () => {
+            // Arrange
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            defaultThemesCreatorMock.verify((x) => x.createAllThemes(), Times.once());
+            fileSystemMock.verify(
+                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1, undefined, 2)),
+                Times.once()
+            );
+            fileSystemMock.verify(
+                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2, undefined, 2)),
+                Times.once()
+            );
+        });
+
+        it('should get themes from the themes directory', () => {
+            // Arrange
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+        });
+
+        it('should set the selected theme from the settings', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 2');
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            expect(service.selectedTheme).toEqual(theme2);
+        });
+
+        it('should set the selected font size from the settings', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.fontSize).returns(() => 14);
+
+            // Act
+            const service: BaseAppearanceService = createService();
+
+            // Assert
+            expect(service.selectedFontSize).toEqual(new FontSize(14));
+        });
+
+        it('should listen to accent color changes of the OS and apply the theme', () => {
+            // Arrange
+            const settingsStub: any = { theme: 'Theme 2' };
+
+            // Act
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            desktopAccentColorChangedMock.next();
+
+            // Assert
+            assertAccentColorCssProperties();
+        });
+
+        it('should listen to native theme updates of the OS and apply the theme', () => {
+            // Arrange
+            const settingsStub: any = { theme: 'Theme 2' };
+
+            // Act
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            desktopNativeThemeUpdatedMock.next();
+
+            // Assert
+            assertAccentColorCssProperties();
+        });
     });
 
     describe('windowHasNativeTitleBar', () => {
         it('should return true if the window has a frame', () => {
             // Arrange
+            remoteProxyMock.reset();
             remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
             const service: BaseAppearanceService = createService();
 
@@ -248,6 +403,19 @@ describe('AppearanceService', () => {
 
             // Assert
             expect(windowHasNativeTitleBar).toBeTruthy();
+        });
+
+        it('should return true if the window has no frame', () => {
+            // Arrange
+            remoteProxyMock.reset();
+            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            const windowHasNativeTitleBar: boolean = service.windowHasNativeTitleBar;
+
+            // Assert
+            expect(windowHasNativeTitleBar).toBeFalsy();
         });
     });
 
@@ -554,14 +722,13 @@ describe('AppearanceService', () => {
             const themes: Theme[] = service.themes;
 
             // Assert
-            expect(themes.length).toEqual(1);
-            expect(themes[0].name).toBe('My theme');
+            expect(themes.length).toEqual(2);
+            expect(themes[0].name).toBe('Theme 1');
+            expect(themes[1].name).toBe('Theme 2');
         });
 
         it('should set themes', () => {
             // Arrange
-            const theme1: Theme = createTheme('My theme 1');
-            const theme2: Theme = createTheme('My theme 2');
             const settingsStub: any = { theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
@@ -718,18 +885,9 @@ describe('AppearanceService', () => {
     describe('refreshThemes', () => {
         it('should ensure that the default themes exist', () => {
             // Arrange
-            fileSystemMock
-                .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Default theme 1.theme']))
-                .returns(() => '/home/user/.config/Dopamine/Themes/Default theme 1.theme');
-            fileSystemMock
-                .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Default theme 2.theme']))
-                .returns(() => '/home/user/.config/Dopamine/Themes/Default theme 2.theme');
-
             const service: BaseAppearanceService = createService();
-            defaultThemesCreatorMock.reset();
-            const defaultTheme1: Theme = createTheme('Default theme 1');
-            const defaultTheme2: Theme = createTheme('Default theme 2');
-            defaultThemesCreatorMock.setup((x) => x.createAllThemes()).returns(() => [defaultTheme1, defaultTheme2]);
+            resetDefaultThemesCreatorMock();
+            resetFileSystemMock();
 
             // Act
             service.refreshThemes();
@@ -737,15 +895,79 @@ describe('AppearanceService', () => {
             // Assert
             defaultThemesCreatorMock.verify((x) => x.createAllThemes(), Times.once());
             fileSystemMock.verify(
-                (x) =>
-                    x.writeToFile('/home/user/.config/Dopamine/Themes/Default theme 1.theme', JSON.stringify(defaultTheme1, undefined, 2)),
+                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1, undefined, 2)),
                 Times.once()
             );
             fileSystemMock.verify(
-                (x) =>
-                    x.writeToFile('/home/user/.config/Dopamine/Themes/Default theme 2.theme', JSON.stringify(defaultTheme2, undefined, 2)),
+                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2, undefined, 2)),
                 Times.once()
             );
+        });
+
+        it('should get themes from the themes directory', () => {
+            // Arrange
+            const service: BaseAppearanceService = createService();
+            resetFileSystemMock();
+
+            // Act
+            service.refreshThemes();
+
+            // Assert
+            fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+        });
+
+        it('should set the selected theme from the settings', () => {
+            // Arrange
+            const settingsStub: any = { theme: 'Theme 2' };
+            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+
+            service.selectedTheme = theme1;
+            settingsStub.theme = 'Theme 2';
+
+            // Act
+            service.refreshThemes();
+
+            // Assert
+            expect(service.selectedTheme).toEqual(theme2);
+        });
+
+        it('should apply the selected theme', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 2');
+
+            const service: BaseAppearanceService = createService();
+
+            // Act
+            service.refreshThemes();
+
+            // Assert
+            assertAccentColorCssProperties();
+        });
+    });
+
+    describe('applyAppearance', () => {
+        it('should apply the selected theme and font size', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 2');
+            settingsMock.setup((x) => x.fontSize).returns(() => 13);
+
+            const service: BaseAppearanceService = createService();
+
+            resetElements();
+
+            // Act
+            service.applyAppearance();
+
+            // Assert
+            assertAccentColorCssProperties();
+            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('13px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
         });
     });
 });
