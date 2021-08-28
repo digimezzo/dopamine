@@ -128,18 +128,14 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     }
 
     private applySelectedAlbums(): void {
-        let albumKeys: string[] = [];
-
         const selectedAlbums: AlbumModel[] = this.albumsPersister.getSelectedAlbums(this.albums);
 
-        if (selectedAlbums != undefined) {
-            albumKeys = selectedAlbums.map((x) => x.albumKey);
+        if (selectedAlbums == undefined) {
+            return;
         }
 
-        for (const album of this.albums) {
-            if (albumKeys.includes(album.albumKey)) {
-                album.isSelected = true;
-            }
+        for (const selectedAlbum of selectedAlbums) {
+            selectedAlbum.isSelected = true;
         }
     }
 

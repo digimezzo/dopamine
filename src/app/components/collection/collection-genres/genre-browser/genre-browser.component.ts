@@ -51,7 +51,11 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     public set genres(v: GenreModel[]) {
         this._genres = v;
         this.mouseSelectionWatcher.initialize(this.genres, false);
-        this.orderGenres();
+
+        // When the component is first rendered, it happens that genresPersister is undefined.
+        if (this.genresPersister != undefined) {
+            this.orderGenres();
+        }
     }
 
     public ngOnDestroy(): void {}
@@ -99,10 +103,23 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
             }
 
             this.headerShower.showHeaders(orderedGenres);
+            this.applySelectedGenres();
         } catch (e) {
             this.logger.error(`Could not order genres. Error: ${e.message}`, 'GenreBrowserComponent', 'orderGenres');
         }
 
         this.orderedGenres = [...orderedGenres];
+    }
+
+    private applySelectedGenres(): void {
+        const selectedGenres: GenreModel[] = this.genresPersister.getSelectedGenres(this.genres);
+
+        if (selectedGenres == undefined) {
+            return;
+        }
+
+        for (const selectedGenre of selectedGenres) {
+            selectedGenre.isSelected = true;
+        }
     }
 }
