@@ -10,12 +10,20 @@ export class AlbumRowsGetter {
     constructor(private albumSpaceCalculator: AlbumSpaceCalculator) {}
 
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
+        const albumRows: AlbumRow[] = [];
+
+        if (albums == undefined) {
+            return albumRows;
+        }
+
+        if (albums.length === 0) {
+            return albumRows;
+        }
+
         const numberOfAlbumsPerRow: number = this.albumSpaceCalculator.calculateNumberOfAlbumsPerRow(
             Constants.albumSizeInPixels,
             availableWidthInPixels
         );
-
-        const albumRows: AlbumRow[] = [];
 
         const sortedAlbums: AlbumModel[] = this.getSortedAlbums(albums, albumOrder);
 

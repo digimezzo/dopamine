@@ -97,6 +97,26 @@ describe('AlbumRowsGetter', () => {
     });
 
     describe('getAlbumRows', () => {
+        it('should return empty album rows if albums is undefined', () => {
+            // Arrange
+
+            // Act
+            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, undefined, AlbumOrder.byAlbumTitleAscending);
+
+            // Assert
+            expect(albumRows.length).toBe(0);
+        });
+
+        it('should return empty album rows if albums is empty', () => {
+            // Arrange
+
+            // Act
+            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, [], AlbumOrder.byAlbumTitleAscending);
+
+            // Assert
+            expect(albumRows.length).toBe(0);
+        });
+
         it('should return album rows by album title ascending when provided AlbumOrder.byAlbumTitleAscending', () => {
             // Arrange
 

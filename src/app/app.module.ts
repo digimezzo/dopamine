@@ -81,15 +81,23 @@ import { AlbumBrowserComponent } from './components/collection/album-browser/alb
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
 import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
+import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
+import { AlbumsTracksPersister } from './components/collection/collection-albums/albums-tracks-persister';
 import { CollectionAlbumsComponent } from './components/collection/collection-albums/collection-albums.component';
 import { ArtistBrowserComponent } from './components/collection/collection-artists/artist-browser/artist-browser.component';
 import { ArtistComponent } from './components/collection/collection-artists/artist/artist.component';
+import { ArtistsAlbumsPersister } from './components/collection/collection-artists/artists-albums-persister';
+import { ArtistsPersister } from './components/collection/collection-artists/artists-persister';
+import { ArtistsTracksPersister } from './components/collection/collection-artists/artists-tracks-persister';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
 import { GenreBrowserComponent } from './components/collection/collection-genres/genre-browser/genre-browser.component';
 import { GenreComponent } from './components/collection/collection-genres/genre/genre.component';
+import { GenresAlbumsPersister } from './components/collection/collection-genres/genres-albums-persister';
+import { GenresPersister } from './components/collection/collection-genres/genres-persister';
+import { GenresTracksPersister } from './components/collection/collection-genres/genres-tracks-persister';
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
@@ -389,7 +397,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FormatTrackArtistsPipe,
         FormatTrackTitlePipe,
         CollectionPersister,
-        FoldersPersister,
         PathValidator,
         AlbumRowsGetter,
         AlbumSpaceCalculator,
@@ -403,6 +410,15 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PresenceUpdater,
         HeaderShower,
         DefaultThemesCreator,
+        ArtistsPersister,
+        ArtistsAlbumsPersister,
+        ArtistsTracksPersister,
+        GenresPersister,
+        GenresAlbumsPersister,
+        GenresTracksPersister,
+        AlbumsAlbumsPersister,
+        AlbumsTracksPersister,
+        FoldersPersister,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

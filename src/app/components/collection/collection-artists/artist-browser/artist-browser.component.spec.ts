@@ -23,7 +23,15 @@ describe('ArtistBrowserComponent', () => {
     let artist1: ArtistModel;
     let artist2: ArtistModel;
 
-    let component: ArtistBrowserComponent;
+    function createComponent(): ArtistBrowserComponent {
+        return new ArtistBrowserComponent(
+            playbackServiceMock.object,
+            mouseSelectionWatcherMock.object,
+            artistOrderingMock.object,
+            headerShowerMock.object,
+            loggerMock.object
+        );
+    }
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -37,18 +45,13 @@ describe('ArtistBrowserComponent', () => {
         artist1 = new ArtistModel('artist1', translatorServiceMock.object);
         artist2 = new ArtistModel('artist2', translatorServiceMock.object);
 
-        artistOrderingMock.setup((x) => x.getArtistsOrderedAscending([artist1, artist2])).returns(() => [artist1, artist2]);
-        artistOrderingMock.setup((x) => x.getArtistsOrderedDescending([artist1, artist2])).returns(() => [artist2, artist1]);
+        artistOrderingMock.setup((x) => x.getArtistsOrderedAscending([])).returns(() => []);
+        artistOrderingMock.setup((x) => x.getArtistsOrderedDescending([])).returns(() => []);
+        artistOrderingMock.setup((x) => x.getArtistsOrderedAscending(It.isAny())).returns(() => [artist1, artist2]);
+        artistOrderingMock.setup((x) => x.getArtistsOrderedDescending(It.isAny())).returns(() => [artist2, artist1]);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
+        artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist2]);
         artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
-
-        component = new ArtistBrowserComponent(
-            playbackServiceMock.object,
-            mouseSelectionWatcherMock.object,
-            artistOrderingMock.object,
-            headerShowerMock.object,
-            loggerMock.object
-        );
     });
 
     describe('constructor', () => {
@@ -56,6 +59,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -65,6 +69,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.orderedArtists).toBeDefined();
@@ -75,6 +80,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.artistOrderEnum).toBeDefined();
@@ -84,6 +90,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.selectedArtistOrder).toBeUndefined();
@@ -93,6 +100,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.artistTypeEnum).toBeDefined();
@@ -102,6 +110,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.selectedArtistType).toBeUndefined();
@@ -111,6 +120,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.artistsPersister).toBeUndefined();
@@ -120,6 +130,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.artists).toBeDefined();
@@ -129,6 +140,7 @@ describe('ArtistBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: ArtistBrowserComponent = createComponent();
 
             // Assert
             expect(component.playbackService).toBeDefined();
@@ -138,6 +150,7 @@ describe('ArtistBrowserComponent', () => {
     describe('artists', () => {
         it('should set and get the artists', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
 
             // Act
             component.artists = [artist1, artist2];
@@ -148,6 +161,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should initialize mouseSelectionWatcher using artists', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
 
             // Act
             component.artists = [artist1, artist2];
@@ -168,8 +182,22 @@ describe('ArtistBrowserComponent', () => {
             );
         });
 
-        it('should order the artists by artist ascending if the selected artist order is byArtistAscending', () => {
+        it('should not order the artists if artistsPersister is undefined', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistOrder = ArtistOrder.byArtistAscending;
+
+            // Act
+            component.artists = [artist1, artist2];
+
+            // Assert
+            expect(component.orderedArtists.length).toEqual(0);
+        });
+
+        it('should order the artists by artist ascending if artistsPersister is not undefined and if the selected artist order is byArtistAscending', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistAscending;
 
             // Act
@@ -180,8 +208,10 @@ describe('ArtistBrowserComponent', () => {
             expect(component.orderedArtists[1]).toEqual(artist2);
         });
 
-        it('should order the artists by artist descending if the selected artist order is byArtistDescending', () => {
+        it('should order the artists by artist descending if artistsPersister is not undefined and if the selected artist order is byArtistDescending', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
 
             // Act
@@ -192,21 +222,74 @@ describe('ArtistBrowserComponent', () => {
             expect(component.orderedArtists[1]).toEqual(artist1);
         });
 
-        it('should show the headers for the ordered artists', () => {
+        it('should not show the headers for the ordered artists if artistsPersister is undefined', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
 
             // Act
             component.artists = [artist1, artist2];
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.once());
+            headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.never());
+        });
+
+        it('should show the headers for the ordered artists if artistsPersister is not undefined', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.artistsPersister = artistsPersisterMock.object;
+            component.selectedArtistOrder = ArtistOrder.byArtistDescending;
+
+            // Act
+            component.artists = [artist1, artist2];
+
+            // Assert
+            headerShowerMock.verify(
+                (x) =>
+                    x.showHeaders(
+                        It.is(
+                            (artists: ArtistModel[]) =>
+                                artists.length === 2 &&
+                                artists[0].displayName === artist2.displayName &&
+                                artists[1].displayName === artist1.displayName
+                        )
+                    ),
+                Times.once()
+            );
+        });
+
+        it('should not apply the selected artists if artistsPersister is undefined', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistOrder = ArtistOrder.byArtistDescending;
+
+            // Act
+            component.artists = [artist1, artist2];
+
+            // Assert
+            expect(component.artists[0].isSelected).toBeFalsy();
+            expect(component.artists[1].isSelected).toBeFalsy();
+        });
+
+        it('should apply the selected artists if artistsPersister is not undefined', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.artistsPersister = artistsPersisterMock.object;
+            component.selectedArtistOrder = ArtistOrder.byArtistDescending;
+
+            // Act
+            component.artists = [artist1, artist2];
+
+            // Assert
+            expect(component.artists[0].isSelected).toBeFalsy();
+            expect(component.artists[1].isSelected).toBeTruthy();
         });
     });
 
     describe('artistsPersister', () => {
         it('should set and return artistsPersister', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
 
@@ -219,6 +302,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should set the selected artist order', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.selectedArtistOrder = ArtistOrder.byArtistAscending;
             artistsPersisterMock.reset();
@@ -236,13 +320,7 @@ describe('ArtistBrowserComponent', () => {
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistAscending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
 
@@ -259,13 +337,7 @@ describe('ArtistBrowserComponent', () => {
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
 
@@ -282,13 +354,7 @@ describe('ArtistBrowserComponent', () => {
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
 
@@ -298,12 +364,27 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.once());
         });
+
+        it('should apply the selected artists', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+
+            component.artists = [artist1, artist2];
+
+            // Act
+            component.artistsPersister = artistsPersisterMock.object;
+
+            // Assert
+            expect(component.artists[0].isSelected).toBeFalsy();
+            expect(component.artists[1].isSelected).toBeTruthy();
+        });
     });
 
     describe('setSelectedArtists', () => {
         it('should set the selected items on mouseSelectionWatcher', () => {
             // Arrange
             const event: any = {};
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
 
@@ -319,13 +400,7 @@ describe('ArtistBrowserComponent', () => {
 
             mouseSelectionWatcherMock.reset();
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             const event: any = {};
             component.artists = [artist1, artist2];
@@ -342,6 +417,7 @@ describe('ArtistBrowserComponent', () => {
     describe('toggleArtistOrder', () => {
         it('should toggle selectedArtistOrder from byArtistAscending to byArtistDescending', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistAscending;
@@ -355,6 +431,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should toggle selectedArtistOrder from byArtistDescending to byArtistAscending', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
@@ -368,6 +445,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should persist the selected artist order', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
@@ -384,13 +462,7 @@ describe('ArtistBrowserComponent', () => {
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistAscending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
@@ -403,18 +475,12 @@ describe('ArtistBrowserComponent', () => {
             expect(component.orderedArtists[1]).toEqual(artist1);
         });
 
-        it('should order the genres by genre ascending if the selected genre order is byGenreDescending', () => {
+        it('should order the artists by artist ascending if the selected artist order is byArtistDescending', () => {
             // Arrange
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
@@ -427,18 +493,12 @@ describe('ArtistBrowserComponent', () => {
             expect(component.orderedArtists[1]).toEqual(artist2);
         });
 
-        it('should show the headers for the ordered genres', () => {
+        it('should show the headers for the ordered artists', () => {
             // Arrange
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            component = new ArtistBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                artistOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: ArtistBrowserComponent = createComponent();
 
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
@@ -455,6 +515,7 @@ describe('ArtistBrowserComponent', () => {
     describe('toggleArtistType', () => {
         it('should toggle selectedArtistType from trackArtists to albumArtists', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistType = ArtistType.trackArtists;
@@ -468,6 +529,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should toggle selectedArtistType from albumArtists to allArtists', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistType = ArtistType.albumArtists;
@@ -481,6 +543,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should toggle selectedArtistType from allArtists to trackArtists', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistType = ArtistType.allArtists;
@@ -494,6 +557,7 @@ describe('ArtistBrowserComponent', () => {
 
         it('should persist the selected artist type', () => {
             // Arrange
+            const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistType = ArtistType.allArtists;

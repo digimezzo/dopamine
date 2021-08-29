@@ -22,7 +22,6 @@ import { GenresTracksPersister } from './genres-tracks-persister';
     selector: 'app-collection-genres',
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
-    providers: [GenresPersister, GenresAlbumsPersister, GenresTracksPersister],
 })
 export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

@@ -56,7 +56,11 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     public set artists(v: ArtistModel[]) {
         this._artists = v;
         this.mouseSelectionWatcher.initialize(this.artists, false);
-        this.orderArtists();
+
+        // When the component is first rendered, it happens that artistsPersister is undefined.
+        if (this.artistsPersister != undefined) {
+            this.orderArtists();
+        }
     }
 
     public ngOnDestroy(): void {}
@@ -124,10 +128,23 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
             }
 
             this.headerShower.showHeaders(orderedArtists);
+            this.applySelectedArtists();
         } catch (e) {
             this.logger.error(`Could not order artists. Error: ${e.message}`, 'ArtistBrowserComponent', 'orderArtists');
         }
 
         this.orderedArtists = [...orderedArtists];
+    }
+
+    private applySelectedArtists(): void {
+        const selectedArtists: ArtistModel[] = this.artistsPersister.getSelectedArtists(this.artists);
+
+        if (selectedArtists == undefined) {
+            return;
+        }
+
+        for (const selectedArtist of selectedArtists) {
+            selectedArtist.isSelected = true;
+        }
     }
 }
