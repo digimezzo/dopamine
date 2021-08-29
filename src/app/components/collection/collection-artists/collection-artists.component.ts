@@ -23,7 +23,6 @@ import { ArtistsTracksPersister } from './artists-tracks-persister';
     selector: 'app-collection-artists',
     templateUrl: './collection-artists.component.html',
     styleUrls: ['./collection-artists.component.scss'],
-    providers: [ArtistsPersister, ArtistsAlbumsPersister, ArtistsTracksPersister],
 })
 export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;

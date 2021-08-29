@@ -28,6 +28,26 @@ describe('ArtistOrdering', () => {
     });
 
     describe('getTracksOrderedByTitleAscending', () => {
+        it('should return an empty collection if artistsToOrder is undefined', () => {
+            // Arrange
+
+            // Act
+            const orderedArtists: ArtistModel[] = artistOrdering.getArtistsOrderedAscending(undefined);
+
+            // Assert
+            expect(orderedArtists.length).toEqual(0);
+        });
+
+        it('should return an empty collection if artistsToOrder is empty', () => {
+            // Arrange
+
+            // Act
+            const orderedArtists: ArtistModel[] = artistOrdering.getArtistsOrderedAscending([]);
+
+            // Assert
+            expect(orderedArtists.length).toEqual(0);
+        });
+
         it('should order tracks by title ascending', () => {
             // Arrange
 
@@ -43,6 +63,26 @@ describe('ArtistOrdering', () => {
     });
 
     describe('getTracksOrderedByTitleDescending', () => {
+        it('should return an empty collection if artistsToOrder is undefined', () => {
+            // Arrange
+
+            // Act
+            const orderedArtists: ArtistModel[] = artistOrdering.getArtistsOrderedDescending(undefined);
+
+            // Assert
+            expect(orderedArtists.length).toEqual(0);
+        });
+
+        it('should return an empty collection if artistsToOrder is empty', () => {
+            // Arrange
+
+            // Act
+            const orderedArtists: ArtistModel[] = artistOrdering.getArtistsOrderedDescending([]);
+
+            // Assert
+            expect(orderedArtists.length).toEqual(0);
+        });
+
         it('should order tracks by title descending', () => {
             // Arrange
 

@@ -22,7 +22,15 @@ describe('GenreBrowserComponent', () => {
     let genre1: GenreModel;
     let genre2: GenreModel;
 
-    let component: GenreBrowserComponent;
+    function createComponent(): GenreBrowserComponent {
+        return new GenreBrowserComponent(
+            playbackServiceMock.object,
+            mouseSelectionWatcherMock.object,
+            genreOrderingMock.object,
+            headerShowerMock.object,
+            loggerMock.object
+        );
+    }
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -36,18 +44,13 @@ describe('GenreBrowserComponent', () => {
         genre1 = new GenreModel('One genre', translatorServiceMock.object);
         genre2 = new GenreModel('Two genre', translatorServiceMock.object);
 
-        genreOrderingMock.setup((x) => x.getGenresOrderedAscending([genre1, genre2])).returns(() => [genre1, genre2]);
-        genreOrderingMock.setup((x) => x.getGenresOrderedDescending([genre1, genre2])).returns(() => [genre2, genre1]);
+        genreOrderingMock.setup((x) => x.getGenresOrderedAscending([])).returns(() => []);
+        genreOrderingMock.setup((x) => x.getGenresOrderedDescending([])).returns(() => []);
+        genreOrderingMock.setup((x) => x.getGenresOrderedAscending(It.isAny())).returns(() => [genre1, genre2]);
+        genreOrderingMock.setup((x) => x.getGenresOrderedDescending(It.isAny())).returns(() => [genre2, genre1]);
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
+        genresPersisterMock.setup((x) => x.getSelectedGenres([genre1, genre2])).returns(() => [genre2]);
         genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
-
-        component = new GenreBrowserComponent(
-            playbackServiceMock.object,
-            mouseSelectionWatcherMock.object,
-            genreOrderingMock.object,
-            headerShowerMock.object,
-            loggerMock.object
-        );
     });
 
     describe('constructor', () => {
@@ -55,6 +58,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -64,6 +68,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.orderedGenres).toBeDefined();
@@ -74,6 +79,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.genreOrderEnum).toBeDefined();
@@ -83,6 +89,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.selectedGenreOrder).toBeUndefined();
@@ -92,6 +99,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.genresPersister).toBeUndefined();
@@ -101,6 +109,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.genres).toBeDefined();
@@ -110,6 +119,7 @@ describe('GenreBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: GenreBrowserComponent = createComponent();
 
             // Assert
             expect(component.playbackService).toBeDefined();
@@ -119,6 +129,7 @@ describe('GenreBrowserComponent', () => {
     describe('genres', () => {
         it('should set and get the genres', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
 
             // Act
             component.genres = [genre1, genre2];
@@ -129,6 +140,7 @@ describe('GenreBrowserComponent', () => {
 
         it('should initialize mouseSelectionWatcher using genres', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
 
             // Act
             component.genres = [genre1, genre2];
@@ -149,8 +161,22 @@ describe('GenreBrowserComponent', () => {
             );
         });
 
-        it('should order the genres by genre ascending if the selected genre order is byGenreAscending', () => {
+        it('should not order the genres if genresPersister is undefined', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.selectedGenreOrder = GenreOrder.byGenreAscending;
+
+            // Act
+            component.genres = [genre1, genre2];
+
+            // Assert
+            expect(component.orderedGenres.length).toEqual(0);
+        });
+
+        it('should order the genres by genre ascending if genresPersister is not undefined and if the selected genre order is byGenreAscending', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreAscending;
 
             // Act
@@ -161,8 +187,10 @@ describe('GenreBrowserComponent', () => {
             expect(component.orderedGenres[1]).toEqual(genre2);
         });
 
-        it('should order the genres by genre descending if the selected genre order is byGenreDescending', () => {
+        it('should order the genres by genre descending if genresPersister is not undefined and if the selected genre order is byGenreDescending', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
 
             // Act
@@ -173,21 +201,74 @@ describe('GenreBrowserComponent', () => {
             expect(component.orderedGenres[1]).toEqual(genre1);
         });
 
-        it('should show the headers for the ordered genres', () => {
+        it('should not show the headers for the ordered genres if genresPersister is undefined', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
 
             // Act
             component.genres = [genre1, genre2];
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.once());
+            headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.never());
+        });
+
+        it('should show the headers for the ordered genres if genresPersister is not undefined', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.genresPersister = genresPersisterMock.object;
+            component.selectedGenreOrder = GenreOrder.byGenreDescending;
+
+            // Act
+            component.genres = [genre1, genre2];
+
+            // Assert
+            headerShowerMock.verify(
+                (x) =>
+                    x.showHeaders(
+                        It.is(
+                            (genres: GenreModel[]) =>
+                                genres.length === 2 &&
+                                genres[0].displayName === genre2.displayName &&
+                                genres[1].displayName === genre1.displayName
+                        )
+                    ),
+                Times.once()
+            );
+        });
+
+        it('should not apply the selected genres if genresPersister is undefined', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.selectedGenreOrder = GenreOrder.byGenreDescending;
+
+            // Act
+            component.genres = [genre1, genre2];
+
+            // Assert
+            expect(component.genres[0].isSelected).toBeFalsy();
+            expect(component.genres[1].isSelected).toBeFalsy();
+        });
+
+        it('should apply the selected genres if genresPersister is not undefined', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.genresPersister = genresPersisterMock.object;
+            component.selectedGenreOrder = GenreOrder.byGenreDescending;
+
+            // Act
+            component.genres = [genre1, genre2];
+
+            // Assert
+            expect(component.genres[0].isSelected).toBeFalsy();
+            expect(component.genres[1].isSelected).toBeTruthy();
         });
     });
 
     describe('genresPersister', () => {
         it('should set and return genresPersister', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
 
@@ -200,6 +281,7 @@ describe('GenreBrowserComponent', () => {
 
         it('should set the selected genre order', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.selectedGenreOrder = GenreOrder.byGenreAscending;
             genresPersisterMock.reset();
@@ -217,13 +299,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreAscending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
 
@@ -240,13 +316,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
 
@@ -263,13 +333,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
 
@@ -279,12 +343,27 @@ describe('GenreBrowserComponent', () => {
             // Assert
             headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.once());
         });
+
+        it('should apply the selected genres', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+
+            component.genres = [genre1, genre2];
+
+            // Act
+            component.genresPersister = genresPersisterMock.object;
+
+            // Assert
+            expect(component.genres[0].isSelected).toBeFalsy();
+            expect(component.genres[1].isSelected).toBeTruthy();
+        });
     });
 
     describe('setSelectedGenres', () => {
         it('should set the selected items on mouseSelectionWatcher', () => {
             // Arrange
             const event: any = {};
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
 
@@ -300,13 +379,7 @@ describe('GenreBrowserComponent', () => {
 
             mouseSelectionWatcherMock.reset();
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             const event: any = {};
             component.genres = [genre1, genre2];
@@ -323,6 +396,7 @@ describe('GenreBrowserComponent', () => {
     describe('toggleGenreOrder', () => {
         it('should toggle selectedGenreOrder from byGenreAscending to byGenreDescending', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreAscending;
@@ -336,6 +410,7 @@ describe('GenreBrowserComponent', () => {
 
         it('should toggle selectedGenreOrder from byGenreDescending to byGenreAscending', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
@@ -349,6 +424,7 @@ describe('GenreBrowserComponent', () => {
 
         it('should persist the selected genre order', () => {
             // Arrange
+            const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
@@ -365,13 +441,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreAscending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
@@ -389,13 +459,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
@@ -413,13 +477,7 @@ describe('GenreBrowserComponent', () => {
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            component = new GenreBrowserComponent(
-                playbackServiceMock.object,
-                mouseSelectionWatcherMock.object,
-                genreOrderingMock.object,
-                headerShowerMock.object,
-                loggerMock.object
-            );
+            const component: GenreBrowserComponent = createComponent();
 
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;

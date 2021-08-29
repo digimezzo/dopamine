@@ -25,7 +25,6 @@ import { FoldersPersister } from './folders-persister';
     host: { style: 'display: block' },
     templateUrl: './collection-folders.component.html',
     styleUrls: ['./collection-folders.component.scss'],
-    providers: [FoldersPersister],
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {

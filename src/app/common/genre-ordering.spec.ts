@@ -28,6 +28,26 @@ describe('GenreOrdering', () => {
     });
 
     describe('getTracksOrderedByTitleAscending', () => {
+        it('should return an empty collection if genresToOrder is undefined', () => {
+            // Arrange
+
+            // Act
+            const orderedGenres: GenreModel[] = genreOrdering.getGenresOrderedAscending(undefined);
+
+            // Assert
+            expect(orderedGenres.length).toEqual(0);
+        });
+
+        it('should return an empty collection if genresToOrder is empty', () => {
+            // Arrange
+
+            // Act
+            const orderedGenres: GenreModel[] = genreOrdering.getGenresOrderedAscending([]);
+
+            // Assert
+            expect(orderedGenres.length).toEqual(0);
+        });
+
         it('should order tracks by title ascending', () => {
             // Arrange
 
@@ -43,6 +63,26 @@ describe('GenreOrdering', () => {
     });
 
     describe('getTracksOrderedByTitleDescending', () => {
+        it('should return an empty collection if genresToOrder is undefined', () => {
+            // Arrange
+
+            // Act
+            const orderedGenres: GenreModel[] = genreOrdering.getGenresOrderedDescending(undefined);
+
+            // Assert
+            expect(orderedGenres.length).toEqual(0);
+        });
+
+        it('should return an empty collection if genresToOrder is empty', () => {
+            // Arrange
+
+            // Act
+            const orderedGenres: GenreModel[] = genreOrdering.getGenresOrderedDescending([]);
+
+            // Assert
+            expect(orderedGenres.length).toEqual(0);
+        });
+
         it('should order tracks by title descending', () => {
             // Arrange
 
