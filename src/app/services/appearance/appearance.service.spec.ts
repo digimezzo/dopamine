@@ -16,6 +16,7 @@ import { Theme } from './theme/theme';
 import { ThemeCoreColors } from './theme/theme-core-colors';
 import { ThemeCreator } from './theme/theme-creator';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
+import { ThemeOptions } from './theme/theme-options';
 
 describe('AppearanceService', () => {
     let settingsMock: IMock<BaseSettings>;
@@ -103,8 +104,9 @@ describe('AppearanceService', () => {
         const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
         const darkColors: ThemeNeutralColors = createDarkColors();
         const lightColors: ThemeNeutralColors = createLightColors();
+        const options: ThemeOptions = new ThemeOptions(false);
 
-        const theme: Theme = new Theme(name, creator, coreColors, darkColors, lightColors);
+        const theme: Theme = new Theme(name, creator, coreColors, darkColors, lightColors, options);
 
         return theme;
     }
@@ -159,9 +161,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#0ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#0eeeee');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-background')).toEqual('#0fffff');
-        expect(documentElementMock.style.getPropertyValue('--theme-album-info-background')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-scroll-bars')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(): void {
@@ -181,9 +183,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#1ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#1eeeee');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-background')).toEqual('#1fffff');
-        expect(documentElementMock.style.getPropertyValue('--theme-album-info-background')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-scroll-bars')).toEqual('#1fffff');
     }
 
     function resetElements(): void {

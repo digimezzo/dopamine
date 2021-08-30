@@ -197,6 +197,7 @@ export class AppearanceService implements BaseAppearanceService {
 
         const palette: Palette = new Palette(accentColorToApply);
 
+        // Core colors
         element.style.setProperty('--theme-primary-color', primaryColorToApply);
         element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
         element.style.setProperty('--theme-accent-color', accentColorToApply);
@@ -216,7 +217,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-accent-color-A400', palette.colorA400);
         element.style.setProperty('--theme-accent-color-A700', palette.colorA700);
 
-        // Theme
+        // Neutral colors
         let themeName: string = 'default-theme-dark';
         element.style.setProperty('--theme-window-button-icon', this.selectedTheme.darkColors.windowButtonIcon);
         element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.darkColors.hoveredItemBackground);
@@ -234,9 +235,9 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.darkColors.sliderThumbBackground);
         element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.darkColors.albumCoverLogo);
         element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
-        element.style.setProperty('--theme-album-info-background', this.selectedTheme.darkColors.albumInfoBackground);
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
+        element.style.setProperty('--theme-scroll-bars', this.selectedTheme.darkColors.scrollBars);
 
         if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
@@ -256,10 +257,13 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.lightColors.sliderThumbBackground);
             element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.lightColors.albumCoverLogo);
             element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
-            element.style.setProperty('--theme-album-info-background', this.selectedTheme.lightColors.albumInfoBackground);
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
+            element.style.setProperty('--theme-scroll-bars', this.selectedTheme.lightColors.scrollBars);
         }
+
+        // Options
+        element.style.setProperty('--theme-album-info-text-align', this.selectedTheme.options.centerAlbumInfoText ? 'center' : 'left');
 
         // Apply theme to components in the overlay container: https://gist.github.com/tomastrajan/ee29cd8e180b14ce9bc120e2f7435db7
         this.applyThemeClasses(this.overlayContainer.getContainerElement(), themeName);
