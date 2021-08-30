@@ -2,6 +2,7 @@ import { FontSize } from '../../common/application/font-size';
 import { Theme } from './theme/theme';
 
 export abstract class BaseAppearanceService {
+    public abstract shouldOverrideSelectedItemText: boolean;
     public abstract themesDirectoryPath: string;
     public abstract get windowHasNativeTitleBar(): boolean;
     public abstract get isUsingLightTheme(): boolean;

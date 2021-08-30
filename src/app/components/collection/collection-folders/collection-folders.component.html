@@ -29,7 +29,10 @@
                             (click)="setSelectedSubfolder(subfolder)"
                             (dblclick)="setOpenedSubfolderAsync(subfolder)"
                         >
-                            <div class="subfolder no-select p-1" [ngClass]="{ 'selected-item': subfolder === selectedSubfolder }">
+                            <div
+                                class="subfolder no-select p-1"
+                                [ngClass]="{ 'selected-item-background': subfolder === selectedSubfolder }"
+                            >
                                 <i *ngIf="!subfolder.isPlaying" class="subfolder__icon mr-2 lar la-folder"></i>
                                 <app-playback-indicator *ngIf="subfolder.isPlaying" class="ml-1 mr-2"></app-playback-indicator>
                                 <div
@@ -73,7 +76,7 @@
                         *cdkVirtualFor="let track of tracks.tracks"
                         matRipple
                         (click)="setSelectedTrack(track)"
-                        [ngClass]="{ 'selected-item': track === selectedTrack }"
+                        [ngClass]="{ 'selected-item-background': track === selectedTrack }"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>
                     </div>

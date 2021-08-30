@@ -12,7 +12,13 @@
             {{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})
         </div>
     </div>
-    <div class="app-track__body px-1" [ngClass]="{ 'selected-item': track.isSelected }" matRipple [matRippleTrigger]="trigger" #trigger>
+    <div
+        class="app-track__body px-1"
+        [ngClass]="{ 'selected-item-background': track.isSelected }"
+        matRipple
+        [matRippleTrigger]="trigger"
+        #trigger
+    >
         <div class="app-track__left">{{ track.number | formatTrackNumber }}</div>
         <div class="app-track__right">
             <div class="app-track__top">

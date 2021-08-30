@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AlbumModel } from '../../../../services/album/album-model';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 
 @Component({
     selector: 'app-album',
@@ -9,7 +9,7 @@ import { AlbumModel } from '../../../../services/album/album-model';
     styleUrls: ['./album.component.scss'],
 })
 export class AlbumComponent implements OnInit {
-    constructor(public domSanitizer: DomSanitizer) {}
+    constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public album: AlbumModel;
     @Input() public isSelected: boolean = false;

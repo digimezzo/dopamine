@@ -41,6 +41,8 @@ export class AppearanceService implements BaseAppearanceService {
         this.initialize();
     }
 
+    public shouldOverrideSelectedItemText: boolean = false;
+
     public get windowHasNativeTitleBar(): boolean {
         return this._windowHasNativeTitleBar;
     }
@@ -178,6 +180,14 @@ export class AppearanceService implements BaseAppearanceService {
         );
     }
 
+    private setShouldOverrideSelectedItemText(selectedItemText: string): void {
+        this.shouldOverrideSelectedItemText = false;
+
+        if (!Strings.isNullOrWhiteSpace(selectedItemText)) {
+            this.shouldOverrideSelectedItemText = true;
+        }
+    }
+
     private applyTheme(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
 
@@ -240,6 +250,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
         element.style.setProperty('--theme-scroll-bars', this.selectedTheme.darkColors.scrollBars);
+        this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
 
         if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
@@ -263,6 +274,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
             element.style.setProperty('--theme-scroll-bars', this.selectedTheme.lightColors.scrollBars);
+            this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
         }
 
         // Options

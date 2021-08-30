@@ -1,5 +1,5 @@
 <div class="app-album no-select">
-    <div class="app-album-border" [ngClass]="{ 'selected-item-background-important': this.isSelected }">
+    <div class="app-album-border" [ngClass]="{ 'selected-item-background': this.isSelected }">
         <div class="app-album-content">
             <div class="app-album__year mt-2 mb-1" *ngIf="this.album.showYear">{{ album.yearHeader }}</div>
             <div class="app-album__cover">
@@ -15,10 +15,22 @@
                 </div>
             </div>
             <div class="app-album__information">
-                <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
+                <div
+                    class="app-album__information__line1 ellipsis"
+                    matTooltip="{{ album.albumTitle }}"
+                    [ngClass]="{
+                        'selected-item-text-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                    }"
+                >
                     {{ album.albumTitle }}
                 </div>
-                <div class="app-album__information__line2 ellipsis secondary-text" matTooltip="{{ album.albumArtist }}">
+                <div
+                    class="app-album__information__line2 ellipsis secondary-text"
+                    matTooltip="{{ album.albumArtist }}"
+                    [ngClass]="{
+                        'selected-item-text-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                    }"
+                >
                     {{ album.albumArtist }}
                 </div>
             </div>

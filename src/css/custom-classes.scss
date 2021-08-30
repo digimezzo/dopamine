@@ -4,8 +4,12 @@
     user-select: none;
 }
 
-.selected-item {
+.selected-item-background {
     background-color: var(--theme-selected-item-background);
+}
+
+.selected-item-text-important {
+    color: var(--theme-selected-item-text) !important;
 }
 
 .hidden {
@@ -44,10 +48,6 @@
     color: var(--theme-accent-color);
 }
 
-.selected-item-background-important {
-    background-color: var(--theme-selected-item-background) !important;
-}
-
 .white-color-important {
     color: white !important;
 }
@@ -62,5 +62,5 @@
 }
 
 .secondary-text {
-    color: var(--theme-secondary-text) !important;
+    color: var(--theme-secondary-text);
 }
