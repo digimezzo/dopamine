@@ -864,8 +864,9 @@ describe('AppearanceService', () => {
             service.selectedFontSize = new FontSize(13);
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
             expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
             expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
         });
@@ -966,8 +967,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertAccentColorCssProperties();
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
             expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
             expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
         });

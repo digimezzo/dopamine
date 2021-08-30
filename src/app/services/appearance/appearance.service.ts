@@ -105,7 +105,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set selectedFontSize(v: FontSize) {
         this._selectedFontSize = v;
-        this.settings.fontSize = v.mediumSize;
+        this.settings.fontSize = v.normalSize;
         this.applyFontSize();
     }
 
@@ -158,6 +158,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     private applyFontSize(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
+        element.style.setProperty('--fontsize-normal', this._selectedFontSize.normalSize + 'px');
         element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
@@ -299,7 +300,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private setSelectedFontSizeFromSettings(): void {
-        this._selectedFontSize = this.fontSizes.find((x) => x.mediumSize === this.settings.fontSize);
+        this._selectedFontSize = this.fontSizes.find((x) => x.normalSize === this.settings.fontSize);
     }
 
     private isSystemUsingDarkTheme(): boolean {

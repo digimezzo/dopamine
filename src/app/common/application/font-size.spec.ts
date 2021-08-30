@@ -2,6 +2,16 @@ import { FontSize } from './font-size';
 
 describe('FontSize', () => {
     describe('constructor', () => {
+        it('should have normal size', () => {
+            // Arrange
+
+            // Act
+            const fontSize = new FontSize(14);
+
+            // Assert
+            expect(fontSize.normalSize).toEqual(14);
+        });
+
         it('should have medium size', () => {
             // Arrange
 
@@ -9,7 +19,7 @@ describe('FontSize', () => {
             const fontSize = new FontSize(14);
 
             // Assert
-            expect(fontSize.mediumSize).toEqual(14);
+            expect(fontSize.mediumSize).toEqual(14 * 1.143);
         });
 
         it('should have large size', () => {
@@ -19,7 +29,7 @@ describe('FontSize', () => {
             const fontSize = new FontSize(14);
 
             // Assert
-            expect(fontSize.largeSize).toEqual(14 * 1.143);
+            expect(fontSize.largeSize).toEqual(14 * 1.571);
         });
 
         it('should have extra large size', () => {
