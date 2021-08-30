@@ -223,6 +223,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-window-button-icon', this.selectedTheme.darkColors.windowButtonIcon);
         element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.darkColors.hoveredItemBackground);
         element.style.setProperty('--theme-selected-item-background', this.selectedTheme.darkColors.selectedItemBackground);
+        element.style.setProperty('--theme-selected-item-text', this.selectedTheme.darkColors.selectedItemText);
         element.style.setProperty('--theme-tab-text', this.selectedTheme.darkColors.tabText);
         element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.darkColors.selectedTabText);
         element.style.setProperty('--theme-main-background', this.selectedTheme.darkColors.mainBackground);
@@ -245,6 +246,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-window-button-icon', this.selectedTheme.lightColors.windowButtonIcon);
             element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.lightColors.hoveredItemBackground);
             element.style.setProperty('--theme-selected-item-background', this.selectedTheme.lightColors.selectedItemBackground);
+            element.style.setProperty('--theme-selected-item-text', this.selectedTheme.lightColors.selectedItemText);
             element.style.setProperty('--theme-tab-text', this.selectedTheme.lightColors.tabText);
             element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.lightColors.selectedTabText);
             element.style.setProperty('--theme-main-background', this.selectedTheme.lightColors.mainBackground);

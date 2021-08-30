@@ -10,6 +10,7 @@ describe('Theme', () => {
             'red',
             'green',
             'blue',
+            'white',
             'black',
             'white',
             '#aaa',

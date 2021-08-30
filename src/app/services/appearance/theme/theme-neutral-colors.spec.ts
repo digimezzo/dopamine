@@ -6,6 +6,7 @@ describe('ThemeNeutralColors', () => {
             'red',
             'green',
             'blue',
+            'white',
             'black',
             'white',
             '#aaa',
@@ -66,6 +67,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.selectedItemBackground).toEqual('blue');
+        });
+
+        it('should set selectedItemText', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.selectedItemText).toEqual('white');
         });
 
         it('should set tabText', () => {

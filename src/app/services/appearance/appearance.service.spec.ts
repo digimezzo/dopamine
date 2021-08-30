@@ -56,6 +56,7 @@ describe('AppearanceService', () => {
             '#000000',
             '#011111',
             '#022222',
+            '#011111',
             '#033333',
             '#044444',
             '#055555',
@@ -80,6 +81,7 @@ describe('AppearanceService', () => {
             '#100000',
             '#111111',
             '#122222',
+            '#111111',
             '#133333',
             '#144444',
             '#155555',
@@ -148,6 +150,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-window-button-icon')).toEqual('#000000');
         expect(documentElementMock.style.getPropertyValue('--theme-hovered-item-background')).toEqual('#011111');
         expect(documentElementMock.style.getPropertyValue('--theme-selected-item-background')).toEqual('#022222');
+        expect(documentElementMock.style.getPropertyValue('--theme-selected-item-text')).toEqual('#011111');
         expect(documentElementMock.style.getPropertyValue('--theme-tab-text')).toEqual('#033333');
         expect(documentElementMock.style.getPropertyValue('--theme-selected-tab-text')).toEqual('#044444');
         expect(documentElementMock.style.getPropertyValue('--theme-main-background')).toEqual('#055555');
@@ -170,6 +173,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-window-button-icon')).toEqual('#100000');
         expect(documentElementMock.style.getPropertyValue('--theme-hovered-item-background')).toEqual('#111111');
         expect(documentElementMock.style.getPropertyValue('--theme-selected-item-background')).toEqual('#122222');
+        expect(documentElementMock.style.getPropertyValue('--theme-selected-item-text')).toEqual('#111111');
         expect(documentElementMock.style.getPropertyValue('--theme-tab-text')).toEqual('#133333');
         expect(documentElementMock.style.getPropertyValue('--theme-selected-tab-text')).toEqual('#144444');
         expect(documentElementMock.style.getPropertyValue('--theme-main-background')).toEqual('#155555');
