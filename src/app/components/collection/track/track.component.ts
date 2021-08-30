@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { TrackModel } from '../../../services/track/track-model';
 
 @Component({
@@ -8,7 +9,7 @@ import { TrackModel } from '../../../services/track/track-model';
     styleUrls: ['./track.component.scss'],
 })
 export class TrackComponent implements OnInit {
-    constructor() {}
+    constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public track: TrackModel;
     @Input() public canShowHeader: boolean = false;

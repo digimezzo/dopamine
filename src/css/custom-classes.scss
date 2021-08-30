@@ -8,8 +8,12 @@
     background-color: var(--theme-selected-item-background);
 }
 
-.selected-item-text-important {
+.selected-item-text-color-important {
     color: var(--theme-selected-item-text) !important;
+}
+
+.selected-item-text-background-important {
+    background-color: var(--theme-selected-item-text) !important;
 }
 
 .hidden {
@@ -46,6 +50,10 @@
 
 .accent-color {
     color: var(--theme-accent-color);
+}
+
+.accent-background {
+    background-color: var(--theme-accent-color);
 }
 
 .white-color-important {

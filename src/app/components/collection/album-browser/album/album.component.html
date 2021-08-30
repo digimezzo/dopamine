@@ -19,7 +19,7 @@
                     class="app-album__information__line1 ellipsis"
                     matTooltip="{{ album.albumTitle }}"
                     [ngClass]="{
-                        'selected-item-text-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                        'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                     }"
                 >
                     {{ album.albumTitle }}
@@ -28,7 +28,7 @@
                     class="app-album__information__line2 ellipsis secondary-text"
                     matTooltip="{{ album.albumArtist }}"
                     [ngClass]="{
-                        'selected-item-text-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                        'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                     }"
                 >
                     {{ album.albumArtist }}

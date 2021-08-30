@@ -4,7 +4,7 @@
         class="app-genre__name ellipsis px-1"
         [ngClass]="{
             'selected-item-background': genre.isSelected,
-            'selected-item-text-important': genre.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+            'selected-item-text-color-important': genre.isSelected && this.appearanceService.shouldOverrideSelectedItemText
         }"
         matRipple
         [matRippleTrigger]="trigger"

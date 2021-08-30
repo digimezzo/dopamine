@@ -5,6 +5,7 @@ import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -29,6 +30,7 @@ import { FoldersPersister } from './folders-persister';
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
     constructor(
+        public appearanceService: BaseAppearanceService,
         public folderService: BaseFolderService,
         public playbackService: BasePlaybackService,
         private indexingService: BaseIndexingService,
@@ -54,7 +56,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModels = new TrackModels();
-    public selectedTrack: TrackModel;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -179,7 +180,11 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             : this.openedFolder.path;
     }
 
-    public setSelectedTrack(track: TrackModel): void {
-        this.selectedTrack = track;
+    public setSelectedTrack(trackToSelect: TrackModel): void {
+        for (const track of this.tracks.tracks) {
+            track.isSelected = false;
+        }
+
+        trackToSelect.isSelected = true;
     }
 }

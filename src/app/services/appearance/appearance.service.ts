@@ -274,7 +274,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
             element.style.setProperty('--theme-scroll-bars', this.selectedTheme.lightColors.scrollBars);
-            this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
+            this.setShouldOverrideSelectedItemText(this.selectedTheme.lightColors.selectedItemText);
         }
 
         // Options
