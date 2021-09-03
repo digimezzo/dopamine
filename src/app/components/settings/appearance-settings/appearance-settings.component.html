@@ -50,7 +50,7 @@
     <div>{{ 'choose-text-size' | translate }}</div>
     <mat-form-field>
         <mat-select [(ngModel)]="appearanceService.selectedFontSize">
-            <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize"> {{ fontSize.mediumSize }} px </mat-option>
+            <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize"> {{ fontSize.normalSize }} px </mat-option>
         </mat-select>
     </mat-form-field>
 </div>

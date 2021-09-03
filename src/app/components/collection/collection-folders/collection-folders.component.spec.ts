@@ -6,6 +6,7 @@ import { Track } from '../../../common/data/entities/track';
 import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduler/scheduler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -25,6 +26,7 @@ import { FoldersPersister } from './folders-persister';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let playbackServiceMock: IMock<BasePlaybackService>;
@@ -51,14 +53,18 @@ describe('CollectionFoldersComponent', () => {
     let subfolders: SubfolderModel[];
 
     let track1: TrackModel;
+    let track2: TrackModel;
 
     let selectedTabChangedMock: Subject<void>;
     let selectedTabChangedMock$: Observable<void>;
+
+    let tracks: TrackModels;
 
     const flushPromises = () => new Promise(setImmediate);
 
     function createComponent(): CollectionFoldersComponent {
         const component: CollectionFoldersComponent = new CollectionFoldersComponent(
+            appearanceServiceMock.object,
             folderServiceMock.object,
             playbackServiceMock.object,
             indexingServiceMock.object,
@@ -78,6 +84,7 @@ describe('CollectionFoldersComponent', () => {
 
     beforeEach(() => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
@@ -104,10 +111,12 @@ describe('CollectionFoldersComponent', () => {
         foldersPersisterMock.setup((x) => x.getOpenedFolder(It.isAny())).returns(() => folder1);
         foldersPersisterMock.setup((x) => x.getOpenedSubfolder()).returns(() => subfolder1);
 
-        track1 = new TrackModel(new Track('dummy'), translatorServiceMock.object);
+        track1 = new TrackModel(new Track('track1'), translatorServiceMock.object);
+        track2 = new TrackModel(new Track('track2'), translatorServiceMock.object);
 
-        const tracks: TrackModels = new TrackModels();
+        tracks = new TrackModels();
         tracks.addTrack(track1);
+        tracks.addTrack(track2);
 
         trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => tracks);
 
@@ -141,17 +150,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define playbackService', async () => {
-            // Arrange
-
-            // Act
-            const component: CollectionFoldersComponent = createComponent();
-
-            // Assert
-            expect(component.playbackService).toBeDefined();
-        });
-
-        it('should set left pane size from settings', async () => {
+        it('should set left pane size from settings', () => {
             // Arrange
 
             // Act
@@ -161,7 +160,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.leftPaneSize).toEqual(30);
         });
 
-        it('should set right pane size from settings', async () => {
+        it('should set right pane size from settings', () => {
             // Arrange
 
             // Act
@@ -171,7 +170,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.rightPaneSize).toEqual(70);
         });
 
-        it('should define folders', async () => {
+        it('should define folders', () => {
             // Arrange
 
             // Act
@@ -181,7 +180,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.folders).toBeDefined();
         });
 
-        it('should define subfolders', async () => {
+        it('should define subfolders', () => {
             // Arrange
 
             // Act
@@ -191,7 +190,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.subfolders).toBeDefined();
         });
 
-        it('should define subfolderBreadCrumbs', async () => {
+        it('should define subfolderBreadCrumbs', () => {
             // Arrange
 
             // Act
@@ -201,7 +200,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.subfolderBreadCrumbs).toBeDefined();
         });
 
-        it('should define tracks', async () => {
+        it('should define tracks', () => {
             // Arrange
 
             // Act
@@ -211,7 +210,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.tracks).toBeDefined();
         });
 
-        it('should declare but not define selectedSubfolder', async () => {
+        it('should declare but not define selectedSubfolder', () => {
             // Arrange
 
             // Act
@@ -221,14 +220,34 @@ describe('CollectionFoldersComponent', () => {
             expect(component.selectedSubfolder).toBeUndefined();
         });
 
-        it('should declare but not define selectedTrack', async () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
             const component: CollectionFoldersComponent = createComponent();
 
             // Assert
-            expect(component.selectedTrack).toBeUndefined();
+            expect(component.appearanceService).toBeDefined();
+        });
+
+        it('should define folderService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.folderService).toBeDefined();
+        });
+
+        it('should define playbackService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.playbackService).toBeDefined();
         });
     });
 
@@ -645,7 +664,7 @@ describe('CollectionFoldersComponent', () => {
             expect(component.folders.length).toEqual(2);
             expect(component.subfolders.length).toEqual(2);
             expect(component.subfolderBreadCrumbs.length).toEqual(2);
-            expect(component.tracks.tracks.length).toEqual(1);
+            expect(component.tracks.tracks.length).toEqual(2);
         });
 
         it('should clear the lists if the selected tab changes to not folders', async () => {
@@ -759,13 +778,14 @@ describe('CollectionFoldersComponent', () => {
         it('should set the selected track', () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
-            component.selectedTrack = undefined;
+            component.tracks = tracks;
 
             // Act
             component.setSelectedTrack(track1);
 
             // Assert
-            expect(component.selectedTrack).toBe(track1);
+            expect(component.tracks.tracks[0].isSelected).toBeTruthy();
+            expect(component.tracks.tracks[1].isSelected).toBeFalsy();
         });
     });
 

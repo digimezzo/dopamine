@@ -1,10 +1,14 @@
+import { IMock, Mock } from 'typemoq';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { ArtistComponent } from './artist.component';
 
 describe('GenreComponent', () => {
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let component: ArtistComponent;
 
     beforeEach(() => {
-        component = new ArtistComponent();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        component = new ArtistComponent(appearanceServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -24,6 +28,15 @@ describe('GenreComponent', () => {
 
             // Assert
             expect(component.artist).toBeUndefined();
+        });
+
+        it('should define appearanceService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
         });
     });
 });

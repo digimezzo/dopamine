@@ -8,34 +8,34 @@ describe('FormatTrackNumberPipe', () => {
     });
 
     describe('transform', () => {
-        it('should return empty if track number is undefined', () => {
+        it('should return "-" if track number is undefined', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(undefined);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('');
+            expect(formattedTrackNumber).toEqual('-');
         });
 
-        it('should return empty if track number is 0', () => {
+        it('should return "-" if track number is 0', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(0);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('');
+            expect(formattedTrackNumber).toEqual('-');
         });
 
-        it('should return empty if track number is -5', () => {
+        it('should return "-" if track number is -5', () => {
             // Arrange
 
             // Act
             const formattedTrackNumber: string = formatTrackNumberPipe.transform(-5);
 
             // Assert
-            expect(formattedTrackNumber).toEqual('');
+            expect(formattedTrackNumber).toEqual('-');
         });
 
         it('should return track number if track number is between 1 and 9 inclusive', () => {

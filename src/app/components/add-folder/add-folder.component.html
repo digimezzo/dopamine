@@ -13,7 +13,7 @@
             <li
                 *ngFor="let folder of folders"
                 matRipple
-                [ngClass]="{ 'selected-item': folder === selectedFolder }"
+                [ngClass]="{ 'selected-item-background': folder === selectedFolder }"
                 (click)="setSelectedFolder(folder)"
             >
                 <div class="folder no-select">

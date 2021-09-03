@@ -6,6 +6,7 @@ describe('ThemeNeutralColors', () => {
             'red',
             'green',
             'blue',
+            'white',
             'black',
             'white',
             '#aaa',
@@ -66,6 +67,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.selectedItemBackground).toEqual('blue');
+        });
+
+        it('should set selectedItemText', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.selectedItemText).toEqual('white');
         });
 
         it('should set tabText', () => {
@@ -198,16 +209,6 @@ describe('ThemeNeutralColors', () => {
             expect(colors.albumCoverBackground).toEqual('#555');
         });
 
-        it('should set albumInfoBackground', () => {
-            // Arrange
-
-            // Act
-            const colors: ThemeNeutralColors = createNeutralColors();
-
-            // Assert
-            expect(colors.albumInfoBackground).toEqual('#666');
-        });
-
         it('should set paneSeparators', () => {
             // Arrange
 
@@ -215,7 +216,7 @@ describe('ThemeNeutralColors', () => {
             const colors: ThemeNeutralColors = createNeutralColors();
 
             // Assert
-            expect(colors.paneSeparators).toEqual('#777');
+            expect(colors.paneSeparators).toEqual('#666');
         });
 
         it('should set settingsSeparators', () => {
@@ -225,7 +226,17 @@ describe('ThemeNeutralColors', () => {
             const colors: ThemeNeutralColors = createNeutralColors();
 
             // Assert
-            expect(colors.settingsSeparators).toEqual('#888');
+            expect(colors.settingsSeparators).toEqual('#777');
+        });
+
+        it('should set scrollBars', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.scrollBars).toEqual('#888');
         });
     });
 });

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 
 @Component({
@@ -8,7 +9,7 @@ import { ArtistModel } from '../../../../services/artist/artist-model';
     styleUrls: ['./artist.component.scss'],
 })
 export class ArtistComponent implements OnInit {
-    constructor() {}
+    constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public artist: ArtistModel;
 

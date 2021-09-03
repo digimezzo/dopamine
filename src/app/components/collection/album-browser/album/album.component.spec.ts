@@ -1,14 +1,14 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { IMock, Mock } from 'typemoq';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { AlbumComponent } from './album.component';
 
 describe('AlbumComponent', () => {
-    let domSanitizerMock: IMock<DomSanitizer>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let component: AlbumComponent;
 
     beforeEach(() => {
-        domSanitizerMock = Mock.ofType<DomSanitizer>();
-        component = new AlbumComponent(domSanitizerMock.object);
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        component = new AlbumComponent(appearanceServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -30,13 +30,13 @@ describe('AlbumComponent', () => {
             expect(component.album).toBeUndefined();
         });
 
-        it('should define sanitizer', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.domSanitizer).toBeDefined();
+            expect(component.appearanceService).toBeDefined();
         });
 
         it('should define isSelected as false', () => {
@@ -46,15 +46,6 @@ describe('AlbumComponent', () => {
 
             // Assert
             expect(component.isSelected).toBeFalsy();
-        });
-
-        it('should define domSanitizer', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(component.domSanitizer).toBeDefined();
         });
     });
 });

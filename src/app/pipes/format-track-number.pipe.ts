@@ -6,11 +6,11 @@ export class FormatTrackNumberPipe implements PipeTransform {
 
     public transform(trackNumber: number): string {
         if (trackNumber == undefined) {
-            return '';
+            return '-';
         }
 
         if (trackNumber <= 0) {
-            return '';
+            return '-';
         }
 
         if (trackNumber >= 1 && trackNumber <= 9) {

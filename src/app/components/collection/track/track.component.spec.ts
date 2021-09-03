@@ -1,10 +1,14 @@
+import { IMock, Mock } from 'typemoq';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { TrackComponent } from './track.component';
 
 describe('TrackComponent', () => {
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let component: TrackComponent;
 
     beforeEach(() => {
-        component = new TrackComponent();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        component = new TrackComponent(appearanceServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -33,6 +37,15 @@ describe('TrackComponent', () => {
 
             // Assert
             expect(component.canShowHeader).toBeFalsy();
+        });
+
+        it('should define appearanceService as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
         });
     });
 });

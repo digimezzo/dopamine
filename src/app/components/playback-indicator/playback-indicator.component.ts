@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({
     selector: 'app-playback-indicator',
@@ -8,7 +9,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackIndicatorComponent implements OnInit {
-    constructor() {}
+    constructor(public appearanceService: BaseAppearanceService) {}
+
+    @Input()
+    public isSelected: boolean;
 
     public ngOnInit(): void {}
 }

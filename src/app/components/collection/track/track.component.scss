@@ -10,7 +10,7 @@
 
 .app-track__header__top {
     font-weight: lighter !important;
-    font-size: var(--fontsize-extra-large);
+    font-size: var(--fontsize-large);
 }
 
 .app-track__body {
@@ -26,8 +26,7 @@
     height: 46px;
     align-items: center;
     justify-content: center;
-    font-size: var(--fontsize-large);
-    color: var(--theme-accent-color);
+    font-size: var(--fontsize-medium);
 }
 
 .app-track__right {

@@ -4,6 +4,7 @@ import { Theme } from '../../services/appearance/theme/theme';
 import { ThemeCoreColors } from '../../services/appearance/theme/theme-core-colors';
 import { ThemeCreator } from '../../services/appearance/theme/theme-creator';
 import { ThemeNeutralColors } from '../../services/appearance/theme/theme-neutral-colors';
+import { ThemeOptions } from '../../services/appearance/theme/theme-options';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
 
 describe('ColorSchemeSwitcherComponent', () => {
@@ -46,6 +47,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 'red',
                 'green',
                 'blue',
+                '#fff',
                 '#000',
                 '#111',
                 '#222',
@@ -67,6 +69,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 'red',
                 'green',
                 'blue',
+                '#fff',
                 '#000',
                 '#111',
                 '#222',
@@ -85,8 +88,10 @@ describe('ColorSchemeSwitcherComponent', () => {
                 '#fff'
             );
 
+            const options: ThemeOptions = new ThemeOptions(false);
+
             // Act
-            const defaultColorScheme: Theme = new Theme('My theme', themeCreator, coreColors, darkColors, lightColors);
+            const defaultColorScheme: Theme = new Theme('My theme', themeCreator, coreColors, darkColors, lightColors, options);
             component.setTheme(defaultColorScheme);
 
             // Assert

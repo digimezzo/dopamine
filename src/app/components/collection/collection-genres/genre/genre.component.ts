@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
 
 @Component({
@@ -8,7 +9,7 @@ import { GenreModel } from '../../../../services/genre/genre-model';
     styleUrls: ['./genre.component.scss'],
 })
 export class GenreComponent implements OnInit {
-    constructor() {}
+    constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public genre: GenreModel;
 

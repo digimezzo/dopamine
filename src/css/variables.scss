@@ -4,8 +4,9 @@ $titlebar-height: 46px;
 // Colors
 :root {
     // Font sizes
-    --fontsize-medium: 14px;
-    --fontsize-large: 16px;
+    --fontsize-normal: 14px;
+    --fontsize-medium: 16px;
+    --fontsize-large: 22px;
     --fontsize-extra-large: 26px;
     --fontsize-mega: 36px;
 
@@ -16,6 +17,7 @@ $titlebar-height: 46px;
     --theme-window-button-icon: #fff;
     --theme-hovered-item-background: #fff;
     --theme-selected-item-background: #fff;
+    --theme-selected-item-text: #fff;
     --theme-header-background: #fff;
     --theme-footer-background: #fff;
     --theme-tab-text: #fff;
@@ -28,7 +30,8 @@ $titlebar-height: 46px;
     --theme-slider-thumb-background: #fff;
     --theme-album-cover-background: #fff;
     --theme-album-cover-logo: #fff;
-    --theme-album-info-background: #fff;
     --theme-pane-separators: #fff;
     --theme-settings-separators: #fff;
+    --theme-scroll-bars: #fff;
+    --theme-album-info-text-align: left;
 }

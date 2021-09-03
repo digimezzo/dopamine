@@ -3,6 +3,7 @@ export class ThemeNeutralColors {
         public windowButtonIcon: string,
         public hoveredItemBackground: string,
         public selectedItemBackground: string,
+        public selectedItemText: string,
         public tabText: string,
         public selectedTabText: string,
         public mainBackground: string,
@@ -16,8 +17,8 @@ export class ThemeNeutralColors {
         public sliderThumbBackground: string,
         public albumCoverLogo: string,
         public albumCoverBackground: string,
-        public albumInfoBackground: string,
         public paneSeparators: string,
-        public settingsSeparators: string
+        public settingsSeparators: string,
+        public scrollBars: string
     ) {}
 }
