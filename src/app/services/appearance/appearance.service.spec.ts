@@ -72,6 +72,9 @@ describe('AppearanceService', () => {
             '#0fffff',
             '#0fffff',
             '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
             '#0fffff'
         );
     }
@@ -94,6 +97,9 @@ describe('AppearanceService', () => {
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
             '#1fffff',
             '#1fffff',
             '#1fffff',
@@ -167,6 +173,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-scroll-bars')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(selectedItemText: string): void {
@@ -190,6 +199,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-pane-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-settings-separators')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-scroll-bars')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#1fffff');
     }
 
     function resetElements(): void {

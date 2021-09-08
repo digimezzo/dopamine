@@ -2,7 +2,7 @@ import { IMock, Mock } from 'typemoq';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackTimeComponent } from './playback-time.component';
 
-describe('PlaybackInformationComponent', () => {
+describe('PlaybackTimeComponent', () => {
     let component: PlaybackTimeComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
 

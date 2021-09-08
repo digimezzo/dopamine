@@ -130,6 +130,7 @@ import { PlaybackInformationComponent } from './components/playback-information/
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { PlaybackQueueComponent } from './components/playback-queue/playback-queue.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
+import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
@@ -210,6 +211,8 @@ import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
+import { BaseSearchService } from './services/search/base-search.service';
+import { SearchService } from './services/search/search.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
@@ -315,6 +318,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaybackQueueComponent,
         NowPlayingComponent,
         NowPlayingPlaybackPaneComponent,
+        SearchBoxComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -449,6 +453,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseMetadataService, useClass: MetadataService },
+        { provide: BaseSearchService, useClass: SearchService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
