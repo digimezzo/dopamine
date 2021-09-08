@@ -20,4 +20,8 @@ export class SearchBoxComponent implements OnInit {
     public onFocus(): void {
         this.searchService.startSearching();
     }
+
+    public clearSearchText(): void {
+        this.searchService.searchText = '';
+    }
 }

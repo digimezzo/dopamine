@@ -54,4 +54,16 @@ describe('SearchBoxComponent', () => {
             searchServiceMock.verify((x) => x.startSearching(), Times.once());
         });
     });
+
+    describe('clearSearchText', () => {
+        it('should clear the search text', () => {
+            // Arrange
+
+            // Act
+            component.clearSearchText();
+
+            // Assert
+            searchServiceMock.verify((x) => (x.searchText = ''), Times.once());
+        });
+    });
 });

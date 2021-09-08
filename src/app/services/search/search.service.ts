@@ -5,10 +5,16 @@ import { BaseSearchService } from './base-search.service';
 @Injectable()
 export class SearchService implements BaseSearchService {
     private _isSearching: boolean = false;
+    private _searchText: string = '';
 
     constructor() {}
 
-    public searchText: string = '';
+    public get searchText(): string {
+        return this._searchText;
+    }
+    public set searchText(v: string) {
+        this._searchText = v;
+    }
 
     public get hasSearchText(): boolean {
         return !Strings.isNullOrWhiteSpace(this.searchText);
