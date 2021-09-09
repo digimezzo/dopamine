@@ -1,0 +1,119 @@
+{
+  "Pages": {
+    "Welcome": {
+      "Greeting": {
+        "Title": "Pozdrav!",
+        "Content": "Dobro došli u Dopamine, mislimo da će Vam se svidjeti! Prvo ćemo postaviti neke stvari."
+      },
+      "Language": {
+        "Title": "Jezik",
+        "Content": "Odaberite svoj jezik"
+      },
+      "Appearance": {
+        "Title": "Izgled",
+        "Content": "Kako bi trebao izgledati Vaš Dopamine?",
+        "UseLightTheme": "Koristi svijetlu temu"
+      },
+      "Music": {
+        "Title": "Glazba",
+        "Content": "Postavimo sada Vašu kolekciju. Gdje spremate svoju glazbu?",
+        "AddFolder": "Dodaj mapu",
+        "SelectFolder": "Odaberi mapu",
+        "DeleteFolder": "Izbriši mapu"
+      },
+      "Donate": {
+        "Title": "Donacija",
+        "Content": "Ako Vam se sviđa Dopamine, razmislite o donaciji. Možete donirati sada ili kasnije na zaslonu 'O programu'. Hvala Vam!",
+        "DonateNow": "Doniraj sada"
+      },
+      "Done": {
+        "Title": "Gotovo!",
+        "Content": "Sve je spremno. Pokrenimo sada Dopamine!"
+      }
+    },
+    "Loading": {
+      "Text": "Učitavanje..."
+    },
+    "Collection": {
+      "Explore": "Istraži",
+      "Songs": "Pjesme",
+      "Playlists": "Popisi"
+    },
+    "Settings": {
+      "Appearance": "Izgled",
+      "Advanced": "Napredno",
+      "Theme": "Tema",
+      "FollowSystemTheme": "Slijedi temu sustava",
+      "UseLightTheme": "Koristi svijetlu temu",
+      "Color": "Boja",
+      "FollowSystemColor": "Slijedi boju sustava",
+      "TitleBar": "Naslovna traka",
+      "UseSystemTitleBar": "Koristi naslovnu traku sustava (zahtijeva ponovno pokretanje)",
+      "Language": "Jezik",
+      "ChooseLanguage": "Odaberite jezik",
+      "TextSize": "Veličina teksta",
+      "ChooseTextSize": "Odaberite veličinu teksta",
+      "Updates": "Ažuriranja",
+      "CheckForUpdates": "Provjeri za nova ažuriranja"
+    },
+    "Information": {
+      "About": "O programu",
+      "Components": "Komponente",
+      "Version": "Verzija",
+      "Website": "Web-stranica",
+      "License": "Licencija",
+      "Donate": "Donacija",
+      "DonateInstructions": "Sviđa li Vam se Dopamine? Kliknite ovdje za doniranje. Hvala Vam!",
+      "ContactUs": "Kontaktirajte nas",
+      "Thanks": "Hvala",
+      "ThanksToSharlee": "Sharleeju, za njegove prekrasne ikone!",
+      "ThanksToDonaters": "donatorima.",
+      "ThanksToTranslators": "prevoditeljima.",
+      "ThanksToDevelopers": "razvijateljima komponenti koje koristimo.",
+      "ThanksToNeowin": "Neowinu na njihovim odličnim idejama, testiranju i prijavama grešaka."
+    }
+  },
+  "SnackBarMessages": {
+    "NewVersionAvailable": "Dostupna je nova verzija: {{version}}",
+    "FolderAlreadyAdded": "Ova je mapa već dodana"
+  },
+  "SnackBarActions": {
+    "Ok": "U redu"
+  },
+  "Buttons": {
+    "Yes": "DA",
+    "No": "NE",
+    "Ok": "U REDU",
+    "ViewLog": "PRIKAZ ZAPISNIKA",
+    "License": "LICENCIJA",
+    "Donate": "DONIRAJ"
+  },
+  "Tooltips": {
+    "OpenMenu": "Otvori izbornik",
+    "Back": "Natrag",
+    "Close": "Zatvori"
+  },
+  "DialogTitles": {
+    "ConfirmDeleteFolder": "Izbrisati mapu?",
+    "Error": "Greška",
+    "License": "Licencija"
+  },
+  "DialogTexts": {
+    "ConfirmDeleteFolder": "Jeste li sigurni da želite izbrisati mapu '{{folderPath}}'?"
+  },
+  "ErrorTexts": {
+    "DeleteFolderError": "Dogodila se greška tijekom brisanja mape. Provjerite zapisnik, ako trebate više informacija.",
+    "AddFolderError": "Dogodila se greška tijekom dodavanja mape. Provjerite zapisnik, ako trebate više informacija.",
+    "GlobalError": "Dogodila se greška zbog koje će se aplikacija zatvoriti. Provjerite zapisnik, ako trebate više informacija."
+  },
+  "MainMenu": {
+    "ManageCollection": "Upravljaj kolekcijom...",
+    "Settings": "Postavke",
+    "Information": "Informacije"
+  },
+  "Status": {
+    "RemovingSongs": "Uklanjanje pjesama",
+    "AddedSongs": "Dodano pjesama: {{numberOfAddedTracks}} ({{percentageOfAddedTracks}}%)",
+    "UpdatingSongs": "Ažuriranje pjesama"
+  }
+}
