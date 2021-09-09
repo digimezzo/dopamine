@@ -44,6 +44,15 @@ describe('SearchService', () => {
             // Assert
             expect(service.isSearching).toBeFalsy();
         });
+
+        it('should define searchTextChanged$', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.searchTextChanged$).toBeDefined();
+        });
     });
 
     describe('hasSearchText', () => {
