@@ -1,0 +1,137 @@
+{
+  "Pages": {
+    "Welcome": {
+      "Greeting": {
+        "Title": "你好！",
+        "Content": "歡迎來到 Dopamine，希望你會喜歡它！首先，讓我們把一切都設定好吧。"
+      },
+      "Language": {
+        "Title": "語言",
+        "Content": "選擇你的語言"
+      },
+      "Appearance": {
+        "Title": "外觀",
+        "Content": "你的 Dopamine 將有怎樣的外觀？",
+        "UseLightTheme": "使用淺色主題"
+      },
+      "Music": {
+        "Title": "音樂",
+        "Content": "讓我們一起設定好收藏庫。你的音樂儲存在哪裡？"
+      },
+      "Donate": {
+        "Title": "抖內",
+        "Content": "如果你喜歡 Dopamine，請考慮抖內我們。你可以現在就抖內，或之後前往'關於'頁面。感激不盡！",
+        "DonateNow": "現在抖內"
+      },
+      "Done": {
+        "Title": "完成！",
+        "Content": "全都完成了。讓我們現在啟動 Dopamine！"
+      }
+    },
+    "Loading": {
+      "Text": "載入中..."
+    },
+    "Collection": {
+      "Explore": "探索",
+      "Songs": "歌曲",
+      "Playlists": "播放清單"
+    },
+    "Settings": {
+      "Appearance": "外觀",
+      "Advanced": "進階",
+      "Theme": "主題",
+      "FollowSystemTheme": "跟隨系統主題",
+      "UseLightTheme": "使用淺色主題",
+      "Color": "色彩",
+      "FollowSystemColor": "跟隨系統色彩",
+      "TitleBar": "標題列",
+      "UseSystemTitleBar": "使用系統標題列（需要重新啟動）",
+      "Language": "語言",
+      "ChooseLanguage": "選擇語言",
+      "TextSize": "文字大小",
+      "ChooseTextSize": "選擇文字大小",
+      "Updates": "更新",
+      "CheckForUpdates": "偵測更新",
+      "WelcomeScreen": "歡迎螢幕",
+      "ShowWelcomeScreen": "下次啟動時顯示歡迎螢幕"
+    },
+    "Information": {
+      "About": "關於",
+      "Components": "元件",
+      "Version": "版本",
+      "Website": "網站",
+      "License": "授權",
+      "Donate": "抖內",
+      "DonateInstructions": "你喜歡 Dopamine 嗎？請點擊此處抖內。萬分感謝！",
+      "ContactUs": "聯絡我們",
+      "Thanks": "鳴謝",
+      "ThanksToSharlee": "給製作了華麗圖示的 Sharlee。",
+      "ThanksToDonaters": "給那些捐助者。",
+      "ThanksToTranslators": "給翻譯者。",
+      "ThanksToDevelopers": "給創造了供我們使用的元件的開發人員。",
+      "ThanksToNeowin": "給提供了好靈感、測試和問題回報的 Neowin 他們。"
+    },
+    "ManageCollection": {
+      "Music": "音樂",
+      "Refresh": "重新整理",
+      "AlbumCovers": "專輯封面",
+      "Folders": "資料夾",
+      "AddFoldersWithYourMusic": "向收藏庫新增包含音樂的資料夾",
+      "AddFolder": "新增資料夾",
+      "SelectFolder": "選擇資料夾",
+      "DeleteFolder": "刪除資料夾",
+      "ShowInTheCollection": "在收藏庫中顯示",
+      "ShowAllFoldersInTheCollection": "顯示收藏庫中的全部資料夾",
+      "RefreshCollectionAutomatically": "自動重新整理收藏庫",
+      "SkipPreviouslyRemovedFiles": "跳過之前從收藏庫中移除的檔案",
+      "RefreshCollectionNow": "立即重新整理收藏庫",
+      "RefreshNow": "立即重新整理",
+      "AutomaticRefresh": "自動重新整理",
+      "ManualRefresh": "手動重新整理"
+    }
+  },
+  "SnackBarMessages": {
+    "FolderAlreadyAdded": "此資料夾已新增"
+  },
+  "SnackBarActions": {
+    "Ok": "OK"
+  },
+  "Buttons": {
+    "Yes": "是",
+    "No": "否",
+    "Ok": "OK",
+    "ViewLog": "檢視日誌",
+    "License": "授權",
+    "Donate": "抖內"
+  },
+  "Tooltips": {
+    "OpenMenu": "開啟選單",
+    "Back": "返回",
+    "Close": "關閉"
+  },
+  "DialogTitles": {
+    "ConfirmDeleteFolder": "確定刪除資料夾？",
+    "Error": "錯誤",
+    "License": "授權"
+  },
+  "DialogTexts": {
+    "ConfirmDeleteFolder": "確定刪除資料夾 '{{folderPath}}' 嗎？"
+  },
+  "ErrorTexts": {
+    "DeleteFolderError": "刪除資料夾時出現錯誤。如果需要更多資訊，請檢查日誌檔。",
+    "GetFoldersError": "取得資料夾時出現錯誤。如果需要更多資訊，請檢查日誌檔。",
+    "AddFolderError": "新增資料夾時出現錯誤。如果需要更多資訊，請檢查日誌檔。",
+    "GlobalError": "出現了導致應用程式關閉的錯誤。如果需要更多資訊，請檢查日誌檔。"
+  },
+  "MainMenu": {
+    "ManageCollection": "整理收藏庫...",
+    "Settings": "設定",
+    "Information": "資訊"
+  },
+  "Status": {
+    "RemovingSongs": "移除歌曲中",
+    "AddedSongs": "新增 {{numberOfAddedTracks}} 曲目 ({{percentageOfAddedTracks}}%)",
+    "UpdatingSongs": "更新曲目中",
+    "NewVersionAvailable": "新版本已可用: {{version}}"
+  }
+}
