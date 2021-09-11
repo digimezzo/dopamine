@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -154,7 +154,8 @@ import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFiltersPipe } from './pipes/genres-filter.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
-import { TracksFiltersPipe } from './pipes/tracks-filter.pipe';
+import { TrackModelsFiltersPipe } from './pipes/trackmodels-filter.pipe';
+import { TracksFiltersPipe } from './pipes/tracks-filter.pipe.spec';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -298,6 +299,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ArtistFiltersPipe,
         AlbumsFiltersPipe,
         GenresFiltersPipe,
+        TrackModelsFiltersPipe,
         TracksFiltersPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
