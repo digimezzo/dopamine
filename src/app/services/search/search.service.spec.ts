@@ -27,6 +27,15 @@ describe('SearchService', () => {
             expect(service.searchText).toEqual('');
         });
 
+        it('should initialize delayedSearchText as empty', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(service.delayedSearchText).toEqual('');
+        });
+
         it('should initialize hasSearchText as false', () => {
             // Arrange
 
@@ -43,15 +52,6 @@ describe('SearchService', () => {
 
             // Assert
             expect(service.isSearching).toBeFalsy();
-        });
-
-        it('should define searchTextChanged$', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(service.searchTextChanged$).toBeDefined();
         });
     });
 
@@ -119,6 +119,31 @@ describe('SearchService', () => {
 
             // Assert
             expect(service.isSearching).toBeFalsy();
+        });
+    });
+
+    describe('searchText', () => {
+        it('should return the search text', () => {
+            // Arrange
+            service.searchText = 'mysearchtext';
+
+            // Act
+            const searchText: string = service.searchText;
+
+            // Assert
+            expect(searchText).toEqual('mysearchtext');
+        });
+
+        it('should update delayedSearchText', () => {
+            // Arrange
+
+            // Act
+            jest.useFakeTimers();
+            service.searchText = 'mysearchtext';
+            jest.runAllTimers();
+
+            // Assert
+            expect(service.delayedSearchText).toEqual('mysearchtext');
         });
     });
 });
