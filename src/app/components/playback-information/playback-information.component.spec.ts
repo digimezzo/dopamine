@@ -2,8 +2,6 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { Scheduler } from '../../common/scheduler/scheduler';
-import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
-import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
@@ -13,8 +11,6 @@ import { PlaybackInformationComponent } from './playback-information.component';
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackInformationComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
-    let formatTrackArtistsPipeMock: IMock<FormatTrackArtistsPipe>;
-    let formatTrackTitlePipeMock: IMock<FormatTrackTitlePipe>;
     let schedulerMock: IMock<Scheduler>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -25,17 +21,10 @@ describe('PlaybackInformationComponent', () => {
 
     beforeEach(async () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        formatTrackArtistsPipeMock = Mock.ofType<FormatTrackArtistsPipe>();
-        formatTrackTitlePipeMock = Mock.ofType<FormatTrackTitlePipe>();
         schedulerMock = Mock.ofType<Scheduler>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        component = new PlaybackInformationComponent(
-            playbackServiceMock.object,
-            formatTrackArtistsPipeMock.object,
-            formatTrackTitlePipeMock.object,
-            schedulerMock.object
-        );
+        component = new PlaybackInformationComponent(playbackServiceMock.object, schedulerMock.object);
 
         playbackServicePlaybackStartedMock = new Subject();
         const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
@@ -139,9 +128,6 @@ describe('PlaybackInformationComponent', () => {
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 
-            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
-            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
-
             // Act
             await component.ngOnInit();
 
@@ -157,9 +143,6 @@ describe('PlaybackInformationComponent', () => {
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
-
-            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
-            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
 
             // Act
             await component.ngOnInit();
@@ -180,9 +163,6 @@ describe('PlaybackInformationComponent', () => {
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
-
-            formatTrackArtistsPipeMock.setup((x) => x.transform(trackModel1.artists)).returns(() => 'My artist');
-            formatTrackTitlePipeMock.setup((x) => x.transform(trackModel1.title, undefined)).returns(() => 'My title');
 
             // Act
             await component.ngOnInit();

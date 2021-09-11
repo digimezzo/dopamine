@@ -15,6 +15,7 @@ import { BaseNavigationService } from '../../../services/navigation/base-navigat
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -26,6 +27,7 @@ import { FoldersPersister } from './folders-persister';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
+    let searchServiceMock: IMock<BaseSearchService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -64,6 +66,7 @@ describe('CollectionFoldersComponent', () => {
 
     function createComponent(): CollectionFoldersComponent {
         const component: CollectionFoldersComponent = new CollectionFoldersComponent(
+            searchServiceMock.object,
             appearanceServiceMock.object,
             folderServiceMock.object,
             playbackServiceMock.object,

@@ -36,7 +36,7 @@
                         'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
                         'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                     }"
-                    >{{ track.title | formatTrackTitle: track.fileName }}</span
+                    >{{ track.title }}</span
                 >
                 <div class="app-track__playback__and__duration">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
@@ -58,7 +58,7 @@
                         'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
                         'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                     }"
-                    >{{ track.artists | formatTrackArtists }}</span
+                    >{{ track.artists }}</span
                 >
                 <span></span>
             </div>

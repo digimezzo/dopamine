@@ -144,15 +144,17 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
+import { AlbumsFiltersPipe } from './pipes/albums-filter.pipe';
+import { ArtistFiltersPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
-import { FormatTrackArtistsPipe } from './pipes/format-track-artists.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
-import { FormatTrackTitlePipe } from './pipes/format-track-title.pipe';
+import { GenresFiltersPipe } from './pipes/genres-filter.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
+import { TracksFiltersPipe } from './pipes/tracks-filter.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -289,12 +291,14 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FolderNamePipe,
         SubfolderNamePipe,
         FormatTrackNumberPipe,
-        FormatTrackArtistsPipe,
-        FormatTrackTitlePipe,
         FormatTrackDurationPipe,
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
+        ArtistFiltersPipe,
+        AlbumsFiltersPipe,
+        GenresFiltersPipe,
+        TracksFiltersPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -398,8 +402,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ProgressUpdater,
         Queue,
         MathExtensions,
-        FormatTrackArtistsPipe,
-        FormatTrackTitlePipe,
         CollectionPersister,
         PathValidator,
         AlbumRowsGetter,

@@ -9,6 +9,7 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
 import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -28,6 +29,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public searchService: BaseSearchService,
         public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,
         public tracksPersister: GenresTracksPersister,

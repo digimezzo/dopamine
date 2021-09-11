@@ -5,7 +5,6 @@ import { TrackModel } from './track-model';
 
 describe('TrackModel', () => {
     let track: Track;
-    let trackModel: TrackModel;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     beforeEach(() => {
@@ -13,6 +12,7 @@ describe('TrackModel', () => {
         track.trackNumber = 5;
         track.discNumber = 1;
         track.discCount = 2;
+        track.year = 2020;
         track.fileName = 'track1';
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
@@ -25,8 +25,6 @@ describe('TrackModel', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
-
-        trackModel = new TrackModel(track, translatorServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -34,6 +32,7 @@ describe('TrackModel', () => {
             // Arrange
 
             // Act
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Assert
             expect(trackModel).toBeDefined();
@@ -43,6 +42,7 @@ describe('TrackModel', () => {
             // Arrange
 
             // Act
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Assert
             expect(trackModel.isPlaying).toBeFalsy();
@@ -52,6 +52,7 @@ describe('TrackModel', () => {
             // Arrange
 
             // Act
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Assert
             expect(trackModel.isSelected).toBeFalsy();
@@ -61,6 +62,7 @@ describe('TrackModel', () => {
             // Arrange
 
             // Act
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Assert
             expect(trackModel.showHeader).toBeFalsy();
@@ -70,6 +72,7 @@ describe('TrackModel', () => {
     describe('path', () => {
         it('should return the track path', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const path: string = trackModel.path;
@@ -82,6 +85,7 @@ describe('TrackModel', () => {
     describe('fileName', () => {
         it('should return the track file name', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const path: string = trackModel.fileName;
@@ -94,6 +98,7 @@ describe('TrackModel', () => {
     describe('number', () => {
         it('should return the track number', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const number: number = trackModel.number;
@@ -106,6 +111,7 @@ describe('TrackModel', () => {
     describe('discNumber', () => {
         it('should return the track discNumber', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const discNumber: number = trackModel.discNumber;
@@ -118,6 +124,7 @@ describe('TrackModel', () => {
     describe('discCount', () => {
         it('should return the track discCount', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const discCount: number = trackModel.discCount;
@@ -127,21 +134,61 @@ describe('TrackModel', () => {
         });
     });
 
-    describe('title', () => {
-        it('should return the track title', () => {
+    describe('year', () => {
+        it('should return the track year', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const year: number = trackModel.year;
+
+            // Assert
+            expect(year).toEqual(2020);
+        });
+    });
+
+    describe('title', () => {
+        it('should return track title if it is not empty and not undefined', () => {
+            // Arrange
+            track.trackTitle = 'The track title';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const title: string = trackModel.title;
 
             // Assert
-            expect(title).toEqual('Track title');
+            expect(title).toEqual('The track title');
+        });
+
+        it('should return track fileName if track title is undefined', () => {
+            // Arrange
+            track.trackTitle = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const title: string = trackModel.title;
+
+            // Assert
+            expect(title).toEqual('track1');
+        });
+
+        it('should return track fileName if track title is empty', () => {
+            // Arrange
+            track.trackTitle = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const title: string = trackModel.title;
+
+            // Assert
+            expect(title).toEqual('track1');
         });
     });
 
     describe('sortableTitle', () => {
         it('should return the track title in lowercase', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const sortableTitle: string = trackModel.sortableTitle;
@@ -152,15 +199,100 @@ describe('TrackModel', () => {
     });
 
     describe('artists', () => {
-        it('should return the track artists', () => {
+        it('should return Unknown artist if track artists is undefined', () => {
             // Arrange
-            const expectedArtists: string[] = ['Artist 1', 'Artist 2'];
+            track.artists = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
-            const artists: string[] = trackModel.artists;
+            const artists: string = trackModel.artists;
 
             // Assert
-            expect(artists).toEqual(expectedArtists);
+            expect(artists).toEqual('Unknown artist');
+        });
+
+        it('should return Unknown artist if track artists is empty', () => {
+            // Arrange
+            track.artists = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Unknown artist');
+        });
+
+        it('should return Unknown artist if track artists contains only one empty artist', () => {
+            // Arrange
+            track.artists = ';;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Unknown artist');
+        });
+
+        it('should return the artist if track artists contains only one artist', () => {
+            // Arrange
+            track.artists = ';Artist 1;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1');
+        });
+
+        it('should return all artists separated by a comma if track artists contains multiple artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1, Artist 2');
+        });
+
+        it('should not return empty artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1, Artist 3');
+        });
+
+        it('should not return space artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;; ;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1, Artist 3');
+        });
+
+        it('should not return double space artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;  ;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1, Artist 3');
         });
     });
 
@@ -168,6 +300,7 @@ describe('TrackModel', () => {
         it('should return the track albumKey', () => {
             // Arrange
             const expectedAlbumKey: string = 'albumKey1';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumKey: string = trackModel.albumKey;
@@ -181,6 +314,7 @@ describe('TrackModel', () => {
         it('should return "Unknown album" if the track album title is undefined', () => {
             // Arrange
             track.albumTitle = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumTitle: string = trackModel.albumTitle;
@@ -192,6 +326,7 @@ describe('TrackModel', () => {
         it('should return "Unknown album" if the track album title is empty', () => {
             // Arrange
             track.albumTitle = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumTitle: string = trackModel.albumTitle;
@@ -203,6 +338,7 @@ describe('TrackModel', () => {
         it('should return "Unknown album" if the track album title is whitespace', () => {
             // Arrange
             track.albumTitle = ' ';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumTitle: string = trackModel.albumTitle;
@@ -213,6 +349,7 @@ describe('TrackModel', () => {
 
         it('should return the track album title if the track has an album title', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumTitle: string = trackModel.albumTitle;
@@ -225,6 +362,7 @@ describe('TrackModel', () => {
     describe('albumTitle', () => {
         it('should return the track album title in lowercase if the track has an album title', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const sortableAlbumTitle: string = trackModel.sortableAlbumTitle;
@@ -238,7 +376,7 @@ describe('TrackModel', () => {
         it('should return the album artist if the track has only 1 album artist', () => {
             // Arrange
             track.albumArtists = ';Album artist 1;';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumArtists: string = trackModel.albumArtists;
@@ -250,7 +388,7 @@ describe('TrackModel', () => {
         it('should return all album artists separated by a comma if the track has multiple album artists', () => {
             // Arrange
             track.albumArtists = ';Album artist 1;;Album artist 2;';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumArtists: string = trackModel.albumArtists;
@@ -263,7 +401,7 @@ describe('TrackModel', () => {
             // Arrange
             track.albumArtists = '';
             track.artists = ';Artist 1;';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumArtists: string = trackModel.albumArtists;
@@ -276,7 +414,7 @@ describe('TrackModel', () => {
             // Arrange
             track.albumArtists = '';
             track.artists = ';Artist 1;;Artist 2;';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumArtists: string = trackModel.albumArtists;
@@ -289,7 +427,7 @@ describe('TrackModel', () => {
             // Arrange
             track.albumArtists = '';
             track.artists = '';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const albumArtists: string = trackModel.albumArtists;
@@ -302,7 +440,7 @@ describe('TrackModel', () => {
             // Arrange
             track.albumArtists = '';
             track.artists = ';Artist 1;;Artist 2;';
-            trackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const sortableAlbumArtists: string = trackModel.sortableAlbumArtists;
@@ -315,6 +453,7 @@ describe('TrackModel', () => {
     describe('durationInMilliseconds', () => {
         it('should return the track duration in milliseconds', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const durationInMilliseconds: number = trackModel.durationInMilliseconds;
@@ -327,6 +466,7 @@ describe('TrackModel', () => {
     describe('fileSizeInBytes', () => {
         it('should return the track file size in bytes', () => {
             // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
             const fileSizeInBytes: number = trackModel.fileSizeInBytes;
