@@ -3,7 +3,7 @@ import { Strings } from '../common/strings';
 import { ArtistModel } from '../services/artist/artist-model';
 
 @Pipe({ name: 'artistsFilter' })
-export class ArtistFiltersPipe implements PipeTransform {
+export class ArtistFilterPipe implements PipeTransform {
     constructor() {}
 
     public transform(artists: ArtistModel[], filterTerm: string): ArtistModel[] {

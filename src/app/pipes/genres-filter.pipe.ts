@@ -3,7 +3,7 @@ import { Strings } from '../common/strings';
 import { GenreModel } from '../services/genre/genre-model';
 
 @Pipe({ name: 'genresFilter' })
-export class GenresFiltersPipe implements PipeTransform {
+export class GenresFilterPipe implements PipeTransform {
     constructor() {}
 
     public transform(genres: GenreModel[], filterTerm: string): GenreModel[] {

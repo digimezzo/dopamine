@@ -3,7 +3,7 @@ import { Strings } from '../common/strings';
 import { AlbumModel } from '../services/album/album-model';
 
 @Pipe({ name: 'albumsFilter' })
-export class AlbumsFiltersPipe implements PipeTransform {
+export class AlbumsFilterPipe implements PipeTransform {
     constructor() {}
 
     public transform(albums: AlbumModel[], filterTerm: string): AlbumModel[] {

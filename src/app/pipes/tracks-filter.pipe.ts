@@ -3,7 +3,7 @@ import { Strings } from '../common/strings';
 import { TrackModels } from '../services/track/track-models';
 
 @Pipe({ name: 'tracksFilter' })
-export class TracksFiltersPipe implements PipeTransform {
+export class TracksFilterPipe implements PipeTransform {
     constructor() {}
 
     public transform(tracks: TrackModels, filterTerm: string): TrackModels {

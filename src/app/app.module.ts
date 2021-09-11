@@ -144,17 +144,18 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
-import { AlbumsFiltersPipe } from './pipes/albums-filter.pipe';
-import { ArtistFiltersPipe } from './pipes/artists-filter.pipe';
+import { AlbumsFilterPipe as AlbumsFilterPipe } from './pipes/albums-filter.pipe';
+import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
-import { GenresFiltersPipe } from './pipes/genres-filter.pipe';
+import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
-import { TracksFiltersPipe } from './pipes/tracks-filter.pipe';
+import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
+import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -295,10 +296,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
-        ArtistFiltersPipe,
-        AlbumsFiltersPipe,
-        GenresFiltersPipe,
-        TracksFiltersPipe,
+        ArtistsFilterPipe,
+        AlbumsFilterPipe,
+        GenresFilterPipe,
+        TracksFilterPipe,
+        SubfoldersFilterPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
