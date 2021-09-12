@@ -1,20 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Strings } from '../common/strings';
 import { ArtistModel } from '../services/artist/artist-model';
+import { BaseFilterPipe } from './base-filter.pipe';
 
 @Pipe({ name: 'artistsFilter' })
-export class ArtistFilterPipe implements PipeTransform {
-    constructor() {}
+export class ArtistFilterPipe extends BaseFilterPipe implements PipeTransform {
+    constructor() {
+        super();
+    }
 
-    public transform(artists: ArtistModel[], filterTerm: string): ArtistModel[] {
-        if (Strings.isNullOrWhiteSpace(filterTerm)) {
+    public transform(artists: ArtistModel[], textToContain: string): ArtistModel[] {
+        if (Strings.isNullOrWhiteSpace(textToContain)) {
             return artists;
         }
 
         const filteredArtists: ArtistModel[] = [];
 
         for (const artist of artists) {
-            if (artist.displayName.toLowerCase().includes(filterTerm.toLowerCase())) {
+            if (this.containsText(artist.displayName, textToContain)) {
                 filteredArtists.push(artist);
             }
         }
