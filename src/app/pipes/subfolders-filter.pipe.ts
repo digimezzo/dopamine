@@ -1,13 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Strings } from '../common/strings';
 import { SubfolderModel } from '../services/folder/subfolder-model';
-import { BaseFilterPipe } from './base-filter.pipe';
+import { BaseSearchService } from '../services/search/base-search.service';
 
 @Pipe({ name: 'subfoldersFilter' })
-export class SubfoldersFilterPipe extends BaseFilterPipe implements PipeTransform {
-    constructor() {
-        super();
-    }
+export class SubfoldersFilterPipe implements PipeTransform {
+    constructor(private searchService: BaseSearchService) {}
 
     public transform(subfolders: SubfolderModel[], textToContain: string): SubfolderModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
@@ -17,7 +15,7 @@ export class SubfoldersFilterPipe extends BaseFilterPipe implements PipeTransfor
         const filteredSubfolders: SubfolderModel[] = [];
 
         for (const subfolder of subfolders) {
-            if (this.containsText(subfolder.path, textToContain)) {
+            if (this.searchService.matchesSearchText(subfolder.path, textToContain)) {
                 filteredSubfolders.push(subfolder);
             }
         }

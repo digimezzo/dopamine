@@ -48,4 +48,16 @@ export class SearchService implements BaseSearchService {
     public stopSearching(): void {
         this._isSearching = false;
     }
+
+    public matchesSearchText(originalText: string, searchText: string): boolean {
+        if (Strings.isNullOrWhiteSpace(originalText)) {
+            return false;
+        }
+
+        if (Strings.removeAccents(originalText).toLowerCase().includes(searchText.toLowerCase())) {
+            return true;
+        }
+
+        return false;
+    }
 }
