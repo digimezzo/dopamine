@@ -146,4 +146,86 @@ describe('SearchService', () => {
             expect(service.delayedSearchText).toEqual('mysearchtext');
         });
     });
+
+    describe('matchesSearchText', () => {
+        it('should return false if the original text is undefined', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText(undefined, 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeFalsy();
+        });
+
+        it('should return false if the original text is empty', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeFalsy();
+        });
+
+        it('should return false if the original text is space', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText(' ', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeFalsy();
+        });
+
+        it('should return false if the original text does not contain the search text', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('some text', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeFalsy();
+        });
+
+        it('should return true if the original text contains the search text exactly', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('this is a test', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeTruthy();
+        });
+
+        it('should return true if the original text contains the search text with different casing', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('this is a TeSt', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeTruthy();
+        });
+
+        it('should return true if the original text contains the search text with accents', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('this is a tèst', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeTruthy();
+        });
+
+        it('should return true if the original text contains the search text with accents and different casing', () => {
+            // Arrange
+
+            // Act
+            const matchesSearchText: boolean = service.matchesSearchText('this is a TèSt', 'test');
+
+            // Assert
+            expect(matchesSearchText).toBeTruthy();
+        });
+    });
 });
