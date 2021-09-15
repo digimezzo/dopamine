@@ -57,7 +57,7 @@
         "artifactName": "${productName}-${version}.${ext}"
     },
     "linux": {
-        "target": ["AppImage", "deb", "rpm", "pacman", "snap"],
+        "target": ["pacman"],
         "category": "Audio",
         "artifactName": "${productName}-${version}.${ext}",
         "desktop": {

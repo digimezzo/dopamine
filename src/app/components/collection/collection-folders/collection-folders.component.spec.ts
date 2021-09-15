@@ -87,6 +87,7 @@ describe('CollectionFoldersComponent', () => {
 
     beforeEach(() => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
+        searchServiceMock = Mock.ofType<BaseSearchService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
