@@ -7,13 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.5] - 2021-08-29
+## [3.0.0-preview.5] - 2021-09-17
 
 ### Added
 
 -   Added Mac support
+-   Added search
 
 ### Changed
+
+-   Theme files have changed. Custom themes will have to be re-created from one of the default themes.
 
 ### Removed
 
