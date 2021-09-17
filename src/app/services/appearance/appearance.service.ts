@@ -380,8 +380,13 @@ export class AppearanceService implements BaseAppearanceService {
 
         for (const themeFile of themeFiles) {
             const themeFileContent: string = this.fileSystem.getFileContent(themeFile);
-            const theme: Theme = JSON.parse(themeFileContent);
-            themes.push(theme);
+
+            try {
+                const theme: Theme = JSON.parse(themeFileContent);
+                themes.push(theme);
+            } catch (e) {
+                this.logger.error(`Could not parse theme file. Error: ${e.message}`, 'AppearanceService', 'getThemesFromThemesDirectory');
+            }
         }
 
         return themes;

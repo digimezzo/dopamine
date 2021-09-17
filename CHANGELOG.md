@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.6] - 2021-09-17
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Instead of crashing, Dopamine now fallbacks to a default theme when the current theme is invalid.
+
 ## [3.0.0-preview.5] - 2021-09-17
 
 ### Added
