@@ -5,15 +5,16 @@
 .app-album-border {
     width: 124px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2px;
 }
 
 .app-album-content {
     width: 120px;
     display: flex;
     flex-direction: column;
-    margin: 2px;
 }
 
 .app-album__year {

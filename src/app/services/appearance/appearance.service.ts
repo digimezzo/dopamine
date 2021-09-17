@@ -250,6 +250,9 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
         element.style.setProperty('--theme-scroll-bars', this.selectedTheme.darkColors.scrollBars);
+        element.style.setProperty('--theme-search-box', this.selectedTheme.darkColors.searchBox);
+        element.style.setProperty('--theme-search-box-text', this.selectedTheme.darkColors.searchBoxText);
+        element.style.setProperty('--theme-search-box-icon', this.selectedTheme.darkColors.searchBoxIcon);
         this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
 
         if (this.isUsingLightTheme) {
@@ -274,6 +277,9 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
             element.style.setProperty('--theme-scroll-bars', this.selectedTheme.lightColors.scrollBars);
+            element.style.setProperty('--theme-search-box', this.selectedTheme.lightColors.searchBox);
+            element.style.setProperty('--theme-search-box-text', this.selectedTheme.lightColors.searchBoxText);
+            element.style.setProperty('--theme-search-box-icon', this.selectedTheme.lightColors.searchBoxIcon);
             this.setShouldOverrideSelectedItemText(this.selectedTheme.lightColors.selectedItemText);
         }
 

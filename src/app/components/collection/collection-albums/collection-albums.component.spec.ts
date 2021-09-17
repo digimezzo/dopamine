@@ -8,6 +8,7 @@ import { Scheduler } from '../../../common/scheduler/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -20,6 +21,7 @@ import { AlbumsTracksPersister } from './albums-tracks-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
 
 describe('CollectionAlbumsComponent', () => {
+    let searchServiceMock: IMock<BaseSearchService>;
     let albumServiceMock: IMock<BaseAlbumService>;
     let trackServiceMock: IMock<BaseTrackService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -57,6 +59,7 @@ describe('CollectionAlbumsComponent', () => {
 
     function createComponent(): CollectionAlbumsComponent {
         const component: CollectionAlbumsComponent = new CollectionAlbumsComponent(
+            searchServiceMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
             collectionPersisterMock.object,
@@ -72,6 +75,8 @@ describe('CollectionAlbumsComponent', () => {
     }
 
     beforeEach(() => {
+        searchServiceMock = Mock.ofType<BaseSearchService>();
+        searchServiceMock = Mock.ofType<BaseSearchService>();
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
@@ -167,6 +172,26 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should define searchService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionAlbumsComponent = createComponent();
+
+            // Assert
+            expect(component.searchService).toBeDefined();
+        });
+
+        it('should define searchService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionAlbumsComponent = createComponent();
+
+            // Assert
+            expect(component.searchService).toBeDefined();
         });
     });
 

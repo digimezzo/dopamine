@@ -11,6 +11,7 @@ import { ArtistModel } from '../../../services/artist/artist-model';
 import { ArtistType } from '../../../services/artist/artist-type';
 import { BaseArtistService } from '../../../services/artist/base-artist.service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -24,6 +25,7 @@ import { ArtistsTracksPersister } from './artists-tracks-persister';
 import { CollectionArtistsComponent } from './collection-artists.component';
 
 describe('CollectionArtistsComponent', () => {
+    let searchServiceMock: IMock<BaseSearchService>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
     let albumsPersisterMock: IMock<ArtistsAlbumsPersister>;
     let tracksPersisterMock: IMock<ArtistsTracksPersister>;
@@ -58,6 +60,7 @@ describe('CollectionArtistsComponent', () => {
 
     function createComponent(): CollectionArtistsComponent {
         const component: CollectionArtistsComponent = new CollectionArtistsComponent(
+            searchServiceMock.object,
             artistsPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
@@ -106,6 +109,7 @@ describe('CollectionArtistsComponent', () => {
     }
 
     beforeEach(() => {
+        searchServiceMock = Mock.ofType<BaseSearchService>();
         artistsPersisterMock = Mock.ofType<ArtistsPersister>();
         albumsPersisterMock = Mock.ofType<ArtistsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<ArtistsTracksPersister>();
@@ -211,6 +215,16 @@ describe('CollectionArtistsComponent', () => {
 
             // Assert
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should define searchService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionArtistsComponent = createComponent();
+
+            // Assert
+            expect(component.searchService).toBeDefined();
         });
     });
 

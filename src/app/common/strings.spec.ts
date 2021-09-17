@@ -149,13 +149,13 @@ describe('Strings', () => {
     describe('removeAccents', () => {
         it('should remove all accents', () => {
             // Arrange
-            const sourceString: string = 'Crème Brulée';
+            const sourceString: string = `Ça, c'était une très bonne crème Brulée. Raphaël l'a adoré!`;
 
             // Act
             const newString: string = Strings.removeAccents(sourceString);
 
             // Assert
-            expect(newString).toEqual('Creme Brulee');
+            expect(newString).toEqual(`Ca, c'etait une tres bonne creme Brulee. Raphael l'a adore!`);
         });
     });
 

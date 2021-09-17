@@ -4,18 +4,22 @@
             ><div class="left-side-pane">
                 <app-artist-browser
                     class="p-3 fill"
-                    [artists]="this.artists"
+                    [artists]="this.artists | artistsFilter: this.searchService.delayedSearchText"
                     [(artistsPersister)]="this.artistsPersister"
                 ></app-artist-browser></div
         ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"
-            ><app-album-browser class="p-3 fill" [albums]="this.albums" [(albumsPersister)]="this.albumsPersister"></app-album-browser
+            ><app-album-browser
+                class="p-3 fill"
+                [albums]="this.albums | albumsFilter: this.searchService.delayedSearchText"
+                [(albumsPersister)]="this.albumsPersister"
+            ></app-album-browser
         ></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
             ><div class="right-side-pane">
                 <app-track-browser
                     class="p-3 fill"
-                    [tracks]="this.tracks"
+                    [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
                     [(tracksPersister)]="this.tracksPersister"
                 ></app-track-browser></div
         ></as-split-area>

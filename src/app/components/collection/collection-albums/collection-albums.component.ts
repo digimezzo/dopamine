@@ -7,6 +7,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -25,6 +26,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public searchService: BaseSearchService,
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
         private collectionPersister: CollectionPersister,

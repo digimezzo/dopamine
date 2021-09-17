@@ -42,7 +42,7 @@ export class PresenceUpdater {
         try {
             this.discordClient.setActivity({
                 details: this.playbackService.currentTrack.title,
-                state: this.playbackService.currentTrack.artists.join(', '),
+                state: this.playbackService.currentTrack.artists,
                 startTimestamp: Date.now(),
                 endTimestamp: Date.now() + this.calculateTimeRemainingInMilliseconds(),
                 largeImageKey: largeImageKey,

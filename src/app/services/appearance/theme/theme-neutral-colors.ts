@@ -19,6 +19,9 @@ export class ThemeNeutralColors {
         public albumCoverBackground: string,
         public paneSeparators: string,
         public settingsSeparators: string,
-        public scrollBars: string
+        public scrollBars: string,
+        public searchBox: string,
+        public searchBoxText: string,
+        public searchBoxIcon: string
     ) {}
 }

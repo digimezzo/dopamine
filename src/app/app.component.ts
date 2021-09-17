@@ -9,6 +9,7 @@ import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
+import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 @Component({
     selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private appearanceService: BaseAppearanceService,
         private translatorService: BaseTranslatorService,
         private discordService: BaseDiscordService,
+        private searchService: BaseSearchService,
         private logger: Logger
     ) {
         log.create('renderer');
@@ -33,8 +35,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ') {
-            event.preventDefault(); // Prevents scrolling when pressing SPACE
+        if (event.key === ' ' && !this.searchService.isSearching) {
+            // Prevents scrolling when pressing SPACE
+            event.preventDefault();
         }
     }
 

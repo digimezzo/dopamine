@@ -130,6 +130,7 @@ import { PlaybackInformationComponent } from './components/playback-information/
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { PlaybackQueueComponent } from './components/playback-queue/playback-queue.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
+import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
 import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
@@ -143,15 +144,18 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
+import { AlbumsFilterPipe as AlbumsFilterPipe } from './pipes/albums-filter.pipe';
+import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
-import { FormatTrackArtistsPipe } from './pipes/format-track-artists.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
-import { FormatTrackTitlePipe } from './pipes/format-track-title.pipe';
+import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
+import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
+import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -210,6 +214,8 @@ import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
+import { BaseSearchService } from './services/search/base-search.service';
+import { SearchService } from './services/search/search.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
@@ -286,12 +292,15 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FolderNamePipe,
         SubfolderNamePipe,
         FormatTrackNumberPipe,
-        FormatTrackArtistsPipe,
-        FormatTrackTitlePipe,
         FormatTrackDurationPipe,
         FormatTotalDurationPipe,
         FormatTotalFileSizePipe,
         FormatPlaybackTimePipe,
+        ArtistsFilterPipe,
+        AlbumsFilterPipe,
+        GenresFilterPipe,
+        TracksFilterPipe,
+        SubfoldersFilterPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -315,6 +324,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaybackQueueComponent,
         NowPlayingComponent,
         NowPlayingPlaybackPaneComponent,
+        SearchBoxComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -394,8 +404,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ProgressUpdater,
         Queue,
         MathExtensions,
-        FormatTrackArtistsPipe,
-        FormatTrackTitlePipe,
         CollectionPersister,
         PathValidator,
         AlbumRowsGetter,
@@ -449,6 +457,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseMetadataService, useClass: MetadataService },
+        { provide: BaseSearchService, useClass: SearchService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },

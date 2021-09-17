@@ -2,8 +2,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduler/scheduler';
-import { FormatTrackArtistsPipe } from '../../pipes/format-track-artists.pipe';
-import { FormatTrackTitlePipe } from '../../pipes/format-track-title.pipe';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
@@ -48,12 +46,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
-        private playbackService: BasePlaybackService,
-        private formatTrackArtistsPipe: FormatTrackArtistsPipe,
-        private formatTrackTitlePipe: FormatTrackTitlePipe,
-        private scheduler: Scheduler
-    ) {}
+    constructor(private playbackService: BasePlaybackService, private scheduler: Scheduler) {}
 
     @Input()
     public height: number = 0;
@@ -103,8 +96,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         let newTitle: string = '';
 
         if (track != undefined) {
-            newArtist = this.formatTrackArtistsPipe.transform(track.artists);
-            newTitle = this.formatTrackTitlePipe.transform(track.title, undefined);
+            newArtist = track.artists;
+            newTitle = track.title;
         }
 
         if (this.contentAnimation !== 'down') {
@@ -129,8 +122,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         let newTitle: string = '';
 
         if (track != undefined) {
-            newArtist = this.formatTrackArtistsPipe.transform(track.artists);
-            newTitle = this.formatTrackTitlePipe.transform(track.title, undefined);
+            newArtist = track.artists;
+            newTitle = track.title;
         }
 
         if (performAnimation) {

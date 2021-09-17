@@ -14,6 +14,7 @@ import { BaseNavigationService } from '../../../services/navigation/base-navigat
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -30,6 +31,7 @@ import { FoldersPersister } from './folders-persister';
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
     constructor(
+        public searchService: BaseSearchService,
         public appearanceService: BaseAppearanceService,
         public folderService: BaseFolderService,
         public playbackService: BasePlaybackService,

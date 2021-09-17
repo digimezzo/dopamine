@@ -24,7 +24,7 @@
                     </div>
                     <cdk-virtual-scroll-viewport *ngIf="folders.length > 0" class="mt-3 folder-browser__list" itemSize="28">
                         <div
-                            *cdkVirtualFor="let subfolder of subfolders"
+                            *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
                             matRipple
                             (click)="setSelectedSubfolder(subfolder)"
                             (dblclick)="setOpenedSubfolderAsync(subfolder)"
@@ -93,7 +93,7 @@
                 </mat-chip-list>
                 <cdk-virtual-scroll-viewport class="tracks-browser__tracks mt-3" itemSize="46">
                     <div
-                        *cdkVirtualFor="let track of tracks.tracks"
+                        *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
                         matRipple
                         (click)="setSelectedTrack(track)"
                         [ngClass]="{ 'selected-item-background': track.isSelected }"

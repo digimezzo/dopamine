@@ -10,6 +10,7 @@ import { ArtistModel } from '../../../services/artist/artist-model';
 import { ArtistType } from '../../../services/artist/artist-type';
 import { BaseArtistService } from '../../../services/artist/base-artist.service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
@@ -29,6 +30,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public searchService: BaseSearchService,
         public artistsPersister: ArtistsPersister,
         public albumsPersister: ArtistsAlbumsPersister,
         public tracksPersister: ArtistsTracksPersister,

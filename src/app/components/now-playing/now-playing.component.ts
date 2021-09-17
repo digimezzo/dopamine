@@ -8,6 +8,7 @@ import { BaseMetadataService } from '../../services/metadata/base-metadata.servi
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
+import { BaseSearchService } from '../../services/search/base-search.service';
 
 @Component({
     selector: 'app-now-playing',
@@ -89,6 +90,7 @@ export class NowPlayingComponent implements OnInit {
         private navigationService: BaseNavigationService,
         private metadataService: BaseMetadataService,
         private playbackService: BasePlaybackService,
+        private searchService: BaseSearchService,
         private desktop: Desktop
     ) {}
 
@@ -106,7 +108,7 @@ export class NowPlayingComponent implements OnInit {
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ') {
+        if (event.key === ' ' && !this.searchService.isSearching) {
             this.playbackService.togglePlayback();
         }
     }

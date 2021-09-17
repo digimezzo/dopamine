@@ -30,16 +30,36 @@ export class TrackModel {
         return this.track.discCount;
     }
 
+    public get year(): number {
+        return this.track.year;
+    }
+
     public get title(): string {
-        return this.track.trackTitle;
+        if (!Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
+            return this.track.trackTitle;
+        }
+
+        return this.track.fileName;
     }
 
     public get sortableTitle(): string {
         return Strings.getSortableString(this.track.trackTitle, false);
     }
 
-    public get artists(): string[] {
-        return DataDelimiter.fromDelimitedString(this.track.artists);
+    public get artists(): string {
+        const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
+
+        if (trackArtists == undefined || trackArtists.length === 0) {
+            return this.translatorService.get('unknown-artist');
+        }
+
+        const commaSeparatedArtists: string = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
+
+        if (commaSeparatedArtists.length === 0) {
+            return this.translatorService.get('unknown-artist');
+        }
+
+        return commaSeparatedArtists;
     }
 
     public get albumKey(): string {

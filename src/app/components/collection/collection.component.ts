@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
+import { BaseSearchService } from '../../services/search/base-search.service';
 import { CollectionPersister } from './collection-persister';
 
 @Component({
@@ -16,12 +17,13 @@ export class CollectionComponent implements OnInit {
     constructor(
         public appearanceService: BaseAppearanceService,
         private playbackService: BasePlaybackService,
+        private searchService: BaseSearchService,
         private collectionPersister: CollectionPersister
     ) {}
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ') {
+        if (event.key === ' ' && !this.searchService.isSearching) {
             this.playbackService.togglePlayback();
         }
     }

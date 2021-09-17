@@ -6,6 +6,7 @@ import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
+import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 describe('AppComponent', () => {
@@ -13,19 +14,30 @@ describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let searchServiceMock: IMock<BaseSearchService>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
     let showNowPlayingRequestedMock: Subject<void>;
     let showNowPlayingRequestedMock$: Observable<void>;
 
-    let app: AppComponent;
+    function createComponent(): AppComponent {
+        return new AppComponent(
+            navigationServiceMock.object,
+            appearanceServiceMock.object,
+            translatorServiceMock.object,
+            discordServiceMock.object,
+            searchServiceMock.object,
+            loggerMock.object
+        );
+    }
 
     beforeEach(() => {
         discordServiceMock = Mock.ofType<BaseDiscordService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        searchServiceMock = Mock.ofType<BaseSearchService>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 
@@ -33,14 +45,6 @@ describe('AppComponent', () => {
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
 
         navigationServiceMock.setup((x) => x.showPlaybackQueueRequested$).returns(() => showNowPlayingRequestedMock$);
-
-        app = new AppComponent(
-            navigationServiceMock.object,
-            appearanceServiceMock.object,
-            translatorServiceMock.object,
-            discordServiceMock.object,
-            loggerMock.object
-        );
     });
 
     describe('constructor', () => {
@@ -48,6 +52,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
+            const app: AppComponent = createComponent();
 
             // Assert
             expect(app).toBeDefined();
@@ -57,6 +62,7 @@ describe('AppComponent', () => {
             // Arrange
 
             // Act
+            const app: AppComponent = createComponent();
 
             // Assert
             expect(app.playbackQueueDrawer).toBeUndefined();
@@ -66,6 +72,7 @@ describe('AppComponent', () => {
     describe('ngOnInit', () => {
         it('should apply appearance', async () => {
             // Arrange
+            const app: AppComponent = createComponent();
 
             // Act
             await app.ngOnInit();
@@ -76,6 +83,7 @@ describe('AppComponent', () => {
 
         it('should apply language', async () => {
             // Arrange
+            const app: AppComponent = createComponent();
 
             // Act
             await app.ngOnInit();
@@ -86,6 +94,7 @@ describe('AppComponent', () => {
 
         it('should navigate to loading', async () => {
             // Arrange
+            const app: AppComponent = createComponent();
 
             // Act
             await app.ngOnInit();
@@ -96,6 +105,7 @@ describe('AppComponent', () => {
 
         it('should initialize Discord', async () => {
             // Arrange
+            const app: AppComponent = createComponent();
 
             // Act
             await app.ngOnInit();
@@ -106,6 +116,7 @@ describe('AppComponent', () => {
 
         it('should toggle the drawer on showNowPlayingRequested when it is not undefined', async () => {
             // Arrange
+            const app: AppComponent = createComponent();
             app.playbackQueueDrawer = matDrawerMock.object;
 
             // Act
@@ -118,11 +129,13 @@ describe('AppComponent', () => {
     });
 
     describe('handleKeyboardEvent', () => {
-        it('should prevent the default action when space is pressed', () => {
+        it('should prevent the default action when space is pressed and while not searching', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+            searchServiceMock.setup((x) => x.isSearching).returns(() => false);
+            const app: AppComponent = createComponent();
 
             // Act
             app.handleKeyboardEvent(keyboardEventMock.object);
@@ -131,11 +144,27 @@ describe('AppComponent', () => {
             keyboardEventMock.verify((x) => x.preventDefault(), Times.once());
         });
 
+        it('should not prevent the default action when space is pressed and while searching', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+            searchServiceMock.setup((x) => x.isSearching).returns(() => true);
+            const app: AppComponent = createComponent();
+
+            // Act
+            app.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            keyboardEventMock.verify((x) => x.preventDefault(), Times.never());
+        });
+
         it('should not prevent the default action when another key then space is pressed', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
             keyboardEventMock.setup((x) => x.key).returns(() => 'a');
+            const app: AppComponent = createComponent();
 
             // Act
             app.handleKeyboardEvent(keyboardEventMock.object);

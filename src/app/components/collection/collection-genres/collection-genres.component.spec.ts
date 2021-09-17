@@ -10,6 +10,7 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
 import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
@@ -23,6 +24,7 @@ import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
 
 describe('CollectionGenresComponent', () => {
+    let searchServiceMock: IMock<BaseSearchService>;
     let genresPersisterMock: IMock<GenresPersister>;
     let albumsPersisterMock: IMock<GenresAlbumsPersister>;
     let tracksPersisterMock: IMock<GenresTracksPersister>;
@@ -54,6 +56,7 @@ describe('CollectionGenresComponent', () => {
 
     function createComponent(): CollectionGenresComponent {
         const component: CollectionGenresComponent = new CollectionGenresComponent(
+            searchServiceMock.object,
             genresPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
@@ -102,6 +105,7 @@ describe('CollectionGenresComponent', () => {
     }
 
     beforeEach(() => {
+        searchServiceMock = Mock.ofType<BaseSearchService>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
         albumsPersisterMock = Mock.ofType<GenresAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<GenresTracksPersister>();
@@ -203,6 +207,16 @@ describe('CollectionGenresComponent', () => {
 
             // Assert
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should define searchService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionGenresComponent = createComponent();
+
+            // Assert
+            expect(component.searchService).toBeDefined();
         });
     });
 

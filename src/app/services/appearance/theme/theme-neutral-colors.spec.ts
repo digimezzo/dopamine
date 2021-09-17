@@ -22,7 +22,10 @@ describe('ThemeNeutralColors', () => {
             '#555',
             '#666',
             '#777',
-            '#888'
+            '#888',
+            '#999',
+            '#aaa',
+            '#bbb'
         );
     }
 
@@ -237,6 +240,36 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.scrollBars).toEqual('#888');
+        });
+
+        it('should set searchBox', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.searchBox).toEqual('#999');
+        });
+
+        it('should set searchBoxText', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.searchBoxText).toEqual('#aaa');
+        });
+
+        it('should set searchBoxIcon', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.searchBoxIcon).toEqual('#bbb');
         });
     });
 });
