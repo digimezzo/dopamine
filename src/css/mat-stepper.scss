@@ -5,5 +5,6 @@
 .mat-horizontal-content-container {
     padding: 0px !important;
     width: 100% !important;
-    height: 100% !important;
+
+    overflow-y: auto;
 }

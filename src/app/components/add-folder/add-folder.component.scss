@@ -1,36 +1,4 @@
 .add-folder-component {
-    position: relative;
-}
-
-.add-folder-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.add-folder-overlay__icon {
-    font-size: 30px;
-}
-
-.add-folder-overlay__text {
-    font-size: 20px;
-}
-
-.add-folder-component__content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
     display: flex;
     flex-direction: column;
 }
