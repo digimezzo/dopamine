@@ -20,7 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Instead of crashing, Dopamine now fallbacks to a default theme when the current theme is invalid.
 -   Search bar does not work when 'Use system title bar' setting is disabled
 -   Artists and genres break off without ellipsis when the artists and genres columns are too narrow
--   Paginating does not work on Collection, Settings and Information tabs when the main window is too narrow.
+-   Paginating does not work on Collection, Settings and Information tabs when the window is too narrow.
+-   Welcome screen does not scroll when the window is too small
 
 ## [3.0.0-preview.5] - 2021-09-17
 
