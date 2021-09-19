@@ -125,6 +125,7 @@ export class AppearanceService implements BaseAppearanceService {
     public applyAppearance(): void {
         this.applyTheme();
         this.applyFontSize();
+        this.applyMargins(true);
     }
 
     public startWatchingThemesDirectory(): void {
@@ -165,6 +166,26 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
         element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
         element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
+    }
+
+    public applyMargins(isSearchVisible: boolean): void {
+        const element: HTMLElement = this.documentProxy.getDocumentElement();
+
+        const windowControlsWidth: number = 135;
+        const mainMenuButtonWidth: number = 45;
+        const searchBoxWidth: number = 170;
+
+        let totalMargin: number = mainMenuButtonWidth;
+
+        if (!this.settings.useSystemTitleBar) {
+            totalMargin = totalMargin + windowControlsWidth;
+        }
+
+        if (isSearchVisible) {
+            totalMargin = totalMargin + searchBoxWidth;
+        }
+
+        element.style.setProperty('--mat-tab-header-margin-right', totalMargin + 'px');
     }
 
     private addSubscriptions(): void {

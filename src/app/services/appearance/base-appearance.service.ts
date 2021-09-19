@@ -17,4 +17,5 @@ export abstract class BaseAppearanceService {
     public abstract stopWatchingThemesDirectory(): void;
     public abstract refreshThemes(): void;
     public abstract applyAppearance(): void;
+    public abstract applyMargins(isSearchVisible: boolean): void;
 }

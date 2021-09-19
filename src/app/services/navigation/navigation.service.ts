@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import { BaseAppearanceService } from '../appearance/base-appearance.service';
 import { BaseNavigationService } from './base-navigation.service';
 
 @Injectable()
 export class NavigationService implements BaseNavigationService {
     private showPlaybackQueueRequested: Subject<void> = new Subject();
 
-    constructor(public router: Router) {}
+    constructor(private appearanceService: BaseAppearanceService, public router: Router) {}
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 
@@ -17,6 +18,17 @@ export class NavigationService implements BaseNavigationService {
 
     public navigateToCollection(): void {
         this.router.navigate(['/collection']);
+        this.appearanceService.applyMargins(true);
+    }
+
+    public navigateToSettings(): void {
+        this.router.navigate(['/settings']);
+        this.appearanceService.applyMargins(false);
+    }
+
+    public navigateToInformation(): void {
+        this.router.navigate(['/information']);
+        this.appearanceService.applyMargins(false);
     }
 
     public navigateToWelcome(): void {
@@ -25,14 +37,6 @@ export class NavigationService implements BaseNavigationService {
 
     public navigateToManageCollection(): void {
         this.router.navigate(['/managecollection']);
-    }
-
-    public navigateToSettings(): void {
-        this.router.navigate(['/settings']);
-    }
-
-    public navigateToInformation(): void {
-        this.router.navigate(['/information']);
     }
 
     public navigateToNowPlaying(): void {

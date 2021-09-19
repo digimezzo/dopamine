@@ -40,10 +40,10 @@ mat-tab-group {
 }
 
 .mat-tab-header {
-    margin-top: -50px;
+    margin-top: -51px;
     border-bottom-style: none !important;
     margin-left: 50px;
-    margin-right: 200px;
+    margin-right: var(--mat-tab-header-margin-right);
     height: 50px;
 }
 
