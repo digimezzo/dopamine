@@ -1,16 +1,19 @@
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
+import { BaseAppearanceService } from '../appearance/base-appearance.service';
 import { BaseNavigationService } from './base-navigation.service';
 import { NavigationService } from './navigation.service';
 
 describe('NavigationService', () => {
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let routerMock: IMock<Router>;
     let service: BaseNavigationService;
 
     beforeEach(() => {
         routerMock = Mock.ofType<Router>();
-        service = new NavigationService(routerMock.object);
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        service = new NavigationService(appearanceServiceMock.object, routerMock.object);
     });
 
     describe('constructor', () => {
