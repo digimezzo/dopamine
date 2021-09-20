@@ -49,6 +49,60 @@ describe('NavigationService', () => {
             // Assert
             routerMock.verify((x) => x.navigate(['/collection']), Times.exactly(1));
         });
+
+        it('should apply margins with search box', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToCollection();
+
+            // Assert
+            appearanceServiceMock.verify((x) => x.applyMargins(true), Times.exactly(1));
+        });
+    });
+
+    describe('navigateToSettings', () => {
+        it('should navigate to settings', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToSettings();
+
+            // Assert
+            routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
+        });
+
+        it('should apply margins without search box', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToSettings();
+
+            // Assert
+            appearanceServiceMock.verify((x) => x.applyMargins(false), Times.exactly(1));
+        });
+    });
+
+    describe('navigateToInformation', () => {
+        it('should navigate to information', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToInformation();
+
+            // Assert
+            routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
+        });
+
+        it('should apply margins without search box', async () => {
+            // Arrange
+
+            // Act
+            service.navigateToInformation();
+
+            // Assert
+            appearanceServiceMock.verify((x) => x.applyMargins(false), Times.exactly(1));
+        });
     });
 
     describe('navigateToWelcome', () => {
@@ -72,30 +126,6 @@ describe('NavigationService', () => {
 
             // Assert
             routerMock.verify((x) => x.navigate(['/managecollection']), Times.exactly(1));
-        });
-    });
-
-    describe('navigateToSettings', () => {
-        it('should navigate to settings', async () => {
-            // Arrange
-
-            // Act
-            service.navigateToSettings();
-
-            // Assert
-            routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
-        });
-    });
-
-    describe('navigateToInformation', () => {
-        it('should navigate to information', async () => {
-            // Arrange
-
-            // Act
-            service.navigateToInformation();
-
-            // Assert
-            routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
         });
     });
 
