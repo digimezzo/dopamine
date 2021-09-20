@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.7] - 2021-09-20
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Buttons on playback pane (under the progress bar) are not clickable
+
 ## [3.0.0-preview.6] - 2021-09-19
 
 ### Added
