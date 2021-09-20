@@ -9,8 +9,13 @@
 }
 
 .collection-component__playbackpane {
+    /* 
+    Absolute positioning because pagination of mat-tab-group does not work in flex container.
+    See: https://github.com/angular/components/issues/23157
+    */
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 1; // Without this, buttons in playback pane are not clickable.
 }
