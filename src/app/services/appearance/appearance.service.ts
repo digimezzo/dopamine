@@ -171,8 +171,8 @@ export class AppearanceService implements BaseAppearanceService {
     public applyMargins(isSearchVisible: boolean): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
 
-        const windowControlsWidth: number = 135;
         const mainMenuButtonWidth: number = 45;
+        const windowControlsWidth: number = 135;
         const searchBoxWidth: number = 170;
 
         let totalMargin: number = mainMenuButtonWidth;

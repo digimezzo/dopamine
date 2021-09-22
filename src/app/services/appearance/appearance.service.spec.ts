@@ -1177,5 +1177,95 @@ describe('AppearanceService', () => {
             // Assert
             expect(service.shouldOverrideSelectedItemText).toBeTruthy();
         });
+
+        it('should apply a correct margin when not using system title bar search is visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 1');
+            settingsMock.setup((x) => x.fontSize).returns(() => 13);
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => false);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyAppearance();
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('350px');
+        });
+
+        it('should apply a correct margin when using system title bar search is visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.theme).returns(() => 'Theme 1');
+            settingsMock.setup((x) => x.fontSize).returns(() => 13);
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => true);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyAppearance();
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('215px');
+        });
+    });
+
+    describe('applyMargins', () => {
+        it('should apply a correct margin when not using system title bar search is visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => false);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyMargins(true);
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('350px');
+        });
+
+        it('should apply a correct margin when not using system title bar search is not visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => false);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyMargins(false);
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('180px');
+        });
+
+        it('should apply a correct margin when using system title bar search is visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => true);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyMargins(true);
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('215px');
+        });
+
+        it('should apply a correct margin when using system title bar search is not visible', () => {
+            // Arrange
+            settingsMock.reset();
+            settingsMock.setup((x) => x.useSystemTitleBar).returns(() => true);
+            const service: BaseAppearanceService = createService();
+            resetElements();
+
+            // Act
+            service.applyMargins(false);
+
+            // Assert
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('45px');
+        });
     });
 });
