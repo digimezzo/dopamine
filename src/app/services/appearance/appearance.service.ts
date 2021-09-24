@@ -216,6 +216,11 @@ export class AppearanceService implements BaseAppearanceService {
         let primaryColorToApply: string = this.selectedTheme.coreColors.primaryColor;
         let secondaryColorToApply: string = this.selectedTheme.coreColors.secondaryColor;
         let accentColorToApply: string = this.selectedTheme.coreColors.accentColor;
+        let scrollBarColorToApply: string = this.selectedTheme.darkColors.scrollBars;
+
+        if (this.isUsingLightTheme) {
+            scrollBarColorToApply = this.selectedTheme.lightColors.scrollBars;
+        }
 
         if (this.settings.followSystemColor) {
             const systemAccentColor: string = this.getSystemAccentColor();
@@ -224,6 +229,7 @@ export class AppearanceService implements BaseAppearanceService {
                 primaryColorToApply = systemAccentColor;
                 secondaryColorToApply = systemAccentColor;
                 accentColorToApply = systemAccentColor;
+                scrollBarColorToApply = systemAccentColor;
             }
         }
 
@@ -270,7 +276,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
         element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
-        element.style.setProperty('--theme-scroll-bars', this.selectedTheme.darkColors.scrollBars);
+        element.style.setProperty('--theme-scroll-bars', scrollBarColorToApply);
         element.style.setProperty('--theme-search-box', this.selectedTheme.darkColors.searchBox);
         element.style.setProperty('--theme-search-box-text', this.selectedTheme.darkColors.searchBoxText);
         element.style.setProperty('--theme-search-box-icon', this.selectedTheme.darkColors.searchBoxIcon);
@@ -297,7 +303,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
             element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
             element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
-            element.style.setProperty('--theme-scroll-bars', this.selectedTheme.lightColors.scrollBars);
+            element.style.setProperty('--theme-scroll-bars', scrollBarColorToApply);
             element.style.setProperty('--theme-search-box', this.selectedTheme.lightColors.searchBox);
             element.style.setProperty('--theme-search-box-text', this.selectedTheme.lightColors.searchBoxText);
             element.style.setProperty('--theme-search-box-icon', this.selectedTheme.lightColors.searchBoxIcon);
