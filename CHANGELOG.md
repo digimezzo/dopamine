@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.8] - 2021-09-24
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Scroll bars do not follow the system colors anymore
+
 ## [3.0.0-preview.7] - 2021-09-20
 
 ### Added
