@@ -2,7 +2,7 @@
 
 # Dopamine
 
-Dopamine is an audio player which tries to make organizing and listening to music as simple and pretty as possible. This version is written using Electron, Angular and Typescript. The original Dopamine (for Windows), which is written in WPF and C#, remains available <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
+Dopamine is an elegant audio player which tries to make organizing and listening to music as simple and pretty as possible. This version is written using Electron, Angular and Typescript. The original Dopamine (for Windows), which is written in WPF and C#, remains available <a href="https://github.com/digimezzo/dopamine-windows">here</a>.
 
 Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
@@ -52,8 +52,8 @@ Follow the build instructions below to start or build Dopamine for your platform
 
 -   Install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
 -   Make sure npm is accessible via the console
-    - Press command + space and search for console
-    - Write `npm --v` and press enter, this should give you the version number if npm is properly installed.
+    -   Press command + space and search for console
+    -   Write `npm --v` and press enter, this should give you the version number if npm is properly installed.
 -   Download and install Visual Studio Code from https://code.visualstudio.com/
 -   Download the Dopamine source code
 -   Open Visual Studio Code and open the "dopamine" folder (the folder containing package.json)
