@@ -13,6 +13,8 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 <a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
+![Dopaminescreenshot](Dopamine.screenshot.png)
+
 ## Build prerequisites
 
 -   rpm: required to build rpm package
