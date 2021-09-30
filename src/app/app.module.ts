@@ -214,6 +214,8 @@ import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
+import { BasePlaylistService } from './services/playlist/base-playlist.service';
+import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
@@ -458,6 +460,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
+        { provide: BasePlaylistService, useClass: PlaylistService },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },

@@ -8,10 +8,12 @@ import { DateTime } from '../date-time';
 @Injectable()
 export class FileSystem {
     private _applicationDataDirectory: string = '';
+    private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
     constructor() {
         this._applicationDataDirectory = remote.app.getPath('userData');
+        this._musicDirectory = remote.app.getPath('music');
         this._pathSeparator = path.sep;
     }
 
@@ -31,6 +33,10 @@ export class FileSystem {
 
     public applicationDataDirectory(): string {
         return this._applicationDataDirectory;
+    }
+
+    public musicDirectory(): string {
+        return this._musicDirectory;
     }
 
     public coverArtCacheFullPath(): string {
