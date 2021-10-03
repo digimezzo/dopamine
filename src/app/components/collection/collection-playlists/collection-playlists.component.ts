@@ -16,6 +16,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.playlistsRightPaneWidthPercent;
+    s;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();

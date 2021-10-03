@@ -1,6 +1,18 @@
 <div class="collection-viewport">
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
-        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"><div class="left-side-pane"></div></as-split-area>
+        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
+            ><div class="left-side-pane">
+                <div class="playlist-folder-browser p-3">
+                    <div class="playlist-folder-browser__header m-1 no-select">
+                        <div class="playlist-folder-browser__count">
+                            <div class="playlist-folder-browser__number mr-2">{{ this.playlistFolders.length }}</div>
+                            <div *ngIf="this.playlistFolders.length === 1">{{ 'playlist-folder' | translate }}</div>
+                            <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div></as-split-area
+        >
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
     </as-split>

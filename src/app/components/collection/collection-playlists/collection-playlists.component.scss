@@ -1,0 +1,20 @@
+.playlist-folder-browser {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-folder-browser__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.playlist-folder-browser__count {
+    display: flex;
+    flex-direction: row;
+}
+
+.playlist-folder-browser__number {
+    color: var(--theme-accent-color);
+}
