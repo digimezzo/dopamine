@@ -9,6 +9,7 @@ export class Constants {
         new Language('en', 'English'),
         new Language('fr', 'Français'),
         new Language('nl', 'Nederlands'),
+        new Language('ru', 'Russian'),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
