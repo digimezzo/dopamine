@@ -145,5 +145,6 @@
     "add-more-themes": "Add more themes",
     "refresh-themes": "Refresh themes",
     "playlist-folders": "Playlist folders",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "add-playlist-folder": "Create playlist folder"
 }

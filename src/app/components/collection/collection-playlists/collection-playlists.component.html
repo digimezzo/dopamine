@@ -9,10 +9,16 @@
                             <div *ngIf="this.playlistFolders.length === 1">{{ 'playlist-folder' | translate }}</div>
                             <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
                         </div>
+                        <button
+                            mat-icon-button
+                            class="playlist-folder-browser__add-button pointer"
+                            matTooltip="{{ 'add-playlist-folder' | translate }}"
+                        >
+                            <i class="playlist-folder-browser__add-icon secondary-text las la-plus"></i>
+                        </button>
                     </div>
-                </div>
-            </div></as-split-area
-        >
+                </div></div
+        ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
     </as-split>
