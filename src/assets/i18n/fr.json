@@ -144,5 +144,6 @@
     "now-playing": "Lecture en cours",
     "add-more-themes": "Ajouter plus de thèmes",
     "refresh-themes": "Actualiser les thèmes",
-    "playlist-folders": "Dossiers de playlists"
+    "playlist-folders": "Dossiers de playlists",
+    "cancel": "Annuler"
 }

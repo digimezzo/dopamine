@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { PlaylistFolder } from '../../../services/playlist/playlist-folder';
 
 @Component({
     selector: 'app-collection-playlists',
@@ -16,7 +17,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.playlistsRightPaneWidthPercent;
-    s;
+
+    public playlistFolders: PlaylistFolder[] = [];
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();

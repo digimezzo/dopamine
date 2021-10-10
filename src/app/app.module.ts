@@ -109,6 +109,7 @@ import { TrackComponent } from './components/collection/track/track.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { InputDialogComponent } from './components/dialogs/input-dialog/input-dialog.component';
 import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
 import { AboutComponent } from './components/information/about/about.component';
 import { ComponentsComponent } from './components/information/components/components.component';
@@ -271,6 +272,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AddFolderComponent,
         DialogHeaderComponent,
         ConfirmationDialogComponent,
+        InputDialogComponent,
         ErrorDialogComponent,
         LicenseDialogComponent,
         ManageCollectionComponent,
@@ -470,6 +472,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         },
     ],
     bootstrap: [AppComponent],
-    entryComponents: [ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
+    entryComponents: [ConfirmationDialogComponent, InputDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
 })
 export class AppModule {}

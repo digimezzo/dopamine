@@ -59,6 +59,15 @@ describe('CollectionPlaylistsComponent', () => {
             // Assert
             expect(component.rightPaneSize).toEqual(25);
         });
+
+        it('should initialize playlistFolders as empty', async () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.playlistFolders.length).toEqual(0);
+        });
     });
 
     describe('splitDragEnd', () => {

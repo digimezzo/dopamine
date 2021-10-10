@@ -144,5 +144,6 @@
     "now-playing": "Speelt nu",
     "add-more-themes": "Meer thema's toevoegen",
     "refresh-themes": "Thema's verversen",
-    "playlist-folders": "Playlist mappen"
+    "playlist-folders": "Playlist mappen",
+    "cancel": "Annuleren"
 }

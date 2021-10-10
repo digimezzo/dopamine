@@ -144,5 +144,6 @@
     "now-playing": "Now playing",
     "add-more-themes": "Add more themes",
     "refresh-themes": "Refresh themes",
-    "playlist-folders": "Playlist folders"
+    "playlist-folders": "Playlist folders",
+    "cancel": "Cancel"
 }
