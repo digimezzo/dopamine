@@ -146,5 +146,6 @@
     "refresh-themes": "Actualiser les thèmes",
     "playlist-folders": "Dossiers de playlists",
     "cancel": "Annuler",
-    "add-playlist-folder": "Créér dossier de playlists"
+    "create-playlist-folder": "Créér dossier de playlists",
+    "playlist-folder-name": "Nom du dossier de playlists"
 }

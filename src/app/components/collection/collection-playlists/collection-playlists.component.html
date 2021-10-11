@@ -12,7 +12,8 @@
                         <button
                             mat-icon-button
                             class="playlist-folder-browser__add-button pointer"
-                            matTooltip="{{ 'add-playlist-folder' | translate }}"
+                            matTooltip="{{ 'create-playlist-folder' | translate }}"
+                            (click)="createPlaylistFolderAsync()"
                         >
                             <i class="playlist-folder-browser__add-icon secondary-text las la-plus"></i>
                         </button>

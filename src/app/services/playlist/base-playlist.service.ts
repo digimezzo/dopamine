@@ -1,1 +1,3 @@
-export abstract class BasePlaylistService {}
+export abstract class BasePlaylistService {
+    public abstract createPlaylistFolder(playlistFolderName: string): boolean;
+}

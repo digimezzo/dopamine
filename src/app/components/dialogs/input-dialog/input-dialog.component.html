@@ -1,7 +1,7 @@
 <app-dialog-header icon="las la-question" [title]="data?.dialogTitle"></app-dialog-header>
 <mat-dialog-content>
     <mat-form-field>
-        <input matInput [(ngModel)]="inputText" placeholder="{{ data?.inputPlaceholder }}" (keyup.enter)="closeDialog()" />
+        <input matInput [(ngModel)]="data.inputText" placeholder="{{ data?.placeHolderText }}" (keyup.enter)="closeDialog()" />
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

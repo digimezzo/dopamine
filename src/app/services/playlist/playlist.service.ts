@@ -12,6 +12,10 @@ export class PlaylistService implements BasePlaylistService {
         this.initialize();
     }
 
+    public createPlaylistFolder(playlistFolderName: string): boolean {
+        throw new Error('Method not implemented.');
+    }
+
     private initialize(): void {
         this._playlistsDirectoryPath = this.getPlaylistsDirectoryPath();
         this.ensurePlaylistsDirectoryExists();

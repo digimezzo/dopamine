@@ -1,6 +1,10 @@
 import { Constants } from './application/constants';
 
 export class Strings {
+    public static get empty(): string {
+        return '';
+    }
+
     public static equalsIgnoreCase(string1: string, string2: string): boolean {
         if (string1 == undefined && string2 == undefined) {
             return true;

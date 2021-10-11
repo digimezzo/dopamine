@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
+import { InputDialogComponent } from '../../components/dialogs/input-dialog/input-dialog.component';
 import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
 import { BaseDialogService } from './base-dialog.service';
 
@@ -22,6 +23,18 @@ export class DialogService implements BaseDialogService {
         }
 
         return false;
+    }
+
+    public async showInputDialogAsync(dialogTitle: string, placeHolderText: string): Promise<string> {
+        const data: any = { dialogTitle: dialogTitle, inputText: '', placeHolderText: placeHolderText };
+        const dialogRef: MatDialogRef<InputDialogComponent> = this.dialog.open(InputDialogComponent, {
+            width: '450px',
+            data: data,
+        });
+
+        await dialogRef.afterClosed().toPromise();
+
+        return data.inputText;
     }
 
     public showErrorDialog(errorText: string): void {

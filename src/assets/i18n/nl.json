@@ -146,5 +146,6 @@
     "refresh-themes": "Thema's verversen",
     "playlist-folders": "Playlist mappen",
     "cancel": "Annuleren",
-    "add-playlist-folder": "Playlist map maken"
+    "create-playlist-folder": "Playlist map maken",
+    "playlist-folder-name": "Naam van de playlist map"
 }

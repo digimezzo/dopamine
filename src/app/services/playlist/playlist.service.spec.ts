@@ -43,4 +43,8 @@ describe('PlaylistService', () => {
             fileSystemMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/User/Music/Dopamine/Playlists'), Times.once());
         });
     });
+
+    describe('createPlaylistFolder', () => {
+        throw new Error();
+    });
 });

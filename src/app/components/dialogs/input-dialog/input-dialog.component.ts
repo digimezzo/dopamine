@@ -13,10 +13,8 @@ export class InputDialogComponent implements OnInit {
         dialogRef.disableClose = true;
     }
 
-    public inputText: string;
-
     public get hasInputText(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.inputText);
+        return !Strings.isNullOrWhiteSpace(this.data.inputText);
     }
 
     public ngOnInit(): void {}

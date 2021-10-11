@@ -152,6 +152,12 @@ export class Constants {
             'https://github.com/node-fetch/node-fetch/blob/master/LICENSE.md'
         ),
         new ExternalComponent(
+            'sanitize-filename',
+            'Sanitize a string to be safe for use as a filename by removing directory paths and invalid characters.',
+            'https://github.com/parshap/node-sanitize-filename',
+            'https://github.com/parshap/node-sanitize-filename/blob/master/LICENSE.md'
+        ),
+        new ExternalComponent(
             'TinyColor',
             'TinyColor is a small, fast library for color manipulation and conversion in JavaScript. It allows many forms of input, while providing color conversions and other color utility functions. It has no dependencies.',
             'https://github.com/bgrins/TinyColor',
