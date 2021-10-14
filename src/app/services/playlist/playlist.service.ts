@@ -3,6 +3,7 @@ import { ApplicationPaths } from '../../common/application/application-paths';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BasePlaylistService } from './base-playlist.service';
+import { CreatePlaylistFolderResult } from './create-playlist-folder-result';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
@@ -10,10 +11,6 @@ export class PlaylistService implements BasePlaylistService {
 
     constructor(private fileSystem: FileSystem, private logger: Logger) {
         this.initialize();
-    }
-
-    public createPlaylistFolder(playlistFolderName: string): boolean {
-        throw new Error('Method not implemented.');
     }
 
     private initialize(): void {
@@ -38,5 +35,9 @@ export class PlaylistService implements BasePlaylistService {
         const playlistsDirectoryPath: string = this.fileSystem.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
 
         return playlistsDirectoryPath;
+    }
+
+    public createPlaylistFolder(playlistFolderName: string): CreatePlaylistFolderResult {
+        throw new Error();
     }
 }
