@@ -48,6 +48,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         //     return;
         // }
 
-        throw new Error();
+        // throw new Error();
     }
 }

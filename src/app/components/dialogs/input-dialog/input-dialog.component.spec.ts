@@ -1,15 +1,16 @@
 import { MatDialogRef } from '@angular/material';
-import { IMock, It, Mock, Times } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { InputDialogComponent } from './input-dialog.component';
 
 describe('InputDialogComponent', () => {
     let component: InputDialogComponent;
+    const dataMock: any = { inputText: '' };
     let dialogRefMock: IMock<MatDialogRef<InputDialogComponent>>;
 
     beforeEach(() => {
         dialogRefMock = Mock.ofType<MatDialogRef<InputDialogComponent>>();
 
-        component = new InputDialogComponent(It.isAny(), dialogRefMock.object);
+        component = new InputDialogComponent(dataMock, dialogRefMock.object);
     });
 
     describe('constructor', () => {
@@ -26,7 +27,7 @@ describe('InputDialogComponent', () => {
     describe('hasInputText', () => {
         it('should return false if inputText is undefined', () => {
             // Arrange
-            component.inputText = undefined;
+            component.data.inputText = undefined;
 
             // Act
 
@@ -36,7 +37,7 @@ describe('InputDialogComponent', () => {
 
         it('should return false if inputText is empty', () => {
             // Arrange
-            component.inputText = '';
+            component.data.inputText = '';
 
             // Act
 
@@ -46,7 +47,7 @@ describe('InputDialogComponent', () => {
 
         it('should return false if inputText is space', () => {
             // Arrange
-            component.inputText = ' ';
+            component.data.inputText = ' ';
 
             // Act
 
@@ -56,7 +57,7 @@ describe('InputDialogComponent', () => {
 
         it('should return true if inputText is not empty or space', () => {
             // Arrange
-            component.inputText = 'My input text';
+            component.data.inputText = 'My input text';
 
             // Act
 
@@ -68,7 +69,7 @@ describe('InputDialogComponent', () => {
     describe('closeDialog', () => {
         it('should not close the dialog if inputText is undefined', () => {
             // Arrange
-            component.inputText = undefined;
+            component.data.inputText = undefined;
 
             // Act
             component.closeDialog();
@@ -79,7 +80,7 @@ describe('InputDialogComponent', () => {
 
         it('should not close the dialog if inputText is empty', () => {
             // Arrange
-            component.inputText = '';
+            component.data.inputText = '';
 
             // Act
             component.closeDialog();
@@ -90,7 +91,7 @@ describe('InputDialogComponent', () => {
 
         it('should not close the dialog if inputText is space', () => {
             // Arrange
-            component.inputText = ' ';
+            component.data.inputText = ' ';
 
             // Act
             component.closeDialog();
@@ -101,7 +102,7 @@ describe('InputDialogComponent', () => {
 
         it('should close the dialog if inputText is not empty or space', () => {
             // Arrange
-            component.inputText = 'My input text';
+            component.data.inputText = 'My input text';
 
             // Act
             component.closeDialog();
