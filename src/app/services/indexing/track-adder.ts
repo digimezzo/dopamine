@@ -8,8 +8,8 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Timer } from '../../common/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';
+import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TrackAdder {
         private trackrepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
-        private indexablePathFetcher: BaseIndexablePathFetcher,
+        private indexablePathFetcher: IndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger,

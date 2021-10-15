@@ -6,7 +6,7 @@ describe('Strings', () => {
             // Arrange
 
             // Act
-            const emptyString: boolean = Strings.empty;
+            const emptyString: string = Strings.empty;
 
             // Assert
             expect(emptyString).toEqual('');

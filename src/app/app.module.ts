@@ -185,8 +185,6 @@ import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
-import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
-import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
 import { BaseIndexingService } from './services/indexing/base-indexing.service';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
@@ -431,6 +429,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumsAlbumsPersister,
         AlbumsTracksPersister,
         FoldersPersister,
+        CollectionChecker,
+        IndexablePathFetcher,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
@@ -456,13 +456,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
         { provide: BasePlaylistService, useClass: PlaylistService },
-        { provide: BaseCollectionChecker, useClass: CollectionChecker },
-        { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
-        { provide: BaseSettings, useClass: Settings },
-        { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseAppearanceService, useClass: AppearanceService },
         { provide: BaseFolderService, useClass: FolderService },
         { provide: BaseFileService, useClass: FileService },
+        { provide: BaseSettings, useClass: Settings },
+        { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },

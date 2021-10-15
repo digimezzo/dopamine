@@ -4,13 +4,12 @@ import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 import { IndexablePath } from './indexable-path';
 
 @Injectable()
-export class IndexablePathFetcher implements BaseIndexablePathFetcher {
+export class IndexablePathFetcher {
     constructor(
         private fileSystem: FileSystem,
         private directoryWalker: DirectoryWalker,
