@@ -132,7 +132,52 @@ describe('CollectionPlaylistsComponent', () => {
             dialogServiceMock.verify((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'), Times.once());
         });
 
-        it('should create the playlists folder', async () => {
+        it('should not create the playlists folder if playlistFolderName is undefined', async () => {
+            // Arrange
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .returns(async () => undefined);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.createPlaylistFolderAsync();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.createPlaylistFolder(undefined), Times.never());
+        });
+
+        it('should not create the playlists folder if playlistFolderName is empty', async () => {
+            // Arrange
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .returns(async () => undefined);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.createPlaylistFolderAsync();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.createPlaylistFolder(''), Times.never());
+        });
+
+        it('should not create the playlists folder if playlistFolderName is space', async () => {
+            // Arrange
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .returns(async () => undefined);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.createPlaylistFolderAsync();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.createPlaylistFolder(' '), Times.never());
+        });
+
+        it('should create the playlists folder if playlistFolderName is not undefined, empty or space.', async () => {
             // Arrange
             dialogServiceMock
                 .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))

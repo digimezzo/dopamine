@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { Strings } from '../../../common/strings';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolder } from '../../../services/playlist/playlist-folder';
@@ -47,7 +48,9 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         );
 
         try {
-            this.playlistService.createPlaylistFolder(playlistFolderName);
+            if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
+                this.playlistService.createPlaylistFolder(playlistFolderName);
+            }
         } catch (e) {
             this.logger.error(
                 `Could not create playlist folder. Error: ${e.message}`,
