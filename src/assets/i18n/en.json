@@ -147,5 +147,6 @@
     "playlist-folders": "Playlist folders",
     "cancel": "Cancel",
     "create-playlist-folder": "Create playlist folder",
-    "playlist-folder-name": "Playlist folder name"
+    "playlist-folder-name": "Playlist folder name",
+    "create-playlist-folder-error": "An error occurred while creating the playlist folder. Please verify the log if you need more information."
 }

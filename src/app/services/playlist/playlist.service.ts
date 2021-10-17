@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
+import { Strings } from '../../common/strings';
+import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
-import { CreatePlaylistFolderResult } from './create-playlist-folder-result';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
     private _playlistsDirectoryPath: string;
 
-    constructor(private fileSystem: FileSystem, private logger: Logger) {
+    constructor(private fileSystem: FileSystem, private textSanitizer: TextSanitizer, private logger: Logger) {
         this.initialize();
     }
 
@@ -37,7 +38,17 @@ export class PlaylistService implements BasePlaylistService {
         return playlistsDirectoryPath;
     }
 
-    public createPlaylistFolder(playlistFolderName: string): CreatePlaylistFolderResult {
-        throw new Error();
+    public createPlaylistFolder(playlistFolderName: string): void {
+        if (Strings.isNullOrWhiteSpace(playlistFolderName)) {
+            throw new Error(`playlistFolderName is empty`);
+        }
+
+        const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(playlistFolderName);
+        const fullPlaylistFolderDirectoryPath: string = this.fileSystem.combinePath([
+            this._playlistsDirectoryPath,
+            sanitizedPlaylistFolderName,
+        ]);
+
+        this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
     }
 }
