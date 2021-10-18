@@ -5,6 +5,7 @@ import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
+import { PlaylistFolder } from './playlist-folder';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
@@ -50,5 +51,9 @@ export class PlaylistService implements BasePlaylistService {
         ]);
 
         this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
+    }
+
+    public getPlaylistFolders(): PlaylistFolder[] {
+        throw new Error();
     }
 }

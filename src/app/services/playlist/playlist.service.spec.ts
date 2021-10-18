@@ -3,6 +3,7 @@ import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
+import { PlaylistFolder } from './playlist-folder';
 import { PlaylistService } from './playlist.service';
 
 describe('PlaylistService', () => {
@@ -107,6 +108,19 @@ describe('PlaylistService', () => {
                 (x) => x.createFullDirectoryPathIfDoesNotExist('/home/User/Music/Dopamine/Playlists/My playlist folder'),
                 Times.once()
             );
+        });
+    });
+
+    describe('getPlaylistFolders', () => {
+        it('should get the playlist folders', () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+
+            // Act
+            const playlistFolders: PlaylistFolder[] = service.getPlaylistFolders();
+
+            // Assert
+            expect(playlistFolders.length).toEqual(2);
         });
     });
 });

@@ -129,7 +129,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionArtistsComponent', 'fillListsAsync');
         }
     }
 

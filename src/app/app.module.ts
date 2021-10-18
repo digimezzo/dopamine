@@ -155,6 +155,7 @@ import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
+import { PlaylistFolderNamePipe } from './pipes/playlist-folder-name.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
@@ -304,6 +305,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenresFilterPipe,
         TracksFilterPipe,
         SubfoldersFilterPipe,
+        PlaylistFolderNamePipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,

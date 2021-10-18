@@ -102,7 +102,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillListsAsync');
         }
     }
 

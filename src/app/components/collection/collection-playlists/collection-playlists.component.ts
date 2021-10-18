@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
+import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
@@ -19,6 +21,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
         private settings: BaseSettings,
+        private scheduler: BaseScheduler,
         private logger: Logger
     ) {}
 
@@ -61,4 +64,17 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
             this.dialogService.showErrorDialog(this.translatorService.get('create-playlist-folder-error'));
         }
     }
+
+    private async fillListsAsync(): Promise<void> {
+        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
+
+        try {
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
+            this.getPlaylistFolders();
+        } catch (e) {
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionPlaylistsComponent', 'fillListsAsync');
+        }
+    }
+
+    private getPlaylistFolders(): void {}
 }

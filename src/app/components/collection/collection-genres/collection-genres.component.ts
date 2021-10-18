@@ -121,7 +121,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
         } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillLists');
+            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionGenresComponent', 'fillListsAsync');
         }
     }
 
