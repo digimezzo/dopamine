@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { Strings } from '../../../common/strings';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolder } from '../../../services/playlist/playlist-folder';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 
@@ -13,10 +15,11 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 })
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     constructor(
-        public playbackService: BasePlaybackService,
+        public playlistService: BasePlaylistService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
-        private settings: BaseSettings
+        private settings: BaseSettings,
+        private logger: Logger
     ) {}
 
     private subscription: Subscription = new Subscription();
@@ -44,10 +47,18 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
             this.translatorService.get('playlist-folder-name')
         );
 
-        // if (Strings.isNullOrWhiteSpace(playlistFolderName)) {
-        //     return;
-        // }
+        try {
+            if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
+                this.playlistService.createPlaylistFolder(playlistFolderName);
+            }
+        } catch (e) {
+            this.logger.error(
+                `Could not create playlist folder. Error: ${e.message}`,
+                'CollectionPlaylistsComponent',
+                'createPlaylistFolderAsync'
+            );
 
-        // throw new Error();
+            this.dialogService.showErrorDialog(this.translatorService.get('create-playlist-folder-error'));
+        }
     }
 }

@@ -74,6 +74,7 @@ import { BaseScheduler } from './common/scheduler/base-scheduler';
 import { Scheduler } from './common/scheduler/scheduler';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
+import { TextSanitizer } from './common/text-sanitizer';
 import { TrackOrdering } from './common/track-ordering';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
@@ -431,6 +432,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FoldersPersister,
         CollectionChecker,
         IndexablePathFetcher,
+        TextSanitizer,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

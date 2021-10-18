@@ -1,0 +1,7 @@
+/* 
+Workaround for issue "A button ripple effect appears again after a dialog is closed"
+See: https://github.com/angular/components/issues/8420 
+*/
+.cdk-program-focused {
+    display: none !important;
+}
