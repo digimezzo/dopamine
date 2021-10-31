@@ -7,7 +7,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
-import { PlaylistFolder } from '../../../services/playlist/playlist-folder';
+import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
     public rightPaneSize: number = this.settings.playlistsRightPaneWidthPercent;
 
-    public playlistFolders: PlaylistFolder[] = [];
+    public playlistFolders: PlaylistFolderModel[] = [];
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();

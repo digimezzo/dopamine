@@ -5,7 +5,7 @@ import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
-import { PlaylistFolder } from './playlist-folder';
+import { PlaylistFolderModel } from './playlist-folder-model';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
@@ -53,7 +53,14 @@ export class PlaylistService implements BasePlaylistService {
         this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
     }
 
-    public getPlaylistFolders(): PlaylistFolder[] {
-        throw new Error();
+    public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
+        const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(this._playlistsDirectoryPath);
+        const playlistFolders: PlaylistFolderModel[] = [];
+
+        for (const playlistFolderPath of playlistFolderPaths) {
+            playlistFolders.push(new PlaylistFolderModel(playlistFolderPath));
+        }
+
+        return playlistFolders;
     }
 }

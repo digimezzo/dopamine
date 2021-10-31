@@ -1,5 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../../common/logger';
+import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
@@ -10,6 +11,7 @@ describe('CollectionPlaylistsComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let settingsStub: any;
+    let schedulerMock: IMock<BaseScheduler>;
     let loggerMock: IMock<Logger>;
 
     function createComponent(): CollectionPlaylistsComponent {
@@ -18,6 +20,7 @@ describe('CollectionPlaylistsComponent', () => {
             dialogServiceMock.object,
             translatorServiceMock.object,
             settingsStub,
+            schedulerMock.object,
             loggerMock.object
         );
     }
@@ -27,6 +30,7 @@ describe('CollectionPlaylistsComponent', () => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
+        schedulerMock = Mock.ofType<BaseScheduler>();
         translatorServiceMock.setup((x) => x.get('create-playlist-folder')).returns(() => 'Create playlist folder');
         translatorServiceMock.setup((x) => x.get('playlist-folder-name')).returns(() => 'Playlist folder name');
         translatorServiceMock.setup((x) => x.get('create-playlist-folder-error')).returns(() => 'Create playlist folder error');

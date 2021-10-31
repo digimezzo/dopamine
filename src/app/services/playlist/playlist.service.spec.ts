@@ -3,7 +3,7 @@ import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
-import { PlaylistFolder } from './playlist-folder';
+import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistService } from './playlist.service';
 
 describe('PlaylistService', () => {
@@ -28,6 +28,10 @@ describe('PlaylistService', () => {
         fileSystemMock
             .setup((x) => x.combinePath(['/home/User/Music/Dopamine/Playlists', 'My playlist folder']))
             .returns(() => '/home/User/Music/Dopamine/Playlists/My playlist folder');
+
+        fileSystemMock
+            .setup((x) => x.getDirectoriesInDirectoryAsync('/home/User/Music/Dopamine/Playlists'))
+            .returns(async () => ['/home/User/Music/Dopamine/Playlists/Folder1', '/home/User/Music/Dopamine/Playlists/Folder2']);
 
         textSanitizerMock.setup((x) => x.sanitize('My playlist folder')).returns(() => 'My playlist folder');
     });
@@ -111,16 +115,18 @@ describe('PlaylistService', () => {
         });
     });
 
-    describe('getPlaylistFolders', () => {
-        it('should get the playlist folders', () => {
+    describe('getPlaylistFoldersAsync', () => {
+        it('should get the playlist folders', async () => {
             // Arrange
             const service: BasePlaylistService = createService();
 
             // Act
-            const playlistFolders: PlaylistFolder[] = service.getPlaylistFolders();
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
 
             // Assert
             expect(playlistFolders.length).toEqual(2);
+            expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder1');
+            expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder2');
         });
     });
 });
