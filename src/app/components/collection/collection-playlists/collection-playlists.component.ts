@@ -22,6 +22,8 @@ import { CollectionTab } from '../collection-tab';
     providers: [MouseSelectionWatcher],
 })
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
+    private subscription: Subscription = new Subscription();
+
     constructor(
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
@@ -35,11 +37,9 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     ) {}
 
     @ViewChild(MatMenuTrigger)
-    public contextMenu: MatMenuTrigger;
+    public playlistFolderContextMenu: MatMenuTrigger;
 
-    public contextMenuPosition: any = { x: '0px', y: '0px' };
-
-    private subscription: Subscription = new Subscription();
+    public playlistFolderContextMenuPosition: any = { x: '0px', y: '0px' };
 
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
@@ -122,18 +122,18 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
         event.preventDefault();
-        this.contextMenuPosition.x = event.clientX + 'px';
-        this.contextMenuPosition.y = event.clientY + 'px';
-        this.contextMenu.menuData = { playlistFolder: playlistFolder };
-        this.contextMenu.menu.focusFirstItem('mouse');
-        this.contextMenu.openMenu();
+        this.playlistFolderContextMenuPosition.x = event.clientX + 'px';
+        this.playlistFolderContextMenuPosition.y = event.clientY + 'px';
+        this.playlistFolderContextMenu.menuData = { playlistFolder: playlistFolder };
+        this.playlistFolderContextMenu.menu.focusFirstItem('mouse');
+        this.playlistFolderContextMenu.openMenu();
     }
 
-    public onContextMenuAction1(playlistFolder: PlaylistFolderModel): void {
+    public onRenamePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
         alert(`Click on Action 1 for ${playlistFolder.path}`);
     }
 
-    public onContextMenuAction2(playlistFolder: PlaylistFolderModel): void {
+    public onDeletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
         alert(`Click on Action 2 for ${playlistFolder.path}`);
     }
 }

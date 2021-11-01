@@ -43,14 +43,13 @@
 </div>
 <div
     style="visibility: hidden; position: fixed"
-    [style.left]="contextMenuPosition.x"
-    [style.top]="contextMenuPosition.y"
+    [style.left]="playlistFolderContextMenuPosition.x"
+    [style.top]="playlistFolderContextMenuPosition.y"
     [matMenuTriggerFor]="playlistFolderContextMenu"
 ></div>
 <mat-menu #playlistFolderContextMenu="matMenu">
-    <ng-template matMenuContent let-item="playlistFolder">
-        <button mat-menu-item (click)="onContextMenuAction1(item)">Rename...</button>
-        <button mat-menu-item (click)="onContextMenuAction1(item)">Rename...</button>
-        <button mat-menu-item (click)="onContextMenuAction2(item)">Delete...</button>
+    <ng-template matMenuContent let-playlistFolder="playlistFolder">
+        <button mat-menu-item (click)="onRenamePlaylistFolder(playlistFolder)">{{ 'rename' | translate }}</button>
+        <button mat-menu-item (click)="onDeletePlaylistFolder(playlistFolder)">{{ 'delete' | translate }}</button>
     </ng-template>
 </mat-menu>

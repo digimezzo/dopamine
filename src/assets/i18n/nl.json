@@ -148,5 +148,7 @@
     "cancel": "Annuleren",
     "create-playlist-folder": "Playlist map maken",
     "playlist-folder-name": "Naam van de playlist map",
-    "create-playlist-folder-error": "Er is een fout opgetreden bij het maken van de afspeellijstmap. Controleer het logboek als u meer informatie nodig heeft."
+    "create-playlist-folder-error": "Er is een fout opgetreden bij het maken van de afspeellijstmap. Controleer het logboek als u meer informatie nodig heeft.",
+    "rename": "Hernoemen...",
+    "delete": "Verwijderen..."
 }
