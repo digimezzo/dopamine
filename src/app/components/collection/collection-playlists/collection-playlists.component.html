@@ -19,6 +19,7 @@
                         <div
                             *cdkVirtualFor="let playlistFolder of playlistFolders"
                             matRipple
+                            (contextmenu)="onPlaylistFolderContextMenu($event, playlistFolder)"
                             (click)="setSelectedPlaylistFolders($event, playlistFolder)"
                         >
                             <div
@@ -40,3 +41,16 @@
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
     </as-split>
 </div>
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y"
+    [matMenuTriggerFor]="playlistFolderContextMenu"
+></div>
+<mat-menu #playlistFolderContextMenu="matMenu">
+    <ng-template matMenuContent let-item="playlistFolder">
+        <button mat-menu-item (click)="onContextMenuAction1(item)">Rename...</button>
+        <button mat-menu-item (click)="onContextMenuAction1(item)">Rename...</button>
+        <button mat-menu-item (click)="onContextMenuAction2(item)">Delete...</button>
+    </ng-template>
+</mat-menu>

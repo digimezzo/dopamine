@@ -68,7 +68,7 @@ mat-ink-bar {
 }
 // End of workaround for issue https://github.com/angular/components/issues/3048 */
 
-.cdk-focused,
-.cdk-keyboard-focused {
+.mat-tab-header .cdk-focused,
+.mat-tab-header .cdk-keyboard-focused {
     background-color: transparent !important;
 }

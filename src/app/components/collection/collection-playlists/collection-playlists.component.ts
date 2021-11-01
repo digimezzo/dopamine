@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
@@ -32,6 +33,11 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         private logger: Logger,
         private playlistFoldersSelectionWatcher: MouseSelectionWatcher
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public contextMenu: MatMenuTrigger;
+
+    public contextMenuPosition: any = { x: '0px', y: '0px' };
 
     private subscription: Subscription = new Subscription();
 
@@ -112,5 +118,22 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     public setSelectedPlaylistFolders(event: any, playlistFolderToSelect: PlaylistFolderModel): void {
         this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
+    }
+
+    public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
+        event.preventDefault();
+        this.contextMenuPosition.x = event.clientX + 'px';
+        this.contextMenuPosition.y = event.clientY + 'px';
+        this.contextMenu.menuData = { playlistFolder: playlistFolder };
+        this.contextMenu.menu.focusFirstItem('mouse');
+        this.contextMenu.openMenu();
+    }
+
+    public onContextMenuAction1(playlistFolder: PlaylistFolderModel): void {
+        alert(`Click on Action 1 for ${playlistFolder.path}`);
+    }
+
+    public onContextMenuAction2(playlistFolder: PlaylistFolderModel): void {
+        alert(`Click on Action 2 for ${playlistFolder.path}`);
     }
 }
