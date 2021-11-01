@@ -27,5 +27,15 @@ describe('PlaylistFolder', () => {
             // Assert
             expect(playlistFolder.path).toEqual('/home/user/Music/Dopamine/Playlists/Folder 1');
         });
+
+        it('should initialize isSelected as false', () => {
+            // Arrange
+
+            // Act
+            const playlistFolder: PlaylistFolderModel = createPlaylistFolder('/home/user/Music/Dopamine/Playlists/Folder 1');
+
+            // Assert
+            expect(playlistFolder.isSelected).toBeFalsy();
+        });
     });
 });

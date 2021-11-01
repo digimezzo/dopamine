@@ -1,41 +1,71 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
+import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { CollectionPersister } from '../collection-persister';
+import { CollectionTab } from '../collection-tab';
 import { CollectionPlaylistsComponent } from './collection-playlists.component';
 
 describe('CollectionPlaylistsComponent', () => {
     let playlistServiceMock: IMock<BasePlaylistService>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let collectionPersisterMock: IMock<CollectionPersister>;
     let settingsStub: any;
     let schedulerMock: IMock<BaseScheduler>;
     let loggerMock: IMock<Logger>;
+    let playlistFoldersSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+
+    let selectedTabChangedMock: Subject<void>;
+    let selectedTabChangedMock$: Observable<void>;
+
+    const flushPromises = () => new Promise(setImmediate);
 
     function createComponent(): CollectionPlaylistsComponent {
         return new CollectionPlaylistsComponent(
             playlistServiceMock.object,
+            appearanceServiceMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
+            collectionPersisterMock.object,
             settingsStub,
             schedulerMock.object,
-            loggerMock.object
+            loggerMock.object,
+            playlistFoldersSelectionWatcherMock.object
         );
+    }
+
+    function createPlaylistFolderModel(path: string): PlaylistFolderModel {
+        const playlistFolderModel: PlaylistFolderModel = new PlaylistFolderModel(path);
+
+        return playlistFolderModel;
     }
 
     beforeEach(() => {
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        collectionPersisterMock = Mock.ofType<CollectionPersister>();
         loggerMock = Mock.ofType<Logger>();
         schedulerMock = Mock.ofType<BaseScheduler>();
+        playlistFoldersSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         translatorServiceMock.setup((x) => x.get('create-playlist-folder')).returns(() => 'Create playlist folder');
         translatorServiceMock.setup((x) => x.get('playlist-folder-name')).returns(() => 'Playlist folder name');
         translatorServiceMock.setup((x) => x.get('create-playlist-folder-error')).returns(() => 'Create playlist folder error');
 
         settingsStub = { playlistsLeftPaneWidthPercent: 25, playlistsRightPaneWidthPercent: 25 };
+
+        selectedTabChangedMock = new Subject();
+        selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
+        collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
     });
 
     describe('constructor', () => {
@@ -57,6 +87,16 @@ describe('CollectionPlaylistsComponent', () => {
 
             // Assert
             expect(component.playlistService).toBeDefined();
+        });
+
+        it('should define appearanceService', async () => {
+            // Arrange
+
+            // Act
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
         });
 
         it('should set left pane size from settings', async () => {
@@ -211,6 +251,208 @@ describe('CollectionPlaylistsComponent', () => {
 
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('Create playlist folder error'), Times.once());
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should get all playlist folders if the selected tab is playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistFoldersAsync(), Times.once());
+            expect(component.playlistFolders.length).toEqual(2);
+            expect(component.playlistFolders[0]).toEqual(playlistFolder1);
+            expect(component.playlistFolders[1]).toEqual(playlistFolder2);
+        });
+
+        it('should not get all playlist folders if the selected tab is not playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistFoldersAsync(), Times.never());
+            expect(component.playlistFolders.length).toEqual(0);
+        });
+
+        it('should initialize playlistFoldersSelectionWatcher if the selected tab is playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playlistFoldersSelectionWatcherMock.verify((x) => x.initialize(component.playlistFolders, false), Times.once());
+        });
+
+        it('should not initialize playlistFoldersSelectionWatcher if the selected tab is not playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            playlistFoldersSelectionWatcherMock.verify((x) => x.initialize(component.playlistFolders, false), Times.never());
+        });
+
+        it('should fill the lists if the selected tab has changed to playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+
+            playlistServiceMock.reset();
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistFoldersAsync(), Times.once());
+            expect(component.playlistFolders.length).toEqual(2);
+            expect(component.playlistFolders[0].path).toEqual('path1');
+            expect(component.playlistFolders[1].path).toEqual('path2');
+        });
+
+        it('should clear the lists if the selected tab has changed to not playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+
+            playlistServiceMock.reset();
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistFoldersAsync(), Times.never());
+            expect(component.playlistFolders.length).toEqual(0);
+        });
+
+        it('should initialize playlistFoldersSelectionWatcher if the selected tab has changed to playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+
+            playlistServiceMock.reset();
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            playlistFoldersSelectionWatcherMock.verify((x) => x.initialize(component.playlistFolders, false), Times.once());
+        });
+
+        it('should not initialize playlistFoldersSelectionWatcher if the selected tab has changed to not playlists', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+
+            playlistServiceMock.reset();
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            playlistFoldersSelectionWatcherMock.verify((x) => x.initialize(component.playlistFolders, false), Times.never());
+        });
+    });
+
+    describe('ngOnDestroy', () => {
+        it('should clear the playlist folders', () => {
+            // Arrange
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            component.playlistFolders = [playlistFolder1];
+
+            // Act
+            component.ngOnDestroy();
+
+            // Assert
+            expect(component.playlistFolders.length).toEqual(0);
+        });
+    });
+
+    describe('setSelectedPlaylistFolders', () => {
+        it('should set the selected playlist folders', () => {
+            // Arrange
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            component.playlistFolders = [playlistFolder1, playlistFolder2];
+            const event: any = {};
+
+            // Act
+            component.setSelectedPlaylistFolders(event, playlistFolder1);
+
+            // Assert
+            playlistFoldersSelectionWatcherMock.verify((x) => x.setSelectedItems(event, playlistFolder1), Times.once());
         });
     });
 });

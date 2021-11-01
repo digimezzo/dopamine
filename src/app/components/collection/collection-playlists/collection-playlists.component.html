@@ -9,17 +9,33 @@
                             <div *ngIf="this.playlistFolders.length === 1">{{ 'playlist-folder' | translate }}</div>
                             <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
                         </div>
-                        <button
-                            mat-icon-button
-                            class="playlist-folder-browser__add-button pointer"
+                        <div
+                            class="playlist-folder-browser__add-button pointer secondary-text las la-plus"
                             matTooltip="{{ 'create-playlist-folder' | translate }}"
                             (click)="createPlaylistFolderAsync()"
-                        >
-                            <i class="playlist-folder-browser__add-icon secondary-text las la-plus"></i>
-                        </button>
+                        ></div>
                     </div>
-                </div></div
-        ></as-split-area>
+                    <cdk-virtual-scroll-viewport class="mt-3 playlist-folder-browser__list" itemSize="28">
+                        <div
+                            *cdkVirtualFor="let playlistFolder of playlistFolders"
+                            matRipple
+                            (click)="setSelectedPlaylistFolders($event, playlistFolder)"
+                        >
+                            <div
+                                class="playlist-folder__name no-select ellipsis px-1"
+                                [ngClass]="{
+                                    'selected-item-background': playlistFolder.isSelected,
+                                    'selected-item-text-color-important':
+                                        playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                                }"
+                            >
+                                {{ playlistFolder | playlistFolderName }}
+                            </div>
+                        </div>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+            </div></as-split-area
+        >
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95"></as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
     </as-split>

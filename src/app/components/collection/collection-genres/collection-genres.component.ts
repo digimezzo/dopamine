@@ -86,8 +86,8 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                this.processListsAsync();
+            this.collectionPersister.selectedTabChanged$.subscribe(async () => {
+                await this.processListsAsync();
             })
         );
 

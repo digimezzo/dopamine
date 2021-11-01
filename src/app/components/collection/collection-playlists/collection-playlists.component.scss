@@ -10,6 +10,13 @@
     justify-content: space-between;
 }
 
+.playlist-folder-browser__list {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+}
+
 .playlist-folder-browser__count {
     display: flex;
     flex-direction: row;
@@ -20,11 +27,12 @@
 }
 
 .playlist-folder-browser__add-button {
-    margin-top: -10px;
     margin-left: 10px;
-    margin-right: -14px;
+    margin-right: -5px;
+    font-size: 20px;
 }
 
-.playlist-folder-browser__add-icon {
-    font-size: 20px;
+.playlist-folder__name {
+    height: 24px;
+    line-height: 24px;
 }

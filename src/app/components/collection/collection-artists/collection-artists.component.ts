@@ -88,14 +88,14 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.indexingService.indexingFinished$.subscribe(() => {
-                this.processListsAsync();
+            this.indexingService.indexingFinished$.subscribe(async () => {
+                await this.processListsAsync();
             })
         );
 
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                this.processListsAsync();
+            this.collectionPersister.selectedTabChanged$.subscribe(async () => {
+                await this.processListsAsync();
             })
         );
 
