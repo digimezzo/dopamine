@@ -150,5 +150,7 @@
     "playlist-folder-name": "Nom du dossier de playlists",
     "create-playlist-folder-error": "Une erreur s'est produite lors de la création du dossier de la liste de lecture. Veuillez vérifier le journal si vous avez besoin de plus d'informations.",
     "rename": "Renommer...",
-    "delete": "Supprimer..."
+    "delete": "Supprimer...",
+    "confirm-delete-playlist-folder": "Supprimer dossier de playlists?",
+    "confirm-delete-playlist-folder-long": "Voulez-vous vraiment supprimer le dossier de playlists '{{playlistFolderPath}}'? Toutes ses playlists seront perdues."
 }

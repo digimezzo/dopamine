@@ -150,5 +150,7 @@
     "playlist-folder-name": "Naam van de playlist map",
     "create-playlist-folder-error": "Er is een fout opgetreden bij het maken van de afspeellijstmap. Controleer het logboek als u meer informatie nodig heeft.",
     "rename": "Hernoemen...",
-    "delete": "Verwijderen..."
+    "delete": "Verwijderen...",
+    "confirm-delete-playlist-folder": "Playlist map verwijderen?",
+    "confirm-delete-playlist-folder-long": "Playlist map verwijderen? Weet je zeker dat je de playlist map '{{playlistFolderPath}}' wilt verwijderen? Alle zijn afspeellijsten gaan verloren."
 }

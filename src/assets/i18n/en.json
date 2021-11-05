@@ -150,5 +150,7 @@
     "playlist-folder-name": "Playlist folder name",
     "create-playlist-folder-error": "An error occurred while creating the playlist folder. Please verify the log if you need more information.",
     "rename": "Rename...",
-    "delete": "Delete..."
+    "delete": "Delete...",
+    "confirm-delete-playlist-folder": "Delete playlist folder?",
+    "confirm-delete-playlist-folder-long": "Are you sure you want to delete the playlist folder '{{playlistFolderPath}}'? All its playlists will be lost."
 }
