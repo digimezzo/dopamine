@@ -10,6 +10,8 @@ import { BaseDialogService } from './base-dialog.service';
 export class DialogService implements BaseDialogService {
     constructor(private dialog: MatDialog) {}
 
+    public isInputDialogOpened: boolean = false;
+
     public async showConfirmationDialogAsync(dialogTitle: string, dialogText: string): Promise<boolean> {
         const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, {
             width: '450px',
@@ -26,6 +28,8 @@ export class DialogService implements BaseDialogService {
     }
 
     public async showInputDialogAsync(dialogTitle: string, placeHolderText: string): Promise<string> {
+        this.isInputDialogOpened = true;
+
         const data: any = { dialogTitle: dialogTitle, inputText: '', placeHolderText: placeHolderText };
         const dialogRef: MatDialogRef<InputDialogComponent> = this.dialog.open(InputDialogComponent, {
             width: '450px',
@@ -33,6 +37,8 @@ export class DialogService implements BaseDialogService {
         });
 
         await dialogRef.afterClosed().toPromise();
+
+        this.isInputDialogOpened = false;
 
         return data.inputText;
     }

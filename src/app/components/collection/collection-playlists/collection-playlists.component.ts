@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
@@ -27,6 +28,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     constructor(
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
+        public contextMenuOpener: ContextMenuOpener,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
         private collectionPersister: CollectionPersister,
@@ -38,8 +40,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatMenuTrigger)
     public playlistFolderContextMenu: MatMenuTrigger;
-
-    public playlistFolderContextMenuPosition: any = { x: '0px', y: '0px' };
 
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
@@ -55,11 +55,11 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(async () => {
-                await this.processListsAsync();
+                await this.processListsAsync(true);
             })
         );
 
-        await this.processListsAsync();
+        await this.processListsAsync(true);
     }
 
     public splitDragEnd(event: any): void {
@@ -86,11 +86,13 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
             this.dialogService.showErrorDialog(this.translatorService.get('create-playlist-folder-error'));
         }
+
+        await this.processListsAsync(false);
     }
 
-    private async processListsAsync(): Promise<void> {
+    private async processListsAsync(performSleep: boolean): Promise<void> {
         if (this.collectionPersister.selectedTab === CollectionTab.playlists) {
-            await this.fillListsAsync();
+            await this.fillListsAsync(performSleep);
         } else {
             this.clearLists();
         }
@@ -100,11 +102,16 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.playlistFolders = [];
     }
 
-    private async fillListsAsync(): Promise<void> {
-        await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
+    private async fillListsAsync(performSleep: boolean): Promise<void> {
+        if (performSleep) {
+            await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
+        }
 
         try {
-            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
+            if (performSleep) {
+                this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
+            }
+
             await this.getPlaylistFoldersAsync();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionPlaylistsComponent', 'fillListsAsync');
@@ -121,19 +128,34 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     }
 
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
-        event.preventDefault();
-        this.playlistFolderContextMenuPosition.x = event.clientX + 'px';
-        this.playlistFolderContextMenuPosition.y = event.clientY + 'px';
-        this.playlistFolderContextMenu.menuData = { playlistFolder: playlistFolder };
-        this.playlistFolderContextMenu.menu.focusFirstItem('mouse');
-        this.playlistFolderContextMenu.openMenu();
+        this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
     }
 
     public onRenamePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
         alert(`Click on Action 1 for ${playlistFolder.path}`);
     }
 
-    public onDeletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
-        alert(`Click on Action 2 for ${playlistFolder.path}`);
+    public async onDeletePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-playlist-folder');
+        const dialogText: string = await this.translatorService.getAsync('confirm-delete-playlist-folder-long', {
+            playlistFolderName: playlistFolder.name,
+        });
+
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
+
+        if (userHasConfirmed) {
+            try {
+                // this.folderService.deleteFolder(folder);
+                // await this.getFoldersAsync();
+            } catch (e) {
+                this.logger.error(
+                    `Could not delete playlist folder. Error: ${e.message}`,
+                    'CollectionPlaylistsComponent',
+                    'onDeletePlaylistFolderAsync'
+                );
+                const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
     }
 }

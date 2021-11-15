@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private navigationService: BaseNavigationService,
         private appearanceService: BaseAppearanceService,
         private translatorService: BaseTranslatorService,
+        private dialogService: BaseDialogService,
         private discordService: BaseDiscordService,
         private searchService: BaseSearchService,
         private logger: Logger
@@ -35,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @HostListener('document:keydown', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.key === ' ' && !this.searchService.isSearching) {
+        if (event.key === ' ' && !this.searchService.isSearching && !this.dialogService.isInputDialogOpened) {
             // Prevents scrolling when pressing SPACE
             event.preventDefault();
         }

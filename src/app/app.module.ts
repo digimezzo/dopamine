@@ -39,6 +39,7 @@ import { AppComponent } from './app.component';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
 import { ArtistOrdering } from './common/artist-ordering';
+import { ContextMenuOpener } from './common/context-menu-opener';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
 import { BaseDatabaseMigrator } from './common/data/base-database-migrator';
 import { DatabaseFactory } from './common/data/database-factory';
@@ -155,7 +156,6 @@ import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
-import { PlaylistFolderNamePipe } from './pipes/playlist-folder-name.pipe';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
@@ -216,6 +216,7 @@ import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
+import { PlaylistFolderModelFactory } from './services/playlist/playlist-folder-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
@@ -305,7 +306,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenresFilterPipe,
         TracksFilterPipe,
         SubfoldersFilterPipe,
-        PlaylistFolderNamePipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -435,6 +435,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         CollectionChecker,
         IndexablePathFetcher,
         TextSanitizer,
+        ContextMenuOpener,
+        PlaylistFolderModelFactory,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

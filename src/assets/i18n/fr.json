@@ -144,6 +144,7 @@
     "now-playing": "Lecture en cours",
     "add-more-themes": "Ajouter plus de thèmes",
     "refresh-themes": "Actualiser les thèmes",
+    "playlist-folder": "Dossier de playlists",
     "playlist-folders": "Dossiers de playlists",
     "cancel": "Annuler",
     "create-playlist-folder": "Créér dossier de playlists",
@@ -152,5 +153,6 @@
     "rename": "Renommer...",
     "delete": "Supprimer...",
     "confirm-delete-playlist-folder": "Supprimer dossier de playlists?",
-    "confirm-delete-playlist-folder-long": "Voulez-vous vraiment supprimer le dossier de playlists '{{playlistFolderPath}}'? Toutes ses playlists seront perdues."
+    "confirm-delete-playlist-folder-long": "Voulez-vous vraiment supprimer le dossier de playlists '{{playlistFolderName}}'? Toutes ses playlists seront perdues.",
+    "delete-playlist-folder-error": "Une erreur s'est produite lors de la suppression du dossier de playlists. Veuillez vérifier le log si vous avez besoin de plus d'informations."
 }

@@ -144,6 +144,7 @@
     "now-playing": "Speelt nu",
     "add-more-themes": "Meer thema's toevoegen",
     "refresh-themes": "Thema's verversen",
+    "playlist-folder": "Playlist map",
     "playlist-folders": "Playlist mappen",
     "cancel": "Annuleren",
     "create-playlist-folder": "Playlist map maken",
@@ -152,5 +153,6 @@
     "rename": "Hernoemen...",
     "delete": "Verwijderen...",
     "confirm-delete-playlist-folder": "Playlist map verwijderen?",
-    "confirm-delete-playlist-folder-long": "Playlist map verwijderen? Weet je zeker dat je de playlist map '{{playlistFolderPath}}' wilt verwijderen? Alle zijn afspeellijsten gaan verloren."
+    "confirm-delete-playlist-folder-long": "Playlist map verwijderen? Weet je zeker dat je de playlist map '{{playlistFolderName}}' wilt verwijderen? Alle zijn afspeellijsten gaan verloren.",
+    "delete-playlist-folder-error": "Er is een fout opgetreden bij het verwijderen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt."
 }

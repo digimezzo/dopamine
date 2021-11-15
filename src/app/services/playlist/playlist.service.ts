@@ -6,12 +6,18 @@ import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
+import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
     private _playlistsDirectoryPath: string;
 
-    constructor(private fileSystem: FileSystem, private textSanitizer: TextSanitizer, private logger: Logger) {
+    constructor(
+        private playlistFolderModelFactory: PlaylistFolderModelFactory,
+        private fileSystem: FileSystem,
+        private textSanitizer: TextSanitizer,
+        private logger: Logger
+    ) {
         this.initialize();
     }
 
@@ -58,7 +64,7 @@ export class PlaylistService implements BasePlaylistService {
         const playlistFolders: PlaylistFolderModel[] = [];
 
         for (const playlistFolderPath of playlistFolderPaths) {
-            playlistFolders.push(new PlaylistFolderModel(playlistFolderPath));
+            playlistFolders.push(this.playlistFolderModelFactory.create(playlistFolderPath));
         }
 
         return playlistFolders;

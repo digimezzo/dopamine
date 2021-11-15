@@ -144,6 +144,7 @@
     "now-playing": "Now playing",
     "add-more-themes": "Add more themes",
     "refresh-themes": "Refresh themes",
+    "playlist-folder": "Playlist folder",
     "playlist-folders": "Playlist folders",
     "cancel": "Cancel",
     "create-playlist-folder": "Create playlist folder",
@@ -152,5 +153,6 @@
     "rename": "Rename...",
     "delete": "Delete...",
     "confirm-delete-playlist-folder": "Delete playlist folder?",
-    "confirm-delete-playlist-folder-long": "Are you sure you want to delete the playlist folder '{{playlistFolderPath}}'? All its playlists will be lost."
+    "confirm-delete-playlist-folder-long": "Are you sure you want to delete the playlist folder '{{playlistFolderName}}'? All its playlists will be lost.",
+    "delete-playlist-folder-error": "An error occurred while deleting the playlist folder. Please verify the log if you need more information."
 }

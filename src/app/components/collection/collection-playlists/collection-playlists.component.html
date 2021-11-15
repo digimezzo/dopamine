@@ -30,7 +30,7 @@
                                         playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                                 }"
                             >
-                                {{ playlistFolder | playlistFolderName }}
+                                {{ playlistFolder.name }}
                             </div>
                         </div>
                     </cdk-virtual-scroll-viewport>
@@ -43,13 +43,13 @@
 </div>
 <div
     style="visibility: hidden; position: fixed"
-    [style.left]="playlistFolderContextMenuPosition.x"
-    [style.top]="playlistFolderContextMenuPosition.y"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
     [matMenuTriggerFor]="playlistFolderContextMenu"
 ></div>
 <mat-menu #playlistFolderContextMenu="matMenu">
-    <ng-template matMenuContent let-playlistFolder="playlistFolder">
+    <ng-template matMenuContent let-playlistFolder="data">
         <button mat-menu-item (click)="onRenamePlaylistFolder(playlistFolder)">{{ 'rename' | translate }}</button>
-        <button mat-menu-item (click)="onDeletePlaylistFolder(playlistFolder)">{{ 'delete' | translate }}</button>
+        <button mat-menu-item (click)="onDeletePlaylistFolderAsync(playlistFolder)">{{ 'delete' | translate }}</button>
     </ng-template>
 </mat-menu>

@@ -1,5 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
@@ -15,6 +16,7 @@ import { CollectionPlaylistsComponent } from './collection-playlists.component';
 describe('CollectionPlaylistsComponent', () => {
     let playlistServiceMock: IMock<BasePlaylistService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -32,6 +34,7 @@ describe('CollectionPlaylistsComponent', () => {
         return new CollectionPlaylistsComponent(
             playlistServiceMock.object,
             appearanceServiceMock.object,
+            contextMenuOpenerMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
             collectionPersisterMock.object,
@@ -42,8 +45,8 @@ describe('CollectionPlaylistsComponent', () => {
         );
     }
 
-    function createPlaylistFolderModel(path: string): PlaylistFolderModel {
-        const playlistFolderModel: PlaylistFolderModel = new PlaylistFolderModel(path);
+    function createPlaylistFolderModel(name: string, path: string): PlaylistFolderModel {
+        const playlistFolderModel: PlaylistFolderModel = new PlaylistFolderModel(name, path);
 
         return playlistFolderModel;
     }
@@ -51,6 +54,7 @@ describe('CollectionPlaylistsComponent', () => {
     beforeEach(() => {
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
@@ -252,6 +256,26 @@ describe('CollectionPlaylistsComponent', () => {
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('Create playlist folder error'), Times.once());
         });
+
+        it('should get all playlist folders', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.createPlaylistFolderAsync();
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistFoldersAsync(), Times.once());
+            expect(component.playlistFolders.length).toEqual(2);
+            expect(component.playlistFolders[0]).toEqual(playlistFolder1);
+            expect(component.playlistFolders[1]).toEqual(playlistFolder2);
+        });
     });
 
     describe('ngOnInit', () => {
@@ -259,8 +283,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -293,8 +317,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -323,8 +347,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
 
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
@@ -351,8 +375,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
 
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
@@ -377,8 +401,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
 
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
@@ -402,8 +426,8 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
 
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
 
             playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
 
@@ -428,7 +452,8 @@ describe('CollectionPlaylistsComponent', () => {
         it('should clear the playlist folders', () => {
             // Arrange
             const component: CollectionPlaylistsComponent = createComponent();
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+
             component.playlistFolders = [playlistFolder1];
 
             // Act
@@ -443,8 +468,8 @@ describe('CollectionPlaylistsComponent', () => {
         it('should set the selected playlist folders', () => {
             // Arrange
             const component: CollectionPlaylistsComponent = createComponent();
-            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('path2');
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
             component.playlistFolders = [playlistFolder1, playlistFolder2];
             const event: any = {};
 
