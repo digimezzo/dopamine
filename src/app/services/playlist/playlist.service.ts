@@ -69,4 +69,8 @@ export class PlaylistService implements BasePlaylistService {
 
         return playlistFolders;
     }
+
+    public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
+        this.fileSystem.deleteDirectoryRecursively(playlistFolder.path);
+    }
 }

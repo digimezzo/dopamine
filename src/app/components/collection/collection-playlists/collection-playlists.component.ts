@@ -84,7 +84,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
                 'createPlaylistFolderAsync'
             );
 
-            this.dialogService.showErrorDialog(this.translatorService.get('create-playlist-folder-error'));
+            const dialogText: string = await this.translatorService.getAsync('create-playlist-folder-error');
+            this.dialogService.showErrorDialog(dialogText);
         }
 
         await this.processListsAsync(false);
@@ -145,14 +146,15 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
         if (userHasConfirmed) {
             try {
-                // this.folderService.deleteFolder(folder);
-                // await this.getFoldersAsync();
+                this.playlistService.deletePlaylistFolder(playlistFolder);
+                await this.fillListsAsync(false);
             } catch (e) {
                 this.logger.error(
                     `Could not delete playlist folder. Error: ${e.message}`,
                     'CollectionPlaylistsComponent',
                     'onDeletePlaylistFolderAsync'
                 );
+
                 const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }

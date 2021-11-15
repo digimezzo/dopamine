@@ -129,6 +129,10 @@ export class FileSystem {
         }
     }
 
+    public deleteDirectoryRecursively(directoryPath: string): void {
+        fs.rmdirSync(directoryPath, { recursive: true });
+    }
+
     public getDirectoryName(directoryPath: string): string {
         return path.basename(directoryPath);
     }

@@ -145,4 +145,18 @@ describe('PlaylistService', () => {
             expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder2');
         });
     });
+
+    describe('deletePlaylistFolder', () => {
+        it('should delete the playlist folder', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Act
+            service.deletePlaylistFolder(playlistFolders[0]);
+
+            // Assert
+            fileSystemMock.verify((x) => x.deleteDirectoryRecursively(playlistFolders[0].path), Times.once());
+        });
+    });
 });

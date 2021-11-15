@@ -63,7 +63,16 @@ describe('CollectionPlaylistsComponent', () => {
         playlistFoldersSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         translatorServiceMock.setup((x) => x.get('create-playlist-folder')).returns(() => 'Create playlist folder');
         translatorServiceMock.setup((x) => x.get('playlist-folder-name')).returns(() => 'Playlist folder name');
-        translatorServiceMock.setup((x) => x.get('create-playlist-folder-error')).returns(() => 'Create playlist folder error');
+        translatorServiceMock.setup((x) => x.getAsync('create-playlist-folder-error')).returns(async () => 'Create playlist folder error');
+        translatorServiceMock.setup((x) => x.getAsync('delete-playlist-folder-error')).returns(async () => 'Delete playlist folder error');
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-playlist-folder')).returns(async () => 'Delete playlist folder?');
+        translatorServiceMock
+            .setup((x) =>
+                x.getAsync('confirm-delete-playlist-folder-long', {
+                    playlistFolderName: 'name1',
+                })
+            )
+            .returns(async () => `Delete playlist folder 'name1'?`);
 
         settingsStub = { playlistsLeftPaneWidthPercent: 25, playlistsRightPaneWidthPercent: 25 };
 
@@ -478,6 +487,106 @@ describe('CollectionPlaylistsComponent', () => {
 
             // Assert
             playlistFoldersSelectionWatcherMock.verify((x) => x.setSelectedItems(event, playlistFolder1), Times.once());
+        });
+    });
+
+    describe('onDeletePlaylistFolderAsync', () => {
+        it('should show a confirmation dialog to the user', async () => {
+            // Arrange
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            component.playlistFolders = [playlistFolder1, playlistFolder2];
+
+            // Act
+            await component.onDeletePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            dialogServiceMock.verify(
+                (x) => x.showConfirmationDialogAsync('Delete playlist folder?', `Delete playlist folder 'name1'?`),
+                Times.once()
+            );
+        });
+
+        it('should not delete the playlist folder if the user has not confirmed', async () => {
+            // Arrange
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('Delete playlist folder?', `Delete playlist folder 'name1'?`))
+                .returns(async () => false);
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            component.playlistFolders = [playlistFolder1, playlistFolder2];
+
+            // Act
+            await component.onDeletePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            playlistServiceMock.verify((x) => x.deletePlaylistFolder(playlistFolder1), Times.never());
+        });
+
+        it('should delete the playlist folder if the user has confirmed', async () => {
+            // Arrange
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('Delete playlist folder?', `Delete playlist folder 'name1'?`))
+                .returns(async () => true);
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            component.playlistFolders = [playlistFolder1, playlistFolder2];
+
+            // Act
+            await component.onDeletePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            playlistServiceMock.verify((x) => x.deletePlaylistFolder(playlistFolder1), Times.once());
+        });
+
+        it('should update the playlist folders if the user has confirmed', async () => {
+            // Arrange
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder2]);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('Delete playlist folder?', `Delete playlist folder 'name1'?`))
+                .returns(async () => true);
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+            const numberOfPlaylistFoldersBeforeDelete: number = component.playlistFolders.length;
+
+            // Act
+            await component.onDeletePlaylistFolderAsync(playlistFolder1);
+            const numberOfPlaylistFoldersAfterDelete: number = component.playlistFolders.length;
+
+            // Assert
+            expect(numberOfPlaylistFoldersBeforeDelete).toEqual(2);
+            expect(numberOfPlaylistFoldersAfterDelete).toEqual(1);
+            expect(component.playlistFolders[0]).toBe(playlistFolder2);
+        });
+
+        it('should show an error dialog if deleting the playlist folder fails', async () => {
+            // Arrange
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder1, playlistFolder2]);
+            playlistServiceMock.setup((x) => x.getPlaylistFoldersAsync()).returns(async () => [playlistFolder2]);
+            playlistServiceMock.setup((x) => x.deletePlaylistFolder(playlistFolder1)).throws(new Error('An error occurred'));
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('Delete playlist folder?', `Delete playlist folder 'name1'?`))
+                .returns(async () => true);
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+            const numberOfPlaylistFoldersBeforeDelete: number = component.playlistFolders.length;
+
+            // Act
+            await component.onDeletePlaylistFolderAsync(playlistFolder1);
+            const numberOfPlaylistFoldersAfterDelete: number = component.playlistFolders.length;
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showErrorDialog('Delete playlist folder error'), Times.once());
         });
     });
 });
