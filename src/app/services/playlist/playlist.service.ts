@@ -73,4 +73,9 @@ export class PlaylistService implements BasePlaylistService {
     public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
         this.fileSystem.deleteDirectoryRecursively(playlistFolder.path);
     }
+
+    public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
+        const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
+        this.fileSystem.renameDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
+    }
 }

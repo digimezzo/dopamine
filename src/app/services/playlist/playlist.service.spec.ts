@@ -49,7 +49,8 @@ describe('PlaylistService', () => {
             .setup((x) => x.getDirectoriesInDirectoryAsync('/home/User/Music/Dopamine/Playlists'))
             .returns(async () => ['/home/User/Music/Dopamine/Playlists/Folder1', '/home/User/Music/Dopamine/Playlists/Folder2']);
 
-        textSanitizerMock.setup((x) => x.sanitize('My playlist folder')).returns(() => 'My playlist folder');
+        textSanitizerMock.setup((x) => x.sanitize('My dirty playlist folder')).returns(() => 'My playlist folder');
+        textSanitizerMock.setup((x) => x.sanitize('My new dirty playlist folder')).returns(() => 'My new playlist folder');
     });
 
     describe('constructor', () => {
@@ -110,10 +111,10 @@ describe('PlaylistService', () => {
             const service: BasePlaylistService = createService();
 
             // Act
-            service.createPlaylistFolder('My playlist folder');
+            service.createPlaylistFolder('My dirty playlist folder');
 
             // Assert
-            textSanitizerMock.verify((x) => x.sanitize('My playlist folder'), Times.once());
+            textSanitizerMock.verify((x) => x.sanitize('My dirty playlist folder'), Times.once());
         });
 
         it('should create the playlist folder directory if it does not exist', () => {
@@ -121,7 +122,7 @@ describe('PlaylistService', () => {
             const service: BasePlaylistService = createService();
 
             // Act
-            service.createPlaylistFolder('My playlist folder');
+            service.createPlaylistFolder('My dirty playlist folder');
 
             // Assert
             fileSystemMock.verify(
@@ -157,6 +158,32 @@ describe('PlaylistService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.deleteDirectoryRecursively(playlistFolders[0].path), Times.once());
+        });
+    });
+
+    describe('renamePlaylistFolder', () => {
+        it('should sanitize the playlist folder name', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Act
+            service.renamePlaylistFolder(playlistFolders[0], 'My new dirty playlist folder');
+
+            // Assert
+            textSanitizerMock.verify((x) => x.sanitize('My new dirty playlist folder'), Times.once());
+        });
+
+        it('should rename the playlist folder using the sanitized playlist folder name', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Act
+            service.renamePlaylistFolder(playlistFolders[0], 'My new dirty playlist folder');
+
+            // Assert
+            fileSystemMock.verify((x) => x.renameDirectory(playlistFolders[0].path, 'My new playlist folder'), Times.once());
         });
     });
 });

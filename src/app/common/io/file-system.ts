@@ -133,6 +133,11 @@ export class FileSystem {
         fs.rmdirSync(directoryPath, { recursive: true });
     }
 
+    public renameDirectory(directoryPath: string, newName: string): void {
+        const parentDirectoryPath: string = this.getDirectoryPath(directoryPath);
+        fs.renameSync(directoryPath, this.combinePath([parentDirectoryPath, newName]));
+    }
+
     public getDirectoryName(directoryPath: string): string {
         return path.basename(directoryPath);
     }

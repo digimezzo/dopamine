@@ -70,7 +70,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public async createPlaylistFolderAsync(): Promise<void> {
         const playlistFolderName: string = await this.dialogService.showInputDialogAsync(
             this.translatorService.get('create-playlist-folder'),
-            this.translatorService.get('playlist-folder-name')
+            this.translatorService.get('playlist-folder-name'),
+            ''
         );
 
         try {
@@ -132,10 +133,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
     }
 
-    public onRenamePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
-        alert(`Click on Action 1 for ${playlistFolder.path}`);
-    }
-
     public async onDeletePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-playlist-folder');
         const dialogText: string = await this.translatorService.getAsync('confirm-delete-playlist-folder-long', {
@@ -156,6 +153,35 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
                 );
 
                 const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
+    }
+
+    public async onRenamePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('rename-playlist-folder');
+        const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder', {
+            playlistFolderName: playlistFolder.name,
+        });
+
+        const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
+            dialogTitle,
+            placeholderText,
+            playlistFolder.name
+        );
+
+        if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
+            try {
+                this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
+                await this.fillListsAsync(false);
+            } catch (e) {
+                this.logger.error(
+                    `Could not rename playlist folder. Error: ${e.message}`,
+                    'CollectionPlaylistsComponent',
+                    'onRenamePlaylistFolderAsync'
+                );
+
+                const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }

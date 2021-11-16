@@ -27,10 +27,10 @@ export class DialogService implements BaseDialogService {
         return false;
     }
 
-    public async showInputDialogAsync(dialogTitle: string, placeHolderText: string): Promise<string> {
+    public async showInputDialogAsync(dialogTitle: string, placeHolderText: string, inputText: string): Promise<string> {
         this.isInputDialogOpened = true;
 
-        const data: any = { dialogTitle: dialogTitle, inputText: '', placeHolderText: placeHolderText };
+        const data: any = { dialogTitle: dialogTitle, inputText: inputText, placeHolderText: placeHolderText };
         const dialogRef: MatDialogRef<InputDialogComponent> = this.dialog.open(InputDialogComponent, {
             width: '450px',
             data: data,

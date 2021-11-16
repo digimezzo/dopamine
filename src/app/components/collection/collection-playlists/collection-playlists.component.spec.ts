@@ -186,13 +186,13 @@ describe('CollectionPlaylistsComponent', () => {
             await component.createPlaylistFolderAsync();
 
             // Assert
-            dialogServiceMock.verify((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'), Times.once());
+            dialogServiceMock.verify((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''), Times.once());
         });
 
         it('should not create the playlists folder if playlistFolderName is undefined', async () => {
             // Arrange
             dialogServiceMock
-                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''))
                 .returns(async () => undefined);
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -207,7 +207,7 @@ describe('CollectionPlaylistsComponent', () => {
         it('should not create the playlists folder if playlistFolderName is empty', async () => {
             // Arrange
             dialogServiceMock
-                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''))
                 .returns(async () => undefined);
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -222,7 +222,7 @@ describe('CollectionPlaylistsComponent', () => {
         it('should not create the playlists folder if playlistFolderName is space', async () => {
             // Arrange
             dialogServiceMock
-                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''))
                 .returns(async () => undefined);
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -237,7 +237,7 @@ describe('CollectionPlaylistsComponent', () => {
         it('should create the playlists folder if playlistFolderName is not undefined, empty or space.', async () => {
             // Arrange
             dialogServiceMock
-                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''))
                 .returns(async () => 'My playlist folder');
 
             const component: CollectionPlaylistsComponent = createComponent();
@@ -252,7 +252,7 @@ describe('CollectionPlaylistsComponent', () => {
         it('should show an error dialog if creation of the playlist folder fails', async () => {
             // Arrange
             dialogServiceMock
-                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name'))
+                .setup((x) => x.showInputDialogAsync('Create playlist folder', 'Playlist folder name', ''))
                 .returns(async () => 'My playlist folder');
 
             playlistServiceMock.setup((x) => x.createPlaylistFolder('My playlist folder')).throws(new Error('An error occurred'));
