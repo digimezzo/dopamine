@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
@@ -73,6 +73,10 @@ describe('CollectionPlaylistsComponent', () => {
                 })
             )
             .returns(async () => `Delete playlist folder 'name1'?`);
+
+        translatorServiceMock.setup((x) => x.getAsync('rename-playlist-folder')).returns(async () => 'Rename playlist folder');
+        translatorServiceMock.setup((x) => x.getAsync('rename-playlist-folder-placeholder')).returns(async () => 'Playlist folder name');
+        translatorServiceMock.setup((x) => x.getAsync('rename-playlist-folder-error')).returns(async () => 'Rename playlist folder error');
 
         settingsStub = { playlistsLeftPaneWidthPercent: 25, playlistsRightPaneWidthPercent: 25 };
 
@@ -495,8 +499,6 @@ describe('CollectionPlaylistsComponent', () => {
             // Arrange
             const component: CollectionPlaylistsComponent = createComponent();
             const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
-            component.playlistFolders = [playlistFolder1, playlistFolder2];
 
             // Act
             await component.onDeletePlaylistFolderAsync(playlistFolder1);
@@ -515,8 +517,6 @@ describe('CollectionPlaylistsComponent', () => {
                 .returns(async () => false);
             const component: CollectionPlaylistsComponent = createComponent();
             const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
-            component.playlistFolders = [playlistFolder1, playlistFolder2];
 
             // Act
             await component.onDeletePlaylistFolderAsync(playlistFolder1);
@@ -532,8 +532,6 @@ describe('CollectionPlaylistsComponent', () => {
                 .returns(async () => true);
             const component: CollectionPlaylistsComponent = createComponent();
             const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
-            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
-            component.playlistFolders = [playlistFolder1, playlistFolder2];
 
             // Act
             await component.onDeletePlaylistFolderAsync(playlistFolder1);
@@ -579,14 +577,115 @@ describe('CollectionPlaylistsComponent', () => {
                 .returns(async () => true);
             const component: CollectionPlaylistsComponent = createComponent();
             await component.ngOnInit();
-            const numberOfPlaylistFoldersBeforeDelete: number = component.playlistFolders.length;
 
             // Act
             await component.onDeletePlaylistFolderAsync(playlistFolder1);
-            const numberOfPlaylistFoldersAfterDelete: number = component.playlistFolders.length;
 
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('Delete playlist folder error'), Times.once());
+        });
+    });
+
+    describe('onRenamePlaylistFolderAsync', () => {
+        it('should show an input dialog to the user', async () => {
+            // Arrange
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+
+            // Act
+            await component.onRenamePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            dialogServiceMock.verify(
+                (x) => x.showInputDialogAsync('Rename playlist folder', 'Playlist folder name', playlistFolder1.name),
+                Times.once()
+            );
+        });
+
+        it('should not rename the playlist folder if no new name was provided', async () => {
+            // Arrange
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Rename playlist folder', 'Playlist folder name', playlistFolder1.name))
+                .returns(async () => '');
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.onRenamePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            playlistServiceMock.verify((x) => x.renamePlaylistFolder(playlistFolder1, It.isAny()), Times.never());
+        });
+
+        it('should rename the playlist folder if a new name was provided', async () => {
+            // Arrange
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Rename playlist folder', 'Playlist folder name', playlistFolder1.name))
+                .returns(async () => 'new name1');
+            const component: CollectionPlaylistsComponent = createComponent();
+
+            // Act
+            await component.onRenamePlaylistFolderAsync(playlistFolder1);
+
+            // Assert
+            playlistServiceMock.verify((x) => x.renamePlaylistFolder(playlistFolder1, 'new name1'), Times.once());
+        });
+
+        it('should update the playlist folders if a new name was provided', async () => {
+            // Arrange
+            const playlistFolder1BeforeRename: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder1AfterRename: PlaylistFolderModel = createPlaylistFolderModel('new name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            playlistServiceMock
+                .setup((x) => x.getPlaylistFoldersAsync())
+                .returns(async () => [playlistFolder1BeforeRename, playlistFolder2]);
+            playlistServiceMock
+                .setup((x) => x.getPlaylistFoldersAsync())
+                .returns(async () => [playlistFolder1AfterRename, playlistFolder2]);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Rename playlist folder', 'Playlist folder name', playlistFolder1BeforeRename.name))
+                .returns(async () => 'new name1');
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+            const playlistFolder1NameBeforeRename: string = component.playlistFolders[0].name;
+
+            // Act
+            await component.onRenamePlaylistFolderAsync(playlistFolder1BeforeRename);
+            const playlistFolder1NameAfterRename: string = component.playlistFolders[0].name;
+
+            // Assert
+            expect(playlistFolder1NameBeforeRename).toEqual('name1');
+            expect(playlistFolder1NameAfterRename).toEqual('new name1');
+        });
+
+        it('should show an error dialog if renaming the playlist folder fails', async () => {
+            // Arrange
+            const playlistFolder1BeforeRename: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder1AfterRename: PlaylistFolderModel = createPlaylistFolderModel('new name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            playlistServiceMock
+                .setup((x) => x.getPlaylistFoldersAsync())
+                .returns(async () => [playlistFolder1BeforeRename, playlistFolder2]);
+            playlistServiceMock
+                .setup((x) => x.getPlaylistFoldersAsync())
+                .returns(async () => [playlistFolder1AfterRename, playlistFolder2]);
+            playlistServiceMock
+                .setup((x) => x.renamePlaylistFolder(playlistFolder1BeforeRename, 'new name1'))
+                .throws(new Error('An error occurred'));
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.playlists);
+            dialogServiceMock
+                .setup((x) => x.showInputDialogAsync('Rename playlist folder', 'Playlist folder name', playlistFolder1BeforeRename.name))
+                .returns(async () => 'new name1');
+            const component: CollectionPlaylistsComponent = createComponent();
+            await component.ngOnInit();
+
+            // Act
+            await component.onRenamePlaylistFolderAsync(playlistFolder1BeforeRename);
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showErrorDialog('Rename playlist folder error'), Times.once());
         });
     });
 });

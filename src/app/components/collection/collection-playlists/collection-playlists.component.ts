@@ -160,9 +160,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     public async onRenamePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
         const dialogTitle: string = await this.translatorService.getAsync('rename-playlist-folder');
-        const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder', {
-            playlistFolderName: playlistFolder.name,
-        });
+        const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder');
 
         const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
             dialogTitle,
@@ -180,7 +178,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
                     'CollectionPlaylistsComponent',
                     'onRenamePlaylistFolderAsync'
                 );
-
                 const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
