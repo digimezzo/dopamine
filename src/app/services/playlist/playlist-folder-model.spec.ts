@@ -1,6 +1,6 @@
 import { PlaylistFolderModel } from './playlist-folder-model';
 
-describe('PlaylistFolder', () => {
+describe('PlaylistFolderModel', () => {
     beforeEach(() => {});
 
     describe('constructor', () => {

@@ -7,6 +7,8 @@ import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
+import { PlaylistModel } from './playlist-model';
+import { PlaylistModelFactory } from './playlist-model-factory';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
@@ -14,6 +16,7 @@ export class PlaylistService implements BasePlaylistService {
 
     constructor(
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
+        private playlistModelFactory: PlaylistModelFactory,
         private fileSystem: FileSystem,
         private textSanitizer: TextSanitizer,
         private logger: Logger
@@ -77,5 +80,16 @@ export class PlaylistService implements BasePlaylistService {
     public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
         this.fileSystem.renameDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
+    }
+
+    public async getPlaylistsAsync(playlistFolder: PlaylistFolderModel): Promise<PlaylistModel[]> {
+        const playlistPaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(playlistFolder.path);
+        const playlists: PlaylistModel[] = [];
+
+        for (const playlistPath of playlistPaths) {
+            playlists.push(this.playlistModelFactory.create(playlistPath));
+        }
+
+        return playlists;
     }
 }

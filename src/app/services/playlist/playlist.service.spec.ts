@@ -5,10 +5,13 @@ import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
+import { PlaylistModel } from './playlist-model';
+import { PlaylistModelFactory } from './playlist-model-factory';
 import { PlaylistService } from './playlist.service';
 
 describe('PlaylistService', () => {
     let playlistFolderModelFactoryMock: IMock<PlaylistFolderModelFactory>;
+    let playlistModelFactoryMock: IMock<PlaylistModelFactory>;
     let fileSystemMock: IMock<FileSystem>;
     let textSanitizerMock: IMock<TextSanitizer>;
     let loggerMock: IMock<Logger>;
@@ -16,6 +19,7 @@ describe('PlaylistService', () => {
     function createService(): BasePlaylistService {
         return new PlaylistService(
             playlistFolderModelFactoryMock.object,
+            playlistModelFactoryMock.object,
             fileSystemMock.object,
             textSanitizerMock.object,
             loggerMock.object
@@ -24,17 +28,25 @@ describe('PlaylistService', () => {
 
     beforeEach(() => {
         playlistFolderModelFactoryMock = Mock.ofType<PlaylistFolderModelFactory>();
+        playlistModelFactoryMock = Mock.ofType<PlaylistModelFactory>();
         fileSystemMock = Mock.ofType<FileSystem>();
         textSanitizerMock = Mock.ofType<TextSanitizer>();
         loggerMock = Mock.ofType<Logger>();
 
         playlistFolderModelFactoryMock
-            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder1'))
-            .returns(() => new PlaylistFolderModel('Folder1', '/home/User/Music/Dopamine/Playlists/Folder1'));
+            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 1'))
+            .returns(() => new PlaylistFolderModel('Folder 1', '/home/User/Music/Dopamine/Playlists/Folder 1'));
 
         playlistFolderModelFactoryMock
-            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder2'))
-            .returns(() => new PlaylistFolderModel('Folder2', '/home/User/Music/Dopamine/Playlists/Folder2'));
+            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 2'))
+            .returns(() => new PlaylistFolderModel('Folder 2', '/home/User/Music/Dopamine/Playlists/Folder 2'));
+
+        playlistModelFactoryMock
+            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
+            .returns(() => new PlaylistFolderModel('Playlist 1', '/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'));
+        playlistModelFactoryMock
+            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 2.m3u'))
+            .returns(() => new PlaylistFolderModel('Playlist 1', '/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 2.m3u'));
 
         fileSystemMock.setup((x) => x.musicDirectory()).returns(() => '/home/User/Music');
         fileSystemMock
@@ -47,7 +59,14 @@ describe('PlaylistService', () => {
 
         fileSystemMock
             .setup((x) => x.getDirectoriesInDirectoryAsync('/home/User/Music/Dopamine/Playlists'))
-            .returns(async () => ['/home/User/Music/Dopamine/Playlists/Folder1', '/home/User/Music/Dopamine/Playlists/Folder2']);
+            .returns(async () => ['/home/User/Music/Dopamine/Playlists/Folder 1', '/home/User/Music/Dopamine/Playlists/Folder 2']);
+
+        fileSystemMock
+            .setup((x) => x.getFilesInDirectoryAsync('/home/User/Music/Dopamine/Playlists/Folder 1'))
+            .returns(async () => [
+                '/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
+                '/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 2.m3u',
+            ]);
 
         textSanitizerMock.setup((x) => x.sanitize('My dirty playlist folder')).returns(() => 'My playlist folder');
         textSanitizerMock.setup((x) => x.sanitize('My new dirty playlist folder')).returns(() => 'My new playlist folder');
@@ -142,8 +161,8 @@ describe('PlaylistService', () => {
 
             // Assert
             expect(playlistFolders.length).toEqual(2);
-            expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder1');
-            expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder2');
+            expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1');
+            expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 2');
         });
     });
 
@@ -184,6 +203,22 @@ describe('PlaylistService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.renameDirectory(playlistFolders[0].path, 'My new playlist folder'), Times.once());
+        });
+    });
+
+    describe('getPlaylistFoldersAsync', () => {
+        it('should get the playlists', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Act
+            const playlists: PlaylistModel[] = await service.getPlaylistsAsync(playlistFolders[0]);
+
+            // Assert
+            expect(playlists.length).toEqual(2);
+            expect(playlists[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
+            expect(playlists[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1/Playlist 2.m3u');
         });
     });
 });

@@ -1,8 +1,10 @@
 import { PlaylistFolderModel } from './playlist-folder-model';
+import { PlaylistModel } from './playlist-model';
 
 export abstract class BasePlaylistService {
     public abstract createPlaylistFolder(playlistFolderName: string): void;
     public abstract getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]>;
     public abstract deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void;
     public abstract renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void;
+    public abstract getPlaylistsAsync(playlistFolder: PlaylistFolderModel): Promise<PlaylistModel[]>;
 }
