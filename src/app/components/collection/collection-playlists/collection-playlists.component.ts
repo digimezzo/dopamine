@@ -12,6 +12,7 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
+import { PlaylistModel } from '../../../services/playlist/playlist-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
@@ -46,6 +47,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public rightPaneSize: number = this.settings.playlistsRightPaneWidthPercent;
 
     public playlistFolders: PlaylistFolderModel[] = [];
+    public playlists: PlaylistModel[] = [];
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -182,5 +184,9 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
                 this.dialogService.showErrorDialog(errorText);
             }
         }
+    }
+
+    private async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
+        this.playlists = await this.playlistService.getPlaylistsAsync(playlistFolders);
     }
 }

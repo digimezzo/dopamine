@@ -82,12 +82,15 @@ export class PlaylistService implements BasePlaylistService {
         this.fileSystem.renameDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
     }
 
-    public async getPlaylistsAsync(playlistFolder: PlaylistFolderModel): Promise<PlaylistModel[]> {
-        const playlistPaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(playlistFolder.path);
+    public async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]> {
         const playlists: PlaylistModel[] = [];
 
-        for (const playlistPath of playlistPaths) {
-            playlists.push(this.playlistModelFactory.create(playlistPath));
+        for (const playlistFolder of playlistFolders) {
+            const playlistPaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(playlistFolder.path);
+
+            for (const playlistPath of playlistPaths) {
+                playlists.push(this.playlistModelFactory.create(playlistPath));
+            }
         }
 
         return playlists;
