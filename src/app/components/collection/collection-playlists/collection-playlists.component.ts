@@ -104,6 +104,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private clearLists(): void {
         this.playlistFolders = [];
+        this.playlists = [];
     }
 
     private async fillListsAsync(performSleep: boolean): Promise<void> {
@@ -127,8 +128,9 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.playlistFoldersSelectionWatcher.initialize(this.playlistFolders, false);
     }
 
-    public setSelectedPlaylistFolders(event: any, playlistFolderToSelect: PlaylistFolderModel): void {
+    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
+        await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
     }
 
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
@@ -188,5 +190,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
         this.playlists = await this.playlistService.getPlaylistsAsync(playlistFolders);
+        console.log(this.playlists);
     }
 }

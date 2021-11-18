@@ -8,6 +8,7 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
+import { PlaylistModel } from '../../../services/playlist/playlist-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
@@ -49,6 +50,12 @@ describe('CollectionPlaylistsComponent', () => {
         const playlistFolderModel: PlaylistFolderModel = new PlaylistFolderModel(name, path);
 
         return playlistFolderModel;
+    }
+
+    function createPlaylistModel(name: string, path: string): PlaylistModel {
+        const playlistModel: PlaylistModel = new PlaylistModel(name, path);
+
+        return playlistModel;
     }
 
     beforeEach(() => {
@@ -472,23 +479,26 @@ describe('CollectionPlaylistsComponent', () => {
     });
 
     describe('ngOnDestroy', () => {
-        it('should clear the playlist folders', () => {
+        it('should clear the lists', () => {
             // Arrange
             const component: CollectionPlaylistsComponent = createComponent();
             const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlist1: PlaylistModel = createPlaylistModel('Playlist1', 'Playlist path 1');
 
             component.playlistFolders = [playlistFolder1];
+            component.playlists = [playlist1];
 
             // Act
             component.ngOnDestroy();
 
             // Assert
             expect(component.playlistFolders.length).toEqual(0);
+            expect(component.playlists.length).toEqual(0);
         });
     });
 
-    describe('setSelectedPlaylistFolders', () => {
-        it('should set the selected playlist folders', () => {
+    describe('setSelectedPlaylistFoldersAsync', () => {
+        it('should set the selected playlist folders', async () => {
             // Arrange
             const component: CollectionPlaylistsComponent = createComponent();
             const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
@@ -497,10 +507,33 @@ describe('CollectionPlaylistsComponent', () => {
             const event: any = {};
 
             // Act
-            component.setSelectedPlaylistFolders(event, playlistFolder1);
+            await component.setSelectedPlaylistFoldersAsync(event, playlistFolder1);
 
             // Assert
             playlistFoldersSelectionWatcherMock.verify((x) => x.setSelectedItems(event, playlistFolder1), Times.once());
+        });
+
+        it('should get the playlists for the selected playlist folders', async () => {
+            // Arrange
+            const component: CollectionPlaylistsComponent = createComponent();
+            const playlistFolder1: PlaylistFolderModel = createPlaylistFolderModel('name1', 'path1');
+            const playlistFolder2: PlaylistFolderModel = createPlaylistFolderModel('name2', 'path2');
+            component.playlistFolders = [playlistFolder1, playlistFolder2];
+            const event: any = {};
+            playlistFoldersSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [playlistFolder1, playlistFolder2]);
+            const playlist1: PlaylistModel = createPlaylistModel('Playlist 1', 'Playlist 1 path');
+            const playlist2: PlaylistModel = createPlaylistModel('Playlist 2', 'Playlist 2 path');
+            playlistServiceMock
+                .setup((x) => x.getPlaylistsAsync([playlistFolder1, playlistFolder2]))
+                .returns(async () => [playlist1, playlist2]);
+            component.playlists = [];
+
+            // Act
+            await component.setSelectedPlaylistFoldersAsync(event, playlistFolder1);
+
+            // Assert
+            playlistServiceMock.verify((x) => x.getPlaylistsAsync([playlistFolder1, playlistFolder2]), Times.once());
+            component.playlists = [playlistFolder1, playlistFolder2];
         });
     });
 

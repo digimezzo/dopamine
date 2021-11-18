@@ -36,3 +36,10 @@
     height: 24px;
     line-height: 24px;
 }
+
+.playlist-browser__list {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+}

@@ -217,6 +217,7 @@ import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
 import { PlaylistFolderModelFactory } from './services/playlist/playlist-folder-model-factory';
+import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
@@ -437,6 +438,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TextSanitizer,
         ContextMenuOpener,
         PlaylistFolderModelFactory,
+        PlaylistModelFactory,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
