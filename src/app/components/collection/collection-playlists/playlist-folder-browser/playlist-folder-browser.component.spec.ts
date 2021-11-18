@@ -1,4 +1,4 @@
-import { PlaylistBrowserComponent } from './playlist-browser.component';
+import { PlaylistBrowserComponent } from './playlist-folder-browser.component';
 
 describe('PlaylistBrowserComponent', () => {
     beforeEach(() => {});

@@ -1,0 +1,38 @@
+.playlist-folder-browser {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-folder-browser__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.playlist-folder-browser__list {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+}
+
+.playlist-folder-browser__count {
+    display: flex;
+    flex-direction: row;
+}
+
+.playlist-folder-browser__number {
+    color: var(--theme-accent-color);
+}
+
+.playlist-folder-browser__add-button {
+    margin-left: 10px;
+    margin-right: -5px;
+    font-size: 20px;
+}
+
+.playlist-folder__name {
+    height: 24px;
+    line-height: 24px;
+}

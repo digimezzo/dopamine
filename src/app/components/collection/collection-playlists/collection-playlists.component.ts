@@ -1,19 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { Strings } from '../../../common/strings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 import { PlaylistModel } from '../../../services/playlist/playlist-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
 
@@ -29,18 +24,12 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     constructor(
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
-        public contextMenuOpener: ContextMenuOpener,
-        private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
         private scheduler: BaseScheduler,
         private logger: Logger,
         private playlistFoldersSelectionWatcher: MouseSelectionWatcher
     ) {}
-
-    @ViewChild(MatMenuTrigger)
-    public playlistFolderContextMenu: MatMenuTrigger;
 
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
     public centerPaneSize: number = 100 - this.settings.playlistsLeftPaneWidthPercent - this.settings.playlistsRightPaneWidthPercent;
@@ -67,31 +56,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public splitDragEnd(event: any): void {
         this.settings.playlistsLeftPaneWidthPercent = event.sizes[0];
         this.settings.playlistsRightPaneWidthPercent = event.sizes[2];
-    }
-
-    public async createPlaylistFolderAsync(): Promise<void> {
-        const playlistFolderName: string = await this.dialogService.showInputDialogAsync(
-            this.translatorService.get('create-playlist-folder'),
-            this.translatorService.get('playlist-folder-name'),
-            ''
-        );
-
-        try {
-            if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
-                this.playlistService.createPlaylistFolder(playlistFolderName);
-            }
-        } catch (e) {
-            this.logger.error(
-                `Could not create playlist folder. Error: ${e.message}`,
-                'CollectionPlaylistsComponent',
-                'createPlaylistFolderAsync'
-            );
-
-            const dialogText: string = await this.translatorService.getAsync('create-playlist-folder-error');
-            this.dialogService.showErrorDialog(dialogText);
-        }
-
-        await this.processListsAsync(false);
     }
 
     private async processListsAsync(performSleep: boolean): Promise<void> {
@@ -131,61 +95,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
         await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
-    }
-
-    public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
-        this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
-    }
-
-    public async onDeletePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-playlist-folder');
-        const dialogText: string = await this.translatorService.getAsync('confirm-delete-playlist-folder-long', {
-            playlistFolderName: playlistFolder.name,
-        });
-
-        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
-
-        if (userHasConfirmed) {
-            try {
-                this.playlistService.deletePlaylistFolder(playlistFolder);
-                await this.fillListsAsync(false);
-            } catch (e) {
-                this.logger.error(
-                    `Could not delete playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onDeletePlaylistFolderAsync'
-                );
-
-                const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
-                this.dialogService.showErrorDialog(errorText);
-            }
-        }
-    }
-
-    public async onRenamePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('rename-playlist-folder');
-        const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder');
-
-        const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
-            dialogTitle,
-            placeholderText,
-            playlistFolder.name
-        );
-
-        if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
-            try {
-                this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
-                await this.fillListsAsync(false);
-            } catch (e) {
-                this.logger.error(
-                    `Could not rename playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onRenamePlaylistFolderAsync'
-                );
-                const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
-                this.dialogService.showErrorDialog(errorText);
-            }
-        }
     }
 
     private async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {

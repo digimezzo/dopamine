@@ -103,7 +103,7 @@ import { GenresTracksPersister } from './components/collection/collection-genres
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
-import { PlaylistBrowserComponent } from './components/collection/collection-playlists/playlist-browser/playlist-browser.component';
+import { PlaylistFolderBrowserComponent } from './components/collection/collection-playlists/playlist-folder-browser/playlist-folder-browser.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
@@ -332,7 +332,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingComponent,
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,
-        PlaylistBrowserComponent,
+        PlaylistFolderBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
