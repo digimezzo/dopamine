@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
+import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Strings } from '../../../../common/strings';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
@@ -19,9 +20,11 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
         public contextMenuOpener: ContextMenuOpener,
+        private playlistFoldersSelectionWatcher: MouseSelectionWatcher,
         private logger: Logger
     ) {}
 
+    @Input()
     public playlistFolders: PlaylistFolderModel[] = [];
 
     @ViewChild(MatMenuTrigger)
@@ -107,5 +110,10 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         }
 
         // await this.processListsAsync(false);
+    }
+
+    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
+        this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
+        // await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
     }
 }

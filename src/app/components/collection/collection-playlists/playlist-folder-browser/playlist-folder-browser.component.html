@@ -30,3 +30,15 @@
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="playlistFolderContextMenu"
+></div>
+<mat-menu #playlistFolderContextMenu="matMenu">
+    <ng-template matMenuContent let-playlistFolder="data">
+        <button mat-menu-item (click)="onRenamePlaylistFolderAsync(playlistFolder)">{{ 'rename' | translate }}</button>
+        <button mat-menu-item (click)="onDeletePlaylistFolderAsync(playlistFolder)">{{ 'delete' | translate }}</button>
+    </ng-template>
+</mat-menu>

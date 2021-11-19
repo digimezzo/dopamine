@@ -27,8 +27,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
         private scheduler: BaseScheduler,
-        private logger: Logger,
-        private playlistFoldersSelectionWatcher: MouseSelectionWatcher
+        private logger: Logger
     ) {}
 
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
@@ -89,12 +88,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private async getPlaylistFoldersAsync(): Promise<void> {
         this.playlistFolders = await this.playlistService.getPlaylistFoldersAsync();
-        this.playlistFoldersSelectionWatcher.initialize(this.playlistFolders, false);
-    }
-
-    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
-        this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
-        await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
+        // this.playlistFoldersSelectionWatcher.initialize(this.playlistFolders, false);
     }
 
     private async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
