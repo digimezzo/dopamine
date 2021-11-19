@@ -4,6 +4,7 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Strings } from '../../../../common/strings';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../../services/playlist/playlist-folder-model';
@@ -13,19 +14,30 @@ import { BaseTranslatorService } from '../../../../services/translator/base-tran
     selector: 'app-playlist-folder-browser',
     templateUrl: './playlist-folder-browser.component.html',
     styleUrls: ['./playlist-folder-browser.component.scss'],
+    providers: [MouseSelectionWatcher],
 })
 export class PlaylistFolderBrowserComponent implements OnInit {
+    private _playlistFolders: PlaylistFolderModel[] = [];
+
     constructor(
+        public appearanceService: BaseAppearanceService,
         public playlistService: BasePlaylistService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
         public contextMenuOpener: ContextMenuOpener,
-        private playlistFoldersSelectionWatcher: MouseSelectionWatcher,
+        private mouseSelectionWatcher: MouseSelectionWatcher,
         private logger: Logger
     ) {}
 
     @Input()
-    public playlistFolders: PlaylistFolderModel[] = [];
+    public set playlistFolders(v: PlaylistFolderModel[]) {
+        this._playlistFolders = v;
+        this.mouseSelectionWatcher.initialize(this.playlistFolders, false);
+    }
+
+    public get playlistFolders(): PlaylistFolderModel[] {
+        return this._playlistFolders;
+    }
 
     @ViewChild(MatMenuTrigger)
     public playlistFolderContextMenu: MatMenuTrigger;
@@ -113,7 +125,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     }
 
     public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
-        this.playlistFoldersSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
+        this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
         // await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
     }
 }

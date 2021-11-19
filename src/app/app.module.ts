@@ -104,6 +104,7 @@ import { CollectionPersister } from './components/collection/collection-persiste
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
 import { PlaylistFolderBrowserComponent } from './components/collection/collection-playlists/playlist-folder-browser/playlist-folder-browser.component';
+import { PlaylistFoldersPersister } from './components/collection/collection-playlists/playlist-folders-persister';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
@@ -435,6 +436,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumsAlbumsPersister,
         AlbumsTracksPersister,
         FoldersPersister,
+        PlaylistFoldersPersister,
         CollectionChecker,
         IndexablePathFetcher,
         TextSanitizer,

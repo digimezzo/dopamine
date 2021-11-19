@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
@@ -16,7 +15,6 @@ import { CollectionTab } from '../collection-tab';
     selector: 'app-collection-playlists',
     templateUrl: './collection-playlists.component.html',
     styleUrls: ['./collection-playlists.component.scss'],
-    providers: [MouseSelectionWatcher],
 })
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
