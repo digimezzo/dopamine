@@ -1,3 +1,4 @@
+import { Observable, Subject, Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
@@ -15,6 +16,9 @@ describe('PlaylistService', () => {
     let fileSystemMock: IMock<FileSystem>;
     let textSanitizerMock: IMock<TextSanitizer>;
     let loggerMock: IMock<Logger>;
+
+    const playlistFoldersChanged: Subject<void> = new Subject();
+    let playlistFoldersChanged$: Observable<void>;
 
     function createService(): BasePlaylistService {
         return new PlaylistService(
@@ -39,6 +43,8 @@ describe('PlaylistService', () => {
         fileSystemMock = Mock.ofType<FileSystem>();
         textSanitizerMock = Mock.ofType<TextSanitizer>();
         loggerMock = Mock.ofType<Logger>();
+
+        playlistFoldersChanged$ = playlistFoldersChanged.asObservable();
 
         playlistFolderModelFactoryMock
             .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 1'))
@@ -100,6 +106,16 @@ describe('PlaylistService', () => {
             // Assert
             fileSystemMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/User/Music/Dopamine/Playlists'), Times.once());
         });
+
+        it('should define playlistFoldersChanged$', () => {
+            // Arrange
+
+            // Act
+            const service: BasePlaylistService = createService();
+
+            // Assert
+            expect(service.playlistFoldersChanged$).toBeDefined();
+        });
     });
 
     describe('createPlaylistFolder', () => {
@@ -157,6 +173,26 @@ describe('PlaylistService', () => {
                 Times.once()
             );
         });
+
+        it('should notify that the playlist folders have changed', () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+
+            const subscription: Subscription = new Subscription();
+            let wasNotified: boolean = false;
+
+            subscription.add(
+                service.playlistFoldersChanged$.subscribe(() => {
+                    wasNotified = true;
+                })
+            );
+
+            // Act
+            service.createPlaylistFolder('My dirty playlist folder');
+
+            // Assert
+            expect(wasNotified).toBeTruthy();
+        });
     });
 
     describe('getPlaylistFoldersAsync', () => {
@@ -186,6 +222,27 @@ describe('PlaylistService', () => {
             // Assert
             fileSystemMock.verify((x) => x.deleteDirectoryRecursively(playlistFolders[0].path), Times.once());
         });
+
+        it('should notify that the playlist folders have changed', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = createPlaylistFolders();
+
+            const subscription: Subscription = new Subscription();
+            let wasNotified: boolean = false;
+
+            subscription.add(
+                service.playlistFoldersChanged$.subscribe(() => {
+                    wasNotified = true;
+                })
+            );
+
+            // Act
+            service.deletePlaylistFolder(playlistFolders[0]);
+
+            // Assert
+            expect(wasNotified).toBeTruthy();
+        });
     });
 
     describe('renamePlaylistFolder', () => {
@@ -211,6 +268,27 @@ describe('PlaylistService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.renameDirectory(playlistFolders[0].path, 'My new playlist folder'), Times.once());
+        });
+
+        it('should notify that the playlist folders have changed', async () => {
+            // Arrange
+            const service: BasePlaylistService = createService();
+            const playlistFolders: PlaylistFolderModel[] = createPlaylistFolders();
+
+            const subscription: Subscription = new Subscription();
+            let wasNotified: boolean = false;
+
+            subscription.add(
+                service.playlistFoldersChanged$.subscribe(() => {
+                    wasNotified = true;
+                })
+            );
+
+            // Act
+            service.renamePlaylistFolder(playlistFolders[0], 'My new dirty playlist folder');
+
+            // Assert
+            expect(wasNotified).toBeTruthy();
         });
     });
 

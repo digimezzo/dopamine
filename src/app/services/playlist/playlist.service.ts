@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
@@ -13,6 +14,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
     private _playlistsDirectoryPath: string;
+    private playlistFoldersChanged: Subject<void> = new Subject();
 
     constructor(
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
@@ -23,6 +25,8 @@ export class PlaylistService implements BasePlaylistService {
     ) {
         this.initialize();
     }
+
+    public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
 
     private initialize(): void {
         this._playlistsDirectoryPath = this.getPlaylistsDirectoryPath();
@@ -60,6 +64,8 @@ export class PlaylistService implements BasePlaylistService {
         ]);
 
         this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
+
+        this.playlistFoldersChanged.next();
     }
 
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
@@ -75,11 +81,15 @@ export class PlaylistService implements BasePlaylistService {
 
     public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
         this.fileSystem.deleteDirectoryRecursively(playlistFolder.path);
+
+        this.playlistFoldersChanged.next();
     }
 
     public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
         this.fileSystem.renameDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
+
+        this.playlistFoldersChanged.next();
     }
 
     public async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]> {
