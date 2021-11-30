@@ -8,13 +8,13 @@ import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-
 @Injectable()
 export class PlaylistFoldersPersister {
     private selectedPlaylistFolderNames: string[] = [];
-    private selectedPlaylistFoldersChanged: Subject<string[]> = new Subject();
+    private selectedPlaylistFoldersChanged: Subject<PlaylistFolderModel[]> = new Subject();
 
     constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
-    public selectedPlaylistFoldersChanged$: Observable<string[]> = this.selectedPlaylistFoldersChanged.asObservable();
+    public selectedPlaylistFoldersChanged$: Observable<PlaylistFolderModel[]> = this.selectedPlaylistFoldersChanged.asObservable();
 
     public getSelectedPlaylistFolders(availablePlaylistFolders: PlaylistFolderModel[]): PlaylistFolderModel[] {
         if (availablePlaylistFolders == undefined) {
@@ -45,12 +45,14 @@ export class PlaylistFoldersPersister {
             } else {
                 this.selectedPlaylistFolderNames = [];
             }
+
             if (this.selectedPlaylistFolderNames.length > 0) {
                 this.saveSelectedPlaylistFolderToSettings(this.selectedPlaylistFolderNames[0]);
             } else {
                 this.saveSelectedPlaylistFolderToSettings('');
             }
-            this.selectedPlaylistFoldersChanged.next(this.selectedPlaylistFolderNames);
+
+            this.selectedPlaylistFoldersChanged.next(selectedPlaylistFolders);
         } catch (e) {
             this.logger.error(
                 `Could not set selected playlist folders. Error: ${e.message}`,

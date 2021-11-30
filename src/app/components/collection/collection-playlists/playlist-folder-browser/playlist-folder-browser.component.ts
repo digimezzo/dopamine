@@ -9,6 +9,7 @@ import { BaseDialogService } from '../../../../services/dialog/base-dialog.servi
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../../services/playlist/playlist-folder-model';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
+import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 
 @Component({
     selector: 'app-playlist-folder-browser',
@@ -18,6 +19,7 @@ import { BaseTranslatorService } from '../../../../services/translator/base-tran
 })
 export class PlaylistFolderBrowserComponent implements OnInit {
     private _playlistFolders: PlaylistFolderModel[] = [];
+    private _playlistFoldersPersister: PlaylistFoldersPersister;
 
     constructor(
         public appearanceService: BaseAppearanceService,
@@ -29,14 +31,29 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         private logger: Logger
     ) {}
 
+    public get playlistFolders(): PlaylistFolderModel[] {
+        return this._playlistFolders;
+    }
+
     @Input()
     public set playlistFolders(v: PlaylistFolderModel[]) {
         this._playlistFolders = v;
         this.mouseSelectionWatcher.initialize(this.playlistFolders, false);
+
+        // When the component is first rendered, it happens that playlistFoldersPersister is undefined.
+        if (this.playlistFoldersPersister != undefined) {
+            this.applySelectedPlaylistFolders();
+        }
     }
 
-    public get playlistFolders(): PlaylistFolderModel[] {
-        return this._playlistFolders;
+    public get playlistFoldersPersister(): PlaylistFoldersPersister {
+        return this._playlistFoldersPersister;
+    }
+
+    @Input()
+    public set playlistFoldersPersister(v: PlaylistFoldersPersister) {
+        this._playlistFoldersPersister = v;
+        this.applySelectedPlaylistFolders();
     }
 
     @ViewChild(MatMenuTrigger)
@@ -86,7 +103,6 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
             try {
                 this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
-                // await this.fillListsAsync(false);
             } catch (e) {
                 this.logger.error(
                     `Could not rename playlist folder. Error: ${e.message}`,
@@ -120,12 +136,24 @@ export class PlaylistFolderBrowserComponent implements OnInit {
             const dialogText: string = await this.translatorService.getAsync('create-playlist-folder-error');
             this.dialogService.showErrorDialog(dialogText);
         }
-
-        // await this.processListsAsync(false);
     }
 
     public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
-        // await this.getPlaylistsAsync(this.playlistFoldersSelectionWatcher.selectedItems);
+        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems);
+    }
+
+    private applySelectedPlaylistFolders(): void {
+        const selectedPlaylistFolders: PlaylistFolderModel[] = this.playlistFoldersPersister.getSelectedPlaylistFolders(
+            this.playlistFolders
+        );
+
+        if (selectedPlaylistFolders == undefined) {
+            return;
+        }
+
+        for (const selectedPlaylistFolder of selectedPlaylistFolders) {
+            selectedPlaylistFolder.isSelected = true;
+        }
     }
 }

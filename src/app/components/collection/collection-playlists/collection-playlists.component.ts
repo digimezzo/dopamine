@@ -10,6 +10,7 @@ import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-
 import { PlaylistModel } from '../../../services/playlist/playlist-model';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
+import { PlaylistFoldersPersister } from './playlist-folders-persister';
 
 @Component({
     selector: 'app-collection-playlists',
@@ -23,6 +24,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
         private collectionPersister: CollectionPersister,
+        public playlistFoldersPersister: PlaylistFoldersPersister,
         private settings: BaseSettings,
         private scheduler: BaseScheduler,
         private logger: Logger
@@ -44,6 +46,12 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(async () => {
                 await this.processListsAsync(true);
+            })
+        );
+
+        this.subscription.add(
+            this.playlistFoldersPersister.selectedPlaylistFoldersChanged$.subscribe(async (playlistFolders: PlaylistFolderModel[]) => {
+                await this.getPlaylistsForPlaylistFoldersAsync(playlistFolders);
             })
         );
 
@@ -79,6 +87,12 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
             }
 
             await this.getPlaylistFoldersAsync();
+
+            if (performSleep) {
+                await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
+            }
+
+            await this.getPlaylistsAsync();
         } catch (e) {
             this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionPlaylistsComponent', 'fillListsAsync');
         }
@@ -86,11 +100,17 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private async getPlaylistFoldersAsync(): Promise<void> {
         this.playlistFolders = await this.playlistService.getPlaylistFoldersAsync();
-        // this.playlistFoldersSelectionWatcher.initialize(this.playlistFolders, false);
     }
 
-    private async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
+    private async getPlaylistsAsync(): Promise<void> {
+        const selectedPlaylistFolders: PlaylistFolderModel[] = this.playlistFoldersPersister.getSelectedPlaylistFolders(
+            this.playlistFolders
+        );
+
+        this.playlists = await this.playlistService.getPlaylistsAsync(selectedPlaylistFolders);
+    }
+
+    private async getPlaylistsForPlaylistFoldersAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
         this.playlists = await this.playlistService.getPlaylistsAsync(playlistFolders);
-        console.log(this.playlists);
     }
 }

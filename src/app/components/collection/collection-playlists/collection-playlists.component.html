@@ -2,7 +2,11 @@
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)">
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95"
             ><div class="left-side-pane">
-                <app-playlist-folder-browser class="p-3 fill" [playlistFolders]="this.playlistFolders"></app-playlist-folder-browser></div
+                <app-playlist-folder-browser
+                    class="p-3 fill"
+                    [(playlistFoldersPersister)]="this.playlistFoldersPersister"
+                    [playlistFolders]="this.playlistFolders"
+                ></app-playlist-folder-browser></div
         ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95">
             <cdk-virtual-scroll-viewport class="mt-3 playlist-browser__list" itemSize="28">
