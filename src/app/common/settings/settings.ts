@@ -375,6 +375,15 @@ export class Settings implements BaseSettings {
         this.settings.set('genresTabSelectedTrackOrder', v);
     }
 
+    //  Palylists tab selected playlist folder
+    public get playlistsTabSelectedPlaylistFolder(): string {
+        return this.settings.get('playlistsTabSelectedPlaylistFolder');
+    }
+
+    public set playlistsTabSelectedPlaylistFolder(v: string) {
+        this.settings.set('playlistsTabSelectedPlaylistFolder', v);
+    }
+
     //  Enable Discord Rich Presence
     public get enableDiscordRichPresence(): boolean {
         return this.settings.get('enableDiscordRichPresence');
@@ -544,6 +553,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('genresTabSelectedTrackOrder')) {
             this.settings.set('genresTabSelectedTrackOrder', '');
+        }
+
+        if (!this.settings.has('playlistsTabSelectedPlaylistFolder')) {
+            this.settings.set('playlistsTabSelectedPlaylistFolder', '');
         }
 
         if (!this.settings.has('enableDiscordRichPresence')) {
