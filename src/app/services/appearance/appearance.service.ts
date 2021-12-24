@@ -280,6 +280,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-search-box', this.selectedTheme.darkColors.searchBox);
         element.style.setProperty('--theme-search-box-text', this.selectedTheme.darkColors.searchBoxText);
         element.style.setProperty('--theme-search-box-icon', this.selectedTheme.darkColors.searchBoxIcon);
+        element.style.setProperty('--theme-dialog-background', this.selectedTheme.darkColors.dialogBackground);
         this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
 
         if (this.isUsingLightTheme) {
@@ -307,6 +308,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-search-box', this.selectedTheme.lightColors.searchBox);
             element.style.setProperty('--theme-search-box-text', this.selectedTheme.lightColors.searchBoxText);
             element.style.setProperty('--theme-search-box-icon', this.selectedTheme.lightColors.searchBoxIcon);
+            element.style.setProperty('--theme-dialog-background', this.selectedTheme.lightColors.dialogBackground);
             this.setShouldOverrideSelectedItemText(this.selectedTheme.lightColors.selectedItemText);
         }
 

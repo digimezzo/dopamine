@@ -25,7 +25,8 @@ describe('ThemeNeutralColors', () => {
             '#888',
             '#999',
             '#aaa',
-            '#bbb'
+            '#bbb',
+            '#ccc'
         );
     }
 
