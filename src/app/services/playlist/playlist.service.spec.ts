@@ -47,6 +47,10 @@ describe('PlaylistService', () => {
         playlistFoldersChanged$ = playlistFoldersChanged.asObservable();
 
         playlistFolderModelFactoryMock
+            .setup((x) => x.create('/home/User/Music/Dopamine/Playlists'))
+            .returns(() => new PlaylistFolderModel('Playlists', '/home/User/Music/Dopamine/Playlists'));
+
+        playlistFolderModelFactoryMock
             .setup((x) => x.create('/home/User/Music/Dopamine/Playlists/Folder 1'))
             .returns(() => new PlaylistFolderModel('Folder 1', '/home/User/Music/Dopamine/Playlists/Folder 1'));
 
@@ -81,6 +85,10 @@ describe('PlaylistService', () => {
         fileSystemMock
             .setup((x) => x.getFilesInDirectoryAsync('/home/User/Music/Dopamine/Playlists/Folder 2'))
             .returns(async () => ['/home/User/Music/Dopamine/Playlists/Folder 2/Playlist 2.m3u']);
+
+        fileSystemMock.setup((x) => x.getFileExtension('/home/User/Music/Dopamine/Playlists/File1.txt')).returns(() => '.txt');
+        fileSystemMock.setup((x) => x.getFileExtension('/home/User/Music/Dopamine/Playlists/File1.m3u')).returns(() => '.m3u');
+        fileSystemMock.setup((x) => x.getFileExtension('/home/User/Music/Dopamine/Playlists/File2.m3u8')).returns(() => '.m3u8');
 
         textSanitizerMock.setup((x) => x.sanitize('My dirty playlist folder')).returns(() => 'My playlist folder');
         textSanitizerMock.setup((x) => x.sanitize('My new dirty playlist folder')).returns(() => 'My new playlist folder');
@@ -196,8 +204,10 @@ describe('PlaylistService', () => {
     });
 
     describe('getPlaylistFoldersAsync', () => {
-        it('should get the playlist folders', async () => {
+        it('should get the playlist folders without parent folder if there are no files in the parent folder', async () => {
             // Arrange
+            fileSystemMock.setup((x) => x.getFilesInDirectoryAsync('/home/User/Music/Dopamine/Playlists')).returns(async () => []);
+
             const service: BasePlaylistService = createService();
 
             // Act
@@ -207,6 +217,41 @@ describe('PlaylistService', () => {
             expect(playlistFolders.length).toEqual(2);
             expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1');
             expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 2');
+        });
+
+        it('should get the playlist folders without parent folder if there are files which are not playlists in the parent folder', async () => {
+            // Arrange
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/User/Music/Dopamine/Playlists'))
+                .returns(async () => ['/home/User/Music/Dopamine/Playlists/File1.txt']);
+
+            const service: BasePlaylistService = createService();
+
+            // Act
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Assert
+            expect(playlistFolders.length).toEqual(2);
+            expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1');
+            expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 2');
+        });
+
+        it('should get the playlist folders with parent folder if there are playlist files in the parent folder', async () => {
+            // Arrange
+            fileSystemMock
+                .setup((x) => x.getFilesInDirectoryAsync('/home/User/Music/Dopamine/Playlists'))
+                .returns(async () => ['/home/User/Music/Dopamine/Playlists/File1.m3u']);
+
+            const service: BasePlaylistService = createService();
+
+            // Act
+            const playlistFolders: PlaylistFolderModel[] = await service.getPlaylistFoldersAsync();
+
+            // Assert
+            expect(playlistFolders.length).toEqual(3);
+            expect(playlistFolders[0].path).toEqual('/home/User/Music/Dopamine/Playlists');
+            expect(playlistFolders[1].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 1');
+            expect(playlistFolders[2].path).toEqual('/home/User/Music/Dopamine/Playlists/Folder 2');
         });
     });
 
@@ -292,7 +337,7 @@ describe('PlaylistService', () => {
         });
     });
 
-    describe('getPlaylistFoldersAsync', () => {
+    describe('getPlaylistsAsync', () => {
         it('should get the playlists', async () => {
             // Arrange
             const service: BasePlaylistService = createService();

@@ -59,6 +59,12 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subscription.add(
+            this.playlistService.playlistFoldersChanged$.subscribe(async () => {
+                await this.processListsAsync(true);
+            })
+        );
+
         await this.processListsAsync(true);
     }
 

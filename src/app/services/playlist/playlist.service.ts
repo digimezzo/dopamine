@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
+import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
@@ -69,8 +70,14 @@ export class PlaylistService implements BasePlaylistService {
     }
 
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
+        const filesInParentFolder: string[] = await this.fileSystem.getFilesInDirectoryAsync(this._playlistsDirectoryPath);
+        const playlistsInParentFolder: string[] = this.getSupportedPlaylistPaths(filesInParentFolder);
         const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(this._playlistsDirectoryPath);
         const playlistFolders: PlaylistFolderModel[] = [];
+
+        if (playlistsInParentFolder.length > 0) {
+            playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this._playlistsDirectoryPath));
+        }
 
         for (const playlistFolderPath of playlistFolderPaths) {
             playlistFolders.push(this.playlistFolderModelFactory.create(playlistFolderPath));
@@ -104,5 +111,27 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         return playlists;
+    }
+
+    private getSupportedPlaylistPaths(proposedFilePaths: string[]): string[] {
+        const supportedPlaylistsPaths: string[] = [];
+
+        for (const proposedFilePath of proposedFilePaths) {
+            if (this.isSupportedPlaylistFile(proposedFilePath)) {
+                supportedPlaylistsPaths.push(proposedFilePath);
+            }
+        }
+
+        return supportedPlaylistsPaths;
+    }
+
+    private isSupportedPlaylistFile(filePath: string): boolean {
+        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+
+        if (FileFormats.supportedPlaylistExtensions.includes(fileExtension.toLowerCase())) {
+            return true;
+        }
+
+        return false;
     }
 }

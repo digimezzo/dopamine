@@ -65,7 +65,9 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     public ngOnInit(): void {}
 
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
-        this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
+        if (playlistFolder.isModifiable) {
+            this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
+        }
     }
 
     public async onDeletePlaylistFolderAsync(playlistFolder: PlaylistFolderModel): Promise<void> {
