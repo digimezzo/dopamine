@@ -81,7 +81,6 @@ import { AddFolderComponent } from './components/add-folder/add-folder.component
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { AlbumBrowserComponent } from './components/collection/album-browser/album-browser.component';
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
-import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
 import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
 import { AlbumsTracksPersister } from './components/collection/collection-albums/albums-tracks-persister';
@@ -103,10 +102,15 @@ import { GenresTracksPersister } from './components/collection/collection-genres
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
+import { PlaylistBrowserComponent } from './components/collection/collection-playlists/playlist-browser/playlist-browser.component';
+import { PlaylistComponent } from './components/collection/collection-playlists/playlist-browser/playlist/playlist.component';
 import { PlaylistFolderBrowserComponent } from './components/collection/collection-playlists/playlist-folder-browser/playlist-folder-browser.component';
+import { PlaylistRowsGetter } from './components/collection/collection-playlists/playlist-folder-browser/playlist-rows-getter';
 import { PlaylistFoldersPersister } from './components/collection/collection-playlists/playlist-folders-persister';
+import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
+import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
@@ -158,6 +162,7 @@ import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
+import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
@@ -309,6 +314,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenresFilterPipe,
         TracksFilterPipe,
         SubfoldersFilterPipe,
+        PlaylistsFilterPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -334,6 +340,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,
         PlaylistFolderBrowserComponent,
+        PlaylistBrowserComponent,
+        PlaylistComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -416,7 +424,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         CollectionPersister,
         PathValidator,
         AlbumRowsGetter,
-        AlbumSpaceCalculator,
+        ItemSpaceCalculator,
         NativeElementProxy,
         DocumentProxy,
         GitHubApi,
@@ -443,6 +451,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ContextMenuOpener,
         PlaylistFolderModelFactory,
         PlaylistModelFactory,
+        PlaylistRowsGetter,
+        PlaylistsPersister,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

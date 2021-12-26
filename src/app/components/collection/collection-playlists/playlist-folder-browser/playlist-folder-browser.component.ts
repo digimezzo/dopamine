@@ -6,6 +6,7 @@ import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watche
 import { Strings } from '../../../../common/strings';
 import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
+import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../../services/playlist/playlist-folder-model';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
@@ -13,6 +14,7 @@ import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 
 @Component({
     selector: 'app-playlist-folder-browser',
+    host: { style: 'display: block' },
     templateUrl: './playlist-folder-browser.component.html',
     styleUrls: ['./playlist-folder-browser.component.scss'],
     providers: [MouseSelectionWatcher],
@@ -24,6 +26,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     constructor(
         public appearanceService: BaseAppearanceService,
         public playlistService: BasePlaylistService,
+        public playbackService: BasePlaybackService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
         public contextMenuOpener: ContextMenuOpener,
@@ -76,7 +79,6 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         if (userHasConfirmed) {
             try {
                 this.playlistService.deletePlaylistFolder(playlistFolder);
-                // await this.fillListsAsync(false);
             } catch (e) {
                 this.logger.error(
                     `Could not delete playlist folder. Error: ${e.message}`,

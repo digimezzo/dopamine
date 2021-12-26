@@ -9,13 +9,11 @@
                 ></app-playlist-folder-browser></div
         ></as-split-area>
         <as-split-area [size]="centerPaneSize" minSize="5" maxSize="95">
-            <cdk-virtual-scroll-viewport class="mt-3 playlist-browser__list" itemSize="28">
-                <div *cdkVirtualFor="let playlist of playlists">
-                    <div>
-                        {{ playlist.name }}
-                    </div>
-                </div>
-            </cdk-virtual-scroll-viewport>
+            <app-playlist-browser
+                class="p-3 fill"
+                [playlists]="this.playlists | playlistsFilter: this.searchService.delayedSearchText"
+                [(playlistsPersister)]="this.playlistsPersister"
+            ></app-playlist-browser>
         </as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
     </as-split>

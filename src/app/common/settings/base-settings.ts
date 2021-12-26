@@ -42,4 +42,6 @@ export abstract class BaseSettings {
     public abstract genresTabSelectedTrackOrder: string;
     public abstract enableDiscordRichPresence: boolean;
     public abstract playlistsTabSelectedPlaylistFolder: string;
+    public abstract playlistsTabSelectedPlaylist: string;
+    public abstract playlistsTabSelectedPlaylistOrder: string;
 }

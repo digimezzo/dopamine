@@ -157,5 +157,7 @@
     "delete-playlist-folder-error": "Er is een fout opgetreden bij het verwijderen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt.",
     "rename-playlist-folder": "Naam playlist map wijzigen",
     "rename-playlist-folder-placeholder": "Naam van de playlist map",
-    "rename-playlist-folder-error": "Er is een fout opgetreden bij het hernoemen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt."
+    "rename-playlist-folder-error": "Er is een fout opgetreden bij het hernoemen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt.",
+    "by-playlist-name-ascending": "A-Z",
+    "by-playlist-name-descending": "Z-A"
 }

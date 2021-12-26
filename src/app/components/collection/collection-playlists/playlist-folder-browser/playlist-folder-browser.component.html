@@ -1,4 +1,4 @@
-<div class="playlist-folder-browser p-3">
+<div class="playlist-folder-browser">
     <div class="playlist-folder-browser__header m-1 no-select">
         <div class="playlist-folder-browser__count">
             <div class="playlist-folder-browser__number mr-2">{{ this.playlistFolders.length }}</div>
@@ -24,6 +24,7 @@
                     'selected-item-background': playlistFolder.isSelected,
                     'selected-item-text-color-important': playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                 }"
+                (dblclick)="this.playbackService.enqueueAndPlayPlaylistFolder(playlistFolder)"
             >
                 {{ playlistFolder.name }}
             </div>

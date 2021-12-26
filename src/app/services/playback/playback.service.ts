@@ -8,6 +8,8 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
+import { PlaylistFolderModel } from '../playlist/playlist-folder-model';
+import { PlaylistModel } from '../playlist/playlist-model';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -21,20 +23,6 @@ import { Queue } from './queue';
 
 @Injectable()
 export class PlaybackService implements BasePlaybackService {
-    private progressChanged: Subject<PlaybackProgress> = new Subject();
-    private playbackStarted: Subject<PlaybackStarted> = new Subject();
-    private playbackPaused: Subject<void> = new Subject();
-    private playbackResumed: Subject<void> = new Subject();
-    private playbackStopped: Subject<void> = new Subject();
-    private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
-    private _volume: number = 0;
-    private _loopMode: LoopMode = LoopMode.None;
-    private _isShuffled: boolean = false;
-    private _isPlaying: boolean = false;
-    private _canPause: boolean = false;
-    private _canResume: boolean = true;
-    private subscription: Subscription = new Subscription();
-
     constructor(
         private trackService: BaseTrackService,
         private audioPlayer: BaseAudioPlayer,
@@ -48,14 +36,6 @@ export class PlaybackService implements BasePlaybackService {
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
     }
-
-    public currentTrack: TrackModel;
-
-    public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
-    public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
-    public playbackPaused$: Observable<void> = this.playbackPaused.asObservable();
-    public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
-    public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
 
     public get playbackQueue(): TrackModels {
         const trackModels: TrackModels = new TrackModels();
@@ -103,6 +83,29 @@ export class PlaybackService implements BasePlaybackService {
     public get canResume(): boolean {
         return this._canResume;
     }
+    private progressChanged: Subject<PlaybackProgress> = new Subject();
+    private playbackStarted: Subject<PlaybackStarted> = new Subject();
+    private playbackPaused: Subject<void> = new Subject();
+    private playbackResumed: Subject<void> = new Subject();
+    private playbackStopped: Subject<void> = new Subject();
+    private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
+    private _volume: number = 0;
+    private _loopMode: LoopMode = LoopMode.None;
+    private _isShuffled: boolean = false;
+    private _isPlaying: boolean = false;
+    private _canPause: boolean = false;
+    private _canResume: boolean = true;
+    private subscription: Subscription = new Subscription();
+
+    public currentTrack: TrackModel;
+
+    public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
+    public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
+    public playbackPaused$: Observable<void> = this.playbackPaused.asObservable();
+    public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
+    public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
+    public enqueueAndPlayPlaylistFolder(playlistFolderToPlay: PlaylistFolderModel): void {}
+    public enqueueAndPlayPlaylist(playlistToPlay: PlaylistModel): void {}
 
     public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {

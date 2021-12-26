@@ -8,9 +8,11 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 import { PlaylistModel } from '../../../services/playlist/playlist-model';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
 import { PlaylistFoldersPersister } from './playlist-folders-persister';
+import { PlaylistsPersister } from './playlists-persister';
 
 @Component({
     selector: 'app-collection-playlists',
@@ -23,8 +25,10 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     constructor(
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
+        public searchService: BaseSearchService,
         private collectionPersister: CollectionPersister,
         public playlistFoldersPersister: PlaylistFoldersPersister,
+        public playlistsPersister: PlaylistsPersister,
         private settings: BaseSettings,
         private scheduler: BaseScheduler,
         private logger: Logger

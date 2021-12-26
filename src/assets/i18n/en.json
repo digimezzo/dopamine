@@ -157,5 +157,7 @@
     "delete-playlist-folder-error": "An error occurred while deleting the playlist folder. Please verify the log if you need more information.",
     "rename-playlist-folder": "Rename playlist folder",
     "rename-playlist-folder-placeholder": "Playlist folder name",
-    "rename-playlist-folder-error": "An error occurred while renaming the playlist folder. Please verify the log if you need more information."
+    "rename-playlist-folder-error": "An error occurred while renaming the playlist folder. Please verify the log if you need more information.",
+    "by-playlist-name-ascending": "A-Z",
+    "by-playlist-name-descending": "Z-A"
 }

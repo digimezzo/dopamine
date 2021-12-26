@@ -1,0 +1,84 @@
+import { IMock, It, Mock } from 'typemoq';
+import { FileSystem } from '../common/io/file-system';
+import { PlaylistModel } from '../services/playlist/playlist-model';
+import { BaseSearchService } from '../services/search/base-search.service';
+import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import { PlaylistsFilterPipe } from './playlists-filter';
+
+describe('PlaylistsFilterPipe', () => {
+    let searchServiceMock: IMock<BaseSearchService>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let fileSystemMock: IMock<FileSystem>;
+
+    function createPipe(): PlaylistsFilterPipe {
+        return new PlaylistsFilterPipe(searchServiceMock.object);
+    }
+
+    function createPlaylistModels(): PlaylistModel[] {
+        const playlist1: PlaylistModel = new PlaylistModel('Playlist 1', 'Playlist 1 path');
+        const playlist2: PlaylistModel = new PlaylistModel('Playlist 2', 'Playlist 2 path');
+        const playlists: PlaylistModel[] = [playlist1, playlist2];
+
+        return playlists;
+    }
+
+    beforeEach(() => {
+        searchServiceMock = Mock.ofType<BaseSearchService>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        fileSystemMock = Mock.ofType<FileSystem>();
+    });
+
+    describe('transform', () => {
+        it('should return the given playlists if textToContain is undefined', () => {
+            // Arrange
+            const playlists: PlaylistModel[] = createPlaylistModels();
+            const pipe: PlaylistsFilterPipe = createPipe();
+
+            // Act
+            const filteredPlaylists: PlaylistModel[] = pipe.transform(playlists, undefined);
+
+            // Assert
+            expect(filteredPlaylists).toEqual(playlists);
+        });
+
+        it('should return the given playlists if textToContain is empty', () => {
+            // Arrange
+            const playlists: PlaylistModel[] = createPlaylistModels();
+            const pipe: PlaylistsFilterPipe = createPipe();
+
+            // Act
+            const filteredPlaylists: PlaylistModel[] = pipe.transform(playlists, '');
+
+            // Assert
+            expect(filteredPlaylists).toEqual(playlists);
+        });
+
+        it('should return the given playlists if textToContain is space', () => {
+            // Arrange
+            const playlists: PlaylistModel[] = createPlaylistModels();
+            const pipe: PlaylistsFilterPipe = createPipe();
+
+            // Act
+            const filteredPlaylists: PlaylistModel[] = pipe.transform(playlists, ' ');
+
+            // Assert
+            expect(filteredPlaylists).toEqual(playlists);
+        });
+
+        it('should return only playlists with a name containing the search text', () => {
+            // Arrange
+            searchServiceMock.setup((x) => x.matchesSearchText('Playlist 2', It.isAny())).returns(() => true);
+            searchServiceMock.setup((x) => x.matchesSearchText('Playlist 1', It.isAny())).returns(() => false);
+
+            const playlists: PlaylistModel[] = createPlaylistModels();
+            const pipe: PlaylistsFilterPipe = createPipe();
+
+            // Act
+            const filteredPlaylists: PlaylistModel[] = pipe.transform(playlists, 'dummy');
+
+            // Assert
+            expect(filteredPlaylists.length).toEqual(1);
+            expect(filteredPlaylists[0]).toEqual(playlists[1]);
+        });
+    });
+});

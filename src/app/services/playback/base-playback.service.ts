@@ -3,6 +3,8 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
+import { PlaylistFolderModel } from '../playlist/playlist-folder-model';
+import { PlaylistModel } from '../playlist/playlist-model';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
 import { LoopMode } from './loop-mode';
@@ -31,6 +33,8 @@ export abstract class BasePlaybackService {
     public abstract enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void;
     public abstract enqueueAndPlayGenre(genreToPlay: GenreModel): void;
     public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;
+    public abstract enqueueAndPlayPlaylistFolder(playlistFolderToPlay: PlaylistFolderModel): void;
+    public abstract enqueueAndPlayPlaylist(playlistToPlay: PlaylistModel): void;
     public abstract playQueuedTrack(trackToPlay: TrackModel): void;
     public abstract playPrevious(): void;
     public abstract playNext(): void;

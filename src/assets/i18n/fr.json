@@ -157,5 +157,7 @@
     "delete-playlist-folder-error": "Une erreur s'est produite lors de la suppression du dossier de playlists. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "rename-playlist-folder": "Renommer le dossier de playlists",
     "rename-playlist-folder-placeholder": "Nom du dossier dossier de playlists",
-    "rename-playlist-folder-error": "Une erreur s'est produite lors du renommage du dossier de playlists. Veuillez vérifier le log si vous avez besoin de plus d'informations."
+    "rename-playlist-folder-error": "Une erreur s'est produite lors du renommage du dossier de playlists. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "by-playlist-name-ascending": "A-Z",
+    "by-playlist-name-descending": "Z-A"
 }

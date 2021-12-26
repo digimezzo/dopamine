@@ -1,0 +1,32 @@
+<div class="app-playlist-browser" #playlistBrowserElement>
+    <div class="app-playlist-browser__header m-1 no-select">
+        <div class="app-playlist-browser__playlistscount">
+            <div class="app-playlist-browser__playlistscount__number mr-2">{{ this.playlists.length }}</div>
+            <div *ngIf="this.playlists.length === 1">{{ 'playlist' | translate }}</div>
+            <div *ngIf="this.playlists.length !== 1">{{ 'playlists' | translate }}</div>
+        </div>
+
+        <div class="pointer" (click)="togglePlaylistOrder()">
+            <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameAscending">
+                {{ 'by-playlist-name-ascending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameDescending">
+                {{ 'by-playlist-name-descending' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-playlist-browser__playlists mt-3" itemSize="0">
+        <div *cdkVirtualFor="let playlistRow of this.playlistRows">
+            <div class="playlist-row">
+                <app-playlist
+                    class="m-2"
+                    *ngFor="let playlist of playlistRow.playlists"
+                    [playlist]="playlist"
+                    [isSelected]="playlist.isSelected"
+                    (click)="setSelectedPlaylists($event, playlist)"
+                    (dblclick)="this.playbackService.enqueueAndPlayPlaylist(playlist)"
+                ></app-playlist>
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
