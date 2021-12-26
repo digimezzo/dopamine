@@ -1,10 +1,15 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { BaseApplicationService } from '../../../../services/application/base-application.service';
+import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { PlaylistModel } from '../../../../services/playlist/playlist-model';
+import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-getter';
 import { PlaylistOrder } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
@@ -25,9 +30,13 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     constructor(
         public playbackService: BasePlaybackService,
         private applicationService: BaseApplicationService,
+        private translatorService: BaseTranslatorService,
+        private dialogService: BaseDialogService,
+        private playlistService: BasePlaylistService,
         private playlistRowsGetter: PlaylistRowsGetter,
         private nativeElementProxy: NativeElementProxy,
         private mouseSelectionWatcher: MouseSelectionWatcher,
+        public contextMenuOpener: ContextMenuOpener,
         private logger: Logger
     ) {}
 
@@ -35,6 +44,9 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     public playlistRows: PlaylistRow[] = [];
 
     public selectedPlaylistOrder: PlaylistOrder;
+
+    @ViewChild(MatMenuTrigger)
+    public playlistContextMenu: MatMenuTrigger;
 
     @ViewChild('playlistBrowserElement') public playlistBrowserElement: ElementRef;
 
@@ -109,6 +121,10 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         this.orderPlaylists();
     }
 
+    public onPlaylistContextMenu(event: MouseEvent, playlist: PlaylistModel): void {
+        this.contextMenuOpener.open(this.playlistContextMenu, event, playlist);
+    }
+
     private applySelectedPlaylists(): void {
         const selectedPlaylists: PlaylistModel[] = this.playlistsPersister.getSelectedPlaylists(this.playlists);
 
@@ -119,6 +135,48 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         for (const selectedPlaylist of selectedPlaylists) {
             selectedPlaylist.isSelected = true;
         }
+    }
+
+    public async onDeletePlaylistAsync(playlist: PlaylistModel): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-playlist');
+        const dialogText: string = await this.translatorService.getAsync('confirm-delete-playlist-long', {
+            playlistName: playlist.name,
+        });
+
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
+
+        if (userHasConfirmed) {
+            try {
+                await this.playlistService.deletePlaylistAsync(playlist);
+            } catch (e) {
+                this.logger.error(`Could not delete playlist. Error: ${e.message}`, 'PlaylistBrowserComponent', 'onDeletePlaylistAsync');
+                const errorText: string = await this.translatorService.getAsync('delete-playlist-error');
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
+    }
+
+    public async onEditPlaylistAsync(playlist: PlaylistModel): Promise<void> {
+        // const dialogTitle: string = await this.translatorService.getAsync('rename-playlist-folder');
+        // const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder');
+        // const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
+        //     dialogTitle,
+        //     placeholderText,
+        //     playlistFolder.name
+        // );
+        // if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
+        //     try {
+        //         this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
+        //     } catch (e) {
+        //         this.logger.error(
+        //             `Could not rename playlist folder. Error: ${e.message}`,
+        //             'CollectionPlaylistsComponent',
+        //             'onRenamePlaylistFolderAsync'
+        //         );
+        //         const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
+        //         this.dialogService.showErrorDialog(errorText);
+        //     }
+        // }
     }
 
     private orderPlaylists(): void {

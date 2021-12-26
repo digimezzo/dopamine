@@ -160,5 +160,9 @@
     "rename-playlist-folder-error": "An error occurred while renaming the playlist folder. Please verify the log if you need more information.",
     "by-playlist-name-ascending": "A-Z",
     "by-playlist-name-descending": "Z-A",
-    "unsorted": "Unsorted"
+    "unsorted": "Unsorted",
+    "confirm-delete-playlist": "Delete playlist?",
+    "confirm-delete-playlist-long": "Are you sure you want to delete the playlist '{{playlistName}}'?",
+    "delete-playlist-error": "An error occurred while deleting the playlist. Please verify the log if you need more information.",
+    "edit": "Edit..."
 }

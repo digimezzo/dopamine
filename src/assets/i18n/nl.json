@@ -153,12 +153,16 @@
     "rename": "Hernoemen...",
     "delete": "Verwijderen...",
     "confirm-delete-playlist-folder": "Playlist map verwijderen?",
-    "confirm-delete-playlist-folder-long": "Playlist map verwijderen? Weet je zeker dat je de playlist map '{{playlistFolderName}}' wilt verwijderen? Alle zijn afspeellijsten gaan verloren.",
+    "confirm-delete-playlist-folder-long": "Weet je zeker dat je de playlist map '{{playlistFolderName}}' wilt verwijderen? Alle zijn afspeellijsten gaan verloren.",
     "delete-playlist-folder-error": "Er is een fout opgetreden bij het verwijderen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt.",
     "rename-playlist-folder": "Naam playlist map wijzigen",
     "rename-playlist-folder-placeholder": "Naam van de playlist map",
     "rename-playlist-folder-error": "Er is een fout opgetreden bij het hernoemen van de playlist map. Controleer het log bestand als u meer informatie nodig hebt.",
     "by-playlist-name-ascending": "A-Z",
     "by-playlist-name-descending": "Z-A",
-    "unsorted": "Ongesorteerd"
+    "unsorted": "Ongesorteerd",
+    "confirm-delete-playlist": "Playlist verwijderen?",
+    "confirm-delete-playlist-long": "Weet je zeker dat je de playlist '{{playlistName}}' wilt verwijderen?",
+    "delete-playlist-error": "Er is een fout opgetreden bij het verwijderen van de playlist. Controleer het log bestand als u meer informatie nodig hebt.",
+    "edit": "Bewerken..."
 }

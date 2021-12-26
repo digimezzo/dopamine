@@ -9,4 +9,5 @@ export abstract class BasePlaylistService {
     public abstract deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void;
     public abstract renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void;
     public abstract getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]>;
+    public abstract deletePlaylistAsync(playlist: PlaylistModel): Promise<void>;
 }

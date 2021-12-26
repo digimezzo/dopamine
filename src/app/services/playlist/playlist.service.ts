@@ -83,7 +83,7 @@ export class PlaylistService implements BasePlaylistService {
             playlistFolders.push(this.playlistFolderModelFactory.create(playlistFolderPath));
         }
 
-        return playlistFolders;
+        return playlistFolders.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
     }
 
     public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
@@ -111,6 +111,12 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         return playlists;
+    }
+
+    public async deletePlaylistAsync(playlist: PlaylistModel): Promise<void> {
+        await this.fileSystem.deleteFileIfExistsAsync(playlist.path);
+
+        this.playlistFoldersChanged.next();
     }
 
     private getSupportedPlaylistPaths(proposedFilePaths: string[]): string[] {

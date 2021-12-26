@@ -25,8 +25,21 @@
                     [isSelected]="playlist.isSelected"
                     (click)="setSelectedPlaylists($event, playlist)"
                     (dblclick)="this.playbackService.enqueueAndPlayPlaylist(playlist)"
+                    (contextmenu)="onPlaylistContextMenu($event, playlist)"
                 ></app-playlist>
             </div>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="playlistContextMenu"
+></div>
+<mat-menu #playlistContextMenu="matMenu">
+    <ng-template matMenuContent let-playlist="data">
+        <button mat-menu-item (click)="onEditPlaylistAsync(playlist)">{{ 'edit' | translate }}</button>
+        <button mat-menu-item (click)="onDeletePlaylistAsync(playlist)">{{ 'delete' | translate }}</button>
+    </ng-template>
+</mat-menu>
