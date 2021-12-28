@@ -164,5 +164,7 @@
     "confirm-delete-playlist": "Delete playlist?",
     "confirm-delete-playlist-long": "Are you sure you want to delete the playlist '{{playlistName}}'?",
     "delete-playlist-error": "An error occurred while deleting the playlist. Please verify the log if you need more information.",
-    "edit": "Edit..."
+    "edit": "Edit...",
+    "edit-playlist": "Edit playlist",
+    "playlist-name": "Playlist name"
 }

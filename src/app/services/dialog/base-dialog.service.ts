@@ -6,5 +6,5 @@ export abstract class BaseDialogService {
     public abstract showInputDialogAsync(dialogTitle: string, placeHolderText: string, inputText: string): Promise<string>;
     public abstract showErrorDialog(errorText: string): void;
     public abstract showLicenseDialog(): void;
-    public abstract showEditPlaylistDialog(playlist: PlaylistModel): void;
+    public abstract showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void>;
 }

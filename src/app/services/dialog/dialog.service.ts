@@ -58,9 +58,20 @@ export class DialogService implements BaseDialogService {
         });
     }
 
-    public showEditPlaylistDialog(playlist: PlaylistModel): void {
-        this.dialog.open(EditPlaylistDialogComponent, {
+    public async showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void> {
+        this.isInputDialogOpened = true;
+
+        const data: any = {
+            playlist: playlist,
+            inputText: playlist.name,
+        };
+        const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',
+            data: data,
         });
+
+        await dialogRef.afterClosed().toPromise();
+
+        this.isInputDialogOpened = false;
     }
 }

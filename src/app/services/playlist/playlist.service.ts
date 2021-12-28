@@ -16,6 +16,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 export class PlaylistService implements BasePlaylistService {
     private _playlistsDirectoryPath: string;
     private playlistFoldersChanged: Subject<void> = new Subject();
+    private playlistsChanged: Subject<void> = new Subject();
 
     constructor(
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
@@ -28,6 +29,7 @@ export class PlaylistService implements BasePlaylistService {
     }
 
     public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
+    public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
 
     private initialize(): void {
         this._playlistsDirectoryPath = this.getPlaylistsDirectoryPath();
@@ -94,7 +96,7 @@ export class PlaylistService implements BasePlaylistService {
 
     public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
-        this.fileSystem.renameDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
+        this.fileSystem.renameFileOrDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
 
         this.playlistFoldersChanged.next();
     }
@@ -117,6 +119,13 @@ export class PlaylistService implements BasePlaylistService {
         await this.fileSystem.deleteFileIfExistsAsync(playlist.path);
 
         this.playlistFoldersChanged.next();
+    }
+
+    public async updatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string): Promise<void> {
+        const extension: string = this.fileSystem.getFileExtension(playlist.path);
+        this.fileSystem.renameFileOrDirectory(playlist.path, `${newName}${extension}`);
+
+        this.playlistsChanged.next();
     }
 
     private getSupportedPlaylistPaths(proposedFilePaths: string[]): string[] {

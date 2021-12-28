@@ -312,7 +312,7 @@ describe('PlaylistService', () => {
             service.renamePlaylistFolder(playlistFolders[0], 'My new dirty playlist folder');
 
             // Assert
-            fileSystemMock.verify((x) => x.renameDirectory(playlistFolders[0].path, 'My new playlist folder'), Times.once());
+            fileSystemMock.verify((x) => x.renameFileOrDirectory(playlistFolders[0].path, 'My new playlist folder'), Times.once());
         });
 
         it('should notify that the playlist folders have changed', async () => {

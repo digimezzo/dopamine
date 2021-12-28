@@ -106,7 +106,7 @@ export class FileSystem {
         return fs.existsSync(pathToCheck);
     }
 
-    public async getFilesizeInBytesAsync(filePath: string): Promise<number> {
+    public async getFileSizeInBytesAsync(filePath: string): Promise<number> {
         const stats = await fs.stat(filePath);
         const fileSizeInBytes = stats.size;
 
@@ -133,9 +133,9 @@ export class FileSystem {
         fs.rmdirSync(directoryPath, { recursive: true });
     }
 
-    public renameDirectory(directoryPath: string, newName: string): void {
-        const parentDirectoryPath: string = this.getDirectoryPath(directoryPath);
-        fs.renameSync(directoryPath, this.combinePath([parentDirectoryPath, newName]));
+    public renameFileOrDirectory(fileOrDirectoryPath: string, newName: string): void {
+        const parentDirectoryPath: string = this.getDirectoryPath(fileOrDirectoryPath);
+        fs.renameSync(fileOrDirectoryPath, this.combinePath([parentDirectoryPath, newName]));
     }
 
     public getDirectoryName(directoryPath: string): string {

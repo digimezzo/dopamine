@@ -164,5 +164,7 @@
     "confirm-delete-playlist": "Supprimer playlist?",
     "confirm-delete-playlist-long": "Voulez-vous vraiment supprimer la playlist '{{playlistName}}'?",
     "delete-playlist-error": "Une erreur s'est produite lors de la suppression de la playlist. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-    "edit": "Éditer..."
+    "edit": "Éditer...",
+    "edit-playlist": "Éditer playlist",
+    "playlist-name": "Npm de la playlist"
 }

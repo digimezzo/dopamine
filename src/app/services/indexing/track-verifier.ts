@@ -11,7 +11,7 @@ export class TrackVerifier {
             return true;
         }
 
-        if (track.fileSize !== (await this.fileSystem.getFilesizeInBytesAsync(track.path))) {
+        if (track.fileSize !== (await this.fileSystem.getFileSizeInBytesAsync(track.path))) {
             return true;
         }
 

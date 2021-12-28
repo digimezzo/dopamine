@@ -53,7 +53,7 @@ describe('TrackFiller', () => {
 
         fileSystemMock.setup((x) => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
+        fileSystemMock.setup((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
         fileSystemMock.setup((x) => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
 
         trackFiller = new TrackFiller(
@@ -214,7 +214,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            fileSystemMock.verify((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
             expect(track.fileSize).toEqual(123);
         });

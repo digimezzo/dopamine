@@ -164,5 +164,7 @@
     "confirm-delete-playlist": "Playlist verwijderen?",
     "confirm-delete-playlist-long": "Weet je zeker dat je de playlist '{{playlistName}}' wilt verwijderen?",
     "delete-playlist-error": "Er is een fout opgetreden bij het verwijderen van de playlist. Controleer het log bestand als u meer informatie nodig hebt.",
-    "edit": "Bewerken..."
+    "edit": "Bewerken...",
+    "edit-playlist": "Playlist bewerken",
+    "playlist-name": "Playlist naam"
 }
