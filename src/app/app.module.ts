@@ -116,6 +116,7 @@ import { TrackBrowserComponent } from './components/collection/track-browser/tra
 import { TrackComponent } from './components/collection/track/track.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { EditPlaylistDialogComponent } from './components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { InputDialogComponent } from './components/dialogs/input-dialog/input-dialog.component';
 import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
@@ -342,6 +343,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistFolderBrowserComponent,
         PlaylistBrowserComponent,
         PlaylistComponent,
+        EditPlaylistDialogComponent,
     ],
     imports: [
         BrowserAnimationsModule,

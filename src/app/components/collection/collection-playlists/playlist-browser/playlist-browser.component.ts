@@ -157,26 +157,7 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     }
 
     public async onEditPlaylistAsync(playlist: PlaylistModel): Promise<void> {
-        // const dialogTitle: string = await this.translatorService.getAsync('rename-playlist-folder');
-        // const placeholderText: string = await this.translatorService.getAsync('rename-playlist-folder-placeholder');
-        // const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
-        //     dialogTitle,
-        //     placeholderText,
-        //     playlistFolder.name
-        // );
-        // if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
-        //     try {
-        //         this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
-        //     } catch (e) {
-        //         this.logger.error(
-        //             `Could not rename playlist folder. Error: ${e.message}`,
-        //             'CollectionPlaylistsComponent',
-        //             'onRenamePlaylistFolderAsync'
-        //         );
-        //         const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
-        //         this.dialogService.showErrorDialog(errorText);
-        //     }
-        // }
+        this.dialogService.showEditPlaylistDialog(playlist);
     }
 
     private orderPlaylists(): void {
