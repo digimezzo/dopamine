@@ -71,9 +71,21 @@ export class PlaylistService implements BasePlaylistService {
         this.playlistFoldersChanged.next();
     }
 
+    private async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {
+        const filePathsInPath: string[] = await this.fileSystem.getFilesInDirectoryAsync(path);
+        const playlists: PlaylistModel[] = [];
+
+        for (const filePath of filePathsInPath) {
+            if (this.isSupportedPlaylistFile(filePath)) {
+                playlists.push(this.playlistModelFactory.create(filePath));
+            }
+        }
+
+        return playlists;
+    }
+
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
-        const filesInParentFolder: string[] = await this.fileSystem.getFilesInDirectoryAsync(this._playlistsDirectoryPath);
-        const playlistsInParentFolder: string[] = this.getSupportedPlaylistPaths(filesInParentFolder);
+        const playlistsInParentFolder: PlaylistModel[] = await this.getPlaylistsInPathAsync(this._playlistsDirectoryPath);
         const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(this._playlistsDirectoryPath);
         const playlistFolders: PlaylistFolderModel[] = [];
 
@@ -105,11 +117,8 @@ export class PlaylistService implements BasePlaylistService {
         const playlists: PlaylistModel[] = [];
 
         for (const playlistFolder of playlistFolders) {
-            const playlistPaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(playlistFolder.path);
-
-            for (const playlistPath of playlistPaths) {
-                playlists.push(this.playlistModelFactory.create(playlistPath));
-            }
+            const playlistsInPlaylistFolder: PlaylistModel[] = await this.getPlaylistsInPathAsync(playlistFolder.path);
+            playlists.push(...playlistsInPlaylistFolder);
         }
 
         return playlists;
@@ -121,23 +130,19 @@ export class PlaylistService implements BasePlaylistService {
         this.playlistFoldersChanged.next();
     }
 
-    public async updatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string): Promise<void> {
-        const extension: string = this.fileSystem.getFileExtension(playlist.path);
-        this.fileSystem.renameFileOrDirectory(playlist.path, `${newName}${extension}`);
+    public async updatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, newImagePath: string): Promise<void> {
+        this.updatePlaylistName(playlist, newName);
 
         this.playlistsChanged.next();
     }
 
-    private getSupportedPlaylistPaths(proposedFilePaths: string[]): string[] {
-        const supportedPlaylistsPaths: string[] = [];
+    private updatePlaylistImage(playlist: PlaylistModel, newImagePath: string): void {
+        // TODO
+    }
 
-        for (const proposedFilePath of proposedFilePaths) {
-            if (this.isSupportedPlaylistFile(proposedFilePath)) {
-                supportedPlaylistsPaths.push(proposedFilePath);
-            }
-        }
-
-        return supportedPlaylistsPaths;
+    private updatePlaylistName(playlist: PlaylistModel, newName: string): void {
+        const extension: string = this.fileSystem.getFileExtension(playlist.path);
+        this.fileSystem.renameFileOrDirectory(playlist.path, `${newName}${extension}`);
     }
 
     private isSupportedPlaylistFile(filePath: string): boolean {

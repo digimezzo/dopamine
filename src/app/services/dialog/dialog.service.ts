@@ -63,7 +63,8 @@ export class DialogService implements BaseDialogService {
 
         const data: any = {
             playlist: playlist,
-            inputText: playlist.name,
+            playlistName: playlist.name,
+            playlistImagePath: playlist.imagePath,
         };
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',

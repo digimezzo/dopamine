@@ -69,6 +69,10 @@ export class Constants {
         'z',
     ];
 
+    // Transparent 1x1 Gif to avoid broken image icons.
+    // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
+    public static emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
     public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
 
     public static readonly externalComponents: ExternalComponent[] = [

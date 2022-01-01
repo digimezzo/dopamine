@@ -8,7 +8,11 @@ describe('PlaylistModel', () => {
             // Arrange
 
             // Act
-            const playlist: PlaylistModel = new PlaylistModel('Playlist 1', '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u');
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
 
             // Assert
             expect(playlist).toBeDefined();
@@ -18,7 +22,11 @@ describe('PlaylistModel', () => {
             // Arrange
 
             // Act
-            const playlist: PlaylistModel = new PlaylistModel('Playlist 1', '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u');
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
 
             // Assert
             expect(playlist.name).toEqual('Playlist 1');
@@ -28,17 +36,39 @@ describe('PlaylistModel', () => {
             // Arrange
 
             // Act
-            const playlist: PlaylistModel = new PlaylistModel('Playlist 1', '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u');
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
 
             // Assert
             expect(playlist.path).toEqual('/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u');
+        });
+
+        it('should set imagePath', () => {
+            // Arrange
+
+            // Act
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
+
+            // Assert
+            expect(playlist.imagePath).toEqual('/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png');
         });
 
         it('should initialize isSelected as false', () => {
             // Arrange
 
             // Act
-            const playlist: PlaylistModel = new PlaylistModel('Playlist 1', '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u');
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
 
             // Assert
             expect(playlist.isSelected).toBeFalsy();

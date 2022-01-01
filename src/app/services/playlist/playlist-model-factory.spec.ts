@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { FileSystem } from '../../common/io/file-system';
-import { PlaylistFolderModel as PlaylistModel } from './playlist-folder-model';
+import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 describe('PlaylistModelFactory', () => {

@@ -13,12 +13,12 @@ export class ExternalArtworkPathGetter {
         }
 
         const directory: string = this.fileSystem.getDirectoryPath(audioFilePath);
-        const fileNameWithoutExtention: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
+        const fileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
 
         for (const externalCoverArtPattern of Constants.externalCoverArtPatterns) {
             const possibleExternalArtworkFilePath: string = this.fileSystem.combinePath([
                 directory,
-                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtention),
+                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtension),
             ]);
 
             if (this.fileSystem.pathExists(possibleExternalArtworkFilePath)) {

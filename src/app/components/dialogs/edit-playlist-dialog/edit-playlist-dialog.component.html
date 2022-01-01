@@ -1,7 +1,7 @@
 <app-dialog-header icon="las la-pen" [title]="'edit-playlist' | translate"></app-dialog-header>
 <mat-dialog-content>
     <div class="d-flex flex-row">
-        <div class="edit-playlist__image mr-4">
+        <div class="edit-playlist__image mr-4 pointer" matTooltip="{{ 'change-image' | translate }}" (click)="this.changeImageAsync()">
             <div class="edit-playlist__image__placeholder">
                 <svg width="256" height="256" viewBox="0 0 256 256">
                     <path
@@ -10,15 +10,20 @@
                 </svg>
             </div>
             <div>
-                <!-- <img [attr.src]="album.artworkPath" width="120" height="120" loading="lazy" draggable="false" /> -->
+                <img [attr.src]="this.data.playlistImagePath" width="120" height="120" loading="lazy" draggable="false" />
             </div>
         </div>
         <mat-form-field>
-            <input matInput [(ngModel)]="data.inputText" placeholder="{{ 'playlist-name' | translate }}" (keyup.enter)="closeDialog()" />
+            <input
+                matInput
+                [(ngModel)]="this.data.playlistName"
+                placeholder="{{ 'playlist-name' | translate }}"
+                (keyup.enter)="closeDialog()"
+            />
         </mat-form-field>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button [disabled]="!hasInputText" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
+    <button [disabled]="!hasPlaylistName" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
 </mat-dialog-actions>
