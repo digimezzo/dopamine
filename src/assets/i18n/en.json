@@ -166,6 +166,7 @@
     "delete-playlist-error": "An error occurred while deleting the playlist. Please verify the log if you need more information.",
     "edit": "Edit...",
     "edit-playlist": "Edit playlist",
+    "create-playlist": "Create playlist",
     "playlist-name": "Playlist name",
     "change-image": "Change image",
     "remove-image": "Remove image",

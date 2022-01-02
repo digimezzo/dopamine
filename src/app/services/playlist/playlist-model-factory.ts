@@ -13,6 +13,10 @@ export class PlaylistModelFactory {
         return new PlaylistModel(this.getPlaylistName(playlistPath), playlistPath, this.getPlaylistImage(playlistPath));
     }
 
+    public createDefault(): PlaylistModel {
+        return new PlaylistModel('', '', Constants.emptyImage);
+    }
+
     private getPlaylistName(playlistPath: string): string {
         return this.fileSystem.getFileName(playlistPath);
     }

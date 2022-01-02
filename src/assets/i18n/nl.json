@@ -166,6 +166,7 @@
     "delete-playlist-error": "Er is een fout opgetreden bij het verwijderen van de playlist. Controleer het log bestand als u meer informatie nodig hebt.",
     "edit": "Bewerken...",
     "edit-playlist": "Playlist bewerken",
+    "create-playlist": "Playlist maken",
     "playlist-name": "Playlist naam",
     "change-image": "Afbeelding wijzigen",
     "remove-image": "Afbeelding verwijderen",

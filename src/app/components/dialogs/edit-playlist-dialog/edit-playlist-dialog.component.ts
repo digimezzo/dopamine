@@ -22,6 +22,14 @@ export class EditPlaylistDialogComponent implements OnInit {
         dialogRef.disableClose = true;
     }
 
+    public get dialogTitle(): string {
+        if (this.hasPlaylistName) {
+            return this.translatorService.get('edit-playlist');
+        }
+
+        return this.translatorService.get('create-playlist');
+    }
+
     public get hasPlaylistName(): boolean {
         return !Strings.isNullOrWhiteSpace(this.data.playlistName);
     }
@@ -36,6 +44,8 @@ export class EditPlaylistDialogComponent implements OnInit {
                 await this.updatePlaylistAsync();
             }
         });
+
+        console.log(this.data.playlistImagePath);
     }
 
     public closeDialog(): void {

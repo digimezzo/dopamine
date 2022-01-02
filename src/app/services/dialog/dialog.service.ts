@@ -6,11 +6,12 @@ import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/erro
 import { InputDialogComponent } from '../../components/dialogs/input-dialog/input-dialog.component';
 import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
 import { PlaylistModel } from '../playlist/playlist-model';
+import { PlaylistModelFactory } from '../playlist/playlist-model-factory';
 import { BaseDialogService } from './base-dialog.service';
 
 @Injectable()
 export class DialogService implements BaseDialogService {
-    constructor(private dialog: MatDialog) {}
+    constructor(private dialog: MatDialog, private playlistModelFactory: PlaylistModelFactory) {}
 
     public isInputDialogOpened: boolean = false;
 
@@ -65,6 +66,25 @@ export class DialogService implements BaseDialogService {
             playlist: playlist,
             playlistName: playlist.name,
             playlistImagePath: playlist.imagePath,
+        };
+        const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
+            width: '450px',
+            data: data,
+        });
+
+        await dialogRef.afterClosed().toPromise();
+
+        this.isInputDialogOpened = false;
+    }
+
+    public async showCreatePlaylistDialogAsync(): Promise<void> {
+        this.isInputDialogOpened = true;
+
+        const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
+        const data: any = {
+            playlist: defaultPlaylist,
+            playlistName: defaultPlaylist.name,
+            playlistImagePath: defaultPlaylist.imagePath,
         };
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',

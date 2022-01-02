@@ -147,6 +147,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
         this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems);
+        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems);
     }
 
     private applySelectedPlaylistFolders(): void {

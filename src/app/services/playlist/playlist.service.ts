@@ -14,6 +14,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
     private _playlistsParentFolder: string;
+    private _activePlaylistFolder: PlaylistFolderModel;
     private playlistsChanged: Subject<void> = new Subject();
 
     constructor(
@@ -29,7 +30,21 @@ export class PlaylistService implements BasePlaylistService {
         return this._playlistsParentFolder;
     }
 
+    public get activePlaylistFolder(): PlaylistFolderModel {
+        return this._activePlaylistFolder;
+    }
+
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
+
+    public setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void {
+        this._activePlaylistFolder = undefined;
+
+        if (selectedPlaylistFolders != undefined && selectedPlaylistFolders.length > 0) {
+            this._activePlaylistFolder = selectedPlaylistFolders[0];
+        }
+
+        console.log(this._activePlaylistFolder);
+    }
 
     private initialize(): void {
         this._playlistsParentFolder = this.getPlaylistsDirectoryPath();
