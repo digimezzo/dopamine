@@ -7,8 +7,9 @@ import { Strings } from '../../../../common/strings';
 import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BasePlaylistFolderService } from '../../../../services/playlist-folder/base-playlist-folder.service';
+import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
-import { PlaylistFolderModel } from '../../../../services/playlist/playlist-folder-model';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 
@@ -25,6 +26,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
 
     constructor(
         public appearanceService: BaseAppearanceService,
+        public playlistFolderService: BasePlaylistFolderService,
         public playlistService: BasePlaylistService,
         public playbackService: BasePlaybackService,
         private dialogService: BaseDialogService,
@@ -80,7 +82,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
 
         if (userHasConfirmed) {
             try {
-                this.playlistService.deletePlaylistFolder(playlistFolder);
+                this.playlistFolderService.deletePlaylistFolder(playlistFolder);
             } catch (e) {
                 this.logger.error(
                     `Could not delete playlist folder. Error: ${e.message}`,
@@ -106,7 +108,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
 
         if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
             try {
-                this.playlistService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
+                this.playlistFolderService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
             } catch (e) {
                 this.logger.error(
                     `Could not rename playlist folder. Error: ${e.message}`,
@@ -128,7 +130,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
 
         try {
             if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
-                this.playlistService.createPlaylistFolder(playlistFolderName);
+                this.playlistFolderService.createPlaylistFolder(playlistFolderName);
             }
         } catch (e) {
             this.logger.error(

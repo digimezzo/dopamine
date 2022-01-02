@@ -5,43 +5,40 @@ import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { Strings } from '../../common/strings';
-import { TextSanitizer } from '../../common/text-sanitizer';
+import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { BasePlaylistService } from './base-playlist.service';
-import { PlaylistFolderModel } from './playlist-folder-model';
-import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
 import { PlaylistImagePathCreator } from './playlist-image-path-creator';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
-    private _playlistsDirectoryPath: string;
-    private playlistFoldersChanged: Subject<void> = new Subject();
+    private _playlistsParentFolder: string;
     private playlistsChanged: Subject<void> = new Subject();
 
     constructor(
-        private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistModelFactory: PlaylistModelFactory,
         private playlistImagePathCreator: PlaylistImagePathCreator,
         private fileSystem: FileSystem,
-        private textSanitizer: TextSanitizer,
         private logger: Logger
     ) {
         this.initialize();
     }
 
-    public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
+    public get playlistsParentFolder(): string {
+        return this._playlistsParentFolder;
+    }
+
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
 
     private initialize(): void {
-        this._playlistsDirectoryPath = this.getPlaylistsDirectoryPath();
+        this._playlistsParentFolder = this.getPlaylistsDirectoryPath();
         this.ensurePlaylistsDirectoryExists();
     }
 
     private ensurePlaylistsDirectoryExists(): void {
         try {
-            this.fileSystem.createFullDirectoryPathIfDoesNotExist(this._playlistsDirectoryPath);
+            this.fileSystem.createFullDirectoryPathIfDoesNotExist(this._playlistsParentFolder);
         } catch (e) {
             this.logger.error(
                 `Could not create playlists directory. Error: ${e.message}`,
@@ -58,20 +55,8 @@ export class PlaylistService implements BasePlaylistService {
         return playlistsDirectoryPath;
     }
 
-    public createPlaylistFolder(playlistFolderName: string): void {
-        if (Strings.isNullOrWhiteSpace(playlistFolderName)) {
-            throw new Error(`playlistFolderName is empty`);
-        }
-
-        const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(playlistFolderName);
-        const fullPlaylistFolderDirectoryPath: string = this.fileSystem.combinePath([
-            this._playlistsDirectoryPath,
-            sanitizedPlaylistFolderName,
-        ]);
-
-        this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
-
-        this.playlistFoldersChanged.next();
+    public async getPlaylistsInParentFolder(): Promise<PlaylistModel[]> {
+        return await this.getPlaylistsInPathAsync(this._playlistsParentFolder);
     }
 
     private async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {
@@ -85,35 +70,6 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         return playlists;
-    }
-
-    public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
-        const playlistsInParentFolder: PlaylistModel[] = await this.getPlaylistsInPathAsync(this._playlistsDirectoryPath);
-        const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(this._playlistsDirectoryPath);
-        const playlistFolders: PlaylistFolderModel[] = [];
-
-        if (playlistsInParentFolder.length > 0) {
-            playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this._playlistsDirectoryPath));
-        }
-
-        for (const playlistFolderPath of playlistFolderPaths) {
-            playlistFolders.push(this.playlistFolderModelFactory.create(playlistFolderPath));
-        }
-
-        return playlistFolders.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
-    }
-
-    public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
-        this.fileSystem.deleteDirectoryRecursively(playlistFolder.path);
-
-        this.playlistFoldersChanged.next();
-    }
-
-    public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
-        const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
-        this.fileSystem.renameFileOrDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
-
-        this.playlistFoldersChanged.next();
     }
 
     public async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]> {
@@ -130,7 +86,7 @@ export class PlaylistService implements BasePlaylistService {
     public async deletePlaylistAsync(playlist: PlaylistModel): Promise<void> {
         await this.fileSystem.deleteFileIfExistsAsync(playlist.path);
 
-        this.playlistFoldersChanged.next();
+        this.playlistsChanged.next();
     }
 
     public async tryUpdatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<boolean> {

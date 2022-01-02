@@ -5,8 +5,9 @@ import { Logger } from '../../../common/logger';
 import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
+import { BasePlaylistFolderService } from '../../../services/playlist-folder/base-playlist-folder.service';
+import { PlaylistFolderModel } from '../../../services/playlist-folder/playlist-folder-model';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
-import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 import { PlaylistModel } from '../../../services/playlist/playlist-model';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { CollectionPersister } from '../collection-persister';
@@ -23,6 +24,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public playlistFolderService: BasePlaylistFolderService,
         public playlistService: BasePlaylistService,
         public appearanceService: BaseAppearanceService,
         public searchService: BaseSearchService,
@@ -60,7 +62,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.playlistService.playlistFoldersChanged$.subscribe(async () => {
+            this.playlistFolderService.playlistFoldersChanged$.subscribe(async () => {
                 await this.processListsAsync(true);
             })
         );
@@ -115,7 +117,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     }
 
     private async getPlaylistFoldersAsync(): Promise<void> {
-        this.playlistFolders = await this.playlistService.getPlaylistFoldersAsync();
+        this.playlistFolders = await this.playlistFolderService.getPlaylistFoldersAsync();
     }
 
     private async getPlaylistsAsync(): Promise<void> {

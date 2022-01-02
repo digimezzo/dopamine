@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
-import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
+import { PlaylistFolderModel } from '../../../services/playlist-folder/playlist-folder-model';
 
 @Injectable()
 export class PlaylistFoldersPersister {

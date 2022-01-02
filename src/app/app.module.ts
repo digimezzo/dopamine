@@ -224,8 +224,10 @@ import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
+import { BasePlaylistFolderService } from './services/playlist-folder/base-playlist-folder.service';
+import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
+import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
-import { PlaylistFolderModelFactory } from './services/playlist/playlist-folder-model-factory';
 import { PlaylistImagePathCreator } from './services/playlist/playlist-image-path-creator';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
@@ -484,6 +486,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
         { provide: BasePlaylistService, useClass: PlaylistService },
+        { provide: BasePlaylistFolderService, useClass: PlaylistFolderService },
         { provide: BaseAppearanceService, useClass: AppearanceService },
         { provide: BaseFolderService, useClass: FolderService },
         { provide: BaseFileService, useClass: FileService },

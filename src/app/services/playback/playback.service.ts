@@ -8,7 +8,7 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
-import { PlaylistFolderModel } from '../playlist/playlist-folder-model';
+import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from '../playlist/playlist-model';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
