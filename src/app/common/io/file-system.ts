@@ -149,4 +149,8 @@ export class FileSystem {
     public writeToFile(filePath: string, textToWrite: string): void {
         fs.writeFileSync(filePath, textToWrite);
     }
+
+    public copyFile(oldPath: string, newPath: string): void {
+        return fs.copyFileSync(oldPath, newPath);
+    }
 }

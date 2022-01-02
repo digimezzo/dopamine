@@ -27,3 +27,20 @@
 .edit-playlist__image__placeholder path {
     fill: var(--theme-album-cover-logo);
 }
+
+.edit-playlist__remove-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-accent-color);
+    margin-top: 4px;
+    margin-right: 4px;
+    justify-self: end;
+    z-index: 99;
+}
+
+.edit-playlist__remove-button i {
+    color: white;
+    font-size: 14px;
+    line-height: 14px;
+}

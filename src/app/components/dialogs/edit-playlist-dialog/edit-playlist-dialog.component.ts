@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Constants } from '../../../common/application/constants';
 import { Desktop } from '../../../common/io/desktop';
 import { Strings } from '../../../common/strings';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
@@ -25,10 +26,14 @@ export class EditPlaylistDialogComponent implements OnInit {
         return !Strings.isNullOrWhiteSpace(this.data.playlistName);
     }
 
+    public get hasPlaylistImagePath(): boolean {
+        return this.data.playlistImagePath !== Constants.emptyImage;
+    }
+
     public ngOnInit(): void {
-        this.dialogRef.afterClosed().subscribe((result: any) => {
+        this.dialogRef.afterClosed().subscribe(async (result: any) => {
             if (result) {
-                this.updatePlaylist();
+                await this.updatePlaylistAsync();
             }
         });
     }
@@ -40,11 +45,26 @@ export class EditPlaylistDialogComponent implements OnInit {
     }
 
     public async changeImageAsync(): Promise<void> {
-        this.data.playlistImagePath =
-            'file:///' + (await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image')));
+        const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
+
+        if (!Strings.isNullOrWhiteSpace(selectedFile)) {
+            this.data.playlistImagePath = selectedFile;
+        }
     }
 
-    private updatePlaylist(): void {
-        this.playlistService.updatePlaylistDetailsAsync(this.data.playlist, this.data.playlistName, this.data.playlistImagePath);
+    public removeImage(): void {
+        this.data.playlistImagePath = Constants.emptyImage;
+    }
+
+    private async updatePlaylistAsync(): Promise<void> {
+        const couldUpdatePlaylistDetails: boolean = await this.playlistService.tryUpdatePlaylistDetailsAsync(
+            this.data.playlist,
+            this.data.playlistName,
+            this.data.playlistImagePath
+        );
+
+        if (!couldUpdatePlaylistDetails) {
+            // TODO
+        }
     }
 }

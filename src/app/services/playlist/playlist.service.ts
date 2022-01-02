@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
+import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
@@ -9,6 +10,7 @@ import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
+import { PlaylistImagePathCreator } from './playlist-image-path-creator';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
@@ -21,6 +23,7 @@ export class PlaylistService implements BasePlaylistService {
     constructor(
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistModelFactory: PlaylistModelFactory,
+        private playlistImagePathCreator: PlaylistImagePathCreator,
         private fileSystem: FileSystem,
         private textSanitizer: TextSanitizer,
         private logger: Logger
@@ -130,14 +133,33 @@ export class PlaylistService implements BasePlaylistService {
         this.playlistFoldersChanged.next();
     }
 
-    public async updatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, newImagePath: string): Promise<void> {
-        this.updatePlaylistName(playlist, newName);
+    public async tryUpdatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<boolean> {
+        let couldUpdatePlaylistDetails: boolean = true;
 
-        this.playlistsChanged.next();
+        try {
+            await this.updatePlaylistImageAsync(playlist, selectedImagePath);
+            this.updatePlaylistName(playlist, newName);
+
+            this.playlistsChanged.next();
+        } catch (e) {
+            this.logger.error(`Could not update playlist details. Error: ${e.message}`, 'PlaylistService', 'updatePlaylistDetailsAsync');
+            couldUpdatePlaylistDetails = false;
+        }
+
+        return couldUpdatePlaylistDetails;
     }
 
-    private updatePlaylistImage(playlist: PlaylistModel, newImagePath: string): void {
-        // TODO
+    private async updatePlaylistImageAsync(playlist: PlaylistModel, selectedImagePath: string): Promise<void> {
+        await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+
+        if (selectedImagePath !== Constants.emptyImage) {
+            const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath);
+            const newPlaylistImagePath: string = this.playlistImagePathCreator.createPlaylistImagePath(
+                playlist.path,
+                playlistImageExtension
+            );
+            this.fileSystem.copyFile(selectedImagePath, newPlaylistImagePath);
+        }
     }
 
     private updatePlaylistName(playlist: PlaylistModel, newName: string): void {

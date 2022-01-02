@@ -10,7 +10,7 @@
                     </svg>
                 </div>
                 <div>
-                    <img [attr.src]="this.playlist.imagePath" width="120" height="120" loading="lazy" draggable="false" />
+                    <img [attr.src]="this.playlist.imagePath | imageToFilePath" width="120" height="120" loading="lazy" draggable="false" />
                 </div>
             </div>
             <div

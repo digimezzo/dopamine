@@ -163,6 +163,7 @@ import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
+import { ImageToFilePathPipe } from './pipes/image-to-file-path.pipe';
 import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
@@ -225,6 +226,7 @@ import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
 import { PlaylistFolderModelFactory } from './services/playlist/playlist-folder-model-factory';
+import { PlaylistImagePathCreator } from './services/playlist/playlist-image-path-creator';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
@@ -316,6 +318,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TracksFilterPipe,
         SubfoldersFilterPipe,
         PlaylistsFilterPipe,
+        ImageToFilePathPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -455,6 +458,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistModelFactory,
         PlaylistRowsGetter,
         PlaylistsPersister,
+        PlaylistImagePathCreator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
