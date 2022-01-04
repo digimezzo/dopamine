@@ -100,6 +100,7 @@ export class PlaylistService implements BasePlaylistService {
 
     public async deletePlaylistAsync(playlist: PlaylistModel): Promise<void> {
         await this.fileSystem.deleteFileIfExistsAsync(playlist.path);
+        await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
 
         this.playlistsChanged.next();
     }
