@@ -6,6 +6,6 @@ export class PlaylistModel {
     public isSelected: boolean = false;
 
     public get isDefault(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.name);
+        return Strings.isNullOrWhiteSpace(this.name);
     }
 }

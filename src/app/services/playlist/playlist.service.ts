@@ -6,20 +6,20 @@ import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
+import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
 import { BasePlaylistService } from './base-playlist.service';
-import { PlaylistImagePathCreator } from './playlist-image-path-creator';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
-    private _playlistsParentFolder: string;
-    private _activePlaylistFolder: PlaylistFolderModel;
+    private _playlistsParentFolder: string = '';
+    private _activePlaylistFolder: PlaylistFolderModel = this.playlistFolderModelFactory.createDefault();
     private playlistsChanged: Subject<void> = new Subject();
 
     constructor(
+        private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistModelFactory: PlaylistModelFactory,
-        private playlistImagePathCreator: PlaylistImagePathCreator,
         private fileSystem: FileSystem,
         private logger: Logger
     ) {
@@ -37,7 +37,7 @@ export class PlaylistService implements BasePlaylistService {
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
 
     public setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void {
-        this._activePlaylistFolder = undefined;
+        this._activePlaylistFolder = this.playlistFolderModelFactory.createDefault();
 
         if (selectedPlaylistFolders != undefined && selectedPlaylistFolders.length > 0) {
             this._activePlaylistFolder = selectedPlaylistFolders[0];
@@ -108,8 +108,26 @@ export class PlaylistService implements BasePlaylistService {
         let couldUpdatePlaylistDetails: boolean = true;
 
         try {
-            await this.updatePlaylistImageAsync(playlist, selectedImagePath);
-            this.updatePlaylistName(playlist, newName);
+            if (playlist.isDefault) {
+                playlist = this.createNewPlaylist(newName);
+            }
+
+            let playlistPath: string = playlist.path;
+
+            if (newName !== playlist.name) {
+                playlistPath = this.updatePlaylistPath(playlist, newName);
+            }
+
+            if (selectedImagePath !== Constants.emptyImage) {
+                if (selectedImagePath !== playlist.imagePath) {
+                    await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+                    await this.replacePlaylistImageAsync(playlistPath, selectedImagePath);
+                } else {
+                    this.updatePlaylistImagePath(playlist, newName);
+                }
+            } else {
+                await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+            }
 
             this.playlistsChanged.next();
         } catch (e) {
@@ -120,22 +138,34 @@ export class PlaylistService implements BasePlaylistService {
         return couldUpdatePlaylistDetails;
     }
 
-    private async updatePlaylistImageAsync(playlist: PlaylistModel, selectedImagePath: string): Promise<void> {
-        await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+    private createNewPlaylist(newPlaylistName: string): PlaylistModel {
+        const newPlaylistPath: string = this.fileSystem.combinePath([
+            this.activePlaylistFolder.path,
+            `${newPlaylistName}${FileFormats.m3u}`,
+        ]);
 
-        if (selectedImagePath !== Constants.emptyImage) {
-            const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath);
-            const newPlaylistImagePath: string = this.playlistImagePathCreator.createPlaylistImagePath(
-                playlist.path,
-                playlistImageExtension
-            );
-            this.fileSystem.copyFile(selectedImagePath, newPlaylistImagePath);
-        }
+        const newPlaylist: PlaylistModel = this.playlistModelFactory.create(newPlaylistPath);
+        this.fileSystem.createFile(newPlaylistPath);
+
+        return newPlaylist;
     }
 
-    private updatePlaylistName(playlist: PlaylistModel, newName: string): void {
-        const extension: string = this.fileSystem.getFileExtension(playlist.path);
-        this.fileSystem.renameFileOrDirectory(playlist.path, `${newName}${extension}`);
+    private updatePlaylistPath(playlist: PlaylistModel, newName: string): string {
+        const newPlaylistPath: string = this.fileSystem.changeFileName(playlist.path, newName);
+        this.fileSystem.renameFileOrDirectory(playlist.path, newPlaylistPath);
+
+        return newPlaylistPath;
+    }
+
+    private updatePlaylistImagePath(playlist: PlaylistModel, newName: string): void {
+        const newPlaylistImagePath: string = this.fileSystem.changeFileName(playlist.imagePath, newName);
+        this.fileSystem.renameFileOrDirectory(playlist.imagePath, newPlaylistImagePath);
+    }
+
+    private async replacePlaylistImageAsync(playlistPath: string, selectedImagePath: string): Promise<void> {
+        const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath);
+        const newPlaylistImagePath: string = this.fileSystem.changeFileExtension(playlistPath, playlistImageExtension);
+        this.fileSystem.copyFile(selectedImagePath, newPlaylistImagePath);
     }
 
     private isSupportedPlaylistFile(filePath: string): boolean {

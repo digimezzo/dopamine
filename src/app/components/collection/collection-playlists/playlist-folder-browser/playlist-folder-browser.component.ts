@@ -155,6 +155,8 @@ export class PlaylistFolderBrowserComponent implements OnInit {
             this.playlistFolders
         );
 
+        this.playlistService.setActivePlaylistFolder(selectedPlaylistFolders);
+
         if (selectedPlaylistFolders == undefined) {
             return;
         }

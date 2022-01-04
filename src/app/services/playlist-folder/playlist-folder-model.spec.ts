@@ -74,4 +74,54 @@ describe('PlaylistFolderModel', () => {
             expect(playlistFolder.isSelected).toBeFalsy();
         });
     });
+
+    describe('isDefault', () => {
+        it('should return true if name is undefined', () => {
+            // Arrange
+            const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel(
+                undefined,
+                '/home/user/Music/Dopamine/Playlists/Folder 1',
+                true
+            );
+
+            // Act
+
+            // Assert
+            expect(playlistFolder.isDefault).toBeTruthy();
+        });
+
+        it('should return true if name is empty', () => {
+            // Arrange
+            const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel('', '/home/user/Music/Dopamine/Playlists/Folder 1', true);
+
+            // Act
+
+            // Assert
+            expect(playlistFolder.isDefault).toBeTruthy();
+        });
+
+        it('should return true if name is space', () => {
+            // Arrange
+            const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel(' ', '/home/user/Music/Dopamine/Playlists/Folder 1', true);
+
+            // Act
+
+            // Assert
+            expect(playlistFolder.isDefault).toBeTruthy();
+        });
+
+        it('should return false if name is not undefined or empty or space', () => {
+            // Arrange
+            const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel(
+                'Folder 1',
+                '/home/user/Music/Dopamine/Playlists/Folder 1',
+                true
+            );
+
+            // Act
+
+            // Assert
+            expect(playlistFolder.isDefault).toBeFalsy();
+        });
+    });
 });

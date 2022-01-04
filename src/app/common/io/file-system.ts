@@ -119,6 +119,10 @@ export class FileSystem {
         }
     }
 
+    public createFile(filePath: string): void {
+        fs.createFileSync(filePath);
+    }
+
     public getDirectoryPath(directoryOrFilePath: string): string {
         return path.dirname(directoryOrFilePath);
     }
@@ -133,9 +137,8 @@ export class FileSystem {
         fs.rmdirSync(directoryPath, { recursive: true });
     }
 
-    public renameFileOrDirectory(fileOrDirectoryPath: string, newName: string): void {
-        const parentDirectoryPath: string = this.getDirectoryPath(fileOrDirectoryPath);
-        fs.renameSync(fileOrDirectoryPath, this.combinePath([parentDirectoryPath, newName]));
+    public renameFileOrDirectory(oldPath: string, newPath: string): void {
+        fs.renameSync(oldPath, newPath);
     }
 
     public getDirectoryName(directoryPath: string): string {
@@ -152,5 +155,28 @@ export class FileSystem {
 
     public copyFile(oldPath: string, newPath: string): void {
         return fs.copyFileSync(oldPath, newPath);
+    }
+
+    public changeFileExtension(filePath: string, newFileExtension: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
+        const fileNameWithoutExtension: string = this.getFileNameWithoutExtension(filePath);
+        const pathWithNewFileExtension: string = this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}${newFileExtension}`]);
+
+        return pathWithNewFileExtension;
+    }
+
+    public changeFileName(filePath: string, newFileName: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
+        const fileExtension: string = this.getFileExtension(filePath);
+        const pathWithNewFileName: string = this.combinePath([parentDirectoryPath, `${newFileName}${fileExtension}`]);
+
+        return pathWithNewFileName;
+    }
+
+    public changeFolderName(folderPath: string, newFolderName: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(folderPath);
+        const pathWithNewFolderName: string = this.combinePath([parentDirectoryPath, newFolderName]);
+
+        return pathWithNewFolderName;
     }
 }

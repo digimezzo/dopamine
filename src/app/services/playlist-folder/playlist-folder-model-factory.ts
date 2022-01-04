@@ -14,4 +14,8 @@ export class PlaylistFolderModelFactory {
     public createUnsorted(path: string): PlaylistFolderModel {
         return new PlaylistFolderModel(this.translatorService.get('unsorted'), path, false);
     }
+
+    public createDefault(): PlaylistFolderModel {
+        return new PlaylistFolderModel('', '', false);
+    }
 }

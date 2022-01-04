@@ -78,58 +78,58 @@ describe('PlaylistModel', () => {
     describe('isDefault', () => {
         it('should return true if name is undefined', () => {
             // Arrange
-
-            // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 undefined,
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
 
+            // Act
+
             // Assert
-            expect(playlist.isDefault).toBeFalsy();
+            expect(playlist.isDefault).toBeTruthy();
         });
 
         it('should return true if name is empty', () => {
             // Arrange
-
-            // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 '',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
 
+            // Act
+
             // Assert
-            expect(playlist.isDefault).toBeFalsy();
+            expect(playlist.isDefault).toBeTruthy();
         });
 
         it('should return true if name is space', () => {
             // Arrange
-
-            // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 ' ',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
 
+            // Act
+
             // Assert
-            expect(playlist.isDefault).toBeFalsy();
+            expect(playlist.isDefault).toBeTruthy();
         });
 
         it('should return false if name is not undefined or empty or space', () => {
             // Arrange
-
-            // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist1',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
 
+            // Act
+
             // Assert
-            expect(playlist.isDefault).toBeTruthy();
+            expect(playlist.isDefault).toBeFalsy();
         });
     });
 });

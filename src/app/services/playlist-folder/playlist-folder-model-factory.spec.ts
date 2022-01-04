@@ -69,4 +69,23 @@ describe('PlaylistFolderModelFactory', () => {
             expect(playlistFolderModel.isModifiable).toBeFalsy();
         });
     });
+
+    describe('createDefault', () => {
+        it('should create a default PlaylistFolderModel', () => {
+            // Arrange
+            const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
+                translatorServiceMock.object,
+                fileSystemMock.object
+            );
+
+            // Act
+            const playlistFolderModel: PlaylistFolderModel = playlistFolderModelFactory.createDefault();
+
+            // Assert
+            expect(playlistFolderModel.name).toEqual('');
+            expect(playlistFolderModel.path).toEqual('');
+            expect(playlistFolderModel.isModifiable).toBeFalsy();
+            expect(playlistFolderModel.isDefault).toBeTruthy();
+        });
+    });
 });

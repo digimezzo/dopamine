@@ -64,8 +64,6 @@ export class DialogService implements BaseDialogService {
 
         const data: any = {
             playlist: playlist,
-            playlistName: playlist.name,
-            playlistImagePath: playlist.imagePath,
         };
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',
@@ -83,8 +81,6 @@ export class DialogService implements BaseDialogService {
         const defaultPlaylist: PlaylistModel = this.playlistModelFactory.createDefault();
         const data: any = {
             playlist: defaultPlaylist,
-            playlistName: defaultPlaylist.name,
-            playlistImagePath: defaultPlaylist.imagePath,
         };
         const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
             width: '450px',

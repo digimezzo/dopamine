@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
-import { PlaylistImagePathCreator } from './playlist-image-path-creator';
 import { PlaylistModel } from './playlist-model';
 
 @Injectable()
 export class PlaylistModelFactory {
-    constructor(private fileSystem: FileSystem, private playlistImagePathCreator: PlaylistImagePathCreator) {}
+    constructor(private fileSystem: FileSystem) {}
 
     public create(playlistPath: string): PlaylistModel {
         return new PlaylistModel(this.getPlaylistName(playlistPath), playlistPath, this.getPlaylistImage(playlistPath));
@@ -23,7 +22,7 @@ export class PlaylistModelFactory {
 
     private getPlaylistImage(playlistPath: string): string {
         for (const playlistImageExtension of FileFormats.supportedPlaylistImageExtensions) {
-            const playlistImagePath: string = this.playlistImagePathCreator.createPlaylistImagePath(playlistPath, playlistImageExtension);
+            const playlistImagePath: string = this.fileSystem.changeFileExtension(playlistPath, playlistImageExtension);
 
             if (this.fileSystem.pathExists(playlistImagePath)) {
                 return playlistImagePath;

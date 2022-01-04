@@ -22,6 +22,9 @@ export class EditPlaylistDialogComponent implements OnInit {
         dialogRef.disableClose = true;
     }
 
+    public playlistName: string = '';
+    public playlistImagePath: string = '';
+
     public get dialogTitle(): string {
         if (this.hasPlaylistName) {
             return this.translatorService.get('edit-playlist');
@@ -31,11 +34,11 @@ export class EditPlaylistDialogComponent implements OnInit {
     }
 
     public get hasPlaylistName(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.data.playlistName);
+        return !Strings.isNullOrWhiteSpace(this.playlistName);
     }
 
     public get hasPlaylistImagePath(): boolean {
-        return this.data.playlistImagePath !== Constants.emptyImage;
+        return this.playlistImagePath !== Constants.emptyImage;
     }
 
     public ngOnInit(): void {
@@ -45,7 +48,8 @@ export class EditPlaylistDialogComponent implements OnInit {
             }
         });
 
-        console.log(this.data.playlistImagePath);
+        this.playlistName = this.data.playlist.name;
+        this.playlistImagePath = this.data.playlist.imagePath;
     }
 
     public closeDialog(): void {
@@ -58,19 +62,19 @@ export class EditPlaylistDialogComponent implements OnInit {
         const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
 
         if (!Strings.isNullOrWhiteSpace(selectedFile)) {
-            this.data.playlistImagePath = selectedFile;
+            this.playlistImagePath = selectedFile;
         }
     }
 
     public removeImage(): void {
-        this.data.playlistImagePath = Constants.emptyImage;
+        this.playlistImagePath = Constants.emptyImage;
     }
 
     private async updatePlaylistAsync(): Promise<void> {
         const couldUpdatePlaylistDetails: boolean = await this.playlistService.tryUpdatePlaylistDetailsAsync(
             this.data.playlist,
-            this.data.playlistName,
-            this.data.playlistImagePath
+            this.playlistName,
+            this.playlistImagePath
         );
 
         if (!couldUpdatePlaylistDetails) {

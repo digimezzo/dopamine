@@ -48,7 +48,8 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
 
     public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
-        this.fileSystem.renameFileOrDirectory(playlistFolder.path, sanitizedPlaylistFolderName);
+        const newPlaylistFolderPath: string = this.fileSystem.changeFolderName(playlistFolder.path, sanitizedPlaylistFolderName);
+        this.fileSystem.renameFileOrDirectory(playlistFolder.path, newPlaylistFolderPath);
 
         this.playlistFoldersChanged.next();
     }

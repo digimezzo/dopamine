@@ -228,7 +228,7 @@ import { BasePlaylistFolderService } from './services/playlist-folder/base-playl
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
-import { PlaylistImagePathCreator } from './services/playlist/playlist-image-path-creator';
+import { PlaylistFileEditor } from './services/playlist/playlist-file-editor';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
@@ -460,7 +460,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistModelFactory,
         PlaylistRowsGetter,
         PlaylistsPersister,
-        PlaylistImagePathCreator,
+        PlaylistFileEditor,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
