@@ -40,22 +40,22 @@
 
 <mat-menu #artistContextMenu="matMenu">
     <ng-template matMenuContent let-artist="data">
-        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistMenu">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
     </ng-template>
 </mat-menu>
 
-<mat-menu #addToPlaylistMenu="matMenu">
-    <ng-container *ngFor="let playlist of this.playlistsContextMenu.playlists | keyvalue">
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
         <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
             <span>{{ playlist.key }}</span>
         </button>
         <mat-menu #playlistsMenu="matMenu">
             <button
-                *ngFor="let playlist of this.playlistsContextMenu.playlists[playlist.key] | keyvalue"
+                *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.playlistsContextMenu.addArtistsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+                (click)="this.addToPlaylistMenu.addArtistsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
             >
                 <span>{{ playlist.value }}</span>
             </button>
