@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
-import { PlaylistsContextMenu } from './components/collection/playlists-context-menu';
+import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
@@ -18,7 +18,7 @@ describe('AppComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let discordServiceMock: IMock<BaseDiscordService>;
     let searchServiceMock: IMock<BaseSearchService>;
-    let playlistsContextMenuMock: IMock<PlaylistsContextMenu>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
@@ -33,7 +33,7 @@ describe('AppComponent', () => {
             dialogServiceMock.object,
             discordServiceMock.object,
             searchServiceMock.object,
-            playlistsContextMenuMock.object,
+            addToPlaylistMenuMock.object,
             loggerMock.object
         );
     }
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         discordServiceMock = Mock.ofType<BaseDiscordService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
-        playlistsContextMenuMock = Mock.ofType<PlaylistsContextMenu>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 
@@ -86,7 +86,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            playlistsContextMenuMock.verify((x) => x.initializeAsync(), Times.once());
+            addToPlaylistMenuMock.verify((x) => x.initializeAsync(), Times.once());
         });
 
         it('should apply appearance', async () => {

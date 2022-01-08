@@ -9,7 +9,7 @@ import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
-import { PlaylistsContextMenu } from '../../playlists-context-menu';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
 
@@ -26,7 +26,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
-        public playlistsContextMenu: PlaylistsContextMenu,
+        public playlistsContextMenu: AddToPlaylistMenu,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,

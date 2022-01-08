@@ -1,17 +1,17 @@
 import { IMock, Mock } from 'typemoq';
-import { BasePlaylistFolderService } from '../../services/playlist-folder/base-playlist-folder.service';
-import { BasePlaylistService } from '../../services/playlist/base-playlist.service';
-import { PlaylistsContextMenu } from './playlists-context-menu';
+import { BasePlaylistFolderService } from '../services/playlist-folder/base-playlist-folder.service';
+import { BasePlaylistService } from '../services/playlist/base-playlist.service';
+import { AddToPlaylistMenu } from './add-to-playlist-menu';
 
 describe('PlaylistsContextMenu', () => {
     let playlistFolderServiceMock: IMock<BasePlaylistFolderService>;
     let playlistServiceMock: IMock<BasePlaylistService>;
-    let playlistsContextMenu: PlaylistsContextMenu;
+    let playlistsContextMenu: AddToPlaylistMenu;
 
     beforeEach(() => {
         playlistFolderServiceMock = Mock.ofType<BasePlaylistFolderService>();
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
-        playlistsContextMenu = new PlaylistsContextMenu(playlistFolderServiceMock.object, playlistServiceMock.object);
+        playlistsContextMenu = new AddToPlaylistMenu(playlistFolderServiceMock.object, playlistServiceMock.object);
     });
 
     describe('constructor', () => {

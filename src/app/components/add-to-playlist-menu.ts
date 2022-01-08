@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BasePlaylistFolderService } from '../../services/playlist-folder/base-playlist-folder.service';
-import { PlaylistFolderModel } from '../../services/playlist-folder/playlist-folder-model';
-import { BasePlaylistService } from '../../services/playlist/base-playlist.service';
-import { PlaylistModel } from '../../services/playlist/playlist-model';
+import { BasePlaylistFolderService } from '../services/playlist-folder/base-playlist-folder.service';
+import { PlaylistFolderModel } from '../services/playlist-folder/playlist-folder-model';
+import { BasePlaylistService } from '../services/playlist/base-playlist.service';
+import { PlaylistModel } from '../services/playlist/playlist-model';
 
 @Injectable()
-export class PlaylistsContextMenu {
+export class AddToPlaylistMenu {
     private subscription: Subscription = new Subscription();
 
     constructor(private playlistFolderService: BasePlaylistFolderService, private playlistService: BasePlaylistService) {}
@@ -34,10 +34,6 @@ export class PlaylistsContextMenu {
         const playlists: PlaylistModel[] = await this.playlistService.getPlaylistsAsync(playlistFolders);
 
         this.playlists = this.playlistsToJson(playlists);
-    }
-
-    private clearPlaylists(): void {
-        this.playlists = {};
     }
 
     private playlistsToJson(playlists: PlaylistModel[]): any {
