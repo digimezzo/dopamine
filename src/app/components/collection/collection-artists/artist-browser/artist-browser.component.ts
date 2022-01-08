@@ -27,7 +27,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     constructor(
         public playbackService: BasePlaybackService,
         public playlistsContextMenu: AddToPlaylistMenu,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
         private headerShower: HeaderShower,

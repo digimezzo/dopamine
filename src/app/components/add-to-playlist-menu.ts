@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ArtistModel } from '../services/artist/artist-model';
 import { BasePlaylistFolderService } from '../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../services/playlist-folder/playlist-folder-model';
 import { BasePlaylistService } from '../services/playlist/base-playlist.service';
@@ -49,4 +50,14 @@ export class AddToPlaylistMenu {
             return json;
         }, {});
     }
+
+    public async addArtistsToPlaylistAsync(artists: ArtistModel[]): Promise<void> {
+        alert(artists.length);
+    }
+
+    // public async addGenresToPlaylistAsync(genres: GenreModel[]): Promise<void> {}
+
+    // public async addAlbumsToPlaylistAsync(albums: AlbumModel[]): Promise<void> {}
+
+    // public async addTracksToPlaylistAsync(tracks: TrackModel[]): Promise<void> {}
 }

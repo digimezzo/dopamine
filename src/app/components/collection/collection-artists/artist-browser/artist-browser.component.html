@@ -39,8 +39,8 @@
 ></div>
 
 <mat-menu #artistContextMenu="matMenu">
-    <ng-template matMenuContent let-playlist="data">
-        <button mat-menu-item (click)="onEditPlaylistAsync(playlist)" [matMenuTriggerFor]="addToPlaylistMenu">
+    <ng-template matMenuContent let-artist="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
     </ng-template>
@@ -52,7 +52,11 @@
             <span>{{ playlist.key }}</span>
         </button>
         <mat-menu #playlistsMenu="matMenu">
-            <button *ngFor="let playlist of this.playlistsContextMenu.playlists[playlist.key] | keyvalue" mat-menu-item>
+            <button
+                *ngFor="let playlist of this.playlistsContextMenu.playlists[playlist.key] | keyvalue"
+                mat-menu-item
+                (click)="this.playlistsContextMenu.addArtistsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+            >
                 <span>{{ playlist.value }}</span>
             </button>
         </mat-menu>
