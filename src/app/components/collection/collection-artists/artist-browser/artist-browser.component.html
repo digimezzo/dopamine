@@ -26,7 +26,35 @@
             <app-artist
                 [artist]="artist"
                 (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
+                (contextmenu)="onArtistContextMenuAsync($event, artist)"
             ></app-artist>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="artistContextMenu"
+></div>
+
+<mat-menu #artistContextMenu="matMenu">
+    <ng-template matMenuContent let-playlist="data">
+        <button mat-menu-item (click)="onEditPlaylistAsync(playlist)" [matMenuTriggerFor]="addToPlaylistMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistMenu="matMenu">
+    <ng-container *ngFor="let playlist of this.playlistsContextMenu.playlists | keyvalue">
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+            <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+            <button *ngFor="let playlist of this.playlistsContextMenu.playlists[playlist.key] | keyvalue" mat-menu-item>
+                <span>{{ playlist.value }}</span>
+            </button>
+        </mat-menu>
+    </ng-container>
+</mat-menu>

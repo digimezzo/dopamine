@@ -16,6 +16,6 @@ export class FolderNamePipe implements PipeTransform {
             return '';
         }
 
-        return this.fileSystem.getDirectoryName(folder.path);
+        return this.fileSystem.getDirectoryOrFileName(folder.path);
     }
 }

@@ -111,6 +111,7 @@ import { PlaylistsPersister } from './components/collection/collection-playlists
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
+import { PlaylistsContextMenu } from './components/collection/playlists-context-menu';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
@@ -461,6 +462,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistRowsGetter,
         PlaylistsPersister,
         PlaylistFileManager,
+        PlaylistsContextMenu,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

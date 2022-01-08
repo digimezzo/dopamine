@@ -6,6 +6,7 @@ import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
+import { PlaylistsContextMenu } from './components/collection/playlists-context-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private dialogService: BaseDialogService,
         private discordService: BaseDiscordService,
         private searchService: BaseSearchService,
+        private playlistsContextMenu: PlaylistsContextMenu,
         private logger: Logger
     ) {
         log.create('renderer');
@@ -60,6 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.playlistsContextMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
         this.appearanceService.applyAppearance();
         await this.translatorService.applyLanguageAsync();

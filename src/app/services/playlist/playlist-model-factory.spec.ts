@@ -1,21 +1,20 @@
 import { IMock, Mock } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { FileSystem } from '../../common/io/file-system';
-import { PlaylistImagePathCreator } from './playlist-image-path-creator';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 describe('PlaylistModelFactory', () => {
     let fileSystemMock: IMock<FileSystem>;
-    let playlistImagePathCreatorMock: IMock<PlaylistImagePathCreator>;
 
     beforeEach(() => {
         fileSystemMock = Mock.ofType<FileSystem>();
         fileSystemMock
             .setup((x) => x.getFileName('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
             .returns(() => 'Playlist 1');
-
-        playlistImagePathCreatorMock = Mock.ofType<PlaylistImagePathCreator>();
+        fileSystemMock
+            .setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
+            .returns(() => 'Folder 1');
     });
 
     describe('constructor', () => {
@@ -23,10 +22,7 @@ describe('PlaylistModelFactory', () => {
             // Arrange
 
             // Act
-            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(
-                fileSystemMock.object,
-                playlistImagePathCreatorMock.object
-            );
+            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(fileSystemMock.object);
 
             // Assert
             expect(playlistModelFactory).toBeDefined();
@@ -36,10 +32,7 @@ describe('PlaylistModelFactory', () => {
     describe('create', () => {
         it('should create a PlaylistFolderModel', () => {
             // Arrange
-            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(
-                fileSystemMock.object,
-                playlistImagePathCreatorMock.object
-            );
+            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(fileSystemMock.object);
 
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.create(
@@ -48,6 +41,7 @@ describe('PlaylistModelFactory', () => {
 
             // Assert
             expect(playlistModel.name).toEqual('Playlist 1');
+            expect(playlistModel.folderName).toEqual('Folder 1');
             expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
         });
     });
@@ -55,10 +49,7 @@ describe('PlaylistModelFactory', () => {
     describe('createDefault', () => {
         it('should create a default PlaylistFolderModel', () => {
             // Arrange
-            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(
-                fileSystemMock.object,
-                playlistImagePathCreatorMock.object
-            );
+            const playlistModelFactory: PlaylistModelFactory = new PlaylistModelFactory(fileSystemMock.object);
 
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.createDefault();

@@ -9,7 +9,7 @@ describe('SubfolderNamePipe', () => {
 
     beforeEach(() => {
         filesystemMock = Mock.ofType<FileSystem>();
-        filesystemMock.setup((x) => x.getDirectoryName('/home/User/Music/Subfolder1')).returns(() => 'Subfolder1');
+        filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music/Subfolder1')).returns(() => 'Subfolder1');
 
         subfolderNamePipe = new SubfolderNamePipe(filesystemMock.object);
     });

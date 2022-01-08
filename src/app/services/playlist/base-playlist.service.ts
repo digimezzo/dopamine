@@ -3,7 +3,7 @@ import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from './playlist-model';
 
 export abstract class BasePlaylistService {
-    public abstract playlistsParentFolder: string;
+    public abstract playlistsParentFolderPath: string;
     public abstract activePlaylistFolder: PlaylistFolderModel;
     public abstract playlistsChanged$: Observable<void>;
     public abstract setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void;

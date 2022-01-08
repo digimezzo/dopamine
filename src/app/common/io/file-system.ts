@@ -141,8 +141,8 @@ export class FileSystem {
         fs.renameSync(oldPath, newPath);
     }
 
-    public getDirectoryName(directoryPath: string): string {
-        return path.basename(directoryPath);
+    public getDirectoryOrFileName(directoryOrFilePath: string): string {
+        return path.basename(directoryOrFilePath);
     }
 
     public getFileContent(filePath: string): string {

@@ -1,11 +1,15 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
 import { ArtistOrdering } from '../../../../common/artist-ordering';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
+import { PlaylistsContextMenu } from '../../playlists-context-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
 
@@ -22,11 +26,16 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
+        public playlistsContextMenu: PlaylistsContextMenu,
         private mouseSelectionWatcher: MouseSelectionWatcher,
+        public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
         private headerShower: HeaderShower,
         private logger: Logger
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public artistContextMenu: MatMenuTrigger;
 
     public orderedArtists: ArtistModel[] = [];
 
@@ -110,6 +119,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         this.orderArtists();
     }
 
+    public async onArtistContextMenuAsync(event: MouseEvent, artist: ArtistModel): Promise<void> {
+        this.contextMenuOpener.open(this.artistContextMenu, event, artist);
+    }
+
     private orderArtists(): void {
         let orderedArtists: ArtistModel[] = [];
 
@@ -146,5 +159,9 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         for (const selectedArtist of selectedArtists) {
             selectedArtist.isSelected = true;
         }
+    }
+
+    public onClick(playlistFolder: PlaylistFolderModel): void {
+        alert(playlistFolder.name);
     }
 }

@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
+import { PlaylistsContextMenu } from './components/collection/playlists-context-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
@@ -17,6 +18,7 @@ describe('AppComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let discordServiceMock: IMock<BaseDiscordService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let playlistsContextMenuMock: IMock<PlaylistsContextMenu>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
@@ -31,6 +33,7 @@ describe('AppComponent', () => {
             dialogServiceMock.object,
             discordServiceMock.object,
             searchServiceMock.object,
+            playlistsContextMenuMock.object,
             loggerMock.object
         );
     }
@@ -42,6 +45,7 @@ describe('AppComponent', () => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         discordServiceMock = Mock.ofType<BaseDiscordService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        playlistsContextMenuMock = Mock.ofType<PlaylistsContextMenu>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 
@@ -74,6 +78,17 @@ describe('AppComponent', () => {
     });
 
     describe('ngOnInit', () => {
+        it('should initialize playlist context menu', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            playlistsContextMenuMock.verify((x) => x.initializeAsync(), Times.once());
+        });
+
         it('should apply appearance', async () => {
             // Arrange
             const app: AppComponent = createComponent();

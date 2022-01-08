@@ -25,12 +25,12 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
         const playlistsInParentFolder: PlaylistModel[] = await this.playlistService.getPlaylistsInParentFolder();
         const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(
-            this.playlistService.playlistsParentFolder
+            this.playlistService.playlistsParentFolderPath
         );
         const playlistFolders: PlaylistFolderModel[] = [];
 
         if (playlistsInParentFolder.length > 0) {
-            playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this.playlistService.playlistsParentFolder));
+            playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this.playlistService.playlistsParentFolderPath));
         }
 
         for (const playlistFolderPath of playlistFolderPaths) {
@@ -61,7 +61,7 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
 
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(playlistFolderName);
         const fullPlaylistFolderDirectoryPath: string = this.fileSystem.combinePath([
-            this.playlistService.playlistsParentFolder,
+            this.playlistService.playlistsParentFolderPath,
             sanitizedPlaylistFolderName,
         ]);
 

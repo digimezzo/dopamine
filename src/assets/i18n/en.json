@@ -170,5 +170,6 @@
     "playlist-name": "Playlist name",
     "change-image": "Change image",
     "remove-image": "Remove image",
-    "choose-image": "Choose an image"
+    "choose-image": "Choose an image",
+    "add-to-playlist": "Add to playlist"
 }

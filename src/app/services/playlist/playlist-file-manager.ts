@@ -10,7 +10,15 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 
 @Injectable()
 export class PlaylistFileManager {
-    constructor(private playlistModelFactory: PlaylistModelFactory, private fileSystem: FileSystem, private logger: Logger) {}
+    private _playlistsParentFolderPath: string = '';
+
+    constructor(private playlistModelFactory: PlaylistModelFactory, private fileSystem: FileSystem, private logger: Logger) {
+        this.initialize();
+    }
+
+    public get playlistsParentFolderPath(): string {
+        return this._playlistsParentFolderPath;
+    }
 
     public ensurePlaylistsParentFolderExists(playlistsParentFolder: string): void {
         try {
@@ -24,11 +32,9 @@ export class PlaylistFileManager {
         }
     }
 
-    public getPlaylistsDirectoryPath(): string {
+    private initialize(): void {
         const musicDirectory: string = this.fileSystem.musicDirectory();
-        const playlistsDirectoryPath: string = this.fileSystem.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
-
-        return playlistsDirectoryPath;
+        this._playlistsParentFolderPath = this.fileSystem.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
     }
 
     public async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {
@@ -37,7 +43,7 @@ export class PlaylistFileManager {
 
         for (const filePath of filePathsInPath) {
             if (this.isSupportedPlaylistFile(filePath)) {
-                playlists.push(this.playlistModelFactory.create(filePath));
+                playlists.push(this.playlistModelFactory.create(this._playlistsParentFolderPath, filePath));
             }
         }
 
@@ -46,8 +52,7 @@ export class PlaylistFileManager {
 
     public createPlaylist(playlistFolder: PlaylistFolderModel, playlistName: string): PlaylistModel {
         const playlistPath: string = this.fileSystem.combinePath([playlistFolder.path, `${playlistName}${FileFormats.m3u}`]);
-
-        const newPlaylist: PlaylistModel = this.playlistModelFactory.create(playlistPath);
+        const newPlaylist: PlaylistModel = this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath);
         this.fileSystem.createFile(playlistPath);
 
         return newPlaylist;

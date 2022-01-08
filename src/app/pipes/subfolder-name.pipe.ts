@@ -20,6 +20,6 @@ export class SubfolderNamePipe implements PipeTransform {
             return '';
         }
 
-        return this.fileSystem.getDirectoryName(subfolder.path);
+        return this.fileSystem.getDirectoryOrFileName(subfolder.path);
     }
 }

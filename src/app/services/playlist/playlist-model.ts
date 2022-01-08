@@ -1,7 +1,7 @@
 import { Strings } from '../../common/strings';
 
 export class PlaylistModel {
-    constructor(public name: string, public path: string, public imagePath: string) {}
+    constructor(public name: string, public folderName: string, public path: string, public imagePath: string) {}
 
     public isSelected: boolean = false;
 

@@ -9,7 +9,7 @@ import { PlaylistModel } from './playlist-model';
 
 @Injectable()
 export class PlaylistService implements BasePlaylistService {
-    private _playlistsParentFolder: string = '';
+    private _playlistsParentFolderPath: string = '';
     private _activePlaylistFolder: PlaylistFolderModel = this.playlistFolderModelFactory.createDefault();
     private playlistsChanged: Subject<void> = new Subject();
 
@@ -21,8 +21,8 @@ export class PlaylistService implements BasePlaylistService {
         this.initialize();
     }
 
-    public get playlistsParentFolder(): string {
-        return this._playlistsParentFolder;
+    public get playlistsParentFolderPath(): string {
+        return this._playlistsParentFolderPath;
     }
 
     public get activePlaylistFolder(): PlaylistFolderModel {
@@ -42,7 +42,7 @@ export class PlaylistService implements BasePlaylistService {
     }
 
     public async getPlaylistsInParentFolder(): Promise<PlaylistModel[]> {
-        return await this.playlistFileManager.getPlaylistsInPathAsync(this._playlistsParentFolder);
+        return await this.playlistFileManager.getPlaylistsInPathAsync(this._playlistsParentFolderPath);
     }
 
     public async getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]> {
@@ -83,7 +83,7 @@ export class PlaylistService implements BasePlaylistService {
     }
 
     private initialize(): void {
-        this._playlistsParentFolder = this.playlistFileManager.getPlaylistsDirectoryPath();
-        this.playlistFileManager.ensurePlaylistsParentFolderExists(this._playlistsParentFolder);
+        this._playlistsParentFolderPath = this.playlistFileManager.playlistsParentFolderPath;
+        this.playlistFileManager.ensurePlaylistsParentFolderExists(this._playlistsParentFolderPath);
     }
 }

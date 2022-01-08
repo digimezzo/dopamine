@@ -12,7 +12,7 @@ describe('PlaylistFolderModelFactory', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unsorted')).returns(() => 'Unsorted');
         fileSystemMock = Mock.ofType<FileSystem>();
-        fileSystemMock.setup((x) => x.getDirectoryName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
+        fileSystemMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
     });
 
     describe('constructor', () => {

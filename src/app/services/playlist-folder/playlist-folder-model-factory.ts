@@ -8,7 +8,7 @@ export class PlaylistFolderModelFactory {
     constructor(private translatorService: BaseTranslatorService, private fileSystem: FileSystem) {}
 
     public create(path: string): PlaylistFolderModel {
-        return new PlaylistFolderModel(this.fileSystem.getDirectoryName(path), path, true);
+        return new PlaylistFolderModel(this.fileSystem.getDirectoryOrFileName(path), path, true);
     }
 
     public createUnsorted(path: string): PlaylistFolderModel {
