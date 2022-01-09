@@ -43,8 +43,41 @@
                     [isSelected]="album.isSelected"
                     (click)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
+                    (contextmenu)="onAlbumContextMenuAsync($event, album)"
                 ></app-album>
             </div>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="albumsContextMenu"
+></div>
+
+<mat-menu #albumsContextMenu="matMenu">
+    <ng-template matMenuContent let-album="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+            <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+            <button
+                *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                mat-menu-item
+                (click)="this.addToPlaylistMenu.addAlbumsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+            >
+                <span>{{ playlist.value }}</span>
+            </button>
+        </mat-menu>
+    </ng-container>
+</mat-menu>

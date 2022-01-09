@@ -1,5 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
@@ -9,6 +10,7 @@ import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumBrowserComponent } from './album-browser.component';
@@ -24,11 +26,25 @@ describe('AlbumBrowserComponent', () => {
     let fileSystemMock: IMock<FileSystem>;
     let loggerMock: IMock<Logger>;
     let albumsPersisterMock: IMock<BaseAlbumsPersister>;
-    let component: AlbumBrowserComponent;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let windowSizeChanged: Subject<void>;
     let mouseButtonReleased: Subject<void>;
     let windowSizeChanged$: Observable<void>;
     let mouseButtonReleased$: Observable<void>;
+
+    function createComponent(): AlbumBrowserComponent {
+        return new AlbumBrowserComponent(
+            playbackServiceMock.object,
+            applicationServiceMock.object,
+            albumRowsGetterMock.object,
+            nativeElementProxyMock.object,
+            mouseSelectionWatcherMock.object,
+            contextMenuOpenerMock.object,
+            addToPlaylistMenuMock.object,
+            loggerMock.object
+        );
+    }
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
@@ -40,20 +56,14 @@ describe('AlbumBrowserComponent', () => {
         fileSystemMock = Mock.ofType<FileSystem>();
         loggerMock = Mock.ofType<Logger>();
         albumsPersisterMock = Mock.ofType<BaseAlbumsPersister>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         windowSizeChanged = new Subject();
         mouseButtonReleased = new Subject();
         windowSizeChanged$ = windowSizeChanged.asObservable();
         mouseButtonReleased$ = mouseButtonReleased.asObservable();
         applicationServiceMock.setup((x) => x.windowSizeChanged$).returns(() => windowSizeChanged$);
         applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => mouseButtonReleased$);
-        component = new AlbumBrowserComponent(
-            playbackServiceMock.object,
-            applicationServiceMock.object,
-            albumRowsGetterMock.object,
-            nativeElementProxyMock.object,
-            mouseSelectionWatcherMock.object,
-            loggerMock.object
-        );
     });
 
     describe('constructor', () => {
@@ -61,6 +71,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -70,6 +81,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.albumOrderEnum).toBeDefined();
@@ -79,6 +91,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.albumRows).toBeDefined();
@@ -89,6 +102,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.albumBrowserElement).toBeUndefined();
@@ -98,6 +112,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.selectedAlbumOrder).toBeUndefined();
@@ -107,6 +122,7 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.albumsPersister).toBeUndefined();
@@ -116,9 +132,40 @@ describe('AlbumBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: AlbumBrowserComponent = createComponent();
 
             // Assert
             expect(component.playbackService).toBeDefined();
+        });
+
+        it('should define mouseSelectionWatcher', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.mouseSelectionWatcher).toBeDefined();
+        });
+
+        it('should define contextMenuOpener', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.contextMenuOpener).toBeDefined();
+        });
+
+        it('should define addToPlaylistMenu', () => {
+            // Arrange
+
+            // Act
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.addToPlaylistMenu).toBeDefined();
         });
     });
 
@@ -131,14 +178,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
             component.ngOnInit();
@@ -158,14 +198,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
             component.ngOnInit();
@@ -185,14 +218,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
@@ -212,14 +238,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -240,14 +259,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -272,14 +284,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
             component.albumBrowserElement = { nativeElement: {} };
@@ -305,14 +310,7 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -336,14 +334,7 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -367,14 +358,7 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albums = albums;
@@ -398,14 +382,7 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 0);
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
             component.albums = albums;
@@ -425,6 +402,7 @@ describe('AlbumBrowserComponent', () => {
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
             const event: any = {};
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
 
             // Act
@@ -443,6 +421,7 @@ describe('AlbumBrowserComponent', () => {
             const albums: AlbumModel[] = [album1, album2];
             const event: any = {};
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => albums);
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
 
             // Act
@@ -456,6 +435,7 @@ describe('AlbumBrowserComponent', () => {
     describe('toggleAlbumOrder', () => {
         it('should change AlbumOrder from byAlbumTitleAscending to byAlbumTitleDescending', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
 
@@ -468,6 +448,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byAlbumTitleDescending to byDateAdded', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumTitleDescending;
 
@@ -480,6 +461,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byDateAdded to byDateCreated', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byDateAdded;
 
@@ -492,6 +474,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byDateCreated to byAlbumArtist', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byDateCreated;
 
@@ -504,6 +487,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byAlbumArtist to byYearAscending', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
 
@@ -516,6 +500,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byYearAscending to byYearDescending', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
 
@@ -528,6 +513,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byYearDescending to byLastPlayed', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byYearDescending;
 
@@ -540,6 +526,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should change AlbumOrder from byLastPlayed to byAlbumTitleAscending', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byLastPlayed;
             component.albumsPersister = albumsPersisterMock.object;
 
@@ -558,14 +545,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
@@ -590,14 +570,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -623,14 +596,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             component.albumsPersister = albumsPersisterMock.object;
@@ -649,6 +615,7 @@ describe('AlbumBrowserComponent', () => {
     describe('albumsPersister', () => {
         it('should set and return albumsPersister', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.albumsPersister = albumsPersisterMock.object;
 
             // Act
@@ -660,6 +627,7 @@ describe('AlbumBrowserComponent', () => {
 
         it('should set the selected album order', () => {
             // Arrange
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
@@ -679,14 +647,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
@@ -715,14 +676,7 @@ describe('AlbumBrowserComponent', () => {
             const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
             const albums: AlbumModel[] = [album1, album2];
             nativeElementProxyMock.setup((x) => x.getElementWidth(It.isAny())).returns(() => 500);
-            component = new AlbumBrowserComponent(
-                playbackServiceMock.object,
-                applicationServiceMock.object,
-                albumRowsGetterMock.object,
-                nativeElementProxyMock.object,
-                mouseSelectionWatcherMock.object,
-                loggerMock.object
-            );
+            const component: AlbumBrowserComponent = createComponent();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;

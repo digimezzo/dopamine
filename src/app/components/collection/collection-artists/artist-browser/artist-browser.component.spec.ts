@@ -173,6 +173,16 @@ describe('ArtistBrowserComponent', () => {
             // Assert
             expect(component.contextMenuOpener).toBeDefined();
         });
+
+        it('should define addToPlaylistMenu', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.addToPlaylistMenu).toBeDefined();
+        });
     });
 
     describe('artists', () => {
