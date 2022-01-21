@@ -4,12 +4,12 @@ import { FileSystem } from '../../../common/io/file-system';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
+import { ItemSpaceCalculator } from '../item-space-calculator';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
-import { AlbumSpaceCalculator } from './album-space-calculator';
 
 describe('AlbumRowsGetter', () => {
-    let albumSpaceCalculatorMock: IMock<AlbumSpaceCalculator>;
+    let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let fileSystemMock: IMock<FileSystem>;
     let albumRowsGetter: AlbumRowsGetter;
@@ -65,11 +65,11 @@ describe('AlbumRowsGetter', () => {
     let albums: AlbumModel[];
 
     beforeEach(() => {
-        albumSpaceCalculatorMock = Mock.ofType<AlbumSpaceCalculator>();
+        itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileSystemMock = Mock.ofType<FileSystem>();
 
-        albumSpaceCalculatorMock.setup((x) => x.calculateNumberOfAlbumsPerRow(It.isAny(), It.isAny())).returns(() => 2);
+        itemSpaceCalculatorMock.setup((x) => x.calculateNumberOfItemsPerRow(It.isAny(), It.isAny())).returns(() => 2);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
 
@@ -82,7 +82,7 @@ describe('AlbumRowsGetter', () => {
 
         albums = [album1, album2, album3, album4, album5, album6];
 
-        albumRowsGetter = new AlbumRowsGetter(albumSpaceCalculatorMock.object);
+        albumRowsGetter = new AlbumRowsGetter(itemSpaceCalculatorMock.object);
     });
 
     describe('constructor', () => {

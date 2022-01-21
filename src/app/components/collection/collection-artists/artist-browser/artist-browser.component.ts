@@ -8,7 +8,6 @@ import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watche
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
@@ -159,9 +158,5 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         for (const selectedArtist of selectedArtists) {
             selectedArtist.isSelected = true;
         }
-    }
-
-    public onClick(playlistFolder: PlaylistFolderModel): void {
-        alert(playlistFolder.name);
     }
 }

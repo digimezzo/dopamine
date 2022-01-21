@@ -28,10 +28,12 @@ export class PlaylistModelFactory {
 
     private getPlaylistFolderName(playlistsParentFolderPath: string, playlistPath: string): string {
         const directoryPath: string = this.fileSystem.getDirectoryPath(playlistPath);
-        let directoryName: string = this.fileSystem.getDirectoryOrFileName(directoryPath);
+        let directoryName: string = '';
 
         if (directoryPath === playlistsParentFolderPath) {
             directoryName = this.translatorService.get('unsorted');
+        } else {
+            directoryName = this.fileSystem.getDirectoryOrFileName(directoryPath);
         }
 
         return directoryName;

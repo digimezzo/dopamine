@@ -10,6 +10,7 @@ describe('PlaylistModel', () => {
             // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist 1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -24,6 +25,7 @@ describe('PlaylistModel', () => {
             // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist 1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -32,12 +34,28 @@ describe('PlaylistModel', () => {
             expect(playlist.name).toEqual('Playlist 1');
         });
 
+        it('should set folderName', () => {
+            // Arrange
+
+            // Act
+            const playlist: PlaylistModel = new PlaylistModel(
+                'Playlist 1',
+                'Playlist 1 folder',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
+                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
+            );
+
+            // Assert
+            expect(playlist.folderName).toEqual('Playlist 1 folder');
+        });
+
         it('should set path', () => {
             // Arrange
 
             // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist 1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -52,6 +70,7 @@ describe('PlaylistModel', () => {
             // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist 1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -66,6 +85,7 @@ describe('PlaylistModel', () => {
             // Act
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist 1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -80,6 +100,7 @@ describe('PlaylistModel', () => {
             // Arrange
             const playlist: PlaylistModel = new PlaylistModel(
                 undefined,
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -94,6 +115,7 @@ describe('PlaylistModel', () => {
             // Arrange
             const playlist: PlaylistModel = new PlaylistModel(
                 '',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -108,6 +130,7 @@ describe('PlaylistModel', () => {
             // Arrange
             const playlist: PlaylistModel = new PlaylistModel(
                 ' ',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );
@@ -122,6 +145,7 @@ describe('PlaylistModel', () => {
             // Arrange
             const playlist: PlaylistModel = new PlaylistModel(
                 'Playlist1',
+                'Playlist 1 folder',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
                 '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
             );

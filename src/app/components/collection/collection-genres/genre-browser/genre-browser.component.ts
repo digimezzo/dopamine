@@ -1,10 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { GenreOrdering } from '../../../../common/genre-ordering';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreOrder } from './genre-order';
 
@@ -21,11 +24,16 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        public addToPlaylistMenu: AddToPlaylistMenu,
+        public contextMenuOpener: ContextMenuOpener,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
         private headerShower: HeaderShower,
         private logger: Logger
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public genreContextMenu: MatMenuTrigger;
 
     public orderedGenres: GenreModel[] = [];
 
@@ -83,6 +91,10 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
         this.genresPersister.setSelectedGenreOrder(this.selectedGenreOrder);
         this.orderGenres();
+    }
+
+    public async onGenreContextMenuAsync(event: MouseEvent, genre: GenreModel): Promise<void> {
+        this.contextMenuOpener.open(this.genreContextMenu, event, genre);
     }
 
     private orderGenres(): void {

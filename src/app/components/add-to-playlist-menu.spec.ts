@@ -14,7 +14,7 @@ describe('PlaylistsContextMenu', () => {
         playlistsContextMenu = new AddToPlaylistMenu(playlistFolderServiceMock.object, playlistServiceMock.object);
     });
 
-    describe('constructor', () => {
+    describe('initializeAsync', () => {
         it('should create', () => {
             // Arrange
 
@@ -22,15 +22,6 @@ describe('PlaylistsContextMenu', () => {
 
             // Assert
             expect(playlistsContextMenu).toBeDefined();
-        });
-
-        it('should initialize empty playlistFolders', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(playlistsContextMenu.playlistFolders.length).toEqual(0);
         });
 
         it('should initialize empty playlists', () => {
@@ -42,18 +33,4 @@ describe('PlaylistsContextMenu', () => {
             expect(playlistsContextMenu.playlists.length).toEqual(0);
         });
     });
-
-    // describe('calculateNumberOfItemsPerRow', () => {
-    //     it('should return 0 when itemWidth is undefined', () => {
-    //         // Arrange
-    //         const itemWidth: number = undefined;
-    //         const availableWidth: number = 800;
-
-    //         // Act
-    //         const numberOfItemsPerRow: number = itemSpaceCalculator.calculateNumberOfItemsPerRow(itemWidth, availableWidth);
-
-    //         // Assert
-    //         expect(numberOfItemsPerRow).toEqual(0);
-    //     });
-    // });
 });
