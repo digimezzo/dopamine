@@ -23,6 +23,7 @@
                 [track]="track"
                 canShowHeader="true"
                 (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
+                (contextmenu)="onTrackContextMenuAsync($event, track)"
             ></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
@@ -32,3 +33,35 @@
         [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
     ></app-totals>
 </div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="trackContextMenu"
+></div>
+
+<mat-menu #trackContextMenu="matMenu">
+    <ng-template matMenuContent let-genre="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+            <span>{{ playlist.key }}</span>
+        </button>
+        <mat-menu #playlistsMenu="matMenu">
+            <button
+                *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                mat-menu-item
+                (click)="this.addToPlaylistMenu.addTracksToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+            >
+                <span>{{ playlist.value }}</span>
+            </button>
+        </mat-menu>
+    </ng-container>
+</mat-menu>

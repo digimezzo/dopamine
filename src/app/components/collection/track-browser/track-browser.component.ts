@@ -1,6 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/track-ordering';
@@ -9,6 +11,7 @@ import { BasePlaybackService } from '../../../services/playback/base-playback.se
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
 
@@ -26,11 +29,16 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
+        public addToPlaylistMenu: AddToPlaylistMenu,
+        public contextMenuOpener: ContextMenuOpener,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: BasePlaybackIndicationService,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
         private trackOrdering: TrackOrdering,
         private logger: Logger
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public trackContextMenu: MatMenuTrigger;
 
     public orderedTracks: TrackModel[] = [];
 
@@ -100,6 +108,10 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
         this.tracksPersister.setSelectedTrackOrder(this.selectedTrackOrder);
         this.orderTracks();
+    }
+
+    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
+        this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 
     private orderTracks(): void {
