@@ -179,4 +179,12 @@ export class FileSystem {
 
         return pathWithNewFolderName;
     }
+
+    public isAbsolutePath(directoryOrFilePath: string): boolean {
+        return path.isAbsolute(directoryOrFilePath);
+    }
+
+    public generateFullPath(baseDirectoryPath: string, directoryOrFilePath: string): string {
+        return path.resolve(baseDirectoryPath, directoryOrFilePath);
+    }
 }
