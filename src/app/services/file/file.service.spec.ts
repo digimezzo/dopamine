@@ -4,20 +4,21 @@ import { Track } from '../../common/data/entities/track';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { TrackFiller } from '../indexing/track-filler';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
+import { TrackModelFactory } from '../track/track-model-factory';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseFileService } from './base-file.service';
 import { FileService } from './file.service';
 
-describe('FolderService', () => {
+describe('FileService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let trackFillerMock: IMock<TrackFiller>;
+    let trackModelFactoryMock: IMock<TrackModelFactory>;
     let fileSystemMock: IMock<FileSystem>;
     let remoteProxyMock: IMock<BaseRemoteProxy>;
     let loggerMock: IMock<Logger>;
+
+    let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let argumentsReceivedMock: Subject<string[]>;
     let argumentsReceivedMock$: Observable<string[]>;
@@ -27,8 +28,7 @@ describe('FolderService', () => {
     function createService(): BaseFileService {
         return new FileService(
             playbackServiceMock.object,
-            translatorServiceMock.object,
-            trackFillerMock.object,
+            trackModelFactoryMock.object,
             fileSystemMock.object,
             remoteProxyMock.object,
             loggerMock.object
@@ -37,12 +37,12 @@ describe('FolderService', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        trackFillerMock = Mock.ofType<TrackFiller>();
+        trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         fileSystemMock = Mock.ofType<FileSystem>();
         remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
-
         loggerMock = Mock.ofType<Logger>();
+
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         fileSystemMock.setup((x) => x.getFileExtension('file 1.mp3')).returns(() => '.mp3');
         fileSystemMock.setup((x) => x.getFileExtension('file 1.png')).returns(() => '.png');
@@ -50,7 +50,13 @@ describe('FolderService', () => {
         fileSystemMock.setup((x) => x.getFileExtension('file 2.mkv')).returns(() => '.mkv');
         fileSystemMock.setup((x) => x.getFileExtension('file 3.bmp')).returns(() => '.bmp');
 
-        trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(It.isAny())).returns(async () => new Track('dummypath'));
+        trackModelFactoryMock
+            .setup((x) => x.createFromFileAsync('file 1.mp3'))
+            .returns(async () => new TrackModel(new Track('file 1.mp3'), translatorServiceMock.object));
+
+        trackModelFactoryMock
+            .setup((x) => x.createFromFileAsync('file 2.ogg'))
+            .returns(async () => new TrackModel(new Track('file 2.ogg'), translatorServiceMock.object));
 
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();

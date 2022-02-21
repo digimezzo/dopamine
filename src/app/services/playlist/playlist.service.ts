@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
+import { TrackModel } from '../track/track-model';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistFileManager as PlaylistFileManager } from './playlist-file-manager';
 import { PlaylistModel } from './playlist-model';
@@ -80,6 +81,20 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         return couldUpdatePlaylistDetails;
+    }
+
+    public getTracks(playlist: PlaylistModel): TrackModel[] {
+        if (playlist == undefined) {
+            this.logger.error(`Playlist is undefined. Returning empty array of tracks`, 'PlaylistService', 'getTracks');
+
+            return [];
+        }
+
+        const tracks: TrackModel[] = [];
+
+        // TODO
+
+        return tracks;
     }
 
     private initialize(): void {

@@ -4,6 +4,10 @@
 // import { PlaylistFolderModel } from '../../../services/playlist/playlist-folder-model';
 // import { PlaylistFoldersPersister } from './playlist-folders-persister';
 
+describe('PlaylistFoldersPersister', () => {
+    test.todo('should write tests');
+});
+
 // describe('PlaylistFoldersPersister', () => {
 //     let settingsStub: any;
 //     let loggerMock: IMock<Logger>;

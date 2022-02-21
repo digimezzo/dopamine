@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileFormats } from '../../common/application/file-formats';
-import { Track } from '../../common/data/entities/track';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { TrackFiller } from '../indexing/track-filler';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
+import { TrackModelFactory } from '../track/track-model-factory';
 import { BaseFileService } from './base-file.service';
 
 @Injectable()
@@ -17,8 +15,7 @@ export class FileService implements BaseFileService {
 
     constructor(
         private playbackService: BasePlaybackService,
-        private translatorService: BaseTranslatorService,
-        private trackFiller: TrackFiller,
+        private trackModelFactory: TrackModelFactory,
         private fileSystem: FileSystem,
         private remoteProxy: BaseRemoteProxy,
         private logger: Logger
@@ -83,9 +80,8 @@ export class FileService implements BaseFileService {
 
             for (const safeParameter of safeParameters) {
                 if (this.isSupportedAudioFile(safeParameter)) {
-                    const track: Track = new Track(safeParameter);
-                    await this.trackFiller.addFileMetadataToTrackAsync(track);
-                    trackModels.push(new TrackModel(track, this.translatorService));
+                    const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(safeParameter);
+                    trackModels.push(trackModel);
                 }
             }
 

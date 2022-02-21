@@ -408,7 +408,7 @@ export class AppearanceService implements BaseAppearanceService {
         const themes: Theme[] = [];
 
         for (const themeFile of themeFiles) {
-            const themeFileContent: string = this.fileSystem.getFileContent(themeFile);
+            const themeFileContent: string = this.fileSystem.getFileContentAsString(themeFile);
 
             try {
                 const theme: Theme = JSON.parse(themeFileContent);

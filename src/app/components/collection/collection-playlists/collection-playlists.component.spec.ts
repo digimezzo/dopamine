@@ -14,6 +14,10 @@
 // import { CollectionTab } from '../collection-tab';
 // import { CollectionPlaylistsComponent } from './collection-playlists.component';
 
+describe('CollectionPlaylistsComponent', () => {
+    test.todo('should write tests');
+});
+
 // describe('CollectionPlaylistsComponent', () => {
 //     let playlistServiceMock: IMock<BasePlaylistService>;
 //     let appearanceServiceMock: IMock<BaseAppearanceService>;

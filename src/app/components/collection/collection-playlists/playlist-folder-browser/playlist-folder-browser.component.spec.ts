@@ -1,5 +1,9 @@
 // import { PlaylistBrowserComponent } from './playlist-folder-browser.component';
 
+describe('PlaylistBrowserComponent', () => {
+    test.todo('should write tests');
+});
+
 // describe('PlaylistBrowserComponent', () => {
 //     beforeEach(() => {});
 

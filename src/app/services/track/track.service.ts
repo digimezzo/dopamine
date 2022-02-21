@@ -5,19 +5,17 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { FileSystem } from '../../common/io/file-system';
 import { Strings } from '../../common/strings';
 import { ArtistType } from '../artist/artist-type';
-import { TrackFiller } from '../indexing/track-filler';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseTrackService } from './base-track.service';
 import { TrackModel } from './track-model';
+import { TrackModelFactory } from './track-model-factory';
 import { TrackModels } from './track-models';
 
 @Injectable()
 export class TrackService implements BaseTrackService {
     constructor(
-        private translatorService: BaseTranslatorService,
+        private trackModelFactory: TrackModelFactory,
         private trackRepository: BaseTrackRepository,
-        private fileSystem: FileSystem,
-        private trackFiller: TrackFiller
+        private fileSystem: FileSystem
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
@@ -37,14 +35,10 @@ export class TrackService implements BaseTrackService {
 
         for (const file of filesInDirectory) {
             const fileExtension: string = this.fileSystem.getFileExtension(file);
-            const fileExtensionIsSupported: boolean = FileFormats.supportedAudioExtensions
-                .map((x) => x.toLowerCase())
-                .includes(fileExtension.toLowerCase());
+            const fileExtensionIsSupported: boolean = FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase());
 
             if (fileExtensionIsSupported) {
-                const track: Track = new Track(file);
-                const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
-                const trackModel: TrackModel = new TrackModel(filledTrack, this.translatorService);
+                const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(file);
                 trackModels.addTrack(trackModel);
             }
         }
@@ -57,7 +51,7 @@ export class TrackService implements BaseTrackService {
         const trackModels: TrackModels = new TrackModels();
 
         for (const track of tracks) {
-            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
             trackModels.addTrack(trackModel);
         }
 
@@ -78,7 +72,7 @@ export class TrackService implements BaseTrackService {
         const tracks: Track[] = this.trackRepository.getTracksForAlbums(albumKeys);
 
         for (const track of tracks) {
-            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
             trackModels.addTrack(trackModel);
         }
 
@@ -100,7 +94,7 @@ export class TrackService implements BaseTrackService {
             const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists);
 
             for (const track of trackArtistTracks) {
-                const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
                 trackModels.addTrack(trackModel);
             }
         }
@@ -109,7 +103,7 @@ export class TrackService implements BaseTrackService {
             const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists);
 
             for (const track of albumArtistTracks) {
-                const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+                const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
 
                 // Avoid adding a track twice
                 // TODO: can this be done better?
@@ -136,7 +130,7 @@ export class TrackService implements BaseTrackService {
         const tracks: Track[] = this.trackRepository.getTracksForGenres(genres);
 
         for (const track of tracks) {
-            const trackModel: TrackModel = new TrackModel(track, this.translatorService);
+            const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
             trackModels.addTrack(trackModel);
         }
 

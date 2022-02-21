@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
 
@@ -69,10 +70,6 @@ export class FileSystem {
         return directoryNames
             .filter((directoryName) => fs.lstatSync(this.combinePath([directoryPath, directoryName])).isDirectory())
             .map((directoryName) => this.combinePath([directoryPath, directoryName]));
-    }
-
-    public async readFileContentsAsync(filePath: string): Promise<string> {
-        return await fs.readFile(filePath, 'utf-8');
     }
 
     public getFileExtension(fileNameOrPath: string): string {
@@ -145,8 +142,12 @@ export class FileSystem {
         return path.basename(directoryOrFilePath);
     }
 
-    public getFileContent(filePath: string): string {
+    public getFileContentAsString(filePath: string): string {
         return fs.readFileSync(filePath, 'utf-8');
+    }
+
+    public async getFileContentAsBufferAsync(filePath: string): Promise<Buffer> {
+        return await fs.readFile(filePath);
     }
 
     public writeToFile(filePath: string, textToWrite: string): void {
@@ -186,5 +187,21 @@ export class FileSystem {
 
     public generateFullPath(baseDirectoryPath: string, directoryOrFilePath: string): string {
         return path.resolve(baseDirectoryPath, directoryOrFilePath);
+    }
+
+    public readLines(filePath: string): string[] {
+        const lines: string[] = [];
+
+        const readlineInterface: readline.Interface = readline.createInterface({
+            input: fs.createReadStream(filePath),
+            output: process.stdout,
+            terminal: false,
+        });
+
+        readlineInterface.on('line', (line) => {
+            lines.push(line);
+        });
+
+        return lines;
     }
 }

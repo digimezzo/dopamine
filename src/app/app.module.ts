@@ -229,6 +229,7 @@ import { BasePlaylistFolderService } from './services/playlist-folder/base-playl
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
 import { BasePlaylistService } from './services/playlist/base-playlist.service';
+import { PlaylistDecoder } from './services/playlist/playlist-decoder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
@@ -237,6 +238,7 @@ import { SearchService } from './services/search/search.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
+import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
@@ -463,6 +465,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistsPersister,
         PlaylistFileManager,
         AddToPlaylistMenu,
+        TrackModelFactory,
+        PlaylistDecoder,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

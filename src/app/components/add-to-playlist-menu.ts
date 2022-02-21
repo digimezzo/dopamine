@@ -15,7 +15,7 @@ export class AddToPlaylistMenu {
 
     constructor(private playlistFolderService: BasePlaylistFolderService, private playlistService: BasePlaylistService) {}
 
-    public playlists: any = {};
+    public playlists: PlaylistModel[] = [];
 
     public async initializeAsync(): Promise<void> {
         this.subscription.add(

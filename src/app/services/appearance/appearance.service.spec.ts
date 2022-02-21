@@ -245,11 +245,11 @@ describe('AppearanceService', () => {
             .returns(() => '/home/user/.config/Dopamine/Themes');
 
         fileSystemMock
-            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
+            .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
             .returns(() => JSON.stringify(theme1));
 
         fileSystemMock
-            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
+            .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
             .returns(() => JSON.stringify(theme2));
 
         fileSystemMock
@@ -380,8 +380,8 @@ describe('AppearanceService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {
@@ -1081,8 +1081,8 @@ describe('AppearanceService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {

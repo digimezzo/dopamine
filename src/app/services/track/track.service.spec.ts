@@ -3,16 +3,18 @@ import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { FileSystem } from '../../common/io/file-system';
 import { ArtistType } from '../artist/artist-type';
-import { TrackFiller } from '../indexing/track-filler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
+import { TrackModel } from './track-model';
+import { TrackModelFactory } from './track-model-factory';
 import { TrackModels } from './track-models';
 import { TrackService } from './track.service';
 
 describe('TrackService', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let trackModelFactoryMock: IMock<TrackModelFactory>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let fileSystemMock: IMock<FileSystem>;
-    let trackFillerMock: IMock<TrackFiller>;
+
+    let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let track1: Track;
     let track2: Track;
@@ -22,10 +24,11 @@ describe('TrackService', () => {
     let service: TrackService;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         fileSystemMock = Mock.ofType<FileSystem>();
-        trackFillerMock = Mock.ofType<TrackFiller>();
+
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
@@ -49,12 +52,15 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['artist3', 'artist4'])).returns(() => [track2]);
         trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['artist3', 'artist4'])).returns(() => [track3]);
 
-        const trackToFill: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
-        const filledTrack: Track = new Track('/home/user/Music/Subfolder1/track1.mp3');
-        filledTrack.trackTitle = 'My track title';
-        trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(trackToFill)).returns(async () => filledTrack);
+        trackModelFactoryMock.setup((x) => x.createFromTrack(track1)).returns(() => new TrackModel(track1, translatorServiceMock.object));
+        trackModelFactoryMock.setup((x) => x.createFromTrack(track2)).returns(() => new TrackModel(track2, translatorServiceMock.object));
+        trackModelFactoryMock.setup((x) => x.createFromTrack(track3)).returns(() => new TrackModel(track3, translatorServiceMock.object));
+        trackModelFactoryMock.setup((x) => x.createFromTrack(track4)).returns(() => new TrackModel(track4, translatorServiceMock.object));
+        trackModelFactoryMock
+            .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
+            .returns(async () => new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), translatorServiceMock.object));
 
-        service = new TrackService(translatorServiceMock.object, trackRepositoryMock.object, fileSystemMock.object, trackFillerMock.object);
+        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileSystemMock.object);
     });
 
     describe('constructor', () => {
@@ -183,7 +189,7 @@ describe('TrackService', () => {
             expect(tracksModels.tracks.map((x) => x.path).includes('/home/user/Music/Subfolder1/track6.wma')).toBeFalsy();
         });
 
-        it('should add metadata information to the tracks', async () => {
+        it('should create TrackModels from files', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
@@ -192,10 +198,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            trackFillerMock.verify(
-                (x) => x.addFileMetadataToTrackAsync(It.is<Track>((track) => track.path === '/home/user/Music/Subfolder1/track1.mp3')),
-                Times.exactly(1)
-            );
+            trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'), Times.once());
         });
     });
 
