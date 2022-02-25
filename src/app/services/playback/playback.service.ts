@@ -8,7 +8,7 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
-import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
+import { BasePlaylistService } from '../playlist/base-playlist.service';
 import { PlaylistModel } from '../playlist/playlist-model';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
@@ -25,6 +25,7 @@ import { Queue } from './queue';
 export class PlaybackService implements BasePlaybackService {
     constructor(
         private trackService: BaseTrackService,
+        private playlistService: BasePlaylistService,
         private audioPlayer: BaseAudioPlayer,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
@@ -104,8 +105,6 @@ export class PlaybackService implements BasePlaybackService {
     public playbackPaused$: Observable<void> = this.playbackPaused.asObservable();
     public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
     public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
-    public enqueueAndPlayPlaylistFolder(playlistFolderToPlay: PlaylistFolderModel): void {}
-    public enqueueAndPlayPlaylist(playlistToPlay: PlaylistModel): void {}
 
     public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {
@@ -156,6 +155,15 @@ export class PlaybackService implements BasePlaybackService {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
+    }
+
+    public async enqueueAndPlayPlaylistAsync(playlistToPlay: PlaylistModel): Promise<void> {
+        if (playlistToPlay == undefined) {
+            return;
+        }
+
+        const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToPlay]);
+        this.enqueueAndPlayTracks(tracksForPlaylist.tracks, tracksForPlaylist.tracks[0]);
     }
 
     public playQueuedTrack(trackToPlay: TrackModel): void {

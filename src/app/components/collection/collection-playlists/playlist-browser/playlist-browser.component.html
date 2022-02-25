@@ -30,7 +30,7 @@
                     [playlist]="playlist"
                     [isSelected]="playlist.isSelected"
                     (click)="setSelectedPlaylists($event, playlist)"
-                    (dblclick)="this.playbackService.enqueueAndPlayPlaylist(playlist)"
+                    (dblclick)="this.playbackService.enqueueAndPlayPlaylistAsync(playlist)"
                     (contextmenu)="onPlaylistContextMenu($event, playlist)"
                 ></app-playlist>
             </div>

@@ -984,6 +984,10 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('enqueueAndPlayPlaylistAsync', () => {
+        test.todo('should write tests');
+    });
+
     describe('pause', () => {
         it('should pause playback', () => {
             // Arrange
