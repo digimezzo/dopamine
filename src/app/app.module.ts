@@ -54,6 +54,7 @@ import { FolderRepository } from './common/data/repositories/folder-repository';
 import { FolderTrackRepository } from './common/data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './common/data/repositories/removed-track-repository';
 import { TrackRepository } from './common/data/repositories/track-repository';
+import { FileValidator } from './common/file-validator';
 import { GenreOrdering } from './common/genre-ordering';
 import { Hacks } from './common/hacks';
 import { HeaderShower } from './common/header-shower';
@@ -109,6 +110,7 @@ import { PlaylistFolderBrowserComponent } from './components/collection/collecti
 import { PlaylistRowsGetter } from './components/collection/collection-playlists/playlist-folder-browser/playlist-rows-getter';
 import { PlaylistFoldersPersister } from './components/collection/collection-playlists/playlist-folders-persister';
 import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
+import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
@@ -463,10 +465,12 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistModelFactory,
         PlaylistRowsGetter,
         PlaylistsPersister,
+        PlaylistsTracksPersister,
         PlaylistFileManager,
         AddToPlaylistMenu,
         TrackModelFactory,
         PlaylistDecoder,
+        FileValidator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

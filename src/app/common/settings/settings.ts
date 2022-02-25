@@ -402,6 +402,15 @@ export class Settings implements BaseSettings {
         this.settings.set('playlistsTabSelectedPlaylistOrder', v);
     }
 
+    //  Playlists tab selected track order
+    public get playlistsTabSelectedTrackOrder(): string {
+        return this.settings.get('playlistsTabSelectedTrackOrder');
+    }
+
+    public set playlistsTabSelectedTrackOrder(v: string) {
+        this.settings.set('playlistsTabSelectedTrackOrder', v);
+    }
+
     //  Enable Discord Rich Presence
     public get enableDiscordRichPresence(): boolean {
         return this.settings.get('enableDiscordRichPresence');

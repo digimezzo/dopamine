@@ -15,6 +15,13 @@
                 [(playlistsPersister)]="this.playlistsPersister"
             ></app-playlist-browser>
         </as-split-area>
-        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"><div class="right-side-pane"></div></as-split-area>
+        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95"
+            ><div class="right-side-pane">
+                <app-track-browser
+                    class="p-3 fill"
+                    [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
+                    [(tracksPersister)]="this.tracksPersister"
+                ></app-track-browser></div
+        ></as-split-area>
     </as-split>
 </div>

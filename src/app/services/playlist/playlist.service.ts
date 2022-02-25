@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { FileValidator } from '../../common/file-validator';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
 import { TrackModel } from '../track/track-model';
+import { TrackModelFactory } from '../track/track-model-factory';
+import { TrackModels } from '../track/track-models';
 import { BasePlaylistService } from './base-playlist.service';
+import { PlaylistDecoder } from './playlist-decoder';
+import { PlaylistEntry } from './playlist-entry';
 import { PlaylistFileManager as PlaylistFileManager } from './playlist-file-manager';
 import { PlaylistModel } from './playlist-model';
 
@@ -17,6 +22,9 @@ export class PlaylistService implements BasePlaylistService {
     constructor(
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistFileManager: PlaylistFileManager,
+        private playlistDecoder: PlaylistDecoder,
+        private trackModelFactory: TrackModelFactory,
+        private fileValidator: FileValidator,
         private logger: Logger
     ) {
         this.initialize();
@@ -83,22 +91,48 @@ export class PlaylistService implements BasePlaylistService {
         return couldUpdatePlaylistDetails;
     }
 
-    public getTracks(playlist: PlaylistModel): TrackModel[] {
-        if (playlist == undefined) {
-            this.logger.error(`Playlist is undefined. Returning empty array of tracks`, 'PlaylistService', 'getTracks');
+    public async getTracksAsync(playlists: PlaylistModel[]): Promise<TrackModels> {
+        if (this.playlistsParentFolderPath == undefined) {
+            this.logger.error(`Playlists is undefined. Returning empty array of tracks`, 'PlaylistService', 'getTracksAsync');
 
-            return [];
+            return new TrackModels();
         }
 
-        const tracks: TrackModel[] = [];
+        const trackModels: TrackModels = new TrackModels();
 
-        // TODO
+        for (const playlist of playlists) {
+            try {
+                const playlistTracks: TrackModel[] = await this.decodePlaylistAsync(playlist);
 
-        return tracks;
+                for (const playlistTrack of playlistTracks) {
+                    trackModels.addTrack(playlistTrack);
+                }
+            } catch (e) {
+                this.logger.error(`Could not decode playlist with path='${playlist.path}'`, 'PlaylistService', 'getTracksAsync');
+            }
+        }
+
+        return trackModels;
     }
 
     private initialize(): void {
         this._playlistsParentFolderPath = this.playlistFileManager.playlistsParentFolderPath;
         this.playlistFileManager.ensurePlaylistsParentFolderExists(this._playlistsParentFolderPath);
+    }
+
+    private async decodePlaylistAsync(playlist: PlaylistModel): Promise<TrackModel[]> {
+        const tracks: TrackModel[] = [];
+        let playlistEntries: PlaylistEntry[] = [];
+
+        playlistEntries = await this.playlistDecoder.decodePlaylistAsync(playlist);
+
+        for (const playlistEntry of playlistEntries) {
+            if (this.fileValidator.isPlayableAudioFile(playlistEntry.decodedPath)) {
+                const track: TrackModel = await this.trackModelFactory.createFromFileAsync(playlistEntry.decodedPath);
+                tracks.push(track);
+            }
+        }
+
+        return tracks;
     }
 }

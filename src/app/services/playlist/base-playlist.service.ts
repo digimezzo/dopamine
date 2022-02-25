@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
+import { TrackModels } from '../track/track-models';
 import { PlaylistModel } from './playlist-model';
 
 export abstract class BasePlaylistService {
@@ -11,4 +12,5 @@ export abstract class BasePlaylistService {
     public abstract deletePlaylistAsync(playlist: PlaylistModel): Promise<void>;
     public abstract tryUpdatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<boolean>;
     public abstract getPlaylistsInParentFolder(): Promise<PlaylistModel[]>;
+    public abstract getTracksAsync(playlists: PlaylistModel[]): Promise<TrackModels>;
 }

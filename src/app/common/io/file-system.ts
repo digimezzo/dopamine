@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { remote } from 'electron';
+import * as events from 'events';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as readline from 'readline';
@@ -189,7 +190,7 @@ export class FileSystem {
         return path.resolve(baseDirectoryPath, directoryOrFilePath);
     }
 
-    public readLines(filePath: string): string[] {
+    public async readLinesAsync(filePath: string): Promise<string[]> {
         const lines: string[] = [];
 
         const readlineInterface: readline.Interface = readline.createInterface({
@@ -201,6 +202,8 @@ export class FileSystem {
         readlineInterface.on('line', (line) => {
             lines.push(line);
         });
+
+        await events.once(readlineInterface, 'close');
 
         return lines;
     }
