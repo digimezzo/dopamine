@@ -59,16 +59,16 @@ export class AddToPlaylistMenu {
         }, {});
     }
 
-    public async addArtistsToPlaylistAsync(playlistPath: string, artists: ArtistModel[]): Promise<void> {
-        await this.playlistService.addArtistsToPlaylistAsync(artists);
+    public addArtistsToPlaylist(playlistPath: string, artists: ArtistModel[]): void {
+        this.playlistService.addArtistsToPlaylist(playlistPath, artists);
     }
 
-    public async addGenresToPlaylistAsync(playlistPath: string, genres: GenreModel[]): Promise<void> {
-        await this.playlistService.addGenresToPlaylistAsync(genres);
+    public addGenresToPlaylist(playlistPath: string, genres: GenreModel[]): void {
+        this.playlistService.addGenresToPlaylist(playlistPath, genres);
     }
 
-    public async addAlbumsToPlaylistAsync(playlistPath: string, albums: AlbumModel[]): Promise<void> {
-        await this.playlistService.addAlbumsToPlaylistAsync(albums);
+    public addAlbumsToPlaylist(playlistPath: string, albums: AlbumModel[]): void {
+        this.playlistService.addAlbumsToPlaylist(playlistPath, albums);
     }
 
     public addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void {

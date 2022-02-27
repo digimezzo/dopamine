@@ -17,8 +17,8 @@ export abstract class BasePlaylistService {
     public abstract tryUpdatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<boolean>;
     public abstract getPlaylistsInParentFolder(): Promise<PlaylistModel[]>;
     public abstract getTracksAsync(playlists: PlaylistModel[]): Promise<TrackModels>;
-    public abstract addArtistsToPlaylistAsync(artists: ArtistModel[]): Promise<void>;
-    public abstract addGenresToPlaylistAsync(genres: GenreModel[]): Promise<void>;
-    public abstract addAlbumsToPlaylistAsync(albums: AlbumModel[]): Promise<void>;
+    public abstract addArtistsToPlaylist(playlistPath: string, artists: ArtistModel[]): void;
+    public abstract addGenresToPlaylist(playlistPath: string, genres: GenreModel[]): void;
+    public abstract addAlbumsToPlaylist(playlistPath: string, albums: AlbumModel[]): void;
     public abstract addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void;
 }

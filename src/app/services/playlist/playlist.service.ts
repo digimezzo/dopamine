@@ -4,9 +4,11 @@ import { FileValidator } from '../../common/file-validator';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
+import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
+import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { TrackModels } from '../track/track-models';
@@ -23,6 +25,7 @@ export class PlaylistService implements BasePlaylistService {
     private playlistsChanged: Subject<void> = new Subject();
 
     constructor(
+        private trackService: BaseTrackService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistFileManager: PlaylistFileManager,
         private playlistDecoder: PlaylistDecoder,
@@ -43,16 +46,46 @@ export class PlaylistService implements BasePlaylistService {
 
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
 
-    public addArtistsToPlaylistAsync(artists: ArtistModel[]): Promise<void> {
-        throw new Error('Method not implemented.');
+    public addArtistsToPlaylist(playlistPath: string, artists: ArtistModel[]): void {
+        if (playlistPath == undefined) {
+            throw new Error('playlistPath is undefined');
+        }
+
+        if (artists == undefined) {
+            throw new Error('artists is undefined');
+        }
+
+        const artistNames: string[] = artists.map((x) => x.name);
+        const tracks: TrackModels = this.trackService.getTracksForArtists(artistNames, ArtistType.allArtists);
+        this.playlistFileManager.addTracksToPlaylist(playlistPath, tracks.tracks);
     }
 
-    public addGenresToPlaylistAsync(genres: GenreModel[]): Promise<void> {
-        throw new Error('Method not implemented.');
+    public addGenresToPlaylist(playlistPath: string, genres: GenreModel[]): void {
+        if (playlistPath == undefined) {
+            throw new Error('playlistPath is undefined');
+        }
+
+        if (genres == undefined) {
+            throw new Error('genres is undefined');
+        }
+
+        const genreNames: string[] = genres.map((x) => x.name);
+        const tracks: TrackModels = this.trackService.getTracksForGenres(genreNames);
+        this.playlistFileManager.addTracksToPlaylist(playlistPath, tracks.tracks);
     }
 
-    public addAlbumsToPlaylistAsync(albums: AlbumModel[]): Promise<void> {
-        throw new Error('Method not implemented.');
+    public addAlbumsToPlaylist(playlistPath: string, albums: AlbumModel[]): void {
+        if (playlistPath == undefined) {
+            throw new Error('playlistPath is undefined');
+        }
+
+        if (albums == undefined) {
+            throw new Error('albums is undefined');
+        }
+
+        const albumKeys: string[] = albums.map((x) => x.albumKey);
+        const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
+        this.playlistFileManager.addTracksToPlaylist(playlistPath, tracks.tracks);
     }
 
     public addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void {
