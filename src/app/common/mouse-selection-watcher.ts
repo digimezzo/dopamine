@@ -44,7 +44,9 @@ export class MouseSelectionWatcher {
             this.selectItemsRange(item);
         } else {
             // No modifier key is pressed: select only 1 item
-            this.selectSingleItem(item);
+            if (!this.selectedItems.includes(item)) {
+                this.selectSingleItem(item);
+            }
         }
     }
 

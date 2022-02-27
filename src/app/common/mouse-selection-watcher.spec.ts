@@ -66,25 +66,6 @@ describe('MouseSelectionWatcher', () => {
             expect(() => mouseSelectionWatcher.setSelectedItems(event, undefined)).not.toThrow();
         });
 
-        it('should select only the given item if ctrl and shift are not pressed', () => {
-            // Arrange
-            const item1: any = { isSelected: false };
-            const item2: any = { isSelected: false };
-            const item3: any = { isSelected: false };
-            const items: any[] = [item1, item2, item3];
-            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
-            const event: any = {};
-
-            mouseSelectionWatcher.initialize(items, false);
-
-            // Act
-            mouseSelectionWatcher.setSelectedItems(event, item2);
-
-            // Assert
-            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
-            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item2);
-        });
-
         it('should remove the given item from the selection if ctrl is pressed', () => {
             // Arrange
             const item1: any = { isSelected: false };
@@ -142,6 +123,54 @@ describe('MouseSelectionWatcher', () => {
 
             // Act
             mouseSelectionWatcher.setSelectedItems(shiftEvent, item3);
+
+            // Assert
+            expect(mouseSelectionWatcher.selectedItems.length).toEqual(3);
+            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item1);
+            expect(mouseSelectionWatcher.selectedItems[1]).toBe(item2);
+            expect(mouseSelectionWatcher.selectedItems[2]).toBe(item3);
+        });
+
+        it('should select only the given item if ctrl and shift are not pressed and the given item is not yet selected', () => {
+            // Arrange
+            const item1: any = { isSelected: false };
+            const item2: any = { isSelected: false };
+            const item3: any = { isSelected: false };
+            const item4: any = { isSelected: false };
+            const items: any[] = [item1, item2, item3, item4];
+            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const event: any = {};
+            const ctrlEvent: any = { ctrlKey: {} };
+
+            mouseSelectionWatcher.initialize(items, false);
+            mouseSelectionWatcher.setSelectedItems(ctrlEvent, item1);
+            mouseSelectionWatcher.setSelectedItems(ctrlEvent, item3);
+
+            // Act
+            mouseSelectionWatcher.setSelectedItems(event, item4);
+
+            // Assert
+            expect(mouseSelectionWatcher.selectedItems.length).toEqual(1);
+            expect(mouseSelectionWatcher.selectedItems[0]).toBe(item4);
+        });
+
+        it('should not change the selection if ctrl and shift are not pressed and the given item is already selected', () => {
+            // Arrange
+            const item1: any = { isSelected: false };
+            const item2: any = { isSelected: false };
+            const item3: any = { isSelected: false };
+            const item4: any = { isSelected: false };
+            const items: any[] = [item1, item2, item3, item4];
+            const mouseSelectionWatcher: MouseSelectionWatcher = new MouseSelectionWatcher();
+            const event: any = {};
+            const shiftEvent: any = { shiftKey: {} };
+
+            mouseSelectionWatcher.initialize(items, false);
+            mouseSelectionWatcher.setSelectedItems(shiftEvent, item1);
+            mouseSelectionWatcher.setSelectedItems(shiftEvent, item3);
+
+            // Act
+            mouseSelectionWatcher.setSelectedItems(event, item3);
 
             // Assert
             expect(mouseSelectionWatcher.selectedItems.length).toEqual(3);
