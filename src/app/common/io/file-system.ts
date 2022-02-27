@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as events from 'events';
 import * as fs from 'fs-extra';
+import * as os from 'os';
 import * as path from 'path';
 import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
@@ -206,5 +207,9 @@ export class FileSystem {
         await events.once(readlineInterface, 'close');
 
         return lines;
+    }
+
+    public appendTextToFile(filePath: string, text: string): void {
+        fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
     }
 }

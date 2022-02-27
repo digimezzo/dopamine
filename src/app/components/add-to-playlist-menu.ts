@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Logger } from '../common/logger';
 import { AlbumModel } from '../services/album/album-model';
 import { ArtistModel } from '../services/artist/artist-model';
 import { GenreModel } from '../services/genre/genre-model';
@@ -13,7 +14,11 @@ import { TrackModel } from '../services/track/track-model';
 export class AddToPlaylistMenu {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playlistFolderService: BasePlaylistFolderService, private playlistService: BasePlaylistService) {}
+    constructor(
+        private playlistFolderService: BasePlaylistFolderService,
+        private playlistService: BasePlaylistService,
+        private logger: Logger
+    ) {}
 
     public playlists: PlaylistModel[] = [];
 
@@ -48,25 +53,29 @@ export class AddToPlaylistMenu {
                 json[objectKey] = [];
             }
 
-            json[objectKey].push(playlist.name);
+            json[objectKey].push({ path: playlist.path, name: playlist.name });
 
             return json;
         }, {});
     }
 
-    public async addArtistsToPlaylistAsync(artists: ArtistModel[]): Promise<void> {
-        alert(artists.length);
+    public async addArtistsToPlaylistAsync(playlistPath: string, artists: ArtistModel[]): Promise<void> {
+        await this.playlistService.addArtistsToPlaylistAsync(artists);
     }
 
-    public async addGenresToPlaylistAsync(genres: GenreModel[]): Promise<void> {
-        alert(genres.length);
+    public async addGenresToPlaylistAsync(playlistPath: string, genres: GenreModel[]): Promise<void> {
+        await this.playlistService.addGenresToPlaylistAsync(genres);
     }
 
-    public async addAlbumsToPlaylistAsync(albums: AlbumModel[]): Promise<void> {
-        alert(albums.length);
+    public async addAlbumsToPlaylistAsync(playlistPath: string, albums: AlbumModel[]): Promise<void> {
+        await this.playlistService.addAlbumsToPlaylistAsync(albums);
     }
 
-    public async addTracksToPlaylistAsync(tracks: TrackModel[]): Promise<void> {
-        alert(tracks.length);
+    public addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void {
+        try {
+            this.playlistService.addTracksToPlaylist(playlistPath, tracks);
+        } catch (e) {
+            this.logger.error(`Could not add tracks to playlist. Error: ${e.message}`, 'AddToPlaylistMenu', 'addTracksToPlaylist');
+        }
     }
 }

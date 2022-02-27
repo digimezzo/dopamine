@@ -29,7 +29,7 @@
                     *ngFor="let playlist of playlistRow.playlists"
                     [playlist]="playlist"
                     [isSelected]="playlist.isSelected"
-                    (click)="setSelectedPlaylists($event, playlist)"
+                    (mousedown)="setSelectedPlaylists($event, playlist)"
                     (dblclick)="this.playbackService.enqueueAndPlayPlaylistAsync(playlist)"
                     (contextmenu)="onPlaylistContextMenu($event, playlist)"
                 ></app-playlist>

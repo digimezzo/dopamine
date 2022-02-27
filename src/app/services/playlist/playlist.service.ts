@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { FileValidator } from '../../common/file-validator';
 import { Logger } from '../../common/logger';
+import { AlbumModel } from '../album/album-model';
+import { ArtistModel } from '../artist/artist-model';
+import { GenreModel } from '../genre/genre-model';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
 import { TrackModel } from '../track/track-model';
@@ -40,14 +43,36 @@ export class PlaylistService implements BasePlaylistService {
 
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
 
+    public addArtistsToPlaylistAsync(artists: ArtistModel[]): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
+    public addGenresToPlaylistAsync(genres: GenreModel[]): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
+    public addAlbumsToPlaylistAsync(albums: AlbumModel[]): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
+    public addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void {
+        if (playlistPath == undefined) {
+            throw new Error('playlistPath is undefined');
+        }
+
+        if (tracks == undefined) {
+            throw new Error('tracks is undefined');
+        }
+
+        this.playlistFileManager.addTracksToPlaylist(playlistPath, tracks);
+    }
+
     public setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void {
         this._activePlaylistFolder = this.playlistFolderModelFactory.createDefault();
 
         if (selectedPlaylistFolders != undefined && selectedPlaylistFolders.length > 0) {
             this._activePlaylistFolder = selectedPlaylistFolders[0];
         }
-
-        console.log(this._activePlaylistFolder);
     }
 
     public async getPlaylistsInParentFolder(): Promise<PlaylistModel[]> {

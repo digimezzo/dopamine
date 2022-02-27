@@ -22,7 +22,7 @@
         </div>
     </div>
     <cdk-virtual-scroll-viewport class="app-artist-browser__artists mt-3" itemSize="24">
-        <div *cdkVirtualFor="let artist of this.orderedArtists" (click)="setSelectedArtists($event, artist)">
+        <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"
                 (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
@@ -55,9 +55,9 @@
             <button
                 *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.addToPlaylistMenu.addArtistsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+                (click)="this.addToPlaylistMenu.addArtistsToPlaylistAsync(playlist.value.path, this.mouseSelectionWatcher.selectedItems)"
             >
-                <span>{{ playlist.value }}</span>
+                <span>{{ playlist.value.name }}</span>
             </button>
         </mat-menu>
     </ng-container>

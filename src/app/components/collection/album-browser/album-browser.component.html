@@ -41,7 +41,7 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isSelected]="album.isSelected"
-                    (click)="setSelectedAlbums($event, album)"
+                    (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
                     (contextmenu)="onAlbumContextMenuAsync($event, album)"
                 ></app-album>
@@ -74,9 +74,9 @@
             <button
                 *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.addToPlaylistMenu.addAlbumsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+                (click)="this.addToPlaylistMenu.addAlbumsToPlaylistAsync(playlist.value.path, this.mouseSelectionWatcher.selectedItems)"
             >
-                <span>{{ playlist.value }}</span>
+                <span>{{ playlist.value.name }}</span>
             </button>
         </mat-menu>
     </ng-container>

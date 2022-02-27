@@ -26,7 +26,7 @@
                         <div
                             *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
                             matRipple
-                            (click)="setSelectedSubfolder(subfolder)"
+                            (mousedown)="setSelectedSubfolder(subfolder)"
                             (dblclick)="setOpenedSubfolderAsync(subfolder)"
                         >
                             <div
@@ -95,7 +95,7 @@
                     <div
                         *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
                         matRipple
-                        (click)="setSelectedTrack(track)"
+                        (mousedown)="setSelectedTrack(track)"
                         [ngClass]="{ 'selected-item-background': track.isSelected }"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>

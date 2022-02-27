@@ -15,7 +15,7 @@
         </div>
     </div>
     <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="24">
-        <div *cdkVirtualFor="let genre of this.orderedGenres" (click)="setSelectedGenres($event, genre)">
+        <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
             <app-genre
                 [genre]="genre"
                 (dblclick)="this.playbackService.enqueueAndPlayGenre(genre)"
@@ -49,9 +49,9 @@
             <button
                 *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.addToPlaylistMenu.addArtistsToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+                (click)="this.addToPlaylistMenu.addArtistsToPlaylistAsync(playlist.value.path, this.mouseSelectionWatcher.selectedItems)"
             >
-                <span>{{ playlist.value }}</span>
+                <span>{{ playlist.value.name }}</span>
             </button>
         </mat-menu>
     </ng-container>

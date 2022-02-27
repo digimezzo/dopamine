@@ -18,7 +18,7 @@
         </div>
     </div>
     <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
-        <div *cdkVirtualFor="let track of this.orderedTracks" (click)="setSelectedTracks($event, track)">
+        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"
                 canShowHeader="true"
@@ -58,9 +58,9 @@
             <button
                 *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.addToPlaylistMenu.addTracksToPlaylistAsync(this.mouseSelectionWatcher.selectedItems)"
+                (click)="this.addToPlaylistMenu.addTracksToPlaylist(playlist.value.path, this.mouseSelectionWatcher.selectedItems)"
             >
-                <span>{{ playlist.value }}</span>
+                <span>{{ playlist.value.name }}</span>
             </button>
         </mat-menu>
     </ng-container>
