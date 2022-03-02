@@ -43,8 +43,8 @@ export class MouseSelectionWatcher {
             // SHIFT is pressed: select a range of items
             this.selectItemsRange(item);
         } else {
-            // No modifier key is pressed: select only 1 item
-            if (!this.selectedItems.includes(item)) {
+            // No modifier key is pressed and left mouse button is pressed: select only 1 item
+            if (event.button === 0) {
                 this.selectSingleItem(item);
             }
         }
