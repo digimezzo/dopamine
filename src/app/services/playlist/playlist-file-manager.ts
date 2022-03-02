@@ -5,7 +5,6 @@ import { FileFormats } from '../../common/application/file-formats';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
-import { TrackModel } from '../track/track-model';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
@@ -80,12 +79,6 @@ export class PlaylistFileManager {
             }
         } else {
             await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
-        }
-    }
-
-    public addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void {
-        for (const path of tracks.map((x) => x.path)) {
-            this.fileSystem.appendTextToFile(playlistPath, path);
         }
     }
 

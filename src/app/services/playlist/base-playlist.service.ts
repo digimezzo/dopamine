@@ -14,11 +14,12 @@ export abstract class BasePlaylistService {
     public abstract setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void;
     public abstract getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]>;
     public abstract deletePlaylistAsync(playlist: PlaylistModel): Promise<void>;
-    public abstract tryUpdatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<boolean>;
+    public abstract updatePlaylistDetailsAsync(playlist: PlaylistModel, newName: string, selectedImagePath: string): Promise<void>;
     public abstract getPlaylistsInParentFolder(): Promise<PlaylistModel[]>;
     public abstract getTracksAsync(playlists: PlaylistModel[]): Promise<TrackModels>;
-    public abstract addArtistsToPlaylist(playlistPath: string, artists: ArtistModel[]): void;
-    public abstract addGenresToPlaylist(playlistPath: string, genres: GenreModel[]): void;
-    public abstract addAlbumsToPlaylist(playlistPath: string, albums: AlbumModel[]): void;
-    public abstract addTracksToPlaylist(playlistPath: string, tracks: TrackModel[]): void;
+    public abstract addArtistsToPlaylistAsync(playlistPath: string, artistsToAdd: ArtistModel[]): Promise<void>;
+    public abstract addGenresToPlaylistAsync(playlistPath: string, genresToAdd: GenreModel[]): Promise<void>;
+    public abstract addAlbumsToPlaylistAsync(playlistPath: string, albumsToAdd: AlbumModel[]): Promise<void>;
+    public abstract addTracksToPlaylistAsync(playlistPath: string, tracksToAdd: TrackModel[]): Promise<void>;
+    public abstract removeTracksFromPlaylistAsync(playlist: PlaylistModel, tracksToRemove: TrackModel[]): Promise<void>;
 }

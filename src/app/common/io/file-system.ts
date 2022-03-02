@@ -209,7 +209,11 @@ export class FileSystem {
         return lines;
     }
 
-    public appendTextToFile(filePath: string, text: string): void {
-        fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
+    public async appendTextToFileAsync(filePath: string, text: string): Promise<void> {
+        await fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
+    }
+
+    public async clearFileContentsAsync(filePath: string): Promise<void> {
+        await fs.truncate(filePath);
     }
 }

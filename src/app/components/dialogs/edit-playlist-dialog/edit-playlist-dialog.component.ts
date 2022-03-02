@@ -71,13 +71,9 @@ export class EditPlaylistDialogComponent implements OnInit {
     }
 
     private async updatePlaylistAsync(): Promise<void> {
-        const couldUpdatePlaylistDetails: boolean = await this.playlistService.tryUpdatePlaylistDetailsAsync(
-            this.data.playlist,
-            this.playlistName,
-            this.playlistImagePath
-        );
-
-        if (!couldUpdatePlaylistDetails) {
+        try {
+            await this.playlistService.updatePlaylistDetailsAsync(this.data.playlist, this.playlistName, this.playlistImagePath);
+        } catch (e) {
             // TODO
         }
     }
