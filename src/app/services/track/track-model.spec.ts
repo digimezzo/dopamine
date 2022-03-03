@@ -67,6 +67,16 @@ describe('TrackModel', () => {
             // Assert
             expect(trackModel.showHeader).toBeFalsy();
         });
+
+        it('should define playlistPath as empty', () => {
+            // Arrange
+
+            // Act
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Assert
+            expect(trackModel.playlistPath).toEqual('');
+        });
     });
 
     describe('path', () => {

@@ -24,7 +24,6 @@
                     'selected-item-background': playlistFolder.isSelected,
                     'selected-item-text-color-important': playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                 }"
-                (dblclick)="this.playbackService.enqueueAndPlayPlaylistFolder(playlistFolder)"
             >
                 {{ playlistFolder.name }}
             </div>

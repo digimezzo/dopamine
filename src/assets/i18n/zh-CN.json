@@ -170,5 +170,7 @@
     "playlist-name": "播放列表名称",
     "change-image": "更换图片",
     "remove-image": "移除图片",
-    "choose-image": "选择一张图片"
+    "choose-image": "选择一张图片",
+    "add-to-playlist": "Add to playlist",
+    "remove-from-playlist": "Remove from playlist"
 }

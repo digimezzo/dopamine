@@ -109,6 +109,7 @@ import { PlaylistComponent } from './components/collection/collection-playlists/
 import { PlaylistFolderBrowserComponent } from './components/collection/collection-playlists/playlist-folder-browser/playlist-folder-browser.component';
 import { PlaylistRowsGetter } from './components/collection/collection-playlists/playlist-folder-browser/playlist-rows-getter';
 import { PlaylistFoldersPersister } from './components/collection/collection-playlists/playlist-folders-persister';
+import { PlaylistTrackBrowserComponent } from './components/collection/collection-playlists/playlist-track-browser/playlist-track-browser.component';
 import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
 import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
@@ -354,6 +355,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistBrowserComponent,
         PlaylistComponent,
         EditPlaylistDialogComponent,
+        PlaylistTrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,

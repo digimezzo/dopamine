@@ -113,11 +113,7 @@ export class PlaylistService implements BasePlaylistService {
         }
     }
 
-    public async removeTracksFromPlaylistAsync(playlist: PlaylistModel, tracksToRemove: TrackModel[]): Promise<void> {
-        if (playlist == undefined) {
-            throw new Error('playlist is undefined');
-        }
-
+    public async removeTracksFromPlaylistAsync(tracksToRemove: TrackModel[]): Promise<void> {
         if (tracksToRemove == undefined) {
             throw new Error('tracksToRemove is undefined');
         }
@@ -206,6 +202,7 @@ export class PlaylistService implements BasePlaylistService {
             const playlistTracks: TrackModel[] = await this.decodePlaylistAsync(playlist);
 
             for (const playlistTrack of playlistTracks) {
+                playlistTrack.playlistPath = playlist.path;
                 trackModels.addTrack(playlistTrack);
             }
         }

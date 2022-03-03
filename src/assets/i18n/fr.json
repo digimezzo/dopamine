@@ -171,5 +171,6 @@
     "change-image": "Changer l'image",
     "remove-image": "Supprimer l'image",
     "choose-image": "Choisissez une image",
-    "add-to-playlist": "Ajouter à playlist"
+    "add-to-playlist": "Ajouter à la playlist",
+    "remove-from-playlist": "Supprimer de la playlist"
 }

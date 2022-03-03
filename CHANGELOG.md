@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.8] - 2022-01-22
+## [3.0.0-preview.8] - 2022-03-03
 
 ### Added
 
 -   Added Palenight theme
 -   Added Chinese (simplified) translation
+-   Added basic playlists support
 
 ### Changed
 

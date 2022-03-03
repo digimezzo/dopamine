@@ -171,5 +171,6 @@
     "change-image": "Afbeelding wijzigen",
     "remove-image": "Afbeelding verwijderen",
     "choose-image": "Kies een afbeelding",
-    "add-to-playlist": "Toevoegen aan playlist"
+    "add-to-playlist": "Toevoegen aan playlist",
+    "remove-from-playlist": "Verwijderen van playlist"
 }

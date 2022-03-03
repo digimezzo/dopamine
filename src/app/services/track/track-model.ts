@@ -10,6 +10,8 @@ export class TrackModel {
     public isSelected: boolean = false;
     public showHeader: boolean = false;
 
+    public playlistPath: string = '';
+
     public get path(): string {
         return this.track.path;
     }
