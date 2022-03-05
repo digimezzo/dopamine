@@ -149,7 +149,7 @@
     "cancel": "Annuler",
     "create-playlist-folder": "Créér dossier de playlists",
     "playlist-folder-name": "Nom du dossier de playlists",
-    "create-playlist-folder-error": "Une erreur s'est produite lors de la création du dossier de la liste de lecture. Veuillez vérifier le journal si vous avez besoin de plus d'informations.",
+    "create-playlist-folder-error": "Une erreur s'est produite lors de la création du dossier de la liste de lecture. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "rename": "Renommer...",
     "delete": "Supprimer...",
     "confirm-delete-playlist-folder": "Supprimer dossier de playlists?",
@@ -172,5 +172,8 @@
     "remove-image": "Supprimer l'image",
     "choose-image": "Choisissez une image",
     "add-to-playlist": "Ajouter à la playlist",
-    "remove-from-playlist": "Supprimer de la playlist"
+    "remove-from-playlist": "Supprimer de la playlist",
+    "confirm-remove-from-playlist": "Supprimer de la playlist?",
+    "confirm-remove-from-playlist-long": "Voulez-vous vraiment supprimer ces chansons de la playlist?",
+    "remove-from-playlist-error": "Une erreur s'est produite lors de la suppression de chansons de la playlist. Veuillez vérifier le log si vous avez besoin de plus d'informations."
 }

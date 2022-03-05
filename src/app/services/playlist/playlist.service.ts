@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { CollectionGrouper } from '../../common/collection-grouper';
 import { FileValidator } from '../../common/file-validator';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
@@ -121,7 +122,7 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         try {
-            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = this.groupBy(
+            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = CollectionGrouper.groupBy(
                 tracksToRemove,
                 (track) => track.playlistPath
             );
@@ -176,23 +177,6 @@ export class PlaylistService implements BasePlaylistService {
             );
             throw new Error(e.message);
         }
-    }
-
-    private groupBy(list: any, keyGetter: any): Map<any, any> {
-        const map: Map<any, any> = new Map();
-
-        list.forEach((item: any) => {
-            const key: any = keyGetter(item);
-            const collection: any = map.get(key);
-
-            if (collection == undefined) {
-                map.set(key, [item]);
-            } else {
-                collection.push(item);
-            }
-        });
-
-        return map;
     }
 
     public setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void {

@@ -4,12 +4,14 @@ import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { BaseTracksPersister } from '../../base-tracks-persister';
 import { TrackOrder } from '../../track-order';
 
@@ -31,6 +33,8 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: BasePlaybackIndicationService,
+        private translatorService: BaseTranslatorService,
+        private dialogService: BaseDialogService,
         private logger: Logger
     ) {}
 
@@ -89,7 +93,24 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onRemoveFromPlaylistAsync(): Promise<void> {
-        await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems);
+        const dialogTitle: string = await this.translatorService.getAsync('confirm-remove-from-playlist');
+        const dialogText: string = await this.translatorService.getAsync('confirm-remove-from-playlist-long');
+
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
+
+        if (userHasConfirmed) {
+            try {
+                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems);
+            } catch (e) {
+                this.logger.error(
+                    `Could not remove tracks from playlists. Error: ${e.message}`,
+                    'PlaylistTrackBrowserComponent',
+                    'onRemoveFromPlaylistAsync'
+                );
+                const errorText: string = await this.translatorService.getAsync('remove-from-playlist-error');
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
     }
 
     private orderTracks(): void {
