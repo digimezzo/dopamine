@@ -175,5 +175,6 @@
     "remove-from-playlist": "Verwijderen van playlist",
     "confirm-remove-from-playlist": "Verwijderen van playlist?",
     "confirm-remove-from-playlist-long": "Weet je zeker dat je deze nummers uit de playlist wilt verwijderen?",
-    "remove-from-playlist-error": "Er is een fout opgetreden bij het verwijderen van nummers uit de playlist. Controleer het log bestand als u meer informatie nodig heeft."
+    "remove-from-playlist-error": "Er is een fout opgetreden bij het verwijderen van nummers uit de playlist. Controleer het log bestand als u meer informatie nodig heeft.",
+    "tracks-added-to-playlist": "{{numberOfAddedTracks}} nummers toegevoegd aan playlist '{{playlistName}}'"
 }

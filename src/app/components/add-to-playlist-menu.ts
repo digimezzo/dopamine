@@ -59,21 +59,21 @@ export class AddToPlaylistMenu {
         }, {});
     }
 
-    public async addArtistsToPlaylistAsync(playlistPath: string, artists: ArtistModel[]): Promise<void> {
-        await this.playlistService.addArtistsToPlaylistAsync(playlistPath, artists);
+    public async addArtistsToPlaylistAsync(playlistName: string, playlistPath: string, artists: ArtistModel[]): Promise<void> {
+        await this.playlistService.addArtistsToPlaylistAsync(playlistName, playlistPath, artists);
     }
 
-    public async addGenresToPlaylistAsync(playlistPath: string, genres: GenreModel[]): Promise<void> {
-        await this.playlistService.addGenresToPlaylistAsync(playlistPath, genres);
+    public async addGenresToPlaylistAsync(playlistName: string, playlistPath: string, genres: GenreModel[]): Promise<void> {
+        await this.playlistService.addGenresToPlaylistAsync(playlistName, playlistPath, genres);
     }
 
-    public async addAlbumsToPlaylistAsync(playlistPath: string, albums: AlbumModel[]): Promise<void> {
-        await this.playlistService.addAlbumsToPlaylistAsync(playlistPath, albums);
+    public async addAlbumsToPlaylistAsync(playlistName: string, playlistPath: string, albums: AlbumModel[]): Promise<void> {
+        await this.playlistService.addAlbumsToPlaylistAsync(playlistName, playlistPath, albums);
     }
 
-    public async addTracksToPlaylistAsync(playlistPath: string, tracks: TrackModel[]): Promise<void> {
+    public async addTracksToPlaylistAsync(playlistName: string, playlistPath: string, tracks: TrackModel[]): Promise<void> {
         try {
-            await this.playlistService.addTracksToPlaylistAsync(playlistPath, tracks);
+            await this.playlistService.addTracksToPlaylistAsync(playlistName, playlistPath, tracks);
         } catch (e) {
             this.logger.error(`Could not add tracks to playlist. Error: ${e.message}`, 'AddToPlaylistMenu', 'addTracksToPlaylist');
         }

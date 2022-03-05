@@ -58,7 +58,13 @@
             <button
                 *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
                 mat-menu-item
-                (click)="this.addToPlaylistMenu.addTracksToPlaylistAsync(playlist.value.path, this.mouseSelectionWatcher.selectedItems)"
+                (click)="
+                    this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                        playlist.value.path,
+                        playlist.value.name,
+                        this.mouseSelectionWatcher.selectedItems
+                    )
+                "
             >
                 <span>{{ playlist.value.name }}</span>
             </button>

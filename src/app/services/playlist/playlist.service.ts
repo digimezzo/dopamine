@@ -10,6 +10,7 @@ import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
@@ -29,6 +30,7 @@ export class PlaylistService implements BasePlaylistService {
 
     constructor(
         private trackService: BaseTrackService,
+        private snackBarService: BaseSnackBarService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistFileManager: PlaylistFileManager,
         private playlistDecoder: PlaylistDecoder,
@@ -51,7 +53,7 @@ export class PlaylistService implements BasePlaylistService {
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
     public playlistTracksChanged$: Observable<void> = this.playlistTracksChanged.asObservable();
 
-    public async addArtistsToPlaylistAsync(playlistPath: string, artistsToAdd: ArtistModel[]): Promise<void> {
+    public async addArtistsToPlaylistAsync(playlistPath: string, playlistName: string, artistsToAdd: ArtistModel[]): Promise<void> {
         if (playlistPath == undefined) {
             throw new Error('playlistPath is undefined');
         }
@@ -62,10 +64,10 @@ export class PlaylistService implements BasePlaylistService {
 
         const artistNames: string[] = artistsToAdd.map((x) => x.name);
         const tracks: TrackModels = this.trackService.getTracksForArtists(artistNames, ArtistType.allArtists);
-        await this.addTracksToPlaylistAsync(playlistPath, tracks.tracks);
+        await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
-    public async addGenresToPlaylistAsync(playlistPath: string, genresToAdd: GenreModel[]): Promise<void> {
+    public async addGenresToPlaylistAsync(playlistPath: string, playlistName: string, genresToAdd: GenreModel[]): Promise<void> {
         if (playlistPath == undefined) {
             throw new Error('playlistPath is undefined');
         }
@@ -76,10 +78,10 @@ export class PlaylistService implements BasePlaylistService {
 
         const genreNames: string[] = genresToAdd.map((x) => x.name);
         const tracks: TrackModels = this.trackService.getTracksForGenres(genreNames);
-        await this.addTracksToPlaylistAsync(playlistPath, tracks.tracks);
+        await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
-    public async addAlbumsToPlaylistAsync(playlistPath: string, albumsToAdd: AlbumModel[]): Promise<void> {
+    public async addAlbumsToPlaylistAsync(playlistPath: string, playlistName: string, albumsToAdd: AlbumModel[]): Promise<void> {
         if (playlistPath == undefined) {
             throw new Error('playlistPath is undefined');
         }
@@ -90,10 +92,10 @@ export class PlaylistService implements BasePlaylistService {
 
         const albumKeys: string[] = albumsToAdd.map((x) => x.albumKey);
         const tracks: TrackModels = this.trackService.getTracksForAlbums(albumKeys);
-        await this.addTracksToPlaylistAsync(playlistPath, tracks.tracks);
+        await this.addTracksToPlaylistAsync(playlistPath, playlistName, tracks.tracks);
     }
 
-    public async addTracksToPlaylistAsync(playlistPath: string, tracksToAdd: TrackModel[]): Promise<void> {
+    public async addTracksToPlaylistAsync(playlistPath: string, playlistName: string, tracksToAdd: TrackModel[]): Promise<void> {
         if (playlistPath == undefined) {
             throw new Error('playlistPath is undefined');
         }
@@ -106,6 +108,8 @@ export class PlaylistService implements BasePlaylistService {
             for (const path of tracksToAdd.map((x) => x.path)) {
                 await this.fileSystem.appendTextToFileAsync(playlistPath, path);
             }
+
+            await this.snackBarService.tracksAddedToPlaylistAsync(playlistName, tracksToAdd.length);
         } catch (e) {
             this.logger.error(
                 `Could not add tracks to playlist '${playlistPath}'. Error: ${e.message}`,

@@ -52,6 +52,15 @@ export class SnackBarService implements BaseSnackBarService {
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
     }
 
+    public async tracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void> {
+        const message: string = await this.translatorService.getAsync('tracks-added-to-playlist', {
+            playlistName: playlistName,
+            numberOfAddedTracks: numberOfAddedTracks,
+        });
+
+        this.showSelfClosingSnackBar('las la-check', message);
+    }
+
     public async dismissAsync(): Promise<void> {
         if (this.currentDismissibleSnackBar != undefined) {
             this.isDismissRequested = true;
