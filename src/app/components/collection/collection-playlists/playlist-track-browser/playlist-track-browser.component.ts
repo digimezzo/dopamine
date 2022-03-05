@@ -89,7 +89,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onRemoveFromPlaylistAsync(): Promise<void> {
-        await this.playlistService.removeTracksFromPlaylistAsync(this.mouseSelectionWatcher.selectedItems());
+        await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems);
     }
 
     private orderTracks(): void {

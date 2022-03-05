@@ -113,13 +113,43 @@ export class PlaylistService implements BasePlaylistService {
         }
     }
 
-    public async removeTracksFromPlaylistAsync(tracksToRemove: TrackModel[]): Promise<void> {
+    public async removeTracksFromPlaylistsAsync(tracksToRemove: TrackModel[]): Promise<void> {
         if (tracksToRemove == undefined) {
             throw new Error('tracksToRemove is undefined');
         }
 
         try {
-            const allPlaylistTracks: TrackModel[] = await this.decodePlaylistAsync(playlist);
+            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = this.groupBy(
+                tracksToRemove,
+                (track) => track.playlistPath
+            );
+
+            for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
+                const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath);
+
+                await this.removeTracksFromSinglePlaylistAsync(playlistPath, tracksToRemoveForSinglePlaylist);
+            }
+        } catch (e) {
+            this.logger.error(
+                `Could not remove tracks from playlists. Error: ${e.message}`,
+                'PlaylistService',
+                'removeTracksFromPlaylistsAsync'
+            );
+            throw new Error(e.message);
+        }
+    }
+
+    private async removeTracksFromSinglePlaylistAsync(playlistPath: string, tracksToRemove: TrackModel[]): Promise<void> {
+        if (playlistPath == undefined) {
+            throw new Error('playlistPath is undefined');
+        }
+
+        if (tracksToRemove == undefined) {
+            throw new Error('tracksToRemove is undefined');
+        }
+
+        try {
+            const allPlaylistTracks: TrackModel[] = await this.decodePlaylistAsync(playlistPath);
             const playlistTracksAfterRemoval: TrackModel[] = [];
             const trackPathsToRemove: string[] = tracksToRemove.map((x) => x.path);
 
@@ -129,19 +159,36 @@ export class PlaylistService implements BasePlaylistService {
                 }
             }
 
-            await this.fileSystem.clearFileContentsAsync(playlist.path);
+            await this.fileSystem.clearFileContentsAsync(playlistPath);
 
             for (const playlistTrack of playlistTracksAfterRemoval) {
-                await this.fileSystem.appendTextToFileAsync(playlist.path, playlistTrack.path);
+                await this.fileSystem.appendTextToFileAsync(playlistPath, playlistTrack.path);
             }
         } catch (e) {
             this.logger.error(
-                `Could not remove tracks from playlist '${playlist.path}'. Error: ${e.message}`,
+                `Could not remove tracks from playlist '${playlistPath}'. Error: ${e.message}`,
                 'PlaylistService',
                 'removeTracksFromPlaylistAsync'
             );
             throw new Error(e.message);
         }
+    }
+
+    private groupBy(list: any, keyGetter: any): Map<any, any> {
+        const map: Map<any, any> = new Map();
+
+        list.forEach((item: any) => {
+            const key: any = keyGetter(item);
+            const collection: any = map.get(key);
+
+            if (collection == undefined) {
+                map.set(key, [item]);
+            } else {
+                collection.push(item);
+            }
+        });
+
+        return map;
     }
 
     public setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void {
@@ -177,14 +224,14 @@ export class PlaylistService implements BasePlaylistService {
         try {
             if (playlist.isDefault) {
                 playlist = this.playlistFileManager.createPlaylist(this.activePlaylistFolder, newName);
-                this.logger.info(`Created new playlist '${playlist.path}'`, 'PlaylistService', 'tryUpdatePlaylistDetailsAsync');
+                this.logger.info(`Created new playlist '${playlist.path}'`, 'PlaylistService', 'updatePlaylistDetailsAsync');
             }
 
             await this.playlistFileManager.updatePlaylistAsync(playlist, newName, newImagePath);
 
             this.playlistsChanged.next();
         } catch (e) {
-            this.logger.error(`Could not update playlist details. Error: ${e.message}`, 'PlaylistService', 'tryUpdatePlaylistDetailsAsync');
+            this.logger.error(`Could not update playlist details. Error: ${e.message}`, 'PlaylistService', 'updatePlaylistDetailsAsync');
             throw new Error(e.message);
         }
     }
@@ -199,7 +246,7 @@ export class PlaylistService implements BasePlaylistService {
         const trackModels: TrackModels = new TrackModels();
 
         for (const playlist of playlists) {
-            const playlistTracks: TrackModel[] = await this.decodePlaylistAsync(playlist);
+            const playlistTracks: TrackModel[] = await this.decodePlaylistAsync(playlist.path);
 
             for (const playlistTrack of playlistTracks) {
                 playlistTrack.playlistPath = playlist.path;
@@ -215,14 +262,14 @@ export class PlaylistService implements BasePlaylistService {
         this.playlistFileManager.ensurePlaylistsParentFolderExists(this._playlistsParentFolderPath);
     }
 
-    private async decodePlaylistAsync(playlist: PlaylistModel): Promise<TrackModel[]> {
+    private async decodePlaylistAsync(playlistPath: string): Promise<TrackModel[]> {
         const tracks: TrackModel[] = [];
         let playlistEntries: PlaylistEntry[] = [];
 
         try {
-            playlistEntries = await this.playlistDecoder.decodePlaylistAsync(playlist);
+            playlistEntries = await this.playlistDecoder.decodePlaylistAsync(playlistPath);
         } catch (e) {
-            this.logger.error(`Could not decode playlist with path='${playlist.path}'`, 'PlaylistService', 'getTracksAsync');
+            this.logger.error(`Could not decode playlist with path='${playlistPath}'`, 'PlaylistService', 'decodePlaylistAsync');
             throw new Error(e.message);
         }
 
