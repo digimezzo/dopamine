@@ -24,6 +24,7 @@ export class PlaylistService implements BasePlaylistService {
     private _playlistsParentFolderPath: string = '';
     private _activePlaylistFolder: PlaylistFolderModel = this.playlistFolderModelFactory.createDefault();
     private playlistsChanged: Subject<void> = new Subject();
+    private playlistTracksChanged: Subject<void> = new Subject();
 
     constructor(
         private trackService: BaseTrackService,
@@ -47,6 +48,7 @@ export class PlaylistService implements BasePlaylistService {
     }
 
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
+    public playlistTracksChanged$: Observable<void> = this.playlistTracksChanged.asObservable();
 
     public async addArtistsToPlaylistAsync(playlistPath: string, artistsToAdd: ArtistModel[]): Promise<void> {
         if (playlistPath == undefined) {
@@ -137,6 +139,8 @@ export class PlaylistService implements BasePlaylistService {
             );
             throw new Error(e.message);
         }
+
+        this.playlistTracksChanged.next();
     }
 
     private async removeTracksFromSinglePlaylistAsync(playlistPath: string, tracksToRemove: TrackModel[]): Promise<void> {

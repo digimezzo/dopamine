@@ -11,6 +11,7 @@ export abstract class BasePlaylistService {
     public abstract playlistsParentFolderPath: string;
     public abstract activePlaylistFolder: PlaylistFolderModel;
     public abstract playlistsChanged$: Observable<void>;
+    public abstract playlistTracksChanged$: Observable<void>;
     public abstract setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void;
     public abstract getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]>;
     public abstract deletePlaylistAsync(playlist: PlaylistModel): Promise<void>;
