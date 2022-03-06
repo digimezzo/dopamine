@@ -80,7 +80,7 @@ jobs:
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
     nightly_build_on_win:
-        runs-on: windows-latest
+        runs-on: windows-2019
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
