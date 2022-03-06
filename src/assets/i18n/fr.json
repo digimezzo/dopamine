@@ -176,5 +176,6 @@
     "confirm-remove-from-playlist": "Supprimer de la playlist?",
     "confirm-remove-from-playlist-long": "Voulez-vous vraiment supprimer ces numéros de la playlist?",
     "remove-from-playlist-error": "Une erreur s'est produite lors de la suppression de numéros de la playlist. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
-    "tracks-added-to-playlist": "Ajout de {{numberOfAddedTracks}} numéros à la playlist '{{playlistName}}'"
+    "single-track-added-to-playlist": "Ajout de 1 numéro à la playlist '{{playlistName}}'",
+    "multiple-tracks-added-to-playlist": "Ajout de {{numberOfAddedTracks}} numéros à la playlist '{{playlistName}}'"
 }

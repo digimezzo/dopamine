@@ -7,5 +7,6 @@ export abstract class BaseSnackBarService {
     public abstract updatingAlbumArtworkAsync(): Promise<void>;
     public abstract dismissAsync(): Promise<void>;
     public abstract dismissDelayedAsync(): Promise<void>;
-    public abstract tracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void>;
+    public abstract singleTrackAddedToPlaylistAsync(playlistName: string): Promise<void>;
+    public abstract multipleTracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void>;
 }

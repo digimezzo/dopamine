@@ -176,5 +176,6 @@
     "confirm-remove-from-playlist": "Remove from playlist?",
     "confirm-remove-from-playlist-long": "Are you sure you want to remove these songs from the playlist?",
     "remove-from-playlist-error": "An error occurred while removing songs from the playlist. Please verify the log if you need more information.",
-    "tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'"
+    "single-track-added-to-playlist": "Added 1 song to playlist '{{playlistName}}'",
+    "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'"
 }

@@ -109,7 +109,11 @@ export class PlaylistService implements BasePlaylistService {
                 await this.fileSystem.appendTextToFileAsync(playlistPath, path);
             }
 
-            await this.snackBarService.tracksAddedToPlaylistAsync(playlistName, tracksToAdd.length);
+            if (tracksToAdd.length === 1) {
+                await this.snackBarService.singleTrackAddedToPlaylistAsync(playlistName);
+            } else {
+                await this.snackBarService.multipleTracksAddedToPlaylistAsync(playlistName, tracksToAdd.length);
+            }
         } catch (e) {
             this.logger.error(
                 `Could not add tracks to playlist '${playlistPath}'. Error: ${e.message}`,
