@@ -10,6 +10,7 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
+import { BasePlaylistService } from '../playlist/base-playlist.service';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -24,6 +25,7 @@ import { Queue } from './queue';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<BaseTrackService>;
+    let playlistServiceMock: IMock<BasePlaylistService>;
     let audioPlayerMock: IMock<BaseAudioPlayer>;
     let trackOrderingMock: IMock<TrackOrdering>;
     let fileSystemMock: IMock<FileSystem>;
@@ -59,6 +61,7 @@ describe('PlaybackService', () => {
 
     beforeEach(() => {
         trackServiceMock = Mock.ofType<BaseTrackService>();
+        playlistServiceMock = Mock.ofType<BasePlaylistService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
@@ -129,6 +132,7 @@ describe('PlaybackService', () => {
 
         service = new PlaybackService(
             trackServiceMock.object,
+            playlistServiceMock.object,
             audioPlayerMock.object,
             trackOrderingMock.object,
             queueMock.object,
@@ -1589,6 +1593,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.tracks).returns(() => []);
             service = new PlaybackService(
                 trackServiceMock.object,
+                playlistServiceMock.object,
                 audioPlayerMock.object,
                 trackOrderingMock.object,
                 queueMock.object,
@@ -1611,6 +1616,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.tracks).returns(() => tracks.tracks);
             service = new PlaybackService(
                 trackServiceMock.object,
+                playlistServiceMock.object,
                 audioPlayerMock.object,
                 trackOrderingMock.object,
                 queueMock.object,

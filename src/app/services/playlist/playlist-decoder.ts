@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { PlaylistEntry } from './playlist-entry';
 
 @Injectable()
 export class PlaylistDecoder {
-    constructor(private fileSystem: FileSystem) {}
+    constructor(private fileSystem: BaseFileSystem) {}
 
     public async decodePlaylistAsync(playlistPath: string): Promise<PlaylistEntry[]> {
         let playlistEntries: PlaylistEntry[] = [];

@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { TrackVerifier } from './track-verifier';
 
 describe('TrackVerifier', () => {
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let trackVerifier: TrackVerifier;
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         trackVerifier = new TrackVerifier(fileSystemMock.object);
     });
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
@@ -15,8 +15,8 @@ export class TrackFiller {
     constructor(
         private fileMetadataFactory: FileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
-        private albumKeygenerator: AlbumKeyGenerator,
-        private fileSystem: FileSystem,
+        private albumKeyGenerator: AlbumKeyGenerator,
+        private fileSystem: BaseFileSystem,
         private mimeTypes: MimeTypes,
         private logger: Logger
     ) {}
@@ -33,7 +33,7 @@ export class TrackFiller {
             track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
             track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
             track.albumArtists = this.trackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
-            track.albumKey = this.albumKeygenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
+            track.albumKey = this.albumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
             track.fileName = this.fileSystem.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
             track.fileSize = await this.fileSystem.getFileSizeInBytesAsync(track.path);

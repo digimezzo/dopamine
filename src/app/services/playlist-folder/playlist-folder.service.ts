@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from '../playlist/base-playlist.service';
@@ -16,7 +16,7 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
     constructor(
         private playlistService: BasePlaylistService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private textSanitizer: TextSanitizer
     ) {}
 

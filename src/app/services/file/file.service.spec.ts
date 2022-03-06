@@ -1,8 +1,8 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { FileValidator } from '../../common/file-validator';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
-import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
@@ -14,7 +14,7 @@ import { FileService } from './file.service';
 describe('FileService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileValidatorMock: IMock<FileValidator>;
     let remoteProxyMock: IMock<BaseRemoteProxy>;
     let loggerMock: IMock<Logger>;
 
@@ -29,8 +29,8 @@ describe('FileService', () => {
         return new FileService(
             playbackServiceMock.object,
             trackModelFactoryMock.object,
-            fileSystemMock.object,
             remoteProxyMock.object,
+            fileValidatorMock.object,
             loggerMock.object
         );
     }
@@ -38,17 +38,17 @@ describe('FileService', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileValidatorMock = Mock.ofType<FileValidator>();
         remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        fileSystemMock.setup((x) => x.getFileExtension('file 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFileExtension('file 1.png')).returns(() => '.png');
-        fileSystemMock.setup((x) => x.getFileExtension('file 2.ogg')).returns(() => '.ogg');
-        fileSystemMock.setup((x) => x.getFileExtension('file 2.mkv')).returns(() => '.mkv');
-        fileSystemMock.setup((x) => x.getFileExtension('file 3.bmp')).returns(() => '.bmp');
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 1.mp3')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 1.png')).returns(() => false);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 2.ogg')).returns(() => true);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 2.mkv')).returns(() => false);
+        fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 3.bmp')).returns(() => false);
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 1.mp3'))

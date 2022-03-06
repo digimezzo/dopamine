@@ -1,4 +1,5 @@
 import { IMock, Mock } from 'typemoq';
+import { Logger } from '../common/logger';
 import { BasePlaylistFolderService } from '../services/playlist-folder/base-playlist-folder.service';
 import { BasePlaylistService } from '../services/playlist/base-playlist.service';
 import { AddToPlaylistMenu } from './add-to-playlist-menu';
@@ -6,12 +7,14 @@ import { AddToPlaylistMenu } from './add-to-playlist-menu';
 describe('PlaylistsContextMenu', () => {
     let playlistFolderServiceMock: IMock<BasePlaylistFolderService>;
     let playlistServiceMock: IMock<BasePlaylistService>;
+    let loggerMock: IMock<Logger>;
     let playlistsContextMenu: AddToPlaylistMenu;
 
     beforeEach(() => {
         playlistFolderServiceMock = Mock.ofType<BasePlaylistFolderService>();
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
-        playlistsContextMenu = new AddToPlaylistMenu(playlistFolderServiceMock.object, playlistServiceMock.object);
+        loggerMock = Mock.ofType<Logger>();
+        playlistsContextMenu = new AddToPlaylistMenu(playlistFolderServiceMock.object, playlistServiceMock.object, loggerMock.object);
     });
 
     describe('initializeAsync', () => {

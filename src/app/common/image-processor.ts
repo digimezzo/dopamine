@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as fs from 'fs-extra';
 import fetch from 'node-fetch';
-import { FileSystem } from '../common/io/file-system';
+import { BaseFileSystem } from './io/base-file-system';
 
 @Injectable()
 export class ImageProcessor {
-    public constructor(private fileSystem: FileSystem) {}
+    public constructor(private fileSystem: BaseFileSystem) {}
 
     public async convertImageBufferToFileAsync(imageBuffer: Buffer, imagePath: string): Promise<void> {
         await fs.writeFile(imagePath, imageBuffer);

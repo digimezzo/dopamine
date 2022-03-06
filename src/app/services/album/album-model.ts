@@ -1,12 +1,12 @@
 import { Constants } from '../../common/application/constants';
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { AlbumData } from '../../common/data/entities/album-data';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {
-    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: FileSystem) {}
+    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: BaseFileSystem) {}
 
     public isSelected: boolean = false;
     public showYear: boolean = false;

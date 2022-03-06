@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { CollectionGrouper } from '../../common/collection-grouper';
 import { FileValidator } from '../../common/file-validator';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
@@ -36,7 +36,7 @@ export class PlaylistService implements BasePlaylistService {
         private playlistDecoder: PlaylistDecoder,
         private trackModelFactory: TrackModelFactory,
         private fileValidator: FileValidator,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private logger: Logger
     ) {
         this.initialize();

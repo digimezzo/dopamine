@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 describe('PlaylistModelFactory', () => {
     let baseTranslatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
 
     function createFactory(): PlaylistModelFactory {
         return new PlaylistModelFactory(baseTranslatorServiceMock.object, fileSystemMock.object);
@@ -17,7 +17,7 @@ describe('PlaylistModelFactory', () => {
         baseTranslatorServiceMock = Mock.ofType<BaseTranslatorService>();
         baseTranslatorServiceMock.setup((x) => x.get('unsorted')).returns(() => 'Unsorted');
 
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         fileSystemMock
             .setup((x) => x.getDirectoryPath('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
             .returns(() => '/home/username/Music/Dopamine/Playlists/Folder 1');

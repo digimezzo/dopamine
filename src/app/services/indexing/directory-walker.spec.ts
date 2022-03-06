@@ -1,4 +1,5 @@
 import { IMock, Mock } from 'typemoq';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { FileSystem } from '../../common/io/file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
@@ -7,7 +8,7 @@ describe('DirectoryWalker', () => {
     describe('getFilesInDirectoryAsync', () => {
         it('should collect all files in the directory and subdirectories', async () => {
             // Arrange
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
+            const fileSystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
 
             fileSystemMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music'))

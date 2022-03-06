@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { ImageProcessor } from '../../common/image-processor';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
@@ -9,14 +9,14 @@ import { AlbumArtworkCacheService } from './album-artwork-cache.service';
 describe('AlbumArtworkCacheService', () => {
     let albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory>;
     let imageProcessorMock: IMock<ImageProcessor>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let loggerMock: IMock<Logger>;
     let service: AlbumArtworkCacheService;
 
     beforeEach(() => {
         albumArtworkCacheIdFactoryMock = Mock.ofType<AlbumArtworkCacheIdFactory>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         loggerMock = Mock.ofType<Logger>();
         service = new AlbumArtworkCacheService(
             albumArtworkCacheIdFactoryMock.object,

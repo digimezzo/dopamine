@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from './playlist-model';
@@ -12,7 +12,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 export class PlaylistFileManager {
     private _playlistsParentFolderPath: string = '';
 
-    constructor(private playlistModelFactory: PlaylistModelFactory, private fileSystem: FileSystem, private logger: Logger) {
+    constructor(private playlistModelFactory: PlaylistModelFactory, private fileSystem: BaseFileSystem, private logger: Logger) {
         this.initialize();
     }
 

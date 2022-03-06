@@ -1,7 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModel } from './track-model';
@@ -12,7 +12,7 @@ import { TrackService } from './track.service';
 describe('TrackService', () => {
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -26,7 +26,7 @@ describe('TrackService', () => {
     beforeEach(() => {
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 

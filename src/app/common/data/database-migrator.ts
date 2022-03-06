@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../io/file-system';
+import { BaseFileSystem } from '../io/base-file-system';
 import { Logger } from '../logger';
 import { BaseDatabaseMigrator } from './base-database-migrator';
 import { DatabaseFactory } from './database-factory';
@@ -10,7 +10,7 @@ import { InitialMigration } from './migrations/001-initial';
 export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new InitialMigration()];
 
-    constructor(private databaseFactory: DatabaseFactory, private fileSystem: FileSystem, private logger: Logger) {}
+    constructor(private databaseFactory: DatabaseFactory, private fileSystem: BaseFileSystem, private logger: Logger) {}
 
     public async migrateAsync(): Promise<void> {
         const databaseVersion: number = this.getDatabaseVersion();

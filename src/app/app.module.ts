@@ -59,6 +59,7 @@ import { GenreOrdering } from './common/genre-ordering';
 import { Hacks } from './common/hacks';
 import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
+import { BaseFileSystem } from './common/io/base-file-system';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
@@ -405,7 +406,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ElectronService,
         Desktop,
         DatabaseFactory,
-        FileSystem,
         TrackIndexer,
         DirectoryWalker,
         TrackRemover,
@@ -475,6 +475,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FileValidator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+        { provide: BaseFileSystem, useClass: FileSystem },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
         { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },

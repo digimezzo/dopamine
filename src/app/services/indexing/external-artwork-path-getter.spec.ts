@@ -1,14 +1,14 @@
 import * as path from 'path';
 import { IMock, It, Mock } from 'typemoq';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 describe('ExternalArtworkPathGetter', () => {
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let externalArtworkPathGetter: ExternalArtworkPathGetter;
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         externalArtworkPathGetter = new ExternalArtworkPathGetter(fileSystemMock.object);
     });
 

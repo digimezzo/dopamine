@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    constructor(private fileSystem: FileSystem) {}
+    constructor(private fileSystem: BaseFileSystem) {}
 
     public getExternalArtworkPath(audioFilePath: string): string {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {

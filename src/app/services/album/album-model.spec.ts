@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
 
 describe('AlbumModel', () => {
     let albumData: AlbumData;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let albumModel: AlbumModel;
 
     beforeEach(() => {
@@ -22,7 +22,7 @@ describe('AlbumModel', () => {
         albumData.year = 2021;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
 
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');

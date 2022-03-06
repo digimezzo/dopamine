@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTrackService } from './base-track.service';
@@ -15,7 +15,7 @@ export class TrackService implements BaseTrackService {
     constructor(
         private trackModelFactory: TrackModelFactory,
         private trackRepository: BaseTrackRepository,
-        private fileSystem: FileSystem
+        private fileSystem: BaseFileSystem
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {

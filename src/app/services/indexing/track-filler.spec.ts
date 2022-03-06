@@ -2,7 +2,7 @@ import { IMock, Mock, Times } from 'typemoq';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { FileMetadataMock } from '../../common/metadata/file-metadata-mock';
@@ -14,7 +14,7 @@ describe('TrackFiller', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let mimeTypesMock: IMock<MimeTypes>;
     let loggerMock: IMock<Logger>;
 
@@ -24,7 +24,7 @@ describe('TrackFiller', () => {
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         loggerMock = Mock.ofType<Logger>();
 

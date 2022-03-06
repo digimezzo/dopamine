@@ -2,7 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { FolderTrackRepository } from '../../common/data/repositories/folder-track-repository';
 import { TrackRepository } from '../../common/data/repositories/track-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackRemover } from './track-remover';
@@ -11,7 +11,7 @@ describe('Trackremover', () => {
     let trackRepositoryMock: IMock<TrackRepository>;
     let folderTrackRepositoryMock: IMock<FolderTrackRepository>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let loggerMock: IMock<Logger>;
     let trackRemover: TrackRemover;
 
@@ -19,7 +19,7 @@ describe('Trackremover', () => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         folderTrackRepositoryMock = Mock.ofType<FolderTrackRepository>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         loggerMock = Mock.ofType<Logger>();
         trackRemover = new TrackRemover(
             trackRepositoryMock.object,

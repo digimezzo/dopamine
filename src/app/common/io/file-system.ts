@@ -7,9 +7,10 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
+import { BaseFileSystem } from './base-file-system';
 
 @Injectable()
-export class FileSystem {
+export class FileSystem implements BaseFileSystem {
     private _applicationDataDirectory: string = '';
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
