@@ -7,7 +7,7 @@ on:
 
 jobs:
     merge_build_on_linux:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
         if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
 
     merge_build_on_mac:
-        runs-on: macos-latest
+        runs-on: macos-11
         if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
@@ -81,7 +81,7 @@ jobs:
                   path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
 
     merge_build_on_win:
-        runs-on: windows-latest
+        runs-on: windows-2019
         if: github.event.pull_request.merged == true
         steps:
             - uses: actions/checkout@v2
