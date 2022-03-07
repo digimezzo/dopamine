@@ -10,7 +10,7 @@ export class Constants {
         new Language('fr', 'Français'),
         new Language('nl', 'Nederlands'),
         new Language('zh-CN', '简体中文'),
-        new Language('zh-TW', '繁體中文')
+        new Language('zh-TW', '繁體中文'),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
