@@ -19,4 +19,14 @@ export class FileValidator {
 
         return true;
     }
+
+    public isSupportedPlaylistFile(filePath: string): boolean {
+        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+
+        if (FileFormats.supportedPlaylistExtensions.includes(fileExtension.toLowerCase())) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
+import { FileValidator } from '../../common/file-validator';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
@@ -12,7 +13,12 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 export class PlaylistFileManager {
     private _playlistsParentFolderPath: string = '';
 
-    constructor(private playlistModelFactory: PlaylistModelFactory, private fileSystem: BaseFileSystem, private logger: Logger) {
+    constructor(
+        private playlistModelFactory: PlaylistModelFactory,
+        private fileValidator: FileValidator,
+        private fileSystem: BaseFileSystem,
+        private logger: Logger
+    ) {
         this.initialize();
     }
 
@@ -42,7 +48,7 @@ export class PlaylistFileManager {
         const playlists: PlaylistModel[] = [];
 
         for (const filePath of filePathsInPath) {
-            if (this.isSupportedPlaylistFile(filePath)) {
+            if (this.fileValidator.isSupportedPlaylistFile(filePath)) {
                 playlists.push(this.playlistModelFactory.create(this._playlistsParentFolderPath, filePath));
             }
         }
@@ -95,18 +101,8 @@ export class PlaylistFileManager {
     }
 
     private async replacePlaylistImageAsync(playlistPath: string, selectedImagePath: string): Promise<void> {
-        const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath);
+        const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath).toLowerCase();
         const newPlaylistImagePath: string = this.fileSystem.changeFileExtension(playlistPath, playlistImageExtension);
         this.fileSystem.copyFile(selectedImagePath, newPlaylistImagePath);
-    }
-
-    private isSupportedPlaylistFile(filePath: string): boolean {
-        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
-
-        if (FileFormats.supportedPlaylistExtensions.includes(fileExtension.toLowerCase())) {
-            return true;
-        }
-
-        return false;
     }
 }
