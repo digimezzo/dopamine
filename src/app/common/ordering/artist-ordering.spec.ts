@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { ArtistModel } from '../services/artist/artist-model';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import { ArtistModel } from '../../services/artist/artist-model';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { ArtistOrdering } from './artist-ordering';
 
 describe('ArtistOrdering', () => {

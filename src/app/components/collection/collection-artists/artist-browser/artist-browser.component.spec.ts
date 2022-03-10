@@ -1,9 +1,9 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { ArtistOrdering } from '../../../../common/artist-ordering';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
