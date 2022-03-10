@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { GenreModel } from '../services/genre/genre-model';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import { GenreModel } from '../../services/genre/genre-model';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { GenreOrdering } from './genre-ordering';
 
 describe('GenreOrdering', () => {

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
-import { BaseScheduler } from '../../../common/scheduler/base-scheduler';
+import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BasePlaylistFolderService } from '../../../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../../../services/playlist-folder/playlist-folder-model';

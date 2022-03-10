@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
-import { Scheduler } from '../../common/scheduler/scheduler';
+import { Scheduler } from '../../common/scheduling/scheduler';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';

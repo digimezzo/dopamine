@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
-import { Timer } from '../../common/timer';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackFiller } from './track-filler';
 import { TrackVerifier } from './track-verifier';

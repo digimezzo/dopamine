@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TrackModel } from '../services/track/track-model';
+import { TrackModel } from '../../services/track/track-model';
 
 @Injectable()
 export class TrackOrdering {

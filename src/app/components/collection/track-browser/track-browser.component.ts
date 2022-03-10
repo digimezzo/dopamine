@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { TrackOrdering } from '../../../common/track-ordering';
+import { TrackOrdering } from '../../../common/ordering/track-ordering';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';

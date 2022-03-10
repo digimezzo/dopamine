@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduler/scheduler';
+import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
