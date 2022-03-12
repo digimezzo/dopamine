@@ -10,6 +10,7 @@ export abstract class BaseFileSystem {
     public abstract getFileExtension(fileNameOrPath: string): string;
     public abstract getFileName(fileNameOrPath: string): string;
     public abstract getFileNameWithoutExtension(fileNameOrPath: string): string;
+    public abstract getPathWithoutExtension(filePath: string): string;
     public abstract getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number>;
     public abstract getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number>;
     public abstract pathExists(pathToCheck: string): boolean;
@@ -25,7 +26,6 @@ export abstract class BaseFileSystem {
     public abstract getFileContentAsBufferAsync(filePath: string): Promise<Buffer>;
     public abstract writeToFile(filePath: string, textToWrite: string): void;
     public abstract copyFile(oldPath: string, newPath: string): void;
-    public abstract changeFileExtension(filePath: string, newFileExtension: string): string;
     public abstract changeFileName(filePath: string, newFileName: string): string;
     public abstract changeFolderName(folderPath: string, newFolderName: string): string;
     public abstract isAbsolutePath(directoryOrFilePath: string): boolean;

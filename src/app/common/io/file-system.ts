@@ -88,6 +88,14 @@ export class FileSystem implements BaseFileSystem {
         return path.basename(fileNameOrPath, extension);
     }
 
+    public getPathWithoutExtension(filePath: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
+        const fileNameWithoutExtension: string = this.getFileNameWithoutExtension(filePath);
+        const pathWithNewFileExtension: string = this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}`]);
+
+        return pathWithNewFileExtension;
+    }
+
     public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
         const dateModified: Date = stat.mtime;
@@ -159,14 +167,6 @@ export class FileSystem implements BaseFileSystem {
 
     public copyFile(oldPath: string, newPath: string): void {
         return fs.copyFileSync(oldPath, newPath);
-    }
-
-    public changeFileExtension(filePath: string, newFileExtension: string): string {
-        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
-        const fileNameWithoutExtension: string = this.getFileNameWithoutExtension(filePath);
-        const pathWithNewFileExtension: string = this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}${newFileExtension}`]);
-
-        return pathWithNewFileExtension;
     }
 
     public changeFileName(filePath: string, newFileName: string): string {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { CollectionGrouper } from '../../common/collection-grouper';
+import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
@@ -130,7 +130,7 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         try {
-            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = CollectionGrouper.groupBy(
+            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = Collections.groupBy(
                 tracksToRemove,
                 (track) => track.playlistPath
             );

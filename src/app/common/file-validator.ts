@@ -29,4 +29,14 @@ export class FileValidator {
 
         return false;
     }
+
+    public isSupportedPlaylistImageFile(filePath: string): boolean {
+        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+
+        if (FileFormats.supportedPlaylistImageExtensions.includes(fileExtension.toLowerCase())) {
+            return true;
+        }
+
+        return false;
+    }
 }
