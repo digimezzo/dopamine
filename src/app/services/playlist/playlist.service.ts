@@ -50,6 +50,10 @@ export class PlaylistService implements BasePlaylistService {
         return this._activePlaylistFolder;
     }
 
+    public get hasActivePlaylistFolder(): boolean {
+        return !this._activePlaylistFolder.isDefault;
+    }
+
     public playlistsChanged$: Observable<void> = this.playlistsChanged.asObservable();
     public playlistTracksChanged$: Observable<void> = this.playlistTracksChanged.asObservable();
 

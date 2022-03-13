@@ -7,6 +7,7 @@
         </div>
         <div class="d-flex flex-row align-items-center">
             <div
+                *ngIf="this.playlistService.hasActivePlaylistFolder"
                 class="app-playlist-browser__add-button pointer secondary-text las la-plus mr-4"
                 matTooltip="{{ 'create-playlist' | translate }}"
                 (click)="createPlaylistAsync()"
