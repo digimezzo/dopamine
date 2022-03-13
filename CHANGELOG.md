@@ -11,13 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+-   Added Bulgarian translation
+
 ### Changed
 
 ### Removed
 
 ### Fixed
 
--   Playlist image not updating when changing it a second time
+-   Fixed playlist image not updating when changing it a second time
 
 ## [3.0.0-preview.8] - 2022-03-06
 
