@@ -6,10 +6,11 @@ export class Constants {
     public static readonly logFileName: string = 'Dopamine.log';
 
     public static readonly languages: Language[] = [
-        new Language('en', 'English'),
-        new Language('fr', 'Français'),
-        new Language('nl', 'Nederlands'),
-        new Language('zh-CN', '简体中文'),
+        new Language('bg', 'Bulgarian', 'български'),
+        new Language('zh-CN', 'Chinese (Simplified)', '简体中文'),
+        new Language('en', 'English', 'English'),
+        new Language('fr', 'French', 'Français'),
+        new Language('nl', 'Dutch', 'Nederlands'),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
