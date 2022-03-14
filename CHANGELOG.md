@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.9] - 2022-03-12
+## [3.0.0-preview.9] - 2022-03-14
 
 ### Added
 
 -   Added Bulgarian translation
 
 ### Changed
+
+-   Discord Rich Presence is now disabled by default
 
 ### Removed
 
