@@ -595,7 +595,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('enableDiscordRichPresence')) {
-            this.settings.set('enableDiscordRichPresence', true);
+            this.settings.set('enableDiscordRichPresence', false);
         }
     }
 }
