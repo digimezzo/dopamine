@@ -179,5 +179,6 @@
     "confirm-remove-from-playlist-long": "Наистина ли искате да премахнете тези песни от плейлиста?",
     "remove-from-playlist-error": "Възникна грешка при премахването на песните от плейлиста. Моля, проверете дневника, ако имате нужда от повече информация.",
     "single-track-added-to-playlist": "Добавена е 1 песен към плейлиста '{{playlistName}}'",
-    "multiple-tracks-added-to-playlist": "Добавени са {{numberOfAddedTracks}} песни в плейлиста '{{playlistName}}'"
+    "multiple-tracks-added-to-playlist": "Добавени са {{numberOfAddedTracks}} песни в плейлиста '{{playlistName}}'",
+    "online-preferences": "Please tell us your online preferences."
 }

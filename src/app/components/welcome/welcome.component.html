@@ -30,7 +30,7 @@
                         <mat-form-field class="mt-3">
                             <mat-select [(ngModel)]="translatorService.selectedLanguage">
                                 <mat-option *ngFor="let language of translatorService.languages" [value]="language">
-                                    {{ language.name }}
+                                    {{ language.localizedName }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -61,6 +61,27 @@
                             {{ 'let-us-set-up-collection' | translate }}
                         </h3>
                         <app-add-folder class="mt-3" [showCheckBoxes]="false"></app-add-folder>
+                    </div>
+                </mat-step>
+                <!-- Online -->
+                <mat-step>
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'online' | translate }}
+                        </h1>
+                        <h3>
+                            {{ 'online-preferences' | translate }}
+                        </h3>
+                        <div>
+                            <mat-slide-toggle class="mt-3" [(ngModel)]="settings.downloadMissingAlbumCovers">
+                                {{ 'download-missing-album-covers' | translate }}</mat-slide-toggle
+                            >
+                        </div>
+                        <div>
+                            <mat-slide-toggle class="mt-3" [(ngModel)]="settings.enableDiscordRichPresence">
+                                {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle
+                            >
+                        </div>
                     </div>
                 </mat-step>
                 <!-- Donate -->
