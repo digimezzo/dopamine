@@ -27,13 +27,13 @@ describe('PlaylistsContextMenu', () => {
             expect(playlistsContextMenu).toBeDefined();
         });
 
-        it('should initialize empty playlists', () => {
+        it('should initialize playlists as undefined', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(playlistsContextMenu.playlists.length).toEqual(0);
+            expect(playlistsContextMenu.playlists).toBeUndefined();
         });
     });
 
