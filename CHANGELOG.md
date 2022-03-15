@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+-   Downloading missing album covers is now disabled by default
 -   Discord Rich Presence is now disabled by default
 
 ### Removed

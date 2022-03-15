@@ -467,7 +467,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('downloadMissingAlbumCovers')) {
-            this.settings.set('downloadMissingAlbumCovers', true);
+            this.settings.set('downloadMissingAlbumCovers', false);
         }
 
         if (!this.settings.has('showAllFoldersInCollection')) {
