@@ -1,9 +1,9 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { GenreOrdering } from '../../../../common/genre-ordering';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';

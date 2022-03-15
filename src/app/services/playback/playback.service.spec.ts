@@ -5,7 +5,7 @@ import { Track } from '../../common/data/entities/track';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
-import { TrackOrdering } from '../../common/track-ordering';
+import { TrackOrdering } from '../../common/ordering/track-ordering';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';

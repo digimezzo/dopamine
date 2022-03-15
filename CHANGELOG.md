@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.9] - 2022-03-14
+## [3.0.0-preview.9] - 2022-03-15
 
 ### Added
 
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed playlist image not updating when changing it a second time
+-   Fixed 'Add to playlist' menu does not indicate clearly that there are no playlists
 
 ## [3.0.0-preview.8] - 2022-03-06
 

@@ -20,7 +20,11 @@ export class AddToPlaylistMenu {
         private logger: Logger
     ) {}
 
-    public playlists: PlaylistModel[] = [];
+    public playlists: any;
+
+    public get hasPlaylists(): boolean {
+        return this.playlists != undefined && Object.keys(this.playlists).length > 0;
+    }
 
     public async initializeAsync(): Promise<void> {
         this.subscription.add(

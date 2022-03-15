@@ -180,5 +180,6 @@
     "remove-from-playlist-error": "Une erreur s'est produite lors de la suppression de numéros de la playlist. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
     "single-track-added-to-playlist": "Ajout de 1 numéro à la playlist '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "Ajout de {{numberOfAddedTracks}} numéros à la playlist '{{playlistName}}'",
-    "online-preferences": "Veuillez nous indiquer vos préférences en ligne."
+    "online-preferences": "Veuillez nous indiquer vos préférences en ligne.",
+    "no-playlists": "Pas de playlists"
 }

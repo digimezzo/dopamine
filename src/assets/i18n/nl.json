@@ -180,5 +180,6 @@
     "remove-from-playlist-error": "Er is een fout opgetreden bij het verwijderen van nummers uit de playlist. Controleer het log bestand als u meer informatie nodig heeft.",
     "single-track-added-to-playlist": "1 nummer toegevoegd aan playlist '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "{{numberOfAddedTracks}} nummers toegevoegd aan playlist '{{playlistName}}'",
-    "online-preferences": "Vertel ons jouw online voorkeuren."
+    "online-preferences": "Vertel ons jouw online voorkeuren.",
+    "no-playlists": "Geen playlists"
 }

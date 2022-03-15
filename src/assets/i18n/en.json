@@ -180,5 +180,6 @@
     "remove-from-playlist-error": "An error occurred while removing songs from the playlist. Please verify the log if you need more information.",
     "single-track-added-to-playlist": "Added 1 song to playlist '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'",
-    "online-preferences": "Please tell us your online preferences."
+    "online-preferences": "Please tell us your online preferences.",
+    "no-playlists": "No playlists"
 }
