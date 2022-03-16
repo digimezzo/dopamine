@@ -47,7 +47,9 @@ export class AudioPlayer implements BaseAudioPlayer {
     }
 
     public play(audioFilePath: string): void {
-        this.audio.src = 'file:///' + audioFilePath;
+        // HTMLAudioElement doesn't play paths which contain a #, so we escape it by replacing it with %23.
+        const playableAudioFilePath: string = audioFilePath.replace('#', '%23');
+        this.audio.src = 'file:///' + playableAudioFilePath;
         this.audio.play();
     }
 
