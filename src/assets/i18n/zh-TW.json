@@ -1,4 +1,6 @@
 {
+    "language-name-english": "Chinese (Traditional)",
+    "language-name-localized": "繁體中文",
     "hi": "嗨！",
     "welcome-to-dopamine": "歡迎使用 Dopamine，我們希望你會愛上它！首先，來將初始工作設定好吧。",
     "language": "語言",
@@ -177,5 +179,7 @@
     "confirm-remove-from-playlist-long": "確定要從播放清單中移除這些曲目嗎？",
     "remove-from-playlist-error": "從播放清單中移除曲目時出錯。如果需要更多資訊，請參閱日誌檔。",
     "single-track-added-to-playlist": "新增 1 曲目至播放清單「{{playlistName}}」",
-    "multiple-tracks-added-to-playlist": "新增 {{numberOfAddedTracks}} 曲目至播放清單「{{playlistName}}」"
+    "multiple-tracks-added-to-playlist": "新增 {{numberOfAddedTracks}} 曲目至播放清單「{{playlistName}}」",
+    "online-preferences": "Please tell us your online preferences.",
+    "no-playlists": "No playlists"
 }
