@@ -12,6 +12,7 @@ export class Constants {
         new Language('en', 'English', 'English'),
         new Language('fr', 'French', 'Français'),
         new Language('nl', 'Dutch', 'Nederlands'),
+        new Language('ru', 'Russian', 'русский'),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
