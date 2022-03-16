@@ -1,6 +1,18 @@
 import { Strings } from './strings';
 
 describe('Strings', () => {
+    describe('empty', () => {
+        it('should return an empty string', () => {
+            // Arrange
+
+            // Act
+            const emptyString: string = Strings.empty;
+
+            // Assert
+            expect(emptyString).toEqual('');
+        });
+    });
+
     describe('equalsIgnoreCase', () => {
         it('should return true if both strings are undefined', () => {
             // Arrange

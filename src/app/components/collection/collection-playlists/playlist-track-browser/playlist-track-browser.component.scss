@@ -1,0 +1,25 @@
+.app-track-browser {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-track-browser__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.app-track-browser__trackscount {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-track-browser__trackscount__number {
+    color: var(--theme-accent-color);
+}
+
+.app-track-browser__tracks {
+    flex: 1;
+}

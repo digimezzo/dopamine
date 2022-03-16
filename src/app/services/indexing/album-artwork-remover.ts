@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AlbumArtwork } from '../../common/data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { Timer } from '../../common/timer';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
 export class AlbumArtworkRemover {
     constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private snackBarService: BaseSnackBarService,
         private logger: Logger
     ) {}

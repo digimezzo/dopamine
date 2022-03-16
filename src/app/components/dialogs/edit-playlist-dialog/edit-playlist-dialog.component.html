@@ -1,0 +1,32 @@
+<app-dialog-header icon="las la-pen" title="{{ this.dialogTitle }}"></app-dialog-header>
+<mat-dialog-content class="overflow-hidden-important">
+    <div class="d-flex flex-row">
+        <div class="edit-playlist__image mr-4 pointer">
+            <div class="edit-playlist__image__placeholder" matTooltip="{{ 'change-image' | translate }}" (click)="this.changeImageAsync()">
+                <svg width="256" height="256" viewBox="0 0 256 256">
+                    <path
+                        d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z "
+                    />
+                </svg>
+            </div>
+            <div matTooltip="{{ 'change-image' | translate }}" (click)="this.changeImageAsync()">
+                <img [attr.src]="this.playlistImagePath | imageToFilePath" width="120" height="120" loading="lazy" draggable="false" />
+            </div>
+            <div
+                class="edit-playlist__remove-button d-flex justify-content-center align-items-center"
+                *ngIf="this.hasPlaylistImagePath"
+                matTooltip="{{ 'remove-image' | translate }}"
+                (click)="this.removeImage()"
+            >
+                <i class="las la-times"></i>
+            </div>
+        </div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="this.playlistName" placeholder="{{ 'playlist-name' | translate }}" (keyup.enter)="closeDialog()" />
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button [disabled]="!hasPlaylistName" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
+</mat-dialog-actions>

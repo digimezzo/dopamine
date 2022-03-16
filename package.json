@@ -1,6 +1,6 @@
 {
     "name": "Dopamine",
-    "version": "3.0.0-preview.7",
+    "version": "3.0.0-preview.9",
     "description": "Audio player",
     "homepage": "https://github.com/digimezzo/dopamine",
     "author": {
@@ -103,6 +103,7 @@
         "moment": "2.27.0",
         "music-metadata": "7.11.3",
         "node-fetch": "2.6.1",
+        "sanitize-filename": "^1.6.3",
         "tinycolor2": "^1.4.2",
         "tslib": "^1.10.0",
         "uuid": "8.3.0"

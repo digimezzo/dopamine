@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { FolderModel } from './folder-model';
@@ -13,7 +13,7 @@ describe('FolderService', () => {
     let folderRepositoryMock: IMock<BaseFolderRepository>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let loggerMock: IMock<Logger>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
 
     let service: FolderService;
 
@@ -21,7 +21,7 @@ describe('FolderService', () => {
         folderRepositoryMock = Mock.ofType<BaseFolderRepository>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         loggerMock = Mock.ofType<Logger>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
 
         service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileSystemMock.object);
     });

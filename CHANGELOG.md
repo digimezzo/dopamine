@@ -7,11 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.8] - 2021-09-24
+## [3.0.0-preview.9] - 2022-03-15
 
 ### Added
 
+-   Added Bulgarian translation
+-   Added Chinese (Traditional) translation
+
 ### Changed
+
+-   Downloading missing album covers is now disabled by default
+-   Discord Rich Presence is now disabled by default
+
+### Removed
+
+### Fixed
+
+-   Fixed playlist image not updating when changing it a second time
+-   Fixed 'Add to playlist' menu does not indicate clearly that there are no playlists
+
+## [3.0.0-preview.8] - 2022-03-06
+
+### Added
+
+-   Added Palenight theme
+-   Added Chinese (simplified) translation
+-   Added basic playlists support
+
+### Changed
+
+-   Improved macOS icon
 
 ### Removed
 

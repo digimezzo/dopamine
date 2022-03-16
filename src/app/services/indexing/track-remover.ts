@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Track } from '../../common/data/entities/track';
 import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { Timer } from '../../common/timer';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class TrackRemover {
         private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private snackBarService: BaseSnackBarService,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private logger: Logger
     ) {}
 

@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { remote } from 'electron';
+import * as events from 'events';
 import * as fs from 'fs-extra';
+import * as os from 'os';
 import * as path from 'path';
+import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
+import { BaseFileSystem } from './base-file-system';
 
 @Injectable()
-export class FileSystem {
+export class FileSystem implements BaseFileSystem {
     private _applicationDataDirectory: string = '';
+    private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
     constructor() {
         this._applicationDataDirectory = remote.app.getPath('userData');
+        this._musicDirectory = remote.app.getPath('music');
         this._pathSeparator = path.sep;
     }
 
@@ -31,6 +37,10 @@ export class FileSystem {
 
     public applicationDataDirectory(): string {
         return this._applicationDataDirectory;
+    }
+
+    public musicDirectory(): string {
+        return this._musicDirectory;
     }
 
     public coverArtCacheFullPath(): string {
@@ -65,10 +75,6 @@ export class FileSystem {
             .map((directoryName) => this.combinePath([directoryPath, directoryName]));
     }
 
-    public async readFileContentsAsync(filePath: string): Promise<string> {
-        return await fs.readFile(filePath, 'utf-8');
-    }
-
     public getFileExtension(fileNameOrPath: string): string {
         return path.extname(fileNameOrPath);
     }
@@ -80,6 +86,14 @@ export class FileSystem {
     public getFileNameWithoutExtension(fileNameOrPath: string): string {
         const extension: string = path.extname(fileNameOrPath);
         return path.basename(fileNameOrPath, extension);
+    }
+
+    public getPathWithoutExtension(filePath: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
+        const fileNameWithoutExtension: string = this.getFileNameWithoutExtension(filePath);
+        const pathWithNewFileExtension: string = this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}`]);
+
+        return pathWithNewFileExtension;
     }
 
     public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
@@ -100,7 +114,7 @@ export class FileSystem {
         return fs.existsSync(pathToCheck);
     }
 
-    public async getFilesizeInBytesAsync(filePath: string): Promise<number> {
+    public async getFileSizeInBytesAsync(filePath: string): Promise<number> {
         const stats = await fs.stat(filePath);
         const fileSizeInBytes = stats.size;
 
@@ -113,6 +127,10 @@ export class FileSystem {
         }
     }
 
+    public createFile(filePath: string): void {
+        fs.createFileSync(filePath);
+    }
+
     public getDirectoryPath(directoryOrFilePath: string): string {
         return path.dirname(directoryOrFilePath);
     }
@@ -123,15 +141,80 @@ export class FileSystem {
         }
     }
 
-    public getDirectoryName(directoryPath: string): string {
-        return path.basename(directoryPath);
+    public deleteDirectoryRecursively(directoryPath: string): void {
+        fs.rmdirSync(directoryPath, { recursive: true });
     }
 
-    public getFileContent(filePath: string): string {
+    public renameFileOrDirectory(oldPath: string, newPath: string): void {
+        fs.renameSync(oldPath, newPath);
+    }
+
+    public getDirectoryOrFileName(directoryOrFilePath: string): string {
+        return path.basename(directoryOrFilePath);
+    }
+
+    public getFileContentAsString(filePath: string): string {
         return fs.readFileSync(filePath, 'utf-8');
+    }
+
+    public async getFileContentAsBufferAsync(filePath: string): Promise<Buffer> {
+        return await fs.readFile(filePath);
     }
 
     public writeToFile(filePath: string, textToWrite: string): void {
         fs.writeFileSync(filePath, textToWrite);
+    }
+
+    public copyFile(oldPath: string, newPath: string): void {
+        return fs.copyFileSync(oldPath, newPath);
+    }
+
+    public changeFileName(filePath: string, newFileName: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(filePath);
+        const fileExtension: string = this.getFileExtension(filePath);
+        const pathWithNewFileName: string = this.combinePath([parentDirectoryPath, `${newFileName}${fileExtension}`]);
+
+        return pathWithNewFileName;
+    }
+
+    public changeFolderName(folderPath: string, newFolderName: string): string {
+        const parentDirectoryPath: string = this.getDirectoryPath(folderPath);
+        const pathWithNewFolderName: string = this.combinePath([parentDirectoryPath, newFolderName]);
+
+        return pathWithNewFolderName;
+    }
+
+    public isAbsolutePath(directoryOrFilePath: string): boolean {
+        return path.isAbsolute(directoryOrFilePath);
+    }
+
+    public generateFullPath(baseDirectoryPath: string, directoryOrFilePath: string): string {
+        return path.resolve(baseDirectoryPath, directoryOrFilePath);
+    }
+
+    public async readLinesAsync(filePath: string): Promise<string[]> {
+        const lines: string[] = [];
+
+        const readlineInterface: readline.Interface = readline.createInterface({
+            input: fs.createReadStream(filePath),
+            output: process.stdout,
+            terminal: false,
+        });
+
+        readlineInterface.on('line', (line) => {
+            lines.push(line);
+        });
+
+        await events.once(readlineInterface, 'close');
+
+        return lines;
+    }
+
+    public async appendTextToFileAsync(filePath: string, text: string): Promise<void> {
+        await fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
+    }
+
+    public async clearFileContentsAsync(filePath: string): Promise<void> {
+        await fs.truncate(filePath);
     }
 }

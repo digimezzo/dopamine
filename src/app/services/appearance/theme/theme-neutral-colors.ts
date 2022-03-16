@@ -22,6 +22,7 @@ export class ThemeNeutralColors {
         public scrollBars: string,
         public searchBox: string,
         public searchBoxText: string,
-        public searchBoxIcon: string
+        public searchBoxIcon: string,
+        public dialogBackground: string
     ) {}
 }

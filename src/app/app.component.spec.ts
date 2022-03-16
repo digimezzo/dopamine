@@ -3,18 +3,22 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
 import { Logger } from './common/logger';
+import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 
 describe('AppComponent', () => {
-    let discordServiceMock: IMock<BaseDiscordService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let dialogServiceMock: IMock<BaseDialogService>;
+    let discordServiceMock: IMock<BaseDiscordService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
@@ -26,18 +30,22 @@ describe('AppComponent', () => {
             navigationServiceMock.object,
             appearanceServiceMock.object,
             translatorServiceMock.object,
+            dialogServiceMock.object,
             discordServiceMock.object,
             searchServiceMock.object,
+            addToPlaylistMenuMock.object,
             loggerMock.object
         );
     }
 
     beforeEach(() => {
-        discordServiceMock = Mock.ofType<BaseDiscordService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        discordServiceMock = Mock.ofType<BaseDiscordService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 
@@ -70,6 +78,17 @@ describe('AppComponent', () => {
     });
 
     describe('ngOnInit', () => {
+        it('should initialize playlist context menu', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            addToPlaylistMenuMock.verify((x) => x.initializeAsync(), Times.once());
+        });
+
         it('should apply appearance', async () => {
             // Arrange
             const app: AppComponent = createComponent();
@@ -129,12 +148,13 @@ describe('AppComponent', () => {
     });
 
     describe('handleKeyboardEvent', () => {
-        it('should prevent the default action when space is pressed and while not searching', () => {
+        it('should prevent the default action when space is pressed while not searching and no input dialog is opened', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
             searchServiceMock.setup((x) => x.isSearching).returns(() => false);
+            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => false);
             const app: AppComponent = createComponent();
 
             // Act
@@ -144,12 +164,29 @@ describe('AppComponent', () => {
             keyboardEventMock.verify((x) => x.preventDefault(), Times.once());
         });
 
-        it('should not prevent the default action when space is pressed and while searching', () => {
+        it('should not prevent the default action when space is pressed while searching', () => {
             // Arrange
             const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
             keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
             keyboardEventMock.setup((x) => x.key).returns(() => ' ');
             searchServiceMock.setup((x) => x.isSearching).returns(() => true);
+            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => false);
+            const app: AppComponent = createComponent();
+
+            // Act
+            app.handleKeyboardEvent(keyboardEventMock.object);
+
+            // Assert
+            keyboardEventMock.verify((x) => x.preventDefault(), Times.never());
+        });
+
+        it('should not prevent the default action when space is pressed while an input dialog is opened', () => {
+            // Arrange
+            const keyboardEventMock: IMock<KeyboardEvent> = Mock.ofType<KeyboardEvent>();
+            keyboardEventMock.setup((x) => x.type).returns(() => 'keydown');
+            keyboardEventMock.setup((x) => x.key).returns(() => ' ');
+            searchServiceMock.setup((x) => x.isSearching).returns(() => false);
+            dialogServiceMock.setup((x) => x.isInputDialogOpened).returns(() => true);
             const app: AppComponent = createComponent();
 
             // Act

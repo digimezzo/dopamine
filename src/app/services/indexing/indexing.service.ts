@@ -4,8 +4,8 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { Logger } from '../../common/logger';
 import { BaseFolderService } from '../folder/base-folder.service';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
-import { BaseCollectionChecker } from './base-collection-checker';
 import { BaseIndexingService } from './base-indexing.service';
+import { CollectionChecker } from './collection-checker';
 import { TrackIndexer } from './track-indexer';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
     private foldersHaveChanged: boolean = false;
 
     constructor(
-        private collectionChecker: BaseCollectionChecker,
+        private collectionChecker: CollectionChecker,
         private trackIndexer: TrackIndexer,
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private trackRepository: BaseTrackRepository,

@@ -4,7 +4,7 @@ import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
 import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduler/scheduler';
+import { Scheduler } from '../../../common/scheduling/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { ArtistModel } from '../../../services/artist/artist-model';
@@ -1058,6 +1058,45 @@ describe('CollectionArtistsComponent', () => {
 
         it('should fill the lists if the selected tab has changed to artists', async () => {
             // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
+            const artist1: ArtistModel = createArtistModel('artist1');
+            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
+            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
+            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1])).returns(() => []);
+
+            const album1: AlbumModel = createAlbumModel('albumKey1');
+            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1]);
+            albumsPersisterMock.setup((x) => x.getSelectedAlbums([album1])).returns(() => []);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const trackModels: TrackModels = createTrackModels([track1]);
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+
+            const component: CollectionArtistsComponent = createComponent();
+            await component.ngOnInit();
+
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.once());
+            albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
+            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            expect(component.artists.length).toEqual(1);
+            expect(component.artists[0]).toEqual(artist1);
+            expect(component.albums.length).toEqual(1);
+            expect(component.albums[0]).toEqual(album1);
+            expect(component.tracks.tracks.length).toEqual(1);
+            expect(component.tracks.tracks[0]).toEqual(track1);
+        });
+
+        it('should clear the lists if the selected tab has changed to not artists', async () => {
+            // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
 
             const artist1: ArtistModel = createArtistModel('artist1');
@@ -1076,42 +1115,6 @@ describe('CollectionArtistsComponent', () => {
             const component: CollectionArtistsComponent = createComponent();
             await component.ngOnInit();
 
-            // Act
-            selectedTabChangedMock.next();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.once());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
-            expect(component.artists.length).toEqual(1);
-            expect(component.artists[0]).toEqual(artist1);
-            expect(component.albums.length).toEqual(1);
-            expect(component.albums[0]).toEqual(album1);
-            expect(component.tracks.tracks.length).toEqual(1);
-            expect(component.tracks.tracks[0]).toEqual(track1);
-        });
-
-        it('should clear the lists if the selected tab has changed to not artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
-
-            const artist1: ArtistModel = createArtistModel('artist1');
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
-            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
-            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1])).returns(() => []);
-
-            const album1: AlbumModel = createAlbumModel('albumKey1');
-            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1]);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums([album1])).returns(() => []);
-
-            const track1: TrackModel = createTrackModel('path1');
-            const trackModels: TrackModels = createTrackModels([track1]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
-
-            const component: CollectionArtistsComponent = createComponent();
-            await component.ngOnInit();
-            selectedTabChangedMock.next();
-
             artistServiceMock.reset();
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
             albumServiceMock.reset();
@@ -1122,6 +1125,7 @@ describe('CollectionArtistsComponent', () => {
 
             // Act
             selectedTabChangedMock.next();
+            await flushPromises();
 
             // Assert
             artistServiceMock.verify((x) => x.getArtists(It.isAny()), Times.never());

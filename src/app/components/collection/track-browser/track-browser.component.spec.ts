@@ -1,21 +1,25 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { TrackOrdering } from '../../../common/track-ordering';
+import { TrackOrdering } from '../../../common/ordering/track-ordering';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
 import { TrackBrowserComponent } from './track-browser.component';
 
 describe('TrackBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackOrderingMock: IMock<TrackOrdering>;
@@ -43,6 +47,8 @@ describe('TrackBrowserComponent', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
@@ -108,8 +114,10 @@ describe('TrackBrowserComponent', () => {
 
         component = new TrackBrowserComponent(
             playbackServiceMock.object,
-            playbackIndicationServiceMock.object,
+            addToPlaylistMenuMock.object,
+            contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
+            playbackIndicationServiceMock.object,
             trackOrderingMock.object,
             loggerMock.object
         );

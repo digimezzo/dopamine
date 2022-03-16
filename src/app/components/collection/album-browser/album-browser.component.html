@@ -41,10 +41,52 @@
                     *ngFor="let album of albumRow.albums"
                     [album]="album"
                     [isSelected]="album.isSelected"
-                    (click)="setSelectedAlbums($event, album)"
+                    (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
+                    (contextmenu)="onAlbumContextMenuAsync($event, album)"
                 ></app-album>
             </div>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="albumsContextMenu"
+></div>
+
+<mat-menu #albumsContextMenu="matMenu">
+    <ng-template matMenuContent let-album="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addAlbumsToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

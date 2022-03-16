@@ -1,11 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ArtistOrdering } from '../../../../common/artist-ordering';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
 
@@ -22,11 +25,16 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
     constructor(
         public playbackService: BasePlaybackService,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        public addToPlaylistMenu: AddToPlaylistMenu,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
         private headerShower: HeaderShower,
         private logger: Logger
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public artistContextMenu: MatMenuTrigger;
 
     public orderedArtists: ArtistModel[] = [];
 
@@ -108,6 +116,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
         this.artistsPersister.setSelectedArtistOrder(this.selectedArtistOrder);
         this.orderArtists();
+    }
+
+    public async onArtistContextMenuAsync(event: MouseEvent, artist: ArtistModel): Promise<void> {
+        this.contextMenuOpener.open(this.artistContextMenu, event, artist);
     }
 
     private orderArtists(): void {

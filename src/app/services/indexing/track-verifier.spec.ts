@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { TrackVerifier } from './track-verifier';
 
 describe('TrackVerifier', () => {
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let trackVerifier: TrackVerifier;
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         trackVerifier = new TrackVerifier(fileSystemMock.object);
     });
 
@@ -36,7 +36,7 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFilesizeInBytesAsync(track.path)).returns(async () => 12);
+            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 12);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
 
             // Act
@@ -54,7 +54,7 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFilesizeInBytesAsync(track.path)).returns(async () => 10);
+            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 110);
 
             // Act
@@ -72,7 +72,7 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFilesizeInBytesAsync(track.path)).returns(async () => 10);
+            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
 
             // Act

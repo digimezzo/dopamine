@@ -4,7 +4,7 @@ import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
 import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduler/scheduler';
+import { Scheduler } from '../../../common/scheduling/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
@@ -56,6 +56,8 @@ describe('CollectionAlbumsComponent', () => {
     let trackModel1: TrackModel;
     let trackModel2: TrackModel;
     let tracks: TrackModels;
+
+    const flushPromises = () => new Promise(setImmediate);
 
     function createComponent(): CollectionAlbumsComponent {
         const component: CollectionAlbumsComponent = new CollectionAlbumsComponent(
@@ -450,9 +452,7 @@ describe('CollectionAlbumsComponent', () => {
             await component.ngOnInit();
             component.albums = [];
             indexingFinishedMock.next();
-
-            const scheduler: Scheduler = new Scheduler();
-            await scheduler.sleepUntilConditionIsTrueAsync(50, 1000, component.albums.length > 0);
+            await flushPromises();
 
             // Assert
             expect(component.albums).toBe(albums);
@@ -475,9 +475,7 @@ describe('CollectionAlbumsComponent', () => {
             await component.ngOnInit();
             component.albums = [];
             indexingFinishedMock.next();
-
-            const scheduler: Scheduler = new Scheduler();
-            await scheduler.sleepUntilConditionIsTrueAsync(50, 1000, component.albums.length > 0);
+            await flushPromises();
 
             // Assert
             expect(component.albums.length).toEqual(0);
@@ -486,7 +484,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should fill the lists if the selected tab has changed to albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
 
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
@@ -496,8 +494,12 @@ describe('CollectionAlbumsComponent', () => {
             const component: CollectionAlbumsComponent = createComponent();
             await component.ngOnInit();
 
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+
             // Act
             selectedTabChangedMock.next();
+            await flushPromises();
 
             // Assert
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
@@ -517,7 +519,6 @@ describe('CollectionAlbumsComponent', () => {
 
             const component: CollectionAlbumsComponent = createComponent();
             await component.ngOnInit();
-            selectedTabChangedMock.next();
 
             collectionPersisterMock.reset();
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
@@ -527,6 +528,7 @@ describe('CollectionAlbumsComponent', () => {
 
             // Act
             selectedTabChangedMock.next();
+            await flushPromises();
 
             // Assert
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());

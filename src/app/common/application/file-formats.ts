@@ -7,7 +7,6 @@ export class FileFormats {
     public static readonly opus: string = '.opus';
     public static readonly wav: string = '.wav';
 
-    // Supported audio extensions
     public static readonly supportedAudioExtensions: string[] = [
         FileFormats.mp3,
         FileFormats.flac,
@@ -16,4 +15,17 @@ export class FileFormats {
         FileFormats.opus,
         FileFormats.wav,
     ];
+
+    // Playlist extensions
+    public static readonly m3u: string = '.m3u';
+    public static readonly m3u8: string = '.m3u8';
+
+    public static readonly supportedPlaylistExtensions: string[] = [FileFormats.m3u, FileFormats.flac];
+
+    // Playlist image extensions
+    public static readonly png: string = '.png';
+    public static readonly jpg: string = '.jpg';
+    public static readonly jpeg: string = '.jpeg';
+
+    public static readonly supportedPlaylistImageExtensions: string[] = [FileFormats.png, FileFormats.jpg, FileFormats.jpeg];
 }

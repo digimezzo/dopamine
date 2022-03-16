@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FileFormats } from '../../common/application/file-formats';
-import { Track } from '../../common/data/entities/track';
+import { FileValidator } from '../../common/file-validator';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
-import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
-import { TrackFiller } from '../indexing/track-filler';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
+import { TrackModelFactory } from '../track/track-model-factory';
 import { BaseFileService } from './base-file.service';
 
 @Injectable()
@@ -17,10 +14,9 @@ export class FileService implements BaseFileService {
 
     constructor(
         private playbackService: BasePlaybackService,
-        private translatorService: BaseTranslatorService,
-        private trackFiller: TrackFiller,
-        private fileSystem: FileSystem,
+        private trackModelFactory: TrackModelFactory,
         private remoteProxy: BaseRemoteProxy,
+        private fileValidator: FileValidator,
         private logger: Logger
     ) {
         this.subscription.add(
@@ -43,16 +39,6 @@ export class FileService implements BaseFileService {
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
-    private isSupportedAudioFile(filePath: string): boolean {
-        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
-
-        if (FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
-            return true;
-        }
-
-        return false;
-    }
-
     private getSafeParameters(parameters: string[]): string[] {
         if (parameters != undefined && parameters.length > 0) {
             return parameters;
@@ -66,7 +52,7 @@ export class FileService implements BaseFileService {
         this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'hasPlayableFilesAsParameters');
 
         for (const safeParameter of safeParameters) {
-            if (this.isSupportedAudioFile(safeParameter)) {
+            if (this.fileValidator.isPlayableAudioFile(safeParameter)) {
                 return true;
             }
         }
@@ -82,10 +68,9 @@ export class FileService implements BaseFileService {
             const trackModels: TrackModel[] = [];
 
             for (const safeParameter of safeParameters) {
-                if (this.isSupportedAudioFile(safeParameter)) {
-                    const track: Track = new Track(safeParameter);
-                    await this.trackFiller.addFileMetadataToTrackAsync(track);
-                    trackModels.push(new TrackModel(track, this.translatorService));
+                if (this.fileValidator.isPlayableAudioFile(safeParameter)) {
+                    const trackModel: TrackModel = await this.trackModelFactory.createFromFileAsync(safeParameter);
+                    trackModels.push(trackModel);
                 }
             }
 

@@ -1,18 +1,22 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { GenreOrdering } from '../../../../common/genre-ordering';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreBrowserComponent } from './genre-browser.component';
 import { GenreOrder } from './genre-order';
 
 describe('GenreBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreOrderingMock: IMock<GenreOrdering>;
     let headerShowerMock: IMock<HeaderShower>;
     let loggerMock: IMock<Logger>;
@@ -25,6 +29,8 @@ describe('GenreBrowserComponent', () => {
     function createComponent(): GenreBrowserComponent {
         return new GenreBrowserComponent(
             playbackServiceMock.object,
+            addToPlaylistMenuMock.object,
+            contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             genreOrderingMock.object,
             headerShowerMock.object,
@@ -34,6 +40,8 @@ describe('GenreBrowserComponent', () => {
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         genreOrderingMock = Mock.ofType<GenreOrdering>();
         headerShowerMock = Mock.ofType<HeaderShower>();
@@ -123,6 +131,36 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             expect(component.playbackService).toBeDefined();
+        });
+
+        it('should define mouseSelectionWatcher', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.mouseSelectionWatcher).toBeDefined();
+        });
+
+        it('should define contextMenuOpener', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.contextMenuOpener).toBeDefined();
+        });
+
+        it('should define addToPlaylistMenu', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.addToPlaylistMenu).toBeDefined();
         });
     });
 

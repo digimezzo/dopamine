@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Constants } from '../../../common/application/constants';
+import { BaseFileSystem } from '../../../common/io/base-file-system';
 import { Desktop } from '../../../common/io/desktop';
-import { FileSystem } from '../../../common/io/file-system';
 
 @Component({
     selector: 'app-error-dialog',
@@ -15,7 +15,7 @@ export class ErrorDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
         private desktop: Desktop,
-        private fileSystem: FileSystem
+        private fileSystem: BaseFileSystem
     ) {
         this.dialogRef.disableClose = true;
     }

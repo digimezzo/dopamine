@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../../common/data/entities/track';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 
 @Injectable()
 export class TrackVerifier {
-    constructor(private fileSystem: FileSystem) {}
+    constructor(private fileSystem: BaseFileSystem) {}
 
     public async isTrackOutOfDateAsync(track: Track): Promise<boolean> {
         if (track.fileSize === 0) {
             return true;
         }
 
-        if (track.fileSize !== (await this.fileSystem.getFilesizeInBytesAsync(track.path))) {
+        if (track.fileSize !== (await this.fileSystem.getFileSizeInBytesAsync(track.path))) {
             return true;
         }
 

@@ -1,21 +1,21 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumArtwork } from '../../common/data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 
 describe('AlbumArtworkRemover', () => {
     let albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let loggerMock: IMock<Logger>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let albumArtworkRemover: AlbumArtworkRemover;
 
     beforeEach(() => {
         albumArtworkRepositoryMock = Mock.ofType<BaseAlbumArtworkRepository>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         loggerMock = Mock.ofType<Logger>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         albumArtworkRemover = new AlbumArtworkRemover(

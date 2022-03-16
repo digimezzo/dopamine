@@ -39,7 +39,7 @@
     <mat-form-field>
         <mat-select [(ngModel)]="translatorService.selectedLanguage">
             <mat-option *ngFor="let language of translatorService.languages" [value]="language">
-                {{ language.name }}
+                {{ language.localizedName }}
             </mat-option>
         </mat-select>
     </mat-form-field>

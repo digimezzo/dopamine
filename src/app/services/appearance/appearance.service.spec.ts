@@ -3,10 +3,10 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
-import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AppearanceService } from './appearance.service';
@@ -23,7 +23,7 @@ describe('AppearanceService', () => {
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
     let remoteProxyMock: IMock<BaseRemoteProxy>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let desktopMock: IMock<Desktop>;
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
@@ -75,6 +75,7 @@ describe('AppearanceService', () => {
             '#0fffff',
             '#0fffff',
             '#0fffff',
+            '#0fffff',
             '#0fffff'
         );
     }
@@ -97,6 +98,7 @@ describe('AppearanceService', () => {
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
+            '#1fffff',
             '#1fffff',
             '#1fffff',
             '#1fffff',
@@ -196,6 +198,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-search-box')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-dialog-background')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(selectedItemText: string, scrollBars: string): void {
@@ -222,6 +225,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-search-box')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-dialog-background')).toEqual('#1fffff');
     }
 
     function resetElements(): void {
@@ -241,11 +245,11 @@ describe('AppearanceService', () => {
             .returns(() => '/home/user/.config/Dopamine/Themes');
 
         fileSystemMock
-            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
+            .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
             .returns(() => JSON.stringify(theme1));
 
         fileSystemMock
-            .setup((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
+            .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
             .returns(() => JSON.stringify(theme2));
 
         fileSystemMock
@@ -266,7 +270,7 @@ describe('AppearanceService', () => {
         loggerMock = Mock.ofType<Logger>();
         overlayContainerMock = Mock.ofType<OverlayContainer>();
         remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         desktopMock = Mock.ofType<Desktop>();
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
@@ -376,8 +380,8 @@ describe('AppearanceService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {
@@ -1077,8 +1081,8 @@ describe('AppearanceService', () => {
 
             // Assert
             fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContent('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {

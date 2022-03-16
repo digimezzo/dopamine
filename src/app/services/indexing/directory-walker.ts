@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { DirectoryWalkResult } from './directory-walk-result';
 
 @Injectable()
 export class DirectoryWalker {
-    constructor(private fileSystem: FileSystem) {}
+    constructor(private fileSystem: BaseFileSystem) {}
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<DirectoryWalkResult> {
         const filePaths: string[] = [];
         const errors: Error[] = [];
 
-        await this.recursivelyGetFilesinDirectoryAsync(directoryPath, filePaths, errors);
+        await this.recursivelyGetFilesInDirectoryAsync(directoryPath, filePaths, errors);
 
         return new DirectoryWalkResult(filePaths, errors);
     }
 
-    private async recursivelyGetFilesinDirectoryAsync(directoryPath: string, filePaths: string[], errors: Error[]): Promise<void> {
+    private async recursivelyGetFilesInDirectoryAsync(directoryPath: string, filePaths: string[], errors: Error[]): Promise<void> {
         try {
             // Process the files found in the directory
             let filePathsInDirectory: string[];
@@ -48,7 +48,7 @@ export class DirectoryWalker {
             if (subdirectoryPathsInDirectory != undefined && subdirectoryPathsInDirectory.length > 0) {
                 for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
-                        await this.recursivelyGetFilesinDirectoryAsync(subdirectoryPath, filePaths, errors);
+                        await this.recursivelyGetFilesInDirectoryAsync(subdirectoryPath, filePaths, errors);
                     } catch (e) {
                         errors.push(e);
                     }

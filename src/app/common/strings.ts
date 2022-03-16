@@ -1,6 +1,10 @@
 import { Constants } from './application/constants';
 
 export class Strings {
+    public static get empty(): string {
+        return '';
+    }
+
     public static equalsIgnoreCase(string1: string, string2: string): boolean {
         if (string1 == undefined && string2 == undefined) {
             return true;
@@ -51,17 +55,17 @@ export class Strings {
         }
 
         try {
-            const trimmedAndLowercasedOriginalString: string = originalString.trim().toLowerCase();
+            const trimmedAndLowerCasedOriginalString: string = originalString.trim().toLowerCase();
 
             if (!removePrefixes) {
-                return trimmedAndLowercasedOriginalString;
+                return trimmedAndLowerCasedOriginalString;
             }
 
             for (const removablePrefix of Constants.removablePrefixes) {
                 const prefixFollowedBySpace: string = `${removablePrefix} `;
 
-                if (trimmedAndLowercasedOriginalString.startsWith(prefixFollowedBySpace)) {
-                    return trimmedAndLowercasedOriginalString.replace(prefixFollowedBySpace, '').trim();
+                if (trimmedAndLowerCasedOriginalString.startsWith(prefixFollowedBySpace)) {
+                    return trimmedAndLowerCasedOriginalString.replace(prefixFollowedBySpace, '').trim();
                 }
             }
         } catch (e) {

@@ -2,7 +2,7 @@ import { IMock, Mock, Times } from 'typemoq';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { FileMetadataMock } from '../../common/metadata/file-metadata-mock';
@@ -14,7 +14,7 @@ describe('TrackFiller', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let mimeTypesMock: IMock<MimeTypes>;
     let loggerMock: IMock<Logger>;
 
@@ -24,7 +24,7 @@ describe('TrackFiller', () => {
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         loggerMock = Mock.ofType<Logger>();
 
@@ -53,7 +53,7 @@ describe('TrackFiller', () => {
 
         fileSystemMock.setup((x) => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
+        fileSystemMock.setup((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
         fileSystemMock.setup((x) => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
 
         trackFiller = new TrackFiller(
@@ -214,7 +214,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            fileSystemMock.verify((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
             expect(track.fileSize).toEqual(123);
         });

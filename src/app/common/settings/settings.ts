@@ -375,6 +375,42 @@ export class Settings implements BaseSettings {
         this.settings.set('genresTabSelectedTrackOrder', v);
     }
 
+    //  Playlists tab selected playlist folder
+    public get playlistsTabSelectedPlaylistFolder(): string {
+        return this.settings.get('playlistsTabSelectedPlaylistFolder');
+    }
+
+    public set playlistsTabSelectedPlaylistFolder(v: string) {
+        this.settings.set('playlistsTabSelectedPlaylistFolder', v);
+    }
+
+    // Playlists tab selected playlist
+    public get playlistsTabSelectedPlaylist(): string {
+        return this.settings.get('playlistsTabSelectedPlaylist');
+    }
+
+    public set playlistsTabSelectedPlaylist(v: string) {
+        this.settings.set('playlistsTabSelectedPlaylist', v);
+    }
+
+    // Playlists tab selected playlist order
+    public get playlistsTabSelectedPlaylistOrder(): string {
+        return this.settings.get('playlistsTabSelectedPlaylistOrder');
+    }
+
+    public set playlistsTabSelectedPlaylistOrder(v: string) {
+        this.settings.set('playlistsTabSelectedPlaylistOrder', v);
+    }
+
+    //  Playlists tab selected track order
+    public get playlistsTabSelectedTrackOrder(): string {
+        return this.settings.get('playlistsTabSelectedTrackOrder');
+    }
+
+    public set playlistsTabSelectedTrackOrder(v: string) {
+        this.settings.set('playlistsTabSelectedTrackOrder', v);
+    }
+
     //  Enable Discord Rich Presence
     public get enableDiscordRichPresence(): boolean {
         return this.settings.get('enableDiscordRichPresence');
@@ -431,7 +467,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('downloadMissingAlbumCovers')) {
-            this.settings.set('downloadMissingAlbumCovers', true);
+            this.settings.set('downloadMissingAlbumCovers', false);
         }
 
         if (!this.settings.has('showAllFoldersInCollection')) {
@@ -546,8 +582,20 @@ export class Settings implements BaseSettings {
             this.settings.set('genresTabSelectedTrackOrder', '');
         }
 
+        if (!this.settings.has('playlistsTabSelectedPlaylistFolder')) {
+            this.settings.set('playlistsTabSelectedPlaylistFolder', '');
+        }
+
+        if (!this.settings.has('playlistsTabSelectedPlaylist')) {
+            this.settings.set('playlistsTabSelectedPlaylist', '');
+        }
+
+        if (!this.settings.has('playlistsTabSelectedPlaylistOrder')) {
+            this.settings.set('playlistsTabSelectedPlaylistOrder', '');
+        }
+
         if (!this.settings.has('enableDiscordRichPresence')) {
-            this.settings.set('enableDiscordRichPresence', true);
+            this.settings.set('enableDiscordRichPresence', false);
         }
     }
 }

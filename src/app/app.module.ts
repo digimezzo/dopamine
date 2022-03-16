@@ -38,7 +38,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
-import { ArtistOrdering } from './common/artist-ordering';
+import { ContextMenuOpener } from './common/context-menu-opener';
 import { AlbumKeyGenerator } from './common/data/album-key-generator';
 import { BaseDatabaseMigrator } from './common/data/base-database-migrator';
 import { DatabaseFactory } from './common/data/database-factory';
@@ -53,10 +53,11 @@ import { FolderRepository } from './common/data/repositories/folder-repository';
 import { FolderTrackRepository } from './common/data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './common/data/repositories/removed-track-repository';
 import { TrackRepository } from './common/data/repositories/track-repository';
-import { GenreOrdering } from './common/genre-ordering';
+import { FileValidator } from './common/file-validator';
 import { Hacks } from './common/hacks';
 import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
+import { BaseFileSystem } from './common/io/base-file-system';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
@@ -69,17 +70,20 @@ import { FileMetadataFactory } from './common/metadata/file-metadata-factory';
 import { MetadataPatcher } from './common/metadata/metadata-patcher';
 import { MimeTypes } from './common/metadata/mime-types';
 import { NativeElementProxy } from './common/native-element-proxy';
+import { ArtistOrdering } from './common/ordering/artist-ordering';
+import { GenreOrdering } from './common/ordering/genre-ordering';
+import { TrackOrdering } from './common/ordering/track-ordering';
 import { PathValidator } from './common/path-validator';
-import { BaseScheduler } from './common/scheduler/base-scheduler';
-import { Scheduler } from './common/scheduler/scheduler';
+import { BaseScheduler } from './common/scheduling/base-scheduler';
+import { Scheduler } from './common/scheduling/scheduler';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
-import { TrackOrdering } from './common/track-ordering';
+import { TextSanitizer } from './common/text-sanitizer';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
+import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { AlbumBrowserComponent } from './components/collection/album-browser/album-browser.component';
 import { AlbumRowsGetter } from './components/collection/album-browser/album-rows-getter';
-import { AlbumSpaceCalculator } from './components/collection/album-browser/album-space-calculator';
 import { AlbumComponent } from './components/collection/album-browser/album/album.component';
 import { AlbumsAlbumsPersister } from './components/collection/collection-albums/albums-albums-persister';
 import { AlbumsTracksPersister } from './components/collection/collection-albums/albums-tracks-persister';
@@ -101,14 +105,25 @@ import { GenresTracksPersister } from './components/collection/collection-genres
 import { CollectionPersister } from './components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './components/collection/collection-playlists/collection-playlists.component';
+import { PlaylistBrowserComponent } from './components/collection/collection-playlists/playlist-browser/playlist-browser.component';
+import { PlaylistComponent } from './components/collection/collection-playlists/playlist-browser/playlist/playlist.component';
+import { PlaylistFolderBrowserComponent } from './components/collection/collection-playlists/playlist-folder-browser/playlist-folder-browser.component';
+import { PlaylistRowsGetter } from './components/collection/collection-playlists/playlist-folder-browser/playlist-rows-getter';
+import { PlaylistFoldersPersister } from './components/collection/collection-playlists/playlist-folders-persister';
+import { PlaylistTrackBrowserComponent } from './components/collection/collection-playlists/playlist-track-browser/playlist-track-browser.component';
+import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
+import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
+import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { EditPlaylistDialogComponent } from './components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { InputDialogComponent } from './components/dialogs/input-dialog/input-dialog.component';
 import { LicenseDialogComponent } from './components/dialogs/license-dialog/license-dialog.component';
 import { AboutComponent } from './components/information/about/about.component';
 import { ComponentsComponent } from './components/information/components/components.component';
@@ -153,6 +168,8 @@ import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
 import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
+import { ImageToFilePathPipe } from './pipes/image-to-file-path.pipe';
+import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
@@ -184,8 +201,6 @@ import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
-import { BaseCollectionChecker } from './services/indexing/base-collection-checker';
-import { BaseIndexablePathFetcher } from './services/indexing/base-indexable-path-fetcher';
 import { BaseIndexingService } from './services/indexing/base-indexing.service';
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
@@ -214,11 +229,20 @@ import { BasePlaybackService } from './services/playback/base-playback.service';
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
+import { BasePlaylistFolderService } from './services/playlist-folder/base-playlist-folder.service';
+import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
+import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
+import { BasePlaylistService } from './services/playlist/base-playlist.service';
+import { PlaylistDecoder } from './services/playlist/playlist-decoder';
+import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
+import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
+import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
+import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
@@ -269,6 +293,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AddFolderComponent,
         DialogHeaderComponent,
         ConfirmationDialogComponent,
+        InputDialogComponent,
         ErrorDialogComponent,
         LicenseDialogComponent,
         ManageCollectionComponent,
@@ -301,6 +326,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenresFilterPipe,
         TracksFilterPipe,
         SubfoldersFilterPipe,
+        PlaylistsFilterPipe,
+        ImageToFilePathPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -325,6 +352,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingComponent,
         NowPlayingPlaybackPaneComponent,
         SearchBoxComponent,
+        PlaylistFolderBrowserComponent,
+        PlaylistBrowserComponent,
+        PlaylistComponent,
+        EditPlaylistDialogComponent,
+        PlaylistTrackBrowserComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -374,7 +406,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ElectronService,
         Desktop,
         DatabaseFactory,
-        FileSystem,
         TrackIndexer,
         DirectoryWalker,
         TrackRemover,
@@ -407,7 +438,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         CollectionPersister,
         PathValidator,
         AlbumRowsGetter,
-        AlbumSpaceCalculator,
+        ItemSpaceCalculator,
         NativeElementProxy,
         DocumentProxy,
         GitHubApi,
@@ -427,22 +458,31 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumsAlbumsPersister,
         AlbumsTracksPersister,
         FoldersPersister,
+        PlaylistFoldersPersister,
+        CollectionChecker,
+        IndexablePathFetcher,
+        TextSanitizer,
+        ContextMenuOpener,
+        PlaylistFolderModelFactory,
+        PlaylistModelFactory,
+        PlaylistRowsGetter,
+        PlaylistsPersister,
+        PlaylistsTracksPersister,
+        PlaylistFileManager,
+        AddToPlaylistMenu,
+        TrackModelFactory,
+        PlaylistDecoder,
+        FileValidator,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+        { provide: BaseFileSystem, useClass: FileSystem },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
+        { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
+        { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
+        { provide: BaseTrackRepository, useClass: TrackRepository },
+        { provide: BaseFolderRepository, useClass: FolderRepository },
         { provide: BaseApplicationService, useClass: ApplicationService },
         { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
-        { provide: BaseCollectionChecker, useClass: CollectionChecker },
-        { provide: BaseIndexablePathFetcher, useClass: IndexablePathFetcher },
-        { provide: BaseSettings, useClass: Settings },
-        { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
-        { provide: BaseFolderRepository, useClass: FolderRepository },
-        { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
-        { provide: BaseTrackRepository, useClass: TrackRepository },
-        { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
-        { provide: BaseAppearanceService, useClass: AppearanceService },
-        { provide: BaseFolderService, useClass: FolderService },
-        { provide: BaseFileService, useClass: FileService },
         { provide: BaseNavigationService, useClass: NavigationService },
         { provide: BaseIndexingService, useClass: IndexingService },
         { provide: BaseTranslatorService, useClass: TranslatorService },
@@ -458,6 +498,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
+        { provide: BasePlaylistService, useClass: PlaylistService },
+        { provide: BasePlaylistFolderService, useClass: PlaylistFolderService },
+        { provide: BaseAppearanceService, useClass: AppearanceService },
+        { provide: BaseFolderService, useClass: FolderService },
+        { provide: BaseFileService, useClass: FileService },
+        { provide: BaseSettings, useClass: Settings },
+        { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
@@ -467,6 +514,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         },
     ],
     bootstrap: [AppComponent],
-    entryComponents: [ConfirmationDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
+    entryComponents: [ConfirmationDialogComponent, InputDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
 })
 export class AppModule {}

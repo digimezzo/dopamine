@@ -1,0 +1,36 @@
+<div class="app-track-browser">
+    <div class="app-track-browser__header m-1 no-select">
+        <div class="app-track-browser__trackscount">
+            <div class="app-track-browser__trackscount__number mr-2">{{ this.tracks.numberOfTracks }}</div>
+            <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
+            <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
+        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
+            <app-track
+                [track]="track"
+                canShowHeader="true"
+                (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
+                (contextmenu)="onPlaylistTrackContextMenu($event, track)"
+            ></app-track>
+        </div>
+    </cdk-virtual-scroll-viewport>
+    <app-totals
+        class="mt-3"
+        [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+        [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+    ></app-totals>
+</div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="playlistTrackContextMenu"
+></div>
+<mat-menu #playlistTrackContextMenu="matMenu">
+    <ng-template matMenuContent>
+        <button mat-menu-item (click)="onRemoveFromPlaylistAsync()">{{ 'remove-from-playlist' | translate }}</button>
+    </ng-template>
+</mat-menu>

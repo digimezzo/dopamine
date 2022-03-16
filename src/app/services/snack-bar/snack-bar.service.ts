@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
-import { Scheduler } from '../../common/scheduler/scheduler';
+import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackBarService } from './base-snack-bar.service';
@@ -50,6 +50,23 @@ export class SnackBarService implements BaseSnackBarService {
     public async updatingAlbumArtworkAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('updating-album-artwork');
         this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+    }
+
+    public async singleTrackAddedToPlaylistAsync(playlistName: string): Promise<void> {
+        const message: string = await this.translatorService.getAsync('single-track-added-to-playlist', {
+            playlistName: playlistName,
+        });
+
+        this.showSelfClosingSnackBar('las la-check', message);
+    }
+
+    public async multipleTracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void> {
+        const message: string = await this.translatorService.getAsync('multiple-tracks-added-to-playlist', {
+            playlistName: playlistName,
+            numberOfAddedTracks: numberOfAddedTracks,
+        });
+
+        this.showSelfClosingSnackBar('las la-check', message);
     }
 
     public async dismissAsync(): Promise<void> {

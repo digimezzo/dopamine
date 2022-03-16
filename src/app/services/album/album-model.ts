@@ -1,11 +1,12 @@
+import { Constants } from '../../common/application/constants';
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { AlbumData } from '../../common/data/entities/album-data';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {
-    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: FileSystem) {}
+    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: BaseFileSystem) {}
 
     public isSelected: boolean = false;
     public showYear: boolean = false;
@@ -13,9 +14,7 @@ export class AlbumModel {
 
     public get artworkPath(): string {
         if (Strings.isNullOrWhiteSpace(this.albumData.artworkId)) {
-            // Transparent 1x1 Gif to avoid broken image icon on albums.
-            // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
-            return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            return Constants.emptyImage;
         }
 
         return 'file:///' + this.fileSystem.coverArtFullPath(this.albumData.artworkId);

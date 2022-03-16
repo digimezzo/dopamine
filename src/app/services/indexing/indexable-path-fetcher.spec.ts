@@ -1,7 +1,7 @@
 import { IMock, It, Mock } from 'typemoq';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
@@ -9,14 +9,14 @@ import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 
 describe('IndexablePathFetcher', () => {
-    let fileSystemMock: IMock<FileSystem>;
+    let fileSystemMock: IMock<BaseFileSystem>;
     let directoryWalkerMock: IMock<DirectoryWalker>;
     let folderRepositoryMock: IMock<BaseFolderRepository>;
     let loggerMock: IMock<Logger>;
     let indexablePathFetcher: IndexablePathFetcher;
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileSystemMock = Mock.ofType<BaseFileSystem>();
         directoryWalkerMock = Mock.ofType<DirectoryWalker>();
         folderRepositoryMock = Mock.ofType<BaseFolderRepository>();
         loggerMock = Mock.ofType<Logger>();

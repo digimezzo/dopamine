@@ -91,7 +91,7 @@ describe('AlbumsFilterPipe', () => {
 
             // Assert
             expect(filteredAlbums.length).toEqual(1);
-            expect(filteredAlbums[0]).toEqual(filteredAlbums[0]);
+            expect(filteredAlbums[0]).toEqual(albums[0]);
         });
 
         it('should return only albums with album artists containing the search text', () => {

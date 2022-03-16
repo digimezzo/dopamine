@@ -76,7 +76,18 @@ describe('CollectionPersister', () => {
             expect(collectionPersister.getSelectedTabIndex()).toEqual(2);
         });
 
-        it('should return 3 if the folders tab is selected', () => {
+        it('should return 3 if the playlists tab is selected', () => {
+            // Arrange
+            settingsStub.selectedCollectionTab = 'playlists';
+            collectionPersister = new CollectionPersister(settingsStub);
+
+            // Act
+
+            // Assert
+            expect(collectionPersister.getSelectedTabIndex()).toEqual(3);
+        });
+
+        it('should return 4 if the folders tab is selected', () => {
             // Arrange
             settingsStub.selectedCollectionTab = 'folders';
             collectionPersister = new CollectionPersister(settingsStub);
@@ -84,7 +95,7 @@ describe('CollectionPersister', () => {
             // Act
 
             // Assert
-            expect(collectionPersister.getSelectedTabIndex()).toEqual(3);
+            expect(collectionPersister.getSelectedTabIndex()).toEqual(4);
         });
     });
 
@@ -158,7 +169,7 @@ describe('CollectionPersister', () => {
             expect(selectedTabIsChanged).toBeTruthy();
         });
 
-        it('should set selected collections tab to "folders" in the settings, set selected tab index to 3 and notify of a tab change, if 3 is given', () => {
+        it('should set selected collections tab to "playlists" in the settings, set selected tab index to 3 and notify of a tab change, if 3 is given', () => {
             // Arrange
             settingsStub.selectedCollectionTab = 'albums';
             collectionPersister = new CollectionPersister(settingsStub);
@@ -176,8 +187,31 @@ describe('CollectionPersister', () => {
             collectionPersister.setSelectedTabFromTabIndex(3);
 
             // Assert
-            expect(settingsStub.selectedCollectionTab).toEqual('folders');
+            expect(settingsStub.selectedCollectionTab).toEqual('playlists');
             expect(collectionPersister.getSelectedTabIndex()).toEqual(3);
+            expect(selectedTabIsChanged).toBeTruthy();
+        });
+
+        it('should set selected collections tab to "folders" in the settings, set selected tab index to 4 and notify of a tab change, if 4 is given', () => {
+            // Arrange
+            settingsStub.selectedCollectionTab = 'albums';
+            collectionPersister = new CollectionPersister(settingsStub);
+
+            const subscription: Subscription = new Subscription();
+            let selectedTabIsChanged: boolean = false;
+
+            subscription.add(
+                collectionPersister.selectedTabChanged$.subscribe(() => {
+                    selectedTabIsChanged = true;
+                })
+            );
+
+            // Act
+            collectionPersister.setSelectedTabFromTabIndex(4);
+
+            // Assert
+            expect(settingsStub.selectedCollectionTab).toEqual('folders');
+            expect(collectionPersister.getSelectedTabIndex()).toEqual(4);
             expect(selectedTabIsChanged).toBeTruthy();
         });
     });

@@ -7,4 +7,9 @@
 
 .mat-menu-panel {
     min-height: unset !important;
+    min-width: fit-content !important;
+}
+
+.mat-menu-panel span {
+    padding-right: 20px;
 }

@@ -1,0 +1,46 @@
+.edit-playlist__image {
+    width: 120px;
+    height: 120px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.edit-playlist__image div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.edit-playlist__image__placeholder {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-playlist__image__placeholder svg {
+    width: 60%;
+    height: 60%;
+}
+
+.edit-playlist__image__placeholder path {
+    fill: var(--theme-album-cover-logo);
+}
+
+.edit-playlist__remove-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--theme-accent-color);
+    margin-top: 4px;
+    margin-right: 4px;
+    justify-self: end;
+    z-index: 99;
+}
+
+.edit-playlist__remove-button i {
+    color: white;
+    font-size: 14px;
+    line-height: 14px;
+}

@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseApplicationService } from '../../../services/application/base-application.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
@@ -27,9 +30,14 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
-        private mouseSelectionWatcher: MouseSelectionWatcher,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
+        public contextMenuOpener: ContextMenuOpener,
+        public addToPlaylistMenu: AddToPlaylistMenu,
         private logger: Logger
     ) {}
+
+    @ViewChild(MatMenuTrigger)
+    public albumContextMenu: MatMenuTrigger;
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;
     public albumRows: AlbumRow[] = [];
@@ -162,5 +170,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         this.availableWidthInPixels = newAvailableWidthInPixels;
 
         return true;
+    }
+
+    public async onAlbumContextMenuAsync(event: MouseEvent, album: AlbumModel): Promise<void> {
+        this.contextMenuOpener.open(this.albumContextMenu, event, album);
     }
 }

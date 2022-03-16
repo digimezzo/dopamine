@@ -6,10 +6,13 @@ export class Constants {
     public static readonly logFileName: string = 'Dopamine.log';
 
     public static readonly languages: Language[] = [
-        new Language('en', 'English'),
-        new Language('fr', 'Français'),
-        new Language('nl', 'Nederlands'),
-        new Language('ru', 'Russian'),
+        new Language('bg', 'Bulgarian', 'български'),
+        new Language('zh-CN', 'Chinese (Simplified)', '简体中文'),
+        new Language('zh-TW', 'Chinese (Traditional)', '繁體中文'),
+        new Language('en', 'English', 'English'),
+        new Language('fr', 'French', 'Français'),
+        new Language('nl', 'Dutch', 'Nederlands'),
+        new Language('ru', 'Russian', 'русский'),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
@@ -17,7 +20,7 @@ export class Constants {
     public static readonly columnValueDelimiter: string = ';';
 
     public static readonly albumSizeInPixels: number = 120;
-    public static readonly albumMarginInPixels: number = 8;
+    public static readonly itemMarginInPixels: number = 8;
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
@@ -69,6 +72,10 @@ export class Constants {
         'y',
         'z',
     ];
+
+    // Transparent 1x1 Gif to avoid broken image icons.
+    // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
+    public static emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
     public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and'];
 
@@ -151,6 +158,12 @@ export class Constants {
             'A light-weight module that brings Fetch API to Node.js.',
             'https://github.com/node-fetch/node-fetch',
             'https://github.com/node-fetch/node-fetch/blob/master/LICENSE.md'
+        ),
+        new ExternalComponent(
+            'sanitize-filename',
+            'Sanitize a string to be safe for use as a filename by removing directory paths and invalid characters.',
+            'https://github.com/parshap/node-sanitize-filename',
+            'https://github.com/parshap/node-sanitize-filename/blob/master/LICENSE.md'
         ),
         new ExternalComponent(
             'TinyColor',

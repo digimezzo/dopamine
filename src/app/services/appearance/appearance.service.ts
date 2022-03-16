@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
-import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
@@ -33,7 +33,7 @@ export class AppearanceService implements BaseAppearanceService {
         private logger: Logger,
         private overlayContainer: OverlayContainer,
         private remoteProxy: BaseRemoteProxy,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private desktop: Desktop,
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy
@@ -280,6 +280,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-search-box', this.selectedTheme.darkColors.searchBox);
         element.style.setProperty('--theme-search-box-text', this.selectedTheme.darkColors.searchBoxText);
         element.style.setProperty('--theme-search-box-icon', this.selectedTheme.darkColors.searchBoxIcon);
+        element.style.setProperty('--theme-dialog-background', this.selectedTheme.darkColors.dialogBackground);
         this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
 
         if (this.isUsingLightTheme) {
@@ -307,6 +308,7 @@ export class AppearanceService implements BaseAppearanceService {
             element.style.setProperty('--theme-search-box', this.selectedTheme.lightColors.searchBox);
             element.style.setProperty('--theme-search-box-text', this.selectedTheme.lightColors.searchBoxText);
             element.style.setProperty('--theme-search-box-icon', this.selectedTheme.lightColors.searchBoxIcon);
+            element.style.setProperty('--theme-dialog-background', this.selectedTheme.lightColors.dialogBackground);
             this.setShouldOverrideSelectedItemText(this.selectedTheme.lightColors.selectedItemText);
         }
 
@@ -406,7 +408,7 @@ export class AppearanceService implements BaseAppearanceService {
         const themes: Theme[] = [];
 
         for (const themeFile of themeFiles) {
-            const themeFileContent: string = this.fileSystem.getFileContent(themeFile);
+            const themeFileContent: string = this.fileSystem.getFileContentAsString(themeFile);
 
             try {
                 const theme: Theme = JSON.parse(themeFileContent);

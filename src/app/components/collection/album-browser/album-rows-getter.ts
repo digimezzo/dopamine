@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from '../album-order';
+import { ItemSpaceCalculator } from '../item-space-calculator';
 import { AlbumRow } from './album-row';
-import { AlbumSpaceCalculator } from './album-space-calculator';
 
 @Injectable()
 export class AlbumRowsGetter {
-    constructor(private albumSpaceCalculator: AlbumSpaceCalculator) {}
+    constructor(private albumSpaceCalculator: ItemSpaceCalculator) {}
 
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
@@ -20,7 +20,7 @@ export class AlbumRowsGetter {
             return albumRows;
         }
 
-        const numberOfAlbumsPerRow: number = this.albumSpaceCalculator.calculateNumberOfAlbumsPerRow(
+        const numberOfAlbumsPerRow: number = this.albumSpaceCalculator.calculateNumberOfItemsPerRow(
             Constants.albumSizeInPixels,
             availableWidthInPixels
         );

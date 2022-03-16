@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
@@ -12,7 +12,7 @@ export class AlbumService implements BaseAlbumService {
     constructor(
         private trackRepository: BaseTrackRepository,
         private translatorService: BaseTranslatorService,
-        private fileSystem: FileSystem
+        private fileSystem: BaseFileSystem
     ) {}
 
     public getAllAlbums(): AlbumModel[] {

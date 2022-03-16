@@ -18,11 +18,12 @@
         </div>
     </div>
     <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
-        <div *cdkVirtualFor="let track of this.orderedTracks" (click)="setSelectedTracks($event, track)">
+        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"
                 canShowHeader="true"
                 (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
+                (contextmenu)="onTrackContextMenuAsync($event, track)"
             ></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
@@ -32,3 +33,44 @@
         [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
     ></app-totals>
 </div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="trackContextMenu"
+></div>
+
+<mat-menu #trackContextMenu="matMenu">
+    <ng-template matMenuContent let-genre="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

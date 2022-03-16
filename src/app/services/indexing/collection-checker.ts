@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
-import { BaseCollectionChecker } from './base-collection-checker';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
 import { IndexablePath } from './indexable-path';
+import { IndexablePathFetcher } from './indexable-path-fetcher';
 
 @Injectable()
-export class CollectionChecker implements BaseCollectionChecker {
-    constructor(
-        private indexablePathFetcher: BaseIndexablePathFetcher,
-        private trackRepository: BaseTrackRepository,
-        private logger: Logger
-    ) {}
+export class CollectionChecker {
+    constructor(private indexablePathFetcher: IndexablePathFetcher, private trackRepository: BaseTrackRepository, private logger: Logger) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
         let collectionIsOutdated: boolean = false;

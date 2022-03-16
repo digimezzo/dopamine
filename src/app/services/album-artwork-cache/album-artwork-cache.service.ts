@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ImageProcessor } from '../../common/image-processor';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
@@ -11,7 +11,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
-        private fileSystem: FileSystem,
+        private fileSystem: BaseFileSystem,
         private logger: Logger
     ) {
         this.createCoverArtCacheOnDisk();

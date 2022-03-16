@@ -1,0 +1,10 @@
+<app-dialog-header icon="las la-question" [title]="data?.dialogTitle"></app-dialog-header>
+<mat-dialog-content>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.inputText" placeholder="{{ data?.placeHolderText }}" (keyup.enter)="closeDialog()" />
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button [disabled]="!hasInputText" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
+</mat-dialog-actions>

@@ -1,4 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
@@ -8,6 +9,7 @@ describe('WelcomeComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let translatorService: IMock<BaseTranslatorService>;
     let appearanceService: IMock<BaseAppearanceService>;
+    let settings: IMock<BaseSettings>;
 
     let component: WelcomeComponent;
 
@@ -15,8 +17,9 @@ describe('WelcomeComponent', () => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         translatorService = Mock.ofType<BaseTranslatorService>();
         appearanceService = Mock.ofType<BaseAppearanceService>();
+        settings = Mock.ofType<BaseSettings>();
 
-        component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object);
+        component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object, settings.object);
     });
 
     describe('constructor', () => {
@@ -38,13 +41,13 @@ describe('WelcomeComponent', () => {
             expect(component.currentStep).toEqual(0);
         });
 
-        it('should have 6 steps', () => {
+        it('should have 7 steps', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.totalSteps).toEqual(6);
+            expect(component.totalSteps).toEqual(7);
         });
 
         it('Cannot go back', () => {

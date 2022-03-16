@@ -10,7 +10,7 @@
             *ngFor="let folder of folders"
             matRipple
             [ngClass]="{ 'selected-item-background': folder === selectedFolder }"
-            (click)="setSelectedFolder(folder)"
+            (mousedown)="setSelectedFolder(folder)"
         >
             <div class="folder no-select">
                 <mat-checkbox
