@@ -6,7 +6,7 @@ describe('Language', () => {
             // Arrange
 
             // Act
-            const language: Language = new Language('The code', 'The English name', 'The Localized name');
+            const language: Language = new Language('The code', 'The English name', 'The Localized name', true);
 
             // Assert
             expect(language.code).toEqual('The code');
@@ -16,7 +16,7 @@ describe('Language', () => {
             // Arrange
 
             // Act
-            const language: Language = new Language('The code', 'The English name', 'The Localized name');
+            const language: Language = new Language('The code', 'The English name', 'The Localized name', true);
 
             // Assert
             expect(language.englishName).toEqual('The English name');
@@ -26,10 +26,20 @@ describe('Language', () => {
             // Arrange
 
             // Act
-            const language: Language = new Language('The code', 'The English name', 'The Localized name');
+            const language: Language = new Language('The code', 'The English name', 'The Localized name', true);
 
             // Assert
             expect(language.localizedName).toEqual('The Localized name');
+        });
+
+        it('should set hasLatinCharacters', () => {
+            // Arrange
+
+            // Act
+            const language: Language = new Language('The code', 'The English name', 'The Localized name', true);
+
+            // Assert
+            expect(language.hasLatinCharacters).toBeTruthy();
         });
     });
 });

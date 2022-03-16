@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.9] - 2022-03-15
+## [3.0.0-preview.9] - 2022-03-16
 
 ### Added
 
 -   Added Bulgarian translation
--   Added Chinese (Traditional) translation
+-   Added Traditional Chinese translation
+-   Added Russian translation
 
 ### Changed
 
