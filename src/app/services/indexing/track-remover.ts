@@ -4,7 +4,7 @@ import { BaseFolderTrackRepository } from '../../common/data/repositories/base-f
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { Timer } from '../../common/timer';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()

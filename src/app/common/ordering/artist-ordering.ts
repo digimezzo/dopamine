@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArtistModel } from '../services/artist/artist-model';
+import { ArtistModel } from '../../services/artist/artist-model';
 
 @Injectable()
 export class ArtistOrdering {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
-import { FileFormats } from '../../common/application/file-formats';
 import { BaseFileSystem } from '../../common/io/base-file-system';
+import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistModel } from './playlist-model';
 
@@ -9,12 +9,12 @@ import { PlaylistModel } from './playlist-model';
 export class PlaylistModelFactory {
     constructor(private translatorService: BaseTranslatorService, private fileSystem: BaseFileSystem) {}
 
-    public create(playlistsParentFolderPath: string, playlistPath: string): PlaylistModel {
+    public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
         return new PlaylistModel(
             this.getPlaylistName(playlistPath),
             this.getPlaylistFolderName(playlistsParentFolderPath, playlistPath),
             playlistPath,
-            this.getPlaylistImage(playlistPath)
+            this.getPlaylistImage(playlistImagePath)
         );
     }
 
@@ -39,13 +39,9 @@ export class PlaylistModelFactory {
         return directoryName;
     }
 
-    private getPlaylistImage(playlistPath: string): string {
-        for (const playlistImageExtension of FileFormats.supportedPlaylistImageExtensions) {
-            const playlistImagePath: string = this.fileSystem.changeFileExtension(playlistPath, playlistImageExtension);
-
-            if (this.fileSystem.pathExists(playlistImagePath)) {
-                return playlistImagePath;
-            }
+    private getPlaylistImage(playlistImagePath: string): string {
+        if (!Strings.isNullOrWhiteSpace(playlistImagePath)) {
+            return playlistImagePath;
         }
 
         return Constants.emptyImage;

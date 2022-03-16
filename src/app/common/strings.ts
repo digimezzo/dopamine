@@ -55,17 +55,17 @@ export class Strings {
         }
 
         try {
-            const trimmedAndLowercasedOriginalString: string = originalString.trim().toLowerCase();
+            const trimmedAndLowerCasedOriginalString: string = originalString.trim().toLowerCase();
 
             if (!removePrefixes) {
-                return trimmedAndLowercasedOriginalString;
+                return trimmedAndLowerCasedOriginalString;
             }
 
             for (const removablePrefix of Constants.removablePrefixes) {
                 const prefixFollowedBySpace: string = `${removablePrefix} `;
 
-                if (trimmedAndLowercasedOriginalString.startsWith(prefixFollowedBySpace)) {
-                    return trimmedAndLowercasedOriginalString.replace(prefixFollowedBySpace, '').trim();
+                if (trimmedAndLowerCasedOriginalString.startsWith(prefixFollowedBySpace)) {
+                    return trimmedAndLowerCasedOriginalString.replace(prefixFollowedBySpace, '').trim();
                 }
             }
         } catch (e) {

@@ -29,10 +29,10 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
 
     constructor(
         public playbackService: BasePlaybackService,
+        public playlistService: BasePlaylistService,
         private applicationService: BaseApplicationService,
         private translatorService: BaseTranslatorService,
         private dialogService: BaseDialogService,
-        private playlistService: BasePlaylistService,
         private playlistRowsGetter: PlaylistRowsGetter,
         private nativeElementProxy: NativeElementProxy,
         private mouseSelectionWatcher: MouseSelectionWatcher,

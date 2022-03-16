@@ -1,4 +1,6 @@
 {
+    "language-name-english": "Chinese (Simplified)",
+    "language-name-localized": "简体中文",
     "hi": "嗨！",
     "welcome-to-dopamine": "欢迎使用 Dopamine，你会爱上她的！让我们开始新手设置吧！",
     "language": "语言",
@@ -177,5 +179,7 @@
     "confirm-remove-from-playlist-long": "Are you sure you want to remove these songs from the playlist?",
     "remove-from-playlist-error": "An error occurred while removing songs from the playlist. Please verify the log if you need more information.",
     "single-track-added-to-playlist": "Added 1 song to playlist '{{playlistName}}'",
-    "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'"
+    "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'",
+    "online-preferences": "Please tell us your online preferences.",
+    "no-playlists": "No playlists"
 }

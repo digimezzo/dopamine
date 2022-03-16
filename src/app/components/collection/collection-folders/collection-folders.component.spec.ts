@@ -5,7 +5,7 @@ import { Folder } from '../../../common/data/entities/folder';
 import { Track } from '../../../common/data/entities/track';
 import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduler/scheduler';
+import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';

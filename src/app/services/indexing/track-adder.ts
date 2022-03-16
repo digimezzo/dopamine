@@ -5,8 +5,8 @@ import { BaseFolderTrackRepository } from '../../common/data/repositories/base-f
 import { BaseRemovedTrackRepository } from '../../common/data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { Timer } from '../../common/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';

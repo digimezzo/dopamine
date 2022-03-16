@@ -6,20 +6,30 @@ describe('Language', () => {
             // Arrange
 
             // Act
-            const language: Language = new Language('The code', 'The name');
+            const language: Language = new Language('The code', 'The English name', 'The Localized name');
 
             // Assert
             expect(language.code).toEqual('The code');
         });
 
-        it('should set name', () => {
+        it('should set englishName', () => {
             // Arrange
 
             // Act
-            const language: Language = new Language('The code', 'The name');
+            const language: Language = new Language('The code', 'The English name', 'The Localized name');
 
             // Assert
-            expect(language.name).toEqual('The name');
+            expect(language.englishName).toEqual('The English name');
+        });
+
+        it('should set localizedName', () => {
+            // Arrange
+
+            // Act
+            const language: Language = new Language('The code', 'The English name', 'The Localized name');
+
+            // Assert
+            expect(language.localizedName).toEqual('The Localized name');
         });
     });
 });

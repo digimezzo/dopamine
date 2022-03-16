@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GenreModel } from '../services/genre/genre-model';
+import { GenreModel } from '../../services/genre/genre-model';
 
 @Injectable()
 export class GenreOrdering {

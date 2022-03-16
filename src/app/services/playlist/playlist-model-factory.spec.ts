@@ -29,12 +29,6 @@ describe('PlaylistModelFactory', () => {
             .returns(() => 'Playlist 1');
         fileSystemMock.setup((x) => x.getFileName('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u')).returns(() => 'Playlist 1');
         fileSystemMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
-        fileSystemMock
-            .setup((x) => x.changeFileExtension('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u', '.png'))
-            .returns(() => '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png');
-        fileSystemMock
-            .setup((x) => x.changeFileExtension('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u', '.png'))
-            .returns(() => '/home/username/Music/Dopamine/Playlists/Playlist 1.png');
     });
 
     describe('constructor', () => {
@@ -50,7 +44,7 @@ describe('PlaylistModelFactory', () => {
     });
 
     describe('create', () => {
-        it('should create a PlaylistFolderModel with an image if the image exists', () => {
+        it('should create a PlaylistFolderModel with an image if the image is not undefined or empty', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
             fileSystemMock
@@ -60,17 +54,20 @@ describe('PlaylistModelFactory', () => {
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.create(
                 '/home/username/Music/Dopamine/Playlists',
-                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png'
             );
 
             // Assert
             expect(playlistModel.name).toEqual('Playlist 1');
             expect(playlistModel.folderName).toEqual('Folder 1');
             expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
-            expect(playlistModel.imagePath).toEqual(Constants.emptyImage);
+            expect(playlistModel.imagePath).toEqual(
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png'
+            );
         });
 
-        it('should create a PlaylistFolderModel without an image if the image does not exist', () => {
+        it('should create a PlaylistFolderModel without an image if the image is undefined', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
             fileSystemMock
@@ -80,14 +77,36 @@ describe('PlaylistModelFactory', () => {
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.create(
                 '/home/username/Music/Dopamine/Playlists',
-                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
+                undefined
             );
 
             // Assert
             expect(playlistModel.name).toEqual('Playlist 1');
             expect(playlistModel.folderName).toEqual('Folder 1');
             expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
-            expect(playlistModel.imagePath).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png');
+            expect(playlistModel.imagePath).toEqual(Constants.emptyImage);
+        });
+
+        it('should create a PlaylistFolderModel without an image if the image is empty', () => {
+            // Arrange
+            const playlistModelFactory: PlaylistModelFactory = createFactory();
+            fileSystemMock
+                .setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png'))
+                .returns(() => true);
+
+            // Act
+            const playlistModel: PlaylistModel = playlistModelFactory.create(
+                '/home/username/Music/Dopamine/Playlists',
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
+                ''
+            );
+
+            // Assert
+            expect(playlistModel.name).toEqual('Playlist 1');
+            expect(playlistModel.folderName).toEqual('Folder 1');
+            expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
+            expect(playlistModel.imagePath).toEqual(Constants.emptyImage);
         });
 
         it('should create a PlaylistFolderModel with Unsorted folderName if playlistPath equals playlistsParentFolderPath', () => {
@@ -98,14 +117,17 @@ describe('PlaylistModelFactory', () => {
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.create(
                 '/home/username/Music/Dopamine/Playlists',
-                '/home/username/Music/Dopamine/Playlists/Playlist 1.m3u'
+                '/home/username/Music/Dopamine/Playlists/Playlist 1.m3u',
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png'
             );
 
             // Assert
             expect(playlistModel.name).toEqual('Playlist 1');
             expect(playlistModel.folderName).toEqual('Unsorted');
             expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u');
-            expect(playlistModel.imagePath).toEqual('/home/username/Music/Dopamine/Playlists/Playlist 1.png');
+            expect(playlistModel.imagePath).toEqual(
+                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1-d79a5db9-daaf-4c3c-8f94-ea5e56b7245d.png'
+            );
         });
     });
 

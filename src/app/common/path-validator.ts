@@ -16,7 +16,7 @@ export class PathValidator {
             return false;
         }
 
-        // Node.js has a fnction path.sep, which returns the path separator for the current platform.
+        // Node.js has a function path.sep, which returns the path separator for the current platform.
         // I chose to not use it, in order to be able to test Linux and Windows paths in Unit Tests.
         // With path.sep, only the tests for the platform on which they run, would pass.
         let pathSeparator: string = '/';

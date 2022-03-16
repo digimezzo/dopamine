@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { GenreOrdering } from '../../../../common/genre-ordering';
 import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';

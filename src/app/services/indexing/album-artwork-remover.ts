@@ -3,7 +3,7 @@ import { AlbumArtwork } from '../../common/data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { Timer } from '../../common/timer';
+import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()

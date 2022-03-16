@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { TrackModel } from '../services/track/track-model';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
-import { Track } from './data/entities/track';
+import { TrackModel } from '../../services/track/track-model';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { Track } from '../data/entities/track';
 import { TrackOrdering } from './track-ordering';
 
 describe('TrackOrdering', () => {

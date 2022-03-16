@@ -1,4 +1,6 @@
 {
+    "language-name-english": "English",
+    "language-name-localized": "English",
     "hi": "Hi!",
     "welcome-to-dopamine": "Welcome to Dopamine, we think you'll love it! First, let's set things up.",
     "language": "Language",
@@ -177,5 +179,7 @@
     "confirm-remove-from-playlist-long": "Are you sure you want to remove these songs from the playlist?",
     "remove-from-playlist-error": "An error occurred while removing songs from the playlist. Please verify the log if you need more information.",
     "single-track-added-to-playlist": "Added 1 song to playlist '{{playlistName}}'",
-    "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'"
+    "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'",
+    "online-preferences": "Please tell us your online preferences.",
+    "no-playlists": "No playlists"
 }

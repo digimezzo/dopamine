@@ -4,7 +4,6 @@ import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from '../playlist/base-playlist.service';
-import { PlaylistModel } from '../playlist/playlist-model';
 import { BasePlaylistFolderService } from './base-playlist-folder.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
@@ -23,15 +22,12 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
     public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
 
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
-        const playlistsInParentFolder: PlaylistModel[] = await this.playlistService.getPlaylistsInParentFolder();
         const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(
             this.playlistService.playlistsParentFolderPath
         );
         const playlistFolders: PlaylistFolderModel[] = [];
 
-        if (playlistsInParentFolder.length > 0) {
-            playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this.playlistService.playlistsParentFolderPath));
-        }
+        playlistFolders.push(this.playlistFolderModelFactory.createUnsorted(this.playlistService.playlistsParentFolderPath));
 
         for (const playlistFolderPath of playlistFolderPaths) {
             playlistFolders.push(this.playlistFolderModelFactory.create(playlistFolderPath));

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material';
 import { ContactInformation } from '../../common/application/contact-information';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
@@ -16,11 +17,12 @@ export class WelcomeComponent implements OnInit {
     constructor(
         private navigationServiceMock: BaseNavigationService,
         public translatorService: BaseTranslatorService,
-        public appearanceService: BaseAppearanceService
+        public appearanceService: BaseAppearanceService,
+        public settings: BaseSettings
     ) {}
 
     public currentStep: number = 0;
-    public totalSteps: number = 6;
+    public totalSteps: number = 7;
     public donateUrl: string = ContactInformation.donateUrl;
 
     public get canGoBack(): boolean {

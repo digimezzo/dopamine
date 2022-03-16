@@ -50,24 +50,27 @@
 </mat-menu>
 
 <mat-menu #addToPlaylistContextMenu="matMenu">
-    <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
-        <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
-            <span>{{ playlist.key }}</span>
-        </button>
-        <mat-menu #playlistsMenu="matMenu">
-            <button
-                *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
-                mat-menu-item
-                (click)="
-                    this.addToPlaylistMenu.addTracksToPlaylistAsync(
-                        playlist.value.path,
-                        playlist.value.name,
-                        this.mouseSelectionWatcher.selectedItems
-                    )
-                "
-            >
-                <span>{{ playlist.value.name }}</span>
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
             </button>
-        </mat-menu>
-    </ng-container>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
 </mat-menu>

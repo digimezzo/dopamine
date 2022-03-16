@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
-import { Scheduler } from '../../common/scheduler/scheduler';
+import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackBarService } from './base-snack-bar.service';
