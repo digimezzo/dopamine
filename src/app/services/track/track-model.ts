@@ -107,4 +107,8 @@ export class TrackModel {
     public get fileSizeInBytes(): number {
         return this.track.fileSize;
     }
+
+    public get dateCreated(): number {
+        return this.track.dateFileCreated;
+    }
 }

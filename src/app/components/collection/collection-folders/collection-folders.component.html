@@ -81,6 +81,22 @@
                     <div class="tracks-browser__trackscount mr-2">{{ this.tracks.numberOfTracks }}</div>
                     <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
                     <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
+                    <div class="ml-3">
+                        <div
+                            mat-icon-button
+                            [matMenuTriggerFor]="sortMenu"
+                            matTooltip="Sort by"
+                        >
+                            <div class="pointer secondary-text ml-50">
+                                Sort by {{ sortBy }}<i class="ml-1 las la-angle-down secondary-text"></i>
+                            </div>
+                        </div>
+                        <mat-menu #sortMenu="matMenu">
+                            <button mat-menu-item *ngFor="let sortByOption of sortByOptions" (click)="applySortByOption(sortByOption)">
+                                {{ sortByOption }}
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
                 <mat-chip-list class="tracks-browser__breadcrumbs mt-3">
                     <mat-chip
