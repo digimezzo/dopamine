@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { DateProxy } from '../../common/io/date-proxy';
+import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -15,7 +17,9 @@ export class DiscordService implements BaseDiscordService {
         private playbackService: BasePlaybackService,
         private translatorService: BaseTranslatorService,
         private presenceUpdater: PresenceUpdater,
-        private settings: BaseSettings
+        private dateProxy: DateProxy,
+        private settings: BaseSettings,
+        private logger: Logger
     ) {}
 
     public setRichPresenceFromSettings(): void {
@@ -29,46 +33,26 @@ export class DiscordService implements BaseDiscordService {
         this.addSubscriptions();
 
         if (this.playbackService.isPlaying) {
-            this.presenceUpdater.updatePresence(
-                'play',
-                this.translatorService.get('playing'),
-                'icon',
-                this.translatorService.get('playing-with-dopamine')
-            );
+            this.updatePresenceToPlaying();
         }
     }
 
     private addSubscriptions(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.presenceUpdater.updatePresence(
-                    'play',
-                    this.translatorService.get('playing'),
-                    'icon',
-                    this.translatorService.get('playing-with-dopamine')
-                );
+                this.updatePresenceToPlaying();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackPaused$.subscribe(() => {
-                this.presenceUpdater.updatePresence(
-                    'pause',
-                    this.translatorService.get('paused'),
-                    'icon',
-                    this.translatorService.get('playing-with-dopamine')
-                );
+                this.updatePresenceToPaused();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
-                this.presenceUpdater.updatePresence(
-                    'play',
-                    this.translatorService.get('playing'),
-                    'icon',
-                    this.translatorService.get('playing-with-dopamine')
-                );
+                this.updatePresenceToPlaying();
             })
         );
 
@@ -81,5 +65,66 @@ export class DiscordService implements BaseDiscordService {
 
     private removeSubscriptions(): void {
         this.subscription.unsubscribe();
+    }
+
+    private calculateTimeRemainingInMilliseconds(): number {
+        const timeRemainingInMilliseconds: number =
+            (this.playbackService.progress.totalSeconds - this.playbackService.progress.progressSeconds) * 1000;
+
+        return timeRemainingInMilliseconds;
+    }
+
+    private updatePresenceToPlaying(): void {
+        this.updatePresence(
+            'play',
+            this.translatorService.get('playing'),
+            'icon',
+            this.translatorService.get('playing-with-dopamine'),
+            true
+        );
+    }
+
+    private updatePresenceToPaused(): void {
+        this.updatePresence(
+            'pause',
+            this.translatorService.get('paused'),
+            'icon',
+            this.translatorService.get('playing-with-dopamine'),
+            false
+        );
+    }
+
+    private updatePresence(
+        smallImageKey: string,
+        smallImageText: string,
+        largeImageKey: string,
+        largeImageText: string,
+        shouldSendTimestamps: boolean
+    ): void {
+        if (this.playbackService.currentTrack == undefined) {
+            this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
+
+            return;
+        }
+
+        let startTime: number = 0;
+        let endTime: number = 0;
+
+        if (shouldSendTimestamps) {
+            startTime = this.dateProxy.now();
+            endTime = startTime + this.calculateTimeRemainingInMilliseconds();
+        }
+
+        this.presenceUpdater.updatePresence(
+            this.playbackService.currentTrack.title,
+            this.playbackService.currentTrack.artists,
+            smallImageKey,
+            smallImageText,
+            largeImageKey,
+            largeImageText,
+            shouldSendTimestamps,
+            startTime,
+            endTime
+        );
     }
 }

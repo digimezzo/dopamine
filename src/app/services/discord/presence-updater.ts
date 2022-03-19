@@ -2,15 +2,24 @@ import { Injectable } from '@angular/core';
 import { Client } from 'discord-rpc';
 import { SensitiveInformation } from '../../common/application/sensitive-information';
 import { Logger } from '../../common/logger';
-import { BasePlaybackService } from '../playback/base-playback.service';
 
 @Injectable()
 export class PresenceUpdater {
     private discordClient: any;
 
-    constructor(private playbackService: BasePlaybackService, private logger: Logger) {}
+    constructor(private logger: Logger) {}
 
-    public updatePresence(smallImageKey: string, smallImageText: string, largeImageKey: string, largeImageText: string): void {
+    public updatePresence(
+        details: string,
+        state: string,
+        smallImageKey: string,
+        smallImageText: string,
+        largeImageKey: string,
+        largeImageText: string,
+        shouldSendTimestamps: boolean,
+        startTime: number,
+        endTime: number
+    ): void {
         if (this.discordClient == undefined || !this.discordClient.discordClientIsReady) {
             const clientId: string = SensitiveInformation.discordClientId;
             this.discordClient = new Client({ transport: 'ipc' });
@@ -20,7 +29,17 @@ export class PresenceUpdater {
                 this.discordClient.discordClientIsReady = true;
                 this.logger.info(`Discord client is ready`, 'DiscordService', 'updatePresence');
 
-                this.setPresence(smallImageKey, smallImageText, largeImageKey, largeImageText);
+                this.setPresence(
+                    details,
+                    state,
+                    smallImageKey,
+                    smallImageText,
+                    largeImageKey,
+                    largeImageText,
+                    shouldSendTimestamps,
+                    startTime,
+                    endTime
+                );
             });
 
             this.discordClient.on('disconnected', () => {
@@ -28,44 +47,60 @@ export class PresenceUpdater {
                 this.logger.info(`Discord client has disconnected`, 'DiscordService', 'updatePresence');
             });
         } else {
-            this.setPresence(smallImageKey, smallImageText, largeImageKey, largeImageText);
+            this.setPresence(
+                details,
+                state,
+                smallImageKey,
+                smallImageText,
+                largeImageKey,
+                largeImageText,
+                shouldSendTimestamps,
+                startTime,
+                endTime
+            );
         }
     }
 
-    public setPresence(smallImageKey: string, smallImageText: string, largeImageKey: string, largeImageText: string): void {
-        if (this.playbackService.currentTrack == undefined) {
-            this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
-
-            return;
-        }
-
+    public setPresence(
+        details: string,
+        state: string,
+        smallImageKey: string,
+        smallImageText: string,
+        largeImageKey: string,
+        largeImageText: string,
+        shouldSendTimestamps: boolean,
+        startTime: number,
+        endTime: number
+    ): void {
         try {
-            this.discordClient.setActivity({
-                details: this.playbackService.currentTrack.title,
-                state: this.playbackService.currentTrack.artists,
-                startTimestamp: Date.now(),
-                endTimestamp: Date.now() + this.calculateTimeRemainingInMilliseconds(),
-                largeImageKey: largeImageKey,
-                largeImageText: largeImageText,
-                smallImageKey: smallImageKey,
-                smallImageText: smallImageText,
-                instance: false,
-            });
+            if (shouldSendTimestamps) {
+                this.discordClient.setActivity({
+                    details: details,
+                    state: state,
+                    startTimestamp: startTime,
+                    endTimestamp: endTime,
+                    largeImageKey: largeImageKey,
+                    largeImageText: largeImageText,
+                    smallImageKey: smallImageKey,
+                    smallImageText: smallImageText,
+                    instance: false,
+                });
+            } else {
+                this.discordClient.setActivity({
+                    details: details,
+                    state: state,
+                    largeImageKey: largeImageKey,
+                    largeImageText: largeImageText,
+                    smallImageKey: smallImageKey,
+                    smallImageText: smallImageText,
+                    instance: false,
+                });
+            }
+
             this.logger.info(`Set Discord Rich Presence`, 'DiscordService', 'setPresence');
         } catch (e) {
             this.logger.error(`Could not set Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'setPresence');
         }
-    }
-
-    public calculateTimeRemainingInMilliseconds(): number {
-        const timeRemainingInMilliseconds: number =
-            (this.playbackService.progress.totalSeconds - this.playbackService.progress.progressSeconds) * 1000;
-
-        if (timeRemainingInMilliseconds === 0) {
-            return this.playbackService.currentTrack.durationInMilliseconds;
-        }
-
-        return timeRemainingInMilliseconds;
     }
 
     public clearPresence(): void {

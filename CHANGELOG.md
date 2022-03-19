@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.10] - 2022-03-16
+## [3.0.0-preview.10] - 2022-03-17
 
 ### Added
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed: paths containing '#' cannot be played
+-   Fixed: Discord Rich Presence time remaining is not paused when song is paused
 
 ## [3.0.0-preview.9] - 2022-03-16
 

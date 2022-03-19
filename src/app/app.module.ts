@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS,
+    MAT_TOOLTIP_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -59,6 +59,7 @@ import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { BaseFileSystem } from './common/io/base-file-system';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
+import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileSystem } from './common/io/file-system';
@@ -473,6 +474,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TrackModelFactory,
         PlaylistDecoder,
         FileValidator,
+        DateProxy,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
         { provide: BaseFileSystem, useClass: FileSystem },
