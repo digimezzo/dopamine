@@ -33,38 +33,38 @@ export class DiscordService implements BaseDiscordService {
         this.addSubscriptions();
 
         if (this.playbackService.isPlaying) {
-            this.updatePresenceToPlaying();
+            this.updatePresence();
         }
     }
 
     private addSubscriptions(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
-                this.updatePresenceToPlaying();
+                this.updatePresence();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackPaused$.subscribe(() => {
-                this.updatePresenceToPaused();
+                this.updatePresence();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
-                this.updatePresenceToPlaying();
-            })
-        );
-
-        this.subscription.add(
-            this.playbackService.playbackResumed$.subscribe(() => {
-                this.updatePresenceToPlaying();
+                this.updatePresence();
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.presenceUpdater.clearPresence();
+            })
+        );
+
+        this.subscription.add(
+            this.playbackService.playbackSkipped$.subscribe(() => {
+                this.updatePresence();
             })
         );
     }
@@ -80,45 +80,28 @@ export class DiscordService implements BaseDiscordService {
         return timeRemainingInMilliseconds;
     }
 
-    private updatePresenceToPlaying(): void {
-        this.updatePresence(
-            'play',
-            this.translatorService.get('playing'),
-            'icon',
-            this.translatorService.get('playing-with-dopamine'),
-            true
-        );
-    }
-
-    private updatePresenceToPaused(): void {
-        this.updatePresence(
-            'pause',
-            this.translatorService.get('paused'),
-            'icon',
-            this.translatorService.get('playing-with-dopamine'),
-            false
-        );
-    }
-
-    private updatePresence(
-        smallImageKey: string,
-        smallImageText: string,
-        largeImageKey: string,
-        largeImageText: string,
-        shouldSendTimestamps: boolean
-    ): void {
+    private updatePresence(): void {
         if (this.playbackService.currentTrack == undefined) {
             this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
 
             return;
         }
 
+        let smallImageKey: string = 'pause';
+        let smallImageText: string = this.translatorService.get('paused');
+        const largeImageKey: string = 'icon';
+        const largeImageText: string = this.translatorService.get('playing-with-dopamine');
         let startTime: number = 0;
         let endTime: number = 0;
+        let shouldSendTimestamps: boolean = false;
 
-        if (shouldSendTimestamps) {
+        if (this.playbackService.canPause) {
             startTime = this.dateProxy.now();
             endTime = startTime + this.calculateTimeRemainingInMilliseconds();
+            shouldSendTimestamps = true;
+            smallImageKey = 'play';
+            smallImageText = this.translatorService.get('playing');
+        } else {
         }
 
         this.presenceUpdater.updatePresence(
