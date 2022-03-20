@@ -89,6 +89,7 @@ export class PlaybackService implements BasePlaybackService {
     private playbackPaused: Subject<void> = new Subject();
     private playbackResumed: Subject<void> = new Subject();
     private playbackStopped: Subject<void> = new Subject();
+    private playbackSkipped: Subject<void> = new Subject();
     private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
     private _volume: number = 0;
     private _loopMode: LoopMode = LoopMode.None;
@@ -105,6 +106,7 @@ export class PlaybackService implements BasePlaybackService {
     public playbackPaused$: Observable<void> = this.playbackPaused.asObservable();
     public playbackResumed$: Observable<void> = this.playbackResumed.asObservable();
     public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
+    public playbackSkipped$: Observable<void> = this.playbackSkipped.asObservable();
 
     public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {
@@ -234,6 +236,7 @@ export class PlaybackService implements BasePlaybackService {
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, true);
+            this.playbackSkipped.next();
 
             return;
         }
@@ -247,6 +250,7 @@ export class PlaybackService implements BasePlaybackService {
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, false);
+            this.playbackSkipped.next();
 
             return;
         }

@@ -57,6 +57,12 @@ export class DiscordService implements BaseDiscordService {
         );
 
         this.subscription.add(
+            this.playbackService.playbackResumed$.subscribe(() => {
+                this.updatePresenceToPlaying();
+            })
+        );
+
+        this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.presenceUpdater.clearPresence();
             })
