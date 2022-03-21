@@ -31,9 +31,13 @@ export class ProgressUpdater {
         clearInterval(this.interval);
     }
 
+    public getCurrentProgress(): PlaybackProgress {
+        return new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds);
+    }
+
     private reportProgress(): void {
         if (this.shouldReportProgress) {
-            this.progressChanged.next(new PlaybackProgress(this.audioPlayer.progressSeconds, this.audioPlayer.totalSeconds));
+            this.progressChanged.next(this.getCurrentProgress());
         }
     }
 }

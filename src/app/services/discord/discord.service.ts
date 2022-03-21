@@ -77,6 +77,11 @@ export class DiscordService implements BaseDiscordService {
         const timeRemainingInMilliseconds: number =
             (this.playbackService.progress.totalSeconds - this.playbackService.progress.progressSeconds) * 1000;
 
+        // AudioPlayer does not fill in its progress immediately, so progress is (0,0) when a track starts playing.
+        if (timeRemainingInMilliseconds === 0) {
+            return this.playbackService.currentTrack.durationInMilliseconds;
+        }
+
         return timeRemainingInMilliseconds;
     }
 
@@ -101,7 +106,6 @@ export class DiscordService implements BaseDiscordService {
             shouldSendTimestamps = true;
             smallImageKey = 'play';
             smallImageText = this.translatorService.get('playing');
-        } else {
         }
 
         this.presenceUpdater.updatePresence(

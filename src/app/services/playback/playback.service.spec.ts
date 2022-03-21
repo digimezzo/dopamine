@@ -1117,6 +1117,39 @@ describe('PlaybackService', () => {
             // Assert
             audioPlayerMock.verify((x) => x.skipToSeconds(30), Times.exactly(1));
         });
+
+        it('should immediately set progress', () => {
+            // Arrange
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
+            const progress: PlaybackProgress = new PlaybackProgress(20, 200);
+            progressUpdaterMock.setup((x) => x.getCurrentProgress()).returns(() => progress);
+
+            // Act
+            service.skipByFractionOfTotalSeconds(0.5);
+
+            // Assert
+            progressUpdaterMock.verify((x) => x.getCurrentProgress(), Times.exactly(1));
+            expect(service.progress).toBe(progress);
+        });
+
+        it('should raise an event that playback was skipped', () => {
+            // Arrange
+            audioPlayerMock.setup((x) => x.totalSeconds).returns(() => 60);
+            progressUpdaterMock.setup((x) => x.getCurrentProgress()).returns(() => new PlaybackProgress(20, 200));
+
+            let receivedPlaybackSkipped: boolean = false;
+            subscription.add(
+                service.playbackSkipped$.subscribe(() => {
+                    receivedPlaybackSkipped = true;
+                })
+            );
+
+            // Act
+            service.skipByFractionOfTotalSeconds(0.5);
+
+            // Assert
+            expect(receivedPlaybackSkipped).toBeTruthy();
+        });
     });
 
     describe('playPrevious', () => {
@@ -1273,42 +1306,6 @@ describe('PlaybackService', () => {
             expect(receivedTrack).toBe(trackModel2);
             expect(isPlayingPreviousTrack).toBeTruthy();
         });
-
-        it('should raise an event that playback was skipped if a previous track was found', () => {
-            // Arrange
-            service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => trackModel2);
-            let receivedPlaybackSkipped: boolean = false;
-            subscription.add(
-                service.playbackSkipped$.subscribe(() => {
-                    receivedPlaybackSkipped = true;
-                })
-            );
-
-            // Act
-            service.playPrevious();
-
-            // Assert
-            expect(receivedPlaybackSkipped).toBeTruthy();
-        });
-
-        it('should not raise an event that playback was skipped if a previous track was not found', () => {
-            // Arrange
-            service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => undefined);
-            let receivedPlaybackSkipped: boolean = false;
-            subscription.add(
-                service.playbackSkipped$.subscribe(() => {
-                    receivedPlaybackSkipped = true;
-                })
-            );
-
-            // Act
-            service.playPrevious();
-
-            // Assert
-            expect(receivedPlaybackSkipped).toBeFalsy();
-        });
     });
 
     describe('playNext', () => {
@@ -1451,42 +1448,6 @@ describe('PlaybackService', () => {
             // Assert
             expect(receivedTrack).toBe(trackModel2);
             expect(isPlayingPreviousTrack).toBeFalsy();
-        });
-
-        it('should raise an event that playback was skipped if a previous track was found', () => {
-            // Arrange
-            service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
-            let receivedPlaybackSkipped: boolean = false;
-            subscription.add(
-                service.playbackSkipped$.subscribe(() => {
-                    receivedPlaybackSkipped = true;
-                })
-            );
-
-            // Act
-            service.playNext();
-
-            // Assert
-            expect(receivedPlaybackSkipped).toBeTruthy();
-        });
-
-        it('should not raise an event that playback was skipped if a previous track was not found', () => {
-            // Arrange
-            service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
-            let receivedPlaybackSkipped: boolean = false;
-            subscription.add(
-                service.playbackSkipped$.subscribe(() => {
-                    receivedPlaybackSkipped = true;
-                })
-            );
-
-            // Act
-            service.playNext();
-
-            // Assert
-            expect(receivedPlaybackSkipped).toBeFalsy();
         });
     });
 

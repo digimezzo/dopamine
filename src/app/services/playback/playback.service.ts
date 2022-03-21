@@ -236,7 +236,6 @@ export class PlaybackService implements BasePlaybackService {
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, true);
-            this.playbackSkipped.next();
 
             return;
         }
@@ -250,7 +249,6 @@ export class PlaybackService implements BasePlaybackService {
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, false);
-            this.playbackSkipped.next();
 
             return;
         }
@@ -261,6 +259,8 @@ export class PlaybackService implements BasePlaybackService {
     public skipByFractionOfTotalSeconds(fractionOfTotalSeconds: number): void {
         const seconds: number = fractionOfTotalSeconds * this.audioPlayer.totalSeconds;
         this.audioPlayer.skipToSeconds(seconds);
+        this._progress = this.progressUpdater.getCurrentProgress();
+        this.playbackSkipped.next();
     }
 
     public togglePlayback(): void {

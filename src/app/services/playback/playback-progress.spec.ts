@@ -37,4 +37,15 @@ describe('PlaybackProgress', () => {
             expect(playbackProgress.totalSeconds).toEqual(120);
         });
     });
+
+    describe('timeRemainingInMilliSeconds', () => {
+        it('should return time remaining in seconds', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(playbackProgress.timeRemainingInMilliSeconds).toEqual(100000);
+        });
+    });
 });
