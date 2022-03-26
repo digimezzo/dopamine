@@ -173,5 +173,6 @@
     "change-image": "Изменить изображение",
     "remove-image": "Удалить изображение",
     "choose-image": "Выбрать изображение",
-    "add-to-playlist": "Добавить в плейлист"
+    "add-to-playlist": "Добавить в плейлист",
+    "remove-from-queue": "Remove from queue"
 }

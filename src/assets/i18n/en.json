@@ -181,5 +181,6 @@
     "single-track-added-to-playlist": "Added 1 song to playlist '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "Added {{numberOfAddedTracks}} songs to playlist '{{playlistName}}'",
     "online-preferences": "Please tell us your online preferences.",
-    "no-playlists": "No playlists"
+    "no-playlists": "No playlists",
+    "remove-from-queue": "Remove from queue"
 }

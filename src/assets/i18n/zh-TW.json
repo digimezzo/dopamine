@@ -181,5 +181,6 @@
     "single-track-added-to-playlist": "新增 1 曲目至播放清單「{{playlistName}}」",
     "multiple-tracks-added-to-playlist": "新增 {{numberOfAddedTracks}} 曲目至播放清單「{{playlistName}}」",
     "online-preferences": "Please tell us your online preferences.",
-    "no-playlists": "No playlists"
+    "no-playlists": "No playlists",
+    "remove-from-queue": "Remove from queue"
 }

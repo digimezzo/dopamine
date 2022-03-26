@@ -6,8 +6,12 @@
         <div *ngIf="this.playbackService.playbackQueue.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
     </div>
     <cdk-virtual-scroll-viewport class="playback-queue__tracks mt-3" itemSize="46">
-        <div *cdkVirtualFor="let track of this.playbackService.playbackQueue.tracks">
-            <app-track [track]="track" (dblclick)="this.playbackService.playQueuedTrack(track)"></app-track>
+        <div *cdkVirtualFor="let track of this.playbackService.playbackQueue.tracks" (mousedown)="setSelectedTracks($event, track)">
+            <app-track
+                [track]="track"
+                (dblclick)="this.playbackService.playQueuedTrack(track)"
+                (contextmenu)="onTrackContextMenu($event, track)"
+            ></app-track>
         </div>
     </cdk-virtual-scroll-viewport>
     <app-totals
@@ -16,3 +20,15 @@
         [totalFileSizeInBytes]="this.playbackService.playbackQueue.totalFileSizeInBytes"
     ></app-totals>
 </div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="trackContextMenu"
+></div>
+<mat-menu #trackContextMenu="matMenu">
+    <ng-template matMenuContent let-track="data">
+        <button mat-menu-item (click)="onRemoveFromQueueAsync(track)">{{ 'remove-from-queue' | translate }}</button>
+    </ng-template>
+</mat-menu>

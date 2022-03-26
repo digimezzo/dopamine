@@ -181,5 +181,6 @@
     "single-track-added-to-playlist": "Добавена е 1 песен към плейлиста '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "Добавени са {{numberOfAddedTracks}} песни в плейлиста '{{playlistName}}'",
     "online-preferences": "Please tell us your online preferences.",
-    "no-playlists": "No playlists"
+    "no-playlists": "No playlists",
+    "remove-from-queue": "Remove from queue"
 }

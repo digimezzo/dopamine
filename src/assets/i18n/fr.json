@@ -181,5 +181,6 @@
     "single-track-added-to-playlist": "Ajout de 1 numéro à la playlist '{{playlistName}}'",
     "multiple-tracks-added-to-playlist": "Ajout de {{numberOfAddedTracks}} numéros à la playlist '{{playlistName}}'",
     "online-preferences": "Veuillez nous indiquer vos préférences en ligne.",
-    "no-playlists": "Pas de playlists"
+    "no-playlists": "Pas de playlists",
+    "remove-from-queue": "Supprimer de la file d'attente"
 }
