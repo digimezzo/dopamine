@@ -1751,6 +1751,34 @@ describe('PlaybackService', () => {
     });
 
     describe('removeFromQueue', () => {
-        test.todo('should write tests');
+        it('should not remove tracks when tracksToRemove is undefined', () => {
+            // Arrange
+
+            // Act
+            service.removeFromQueue(undefined);
+
+            // Assert
+            queueMock.verify((x) => x.removeTracks(It.isAny()), Times.never());
+        });
+
+        it('should not remove tracks when tracksToRemove is empty', () => {
+            // Arrange
+
+            // Act
+            service.removeFromQueue([]);
+
+            // Assert
+            queueMock.verify((x) => x.removeTracks(It.isAny()), Times.never());
+        });
+
+        it('should remove tracks when tracksToRemove has items', () => {
+            // Arrange
+
+            // Act
+            service.removeFromQueue([trackModel1]);
+
+            // Assert
+            queueMock.verify((x) => x.removeTracks([trackModel1]), Times.once());
+        });
     });
 });

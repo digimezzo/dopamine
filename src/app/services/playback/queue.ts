@@ -27,6 +27,14 @@ export class Queue {
     }
 
     public removeTracks(tracksToRemove: TrackModel[]): void {
+        if (tracksToRemove == undefined) {
+            return;
+        }
+
+        if (tracksToRemove.length === 0) {
+            return;
+        }
+
         for (const trackToRemove of tracksToRemove) {
             const trackIndex: number = this._tracks.indexOf(trackToRemove);
 

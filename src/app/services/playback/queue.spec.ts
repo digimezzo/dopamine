@@ -16,6 +16,9 @@ describe('Queue', () => {
         listRandomizerMock = Mock.ofType<ListRandomizer>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
+
+        listRandomizerMock.setup((x) => x.randomizeNumbers([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
+
         queue = new Queue(listRandomizerMock.object, loggerMock.object);
     });
 
@@ -454,7 +457,179 @@ describe('Queue', () => {
         });
 
         describe('removeTracks', () => {
-            test.todo('should write tests');
+            it('should not remove tracks from queue if tracksToRemove is undefined', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3], false);
+
+                // Act
+                queue.removeTracks(undefined);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(3);
+                expect(queue.tracks[0]).toBe(track1);
+                expect(queue.tracks[1]).toBe(track2);
+                expect(queue.tracks[2]).toBe(track3);
+            });
+
+            it('should not remove tracks from queue if tracksToRemove is empty', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3], false);
+
+                // Act
+                queue.removeTracks([]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(3);
+                expect(queue.tracks[0]).toBe(track1);
+                expect(queue.tracks[1]).toBe(track2);
+                expect(queue.tracks[2]).toBe(track3);
+            });
+
+            it('should remove tracks from queue if tracksToRemove has items', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3], false);
+
+                // Act
+                queue.removeTracks([track2]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(2);
+                expect(queue.tracks[0]).toBe(track1);
+                expect(queue.tracks[1]).toBe(track3);
+            });
+
+            it('should not remove tracks from unshuffled playback order if tracksToRemove is undefined', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], false);
+
+                // Act
+                queue.removeTracks(undefined);
+
+                // Assert
+                expect(queue.getNextTrack(track1, false)).toEqual(track2);
+                expect(queue.getNextTrack(track2, false)).toEqual(track3);
+                expect(queue.getNextTrack(track3, false)).toEqual(track4);
+                expect(queue.getNextTrack(track4, false)).toEqual(track5);
+            });
+
+            it('should not remove tracks from unshuffled playback order if tracksToRemove is empty', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], false);
+
+                // Act
+                queue.removeTracks([]);
+
+                // Assert
+                expect(queue.getNextTrack(track1, false)).toEqual(track2);
+                expect(queue.getNextTrack(track2, false)).toEqual(track3);
+                expect(queue.getNextTrack(track3, false)).toEqual(track4);
+                expect(queue.getNextTrack(track4, false)).toEqual(track5);
+            });
+
+            it('should remove tracks from unshuffled playback order if tracksToRemove has items', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], false);
+
+                // Act
+                queue.removeTracks([track2, track4]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(3);
+                expect(queue.getNextTrack(track1, false)).toEqual(track3);
+                expect(queue.getNextTrack(track3, false)).toEqual(track5);
+            });
+
+            it('should not remove tracks from shuffled playback order if tracksToRemove is undefined', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], true);
+
+                // Act
+                queue.removeTracks(undefined);
+
+                // Assert
+                expect(queue.getNextTrack(track1, false)).toEqual(track2);
+                expect(queue.getNextTrack(track2, false)).toEqual(undefined);
+                expect(queue.getNextTrack(track3, false)).toEqual(track5);
+                expect(queue.getNextTrack(track4, false)).toEqual(track3);
+                expect(queue.getNextTrack(track5, false)).toEqual(track1);
+            });
+
+            it('should not remove tracks from shuffled playback order if tracksToRemove is empty', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], true);
+
+                // Act
+                queue.removeTracks([]);
+
+                // Assert
+                expect(queue.getNextTrack(track1, false)).toEqual(track2);
+                expect(queue.getNextTrack(track2, false)).toEqual(undefined);
+                expect(queue.getNextTrack(track3, false)).toEqual(track5);
+                expect(queue.getNextTrack(track4, false)).toEqual(track3);
+                expect(queue.getNextTrack(track5, false)).toEqual(track1);
+            });
+
+            it('should remove tracks from shuffled playback order if tracksToRemove has items', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2, track3, track4, track5], true);
+
+                // Act
+                queue.removeTracks([track2, track4]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(3);
+                expect(queue.getNextTrack(track1, false)).toEqual(undefined);
+                expect(queue.getNextTrack(track3, false)).toEqual(track5);
+                expect(queue.getNextTrack(track5, false)).toEqual(track1);
+            });
         });
     });
 });
