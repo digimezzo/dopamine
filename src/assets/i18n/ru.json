@@ -174,5 +174,6 @@
     "remove-image": "Удалить изображение",
     "choose-image": "Выбрать изображение",
     "add-to-playlist": "Добавить в плейлист",
-    "remove-from-queue": "Remove from queue"
+    "remove-from-playback-queue": "Remove from playback queue",
+    "add-to-playback-queue": "Add to playback queue"
 }

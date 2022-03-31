@@ -182,5 +182,6 @@
     "multiple-tracks-added-to-playlist": "{{numberOfAddedTracks}} nummers toegevoegd aan playlist '{{playlistName}}'",
     "online-preferences": "Vertel ons jouw online voorkeuren.",
     "no-playlists": "Geen playlists",
-    "remove-from-queue": "Verwijderen uit de wachtrij"
+    "remove-from-playback-queue": "Verwijderen uit de afspeelwachtrij",
+    "add-to-playback-queue": "Toevoegen aan de afspeelwachtrij"
 }
