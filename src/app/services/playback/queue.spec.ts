@@ -452,5 +452,9 @@ describe('Queue', () => {
             // Assert
             expect(nextTrack).toBe(track1);
         });
+
+        describe('removeTracks', () => {
+            test.todo('should write tests');
+        });
     });
 });

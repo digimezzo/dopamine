@@ -168,6 +168,18 @@ export class PlaybackService implements BasePlaybackService {
         this.enqueueAndPlayTracks(tracksForPlaylist.tracks, tracksForPlaylist.tracks[0]);
     }
 
+    public removeFromQueue(tracksToRemove: TrackModel[]): void {
+        if (tracksToRemove == undefined) {
+            return;
+        }
+
+        if (tracksToRemove.length === 0) {
+            return;
+        }
+
+        this.queue.removeTracks(tracksToRemove);
+    }
+
     public playQueuedTrack(trackToPlay: TrackModel): void {
         this.play(trackToPlay, false);
     }

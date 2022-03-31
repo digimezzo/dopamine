@@ -34,6 +34,7 @@ export abstract class BasePlaybackService {
     public abstract enqueueAndPlayGenre(genreToPlay: GenreModel): void;
     public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;
     public abstract enqueueAndPlayPlaylistAsync(playlistToPlay: PlaylistModel): Promise<void>;
+    public abstract removeFromQueue(tracksToRemove: TrackModel[]): void;
     public abstract playQueuedTrack(trackToPlay: TrackModel): void;
     public abstract playPrevious(): void;
     public abstract playNext(): void;

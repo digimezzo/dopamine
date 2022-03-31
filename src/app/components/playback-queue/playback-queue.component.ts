@@ -57,7 +57,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 
-    public async onRemoveFromQueueAsync(track: TrackModel): Promise<void> {
-        // TODO
+    public onRemoveFromQueue(): void {
+        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems);
     }
 }

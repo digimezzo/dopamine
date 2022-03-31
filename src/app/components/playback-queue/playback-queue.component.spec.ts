@@ -164,4 +164,19 @@ describe('PlaybackQueueComponent', () => {
             mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel), Times.once());
         });
     });
+
+    describe('onRemoveFromQueue', () => {
+        it('should remove selected tracks from the queue', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), translatorServiceMock.object);
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel]);
+            const component: PlaybackQueueComponent = createComponent();
+
+            // Act
+            component.onRemoveFromQueue();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.removeFromQueue([trackModel]), Times.once());
+        });
+    });
 });

@@ -1749,4 +1749,8 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.pause(), Times.once());
         });
     });
+
+    describe('removeFromQueue', () => {
+        test.todo('should write tests');
+    });
 });

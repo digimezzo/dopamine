@@ -29,6 +29,6 @@
 ></div>
 <mat-menu #trackContextMenu="matMenu">
     <ng-template matMenuContent let-track="data">
-        <button mat-menu-item (click)="onRemoveFromQueueAsync(track)">{{ 'remove-from-queue' | translate }}</button>
+        <button mat-menu-item (click)="onRemoveFromQueue()">{{ 'remove-from-queue' | translate }}</button>
     </ng-template>
 </mat-menu>

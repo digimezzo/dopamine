@@ -14,8 +14,8 @@ export class Queue {
         return this._tracks;
     }
 
-    public setTracks(tracks: TrackModel[], shuffle: boolean): void {
-        this._tracks = tracks;
+    public setTracks(tracksToSet: TrackModel[], shuffle: boolean): void {
+        this._tracks = tracksToSet;
 
         if (shuffle) {
             this.shuffle();
@@ -23,7 +23,18 @@ export class Queue {
             this.unShuffle();
         }
 
-        this.logger.info(`Set '${tracks?.length}' tracks. Shuffle=${shuffle}`, 'Queue', 'setTracks');
+        this.logger.info(`Set '${tracksToSet?.length}' tracks. Shuffle=${shuffle}`, 'Queue', 'setTracks');
+    }
+
+    public removeTracks(tracksToRemove: TrackModel[]): void {
+        for (const trackToRemove of tracksToRemove) {
+            const trackIndex: number = this._tracks.indexOf(trackToRemove);
+
+            if (trackIndex !== -1) {
+                this.removeFromTracks(trackIndex);
+                this.removeFromPlaybackOrder(trackIndex);
+            }
+        }
     }
 
     public shuffle(): void {
@@ -107,5 +118,23 @@ export class Queue {
         const queuedTracksIndex: number = this._tracks.indexOf(track);
 
         return this.playbackOrder.indexOf(queuedTracksIndex);
+    }
+
+    private removeFromTracks(trackIndex: number): void {
+        this._tracks.splice(trackIndex, 1);
+    }
+
+    private removeFromPlaybackOrder(trackIndex: number): void {
+        const playbackOrderIndex: number = this.playbackOrder.indexOf(trackIndex);
+
+        if (playbackOrderIndex !== -1) {
+            this.playbackOrder.splice(playbackOrderIndex, 1);
+
+            for (let index = 0; index < this.playbackOrder.length; index++) {
+                if (this.playbackOrder[index] > trackIndex) {
+                    this.playbackOrder[index] -= 1;
+                }
+            }
+        }
     }
 }
