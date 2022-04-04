@@ -1797,6 +1797,8 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should not add tracks to the queue if tracksToAdd is empty', async () => {
@@ -1807,16 +1809,19 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should add tracks to the queue if tracksToAdd has tracks', async () => {
             // Arrange
 
             // Act
-            await service.addTracksToQueueAsync([trackModel1, trackModel2]);
+            await service.addTracksToQueueAsync([trackModel1]);
 
             // Assert
-            queueMock.verify((x) => x.addTracks([trackModel1, trackModel2]), Times.once());
+            queueMock.verify((x) => x.addTracks([trackModel1]), Times.once());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.exactly(1));
         });
     });
 
@@ -1829,6 +1834,8 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should not get tracks for the artist if artistType is undefined', async () => {
@@ -1840,6 +1847,8 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should get tracks for the artist if artistToAdd and artistType are not undefined', async () => {
@@ -1873,6 +1882,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 
@@ -1885,6 +1895,8 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should get tracks for the genre if genreToAdd is not undefined', async () => {
@@ -1918,6 +1930,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 
@@ -1930,6 +1943,8 @@ describe('PlaybackService', () => {
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
+            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
         });
 
         it('should get tracks for the album if albumToAdd is not undefined', () => {
@@ -1960,6 +1975,7 @@ describe('PlaybackService', () => {
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(4), Times.exactly(1));
         });
     });
 
