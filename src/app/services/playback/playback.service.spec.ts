@@ -11,6 +11,7 @@ import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { BasePlaylistService } from '../playlist/base-playlist.service';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -26,6 +27,7 @@ import { Queue } from './queue';
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<BaseTrackService>;
     let playlistServiceMock: IMock<BasePlaylistService>;
+    let snackBarServiceMock: IMock<BaseSnackBarService>;
     let audioPlayerMock: IMock<BaseAudioPlayer>;
     let trackOrderingMock: IMock<TrackOrdering>;
     let fileSystemMock: IMock<FileSystem>;
@@ -62,6 +64,7 @@ describe('PlaybackService', () => {
     beforeEach(() => {
         trackServiceMock = Mock.ofType<BaseTrackService>();
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
+        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
@@ -133,6 +136,7 @@ describe('PlaybackService', () => {
         service = new PlaybackService(
             trackServiceMock.object,
             playlistServiceMock.object,
+            snackBarServiceMock.object,
             audioPlayerMock.object,
             trackOrderingMock.object,
             queueMock.object,
@@ -1636,6 +1640,7 @@ describe('PlaybackService', () => {
             service = new PlaybackService(
                 trackServiceMock.object,
                 playlistServiceMock.object,
+                snackBarServiceMock.object,
                 audioPlayerMock.object,
                 trackOrderingMock.object,
                 queueMock.object,
@@ -1659,6 +1664,7 @@ describe('PlaybackService', () => {
             service = new PlaybackService(
                 trackServiceMock.object,
                 playlistServiceMock.object,
+                snackBarServiceMock.object,
                 audioPlayerMock.object,
                 trackOrderingMock.object,
                 queueMock.object,
@@ -1780,5 +1786,184 @@ describe('PlaybackService', () => {
             // Assert
             queueMock.verify((x) => x.removeTracks([trackModel1]), Times.once());
         });
+    });
+
+    describe('addTracksToQueueAsync', () => {
+        it('should not add tracks to the queue if tracksToAdd is undefined', async () => {
+            // Arrange
+
+            // Act
+            await service.addTracksToQueueAsync(undefined);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
+        });
+
+        it('should not add tracks to the queue if tracksToAdd is empty', async () => {
+            // Arrange
+
+            // Act
+            await service.addTracksToQueueAsync([]);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
+        });
+
+        it('should add tracks to the queue if tracksToAdd has tracks', async () => {
+            // Arrange
+
+            // Act
+            await service.addTracksToQueueAsync([trackModel1, trackModel2]);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks([trackModel1, trackModel2]), Times.once());
+        });
+    });
+
+    describe('addArtistToQueueAsync', () => {
+        it('should not get tracks for the artist if artistToAdd is undefined', async () => {
+            // Arrange
+
+            // Act
+            await service.addArtistToQueueAsync(undefined, It.isAny());
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not get tracks for the artist if artistType is undefined', async () => {
+            // Arrange
+            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            await service.addArtistToQueueAsync(artistToAdd, undefined);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should get tracks for the artist if artistToAdd and artistType are not undefined', async () => {
+            // Arrange
+            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists([artistToAdd.displayName], ArtistType.trackArtists), Times.exactly(1));
+        });
+
+        it('should order tracks for the artist byAlbum', async () => {
+            // Arrange
+            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
+
+            // Assert
+            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+        });
+
+        it('should add tracks to the queue ordered by album', async () => {
+            // Arrange
+            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
+
+            // Act
+            await service.addArtistToQueueAsync(artistToAdd, ArtistType.trackArtists);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+        });
+    });
+
+    describe('addGenreToQueueAsync', () => {
+        it('should not get tracks for the genre if genreToAdd is undefined', async () => {
+            // Arrange
+
+            // Act
+            await service.addGenreToQueueAsync(undefined);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should get tracks for the genre if genreToAdd is not undefined', async () => {
+            // Arrange
+            const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            await service.addGenreToQueueAsync(genreToAdd);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForGenres([genreToAdd.displayName]), Times.exactly(1));
+        });
+
+        it('should order tracks for the artist byAlbum', async () => {
+            // Arrange
+            const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            await service.addGenreToQueueAsync(genreToAdd);
+
+            // Assert
+            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+        });
+
+        it('should add tracks to the queue ordered by album', async () => {
+            // Arrange
+            const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
+
+            // Act
+            await service.addGenreToQueueAsync(genreToAdd);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+        });
+    });
+
+    describe('addAlbumToQueueAsync', () => {
+        it('should not get tracks for the album if albumToAdd is undefined', () => {
+            // Arrange
+
+            // Act
+            service.addAlbumToQueueAsync(undefined);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
+        });
+
+        it('should get tracks for the album if albumToAdd is not undefined', () => {
+            // Arrange
+
+            // Act
+            service.addAlbumToQueueAsync(album1);
+
+            // Assert
+            trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey]), Times.exactly(1));
+        });
+
+        it('should order tracks for the album byAlbum', () => {
+            // Arrange
+
+            // Act
+            service.addAlbumToQueueAsync(album1);
+
+            // Assert
+            trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
+        });
+
+        it('should add tracks to the queue ordered by album', () => {
+            // Arrange
+
+            // Act
+            service.addAlbumToQueueAsync(album1);
+
+            // Assert
+            queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
+        });
+    });
+
+    describe('addPlaylistToQueueAsync', () => {
+        test.todo('should write tests');
     });
 });

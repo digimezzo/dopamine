@@ -183,5 +183,7 @@
     "online-preferences": "Vertel ons jouw online voorkeuren.",
     "no-playlists": "Geen playlists",
     "remove-from-playback-queue": "Verwijderen uit de afspeelwachtrij",
-    "add-to-playback-queue": "Toevoegen aan de afspeelwachtrij"
+    "add-to-playback-queue": "Toevoegen aan de afspeelwachtrij",
+    "single-track-added-to-playback-queue": "1 nummer toegevoegd aan de afspeelwachtrij",
+    "multiple-tracks-added-to-playback-queue": "{{numberOfAddedTracks}} nummers toegevoegd aan de afspeelwachtrij"
 }

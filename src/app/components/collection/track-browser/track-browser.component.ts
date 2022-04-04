@@ -114,6 +114,10 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 
+    public async onAddToQueueAsync(): Promise<void> {
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+    }
+
     private orderTracks(): void {
         let orderedTracks: TrackModel[] = [];
 

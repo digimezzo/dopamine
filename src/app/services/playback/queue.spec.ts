@@ -18,6 +18,7 @@ describe('Queue', () => {
         loggerMock = Mock.ofType<Logger>();
 
         listRandomizerMock.setup((x) => x.randomizeNumbers([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
+        listRandomizerMock.setup((x) => x.randomizeNumbers([0, 1])).returns(() => [1, 0]);
 
         queue = new Queue(listRandomizerMock.object, loggerMock.object);
     });
@@ -629,6 +630,96 @@ describe('Queue', () => {
                 expect(queue.getNextTrack(track1, false)).toEqual(undefined);
                 expect(queue.getNextTrack(track3, false)).toEqual(track5);
                 expect(queue.getNextTrack(track5, false)).toEqual(track1);
+            });
+        });
+
+        describe('addTracks', () => {
+            it('should add tracks to the end of queue when not shuffled', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2], false);
+
+                // Act
+                queue.addTracks([track3, track4, track5]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(5);
+                expect(queue.tracks[0]).toEqual(track1);
+                expect(queue.tracks[1]).toEqual(track2);
+                expect(queue.tracks[2]).toEqual(track3);
+                expect(queue.tracks[3]).toEqual(track4);
+                expect(queue.tracks[4]).toEqual(track5);
+            });
+
+            it('should add tracks to the end of queue when shuffled', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2], true);
+
+                // Act
+                queue.addTracks([track3, track4, track5]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(5);
+                expect(queue.tracks[0]).toEqual(track1);
+                expect(queue.tracks[1]).toEqual(track2);
+                expect(queue.tracks[2]).toEqual(track3);
+                expect(queue.tracks[3]).toEqual(track4);
+                expect(queue.tracks[4]).toEqual(track5);
+            });
+
+            it('should add tracks to the end of unshuffled playback order', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2], false);
+
+                // Act
+                queue.addTracks([track3, track4, track5]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(5);
+                expect(queue.getNextTrack(track1, false)).toEqual(track2);
+                expect(queue.getNextTrack(track2, false)).toEqual(track3);
+                expect(queue.getNextTrack(track3, false)).toEqual(track4);
+                expect(queue.getNextTrack(track4, false)).toEqual(track5);
+                expect(queue.getNextTrack(track5, false)).toEqual(undefined);
+            });
+
+            it('should add tracks to the end of shuffled playback order', () => {
+                // Arrange
+                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
+                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
+
+                queue.setTracks([track1, track2], true);
+
+                // Act
+                queue.addTracks([track3, track4, track5]);
+
+                // Assert
+                expect(queue.tracks.length).toEqual(5);
+                expect(queue.getNextTrack(track1, false)).toEqual(track3);
+                expect(queue.getNextTrack(track2, false)).toEqual(track1);
+                expect(queue.getNextTrack(track3, false)).toEqual(track4);
+                expect(queue.getNextTrack(track4, false)).toEqual(track5);
+                expect(queue.getNextTrack(track5, false)).toEqual(undefined);
             });
         });
     });

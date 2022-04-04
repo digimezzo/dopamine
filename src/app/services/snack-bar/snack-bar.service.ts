@@ -69,6 +69,20 @@ export class SnackBarService implements BaseSnackBarService {
         this.showSelfClosingSnackBar('las la-check', message);
     }
 
+    public async singleTrackAddedToPlaybackQueueAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('single-track-added-to-playback-queue');
+
+        this.showSelfClosingSnackBar('las la-check', message);
+    }
+
+    public async multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
+        const message: string = await this.translatorService.getAsync('multiple-tracks-added-to-playback-queue', {
+            numberOfAddedTracks: numberOfAddedTracks,
+        });
+
+        this.showSelfClosingSnackBar('las la-check', message);
+    }
+
     public async dismissAsync(): Promise<void> {
         if (this.currentDismissibleSnackBar != undefined) {
             this.isDismissRequested = true;

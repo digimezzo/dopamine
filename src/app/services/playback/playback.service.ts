@@ -10,6 +10,7 @@ import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { BasePlaylistService } from '../playlist/base-playlist.service';
 import { PlaylistModel } from '../playlist/playlist-model';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseTrackService } from '../track/base-track.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
@@ -26,6 +27,7 @@ export class PlaybackService implements BasePlaybackService {
     constructor(
         private trackService: BaseTrackService,
         private playlistService: BasePlaylistService,
+        private snackBarService: BaseSnackBarService,
         private audioPlayer: BaseAudioPlayer,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
@@ -166,6 +168,66 @@ export class PlaybackService implements BasePlaybackService {
 
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToPlay]);
         this.enqueueAndPlayTracks(tracksForPlaylist.tracks, tracksForPlaylist.tracks[0]);
+    }
+
+    public async addTracksToQueueAsync(tracksToAdd: TrackModel[]): Promise<void> {
+        if (tracksToAdd == undefined) {
+            return;
+        }
+
+        if (tracksToAdd.length === 0) {
+            return;
+        }
+
+        this.queue.addTracks(tracksToAdd);
+        await this.notifyOfTracksAddedToPlaybackQueueAsync(tracksToAdd.length);
+    }
+
+    public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
+        if (artistToAdd == undefined) {
+            return;
+        }
+
+        if (artistType == undefined) {
+            return;
+        }
+
+        const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
+        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
+        this.queue.addTracks(orderedTracks);
+        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+    }
+
+    public async addGenreToQueueAsync(genreToAdd: GenreModel): Promise<void> {
+        if (genreToAdd == undefined) {
+            return;
+        }
+
+        const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToAdd.displayName]);
+        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
+        this.queue.addTracks(orderedTracks);
+        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+    }
+
+    public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
+        if (albumToAdd == undefined) {
+            return;
+        }
+
+        const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
+        const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
+        this.queue.addTracks(orderedTracks);
+        await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
+    }
+
+    public async addPlaylistToQueueAsync(playlistToAdd: PlaylistModel): Promise<void> {
+        if (playlistToAdd == undefined) {
+            return;
+        }
+
+        const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToAdd]);
+        this.queue.addTracks(tracksForPlaylist.tracks);
+        await this.notifyOfTracksAddedToPlaybackQueueAsync(tracksForPlaylist.tracks.length);
     }
 
     public removeFromQueue(tracksToRemove: TrackModel[]): void {
@@ -345,5 +407,13 @@ export class PlaybackService implements BasePlaybackService {
     private applyVolumeFromSettings(): void {
         this._volume = this.settings.volume;
         this.audioPlayer.setVolume(this._volume);
+    }
+
+    private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
+        if (numberOfAddedTracks === 1) {
+            await this.snackBarService.singleTrackAddedToPlaybackQueueAsync();
+        } else {
+            await this.snackBarService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
+        }
     }
 }

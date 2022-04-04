@@ -175,5 +175,7 @@
     "choose-image": "Выбрать изображение",
     "add-to-playlist": "Добавить в плейлист",
     "remove-from-playback-queue": "Remove from playback queue",
-    "add-to-playback-queue": "Add to playback queue"
+    "add-to-playback-queue": "Add to playback queue",
+    "single-track-added-to-playback-queue": "Added 1 song to playback queue",
+    "multiple-tracks-added-to-playback-queue": "Added {{numberOfAddedTracks}} songs to playback queue"
 }

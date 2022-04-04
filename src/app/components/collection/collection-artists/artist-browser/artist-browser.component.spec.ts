@@ -607,4 +607,18 @@ describe('ArtistBrowserComponent', () => {
             artistsPersisterMock.verify((x) => x.setSelectedArtistType(component.selectedArtistType), Times.once());
         });
     });
+
+    describe('onAddToQueueAsync', () => {
+        it('should add the selected artist for the selected artist type to the queue', async () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.selectedArtistType = ArtistType.albumArtists;
+
+            // Act
+            await component.onAddToQueueAsync(artist1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.addArtistToQueueAsync(artist1, ArtistType.albumArtists), Times.once());
+        });
+    });
 });

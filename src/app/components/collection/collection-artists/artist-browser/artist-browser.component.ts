@@ -122,6 +122,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         this.contextMenuOpener.open(this.artistContextMenu, event, artist);
     }
 
+    public async onAddToQueueAsync(artist: ArtistModel): Promise<void> {
+        await this.playbackService.addArtistToQueueAsync(artist, this.selectedArtistType);
+    }
+
     private orderArtists(): void {
         let orderedArtists: ArtistModel[] = [];
 

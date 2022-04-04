@@ -527,5 +527,18 @@ describe('GenreBrowserComponent', () => {
             // Assert
             headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.once());
         });
+
+        describe('onAddToQueueAsync', () => {
+            it('should add the selected genre to the queue', async () => {
+                // Arrange
+                const component: GenreBrowserComponent = createComponent();
+
+                // Act
+                await component.onAddToQueueAsync(genre1);
+
+                // Assert
+                playbackServiceMock.verify((x) => x.addGenreToQueueAsync(genre1), Times.once());
+            });
+        });
     });
 });

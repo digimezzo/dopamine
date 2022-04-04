@@ -62,6 +62,10 @@
         <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync(album)">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
     </ng-template>
 </mat-menu>
 

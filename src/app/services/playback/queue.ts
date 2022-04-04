@@ -26,6 +26,15 @@ export class Queue {
         this.logger.info(`Set '${tracksToSet?.length}' tracks. Shuffle=${shuffle}`, 'Queue', 'setTracks');
     }
 
+    public addTracks(tracksToAdd: TrackModel[]): void {
+        for (const trackToAdd of tracksToAdd) {
+            this._tracks.push(trackToAdd);
+            this.playbackOrder.push(this._tracks.length - 1);
+        }
+
+        this.logger.info(`Added '${tracksToAdd?.length}' tracks`, 'Queue', 'addTracks');
+    }
+
     public removeTracks(tracksToRemove: TrackModel[]): void {
         if (tracksToRemove == undefined) {
             return;

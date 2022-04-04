@@ -43,8 +43,6 @@ describe('TrackBrowserComponent', () => {
     let trackModel4: TrackModel;
     let tracks: TrackModels;
 
-    let component: TrackBrowserComponent;
-
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
@@ -111,8 +109,10 @@ describe('TrackBrowserComponent', () => {
         trackOrderingMock
             .setup((x) => x.getTracksOrderedByAlbum(It.isAny()))
             .returns(() => [trackModel1, trackModel2, trackModel3, trackModel4]);
+    });
 
-        component = new TrackBrowserComponent(
+    function createComponent(): TrackBrowserComponent {
+        return new TrackBrowserComponent(
             playbackServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
@@ -121,13 +121,14 @@ describe('TrackBrowserComponent', () => {
             trackOrderingMock.object,
             loggerMock.object
         );
-    });
+    }
 
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
 
             // Act
+            const component: TrackBrowserComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -137,6 +138,7 @@ describe('TrackBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: TrackBrowserComponent = createComponent();
 
             // Assert
             expect(component.trackOrderEnum).toBeDefined();
@@ -146,6 +148,7 @@ describe('TrackBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: TrackBrowserComponent = createComponent();
 
             // Assert
             expect(component.tracks).toBeDefined();
@@ -156,6 +159,7 @@ describe('TrackBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: TrackBrowserComponent = createComponent();
 
             // Assert
             expect(component.selectedTrackOrder).toBeUndefined();
@@ -165,6 +169,7 @@ describe('TrackBrowserComponent', () => {
             // Arrange
 
             // Act
+            const component: TrackBrowserComponent = createComponent();
 
             // Assert
             expect(component.tracksPersister).toBeUndefined();
@@ -174,6 +179,7 @@ describe('TrackBrowserComponent', () => {
     describe('tracks', () => {
         it('should set and get the tracks', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
             component.ngOnInit();
@@ -187,6 +193,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should initialize mouseSelectionWatcher using tracks', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
             component.ngOnInit();
@@ -217,6 +224,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should order the tracks by the selected track order', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.ngOnInit();
@@ -235,6 +243,7 @@ describe('TrackBrowserComponent', () => {
     describe('ngOnInit', () => {
         it('should set the playing track on playback started', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
             playbackIndicationServiceMock.reset();
@@ -249,6 +258,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should clear the playing track on playback stopped', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
 
@@ -264,6 +274,7 @@ describe('TrackBrowserComponent', () => {
     describe('setSelectedTracks', () => {
         it('should set the selected item on mouseSelectionWatcher', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracksPersister = tracksPersisterMock.object;
             const event: any = {};
@@ -279,6 +290,7 @@ describe('TrackBrowserComponent', () => {
     describe('toggleTrackOrder', () => {
         it('should change TrackOrder from byTrackTitleAscending to byTrackTitleDescending', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             component.tracks = tracks;
@@ -300,6 +312,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byTrackTitleDescending to byAlbum', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             component.tracks = tracks;
@@ -321,6 +334,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byAlbum to byTrackTitleAscending', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byAlbum;
             component.tracks = tracks;
@@ -342,6 +356,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should persist the selected track order', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byAlbum;
 
@@ -354,6 +369,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should set the playing track', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
             component.selectedTrackOrder = TrackOrder.byAlbum;
 
@@ -368,6 +384,7 @@ describe('TrackBrowserComponent', () => {
     describe('tracksPersister', () => {
         it('should set and return tracksPersister', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracksPersister = tracksPersisterMock.object;
 
             // Act
@@ -379,6 +396,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should set the selected track order', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             tracksPersisterMock.reset();
             tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byAlbum);
@@ -392,6 +410,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byTrackTitleAscending to byTrackTitleDescending', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracks = tracks;
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             tracksPersisterMock.reset();
@@ -414,6 +433,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byTrackTitleDescending to byAlbum', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracks = tracks;
             component.selectedTrackOrder = TrackOrder.byTrackTitleAscending;
             tracksPersisterMock.reset();
@@ -436,6 +456,7 @@ describe('TrackBrowserComponent', () => {
 
         it('should change TrackOrder from byAlbum to byTrackTitleAscending', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
             component.tracks = tracks;
             component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
             tracksPersisterMock.reset();
@@ -458,12 +479,27 @@ describe('TrackBrowserComponent', () => {
 
         it('should set the playing track', () => {
             // Arrange
+            const component: TrackBrowserComponent = createComponent();
 
             // Act
             component.tracksPersister = tracksPersisterMock.object;
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
+        });
+    });
+
+    describe('onAddToQueueAsync', () => {
+        it('should add the selected tracks to the queue', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onAddToQueueAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.addTracksToQueueAsync([trackModel1, trackModel2]), Times.once());
         });
     });
 });

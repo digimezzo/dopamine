@@ -693,4 +693,19 @@ describe('AlbumBrowserComponent', () => {
             expect(albums[1].isSelected).toBeTruthy();
         });
     });
+
+    describe('onAddToQueueAsync', () => {
+        it('should add the selected album to the queue', async() => {
+            // Arrange
+            const albumData1: AlbumData = new AlbumData();
+            const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+            const component: AlbumBrowserComponent = createComponent();
+
+            // Act
+            await component.onAddToQueueAsync(album1);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.addAlbumToQueueAsync(album1), Times.once());
+        });
+    });
 });

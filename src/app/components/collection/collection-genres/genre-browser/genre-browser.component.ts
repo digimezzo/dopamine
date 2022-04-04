@@ -97,6 +97,10 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.contextMenuOpener.open(this.genreContextMenu, event, genre);
     }
 
+    public async onAddToQueueAsync(genre: GenreModel): Promise<void> {
+        await this.playbackService.addGenreToQueueAsync(genre);
+    }
+
     private orderGenres(): void {
         let orderedGenres: GenreModel[] = [];
 

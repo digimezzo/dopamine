@@ -113,6 +113,10 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
+    public async onAddToQueueAsync(): Promise<void> {
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+    }
+
     private orderTracks(): void {
         let orderedTracks: TrackModel[] = [];
 

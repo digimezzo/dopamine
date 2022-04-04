@@ -48,5 +48,9 @@
     <ng-template matMenuContent let-playlist="data">
         <button mat-menu-item (click)="onEditPlaylistAsync(playlist)">{{ 'edit' | translate }}</button>
         <button mat-menu-item (click)="onDeletePlaylistAsync(playlist)">{{ 'delete' | translate }}</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync(playlist)">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
     </ng-template>
 </mat-menu>

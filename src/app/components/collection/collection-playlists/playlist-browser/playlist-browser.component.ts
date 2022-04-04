@@ -164,6 +164,10 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         this.dialogService.showCreatePlaylistDialogAsync();
     }
 
+    public async onAddToQueueAsync(playlist: PlaylistModel): Promise<void> {
+        await this.playbackService.addPlaylistToQueueAsync(playlist);
+    }
+
     private orderPlaylists(): void {
         try {
             this.playlistRows = this.playlistRowsGetter.getPlaylistRows(
