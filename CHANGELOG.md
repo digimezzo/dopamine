@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.10] - 2022-03-21
+## [3.0.0-preview.10] - 2022-04-04
 
 ### Added
 
 -   Updated Bulgarian translation
+-   Songs can now be added to and removed from the playback queue
 
 ### Changed
 
