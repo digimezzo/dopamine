@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, protocol, screen } from 'electron';
+import { app, BrowserWindow, Menu, nativeTheme, protocol, screen, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
 import * as windowStateKeeper from 'electron-window-state';
@@ -33,6 +33,14 @@ function windowHasFrame(): boolean {
     }
 
     return settings.get('useSystemTitleBar');
+}
+
+function getTrayIcon(): string {
+    if (nativeTheme.shouldUseDarkColors) {
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/white.ico' : 'icons/white.png');
+    }
+
+    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
 }
 
 function createWindow(): void {
@@ -168,13 +176,29 @@ try {
             }
         });
 
-        // See: https://github.com/electron/electron/issues/23757
+        let tray;
+
         app.whenReady().then(() => {
+            // See: https://github.com/electron/electron/issues/23757
             protocol.registerFileProtocol('file', (request, callback) => {
                 const pathname = decodeURI(request.url.replace('file:///', ''));
                 callback(pathname);
             });
+
+            tray = new Tray(getTrayIcon());
+            const contextMenu = Menu.buildFromTemplate([
+                {
+                    label: 'Quit',
+                    click(): void {
+                        app.quit();
+                    },
+                },
+            ]);
+            tray.setToolTip('This is my application.');
+            tray.setContextMenu(contextMenu);
         });
+
+        nativeTheme.on('updated', () => tray.setImage(getTrayIcon()));
     }
 } catch (e) {
     log.info(`[Main] [] Could not start. Error: ${e.message}`);
