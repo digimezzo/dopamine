@@ -21,7 +21,7 @@ export class DirectoryWalker {
             let filePathsInDirectory: string[];
 
             try {
-                filePathsInDirectory = await this.fileSystem.getFilesInDirectoryAsync(directoryPath);
+                filePathsInDirectory = await this.fileSystem.getFilesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 errors.push(e);
             }
@@ -40,7 +40,7 @@ export class DirectoryWalker {
             let subdirectoryPathsInDirectory: string[];
 
             try {
-                subdirectoryPathsInDirectory = await this.fileSystem.getDirectoriesInDirectoryAsync(directoryPath);
+                subdirectoryPathsInDirectory = await this.fileSystem.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 errors.push(e);
             }

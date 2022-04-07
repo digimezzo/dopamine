@@ -51,28 +51,79 @@ export class FileSystem implements BaseFileSystem {
         return this.combinePath([this.coverArtCacheFullPath(), `${artworkId}.jpg`]);
     }
 
-    public async getFilesInDirectoryAsync(directoryPath: string): Promise<string[]> {
-        const fileNames: string[] = await fs.readdir(directoryPath);
+    public async getFilesInDirectoryAsync(directoryPath: string, continueOnError?: boolean, errors?: Error[]): Promise<string[]> {
+        const possibleFileNames: string[] = await fs.readdir(directoryPath);
+        const confirmedFilePaths: string[] = [];
 
-        return fileNames
-            .filter((fileName) => fs.lstatSync(this.combinePath([directoryPath, fileName])).isFile())
-            .map((fileName) => this.combinePath([directoryPath, fileName]));
+        for (const possibleFileName of possibleFileNames) {
+            const possibleFilePath: string = this.combinePath([directoryPath, possibleFileName]);
+
+            try {
+                if (fs.lstatSync(possibleFilePath).isFile()) {
+                    confirmedFilePaths.push(possibleFilePath);
+                }
+            } catch (e) {
+                if (continueOnError == undefined || !continueOnError) {
+                    throw e;
+                }
+
+                if (errors != undefined) {
+                    errors.push(e);
+                }
+            }
+        }
+
+        return confirmedFilePaths;
     }
 
-    public getFilesInDirectory(directoryPath: string): string[] {
-        const fileNames: string[] = fs.readdirSync(directoryPath);
+    public getFilesInDirectory(directoryPath: string, continueOnError?: boolean, errors?: Error[]): string[] {
+        const possibleFileNames: string[] = fs.readdirSync(directoryPath);
+        const confirmedFilePaths: string[] = [];
 
-        return fileNames
-            .filter((fileName) => fs.lstatSync(this.combinePath([directoryPath, fileName])).isFile())
-            .map((fileName) => this.combinePath([directoryPath, fileName]));
+        for (const possibleFileName of possibleFileNames) {
+            const possibleFilePath: string = this.combinePath([directoryPath, possibleFileName]);
+
+            try {
+                if (fs.lstatSync(possibleFilePath).isFile()) {
+                    confirmedFilePaths.push(possibleFilePath);
+                }
+            } catch (e) {
+                if (continueOnError == undefined || !continueOnError) {
+                    throw e;
+                }
+
+                if (errors != undefined) {
+                    errors.push(e);
+                }
+            }
+        }
+
+        return confirmedFilePaths;
     }
 
-    public async getDirectoriesInDirectoryAsync(directoryPath: string): Promise<string[]> {
-        const directoryNames: string[] = await fs.readdir(directoryPath);
+    public async getDirectoriesInDirectoryAsync(directoryPath: string, continueOnError?: boolean, errors?: Error[]): Promise<string[]> {
+        const possibleDirectoryNames: string[] = await fs.readdir(directoryPath);
+        const confirmedDirectoryPaths: string[] = [];
 
-        return directoryNames
-            .filter((directoryName) => fs.lstatSync(this.combinePath([directoryPath, directoryName])).isDirectory())
-            .map((directoryName) => this.combinePath([directoryPath, directoryName]));
+        for (const possibleDirectoryName of possibleDirectoryNames) {
+            const possibleDirectoryPath: string = this.combinePath([directoryPath, possibleDirectoryName]);
+
+            try {
+                if (fs.lstatSync(possibleDirectoryPath).isDirectory()) {
+                    confirmedDirectoryPaths.push(possibleDirectoryPath);
+                }
+            } catch (e) {
+                if (continueOnError == undefined || !continueOnError) {
+                    throw e;
+                }
+
+                if (errors != undefined) {
+                    errors.push(e);
+                }
+            }
+        }
+
+        return confirmedDirectoryPaths;
     }
 
     public getFileExtension(fileNameOrPath: string): string {
