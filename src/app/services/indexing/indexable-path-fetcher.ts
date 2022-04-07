@@ -61,7 +61,7 @@ export class IndexablePathFetcher {
 
             for (const e of directoryWalkResult.errors) {
                 this.logger.error(
-                    `Error occurred while getting files recursively. Error ${e.message}`,
+                    `Error occurred while getting files recursively for folder '${folder.path}'. Error ${e.message}`,
                     'IndexablePathFetcher',
                     'getIndexablePathsForSingleFolderAsync'
                 );
@@ -85,7 +85,7 @@ export class IndexablePathFetcher {
             }
         } catch (e) {
             this.logger.error(
-                `An error occurred while fetching indexable paths for single folder. Error ${e.message}`,
+                `An error occurred while fetching indexable paths for folder '${folder.path}'. Error ${e.message}`,
                 'IndexablePathFetcher',
                 'getIndexablePathsForSingleFolderAsync'
             );
