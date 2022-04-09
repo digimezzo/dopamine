@@ -24,7 +24,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -58,12 +58,16 @@ import { Hacks } from './common/hacks';
 import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { BaseFileSystem } from './common/io/base-file-system';
+import { BaseIpcProxy } from './common/io/base-ipc-proxy';
 import { BaseRemoteProxy } from './common/io/base-remote-proxy';
+import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileSystem } from './common/io/file-system';
+import { IpcProxy } from './common/io/ipc-proxy';
 import { RemoteProxy } from './common/io/remote-proxy';
+import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { ListRandomizer } from './common/list-randomizer';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
@@ -160,7 +164,7 @@ import { WindowControlsComponent } from './components/window-controls/window-con
 import { CdkVirtualScrollViewportPatchDirective } from './directives/cdk-virtual-scroll-viewport-patch-directive';
 import { WebviewDirective } from './directives/webview.directive';
 import { GlobalErrorHandler } from './globalErrorHandler';
-import { AlbumsFilterPipe as AlbumsFilterPipe } from './pipes/albums-filter.pipe';
+import { AlbumsFilterPipe } from './pipes/albums-filter.pipe';
 import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
@@ -168,7 +172,7 @@ import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
 import { FormatTrackNumberPipe } from './pipes/format-track-number.pipe';
-import { GenresFilterPipe as GenresFilterPipe } from './pipes/genres-filter.pipe';
+import { GenresFilterPipe } from './pipes/genres-filter.pipe';
 import { ImageToFilePathPipe } from './pipes/image-to-file-path.pipe';
 import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
@@ -247,6 +251,8 @@ import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { TranslatorService } from './services/translator/translator.service';
+import { BaseTrayService } from './services/tray/base-tray.service';
+import { TrayService } from './services/tray/tray.service';
 import { BaseUpdateService } from './services/update/base-update.service';
 import { UpdateService } from './services/update/update.service';
 
@@ -505,10 +511,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseAppearanceService, useClass: AppearanceService },
         { provide: BaseFolderService, useClass: FolderService },
         { provide: BaseFileService, useClass: FileService },
+        { provide: BaseTrayService, useClass: TrayService },
         { provide: BaseSettings, useClass: Settings },
         { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseRemoteProxy, useClass: RemoteProxy },
+        { provide: BaseIpcProxy, useClass: IpcProxy },
+        { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         {
             provide: ErrorHandler,

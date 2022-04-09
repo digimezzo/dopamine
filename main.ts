@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, nativeTheme, protocol, screen, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, screen, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
 import * as windowStateKeeper from 'electron-window-state';
@@ -41,6 +41,14 @@ function getTrayIcon(): string {
     }
 
     return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
+}
+
+function showOnTop(): void {
+    win.setAlwaysOnTop(true);
+
+    setTimeout(() => {
+        win.setAlwaysOnTop(false);
+    }, 500);
 }
 
 function createWindow(): void {
@@ -186,15 +194,25 @@ try {
             });
 
             tray = new Tray(getTrayIcon());
+            tray.setToolTip('Dopamine');
+        });
+
+        ipcMain.on('update-tray-context-menu', (event: any, arg: any) => {
             const contextMenu = Menu.buildFromTemplate([
                 {
-                    label: 'Quit',
+                    label: arg.showDopamineLabel,
+                    click(): void {
+                        showOnTop();
+                    },
+                },
+                {
+                    label: arg.exitLabel,
                     click(): void {
                         app.quit();
                     },
                 },
             ]);
-            tray.setToolTip('This is my application.');
+
             tray.setContextMenu(contextMenu);
         });
 

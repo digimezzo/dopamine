@@ -28,6 +28,18 @@ function windowHasFrame() {
     }
     return settings.get('useSystemTitleBar');
 }
+function getTrayIcon() {
+    if (electron_1.nativeTheme.shouldUseDarkColors) {
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/white.ico' : 'icons/white.png');
+    }
+    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
+}
+function showOnTop() {
+    win.setAlwaysOnTop(true);
+    setTimeout(function () {
+        win.setAlwaysOnTop(false);
+    }, 500);
+}
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
@@ -140,13 +152,34 @@ try {
                 createWindow();
             }
         });
-        // See: https://github.com/electron/electron/issues/23757
+        var tray_1;
         electron_1.app.whenReady().then(function () {
+            // See: https://github.com/electron/electron/issues/23757
             electron_1.protocol.registerFileProtocol('file', function (request, callback) {
                 var pathname = decodeURI(request.url.replace('file:///', ''));
                 callback(pathname);
             });
+            tray_1 = new electron_1.Tray(getTrayIcon());
+            tray_1.setToolTip('Dopamine');
         });
+        electron_1.ipcMain.on('update-tray-context-menu', function (event, arg) {
+            var contextMenu = electron_1.Menu.buildFromTemplate([
+                {
+                    label: arg.showDopamineLabel,
+                    click: function () {
+                        showOnTop();
+                    },
+                },
+                {
+                    label: arg.exitLabel,
+                    click: function () {
+                        electron_1.app.quit();
+                    },
+                },
+            ]);
+            tray_1.setContextMenu(contextMenu);
+        });
+        electron_1.nativeTheme.on('updated', function () { return tray_1.setImage(getTrayIcon()); });
     }
 }
 catch (e) {

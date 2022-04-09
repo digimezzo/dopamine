@@ -24,6 +24,21 @@ import { Queue } from './queue';
 
 @Injectable()
 export class PlaybackService implements BasePlaybackService {
+    private progressChanged: Subject<PlaybackProgress> = new Subject();
+    private playbackStarted: Subject<PlaybackStarted> = new Subject();
+    private playbackPaused: Subject<void> = new Subject();
+    private playbackResumed: Subject<void> = new Subject();
+    private playbackStopped: Subject<void> = new Subject();
+    private playbackSkipped: Subject<void> = new Subject();
+    private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
+    private _volume: number = 0;
+    private _loopMode: LoopMode = LoopMode.None;
+    private _isShuffled: boolean = false;
+    private _isPlaying: boolean = false;
+    private _canPause: boolean = false;
+    private _canResume: boolean = true;
+    private subscription: Subscription = new Subscription();
+
     constructor(
         private trackService: BaseTrackService,
         private playlistService: BasePlaylistService,
@@ -86,20 +101,6 @@ export class PlaybackService implements BasePlaybackService {
     public get canResume(): boolean {
         return this._canResume;
     }
-    private progressChanged: Subject<PlaybackProgress> = new Subject();
-    private playbackStarted: Subject<PlaybackStarted> = new Subject();
-    private playbackPaused: Subject<void> = new Subject();
-    private playbackResumed: Subject<void> = new Subject();
-    private playbackStopped: Subject<void> = new Subject();
-    private playbackSkipped: Subject<void> = new Subject();
-    private _progress: PlaybackProgress = new PlaybackProgress(0, 0);
-    private _volume: number = 0;
-    private _loopMode: LoopMode = LoopMode.None;
-    private _isShuffled: boolean = false;
-    private _isPlaying: boolean = false;
-    private _canPause: boolean = false;
-    private _canResume: boolean = true;
-    private subscription: Subscription = new Subscription();
 
     public currentTrack: TrackModel;
 
