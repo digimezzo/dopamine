@@ -179,5 +179,10 @@
     "single-track-added-to-playback-queue": "Added 1 song to playback queue",
     "multiple-tracks-added-to-playback-queue": "Added {{numberOfAddedTracks}} songs to playback queue",
     "show-dopamine": "Show Dopamine",
-    "exit": "Exit"
+    "exit": "Exit",
+    "notification-area": "Notification area",
+    "show-icon-in-notification-area": "Show an icon in the notification area (requires a restart)",
+    "minimize-to-notification-area": "Minimize to the notification area",
+    "close-to-notification-area": "Close to the notification area",
+    "behavior": "Behavior"
 }

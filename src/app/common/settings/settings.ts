@@ -420,6 +420,33 @@ export class Settings implements BaseSettings {
         this.settings.set('enableDiscordRichPresence', v);
     }
 
+    //  Show icon in notification area
+    public get showIconInNotificationArea(): boolean {
+        return this.settings.get('showIconInNotificationArea');
+    }
+
+    public set showIconInNotificationArea(v: boolean) {
+        this.settings.set('showIconInNotificationArea', v);
+    }
+
+    //  Minimize to notification area
+    public get minimizeToNotificationArea(): boolean {
+        return this.settings.get('minimizeToNotificationArea');
+    }
+
+    public set minimizeToNotificationArea(v: boolean) {
+        this.settings.set('minimizeToNotificationArea', v);
+    }
+
+    //  Close to notification area
+    public get closeToNotificationArea(): boolean {
+        return this.settings.get('closeToNotificationArea');
+    }
+
+    public set closeToNotificationArea(v: boolean) {
+        this.settings.set('closeToNotificationArea', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -596,6 +623,18 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('enableDiscordRichPresence')) {
             this.settings.set('enableDiscordRichPresence', false);
+        }
+
+        if (!this.settings.has('showIconInNotificationArea')) {
+            this.settings.set('showIconInNotificationArea', true);
+        }
+
+        if (!this.settings.has('minimizeToNotificationArea')) {
+            this.settings.set('minimizeToNotificationArea', false);
+        }
+
+        if (!this.settings.has('closeToNotificationArea')) {
+            this.settings.set('closeToNotificationArea', false);
         }
     }
 }

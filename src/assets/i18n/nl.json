@@ -187,5 +187,10 @@
     "single-track-added-to-playback-queue": "1 nummer toegevoegd aan de afspeelwachtrij",
     "multiple-tracks-added-to-playback-queue": "{{numberOfAddedTracks}} nummers toegevoegd aan de afspeelwachtrij",
     "show-dopamine": "Dopamine weergeven",
-    "exit": "Sluiten"
+    "exit": "Sluiten",
+    "notification-area": "Systeemvak",
+    "show-icon-in-notification-area": "Een icoon weergeven in het systeemvak (vereist een herstart)",
+    "minimize-to-notification-area": "Minimaliseren naar het systeemvak",
+    "close-to-notification-area": "Sluiten naar systeemvak",
+    "behavior": "Gedrag"
 }

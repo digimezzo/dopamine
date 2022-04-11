@@ -153,6 +153,7 @@ import { PlaybackTimeComponent } from './components/playback-time/playback-time.
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
+import { BehaviorSettingsComponent } from './components/settings/behavior-settings/behavior-settings.component';
 import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
@@ -315,6 +316,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AppearanceSettingsComponent,
         AdvancedSettingsComponent,
         OnlineSettingsComponent,
+        BehaviorSettingsComponent,
         AboutComponent,
         ComponentsComponent,
         SnackBarComponent,

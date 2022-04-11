@@ -16,6 +16,12 @@
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
+                    {{ 'behavior' | translate }}
+                </ng-template>
+                <app-behavior-settings></app-behavior-settings>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
                     {{ 'advanced' | translate }}
                 </ng-template>
                 <app-advanced-settings></app-advanced-settings>

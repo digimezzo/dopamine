@@ -187,5 +187,10 @@
     "single-track-added-to-playback-queue": "Ajout de 1 numéro à la file d'attente de lecture",
     "multiple-tracks-added-to-playback-queue": "Ajout de {{numberOfAddedTracks}} numéros à la file d'attente de lecture",
     "show-dopamine": "Afficher Dopamine",
-    "exit": "Quitter"
+    "exit": "Quitter",
+    "notification-area": "Zone de notification",
+    "show-icon-in-notification-area": "Afficher une icone dans la zone de notification (nécessite un redémarrage)",
+    "minimize-to-notification-area": "Réduire vers la zone de notification",
+    "close-to-notification-area": "Fermer vers la zone de notification",
+    "behavior": "Comportement"
 }
