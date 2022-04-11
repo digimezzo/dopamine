@@ -10,6 +10,7 @@ import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
+import { BaseTrayService } from './services/tray/base-tray.service';
 
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -17,6 +18,7 @@ describe('AppComponent', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let discordServiceMock: IMock<BaseDiscordService>;
+    let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let loggerMock: IMock<Logger>;
@@ -32,6 +34,7 @@ describe('AppComponent', () => {
             translatorServiceMock.object,
             dialogServiceMock.object,
             discordServiceMock.object,
+            trayServiceMock.object,
             searchServiceMock.object,
             addToPlaylistMenuMock.object,
             loggerMock.object
@@ -44,6 +47,7 @@ describe('AppComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         discordServiceMock = Mock.ofType<BaseDiscordService>();
+        trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         loggerMock = Mock.ofType<Logger>();
@@ -109,6 +113,17 @@ describe('AppComponent', () => {
 
             // Assert
             translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.once());
+        });
+
+        it('should update tray context menu', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            trayServiceMock.verify((x) => x.updateTrayContextMenu(), Times.once());
         });
 
         it('should navigate to loading', async () => {

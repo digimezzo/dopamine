@@ -13,6 +13,7 @@ import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
+import { BaseTrayService } from './services/tray/base-tray.service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private translatorService: BaseTranslatorService,
         private dialogService: BaseDialogService,
         private discordService: BaseDiscordService,
+        private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private logger: Logger
@@ -66,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.discordService.setRichPresenceFromSettings();
         this.appearanceService.applyAppearance();
         await this.translatorService.applyLanguageAsync();
+        this.trayService.updateTrayContextMenu();
 
         this.navigationService.navigateToLoading();
     }

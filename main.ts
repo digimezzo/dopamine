@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, nativeTheme, protocol, screen, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme, protocol, Tray } from 'electron';
 import log from 'electron-log';
 import * as Store from 'electron-store';
 import * as windowStateKeeper from 'electron-window-state';
@@ -6,33 +6,55 @@ import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
 
+/**
+ * Command line parameters
+ */
 app.commandLine.appendSwitch('disable-color-correct-rendering');
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
+/**
+ * Logging
+ */
 log.create('main');
 log.transports.file.resolvePath = () => path.join(app.getPath('userData'), 'logs', 'Dopamine.log');
 
-let win, serve;
-const args = process.argv.slice(1);
-serve = args.some((val) => val === '--serve');
-
-// Workaround: Global does not allow setting custom properties.
-// We need to cast it to "any" first.
-const globalAny: any = global;
+/**
+ * Variables
+ */
+const globalAny: any = global; // Global does not allow setting custom properties. We need to cast it to "any" first.
+const settings: Store<any> = new Store();
+const args: string[] = process.argv.slice(1);
+const isServing: boolean = args.some((val) => val === '--serve');
+let mainWindow;
+let tray;
+let isQuitting;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
+/**
+ * Functions
+ */
 function windowHasFrame(): boolean {
-    const settings: Store<any> = new Store();
-
     if (!settings.has('useSystemTitleBar')) {
         settings.set('useSystemTitleBar', false);
     }
 
     return settings.get('useSystemTitleBar');
+}
+
+function shouldShowIconInNotificationArea(): boolean {
+    return settings.get('showIconInNotificationArea');
+}
+
+function shouldMinimizeToNotificationArea(): boolean {
+    return settings.get('minimizeToNotificationArea');
+}
+
+function shouldCloseToNotificationArea(): boolean {
+    return settings.get('closeToNotificationArea');
 }
 
 function getTrayIcon(): string {
@@ -43,10 +65,8 @@ function getTrayIcon(): string {
     return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
 }
 
-function createWindow(): void {
-    const electronScreen = screen;
-    const size = electronScreen.getPrimaryDisplay().workAreaSize;
-
+function createMainWindow(): void {
+    // Suppress the default menu
     Menu.setApplicationMenu(undefined);
 
     // Load the previous state with fallback to defaults
@@ -55,8 +75,8 @@ function createWindow(): void {
         defaultHeight: 620,
     });
 
-    // Create the browser window.
-    win = new BrowserWindow({
+    // Create the browser window
+    mainWindow = new BrowserWindow({
         x: windowState.x,
         y: windowState.y,
         width: windowState.width,
@@ -75,15 +95,15 @@ function createWindow(): void {
 
     globalAny.windowHasFrame = windowHasFrame();
 
-    windowState.manage(win);
+    windowState.manage(mainWindow);
 
-    if (serve) {
+    if (isServing) {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
         });
-        win.loadURL('http://localhost:4200');
+        mainWindow.loadURL('http://localhost:4200');
     } else {
-        win.loadURL(
+        mainWindow.loadURL(
             url.format({
                 pathname: path.join(__dirname, 'dist/index.html'),
                 protocol: 'file:',
@@ -93,43 +113,64 @@ function createWindow(): void {
     }
 
     // Emitted when the window is closed.
-    win.on('closed', () => {
+    mainWindow.on('closed', () => {
         // Dereference the window object, usually you would store window
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        win = undefined;
+        mainWindow = undefined;
     });
 
     // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
-    win.on('ready-to-show', () => {
-        win.show();
-        win.focus();
+    mainWindow.on('ready-to-show', () => {
+        mainWindow.show();
+        mainWindow.focus();
     });
 
     // Makes links open in external browser
     const handleRedirect = (e: any, localUrl: string) => {
         // Check that the requested url is not the current page
-        if (localUrl !== win.webContents.getURL()) {
+        if (localUrl !== mainWindow.webContents.getURL()) {
             e.preventDefault();
             require('electron').shell.openExternal(localUrl);
         }
     };
 
-    win.webContents.on('will-navigate', handleRedirect);
-    win.webContents.on('new-window', handleRedirect);
+    mainWindow.webContents.on('will-navigate', handleRedirect);
+    mainWindow.webContents.on('new-window', handleRedirect);
 
-    win.webContents.on('before-input-event', (event, input) => {
+    mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
             // if (serve) {
-            win.webContents.toggleDevTools();
+            mainWindow.webContents.toggleDevTools();
             // }
 
             event.preventDefault();
         }
     });
+
+    mainWindow.on('minimize', (event: any) => {
+        if (shouldMinimizeToNotificationArea()) {
+            event.preventDefault();
+            mainWindow.hide();
+        }
+    });
+
+    mainWindow.on('close', (event: any) => {
+        if (shouldCloseToNotificationArea()) {
+            if (!isQuitting) {
+                event.preventDefault();
+                mainWindow.hide();
+            }
+
+            return false;
+        }
+    });
 }
 
+/**
+ * Main
+ */
 try {
     log.info('[Main] [] +++ Starting +++');
 
@@ -140,23 +181,23 @@ try {
         app.quit();
     } else {
         app.on('second-instance', (event, argv, workingDirectory) => {
-            log.info('[Main] [] Attempt to run second instance. Showing current window.');
-            win.webContents.send('arguments-received', argv);
+            log.info('[Main] [] Attempt to run second instance. Showing existing window.');
+            mainWindow.webContents.send('arguments-received', argv);
 
-            // Someone tried to run a second instance, we should focus our window.
-            if (win) {
-                if (win.isMinimized()) {
-                    win.restore();
+            // Someone tried to run a second instance, we should focus the existing window.
+            if (mainWindow) {
+                if (mainWindow.isMinimized()) {
+                    mainWindow.restore();
                 }
 
-                win.focus();
+                mainWindow.focus();
             }
         });
 
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.
         // Some APIs can only be used after this event occurs.
-        app.on('ready', createWindow);
+        app.on('ready', createMainWindow);
 
         // Quit when all windows are closed.
         app.on('window-all-closed', () => {
@@ -171,12 +212,14 @@ try {
         app.on('activate', () => {
             // On OS X it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
-            if (win == undefined) {
-                createWindow();
+            if (mainWindow == undefined) {
+                createMainWindow();
             }
         });
 
-        let tray;
+        app.on('before-quit', () => {
+            isQuitting = true;
+        });
 
         app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
@@ -185,20 +228,44 @@ try {
                 callback(pathname);
             });
 
-            tray = new Tray(getTrayIcon());
+            if (shouldShowIconInNotificationArea()) {
+                tray = new Tray(getTrayIcon());
+                tray.setToolTip('Dopamine');
+            }
+        });
+
+        nativeTheme.on('updated', () => {
+            if (tray == undefined) {
+                return;
+            }
+
+            tray.setImage(getTrayIcon());
+        });
+
+        ipcMain.on('update-tray-context-menu', (event: any, arg: any) => {
+            if (tray == undefined) {
+                return;
+            }
+
             const contextMenu = Menu.buildFromTemplate([
                 {
-                    label: 'Quit',
+                    label: arg.showDopamineLabel,
+                    click(): void {
+                        mainWindow.show();
+                        mainWindow.focus();
+                        // showOnTop();
+                    },
+                },
+                {
+                    label: arg.exitLabel,
                     click(): void {
                         app.quit();
                     },
                 },
             ]);
-            tray.setToolTip('This is my application.');
+
             tray.setContextMenu(contextMenu);
         });
-
-        nativeTheme.on('updated', () => tray.setImage(getTrayIcon()));
     }
 } catch (e) {
     log.info(`[Main] [] Could not start. Error: ${e.message}`);

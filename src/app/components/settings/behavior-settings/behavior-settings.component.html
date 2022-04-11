@@ -1,0 +1,18 @@
+<div class="p-4">
+    <h2>{{ 'notification-area' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="settings.showIconInNotificationArea">
+            {{ 'show-icon-in-notification-area' | translate }}</mat-slide-toggle
+        >
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.minimizeToNotificationArea">
+            {{ 'minimize-to-notification-area' | translate }}</mat-slide-toggle
+        >
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.closeToNotificationArea">
+            {{ 'close-to-notification-area' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>
