@@ -253,7 +253,6 @@ try {
                     click(): void {
                         mainWindow.show();
                         mainWindow.focus();
-                        // showOnTop();
                     },
                 },
                 {

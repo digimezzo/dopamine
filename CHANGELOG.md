@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.11] - 2022-04-07
+## [3.0.0-preview.11] - 2022-04-11
 
 ### Added
+
+-   Optional tray icon
 
 ### Changed
 
@@ -17,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--   Fixed: disks containing an inaccessible "System Volume Information" folder cannot be indexed
+-   Disks containing an inaccessible "System Volume Information" folder cannot be indexed
 
 ## [3.0.0-preview.10] - 2022-04-04
 
