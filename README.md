@@ -40,7 +40,7 @@ Follow the build instructions below to start or build Dopamine for your platform
 
 **Build prerequisites on Windows:**
 
--   Download and install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
+-   Download and install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install **Tools for Native Modules**).
 -   After the installation of Node.js, restart computer to ensure that npm is added to the path.
 -   Download and install Visual Studio Code from https://code.visualstudio.com/
 -   Download the Dopamine source code
