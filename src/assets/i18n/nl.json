@@ -192,5 +192,6 @@
     "show-icon-in-notification-area": "Een icoon weergeven in het systeemvak (vereist een herstart)",
     "minimize-to-notification-area": "Minimaliseren naar het systeemvak",
     "close-to-notification-area": "Sluiten naar systeemvak",
-    "behavior": "Gedrag"
+    "behavior": "Gedrag",
+    "broken": "Defect"
 }

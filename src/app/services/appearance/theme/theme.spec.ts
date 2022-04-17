@@ -141,5 +141,20 @@ describe('Theme', () => {
             // Assert
             expect(theme.options).toBe(options);
         });
+
+        it('should set isBroken to false', () => {
+            // Arrange
+            const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
+            const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
+            const darkColors: ThemeNeutralColors = createNeutralColors();
+            const lightColors: ThemeNeutralColors = createNeutralColors();
+            const options: ThemeOptions = new ThemeOptions(false);
+
+            // Act
+            const theme: Theme = new Theme('My name', creator, coreColors, darkColors, lightColors, options);
+
+            // Assert
+            expect(theme.isBroken).toEqual(false);
+        });
     });
 });

@@ -15,6 +15,7 @@ import { BaseAppearanceService } from './base-appearance.service';
 import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
 import { Theme } from './theme/theme';
+import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 
 @Injectable()
 export class AppearanceService implements BaseAppearanceService {
@@ -60,7 +61,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set followSystemTheme(v: boolean) {
         this.settings.followSystemTheme = v;
-        this.applyTheme();
+        this.safeApplyTheme();
     }
 
     public get useLightBackgroundTheme(): boolean {
@@ -69,7 +70,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set useLightBackgroundTheme(v: boolean) {
         this.settings.useLightBackgroundTheme = v;
-        this.applyTheme();
+        this.safeApplyTheme();
     }
 
     public get followSystemColor(): boolean {
@@ -78,7 +79,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     public set followSystemColor(v: boolean) {
         this.settings.followSystemColor = v;
-        this.applyTheme();
+        this.safeApplyTheme();
     }
 
     public get themes(): Theme[] {
@@ -96,7 +97,7 @@ export class AppearanceService implements BaseAppearanceService {
     public set selectedTheme(v: Theme) {
         this._selectedTheme = v;
         this.settings.theme = v.name;
-        this.applyTheme();
+        this.safeApplyTheme();
     }
 
     public fontSizes: FontSize[] = Constants.fontSizes;
@@ -119,11 +120,11 @@ export class AppearanceService implements BaseAppearanceService {
         this.ensureDefaultThemesExist();
         this._themes = this.getThemesFromThemesDirectory();
         this.setSelectedThemeFromSettings();
-        this.applyTheme();
+        this.safeApplyTheme();
     }
 
     public applyAppearance(): void {
-        this.applyTheme();
+        this.safeApplyTheme();
         this.applyFontSize();
         this.applyMargins(true);
     }
@@ -191,12 +192,12 @@ export class AppearanceService implements BaseAppearanceService {
     private addSubscriptions(): void {
         this.subscription.add(
             this.desktop.accentColorChanged$.subscribe(() => {
-                this.applyTheme();
+                this.safeApplyTheme();
             })
         );
         this.subscription.add(
             this.desktop.nativeThemeUpdated$.subscribe(() => {
-                this.applyTheme();
+                this.safeApplyTheme();
             })
         );
     }
@@ -207,6 +208,30 @@ export class AppearanceService implements BaseAppearanceService {
         if (!Strings.isNullOrWhiteSpace(selectedItemText)) {
             this.shouldOverrideSelectedItemText = true;
         }
+    }
+
+    private safeApplyTheme(): boolean {
+        const selectedThemeName: string = this.selectedTheme.name;
+
+        try {
+            this.applyTheme();
+        } catch (e) {
+            this.selectedTheme.isBroken = true;
+            this.settings.theme = 'Dopamine';
+            this.setSelectedThemeFromSettings();
+            this.applyTheme();
+            const fallbackThemeName: string = this.selectedTheme.name;
+
+            this.logger.warn(
+                `Could not apply theme '${selectedThemeName}'. Applying theme '${fallbackThemeName}' instead.`,
+                'AppearanceService',
+                'safeApplyTheme'
+            );
+
+            return false;
+        }
+
+        return true;
     }
 
     private applyTheme(): void {
@@ -257,59 +282,11 @@ export class AppearanceService implements BaseAppearanceService {
 
         // Neutral colors
         let themeName: string = 'default-theme-dark';
-        element.style.setProperty('--theme-window-button-icon', this.selectedTheme.darkColors.windowButtonIcon);
-        element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.darkColors.hoveredItemBackground);
-        element.style.setProperty('--theme-selected-item-background', this.selectedTheme.darkColors.selectedItemBackground);
-        element.style.setProperty('--theme-selected-item-text', this.selectedTheme.darkColors.selectedItemText);
-        element.style.setProperty('--theme-tab-text', this.selectedTheme.darkColors.tabText);
-        element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.darkColors.selectedTabText);
-        element.style.setProperty('--theme-main-background', this.selectedTheme.darkColors.mainBackground);
-        element.style.setProperty('--theme-header-background', this.selectedTheme.darkColors.headerBackground);
-        element.style.setProperty('--theme-footer-background', this.selectedTheme.darkColors.footerBackground);
-        element.style.setProperty('--theme-side-pane-background', this.selectedTheme.darkColors.sidePaneBackground);
-        element.style.setProperty('--theme-primary-text', this.selectedTheme.darkColors.primaryText);
-        element.style.setProperty('--theme-secondary-text', this.selectedTheme.darkColors.secondaryText);
-        element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.darkColors.breadcrumbBackground);
-        element.style.setProperty('--theme-slider-background', this.selectedTheme.darkColors.sliderBackground);
-        element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.darkColors.sliderThumbBackground);
-        element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.darkColors.albumCoverLogo);
-        element.style.setProperty('--theme-album-cover-background', this.selectedTheme.darkColors.albumCoverBackground);
-        element.style.setProperty('--theme-pane-separators', this.selectedTheme.darkColors.paneSeparators);
-        element.style.setProperty('--theme-settings-separators', this.selectedTheme.darkColors.settingsSeparators);
-        element.style.setProperty('--theme-scroll-bars', scrollBarColorToApply);
-        element.style.setProperty('--theme-search-box', this.selectedTheme.darkColors.searchBox);
-        element.style.setProperty('--theme-search-box-text', this.selectedTheme.darkColors.searchBoxText);
-        element.style.setProperty('--theme-search-box-icon', this.selectedTheme.darkColors.searchBoxIcon);
-        element.style.setProperty('--theme-dialog-background', this.selectedTheme.darkColors.dialogBackground);
-        this.setShouldOverrideSelectedItemText(this.selectedTheme.darkColors.selectedItemText);
+        this.applyNeutralColors(element, this.selectedTheme.darkColors, scrollBarColorToApply);
 
         if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
-            element.style.setProperty('--theme-window-button-icon', this.selectedTheme.lightColors.windowButtonIcon);
-            element.style.setProperty('--theme-hovered-item-background', this.selectedTheme.lightColors.hoveredItemBackground);
-            element.style.setProperty('--theme-selected-item-background', this.selectedTheme.lightColors.selectedItemBackground);
-            element.style.setProperty('--theme-selected-item-text', this.selectedTheme.lightColors.selectedItemText);
-            element.style.setProperty('--theme-tab-text', this.selectedTheme.lightColors.tabText);
-            element.style.setProperty('--theme-selected-tab-text', this.selectedTheme.lightColors.selectedTabText);
-            element.style.setProperty('--theme-main-background', this.selectedTheme.lightColors.mainBackground);
-            element.style.setProperty('--theme-header-background', this.selectedTheme.lightColors.headerBackground);
-            element.style.setProperty('--theme-footer-background', this.selectedTheme.lightColors.footerBackground);
-            element.style.setProperty('--theme-side-pane-background', this.selectedTheme.lightColors.sidePaneBackground);
-            element.style.setProperty('--theme-primary-text', this.selectedTheme.lightColors.primaryText);
-            element.style.setProperty('--theme-secondary-text', this.selectedTheme.lightColors.secondaryText);
-            element.style.setProperty('--theme-breadcrumb-background', this.selectedTheme.lightColors.breadcrumbBackground);
-            element.style.setProperty('--theme-slider-background', this.selectedTheme.lightColors.sliderBackground);
-            element.style.setProperty('--theme-slider-thumb-background', this.selectedTheme.lightColors.sliderThumbBackground);
-            element.style.setProperty('--theme-album-cover-logo', this.selectedTheme.lightColors.albumCoverLogo);
-            element.style.setProperty('--theme-album-cover-background', this.selectedTheme.lightColors.albumCoverBackground);
-            element.style.setProperty('--theme-pane-separators', this.selectedTheme.lightColors.paneSeparators);
-            element.style.setProperty('--theme-settings-separators', this.selectedTheme.lightColors.settingsSeparators);
-            element.style.setProperty('--theme-scroll-bars', scrollBarColorToApply);
-            element.style.setProperty('--theme-search-box', this.selectedTheme.lightColors.searchBox);
-            element.style.setProperty('--theme-search-box-text', this.selectedTheme.lightColors.searchBoxText);
-            element.style.setProperty('--theme-search-box-icon', this.selectedTheme.lightColors.searchBoxIcon);
-            element.style.setProperty('--theme-dialog-background', this.selectedTheme.lightColors.dialogBackground);
-            this.setShouldOverrideSelectedItemText(this.selectedTheme.lightColors.selectedItemText);
+            this.applyNeutralColors(element, this.selectedTheme.lightColors, scrollBarColorToApply);
         }
 
         // Options
@@ -326,6 +303,34 @@ export class AppearanceService implements BaseAppearanceService {
             'AppearanceService',
             'applyTheme'
         );
+    }
+
+    private applyNeutralColors(element: HTMLElement, neutralColors: ThemeNeutralColors, scrollBarColor: string): void {
+        element.style.setProperty('--theme-window-button-icon', neutralColors.windowButtonIcon);
+        element.style.setProperty('--theme-hovered-item-background', neutralColors.hoveredItemBackground);
+        element.style.setProperty('--theme-selected-item-background', neutralColors.selectedItemBackground);
+        element.style.setProperty('--theme-selected-item-text', neutralColors.selectedItemText);
+        element.style.setProperty('--theme-tab-text', neutralColors.tabText);
+        element.style.setProperty('--theme-selected-tab-text', neutralColors.selectedTabText);
+        element.style.setProperty('--theme-main-background', neutralColors.mainBackground);
+        element.style.setProperty('--theme-header-background', neutralColors.headerBackground);
+        element.style.setProperty('--theme-footer-background', neutralColors.footerBackground);
+        element.style.setProperty('--theme-side-pane-background', neutralColors.sidePaneBackground);
+        element.style.setProperty('--theme-primary-text', neutralColors.primaryText);
+        element.style.setProperty('--theme-secondary-text', neutralColors.secondaryText);
+        element.style.setProperty('--theme-breadcrumb-background', neutralColors.breadcrumbBackground);
+        element.style.setProperty('--theme-slider-background', neutralColors.sliderBackground);
+        element.style.setProperty('--theme-slider-thumb-background', neutralColors.sliderThumbBackground);
+        element.style.setProperty('--theme-album-cover-logo', neutralColors.albumCoverLogo);
+        element.style.setProperty('--theme-album-cover-background', neutralColors.albumCoverBackground);
+        element.style.setProperty('--theme-pane-separators', neutralColors.paneSeparators);
+        element.style.setProperty('--theme-settings-separators', neutralColors.settingsSeparators);
+        element.style.setProperty('--theme-scroll-bars', scrollBarColor);
+        element.style.setProperty('--theme-search-box', neutralColors.searchBox);
+        element.style.setProperty('--theme-search-box-text', neutralColors.searchBoxText);
+        element.style.setProperty('--theme-search-box-icon', neutralColors.searchBoxIcon);
+        element.style.setProperty('--theme-dialog-background', neutralColors.dialogBackground);
+        this.setShouldOverrideSelectedItemText(neutralColors.selectedItemText);
     }
 
     private setSelectedThemeFromSettings(): void {
@@ -398,8 +403,11 @@ export class AppearanceService implements BaseAppearanceService {
 
         for (const defaultTheme of defaultThemes) {
             const themeFilePath: string = this.fileSystem.combinePath([this.themesDirectoryPath, `${defaultTheme.name}.theme`]);
-            const stringifiedTheme: string = JSON.stringify(defaultTheme, undefined, 2);
-            this.fileSystem.writeToFile(themeFilePath, stringifiedTheme);
+
+            // We don't want the isBroken property in the theme files
+            const defaultThemeWithoutIsBroken = { ...defaultTheme, isBroken: undefined };
+            const stringifiedDefaultTheme: string = JSON.stringify(defaultThemeWithoutIsBroken, undefined, 2);
+            this.fileSystem.writeToFile(themeFilePath, stringifiedDefaultTheme);
         }
     }
 

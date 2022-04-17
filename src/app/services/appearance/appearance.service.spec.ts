@@ -362,12 +362,18 @@ describe('AppearanceService', () => {
 
             // Assert
             defaultThemesCreatorMock.verify((x) => x.createAllThemes(), Times.once());
+
+            const theme1WithoutIsBroken = { ...theme1, isBroken: undefined };
+            const theme2WithoutIsBroken = { ...theme2, isBroken: undefined };
+
             fileSystemMock.verify(
-                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1, undefined, 2)),
+                (x) =>
+                    x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
             fileSystemMock.verify(
-                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2, undefined, 2)),
+                (x) =>
+                    x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
         });
@@ -1061,12 +1067,17 @@ describe('AppearanceService', () => {
 
             // Assert
             defaultThemesCreatorMock.verify((x) => x.createAllThemes(), Times.once());
+            const theme1WithoutIsBroken = { ...theme1, isBroken: undefined };
+            const theme2WithoutIsBroken = { ...theme2, isBroken: undefined };
+
             fileSystemMock.verify(
-                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1, undefined, 2)),
+                (x) =>
+                    x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
             fileSystemMock.verify(
-                (x) => x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2, undefined, 2)),
+                (x) =>
+                    x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
         });

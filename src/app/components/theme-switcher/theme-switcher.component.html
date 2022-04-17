@@ -1,10 +1,14 @@
 <div class="theme-switcher-component">
-    <div *ngFor="let theme of appearanceService.themes">
-        <div class="theme-switcher-component-button mr-2 mb-2" matTooltip="{{ theme.name }}" (click)="setTheme(theme)">
+    <div
+        *ngFor="let theme of appearanceService.themes"
+        matTooltip="{{ !theme.isBroken ? theme.name : theme.name + ' (' + ('broken' | translate) + ')' }}"
+    >
+        <div class="theme-switcher-component-button mr-2 mb-2" [ngClass]="{ inactive: theme.isBroken }" (click)="setTheme(theme)">
             <i
                 class="theme-switcher-component-button__selector las la-check"
                 *ngIf="theme.name === appearanceService.selectedTheme.name"
             ></i>
+            <i class="theme-switcher-component-button__selector las la-times" *ngIf="theme.isBroken"></i>
             <div
                 class="theme-switcher-component-button__color"
                 [ngStyle]="{

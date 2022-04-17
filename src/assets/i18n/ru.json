@@ -184,5 +184,6 @@
     "show-icon-in-notification-area": "Show an icon in the notification area (requires a restart)",
     "minimize-to-notification-area": "Minimize to the notification area",
     "close-to-notification-area": "Close to the notification area",
-    "behavior": "Behavior"
+    "behavior": "Behavior",
+    "broken": "Broken"
 }

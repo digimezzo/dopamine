@@ -192,5 +192,6 @@
     "show-icon-in-notification-area": "Afficher une icone dans la zone de notification (nécessite un redémarrage)",
     "minimize-to-notification-area": "Réduire vers la zone de notification",
     "close-to-notification-area": "Fermer vers la zone de notification",
-    "behavior": "Comportement"
+    "behavior": "Comportement",
+    "broken": "Défectueux"
 }

@@ -214,7 +214,6 @@ try {
                     click: function () {
                         mainWindow.show();
                         mainWindow.focus();
-                        // showOnTop();
                     },
                 },
                 {

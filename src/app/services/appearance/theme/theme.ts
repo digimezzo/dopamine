@@ -10,6 +10,7 @@ export class Theme {
         public coreColors: ThemeCoreColors,
         public darkColors: ThemeNeutralColors,
         public lightColors: ThemeNeutralColors,
-        public options: ThemeOptions
+        public options: ThemeOptions,
+        public isBroken: boolean = false
     ) {}
 }
