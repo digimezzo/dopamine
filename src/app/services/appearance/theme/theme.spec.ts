@@ -30,7 +30,8 @@ describe('Theme', () => {
             '#999',
             '#aaa',
             '#bbb',
-            '#ccc'
+            '#ccc',
+            '#ddd'
         );
     }
 
