@@ -13,3 +13,7 @@
 .mat-menu-panel span {
     padding-right: 20px;
 }
+
+.mat-menu-item-submenu-trigger::after {
+    color: rgba(var(--theme-rgb-base), 0.54) !important;
+}

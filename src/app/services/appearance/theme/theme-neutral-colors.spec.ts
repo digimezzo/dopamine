@@ -22,6 +22,7 @@ describe('ThemeNeutralColors', () => {
             '#555',
             '#666',
             '#777',
+            '#770',
             '#888',
             '#999',
             '#aaa',
@@ -231,6 +232,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.settingsSeparators).toEqual('#777');
+        });
+
+        it('should set contextMenuSeparators', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.contextMenuSeparators).toEqual('#770');
         });
 
         it('should set scrollBars', () => {

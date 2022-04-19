@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
+import { ColorConverter } from '../../common/color-converter';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
@@ -306,6 +307,9 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private applyNeutralColors(element: HTMLElement, neutralColors: ThemeNeutralColors, scrollBarColor: string): void {
+        const primaryTextRgbArray: number[] = ColorConverter.stringToRgb(neutralColors.primaryText);
+
+        element.style.setProperty('--theme-rgb-base', primaryTextRgbArray.join(','));
         element.style.setProperty('--theme-window-button-icon', neutralColors.windowButtonIcon);
         element.style.setProperty('--theme-hovered-item-background', neutralColors.hoveredItemBackground);
         element.style.setProperty('--theme-selected-item-background', neutralColors.selectedItemBackground);
@@ -325,6 +329,7 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-album-cover-background', neutralColors.albumCoverBackground);
         element.style.setProperty('--theme-pane-separators', neutralColors.paneSeparators);
         element.style.setProperty('--theme-settings-separators', neutralColors.settingsSeparators);
+        element.style.setProperty('--theme-context-menu-separators', neutralColors.contextMenuSeparators);
         element.style.setProperty('--theme-scroll-bars', scrollBarColor);
         element.style.setProperty('--theme-search-box', neutralColors.searchBox);
         element.style.setProperty('--theme-search-box-text', neutralColors.searchBoxText);
