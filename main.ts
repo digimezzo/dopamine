@@ -46,14 +46,26 @@ function windowHasFrame(): boolean {
 }
 
 function shouldShowIconInNotificationArea(): boolean {
+    if (!settings.has('showIconInNotificationArea')) {
+        settings.set('showIconInNotificationArea', true);
+    }
+
     return settings.get('showIconInNotificationArea');
 }
 
 function shouldMinimizeToNotificationArea(): boolean {
+    if (!settings.has('minimizeToNotificationArea')) {
+        settings.set('minimizeToNotificationArea', false);
+    }
+
     return settings.get('minimizeToNotificationArea');
 }
 
 function shouldCloseToNotificationArea(): boolean {
+    if (!settings.has('closeToNotificationArea')) {
+        settings.set('closeToNotificationArea', false);
+    }
+
     return settings.get('closeToNotificationArea');
 }
 
