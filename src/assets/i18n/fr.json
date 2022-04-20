@@ -193,5 +193,6 @@
     "minimize-to-notification-area": "Réduire vers la zone de notification",
     "close-to-notification-area": "Fermer vers la zone de notification",
     "behavior": "Comportement",
-    "broken": "Défectueux"
+    "broken": "Défectueux",
+    "random": "Aléatoire"
 }

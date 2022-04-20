@@ -524,10 +524,23 @@ describe('AlbumBrowserComponent', () => {
             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byLastPlayed);
         });
 
-        it('should change AlbumOrder from byLastPlayed to byAlbumTitleAscending', () => {
+        it('should change AlbumOrder from byLastPlayed to random', () => {
             // Arrange
             const component: AlbumBrowserComponent = createComponent();
+            component.albumsPersister = albumsPersisterMock.object;
             component.selectedAlbumOrder = AlbumOrder.byLastPlayed;
+
+            // Act
+            component.toggleAlbumOrder();
+
+            // Assert
+            expect(component.selectedAlbumOrder).toEqual(AlbumOrder.random);
+        });
+
+        it('should change AlbumOrder from random to byAlbumTitleAscending', () => {
+            // Arrange
+            const component: AlbumBrowserComponent = createComponent();
+            component.selectedAlbumOrder = AlbumOrder.random;
             component.albumsPersister = albumsPersisterMock.object;
 
             // Act
@@ -695,7 +708,7 @@ describe('AlbumBrowserComponent', () => {
     });
 
     describe('onAddToQueueAsync', () => {
-        it('should add the selected album to the queue', async() => {
+        it('should add the selected album to the queue', async () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ListRandomizer } from '../../common/list-randomizer';
 import { Logger } from '../../common/logger';
+import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class Queue {
     private _tracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
 
-    constructor(private listRandomizer: ListRandomizer, private logger: Logger) {}
+    constructor(private shuffler: Shuffler, private logger: Logger) {}
 
     public get tracks(): TrackModel[] {
         return this._tracks;
@@ -128,7 +128,7 @@ export class Queue {
     }
 
     private shufflePlaybackOrder(): void {
-        this.playbackOrder = this.listRandomizer.randomizeNumbers(this.playbackOrder);
+        this.playbackOrder = this.shuffler.shuffle(this.playbackOrder);
     }
 
     private findPlaybackOrderIndex(track: TrackModel): number {

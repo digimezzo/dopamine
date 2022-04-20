@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
+import { Shuffler } from '../../../common/shuffler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from '../album-order';
 import { ItemSpaceCalculator } from '../item-space-calculator';
@@ -7,7 +8,7 @@ import { AlbumRow } from './album-row';
 
 @Injectable()
 export class AlbumRowsGetter {
-    constructor(private albumSpaceCalculator: ItemSpaceCalculator) {}
+    constructor(private albumSpaceCalculator: ItemSpaceCalculator, private shuffler: Shuffler) {}
 
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
@@ -104,6 +105,9 @@ export class AlbumRowsGetter {
                 break;
             case AlbumOrder.byLastPlayed:
                 sortedAlbums = unsortedAlbums.sort((a, b) => (a.dateLastPlayedInTicks < b.dateLastPlayedInTicks ? 1 : -1));
+                break;
+            case AlbumOrder.random:
+                sortedAlbums = this.shuffler.shuffle(unsortedAlbums);
                 break;
             default: {
                 sortedAlbums = unsortedAlbums.sort((a, b) => (a.albumTitle.toLowerCase() > b.albumTitle.toLowerCase() ? 1 : -1));

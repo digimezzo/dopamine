@@ -1,6 +1,7 @@
 import { IMock, It, Mock } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { FileSystem } from '../../../common/io/file-system';
+import { Shuffler } from '../../../common/shuffler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
@@ -12,6 +13,7 @@ describe('AlbumRowsGetter', () => {
     let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let fileSystemMock: IMock<FileSystem>;
+    let shufflerMock: IMock<Shuffler>;
     let albumRowsGetter: AlbumRowsGetter;
 
     const albumData1: AlbumData = new AlbumData();
@@ -68,6 +70,7 @@ describe('AlbumRowsGetter', () => {
         itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileSystemMock = Mock.ofType<FileSystem>();
+        shufflerMock = Mock.ofType<Shuffler>();
 
         itemSpaceCalculatorMock.setup((x) => x.calculateNumberOfItemsPerRow(It.isAny(), It.isAny())).returns(() => 2);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
@@ -82,7 +85,9 @@ describe('AlbumRowsGetter', () => {
 
         albums = [album1, album2, album3, album4, album5, album6];
 
-        albumRowsGetter = new AlbumRowsGetter(itemSpaceCalculatorMock.object);
+        shufflerMock.setup((x) => x.shuffle(albums)).returns(() => [album5, album3, album1, album6, album4, album2]);
+
+        albumRowsGetter = new AlbumRowsGetter(itemSpaceCalculatorMock.object, shufflerMock.object);
     });
 
     describe('constructor', () => {
@@ -254,6 +259,21 @@ describe('AlbumRowsGetter', () => {
             expect(albumRows[1].albums[1]).toBe(album2);
             expect(albumRows[2].albums[0]).toBe(album4);
             expect(albumRows[2].albums[1]).toBe(album3);
+        });
+
+        it('should return album rows in random order when provided AlbumOrder.random', () => {
+            // Arrange
+
+            // Act
+            const albumRows: AlbumRow[] = albumRowsGetter.getAlbumRows(280, albums, AlbumOrder.random);
+
+            // Assert
+            expect(albumRows[0].albums[0]).toBe(album5);
+            expect(albumRows[0].albums[1]).toBe(album3);
+            expect(albumRows[1].albums[0]).toBe(album1);
+            expect(albumRows[1].albums[1]).toBe(album6);
+            expect(albumRows[2].albums[0]).toBe(album4);
+            expect(albumRows[2].albums[1]).toBe(album2);
         });
     });
 });

@@ -68,7 +68,6 @@ import { FileSystem } from './common/io/file-system';
 import { IpcProxy } from './common/io/ipc-proxy';
 import { RemoteProxy } from './common/io/remote-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
-import { ListRandomizer } from './common/list-randomizer';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
 import { FileMetadataFactory } from './common/metadata/file-metadata-factory';
@@ -83,6 +82,7 @@ import { BaseScheduler } from './common/scheduling/base-scheduler';
 import { Scheduler } from './common/scheduling/scheduler';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
+import { Shuffler } from './common/shuffler';
 import { TextSanitizer } from './common/text-sanitizer';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
@@ -440,7 +440,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         Logger,
         Scheduler,
         Hacks,
-        ListRandomizer,
+        Shuffler,
         ProgressUpdater,
         Queue,
         MathExtensions,

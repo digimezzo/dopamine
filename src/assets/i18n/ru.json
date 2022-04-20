@@ -185,5 +185,6 @@
     "minimize-to-notification-area": "Minimize to the notification area",
     "close-to-notification-area": "Close to the notification area",
     "behavior": "Behavior",
-    "broken": "Broken"
+    "broken": "Broken",
+    "random": "Random"
 }

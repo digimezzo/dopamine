@@ -7,4 +7,5 @@ export enum AlbumOrder {
     byYearAscending = 6,
     byYearDescending = 7,
     byLastPlayed = 8,
+    random = 9,
 }

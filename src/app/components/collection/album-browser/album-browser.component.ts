@@ -123,6 +123,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
                 this.selectedAlbumOrder = AlbumOrder.byLastPlayed;
                 break;
             case AlbumOrder.byLastPlayed:
+                this.selectedAlbumOrder = AlbumOrder.random;
+                break;
+            case AlbumOrder.random:
                 this.selectedAlbumOrder = AlbumOrder.byAlbumTitleAscending;
                 break;
             default: {
