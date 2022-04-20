@@ -13,6 +13,7 @@ export abstract class BasePlaylistService {
     public abstract activePlaylistFolder: PlaylistFolderModel;
     public abstract playlistsChanged$: Observable<void>;
     public abstract playlistTracksChanged$: Observable<void>;
+    public abstract hasActivePlaylistFolder: boolean;
     public abstract setActivePlaylistFolder(selectedPlaylistFolders: PlaylistFolderModel[]): void;
     public abstract getPlaylistsAsync(playlistFolders: PlaylistFolderModel[]): Promise<PlaylistModel[]>;
     public abstract deletePlaylistAsync(playlist: PlaylistModel): Promise<void>;
