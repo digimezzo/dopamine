@@ -1,10 +1,12 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Folder } from '../../../common/data/entities/folder';
 import { Track } from '../../../common/data/entities/track';
 import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -41,6 +43,8 @@ describe('CollectionFoldersComponent', () => {
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
+    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -70,6 +74,8 @@ describe('CollectionFoldersComponent', () => {
             appearanceServiceMock.object,
             folderServiceMock.object,
             playbackServiceMock.object,
+            contextMenuOpenerMock.object,
+            mouseSelectionWatcherMock.object,
             indexingServiceMock.object,
             collectionPersisterMock.object,
             settingsStub,
@@ -101,6 +107,8 @@ describe('CollectionFoldersComponent', () => {
         hacksMock = Mock.ofType<Hacks>();
         schedulerMock = Mock.ofType<Scheduler>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
+        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -252,6 +260,26 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.playbackService).toBeDefined();
+        });
+
+        it('should define contextMenuOpener', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.contextMenuOpener).toBeDefined();
+        });
+
+        it('should define mouseSelectionWatcher', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.mouseSelectionWatcher).toBeDefined();
         });
     });
 
@@ -779,17 +807,17 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('setSelectedTrack', () => {
-        it('should set the selected track', () => {
+        it('should set the selected item on mouseSelectionWatcher', () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
             component.tracks = tracks;
+            const event: any = {};
 
             // Act
-            component.setSelectedTrack(track1);
+            component.setSelectedTrack(event, track1);
 
             // Assert
-            expect(component.tracks.tracks[0].isSelected).toBeTruthy();
-            expect(component.tracks.tracks[1].isSelected).toBeFalsy();
+            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, track1), Times.exactly(1));
         });
     });
 
@@ -1092,6 +1120,41 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             foldersPersisterMock.verify((x) => x.setOpenedSubfolder(It.isAny()), Times.never());
+        });
+
+        it('should initialize MouseSelectionWatcher using tracks if the selected tab is folders', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+
+            const component: CollectionFoldersComponent = createComponent();
+            await component.ngOnInit();
+            mouseSelectionWatcherMock.reset();
+            folderServiceMock.reset();
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
+
+            // Act
+            await component.setOpenedSubfolderAsync(subfolder1);
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.exactly(1));
+        });
+
+        it('should not initialize MouseSelectionWatcher using tracks if the selected tab is not folders', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+
+            const component: CollectionFoldersComponent = createComponent();
+            await component.ngOnInit();
+            folderServiceMock.reset();
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => []);
+
+            // Act
+            await component.setOpenedSubfolderAsync(subfolder1);
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.never());
         });
     });
 });

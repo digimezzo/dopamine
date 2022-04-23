@@ -95,7 +95,7 @@
                     <div
                         *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
                         matRipple
-                        (mousedown)="setSelectedTrack(track)"
+                        (mousedown)="setSelectedTrack($event, track)"
                         [ngClass]="{ 'selected-item-background': track.isSelected }"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>

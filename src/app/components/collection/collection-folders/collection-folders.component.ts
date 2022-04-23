@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
+import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Hacks } from '../../../common/hacks';
 import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
@@ -27,6 +29,7 @@ import { FoldersPersister } from './folders-persister';
     host: { style: 'display: block' },
     templateUrl: './collection-folders.component.html',
     styleUrls: ['./collection-folders.component.scss'],
+    providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
@@ -35,6 +38,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public appearanceService: BaseAppearanceService,
         public folderService: BaseFolderService,
         public playbackService: BasePlaybackService,
+        public contextMenuOpener: ContextMenuOpener,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
         private indexingService: BaseIndexingService,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
@@ -119,6 +124,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
             this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
+            this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
 
             // HACK: when refreshing the subfolder list, the tooltip of the last hovered
             // subfolder remains visible. This function is a workaround for this problem.
@@ -182,11 +188,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             : this.openedFolder.path;
     }
 
-    public setSelectedTrack(trackToSelect: TrackModel): void {
-        for (const track of this.tracks.tracks) {
-            track.isSelected = false;
-        }
-
-        trackToSelect.isSelected = true;
+    public setSelectedTrack(event: any, trackToSelect: TrackModel): void {
+        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 }
