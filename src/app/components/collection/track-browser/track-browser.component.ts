@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,6 +21,7 @@ import { TrackOrder } from '../track-order';
     templateUrl: './track-browser.component.html',
     styleUrls: ['./track-browser.component.scss'],
     providers: [MouseSelectionWatcher],
+    encapsulation: ViewEncapsulation.None,
 })
 export class TrackBrowserComponent implements OnInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
