@@ -41,12 +41,21 @@ function windowHasFrame() {
     return settings.get('useSystemTitleBar');
 }
 function shouldShowIconInNotificationArea() {
+    if (!settings.has('showIconInNotificationArea')) {
+        settings.set('showIconInNotificationArea', true);
+    }
     return settings.get('showIconInNotificationArea');
 }
 function shouldMinimizeToNotificationArea() {
+    if (!settings.has('minimizeToNotificationArea')) {
+        settings.set('minimizeToNotificationArea', false);
+    }
     return settings.get('minimizeToNotificationArea');
 }
 function shouldCloseToNotificationArea() {
+    if (!settings.has('closeToNotificationArea')) {
+        settings.set('closeToNotificationArea', false);
+    }
     return settings.get('closeToNotificationArea');
 }
 function getTrayIcon() {
