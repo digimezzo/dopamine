@@ -28,7 +28,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         private navigationService: BaseNavigationService
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
     public ngOnDestroy(): void {

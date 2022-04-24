@@ -33,7 +33,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('artistContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public artistContextMenu: MatMenuTrigger;
 
     public orderedArtists: ArtistModel[] = [];

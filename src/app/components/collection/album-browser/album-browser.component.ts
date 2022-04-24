@@ -36,7 +36,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         private logger: Logger
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('albumContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public albumContextMenu: MatMenuTrigger;
 
     public albumOrderEnum: typeof AlbumOrder = AlbumOrder;

@@ -61,7 +61,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         this.applySelectedPlaylistFolders();
     }
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('playlistFolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistFolderContextMenu: MatMenuTrigger;
 
     public ngOnInit(): void {}

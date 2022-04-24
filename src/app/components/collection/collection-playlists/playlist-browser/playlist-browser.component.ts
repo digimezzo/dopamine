@@ -45,7 +45,7 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
 
     public selectedPlaylistOrder: PlaylistOrder;
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('playlistContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistContextMenu: MatMenuTrigger;
 
     @ViewChild('playlistBrowserElement') public playlistBrowserElement: ElementRef;

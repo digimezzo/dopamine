@@ -32,7 +32,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('genreContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public genreContextMenu: MatMenuTrigger;
 
     public orderedGenres: GenreModel[] = [];
