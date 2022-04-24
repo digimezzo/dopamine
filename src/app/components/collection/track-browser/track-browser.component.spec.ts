@@ -174,6 +174,16 @@ describe('TrackBrowserComponent', () => {
             // Assert
             expect(component.tracksPersister).toBeUndefined();
         });
+
+        it('should define trackContextMenu', () => {
+            // Arrange
+
+            // Act
+            const component: TrackBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.trackContextMenu).toBeDefined();
+        });
     });
 
     describe('tracks', () => {
@@ -500,6 +510,20 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             playbackServiceMock.verify((x) => x.addTracksToQueueAsync([trackModel1, trackModel2]), Times.once());
+        });
+    });
+
+    describe('onTrackContextMenuAsync', () => {
+        it('should open the track context menu', async () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            const event: any = {};
+
+            // Act
+            component.onTrackContextMenuAsync(event, trackModel2);
+
+            // Assert
+            contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, trackModel2), Times.once());
         });
     });
 });

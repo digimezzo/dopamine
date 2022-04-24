@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
@@ -20,6 +21,7 @@ import { BaseSearchService } from '../../../services/search/base-search.service'
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
 import { FoldersPersister } from './folders-persister';
@@ -40,6 +42,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
+        public addToPlaylistMenu: AddToPlaylistMenu,
         private indexingService: BaseIndexingService,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
@@ -53,6 +56,9 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     ) {}
 
     private subscription: Subscription = new Subscription();
+
+    @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
+    public trackContextMenu: MatMenuTrigger;
 
     public leftPaneSize: number = this.settings.foldersLeftPaneWidthPercent;
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
@@ -190,5 +196,13 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     public setSelectedTrack(event: any, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
+    }
+
+    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
+        this.contextMenuOpener.open(this.trackContextMenu, event, track);
+    }
+
+    public async onAddToQueueAsync(): Promise<void> {
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
     }
 }

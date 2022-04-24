@@ -38,7 +38,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
     public orderedTracks: TrackModel[] = [];

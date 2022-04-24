@@ -54,13 +54,14 @@
 </div>
 
 <div
+    #albumContextMenuAnchor
     style="visibility: hidden; position: fixed"
     [style.left]="contextMenuOpener.positionX"
     [style.top]="contextMenuOpener.positionY"
-    [matMenuTriggerFor]="albumsContextMenu"
+    [matMenuTriggerFor]="albumContextMenu"
 ></div>
 
-<mat-menu #albumsContextMenu="matMenu">
+<mat-menu #albumContextMenu="matMenu">
     <ng-template matMenuContent let-album="data">
         <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
             <span>{{ 'add-to-playlist' | translate }}</span>

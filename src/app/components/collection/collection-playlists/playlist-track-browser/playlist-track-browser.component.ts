@@ -38,7 +38,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    @ViewChild(MatMenuTrigger)
+    @ViewChild('playlistTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistTrackContextMenu: MatMenuTrigger;
 
     public orderedTracks: TrackModel[] = [];

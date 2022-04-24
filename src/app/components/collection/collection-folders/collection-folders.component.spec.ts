@@ -22,6 +22,7 @@ import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTab } from '../collection-tab';
 import { CollectionFoldersComponent } from './collection-folders.component';
@@ -45,6 +46,7 @@ describe('CollectionFoldersComponent', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -76,6 +78,7 @@ describe('CollectionFoldersComponent', () => {
             playbackServiceMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
+            addToPlaylistMenuMock.object,
             indexingServiceMock.object,
             collectionPersisterMock.object,
             settingsStub,
@@ -109,6 +112,7 @@ describe('CollectionFoldersComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -280,6 +284,26 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.mouseSelectionWatcher).toBeDefined();
+        });
+
+        it('should define trackContextMenu', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.trackContextMenu).toBeDefined();
+        });
+
+        it('should define addToPlaylistMenu', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.addToPlaylistMenu).toBeDefined();
         });
     });
 
@@ -1155,6 +1179,34 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             mouseSelectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.never());
+        });
+    });
+
+    describe('onAddToQueueAsync', () => {
+        it('should add the selected tracks to the queue', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [track1, track2]);
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Act
+            await component.onAddToQueueAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.addTracksToQueueAsync([track1, track2]), Times.once());
+        });
+    });
+
+    describe('onTrackContextMenuAsync', () => {
+        it('should open the track context menu', async () => {
+            // Arrange
+            const component: CollectionFoldersComponent = createComponent();
+            const event: any = {};
+
+            // Act
+            component.onTrackContextMenuAsync(event, track1);
+
+            // Assert
+            contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, track1), Times.once());
         });
     });
 });
