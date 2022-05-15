@@ -71,10 +71,10 @@ function shouldCloseToNotificationArea(): boolean {
 
 function getTrayIcon(): string {
     if (nativeTheme.shouldUseDarkColors) {
-        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/white.ico' : 'icons/white.png');
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
     }
 
-    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
+    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
 }
 
 function createMainWindow(): void {
