@@ -286,14 +286,14 @@ describe('CollectionFoldersComponent', () => {
             expect(component.mouseSelectionWatcher).toBeDefined();
         });
 
-        it('should define trackContextMenu', () => {
+        it('should declare trackContextMenu', () => {
             // Arrange
 
             // Act
             const component: CollectionFoldersComponent = createComponent();
 
             // Assert
-            expect(component.trackContextMenu).toBeDefined();
+            expect(component.trackContextMenu).toBeUndefined();
         });
 
         it('should define addToPlaylistMenu', () => {
