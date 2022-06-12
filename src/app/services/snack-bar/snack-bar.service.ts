@@ -96,7 +96,7 @@ export class SnackBarService implements BaseSnackBarService {
         await this.dismissAsync();
     }
 
-    public checkIfDismissWasRequested(): void {
+    private checkIfDismissWasRequested(): void {
         if (this.isDismissRequested) {
             this.isDismissRequested = false;
 

@@ -139,6 +139,6 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         // See: https://github.com/angular/components/issues/14873
         this.orderedTracks = [...this.orderedTracks];
 
-        await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
+        //  await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
     }
 }

@@ -293,16 +293,31 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         if (!this.areTrackFromSinglePlaylist(tracks)) {
-            // TODO: replace by snackbar service
-            alert('Not from single playlist');
+            return;
         }
 
-        // TODO: update playlist file
+        // TODO: delay
+        await this.updateTracksInPlaylistAsync(tracks[0].playlistPath, tracks);
     }
 
     private areTrackFromSinglePlaylist(tracks: TrackModel[]): boolean {
         const uniquePlaylistPaths: Set<string> = new Set(tracks.map((x) => x.playlistPath));
 
         return uniquePlaylistPaths.size === 1;
+    }
+
+    public async updateTracksInPlaylistAsync(playlistPath: string, tracks: TrackModel[]): Promise<void> {
+        try {
+            for (const path of tracks.map((x) => x.path)) {
+                await this.fileSystem.replaceTextInFileAsync(playlistPath, path);
+            }
+        } catch (e) {
+            this.logger.error(
+                `Could not update tracks in playlist '${playlistPath}'. Error: ${e.message}`,
+                'PlaylistService',
+                'updateTracksInPlaylistAsync'
+            );
+            throw new Error(e.message);
+        }
     }
 }

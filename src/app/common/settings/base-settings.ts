@@ -48,4 +48,5 @@ export abstract class BaseSettings {
     public abstract showIconInNotificationArea: boolean;
     public abstract minimizeToNotificationArea: boolean;
     public abstract closeToNotificationArea: boolean;
+    public abstract invertNotificationAreaIconColor: boolean;
 }

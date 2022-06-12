@@ -59,10 +59,21 @@ function shouldCloseToNotificationArea() {
     return settings.get('closeToNotificationArea');
 }
 function getTrayIcon() {
+    var invertColor = settings.get('invertNotificationAreaIconColor');
     if (electron_1.nativeTheme.shouldUseDarkColors) {
+        if (invertColor) {
+            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+        }
+        else {
+            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
+        }
+    }
+    if (invertColor) {
         return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
     }
-    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+    else {
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+    }
 }
 function createMainWindow() {
     // Suppress the default menu
@@ -233,6 +244,12 @@ try {
                 },
             ]);
             tray.setContextMenu(contextMenu);
+        });
+        electron_1.ipcMain.on('update-tray-icon', function (event, arg) {
+            if (tray == undefined) {
+                return;
+            }
+            tray.setImage(getTrayIcon());
         });
     }
 }

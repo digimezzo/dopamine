@@ -194,5 +194,6 @@
     "close-to-notification-area": "Sluiten naar systeemvak",
     "behavior": "Gedrag",
     "broken": "Defect",
-    "random": "Willekeurig"
+    "random": "Willekeurig",
+    "invert-notification-area-icon-color": "Kleur van systeemvak icoon omkeren"
 }

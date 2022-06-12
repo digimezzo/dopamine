@@ -194,5 +194,6 @@
     "close-to-notification-area": "Close to the notification area",
     "behavior": "Behavior",
     "broken": "Broken",
-    "random": "Random"
+    "random": "Random",
+    "invert-notification-area-icon-color": "Invert notification area icon color"
 }

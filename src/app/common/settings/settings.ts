@@ -447,6 +447,15 @@ export class Settings implements BaseSettings {
         this.settings.set('closeToNotificationArea', v);
     }
 
+    //  Invert notification area icon color
+    public get invertNotificationAreaIconColor(): boolean {
+        return this.settings.get('invertNotificationAreaIconColor');
+    }
+
+    public set invertNotificationAreaIconColor(v: boolean) {
+        this.settings.set('invertNotificationAreaIconColor', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -635,6 +644,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('closeToNotificationArea')) {
             this.settings.set('closeToNotificationArea', false);
+        }
+
+        if (!this.settings.has('invertNotificationAreaIconColor')) {
+            this.settings.set('invertNotificationAreaIconColor', false);
         }
     }
 }

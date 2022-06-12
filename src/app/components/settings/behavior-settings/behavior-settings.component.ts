@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { BaseTrayService } from '../../../services/tray/base-tray.service';
 
 @Component({
     selector: 'app-behavior-settings',
@@ -9,7 +10,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
     encapsulation: ViewEncapsulation.None,
 })
 export class BehaviorSettingsComponent implements OnInit {
-    constructor(public settings: BaseSettings) {}
+    constructor(public trayService: BaseTrayService, public settings: BaseSettings) {}
 
     public ngOnInit(): void {}
 }

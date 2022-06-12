@@ -265,6 +265,10 @@ export class FileSystem implements BaseFileSystem {
         await fs.outputFile(filePath, `${text}${os.EOL}`, { flag: 'a' });
     }
 
+    public async replaceTextInFileAsync(filePath: string, text: string): Promise<void> {
+        await fs.outputFile(filePath, `${text}${os.EOL}`);
+    }
+
     public async clearFileContentsAsync(filePath: string): Promise<void> {
         await fs.truncate(filePath);
     }

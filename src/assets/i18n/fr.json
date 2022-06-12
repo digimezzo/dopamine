@@ -194,5 +194,6 @@
     "close-to-notification-area": "Fermer vers la zone de notification",
     "behavior": "Comportement",
     "broken": "Défectueux",
-    "random": "Aléatoire"
+    "random": "Aléatoire",
+    "invert-notification-area-icon-color": "Inverser la couleur de l'icône de la zone de notification"
 }

@@ -70,11 +70,21 @@ function shouldCloseToNotificationArea(): boolean {
 }
 
 function getTrayIcon(): string {
+    const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
+
     if (nativeTheme.shouldUseDarkColors) {
-        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
+        if (invertColor) {
+            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+        } else {
+            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
+        }
     }
 
-    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+    if (invertColor) {
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
+    } else {
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+    }
 }
 
 function createMainWindow(): void {
@@ -276,6 +286,14 @@ try {
             ]);
 
             tray.setContextMenu(contextMenu);
+        });
+
+        ipcMain.on('update-tray-icon', (event: any, arg: any) => {
+            if (tray == undefined) {
+                return;
+            }
+
+            tray.setImage(getTrayIcon());
         });
     }
 } catch (e) {
