@@ -175,14 +175,14 @@ describe('TrackBrowserComponent', () => {
             expect(component.tracksPersister).toBeUndefined();
         });
 
-        it('should define trackContextMenu', () => {
+        it('should declare trackContextMenu', () => {
             // Arrange
 
             // Act
             const component: TrackBrowserComponent = createComponent();
 
             // Assert
-            expect(component.trackContextMenu).toBeDefined();
+            expect(component.trackContextMenu).toBeUndefined();
         });
     });
 
