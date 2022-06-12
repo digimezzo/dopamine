@@ -46,7 +46,7 @@ export class TrackFiller {
             track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
             track.duration = this.trackFieldCreator.createNumberField(durationInMilliseconds);
             track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
-            track.hasLyrics = this.gethasLyrics(fileMetadata.lyrics);
+            track.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
             track.dateAdded = dateNowTicks;
             track.dateFileCreated = await this.fileSystem.getDateCreatedInTicksAsync(track.path);
             track.dateLastSynced = dateNowTicks;
@@ -75,7 +75,7 @@ export class TrackFiller {
         return this.mimeTypes.getMimeTypeForFileExtension(this.fileSystem.getFileExtension(filePath));
     }
 
-    private gethasLyrics(lyrics: string): number {
+    private getHasLyrics(lyrics: string): number {
         if (!Strings.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }

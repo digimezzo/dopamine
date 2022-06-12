@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -129,5 +130,15 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this.orderedTracks = [...orderedTracks];
 
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
+    }
+
+    public async dropTrackAsync(event: CdkDragDrop<TrackModel[]>): Promise<void> {
+        moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
+
+        // HACK: required so that the dragged item does not snap back to its original place
+        // See: https://github.com/angular/components/issues/14873
+        this.orderedTracks = [...this.orderedTracks];
+
+        await this.playlistService.updatePlaylistOrderAsync(this.orderedTracks);
     }
 }

@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -389,6 +390,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatChipsModule,
         MatProgressBarModule,
         MatSliderModule,
+        DragDropModule,
         HammerModule,
         FormsModule,
         ReactiveFormsModule,

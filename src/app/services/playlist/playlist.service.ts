@@ -18,7 +18,7 @@ import { TrackModels } from '../track/track-models';
 import { BasePlaylistService } from './base-playlist.service';
 import { PlaylistDecoder } from './playlist-decoder';
 import { PlaylistEntry } from './playlist-entry';
-import { PlaylistFileManager as PlaylistFileManager } from './playlist-file-manager';
+import { PlaylistFileManager } from './playlist-file-manager';
 import { PlaylistModel } from './playlist-model';
 
 @Injectable()
@@ -281,5 +281,28 @@ export class PlaylistService implements BasePlaylistService {
         }
 
         return tracks;
+    }
+
+    public async updatePlaylistOrderAsync(tracks: TrackModel[]): Promise<void> {
+        if (tracks == undefined) {
+            throw new Error('tracks is undefined');
+        }
+
+        if (tracks.length === 0) {
+            throw new Error('tracks is empty');
+        }
+
+        if (!this.areTrackFromSinglePlaylist(tracks)) {
+            // TODO: replace by snackbar service
+            alert('Not from single playlist');
+        }
+
+        // TODO: update playlist file
+    }
+
+    private areTrackFromSinglePlaylist(tracks: TrackModel[]): boolean {
+        const uniquePlaylistPaths: Set<string> = new Set(tracks.map((x) => x.playlistPath));
+
+        return uniquePlaylistPaths.size === 1;
     }
 }

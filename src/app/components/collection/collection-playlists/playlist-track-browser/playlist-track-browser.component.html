@@ -6,8 +6,13 @@
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
-        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
+    <cdk-virtual-scroll-viewport
+        class="app-track-browser__tracks mt-3"
+        (cdkDropListDropped)="dropTrackAsync($event)"
+        itemSize="46"
+        cdkDropList
+    >
+        <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)" cdkDrag>
             <app-track
                 [track]="track"
                 canShowHeader="true"

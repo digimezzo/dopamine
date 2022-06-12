@@ -24,4 +24,5 @@ export abstract class BasePlaylistService {
     public abstract addAlbumsToPlaylistAsync(playlistPath: string, playlistName: string, albumsToAdd: AlbumModel[]): Promise<void>;
     public abstract addTracksToPlaylistAsync(playlistPath: string, playlistName: string, tracksToAdd: TrackModel[]): Promise<void>;
     public abstract removeTracksFromPlaylistsAsync(tracksToRemove: TrackModel[]): Promise<void>;
+    public abstract updatePlaylistOrderAsync(tracks: TrackModel[]): Promise<void>;
 }

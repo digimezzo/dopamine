@@ -60,9 +60,9 @@ function shouldCloseToNotificationArea() {
 }
 function getTrayIcon() {
     if (electron_1.nativeTheme.shouldUseDarkColors) {
-        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white_new.png');
+        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
     }
-    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/black.ico' : 'icons/black.png');
+    return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
 }
 function createMainWindow() {
     // Suppress the default menu
