@@ -1,14 +1,17 @@
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { BaseTrayService } from '../../../services/tray/base-tray.service';
 import { BehaviorSettingsComponent } from './behavior-settings.component';
 
 describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
+    let trayServiceMock: IMock<BaseTrayService>;
     let settingsMock: IMock<BaseSettings>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<BaseSettings>();
-        component = new BehaviorSettingsComponent(settingsMock.object);
+        trayServiceMock = Mock.ofType<BaseTrayService>();
+        component = new BehaviorSettingsComponent(trayServiceMock.object, settingsMock.object);
     });
 
     describe('constructor', () => {
