@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   "Random" album sort order
 -   Add songs from folders screen to playlists and queue
 -   Added Kurdish translation
+-   Added Vietnamese translation
 
 ### Changed
 

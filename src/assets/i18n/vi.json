@@ -26,7 +26,7 @@
     "track": "Bài hát",
     "tracks": "Bài hát",
     "playlists": "Danh sách phát",
- "folders": "Thư mục",
+    "folders": "Thư mục",
     "folder": "Thư mục",
     "add-folder": "Thêm thư mục",
     "no-folders-in-collection": "Không có thư mục trong thư viện nhạc của bạn",
@@ -194,5 +194,6 @@
     "close-to-notification-area": "Thoát khỏi khu vực thông báo",
     "behavior": "Thao tác",
     "broken": "Hỏng",
-    "random": "Ngẫu nhiên"
+    "random": "Ngẫu nhiên",
+    "invert-notification-area-icon-color": "Invert notification area icon color"
 }
