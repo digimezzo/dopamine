@@ -194,5 +194,6 @@
     "close-to-notification-area": "通知エリアを閉じる",
     "behavior": "通知",
     "broken": "Broken",
-    "random": "ランダム"
+    "random": "ランダム",
+    "invert-notification-area-icon-color": "Invert notification area icon color"
 }

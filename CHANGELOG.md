@@ -7,17 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.11] - 2022-06-12
+## [3.0.0-preview.11] - 2022-06-16
 
 ### Added
 
--   Optional tray icon with optional minimize and close to tray
--   "Random" album sort order
--   Add songs from folders screen to playlists and queue
+-   Added optional tray icon with optional minimize and close to tray
+-   Added "Random" album sort order
+-   Added possibility to add songs from folders screen to playlists and queue
+-   Added Japanese translation
 -   Added Kurdish translation
 -   Added Vietnamese translation
 
 ### Changed
+
+-   Updated the Simplified Chinese translation
 
 ### Removed
 
