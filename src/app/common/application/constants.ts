@@ -15,6 +15,7 @@ export class Constants {
         new Language('vi', 'Vietnamese', 'Tiếng Việt', true),
         new Language('zh-CN', 'Simplified Chinese', '简体中文', false),
         new Language('zh-TW', 'Traditional Chinese', '繁體中文', false),
+        new Language('ja-JP', 'Japanese', '日本語', false),
     ];
 
     public static readonly previewApplicationTag: string = 'preview';
