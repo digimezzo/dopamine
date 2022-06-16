@@ -194,5 +194,6 @@
     "close-to-notification-area": "Devera agahiyan bigire",
     "behavior": "Tevger",
     "broken": "Têkçûyî",
-    "random": "Rastehatî"
+    "random": "Rastehatî",
+    "invert-notification-area-icon-color": "Kleur van systeemvak icoon omkeren"
 }
