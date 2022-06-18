@@ -7,6 +7,7 @@ export class Constants {
 
     public static readonly languages: Language[] = [
         new Language('bg', 'Bulgarian', 'български', false),
+        new Language('cs', 'Czech', 'Čeština', true),
         new Language('en', 'English', 'English', true),
         new Language('fr', 'French', 'Français', true),
         new Language('nl', 'Dutch', 'Nederlands', true),
