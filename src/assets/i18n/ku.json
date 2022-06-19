@@ -195,5 +195,7 @@
     "behavior": "Tevger",
     "broken": "Têkçûyî",
     "random": "Rastehatî",
-    "invert-notification-area-icon-color": "Kleur van systeemvak icoon omkeren"
+    "invert-notification-area-icon-color": "Kleur van systeemvak icoon omkeren",
+    "pages": "Pages",
+    "which-pages-should-be-visible": "Which pages should be visible?"
 }

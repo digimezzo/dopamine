@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../services/search/base-search.service';
@@ -16,6 +17,7 @@ export class CollectionComponent implements OnInit {
 
     constructor(
         public appearanceService: BaseAppearanceService,
+        public settings: BaseSettings,
         private playbackService: BasePlaybackService,
         private searchService: BaseSearchService,
         private collectionPersister: CollectionPersister

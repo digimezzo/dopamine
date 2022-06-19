@@ -195,5 +195,7 @@
     "behavior": "Chování",
     "broken": "Rozbité",
     "random": "Náhodné",
-    "invert-notification-area-icon-color": "Invertovat barvu ikony v oznamovací oblasti"
+    "invert-notification-area-icon-color": "Invertovat barvu ikony v oznamovací oblasti",
+    "pages": "Pages",
+    "which-pages-should-be-visible": "Which pages should be visible?"
 }

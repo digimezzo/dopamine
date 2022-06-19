@@ -1,4 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../services/search/base-search.service';
@@ -7,6 +8,7 @@ import { CollectionComponent } from './collection.component';
 
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let settingsMock: IMock<BaseSettings>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -14,6 +16,7 @@ describe('CollectionComponent', () => {
     function createComponent(): CollectionComponent {
         return new CollectionComponent(
             appearanceServiceMock.object,
+            settingsMock.object,
             playbackServiceMock.object,
             searchServiceMock.object,
             collectionPersisterMock.object
@@ -22,6 +25,7 @@ describe('CollectionComponent', () => {
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        settingsMock = Mock.ofType<BaseSettings>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
@@ -49,6 +53,17 @@ describe('CollectionComponent', () => {
 
             // Assert
             expect(component.appearanceService).toBeDefined();
+        });
+
+        it('should define settings', async () => {
+            // Arrange
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.settings).toBeDefined();
         });
     });
 

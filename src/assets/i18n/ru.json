@@ -187,5 +187,7 @@
     "behavior": "Behavior",
     "broken": "Broken",
     "random": "Random",
-    "invert-notification-area-icon-color": "Invert notification area icon color"
+    "invert-notification-area-icon-color": "Invert notification area icon color",
+    "pages": "Pages",
+    "which-pages-should-be-visible": "Which pages should be visible?"
 }

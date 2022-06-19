@@ -456,6 +456,51 @@ export class Settings implements BaseSettings {
         this.settings.set('invertNotificationAreaIconColor', v);
     }
 
+    //  Show artists page
+    public get showArtistsPage(): boolean {
+        return this.settings.get('showArtistsPage');
+    }
+
+    public set showArtistsPage(v: boolean) {
+        this.settings.set('showArtistsPage', v);
+    }
+
+    //  Show genres page
+    public get showGenresPage(): boolean {
+        return this.settings.get('showGenresPage');
+    }
+
+    public set showGenresPage(v: boolean) {
+        this.settings.set('showGenresPage', v);
+    }
+
+    //  Show albums page
+    public get showAlbumsPage(): boolean {
+        return this.settings.get('showAlbumsPage');
+    }
+
+    public set showAlbumsPage(v: boolean) {
+        this.settings.set('showAlbumsPage', v);
+    }
+
+    //  Show playlists page
+    public get showPlaylistsPage(): boolean {
+        return this.settings.get('showPlaylistsPage');
+    }
+
+    public set showPlaylistsPage(v: boolean) {
+        this.settings.set('showPlaylistsPage', v);
+    }
+
+    //  Show folders page
+    public get showFoldersPage(): boolean {
+        return this.settings.get('showFoldersPage');
+    }
+
+    public set showFoldersPage(v: boolean) {
+        this.settings.set('showFoldersPage', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -648,6 +693,26 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('invertNotificationAreaIconColor')) {
             this.settings.set('invertNotificationAreaIconColor', false);
+        }
+
+        if (!this.settings.has('showArtistsPage')) {
+            this.settings.set('showArtistsPage', true);
+        }
+
+        if (!this.settings.has('showGenresPage')) {
+            this.settings.set('showGenresPage', true);
+        }
+
+        if (!this.settings.has('showAlbumsPage')) {
+            this.settings.set('showAlbumsPage', true);
+        }
+
+        if (!this.settings.has('showPlaylistsPage')) {
+            this.settings.set('showPlaylistsPage', true);
+        }
+
+        if (!this.settings.has('showFoldersPage')) {
+            this.settings.set('showFoldersPage', true);
         }
     }
 }

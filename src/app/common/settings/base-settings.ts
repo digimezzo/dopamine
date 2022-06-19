@@ -49,4 +49,9 @@ export abstract class BaseSettings {
     public abstract minimizeToNotificationArea: boolean;
     public abstract closeToNotificationArea: boolean;
     public abstract invertNotificationAreaIconColor: boolean;
+    public abstract showArtistsPage: boolean;
+    public abstract showGenresPage: boolean;
+    public abstract showAlbumsPage: boolean;
+    public abstract showPlaylistsPage: boolean;
+    public abstract showFoldersPage: boolean;
 }

@@ -195,5 +195,7 @@
     "behavior": "Comportement",
     "broken": "Défectueux",
     "random": "Aléatoire",
-    "invert-notification-area-icon-color": "Inverser la couleur de l'icône de la zone de notification"
+    "invert-notification-area-icon-color": "Inverser la couleur de l'icône de la zone de notification",
+    "pages": "Pages",
+    "which-pages-should-be-visible": "Which pages should be visible?"
 }
