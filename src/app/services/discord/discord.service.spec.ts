@@ -116,7 +116,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.verify((x) => x.clearPresence(), Times.once());
         });
 
-        it('should set Discord presence to "Playing" if a track is already playing and if Discord Rich Presence is enabled', () => {
+        it('should set Discord presence to "Playing" if a track is already playing and Discord Rich Presence is enabled', () => {
             // Arrange
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
 
@@ -133,7 +133,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should set Discord presence to "Playing" after a track starts playing and if Discord Rich Presence is enabled', () => {
+        it('should set Discord presence to "Playing" after a track starts playing and Discord Rich Presence is enabled', () => {
             // Arrange
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
 
@@ -153,7 +153,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should set Discord presence to "Paused" after a track is paused and if Discord Rich Presence is enabled', () => {
+        it('should set Discord presence to "Paused" after a track is paused and Discord Rich Presence is enabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
@@ -174,7 +174,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should set Discord presence to "Playing" after a track is resumed and if Discord Rich Presence is enabled', () => {
+        it('should set Discord presence to "Playing" after a track is resumed and Discord Rich Presence is enabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
@@ -195,7 +195,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should set Discord presence to "Playing" after a track is skipped and if Discord Rich Presence is enabled and playbackService can pause', () => {
+        it('should set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is enabled and playbackService can pause', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
@@ -216,7 +216,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should set Discord presence to "Paused" after a track is skipped and if Discord Rich Presence is enabled and playbackService cannot pause', () => {
+        it('should set Discord presence to "Paused" after a track is skipped and Discord Rich Presence is enabled and playbackService cannot pause', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
@@ -237,7 +237,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should clear Discord presence after a track is stopped and if Discord Rich Presence is enabled', () => {
+        it('should clear Discord presence after a track is stopped and Discord Rich Presence is enabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => true);
@@ -255,7 +255,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.verify((x) => x.clearPresence(), Times.once());
         });
 
-        it('should not set Discord presence after a track starts playing and if Discord Rich Presence is disabled', () => {
+        it('should not set Discord presence after a track starts playing and Discord Rich Presence is disabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -289,7 +289,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should not set Discord presence to "Paused" after a track is paused and if Discord Rich Presence is disabled', () => {
+        it('should not set Discord presence to "Paused" after a track is paused and Discord Rich Presence is disabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -321,7 +321,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should not set Discord presence to "Playing" after a track is resumed and if Discord Rich Presence is disabled', () => {
+        it('should not set Discord presence to "Playing" after a track is resumed and Discord Rich Presence is disabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -353,7 +353,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should not set Discord presence to "Playing" after a track is skipped and if Discord Rich Presence is disabled and playbackService can pause', () => {
+        it('should not set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is disabled and playbackService can pause', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -385,7 +385,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should not set Discord presence to "Playing" after a track is skipped and if Discord Rich Presence is disabled and playbackService cannot pause', () => {
+        it('should not set Discord presence to "Playing" after a track is skipped and Discord Rich Presence is disabled and playbackService cannot pause', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -417,7 +417,7 @@ describe('DiscordService', () => {
             );
         });
 
-        it('should not clear Discord presence after a track is stopped and if Discord Rich Presence is disabled', () => {
+        it('should not clear Discord presence after a track is stopped and Discord Rich Presence is disabled', () => {
             // Arrange
             settingsMock.reset();
             settingsMock.setup((x) => x.enableDiscordRichPresence).returns(() => false);
@@ -427,6 +427,301 @@ describe('DiscordService', () => {
 
             // Act
             service.setRichPresenceFromSettings();
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackStoppedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify((x) => x.clearPresence(), Times.never());
+        });
+    });
+
+    describe('setRichPresence', () => {
+        it('should clear Discord presence if enableRichPresence is false', () => {
+            // Arrange
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+
+            // Assert
+            presenceUpdaterMock.verify((x) => x.clearPresence(), Times.once());
+        });
+
+        it('should set Discord presence to "Playing" if a track is already playing and enableRichPresence is true', () => {
+            // Arrange
+            setUpPlaybackServiceMock(true, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                Times.once()
+            );
+        });
+
+        it('should set Discord presence to "Playing" after a track starts playing and enableRichPresence is true', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel, false));
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                Times.once()
+            );
+        });
+
+        it('should set Discord presence to "Paused" after a track is paused and enableRichPresence is true', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackPausedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                Times.once()
+            );
+        });
+
+        it('should set Discord presence to "Playing" after a track is resumed and enableRichPresence is true', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackResumedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                Times.once()
+            );
+        });
+
+        it('should set Discord presence to "Playing" after a track is skipped and enableRichPresence is true and playbackService can pause', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackSkippedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
+                Times.once()
+            );
+        });
+
+        it('should set Discord presence to "Paused" after a track is skipped and enableRichPresence is true and playbackService cannot pause', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackSkippedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
+                Times.once()
+            );
+        });
+
+        it('should clear Discord presence after a track is stopped and enableRichPresence is true', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(true);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackStoppedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify((x) => x.clearPresence(), Times.once());
+        });
+
+        it('should not set Discord presence after a track starts playing and enableRichPresence is false', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackStartedMock.next(
+                new PlaybackStarted(new TrackModel(new Track('Path1'), translatorServiceMock.object), false)
+            );
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) =>
+                    x.updatePresence(
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny()
+                    ),
+                Times.never()
+            );
+        });
+
+        it('should not set Discord presence to "Paused" after a track is paused and enableRichPresence is false', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackPausedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) =>
+                    x.updatePresence(
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny()
+                    ),
+                Times.never()
+            );
+        });
+
+        it('should not set Discord presence to "Playing" after a track is resumed and enableRichPresence is false', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackResumedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) =>
+                    x.updatePresence(
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny()
+                    ),
+                Times.never()
+            );
+        });
+
+        it('should not set Discord presence to "Playing" after a track is skipped and enableRichPresence is false and playbackService can pause', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, true);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackSkippedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) =>
+                    x.updatePresence(
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny()
+                    ),
+                Times.never()
+            );
+        });
+
+        it('should not set Discord presence to "Playing" after a track is skipped and enableRichPresence is false and playbackService cannot pause', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
+            presenceUpdaterMock.reset();
+
+            playbackServicePlaybackSkippedMock.next();
+
+            // Assert
+            presenceUpdaterMock.verify(
+                (x) =>
+                    x.updatePresence(
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny(),
+                        It.isAny()
+                    ),
+                Times.never()
+            );
+        });
+
+        it('should not clear Discord presence after a track is stopped and enableRichPresence is false', () => {
+            // Arrange
+            setUpPlaybackServiceMock(false, false);
+            const service: DiscordService = createDiscordService();
+
+            // Act
+            service.setRichPresence(false);
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStoppedMock.next();

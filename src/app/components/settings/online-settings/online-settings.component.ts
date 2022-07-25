@@ -17,8 +17,8 @@ export class OnlineSettingsComponent implements OnInit {
     }
 
     public set enableDiscordRichPresence(v: boolean) {
-        this.discordService.setRichPresenceFromSettings();
         this.settings.enableDiscordRichPresence = v;
+        this.discordService.setRichPresence(v);
     }
 
     public ngOnInit(): void {}

@@ -23,7 +23,11 @@ export class DiscordService implements BaseDiscordService {
     ) {}
 
     public setRichPresenceFromSettings(): void {
-        if (!this.settings.enableDiscordRichPresence) {
+        this.setRichPresence(this.settings.enableDiscordRichPresence);
+    }
+
+    public setRichPresence(enableRichPresence: boolean): void {
+        if (!enableRichPresence) {
             this.removeSubscriptions();
             this.presenceUpdater.clearPresence();
 
