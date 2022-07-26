@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.12] - 2022-07-25
+## [3.0.0-preview.12] - 2022-07-26
 
 ### Added
 
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed bug where toggling Discord Rich Presence in the settings has the inverse effect
+-   Fixed a problem setting Discord Rich Presence time remaining
 
 ## [3.0.0-preview.11] - 2022-06-16
 

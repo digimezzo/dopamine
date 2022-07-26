@@ -14,6 +14,7 @@ export class ProgressUpdater {
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
 
     public startUpdatingProgress(): void {
+        this.reportProgress();
         this.shouldReportProgress = true;
 
         this.interval = window.setInterval(() => {
