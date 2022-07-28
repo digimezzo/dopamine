@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.12] - 2022-07-26
+## [3.0.0-preview.12] - 2022-07-28
 
 ### Added
 
 -   Added option to show and hide the Artists, Albums, ... pages
+-   Added Croatian translation
 -   Added Czech translation
 
 ### Changed

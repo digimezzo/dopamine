@@ -10,6 +10,7 @@ export class Constants {
         new Language('cs', 'Czech', 'Čeština', true),
         new Language('en', 'English', 'English', true),
         new Language('fr', 'French', 'Français', true),
+        new Language('hr', 'Croatian', 'Hrvatski', true),
         new Language('nl', 'Dutch', 'Nederlands', true),
         new Language('ja-JP', 'Japanese', '日本語', false),
         new Language('ku', 'Kurdish', 'Kurdî', true),
