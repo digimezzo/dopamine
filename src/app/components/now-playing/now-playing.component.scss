@@ -1,0 +1,60 @@
+.app-now-playing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.app-now-playing__backgroundimage {
+    overflow: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    height: 100%;
+    filter: blur(8px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.app-now-playing__content {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-now-playing__song {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-now-playing__cover {
+    -webkit-box-reflect: below 4px -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
+}
+
+.app-now-playing__songinfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.back-button__icon {
+    font-size: 20px;
+}
+
+.back-button:hover {
+    background-color: var(--theme-accent-color);
+}
+
+.back-button:hover .back-button__icon {
+    color: #fff;
+}

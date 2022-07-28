@@ -1,0 +1,100 @@
+<div class="app-album-browser" #albumBrowserElement>
+    <div class="app-album-browser__header m-1 no-select">
+        <div class="app-album-browser__albumscount">
+            <div class="app-album-browser__albumscount__number mr-2">{{ this.albums.length }}</div>
+            <div *ngIf="this.albums.length === 1">{{ 'album' | translate }}</div>
+            <div *ngIf="this.albums.length !== 1">{{ 'albums' | translate }}</div>
+        </div>
+
+        <div class="pointer" (click)="toggleAlbumOrder()">
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
+                {{ 'by-album-title-ascending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
+                {{ 'by-album-title-descending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
+                {{ 'by-date-added' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
+                {{ 'by-date-created' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
+                {{ 'by-album-artist' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
+                {{ 'by-year-ascending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
+                {{ 'by-year-descending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
+                {{ 'by-last-played' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.random">
+                {{ 'random' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-album-browser__albums mt-3" itemSize="0">
+        <div *cdkVirtualFor="let albumRow of this.albumRows">
+            <div class="album-row">
+                <app-album
+                    class="m-2"
+                    *ngFor="let album of albumRow.albums"
+                    [album]="album"
+                    [isSelected]="album.isSelected"
+                    (mousedown)="setSelectedAlbums($event, album)"
+                    (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
+                    (contextmenu)="onAlbumContextMenuAsync($event, album)"
+                ></app-album>
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
+
+<div
+    #albumContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="albumContextMenu"
+></div>
+
+<mat-menu #albumContextMenu="matMenu">
+    <ng-template matMenuContent let-album="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync(album)">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addAlbumsToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

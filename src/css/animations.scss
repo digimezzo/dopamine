@@ -1,5 +1,5 @@
 // Fade in animation
-@keyframes animation-fade-in {
+@keyframes fade-in-animation {
     0% {
         opacity: 0;
     }
@@ -8,8 +8,8 @@
     }
 }
 
-.animation-fade-in {
-    animation-name: animation-fade-in;
+.fade-in-animation {
+    animation-name: fade-in-animation;
 }
 
 // Durations
@@ -19,14 +19,27 @@
 }
 
 // Delays
-.animation-delay-1s{
+.animation-delay-1s {
     animation-delay: 1s;
 }
 
-.animation-delay-2s{
+.animation-delay-2s {
     animation-delay: 2s;
 }
 
-.animation-delay-3s{
+.animation-delay-3s {
     animation-delay: 3s;
+}
+
+.rotation {
+    -webkit-animation: rotation 1s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
 }

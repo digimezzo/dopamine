@@ -1,47 +1,45 @@
-<div class="p-2">
-    <h2 class="mb-2">{{ 'Pages.Information.About' | translate }}</h2>
+<div class="p-4">
+    <h2 class="mb-3">{{ 'about' | translate }}</h2>
     <app-logo-full></app-logo-full>
-    <div class="mt-2">
-        {{ 'Pages.Information.Version' | translate }}:
-        <strong> {{applicationVersion}}</strong>
-        <br />{{applicationCopyright}}
+    <div class="mt-3">
+        {{ 'version' | translate }}:
+        <strong> {{ applicationVersion }}</strong>
+        <br />{{ applicationCopyright }}
     </div>
-    <button class="mt-2" mat-raised-button color="primary" (click)="showLicenseDialog()">
-        {{ 'Buttons.License' | translate }}
-    </button>
-
-</div>
-<mat-divider></mat-divider>
-<div class="p-2">
-    <h2 class="mb-2">{{ 'Pages.Information.Donate' | translate }}</h2>
-    <div>{{ 'Pages.Information.DonateInstructions' | translate }}</div>
-    <button class="mt-2" mat-raised-button color="primary" (click)="browseToDonateLink()">
-        {{ 'Buttons.Donate' | translate }}
+    <button class="mt-3" mat-raised-button color="primary" (click)="showLicenseDialog()">
+        {{ 'license' | translate | uppercase }}
     </button>
 </div>
 <mat-divider></mat-divider>
-<div class="p-2">
-    <h2 class="mb-2">{{ 'Pages.Information.ContactUs' | translate }}</h2>
-    <div class="contact-item mb-1 mt-2">
-        <i class="contact-item-icon custom-font mr-1 las la-globe"></i>
-        <a href="{{ websiteUrl }}"
-            matTooltip="{{ websiteUrl }}">{{ 'Pages.Information.Website' | translate }}</a>
+<div class="p-4">
+    <h2>{{ 'donate' | translate }}</h2>
+    <div>{{ 'donate-instructions' | translate }}</div>
+    <button class="mt-3" mat-raised-button color="primary" (click)="browseToDonateLink()">
+        {{ 'donate' | translate | uppercase }}
+    </button>
+</div>
+<mat-divider></mat-divider>
+<div class="p-4">
+    <h2>{{ 'contact-us' | translate }}</h2>
+    <div class="contact-item mb-2 mt-3">
+        <i class="contact-item-icon mr-2 las la-globe"></i>
+        <a href="{{ websiteUrl }}" matTooltip="{{ websiteUrl }}">{{ 'website' | translate }}</a>
     </div>
-    <div class="contact-item mb-1">
-        <i class="contact-item-icon custom-font mr-1 lab la-twitter"></i>
+    <div class="contact-item mb-2">
+        <i class="contact-item-icon mr-2 lab la-twitter"></i>
         <a href="{{ twitterUrl }}" matTooltip="{{ twitterUrl }}">Twitter</a>
     </div>
     <div class="contact-item">
-        <i class="contact-item-icon custom-font mr-1 lab la-github"></i>
+        <i class="contact-item-icon mr-2 lab la-github"></i>
         <a href="{{ githubUrl }}" matTooltip="{{ githubUrl }}">GitHub</a>
     </div>
 </div>
 <mat-divider></mat-divider>
-<div class="p-2">
-    <h2 class="mb-2">{{ 'Pages.Information.Thanks' | translate }}</h2>
-    <div>{{ 'Pages.Information.ThanksToSharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/">Sharlee</a>)</div>
-    <div>{{ 'Pages.Information.ThanksToDonaters' | translate }}</div>
-    <div>{{ 'Pages.Information.ThanksToTranslators' | translate }}</div>
-    <div>{{ 'Pages.Information.ThanksToDevelopers' | translate }}</div>
-    <div>{{ 'Pages.Information.ThanksToNeowin' | translate }} (<a href="https://www.neowin.net/" matTooltip="https://www.neowin.net/">Neowin</a>)</div>
+<div class="p-4">
+    <h2>{{ 'thanks' | translate }}</h2>
+    <div>{{ 'thanks-to-sharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/">Sharlee</a>)</div>
+    <div>{{ 'thanks-to-donaters' | translate }}</div>
+    <div>{{ 'thanks-to-translators' | translate }}</div>
+    <div>{{ 'thanks-to-developers' | translate }}</div>
+    <div>{{ 'thanks-to-neowin' | translate }} (<a href="https://www.neowin.net/" matTooltip="https://www.neowin.net/">Neowin</a>)</div>
 </div>

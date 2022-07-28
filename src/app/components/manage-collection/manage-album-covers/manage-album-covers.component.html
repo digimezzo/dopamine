@@ -1,0 +1,20 @@
+<div class="p-3">
+    <h2>{{ 'download' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="settings.downloadMissingAlbumCovers">
+            {{ 'download-missing-album-covers' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-3">
+    <h2>{{ 'refresh' | translate }}</h2>
+    <div>{{ 'refresh-all-covers' | translate }}</div>
+    <button class="mt-3" mat-raised-button color="primary" (click)="refreshAllCoversAsync()">
+        {{ 'refresh-all' | translate | uppercase }}
+    </button>
+    <div class="mt-3">{{ 'refresh-missing-covers' | translate }}</div>
+    <button class="mt-3" mat-raised-button color="primary" (click)="refreshMissingCoversAsync()">
+        {{ 'refresh-missing' | translate | uppercase }}
+    </button>
+</div>

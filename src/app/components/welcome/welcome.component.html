@@ -1,37 +1,39 @@
 <div class="window-frame">
-    <div class="window-frame-titlebar">
-        <div class="window-frame-titlebar-dragarea">
-        </div>
+    <div class="window-frame__titlebar">
+        <div class="window-frame__dragarea"></div>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame-content">
-        <div class="welcome">
+    <div class="window-frame__content">
+        <div class="welcome-component">
             <app-logo-full class="fade-in-animation animation-duration-2s animation-delay-1s"></app-logo-full>
-            <mat-horizontal-stepper class="welcome-stepper mt-4" [linear]="false" #stepper>
+            <mat-horizontal-stepper class="welcome-stepper mt-5" [linear]="false" #stepper>
                 <!-- Greeting -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1 fade-in-animation animation-duration-2s animation-delay-2s">
-                            {{ 'Pages.Welcome.Greeting.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+                            {{ 'hi' | translate }}
                         </h1>
-                        <h3 class="mb-1 fade-in-animation animation-duration-2s animation-delay-2s">
-                            {{ 'Pages.Welcome.Greeting.Content' | translate }}
+                        <h3 class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+                            {{ 'welcome-to-dopamine' | translate }}
                         </h3>
                     </div>
                 </mat-step>
                 <!-- Language -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1">
-                            {{ 'Pages.Welcome.Language.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'language' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Language.Content' | translate }}
+                            {{ 'pick-your-language' | translate }}
                         </h3>
-                        <mat-form-field class="mt-2">
+                        <mat-form-field class="mt-3">
                             <mat-select [(ngModel)]="translatorService.selectedLanguage">
                                 <mat-option *ngFor="let language of translatorService.languages" [value]="language">
-                                    {{ language.name }}
+                                    <div *ngIf="language.hasLatinCharacters">{{ language.localizedName }}</div>
+                                    <div *ngIf="!language.hasLatinCharacters">
+                                        {{ language.localizedName }} ({{ language.englishName }})
+                                    </div>
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -39,67 +41,92 @@
                 </mat-step>
                 <!-- Appearance -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1">
-                            {{ 'Pages.Welcome.Appearance.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'appearance' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Appearance.Content' | translate }}
+                            {{ 'what-should-dopamine-look-like' | translate }}
                         </h3>
-                        <mat-slide-toggle class="mt-2" [(ngModel)]="appearanceService.useLightBackgroundTheme">
-                            {{ 'Pages.Welcome.Appearance.UseLightTheme' | translate }}</mat-slide-toggle>
-                        <app-color-scheme-switcher class="mt-2"></app-color-scheme-switcher>
+                        <mat-slide-toggle class="mt-3" [(ngModel)]="appearanceService.useLightBackgroundTheme">
+                            {{ 'use-light-theme' | translate }}</mat-slide-toggle
+                        >
+                        <app-theme-switcher class="mt-3"></app-theme-switcher>
                     </div>
                 </mat-step>
                 <!-- Music -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1">
-                            {{ 'Pages.Welcome.Music.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'music' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Music.Content' | translate }}
+                            {{ 'let-us-set-up-collection' | translate }}
                         </h3>
-                        <app-add-folder class="mt-2"></app-add-folder>
+                        <app-add-folder class="mt-3" [showCheckBoxes]="false"></app-add-folder>
+                    </div>
+                </mat-step>
+                <!-- Online -->
+                <mat-step>
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'online' | translate }}
+                        </h1>
+                        <h3>
+                            {{ 'online-preferences' | translate }}
+                        </h3>
+                        <div>
+                            <mat-slide-toggle class="mt-3" [(ngModel)]="settings.downloadMissingAlbumCovers">
+                                {{ 'download-missing-album-covers' | translate }}</mat-slide-toggle
+                            >
+                        </div>
+                        <div>
+                            <mat-slide-toggle class="mt-3" [(ngModel)]="settings.enableDiscordRichPresence">
+                                {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle
+                            >
+                        </div>
                     </div>
                 </mat-step>
                 <!-- Donate -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1">
-                            {{ 'Pages.Welcome.Donate.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'donate' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Donate.Content' | translate }}
+                            {{ 'please-consider-donating' | translate }}
                         </h3>
-                        <div class="link-button mt-2">
-                            <i class="link-button-icon custom-font mr-1 lar la-heart"></i>
-                            <a href="{{ donateUrl }}">{{ 'Pages.Welcome.Donate.DonateNow' | translate }}</a>
+                        <div class="mt-3">
+                            <a href="{{ donateUrl }}"><i class="lar la-heart mr-1"></i>{{ 'donate-now' | translate }}</a>
                         </div>
                     </div>
                 </mat-step>
                 <!-- Done -->
                 <mat-step>
-                    <div class="p-2">
-                        <h1 class="mb-1">
-                            {{ 'Pages.Welcome.Done.Title' | translate }}
+                    <div class="p-3">
+                        <h1 class="mb-2">
+                            {{ 'done' | translate }}
                         </h1>
                         <h3>
-                            {{ 'Pages.Welcome.Done.Content' | translate }}
+                            {{ 'let-us-start-dopamine' | translate }}
                         </h3>
                     </div>
                 </mat-step>
             </mat-horizontal-stepper>
-            <app-step-indicator class="my-4 fade-in-animation animation-duration-2s animation-delay-3s" [totalSteps]="totalSteps" [currentStep]="currentStep"></app-step-indicator>
+            <app-step-indicator
+                class="my-5 fade-in-animation animation-duration-2s animation-delay-3s"
+                [totalSteps]="totalSteps"
+                [currentStep]="currentStep"
+            ></app-step-indicator>
             <div class="welcome-stepper-buttons fade-in-animation animation-duration-2s animation-delay-3s">
-                <button *ngIf="canGoBack" class="transparent-button no-select mx-4" (click)="goBack(stepper)">
-                    <i class="las la-angle-left welcome-stepper-buttons-icon custom-font"></i>
+                <button *ngIf="canGoBack" class="transparent-button no-select mx-5" (click)="goBack(stepper)">
+                    <i class="las la-angle-left welcome-stepper-buttons__icon"></i>
                 </button>
-                <button *ngIf="canGoForward" class="transparent-button no-select mx-4" (click)="goForward(stepper)">
-                    <i class="las la-angle-right welcome-stepper-buttons-icon custom-font"></i>
+                <button *ngIf="canGoForward" class="transparent-button no-select mx-5" (click)="goForward(stepper)">
+                    <i class="las la-angle-right welcome-stepper-buttons__icon"></i>
                 </button>
-                <button *ngIf="canFinish" class="transparent-button no-select mx-4" (click)="finish()">
-                    <i class="las la-check welcome-stepper-buttons-icon custom-font"></i>
+                <button *ngIf="canFinish" class="transparent-button no-select mx-5" (click)="finish()">
+                    <i class="las la-check welcome-stepper-buttons__icon"></i>
                 </button>
             </div>
         </div>

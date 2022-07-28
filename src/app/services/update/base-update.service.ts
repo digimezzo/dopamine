@@ -1,3 +1,6 @@
 export abstract class BaseUpdateService {
-    public async abstract checkForUpdatesAsync(): Promise<void>;
+    public abstract isUpdateAvailable: boolean;
+    public abstract latestRelease: string;
+    public abstract checkForUpdatesAsync(): Promise<void>;
+    public abstract downloadLatestRelease(): void;
 }

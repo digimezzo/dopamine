@@ -1,0 +1,78 @@
+<div class="app-artist-browser">
+    <div class="app-artist-browser__header m-1 no-select">
+        <div class="app-artist-browser__artistscount">
+            <div class="app-artist-browser__artistscount__number mr-2">{{ this.artists.length }}</div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.trackArtists" (click)="this.toggleArtistType()">
+                {{ 'track-artists' | translate }}
+            </div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.albumArtists" (click)="this.toggleArtistType()">
+                {{ 'album-artists' | translate }}
+            </div>
+            <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.allArtists" (click)="this.toggleArtistType()">
+                {{ 'all-artists' | translate }}
+            </div>
+        </div>
+        <div class="pointer" (click)="toggleArtistOrder()">
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
+                {{ 'by-artist-ascending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
+                {{ 'by-artist-descending' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-artist-browser__artists mt-3" itemSize="24">
+        <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
+            <app-artist
+                [artist]="artist"
+                (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
+                (contextmenu)="onArtistContextMenuAsync($event, artist)"
+            ></app-artist>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
+<div
+    #artistContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="artistContextMenu"
+></div>
+
+<mat-menu #artistContextMenu="matMenu">
+    <ng-template matMenuContent let-artist="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync(artist)">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addArtistsToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

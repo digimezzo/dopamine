@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DataDelimiter } from '../../data/data-delimiter';
-import { MetadataPatcher } from '../../metadata/metadata-patcher';
+import { DataDelimiter } from '../../common/data/data-delimiter';
+import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 
 @Injectable()
 export class TrackFieldCreator {
-    constructor(private metadataPatcher: MetadataPatcher, private dataDelimiter: DataDelimiter) {
-    }
+    constructor(private metadataPatcher: MetadataPatcher) {}
 
     public createNumberField(value: number): number {
         if (value == undefined || Number.isNaN(value)) {
@@ -28,8 +27,6 @@ export class TrackFieldCreator {
             return '';
         }
 
-        return this.dataDelimiter.convertToDelimitedString(
-            this.metadataPatcher.joinUnsplittableMetadata(valueArray)
-        );
+        return DataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray));
     }
 }

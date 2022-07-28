@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
-import { ProductInformation } from '../../core/base/product-information';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { BaseSnackbarService } from '../snack-bar/base-snack-bar.service';
+import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
+import { ProductInformation } from '../../common/application/product-information';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseUpdateService } from './base-update.service';
-import { GitHubApi } from './github-api';
 import { VersionComparer } from './version-comparer';
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class UpdateService implements BaseUpdateService {
-    constructor(
-        private snackBar: BaseSnackbarService,
-        private settings: BaseSettings,
-        private logger: Logger,
-        private gitHub: GitHubApi) {
+    public _isUpdateAvailable: boolean = false;
+    private _latestRelease: string = '';
+
+    constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: Desktop) {}
+
+    public get isUpdateAvailable(): boolean {
+        return this._isUpdateAvailable;
+    }
+
+    public get latestRelease(): string {
+        return this._latestRelease;
     }
 
     public async checkForUpdatesAsync(): Promise<void> {
@@ -23,24 +27,29 @@ export class UpdateService implements BaseUpdateService {
 
             try {
                 const currentRelease: string = ProductInformation.applicationVersion;
-                const latestRelease: string = await this.gitHub.getLastestReleaseAsync('digimezzo', 'vitomu');
+                const latestRelease: string = await this.gitHub.getLatestReleaseAsync(
+                    'digimezzo',
+                    ProductInformation.applicationName.toLowerCase(),
+                    this.settings.checkForUpdatesIncludesPreReleases
+                );
 
-                this.logger.info(
-                    `Current=${currentRelease}, Latest=${latestRelease}`,
-                    'UpdateService',
-                    'checkForUpdatesAsync');
+                this.logger.info(`Current=${currentRelease}, Latest=${latestRelease}`, 'UpdateService', 'checkForUpdatesAsync');
 
                 if (VersionComparer.isNewerVersion(currentRelease, latestRelease)) {
                     this.logger.info(
                         `Latest (${latestRelease}) > Current (${currentRelease}). Notifying user.`,
                         'UpdateService',
-                        'checkForUpdatesAsync');
-                    await this.snackBar.notifyOfNewVersionAsync(latestRelease);
+                        'checkForUpdatesAsync'
+                    );
+
+                    this._isUpdateAvailable = true;
+                    this._latestRelease = latestRelease;
                 } else {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,
                         'UpdateService',
-                        'checkForUpdatesAsync');
+                        'checkForUpdatesAsync'
+                    );
                 }
             } catch (e) {
                 this.logger.error(`Could not check for updates. Error: ${e.message}`, 'UpdateService', 'checkForUpdatesAsync');
@@ -48,5 +57,11 @@ export class UpdateService implements BaseUpdateService {
         } else {
             this.logger.info('Not checking for updates', 'UpdateService', 'checkForUpdatesAsync');
         }
+    }
+
+    public downloadLatestRelease(): void {
+        this.desktop.openLink(
+            `https://github.com/digimezzo/${ProductInformation.applicationName.toLowerCase()}/releases/tag/v${this.latestRelease}`
+        );
     }
 }

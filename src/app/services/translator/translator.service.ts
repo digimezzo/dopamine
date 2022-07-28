@@ -1,36 +1,42 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Language } from '../../core/base/language';
-import { Constants } from '../../core/base/constants';
+import { Observable, Subject } from 'rxjs';
+import { Constants } from '../../common/application/constants';
+import { Language } from '../../common/application/language';
+import { BaseTranslateServiceProxy } from '../../common/io/base-translate-service-proxy';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseTranslatorService } from './base-translator.service';
-import { BaseSettings } from '../../core/settings/base-settings';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TranslatorService implements BaseTranslatorService {
-  constructor(
-    private translate: TranslateService,
-    private settings: BaseSettings) {
-    this.translate.setDefaultLang(this.settings.defaultLanguage);
-  }
+    private languageChanged: Subject<void> = new Subject();
 
-  public languages: Language[] = Constants.languages;
+    public constructor(private translateServiceProxy: BaseTranslateServiceProxy, private settings: BaseSettings) {
+        this.translateServiceProxy.setDefaultLang(this.settings.defaultLanguage);
+    }
 
-  public get selectedLanguage(): Language {
-    return this.languages.find(x => x.code === this.settings.language);
-  }
+    public languageChanged$: Observable<void> = this.languageChanged.asObservable();
 
-  public set selectedLanguage(v: Language) {
-    this.settings.language = v.code;
-    this.translate.use(v.code);
-  }
+    public languages: Language[] = Constants.languages;
 
-  public applyLanguage(): void {
-    this.translate.use(this.settings.language);
-  }
+    public get selectedLanguage(): Language {
+        return this.languages.find((x) => x.code === this.settings.language);
+    }
 
-  public getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {
-    return this.translate.get(key, interpolateParams).toPromise();
-  }
+    public set selectedLanguage(v: Language) {
+        this.settings.language = v.code;
+        this.applyLanguageAsync();
+    }
+
+    public async applyLanguageAsync(): Promise<void> {
+        await this.translateServiceProxy.use(this.settings.language);
+        this.languageChanged.next();
+    }
+
+    public async getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {
+        return await this.translateServiceProxy.get(key, interpolateParams);
+    }
+
+    public get(key: string | Array<string>, interpolateParams?: Object): string {
+        return this.translateServiceProxy.instant(key, interpolateParams);
+    }
 }

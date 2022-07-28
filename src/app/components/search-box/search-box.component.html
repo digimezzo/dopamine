@@ -1,0 +1,7 @@
+<div class="app-search-box">
+    <input class="app-search-box__input p-1" [(ngModel)]="this.searchService.searchText" (blur)="onBlur()" (focus)="onFocus()" />
+    <div class="app-search-box__icons">
+        <i class="las la-search app-search-box-icon" *ngIf="!this.searchService.hasSearchText"></i>
+        <i class="las la-times app-search-box-icon pointer" *ngIf="this.searchService.hasSearchText" (click)="clearSearchText()"></i>
+    </div>
+</div>

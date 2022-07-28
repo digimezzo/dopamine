@@ -1,0 +1,30 @@
+@import 'font-faces';
+
+.theme-switcher-component {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.theme-switcher-component-button {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.theme-switcher-component-button__selector {
+    font-size: 22px;
+    color: white;
+    z-index: 1;
+}
+
+.theme-switcher-component-button__color {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    z-index: 0;
+}

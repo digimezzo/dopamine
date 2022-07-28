@@ -1,0 +1,29 @@
+.app-playback-controls {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-playback-controls__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-playback-controls__icon {
+    font-size: 20px;
+}
+
+.app-playback-controls__accenticon {
+    @extend .app-playback-controls__icon;
+    color: var(--theme-accent-color);
+}
+
+.loop-one-button__number {
+    color: var(--theme-accent-color);
+    font-size: 9px;
+    position: absolute;
+    margin-top: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

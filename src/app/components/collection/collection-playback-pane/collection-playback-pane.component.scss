@@ -1,0 +1,52 @@
+.app-collection-playback-pane {
+    width: 100%;
+    height: 74px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-collection-playback-pane__progressbar {
+    margin-top: -2px;
+    margin-bottom: -2px;
+}
+
+.app-collection-playback-pane__controls {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.app-collection-playback-pane-controls__left {
+    height: 100%;
+    width: 33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.app-collection-playback-pane-controls__left > .app-collection-playback-pane-controls__playbackinformation {
+    width: calc(33vw - 90px);
+}
+
+.app-collection-playback-pane-controls__center {
+    height: 100%;
+    width: 33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-collection-playback-pane-controls__right {
+    height: 100%;
+    width: 33vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.app-collection__playbackqueue {
+    font-size: 20px;
+}

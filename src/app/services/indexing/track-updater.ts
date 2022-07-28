@@ -1,42 +1,50 @@
 import { Injectable } from '@angular/core';
-import { FileSystem } from '../../core/io/file-system';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
-import { Track } from '../../data/entities/track';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { Track } from '../../common/data/entities/track';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/scheduling/timer';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackFiller } from './track-filler';
+import { TrackVerifier } from './track-verifier';
 
 @Injectable()
 export class TrackUpdater {
     constructor(
         private trackRepository: BaseTrackRepository,
         private trackFiller: TrackFiller,
-        private fileSystem: FileSystem,
-        private logger: Logger) { }
+        private trackVerifier: TrackVerifier,
+        private snackBarService: BaseSnackBarService,
+        private logger: Logger
+    ) {}
 
     public async updateTracksThatAreOutOfDateAsync(): Promise<void> {
-        try {
-            const timer: Timer = new Timer();
-            timer.start();
+        const timer: Timer = new Timer();
+        timer.start();
 
-            const tracks: Track[] = this.trackRepository.getTracks();
+        try {
+            const tracks: Track[] = this.trackRepository.getAllTracks();
 
             let numberOfUpdatedTracks: number = 0;
 
             for (const track of tracks) {
                 try {
-                    if (await this.isTrackOutOfDateAsync(track) || this.trackNeedsIndexing(track)) {
-                        await this.trackFiller.addFileMetadataToTrackAsync(track);
-                        this.trackRepository.updateTrack(track);
+                    if (this.trackVerifier.doesTrackNeedIndexing(track) || (await this.trackVerifier.isTrackOutOfDateAsync(track))) {
+                        const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
+                        this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
+
+                        if (numberOfUpdatedTracks === 1) {
+                            // Only trigger the snack bar once
+                            await this.snackBarService.updatingTracksAsync();
+                        }
                     }
                 } catch (e) {
                     this.logger.error(
                         `A problem occurred while updating track with path='${track.path}'. Error: ${e.message}`,
                         'TrackUpdater',
-                        'updateTracksThatAreOutOfDateAsync');
+                        'updateTracksThatAreOutOfDateAsync'
+                    );
                 }
-
             }
 
             timer.stop();
@@ -44,44 +52,16 @@ export class TrackUpdater {
             this.logger.info(
                 `Updated tracks: ${numberOfUpdatedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync');
+                'updateTracksThatAreOutOfDateAsync'
+            );
         } catch (e) {
+            timer.stop();
+
             this.logger.error(
                 `A problem occurred while updating tracks. Error: ${e.message}`,
                 'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync');
+                'updateTracksThatAreOutOfDateAsync'
+            );
         }
-    }
-
-    private async isTrackOutOfDateAsync(track: Track): Promise<boolean> {
-        if (track.fileSize === 0) {
-            return true;
-        }
-
-        if (track.fileSize !== this.fileSystem.getFilesizeInBytes(track.path)) {
-            return true;
-        }
-
-        if (track.dateFileModified !== await this.fileSystem.getDateModifiedInTicksAsync(track.path)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private trackNeedsIndexing(track: Track): boolean {
-        if (track.needsIndexing == undefined) {
-            return true;
-        }
-
-        if (Number.isNaN(track.needsIndexing)) {
-            return true;
-        }
-
-        if (track.needsIndexing === 1) {
-            return true;
-        }
-
-        return false;
     }
 }

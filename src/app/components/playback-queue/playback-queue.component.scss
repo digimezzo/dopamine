@@ -1,0 +1,19 @@
+.playback-queue {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.playback-queue__header {
+    display: flex;
+    flex-direction: row;
+}
+
+.playback-queue__trackscount {
+    color: var(--theme-accent-color);
+}
+
+.playback-queue__tracks {
+    flex: 1;
+}

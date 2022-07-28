@@ -1,15 +1,15 @@
-.logo-small-background {
-  background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
-  width: 30px;
-  min-width: 30px;
-  height: 30px;
-  border-radius: 15px 0px 15px 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logo-small__background {
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 15px 0px 15px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.logo-small-content {
-  width: 30px;
-  height: 30px;
+.logo-small__image {
+    width: 30px;
+    height: 30px;
 }

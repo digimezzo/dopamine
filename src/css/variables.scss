@@ -4,19 +4,12 @@ $titlebar-height: 46px;
 // Colors
 :root {
     // Font sizes
-    --fontsize-medium: 14px;
-    --fontsize-large: 16px;
+    --fontsize-normal: 14px;
+    --fontsize-medium: 16px;
+    --fontsize-large: 22px;
     --fontsize-extra-large: 26px;
     --fontsize-mega: 36px;
 
-    // Theme colors
-    --theme-primary-color: #fff;
-    --theme-secondary-color: #fff;
-    --theme-accent-color: #fff;
-    --theme-window-button-foreground: #fff;
-    --theme-item-hovered-background: #fff;
-    --theme-item-selected-background: #fff;
-    --theme-header-background: #fff;
-    --theme-tab-text-foreground: #fff;
-    --theme-tab-selected-text-foreground: #fff;
+    // Margins
+    --mat-tab-header-margin-right: 0px;
 }

@@ -1,0 +1,21 @@
+.app-artist {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-artist__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background: var(--theme-accent-color);
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px 0px 12px 12px;
+}
+
+.app-artist__name {
+    height: 24px;
+    line-height: 24px;
+}

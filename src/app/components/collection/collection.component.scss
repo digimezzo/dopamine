@@ -1,10 +1,21 @@
-.logo-small {
-    margin: 10px;
+.collection-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
-.status-panel {
+.collection-component__seachbox {
+    width: 170px;
+}
+
+.collection-component__playbackpane {
+    /* 
+    Absolute positioning because pagination of mat-tab-group does not work in flex container.
+    See: https://github.com/angular/components/issues/23157
+    */
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    z-index: 1; // Without this, buttons in playback pane are not clickable.
 }

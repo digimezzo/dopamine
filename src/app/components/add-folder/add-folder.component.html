@@ -1,17 +1,33 @@
-<div class="add-folder">
-    <div class="link-button">
-        <i class="link-button-icon custom-font mr-1 las la-plus"></i>
-        <a (click)="addFolderAsync()">{{ 'Pages.Welcome.Music.AddFolder' | translate }}</a>
+<div class="add-folder-component" [ngClass]="{ inactive: indexingService.isIndexingCollection }">
+    <div>
+        <a (click)="addFolderAsync()"><i class="las la-plus mr-1"></i> {{ 'add-folder' | translate }}</a>
     </div>
-    <ul class="mt-2">
-        <li *ngFor="let folder of folders" matRipple [ngClass]="{'selected-item': folder === selectedFolder }"
-            (click)="setSelectedFolder(folder)">
-            <div class="folder-item no-select">
-                <i class="folder-item-icon custom-font mr-1 lar la-folder"></i>
-                <p class="folder-item-path" matTooltip="{{ folder.path }}">{{ folder.path }}</p>
-                <i class="folder-item-action custom-font ml-1 lar la-trash-alt"
-                    [ngStyle]="{'display': folder === selectedFolder ? 'block' : 'none' }"
-                    matTooltip="{{ 'Pages.Welcome.Music.DeleteFolder' | translate }}" (click)="deleteFolderAsync(folder)"></i>
+    <mat-checkbox class="ml-1 mt-3" [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
+        {{ 'show-all-folders-in-the-collection' | translate }}</mat-checkbox
+    >
+    <ul class="mt-3">
+        <li
+            *ngFor="let folder of folders"
+            matRipple
+            [ngClass]="{ 'selected-item-background': folder === selectedFolder }"
+            (mousedown)="setSelectedFolder(folder)"
+        >
+            <div class="folder no-select">
+                <mat-checkbox
+                    class="folder__checkbox mr-2"
+                    [(ngModel)]="folder.showInCollection"
+                    *ngIf="showCheckBoxes"
+                    matTooltip="{{ 'show-in-the-collection' | translate }}"
+                    (ngModelChange)="setFolderVisibility(folder)"
+                ></mat-checkbox>
+                <i class="folder__icon mr-2 lar la-folder"></i>
+                <div class="folder__path ellipsis" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
+                <i
+                    class="folder__action ml-2 las la-times"
+                    [ngStyle]="{ display: folder === selectedFolder ? 'block' : 'none' }"
+                    matTooltip="{{ 'delete-folder' | translate }}"
+                    (click)="deleteFolderAsync(folder)"
+                ></i>
             </div>
         </li>
     </ul>

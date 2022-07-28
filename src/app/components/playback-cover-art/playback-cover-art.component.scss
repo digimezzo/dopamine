@@ -1,0 +1,31 @@
+.app-playback-cover-art {
+    overflow: hidden;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.app-playback-cover-art div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.app-playback-cover-art__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-playback-cover-art__logo svg {
+    width: 60%;
+    height: 60%;
+}
+
+.app-playback-cover-art__logo path {
+    fill: var(--theme-album-cover-logo);
+}
+
+.app-playback-cover-art__content {
+    display: flex;
+    flex-direction: column;
+}

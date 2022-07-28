@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
-import { AlbumData } from '../../data/album-data';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/scheduling/timer';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 
 @Injectable()
 export class AlbumArtworkIndexer {
     constructor(
-        private trackRepository: BaseTrackRepository,
         private albumArtworkRemover: AlbumArtworkRemover,
         private albumArtworkAdder: AlbumArtworkAdder,
+        private snackBarService: BaseSnackBarService,
         private logger: Logger
-    ) { }
+    ) {}
 
     public async indexAlbumArtworkAsync(): Promise<void> {
         this.logger.info('+++ STARTED INDEXING ALBUM ARTWORK +++', 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
@@ -21,29 +20,19 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        try {
-            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
-            this.logger.info(
-                `Found ${albumDataThatNeedsIndexing.length} album data that needs indexing`,
-                'AlbumArtworkIndexer',
-                'indexAlbumArtworkAsync');
-
-            for (const albumData of albumDataThatNeedsIndexing) {
-                const couldRemoveAlbumArtwork: boolean = this.albumArtworkRemover.tryRemoveAlbumArtwork(albumData.albumKey);
-
-                if (couldRemoveAlbumArtwork) {
-                    await this.albumArtworkAdder.addAlbumArtworkAsync(albumData.albumKey);
-                }
-            }
-        } catch (e) {
-            this.logger.info(`Could not index album artwork. Error: ${e.message}`, 'AlbumArtworkIndexer', 'indexAlbumArtworkAsync');
-        }
+        this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
+        this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+        await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
+        this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
         timer.stop();
 
         this.logger.info(
             `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'AlbumArtworkIndexer',
-            'indexAlbumArtworkAsync');
+            'indexAlbumArtworkAsync'
+        );
+
+        await this.snackBarService.dismissDelayedAsync();
     }
 }

@@ -1,0 +1,47 @@
+<div
+    class="app-now-playing__backgroundimage"
+    [ngStyle]="{ 'background-image': 'url(' + background1 + ')' }"
+    [@background1Animation]="background1Animation"
+></div>
+<div
+    class="app-now-playing__backgroundimage"
+    [ngStyle]="{ 'background-image': 'url(' + background2 + ')' }"
+    [@background2Animation]="background2Animation"
+></div>
+<div class="window-frame">
+    <div class="window-frame__titlebar">
+        <div class="window-button back-button" (click)="this.goBackToCollection()" [@controlsVisibility]="controlsVisibility">
+            <i class="back-button__icon las la-arrow-left"></i>
+        </div>
+        <div class="window-frame__dragarea"></div>
+        <app-window-controls
+            *ngIf="!appearanceService.windowHasNativeTitleBar"
+            [@controlsVisibility]="controlsVisibility"
+        ></app-window-controls>
+    </div>
+    <div class="window-frame__content">
+        <div class="app-now-playing">
+            <div class="app-now-playing__content">
+                <div class="app-now-playing__song">
+                    <div class="app-now-playing__cover">
+                        <app-playback-cover-art [size]="coverArtSize"></app-playback-cover-art>
+                    </div>
+
+                    <div class="app-now-playing__songinfo" [style.width.px]="coverArtSize * 2" [style.height.px]="coverArtSize">
+                        <app-playback-information
+                            class="ml-5"
+                            [height]="playbackInformationHeight"
+                            [largeFontSize]="playbackInformationLargeFontSize"
+                            [smallFontSize]="playbackInformationSmallFontSize"
+                        >
+                        </app-playback-information>
+                    </div>
+                </div>
+            </div>
+            <app-now-playing-playback-pane
+                class="app-now-playing__playbackpane"
+                [@controlsVisibility]="controlsVisibility"
+            ></app-now-playing-playback-pane>
+        </div>
+    </div>
+</div>

@@ -1,18 +1,19 @@
 ::-webkit-scrollbar {
-  width: 12px;
+    width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 10px 10px transparent;
-  border: solid 3px transparent;
+    box-shadow: inset 0 0 10px 10px transparent;
+    border: solid 3px transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 10px 10px var(--theme-accent-color);
-  border: solid 3px transparent;
-  border-radius: 12px;
+    box-shadow: inset 0 0 10px 10px var(--theme-scroll-bars);
+    border: solid 3px transparent;
+    border-radius: 12px;
 }
 
 ::-webkit-scrollbar-corner {
-  background: rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
 }

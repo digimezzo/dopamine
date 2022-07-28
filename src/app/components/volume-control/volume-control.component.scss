@@ -1,0 +1,15 @@
+.app-volume-control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.app-volume-control__icon {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
+.app-volume-control__slider {
+    flex: 1;
+}

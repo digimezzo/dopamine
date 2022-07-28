@@ -1,0 +1,65 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Publish - Windows 
+
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Controls when the workflow will run
+on:
+    push:
+        tags:
+            - '*'
+    workflow_dispatch:
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2.3.0
+        with:
+          node-version: '14.x'
+      # Runs a set of commands using the runners shell
+      - name: Cloning
+        run: |
+          echo Building
+          git clone https://github.com/digimezzo/dopamine.git
+          cd dopamine
+      - name: Install Dependencies
+        run: npm install
+      - name: Build    
+        run: |
+          npm run electron:windows
+      - name: Fetch current version, create name variable
+        id: ver_name
+        uses: notiz-dev/github-action-json-property@release
+        with:
+            path: 'package.json'
+            prop_path: 'version'
+      - name: Publish 
+        run: echo Creating Release
+      - uses: actions/create-release@v1
+        id: create_release
+        with:
+            draft: true
+            prerelease: true
+            release_name: 'Dopamine 3 Preview - CI' 
+            tag_name: ${{ steps.ver_name.outputs.prop }}
+            body_path: CHANGELOG.md
+      - name: Upload Artifact
+        run: echo Uploading Artifact
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
+          asset_name: Dopamine Setup ${{ steps.ver_name.outputs.prop }}.exe
+          asset_content_type: application/vnd.microsoft.portable-executable

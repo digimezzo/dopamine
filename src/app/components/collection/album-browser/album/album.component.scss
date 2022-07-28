@@ -1,0 +1,81 @@
+.app-album {
+    width: 124px;
+}
+
+.app-album-border {
+    width: 124px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.app-album-content {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-album__year {
+    font-weight: lighter !important;
+    height: 30px;
+    color: var(--theme-accent-color);
+    font-size: var(--fontsize-extra-large);
+}
+
+.app-album__cover {
+    width: 120px;
+    height: 120px;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.app-album__cover div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.app-album__cover__placeholder {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-album__cover__placeholder svg {
+    width: 60%;
+    height: 60%;
+}
+
+.app-album__cover__placeholder path {
+    fill: var(--theme-album-cover-logo);
+}
+
+.app-album__information {
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    height: 46px;
+}
+
+.app-album__information__line1 {
+    height: 24px;
+    line-height: 22px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    text-align: var(--theme-album-info-text-align);
+    padding-top: 2px;
+}
+
+.app-album__information__line2 {
+    height: 22px;
+    line-height: 22px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    text-align: var(--theme-album-info-text-align);
+}

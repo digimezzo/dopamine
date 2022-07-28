@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { Timer } from '../../core/timer';
-import { BaseStatusService } from '../status/base-status.service';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/scheduling/timer';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
@@ -13,8 +13,8 @@ export class TrackIndexer {
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,
         private logger: Logger,
-        private statusService: BaseStatusService
-    ) { }
+        private snackBarService: BaseSnackBarService
+    ) {}
 
     public async indexTracksAsync(): Promise<void> {
         this.logger.info('+++ STARTED INDEXING TRACKS +++', 'TrackIndexer', 'indexTracksAsync');
@@ -22,14 +22,17 @@ export class TrackIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        await this.statusService.removingSongsAsync();
-        this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
-        this.trackRemover.removeTracksThatAreNotFoundOnDisk();
-        this.trackRemover.removeOrphanedFolderTracks();
+        await this.snackBarService.refreshing();
 
-        await this.statusService.updatingSongsAsync();
+        // Remove tracks
+        this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
+        await this.trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
+        this.trackRemover.removeFolderTracksForInexistingTracks();
+
+        // Update tracks
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();
 
+        // Add tracks
         await this.trackAdder.addTracksThatAreNotInTheDatabaseAsync();
 
         timer.stop();
@@ -37,8 +40,9 @@ export class TrackIndexer {
         this.logger.info(
             `+++ FINISHED INDEXING TRACKS (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'TrackIndexer',
-            'indexTracksAsync');
+            'indexTracksAsync'
+        );
 
-        await this.statusService.dismissNonDismissableStatusMessageAsync();
+        await this.snackBarService.dismissDelayedAsync();
     }
 }

@@ -1,0 +1,25 @@
+.snack-bar-component {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.snack-bar-component__icon {
+    color: white;
+    font-size: 20px;
+}
+
+.snack-bar-component__textwithurl {
+    color: white;
+    cursor: pointer;
+}
+
+.snack-bar-component__text {
+    color: white;
+}
+
+.snack-bar-component__closebutton {
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}

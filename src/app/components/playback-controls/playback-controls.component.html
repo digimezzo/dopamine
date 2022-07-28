@@ -1,0 +1,91 @@
+<div class="app-playback-controls">
+    <!-- Loop -->
+    <button
+        *ngIf="playbackService.loopMode === loopModeEnum.None"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'loop' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-redo-alt"></i>
+    </button>
+    <button
+        *ngIf="playbackService.loopMode === loopModeEnum.All"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'loop' | translate }}"
+    >
+        <i class="app-playback-controls__accenticon las la-redo-alt"></i>
+    </button>
+    <button
+        *ngIf="playbackService.loopMode === loopModeEnum.One"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleLoopMode()"
+        matTooltip="{{ 'loop' | translate }}"
+    >
+        <i class="app-playback-controls__accenticon las la-redo-alt"></i>
+        <span class="loop-one-button__number">1</span>
+    </button>
+
+    <!-- Play previous -->
+    <button
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.playPrevious()"
+        matTooltip="{{ 'previous' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-step-backward"></i>
+    </button>
+
+    <!-- Play/Pause -->
+    <button
+        *ngIf="playbackService.canPause"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.pause()"
+        matTooltip="{{ 'pause' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-pause"></i>
+    </button>
+    <button
+        *ngIf="playbackService.canResume"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.resume()"
+        matTooltip="{{ 'play' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-play"></i>
+    </button>
+
+    <!-- Play next -->
+    <button
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.playNext()"
+        matTooltip="{{ 'next' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-step-forward"></i>
+    </button>
+
+    <!-- Shuffle -->
+    <button
+        *ngIf="!playbackService.isShuffled"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleIsShuffled()"
+        matTooltip="{{ 'shuffle' | translate }}"
+    >
+        <i class="app-playback-controls__icon las la-random"></i>
+    </button>
+    <button
+        *ngIf="playbackService.isShuffled"
+        class="app-playback-controls__button"
+        mat-icon-button
+        (click)="playbackService.toggleIsShuffled()"
+        matTooltip="{{ 'shuffle' | translate }}"
+    >
+        <i class="app-playback-controls__accenticon las la-random"></i>
+    </button>
+</div>

@@ -1,18 +1,20 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Desktop } from '../../core/io/desktop';
-import { Logger } from '../../core/logger';
-import { StringCompare } from '../../core/string-compare';
-import { Folder } from '../../data/entities/folder';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Desktop } from '../../common/io/desktop';
+import { Logger } from '../../common/logger';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
+import { FolderModel } from '../../services/folder/folder-model';
+import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Component({
     selector: 'app-add-folder',
-    host: { 'style': 'display: block' },
+    host: { style: 'display: block' },
     templateUrl: './add-folder.component.html',
     styleUrls: ['./add-folder.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class AddFolderComponent implements OnInit {
     constructor(
@@ -20,56 +22,99 @@ export class AddFolderComponent implements OnInit {
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
         private dialogService: BaseDialogService,
-        private logger: Logger) { }
+        public indexingService: BaseIndexingService,
+        private settings: BaseSettings,
+        private logger: Logger
+    ) {}
 
-    public selectedFolder: Folder;
-    public folders: Folder[] = [];
+    @Input() public showCheckBoxes: boolean = false;
 
-    public ngOnInit(): void {
-        this.getFolders();
+    public selectedFolder: FolderModel;
+    public folders: FolderModel[] = [];
+
+    public get showAllFoldersInCollection(): boolean {
+        return this.settings.showAllFoldersInCollection;
+    }
+
+    public set showAllFoldersInCollection(v: boolean) {
+        this.settings.showAllFoldersInCollection = v;
+
+        if (v) {
+            try {
+                this.folderService.setAllFoldersVisible();
+                this.getFoldersAsync();
+            } catch (e) {
+                this.logger.error(
+                    `Could not set all folders visible. Error: ${e.message}`,
+                    'AddFolderComponent',
+                    'showAllFoldersInCollection'
+                );
+            }
+        }
+    }
+
+    public async ngOnInit(): Promise<void> {
+        await this.getFoldersAsync();
+    }
+
+    public setFolderVisibility(folder: FolderModel): void {
+        this.showAllFoldersInCollection = false;
+
+        try {
+            this.folderService.setFolderVisibility(folder);
+        } catch (e) {
+            this.logger.error(`Could not set folder visibility. Error: ${e.message}`, 'AddFolderComponent', 'setFolderVisibility');
+        }
+    }
+
+    public async getFoldersAsync(): Promise<void> {
+        try {
+            this.folders = this.folderService.getFolders();
+        } catch (e) {
+            this.logger.error(`Could not get folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
+            const errorText: string = await this.translatorService.getAsync('get-folders-error');
+            this.dialogService.showErrorDialog(errorText);
+        }
+    }
+
+    public setSelectedFolder(folder: FolderModel): void {
+        this.selectedFolder = folder;
     }
 
     public async addFolderAsync(): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('Pages.Welcome.Music.SelectFolder');
+        const dialogTitle: string = await this.translatorService.getAsync('select-folder');
 
         const selectedFolderPath: string = await this.desktop.showSelectFolderDialogAsync(dialogTitle);
 
-        if (!StringCompare.isNullOrWhiteSpace(selectedFolderPath)) {
+        if (!Strings.isNullOrWhiteSpace(selectedFolderPath)) {
             try {
-                await this.folderService.addNewFolderAsync(selectedFolderPath);
-                await this.getFolders();
+                await this.folderService.addFolderAsync(selectedFolderPath);
+                await this.getFoldersAsync();
             } catch (e) {
-                this.logger.error(`An error occurred while adding the folder. Error: ${e.message}`, 'AddFolderComponent', 'addFolderAsync');
-                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.AddFolderError'));
+                this.logger.error(
+                    `Could not add folder with path='${selectedFolderPath}'. Error: ${e.message}`,
+                    'AddFolderComponent',
+                    'addFolderAsync'
+                );
+                const errorText: string = await this.translatorService.getAsync('add-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }
     }
 
-    public getFolders(): void {
-        this.folders = this.folderService.getFolders();
-    }
-
-    public setSelectedFolder(folder: Folder): void {
-        this.selectedFolder = folder;
-    }
-
-    public async deleteFolderAsync(folder: Folder): Promise<void> {
-        const dialogTitle: string = await this.translatorService.getAsync('DialogTitles.ConfirmDeleteFolder');
-        const dialogText: string = await this.translatorService.getAsync('DialogTexts.ConfirmDeleteFolder', { folderPath: folder.path });
+    public async deleteFolderAsync(folder: FolderModel): Promise<void> {
+        const dialogTitle: string = await this.translatorService.getAsync('confirm-delete-folder');
+        const dialogText: string = await this.translatorService.getAsync('confirm-delete-folder-long', { folderPath: folder.path });
 
         const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
 
         if (userHasConfirmed) {
             try {
                 this.folderService.deleteFolder(folder);
-                this.getFolders();
+                await this.getFoldersAsync();
             } catch (e) {
-                this.logger.error(
-                    `An error occurred while deleting the folder. Error: ${e.message}`,
-                    'AddFolderComponent',
-                    'deleteFolderAsync');
-                const errorText: string = (await this.translatorService.getAsync('ErrorTexts.DeleteFolderError'));
+                this.logger.error(`Could not delete folder. Error: ${e.message}`, 'AddFolderComponent', 'deleteFolderAsync');
+                const errorText: string = await this.translatorService.getAsync('delete-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }

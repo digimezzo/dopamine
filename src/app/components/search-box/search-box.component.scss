@@ -1,0 +1,27 @@
+.app-search-box {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: var(--theme-search-box);
+    display: flex;
+    flex-direction: row;
+}
+
+.app-search-box__input {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    color: var(--theme-search-box-text);
+}
+
+.app-search-box__icons {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-search-box-icon {
+    font-size: 18px;
+    color: var(--theme-search-box-icon);
+}

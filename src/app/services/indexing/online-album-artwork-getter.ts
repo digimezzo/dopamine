@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-import { LastfmAlbum } from '../../core/api/lastfm/lastfm-album';
-import { LastfmApi } from '../../core/api/lastfm/lastfm-api';
-import { ImageProcessor } from '../../core/image-processor';
-import { Logger } from '../../core/logger';
-import { StringCompare } from '../../core/string-compare';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
+import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { ImageProcessor } from '../../common/image-processor';
+import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
+import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    constructor(
-        private imageprocessor: ImageProcessor,
-        private lastfmApi: LastfmApi,
-        private logger: Logger) {
-    }
+    constructor(private imageprocessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
     public async getOnlineArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {
@@ -23,24 +19,24 @@ export class OnlineAlbumArtworkGetter {
         const artists: string[] = [];
 
         // Title
-        if (!StringCompare.isNullOrWhiteSpace(fileMetadata.album)) {
+        if (!Strings.isNullOrWhiteSpace(fileMetadata.album)) {
             title = fileMetadata.album;
-        } else if (!StringCompare.isNullOrWhiteSpace(fileMetadata.title)) {
+        } else if (!Strings.isNullOrWhiteSpace(fileMetadata.title)) {
             title = fileMetadata.title;
         }
 
         // Artist
         if (fileMetadata.albumArtists != undefined && fileMetadata.albumArtists.length > 0) {
-            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceAlbumArtists);
         }
 
         if (fileMetadata.artists != undefined && fileMetadata.artists.length > 0) {
-            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter(x => !StringCompare.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter((x) => !Strings.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceTrackArtists);
         }
 
-        if (StringCompare.isNullOrWhiteSpace(title) || artists.length === 0) {
+        if (Strings.isNullOrWhiteSpace(title) || artists.length === 0) {
             return undefined;
         }
 
@@ -53,11 +49,12 @@ export class OnlineAlbumArtworkGetter {
                 this.logger.error(
                     `Could not get album info for artist='${artist}' and title='${title}'. Error: ${e.message}`,
                     'OnlineAlbumArtworkGetter',
-                    'getOnlineArtworkAsync');
+                    'getOnlineArtworkAsync'
+                );
             }
 
             if (lastfmAlbum != undefined) {
-                if (!StringCompare.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
+                if (!Strings.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
                     let artworkData: Buffer;
 
                     try {
@@ -66,14 +63,16 @@ export class OnlineAlbumArtworkGetter {
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync');
+                            'getOnlineArtworkAsync'
+                        );
 
                         return artworkData;
                     } catch (e) {
                         this.logger.error(
                             `Could not convert file '${lastfmAlbum.largestImage()}' to data. Error: ${e.message}`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync');
+                            'getOnlineArtworkAsync'
+                        );
                     }
                 }
             }

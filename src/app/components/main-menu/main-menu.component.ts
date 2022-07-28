@@ -1,25 +1,35 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { ProductInformation } from '../../common/application/product-information';
+import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BaseUpdateService } from '../../services/update/base-update.service';
 
 @Component({
-  selector: 'app-main-menu',
-  host: { 'style': 'display: block' },
-  templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-main-menu',
+    host: { style: 'display: block' },
+    templateUrl: './main-menu.component.html',
+    styleUrls: ['./main-menu.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class MainMenuComponent implements OnInit {
+    constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
 
-  constructor(public router: Router) { }
+    public applicationName: string = ProductInformation.applicationName;
 
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {}
 
-  public goToSettings(): void {
-    this.router.navigate(['/settings']);
-  }
+    public goToManageCollection(): void {
+        this.navigationService.navigateToManageCollection();
+    }
 
-  public goToInformation(): void {
-    this.router.navigate(['/information']);
-  }
+    public goToSettings(): void {
+        this.navigationService.navigateToSettings();
+    }
+
+    public goToInformation(): void {
+        this.navigationService.navigateToInformation();
+    }
+
+    public downloadLatestRelease(): void {
+        this.updateService.downloadLatestRelease();
+    }
 }

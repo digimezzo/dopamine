@@ -1,0 +1,17 @@
+<div class="app-playback-cover-art no-select" [style.width.px]="size" [style.height.px]="size">
+    <div class="app-playback-cover-art__logo" [style.width.px]="size" [style.height.px]="size">
+        <svg width="256" height="256" viewBox="0 0 256 256">
+            <path
+                d="M 208.79492 0 L 208.79492 85.669922 A 104.26329 104.26329 0 0 0 128.05273 47.373047 A 104.26329 104.26329 0 0 0 23.789062 151.63672 A 104.26329 104.26329 0 0 0 128.05273 255.90039 A 104.26329 104.26329 0 0 0 232.31641 151.63672 A 104.26329 104.26329 0 0 0 232.30859 150.50391 L 232.31055 150.50391 L 232.31055 0 L 208.79492 0 z M 128.05273 71.195312 A 80.750832 80.441704 0 0 1 208.79492 150.50391 A 80.750832 80.441704 0 0 1 208.80273 151.63672 A 80.750832 80.441704 0 0 1 128.05273 232.07812 A 80.750832 80.441704 0 0 1 47.302734 151.63672 A 80.750832 80.441704 0 0 1 128.05273 71.195312 z M 127.9707 134.98047 A 16.65657 16.65657 0 0 0 111.39648 151.63672 A 16.65657 16.65657 0 0 0 128.05273 168.29297 A 16.65657 16.65657 0 0 0 144.70898 151.63672 A 16.65657 16.65657 0 0 0 128.05273 134.98047 A 16.65657 16.65657 0 0 0 127.9707 134.98047 z "
+            />
+        </svg>
+    </div>
+    <div class="app-playback-cover-art__content" [style.width.px]="size" [style.height.px]="size">
+        <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
+            <img *ngIf="topImageUrl" [src]="topImageUrl" [width]="size" [height]="size" draggable="false" />
+        </div>
+        <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
+            <img *ngIf="bottomImageUrl" [src]="bottomImageUrl" [width]="size" [height]="size" draggable="false" />
+        </div>
+    </div>
+</div>

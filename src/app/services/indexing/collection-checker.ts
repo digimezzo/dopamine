@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
-import { BaseCollectionChecker } from './base-collection-checker';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
 import { IndexablePath } from './indexable-path';
+import { IndexablePathFetcher } from './indexable-path-fetcher';
 
 @Injectable()
-export class CollectionChecker implements BaseCollectionChecker {
-    constructor(
-        private indexablePathFetcher: BaseIndexablePathFetcher,
-        private trackRepository: BaseTrackRepository,
-        private logger: Logger
-    ) { }
+export class CollectionChecker {
+    constructor(private indexablePathFetcher: IndexablePathFetcher, private trackRepository: BaseTrackRepository, private logger: Logger) {}
 
-    public async collectionNeedsIndexingAsync(): Promise<boolean> {
-        let collectionNeedsIndexing: boolean = false;
+    public async isCollectionOutdatedAsync(): Promise<boolean> {
+        let collectionIsOutdated: boolean = false;
 
         try {
             const numberOfDatabaseTracksThatNeedIndexing: number = this.trackRepository.getNumberOfTracksThatNeedIndexing();
@@ -23,23 +18,26 @@ export class CollectionChecker implements BaseCollectionChecker {
             const lastDateFileModifiedInDatabase: number = this.trackRepository.getMaximumDateFileModified();
             const lastDateFileModifiedOnDisk: number = this.getLastDateFileModifiedOnDisk(indexablePathsOnDisk);
 
-            collectionNeedsIndexing = numberOfDatabaseTracksThatNeedIndexing > 0 ||
-                numberOfDatabaseTracks !== indexablePathsOnDisk.length ||
-                lastDateFileModifiedInDatabase < lastDateFileModifiedOnDisk;
+            const tracksNeedIndexing: boolean = numberOfDatabaseTracksThatNeedIndexing > 0;
+            const numberOfTracksHasChanged: boolean = numberOfDatabaseTracks !== indexablePathsOnDisk.length;
+            const lastDateModifiedHasChanged: boolean = lastDateFileModifiedInDatabase < lastDateFileModifiedOnDisk;
+
+            collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
 
             this.logger.info(
-                `Collection needs indexing=${collectionNeedsIndexing}`,
+                `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
                 'CollectionChecker',
-                'collectionNeedsIndexingAsync');
+                'isCollectionOutdatedAsync'
+            );
         } catch (e) {
             this.logger.error(
-                `An error occurred while checking if collection needs indexing. Error ${e.message}`,
+                `An error occurred while checking if collection is outdated. Error ${e.message}`,
                 'CollectionChecker',
-                'collectionNeedsIndexingAsync'
+                'isCollectionOutdatedAsync'
             );
         }
 
-        return collectionNeedsIndexing;
+        return collectionIsOutdated;
     }
 
     private getLastDateFileModifiedOnDisk(indexablePathsOnDisk: IndexablePath[]): number {
@@ -47,8 +45,9 @@ export class CollectionChecker implements BaseCollectionChecker {
             return 0;
         }
 
-        const indexablePathsSortedByDateModifiedTicksDescending: IndexablePath[] = indexablePathsOnDisk
-            .sort((a, b) => a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1);
+        const indexablePathsSortedByDateModifiedTicksDescending: IndexablePath[] = indexablePathsOnDisk.sort((a, b) =>
+            a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1
+        );
 
         return indexablePathsSortedByDateModifiedTicksDescending[0].dateModifiedTicks;
     }

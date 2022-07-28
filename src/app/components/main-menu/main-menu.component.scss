@@ -1,4 +1,26 @@
-.main-menu-button {
-  font-size: 20px !important;
-  color: var(--theme-window-button-foreground) !important;
+.main-menu__button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.main-menu__icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px !important;
+    color: var(--theme-window-button-icon) !important;
+    z-index: 0;
+}
+
+.main-menu__updateindicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 3px;
+    background-color: var(--theme-accent-color) !important;
+    z-index: 1;
 }

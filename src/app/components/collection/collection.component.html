@@ -1,30 +1,51 @@
 <div class="window-frame">
-  <div class="window-frame-titlebar theme-header-background">
-    <div class="window-frame-titlebar-dragarea">
-      <app-logo-small class="logo-small"></app-logo-small>
+    <div class="window-frame__titlebar theme-header-background">
+        <div class="window-frame__dragarea">
+            <app-logo-small class="m-2"></app-logo-small>
+        </div>
+        <app-search-box class="collection-component__seachbox p-2"></app-search-box>
+        <app-main-menu class="main-menu"> </app-main-menu>
+        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <app-main-menu class="main-menu">
-    </app-main-menu>
-    <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
-  </div>
-  <div class="window-frame-content">
-    <app-status-panel class="status-panel"></app-status-panel>
-    <mat-tab-group>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Explore' | translate }}
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Songs' | translate }}
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          {{ 'Pages.Collection.Playlists' | translate }}
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+    <div class="window-frame__content">
+        <mat-tab-group [(selectedIndex)]="selectedIndex">
+            <mat-tab *ngIf="settings.showArtistsPage">
+                <ng-template mat-tab-label>
+                    {{ 'artists' | translate }}
+                </ng-template>
+                <app-collection-artists></app-collection-artists>
+            </mat-tab>
+            <mat-tab *ngIf="settings.showGenresPage">
+                <ng-template mat-tab-label>
+                    {{ 'genres' | translate }}
+                </ng-template>
+                <app-collection-genres></app-collection-genres>
+            </mat-tab>
+            <mat-tab *ngIf="settings.showAlbumsPage">
+                <ng-template mat-tab-label>
+                    {{ 'albums' | translate }}
+                </ng-template>
+                <app-collection-albums></app-collection-albums>
+            </mat-tab>
+            <!-- <mat-tab>
+                    <ng-template mat-tab-label>
+                        {{ 'tracks' | translate }}
+                    </ng-template>
+                    <app-collection-tracks></app-collection-tracks>
+                </mat-tab> -->
+            <mat-tab *ngIf="settings.showPlaylistsPage">
+                <ng-template mat-tab-label>
+                    {{ 'playlists' | translate }}
+                </ng-template>
+                <app-collection-playlists></app-collection-playlists>
+            </mat-tab>
+            <mat-tab *ngIf="settings.showFoldersPage">
+                <ng-template mat-tab-label>
+                    {{ 'folders' | translate }}
+                </ng-template>
+                <app-collection-folders></app-collection-folders>
+            </mat-tab>
+        </mat-tab-group>
+        <app-collection-playback-pane class="collection-component__playbackpane"></app-collection-playback-pane>
+    </div>
 </div>

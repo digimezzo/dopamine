@@ -3,6 +3,7 @@
     "git.autofetch": true,
     "mochaExplorer.files": "src/spec/**/*.spec.ts",
     "mochaExplorer.require": "ts-node/register",
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.tslint": true,
         "source.organizeImports": true
@@ -20,14 +21,10 @@
         }
     },
     "launch": {
-    
-
-
         "configurations": [],
         "compounds": []
     },
     "[jsonc]": {
-    
         "editor.quickSuggestions": {
             "strings": true
         },
@@ -35,10 +32,10 @@
     },
     "editor.fontSize": 13,
     "[json]": {
-    
         "editor.quickSuggestions": {
             "strings": true
         },
         "editor.suggest.insertMode": "replace"
-    }
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

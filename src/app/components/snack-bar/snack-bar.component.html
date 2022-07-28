@@ -1,0 +1,7 @@
+<div class="snack-bar-component">
+    <i *ngIf="!data?.animateIcon" class="snack-bar-component__icon mr-2" [ngClass]="data?.icon"></i>
+    <i *ngIf="data?.animateIcon" class="snack-bar-component__icon mr-2 rotation" [ngClass]="data?.icon"></i>
+    <div *ngIf="data?.url != undefined" class="snack-bar-component__textwithurl no-select" (click)="openDataUrl()">{{ data?.message }}</div>
+    <div *ngIf="data?.url == undefined" class="snack-bar-component__text">{{ data?.message }}</div>
+    <i class="snack-bar-component__closebutton las la-times pl-4" *ngIf="data?.showCloseButton" (click)="dismissAsync()"></i>
+</div>

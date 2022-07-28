@@ -1,0 +1,12 @@
+.as-split-gutter {
+    background-color: transparent !important;
+}
+
+.as-split-gutter-icon {
+    background-image: none !important;
+}
+
+/* Disables native scrolling in split area */
+.as-split-area {
+    overflow-y: hidden !important;
+}

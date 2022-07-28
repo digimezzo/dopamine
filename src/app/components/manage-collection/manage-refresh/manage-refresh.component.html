@@ -1,0 +1,21 @@
+<div class="p-3">
+    <h2>{{ 'automatic-refresh' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="settings.refreshCollectionAutomatically">
+            {{ 'refresh-collection-automatically' | translate }}</mat-slide-toggle
+        >
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.skipRemovedFilesDuringRefresh">
+            {{ 'skip-previously-removed-files' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-3">
+    <h2>{{ 'manual-refresh' | translate }}</h2>
+    <div>{{ 'refresh-collection-now' | translate }}</div>
+    <button class="mt-3" mat-raised-button color="primary" (click)="refreshNowAsync()">
+        {{ 'refresh-now' | translate }}
+    </button>
+</div>

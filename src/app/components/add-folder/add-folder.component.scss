@@ -1,39 +1,40 @@
-.add-folder {
+.add-folder-component {
     display: flex;
     flex-direction: column;
 }
 
-.folder-item {
+.folder {
     padding: 4px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.folder-item:hover {
-    background: var(--theme-item-hovered-background);
+.folder:hover {
+    background: var(--theme-hovered-item-background);
 }
 
-.folder-item-icon {
-    font-size: var(--fontsize-large);
+.folder__icon {
+    font-size: 20px;
     color: var(--theme-accent-color);
+    transform: rotate(-90deg);
 }
 
-.folder-item-path {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.folder__path {
     flex: 1;
 }
-
-.folder-item-action {
-    font-size: var(--fontsize-large);
+.folder__action {
+    font-size: 20px;
     opacity: 0.4;
     cursor: pointer;
     display: none;
 }
 
-.folder-item:hover .folder-item-action {
-    background: var(--theme-item-hovered-background);
+.folder:hover .folder-item__action {
+    background: var(--theme-hovered-item-background);
     display: block !important;
+}
+
+.folder__checkbox {
+    margin-top: -4px !important;
 }

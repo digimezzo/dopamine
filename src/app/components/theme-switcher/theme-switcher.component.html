@@ -1,0 +1,21 @@
+<div class="theme-switcher-component">
+    <div
+        *ngFor="let theme of appearanceService.themes"
+        matTooltip="{{ !theme.isBroken ? theme.name : theme.name + ' (' + ('broken' | translate) + ')' }}"
+    >
+        <div class="theme-switcher-component-button mr-2 mb-2" [ngClass]="{ inactive: theme.isBroken }" (click)="setTheme(theme)">
+            <i
+                class="theme-switcher-component-button__selector las la-check"
+                *ngIf="theme.name === appearanceService.selectedTheme.name"
+            ></i>
+            <i class="theme-switcher-component-button__selector las la-times" *ngIf="theme.isBroken"></i>
+            <div
+                class="theme-switcher-component-button__color"
+                [ngStyle]="{
+                    background:
+                        'linear-gradient(45deg, ' + theme.coreColors.primaryColor + ' 30%, ' + theme.coreColors.secondaryColor + ' 100%)'
+                }"
+            ></div>
+        </div>
+    </div>
+</div>

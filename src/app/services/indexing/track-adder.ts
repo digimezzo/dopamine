@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Logger } from '../../core/logger';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { Timer } from '../../core/timer';
-import { FolderTrack } from '../../data/entities/folder-track';
-import { Track } from '../../data/entities/track';
-import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
-import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
-import { BaseStatusService } from '../status/base-status.service';
-import { BaseIndexablePathFetcher } from './base-indexable-path-fetcher';
+import { FolderTrack } from '../../common/data/entities/folder-track';
+import { Track } from '../../common/data/entities/track';
+import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
+import { BaseRemovedTrackRepository } from '../../common/data/repositories/base-removed-track-repository';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Logger } from '../../common/logger';
+import { Timer } from '../../common/scheduling/timer';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { IndexablePath } from './indexable-path';
+import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
 
 @Injectable()
@@ -18,18 +18,19 @@ export class TrackAdder {
         private trackrepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackrepository: BaseRemovedTrackRepository,
-        private indexablePathFetcher: BaseIndexablePathFetcher,
+        private indexablePathFetcher: IndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger,
-        private statusService: BaseStatusService) { }
+        private snackBarService: BaseSnackBarService
+    ) {}
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
-        try {
-            const timer: Timer = new Timer();
-            timer.start();
+        const timer: Timer = new Timer();
+        timer.start();
 
-            const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.ignoreRemovedFiles);
+        try {
+            const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks: number = 0;
 
@@ -47,12 +48,13 @@ export class TrackAdder {
 
                     const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
 
-                    await this.statusService.addedSongsAsync(numberOfAddedTracks, percentageOfAddedTracks);
+                    await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
                 } catch (e) {
                     this.logger.error(
                         `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,
                         'TrackAdder',
-                        'addTracksThatAreNotInTheDatabaseAsync');
+                        'addTracksThatAreNotInTheDatabaseAsync'
+                    );
                 }
             }
 
@@ -61,26 +63,30 @@ export class TrackAdder {
             this.logger.info(
                 `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync');
+                'addTracksThatAreNotInTheDatabaseAsync'
+            );
         } catch (e) {
+            timer.stop();
+
             this.logger.error(
                 `A problem occurred while adding tracks. Error: ${e.message}`,
                 'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync');
+                'addTracksThatAreNotInTheDatabaseAsync'
+            );
         }
     }
 
-    private async getIndexablePathsAsync(ignoreRemovedFiles: boolean): Promise<IndexablePath[]> {
+    private async getIndexablePathsAsync(skipRemovedFiles: boolean): Promise<IndexablePath[]> {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = this.trackrepository.getTracks().map(x => x.path);
-        const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map(x => x.path);
+        const trackPaths: string[] = this.trackrepository.getAllTracks().map((x) => x.path);
+        const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);
             const isTrackThatWasPreviouslyRemoved: boolean = removedTrackPaths.includes(indexablePath.path);
-            const allowReAddingRemovedTracks: boolean = !ignoreRemovedFiles;
+            const allowReAddingRemovedTracks: boolean = !skipRemovedFiles;
             const isTrackThatWasPreviouslyRemovedAndCanBeReAdded: boolean = isTrackThatWasPreviouslyRemoved && allowReAddingRemovedTracks;
 
             if (!isTrackInDatabase) {

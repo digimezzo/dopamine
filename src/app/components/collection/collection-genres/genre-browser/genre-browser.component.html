@@ -1,0 +1,72 @@
+<div class="app-genre-browser">
+    <div class="app-genre-browser__header m-1 no-select">
+        <div class="app-genre-browser__genrescount">
+            <div class="app-genre-browser__genrescount__number mr-2">{{ this.genres.length }}</div>
+            <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
+            <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
+        </div>
+        <div class="pointer" (click)="toggleGenreOrder()">
+            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
+                {{ 'by-genre-ascending' | translate }}
+            </div>
+            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
+                {{ 'by-genre-descending' | translate }}
+            </div>
+        </div>
+    </div>
+    <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="24">
+        <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
+            <app-genre
+                [genre]="genre"
+                (dblclick)="this.playbackService.enqueueAndPlayGenre(genre)"
+                (contextmenu)="onGenreContextMenuAsync($event, genre)"
+            ></app-genre>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
+
+<div
+    #genreContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="genreContextMenu"
+></div>
+
+<mat-menu #genreContextMenu="matMenu">
+    <ng-template matMenuContent let-genre="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync(genre)">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addGenresToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

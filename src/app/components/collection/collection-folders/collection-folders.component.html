@@ -1,0 +1,159 @@
+<div class="collection-viewport">
+    <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
+        <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
+            <div class="left-side-pane">
+                <div class="folder-browser p-3">
+                    <!-- Folders in collection -->
+                    <div *ngIf="this.folderService.collectionHasFolders" class="folder-browser__header m-1">
+                        <div class="folder-browser__title no-select">{{ 'folder' | translate }}</div>
+                        <div
+                            mat-icon-button
+                            [matMenuTriggerFor]="menu"
+                            matTooltip="{{ 'choose-folder' | translate }}"
+                            (click)="getFolders()"
+                        >
+                            <div class="pointer secondary-text">
+                                {{ openedFolder | folderName }}<i class="ml-1 las la-angle-down secondary-text"></i>
+                            </div>
+                        </div>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item *ngFor="let folder of folders" (click)="setOpenedFolderAsync(folder)">
+                                {{ folder | folderName }}
+                            </button>
+                        </mat-menu>
+                    </div>
+                    <cdk-virtual-scroll-viewport *ngIf="folders.length > 0" class="mt-3 folder-browser__list" itemSize="28">
+                        <div
+                            *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
+                            matRipple
+                            (mousedown)="setSelectedSubfolder(subfolder)"
+                            (dblclick)="setOpenedSubfolderAsync(subfolder)"
+                        >
+                            <div
+                                class="subfolder no-select p-1"
+                                [ngClass]="{ 'selected-item-background': subfolder === selectedSubfolder }"
+                            >
+                                <i
+                                    *ngIf="!subfolder.isPlaying"
+                                    class="subfolder__icon mr-2 lar la-folder"
+                                    [ngClass]="{
+                                        'accent-color': !(
+                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
+                                        ),
+                                        'selected-item-text-color-important':
+                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
+                                    }"
+                                ></i>
+                                <app-playback-indicator
+                                    *ngIf="subfolder.isPlaying"
+                                    class="ml-1 mr-2"
+                                    [isSelected]="subfolder === selectedSubfolder"
+                                ></app-playback-indicator>
+                                <div
+                                    class="subfolder__name ellipsis"
+                                    matTooltip="{{ subfolder.path }}"
+                                    [ngClass]="{
+                                        'accent-color':
+                                            subfolder.isPlaying &&
+                                            !(subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText),
+                                        'selected-item-text-color-important':
+                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
+                                    }"
+                                >
+                                    {{ subfolder | subfolderName }}
+                                </div>
+                            </div>
+                        </div>
+                    </cdk-virtual-scroll-viewport>
+                    <!-- No folders in collection -->
+                    <div class="folder-browser__message" *ngIf="!this.folderService.collectionHasFolders">
+                        {{ 'no-folders-in-collection' | translate }}
+                        <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollection()">
+                            {{ 'add-folder' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </as-split-area>
+        <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
+            <div class="tracks-browser p-3">
+                <div class="tracks-browser__header m-1 no-select">
+                    <div class="tracks-browser__trackscount mr-2">{{ this.tracks.numberOfTracks }}</div>
+                    <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
+                    <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
+                </div>
+                <mat-chip-list class="tracks-browser__breadcrumbs mt-3">
+                    <mat-chip
+                        class="tracks-browser__breadcrumb no-select"
+                        *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
+                        (click)="setOpenedSubfolderAsync(subfolderBreadCrumb)"
+                    >
+                        {{ subfolderBreadCrumb | subfolderName }}
+                    </mat-chip>
+                </mat-chip-list>
+                <cdk-virtual-scroll-viewport class="tracks-browser__tracks mt-3" itemSize="46">
+                    <div
+                        *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
+                        matRipple
+                        (mousedown)="setSelectedTrack($event, track)"
+                        (contextmenu)="onTrackContextMenuAsync($event, track)"
+                        [ngClass]="{ 'selected-item-background': track.isSelected }"
+                    >
+                        <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>
+                    </div>
+                </cdk-virtual-scroll-viewport>
+                <app-totals
+                    class="mt-3"
+                    [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
+                    [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
+                ></app-totals>
+            </div>
+        </as-split-area>
+    </as-split>
+</div>
+
+<div
+    #trackContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="trackContextMenu"
+></div>
+
+<mat-menu #trackContextMenu="matMenu">
+    <ng-template matMenuContent let-track="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync()">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

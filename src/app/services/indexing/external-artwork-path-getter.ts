@@ -1,27 +1,25 @@
 import { Injectable } from '@angular/core';
-import * as path from 'path';
-import { Defaults } from '../../core/base/defaults';
-import { FileSystem } from '../../core/io/file-system';
-import { StringCompare } from '../../core/string-compare';
+import { Constants } from '../../common/application/constants';
+import { BaseFileSystem } from '../../common/io/base-file-system';
+import { Strings } from '../../common/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    constructor(private fileSystem: FileSystem) {
-    }
+    constructor(private fileSystem: BaseFileSystem) {}
 
     public getExternalArtworkPath(audioFilePath: string): string {
-        if (StringCompare.isNullOrWhiteSpace(audioFilePath)) {
+        if (Strings.isNullOrWhiteSpace(audioFilePath)) {
             return undefined;
         }
 
         const directory: string = this.fileSystem.getDirectoryPath(audioFilePath);
-        const fileNameWithoutExtention: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
+        const fileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
 
-        for (const externalCoverArtPattern of Defaults.externalCoverArtPatterns) {
-            const possibleExternalArtworkFilePath: string = path.join(
+        for (const externalCoverArtPattern of Constants.externalCoverArtPatterns) {
+            const possibleExternalArtworkFilePath: string = this.fileSystem.combinePath([
                 directory,
-                externalCoverArtPattern.replace('%filename%', fileNameWithoutExtention)
-            );
+                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtension),
+            ]);
 
             if (this.fileSystem.pathExists(possibleExternalArtworkFilePath)) {
                 return possibleExternalArtworkFilePath;

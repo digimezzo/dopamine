@@ -1,0 +1,30 @@
+.app-album-browser {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-album-browser__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.app-album-browser__albumscount {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-album-browser__albumscount__number {
+    color: var(--theme-accent-color);
+}
+
+.app-album-browser__albums {
+    flex: 1;
+}
+
+.album-row {
+    display: flex;
+    flex-direction: row;
+}

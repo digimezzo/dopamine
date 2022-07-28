@@ -1,0 +1,20 @@
+<div class="app-now-playing-playback-pane">
+    <div class="app-now-playing-playback-pane__progressbar">
+        <app-playback-progress class="app-now-playing-playback-pane__progressbar"></app-playback-progress>
+    </div>
+    <div class="app-now-playing-playback-pane__controls">
+        <div class="app-now-playing-playback-pane-controls__left"></div>
+        <div class="app-now-playing-playback-pane-controls__center">
+            <app-playback-controls></app-playback-controls>
+        </div>
+        <div class="app-now-playing-playback-pane-controls__right">
+            <app-playback-time class="mr-4"></app-playback-time>
+            <i
+                class="app-now-playing__playbackqueue las la-tasks pointer mr-4"
+                (click)="this.showPlaybackQueue()"
+                matTooltip="{{ 'playback-queue' | translate }}"
+            ></i>
+            <app-volume-control></app-volume-control>
+        </div>
+    </div>
+</div>

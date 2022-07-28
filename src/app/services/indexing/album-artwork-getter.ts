@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BaseSettings } from '../../core/settings/base-settings';
-import { FileMetadata } from '../../metadata/file-metadata';
+import { FileMetadata } from '../../common/metadata/file-metadata';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
@@ -11,10 +11,10 @@ export class AlbumArtworkGetter {
         private embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter,
         private externalAlbumArtworkGetter: ExternalAlbumArtworkGetter,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,
-        private settings: BaseSettings) {
-    }
+        private settings: BaseSettings
+    ) {}
 
-    public async getAlbumArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
+    public async getAlbumArtworkAsync(fileMetadata: FileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
         if (fileMetadata == undefined) {
             return undefined;
         }
@@ -31,7 +31,7 @@ export class AlbumArtworkGetter {
             return externalArtwork;
         }
 
-        if (this.settings.downloadMissingAlbumCovers) {
+        if (getOnlineArtwork && this.settings.downloadMissingAlbumCovers) {
             const onlineArtwork: Buffer = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
 
             if (onlineArtwork != undefined) {

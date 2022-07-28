@@ -1,0 +1,5 @@
+<div class="app-playback-time no-select">
+    <div>{{ this.playbackService.progress.progressSeconds | formatPlaybackTime }}</div>
+    <div class="secondary-text mx-1">/</div>
+    <div class="secondary-text">{{ this.playbackService.progress.totalSeconds | formatPlaybackTime }}</div>
+</div>

@@ -1,4 +1,6 @@
 .vscode/
+.VSCodeCounter/
 node_modules/
 dist/
 release/
+coverage/

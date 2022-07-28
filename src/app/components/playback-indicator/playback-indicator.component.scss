@@ -1,0 +1,99 @@
+.bars {
+    height: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.bars div {
+    width: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
+    animation-duration: 1.5s;
+    animation-iteration-count: 2;
+}
+
+.bar1 {
+    height: 3px;
+    animation-name: bar1-animation;
+}
+
+.bar2 {
+    height: 7px;
+    animation-name: bar2-animation;
+}
+
+.bar3 {
+    height: 12px;
+    animation-name: bar3-animation;
+}
+
+.bar4 {
+    height: 5px;
+    animation-name: bar4-animation;
+}
+
+.bar5 {
+    height: 9px;
+    animation-name: bar5-animation;
+}
+
+@keyframes bar1-animation {
+    0% {
+        height: 3px;
+    }
+    50% {
+        height: 8px;
+    }
+    100% {
+        height: 3px;
+    }
+}
+
+@keyframes bar2-animation {
+    0% {
+        height: 7px;
+    }
+    50% {
+        height: 2px;
+    }
+    100% {
+        height: 7px;
+    }
+}
+
+@keyframes bar3-animation {
+    0% {
+        height: 12px;
+    }
+    50% {
+        height: 6px;
+    }
+    100% {
+        height: 12px;
+    }
+}
+
+@keyframes bar4-animation {
+    0% {
+        height: 5px;
+    }
+    50% {
+        height: 10px;
+    }
+    100% {
+        height: 5px;
+    }
+}
+
+@keyframes bar5-animation {
+    0% {
+        height: 9px;
+    }
+    50% {
+        height: 3px;
+    }
+    100% {
+        height: 9px;
+    }
+}

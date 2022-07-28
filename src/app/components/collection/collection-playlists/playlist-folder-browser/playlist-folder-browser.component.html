@@ -1,0 +1,45 @@
+<div class="playlist-folder-browser">
+    <div class="playlist-folder-browser__header m-1 no-select">
+        <div class="playlist-folder-browser__count">
+            <div class="playlist-folder-browser__number mr-2">{{ this.playlistFolders.length }}</div>
+            <div *ngIf="this.playlistFolders.length === 1">{{ 'playlist-folder' | translate }}</div>
+            <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
+        </div>
+        <div
+            class="playlist-folder-browser__add-button pointer secondary-text las la-plus"
+            matTooltip="{{ 'create-playlist-folder' | translate }}"
+            (click)="createPlaylistFolderAsync()"
+        ></div>
+    </div>
+    <cdk-virtual-scroll-viewport class="mt-3 playlist-folder-browser__list" itemSize="28">
+        <div
+            *cdkVirtualFor="let playlistFolder of playlistFolders"
+            matRipple
+            (contextmenu)="onPlaylistFolderContextMenu($event, playlistFolder)"
+            (mousedown)="setSelectedPlaylistFoldersAsync($event, playlistFolder)"
+        >
+            <div
+                class="playlist-folder__name no-select ellipsis px-1"
+                [ngClass]="{
+                    'selected-item-background': playlistFolder.isSelected,
+                    'selected-item-text-color-important': playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                }"
+            >
+                {{ playlistFolder.name }}
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
+<div
+    #playlistFolderContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="playlistFolderContextMenu"
+></div>
+<mat-menu #playlistFolderContextMenu="matMenu">
+    <ng-template matMenuContent let-playlistFolder="data">
+        <button mat-menu-item (click)="onRenamePlaylistFolderAsync(playlistFolder)">{{ 'rename' | translate }}</button>
+        <button mat-menu-item (click)="onDeletePlaylistFolderAsync(playlistFolder)">{{ 'delete' | translate }}</button>
+    </ng-template>
+</mat-menu>
