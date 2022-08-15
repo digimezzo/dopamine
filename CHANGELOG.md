@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.13] - 2022-08-15
+
+### Added
+
+-   Added support for MP4 audio playback
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [3.0.0-preview.12] - 2022-07-28
 
 ### Added
