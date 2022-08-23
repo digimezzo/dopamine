@@ -14,17 +14,31 @@ describe('ClauseCreator', () => {
         });
     });
 
-    describe('createInClause', () => {
-        it('should create an in clause given a column name and clause items', () => {
+    describe('createTextInClause', () => {
+        it('should create an in clause given a column name and text clause items', () => {
             // Arrange
             const columnName: string = 'TheColumn';
             const clauseItems: string[] = ['Item1', 'Item2', 'Item3'];
 
             // Act
-            const inClause: string = ClauseCreator.createInClause(columnName, clauseItems);
+            const inClause: string = ClauseCreator.createTextInClause(columnName, clauseItems);
 
             // Assert
             expect(inClause).toEqual(`TheColumn IN ('Item1','Item2','Item3')`);
+        });
+    });
+
+    describe('createNumericInClause', () => {
+        it('should create an in clause given a column name and numeric clause items', () => {
+            // Arrange
+            const columnName: string = 'TheColumn';
+            const clauseItems: number[] = [1, 5, 8];
+
+            // Act
+            const inClause: string = ClauseCreator.createNumericInClause(columnName, clauseItems);
+
+            // Assert
+            expect(inClause).toEqual(`TheColumn IN (1,5,8)`);
         });
     });
 

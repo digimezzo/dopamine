@@ -80,6 +80,11 @@ export class TrackRepository implements BaseTrackRepository {
         database.prepare('DELETE FROM Track WHERE TrackID = ?;').run(trackId);
     }
 
+    public deleteTracks(trackIds: number[]): void {
+        const database: any = this.databaseFactory.create();
+        database.prepare(`DELETE FROM Track WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`).run();
+    }
+
     public getAllTracks(): Track[] {
         const database: any = this.databaseFactory.create();
 
@@ -94,7 +99,7 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createInClause('t.AlbumKey', albumKeys)}`
+            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createTextInClause('t.AlbumKey', albumKeys)}`
         );
 
         const tracks: Track[] = statement.all();

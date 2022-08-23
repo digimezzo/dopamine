@@ -9,6 +9,7 @@ import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { ArtistModel } from '../../../services/artist/artist-model';
 import { ArtistType } from '../../../services/artist/artist-type';
 import { BaseArtistService } from '../../../services/artist/base-artist.service';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -36,6 +37,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         public tracksPersister: ArtistsTracksPersister,
         private collectionPersister: CollectionPersister,
         private indexingService: BaseIndexingService,
+        private collectionService: BaseCollectionService,
         private artistService: BaseArtistService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
@@ -89,6 +91,12 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(async () => {
+                await this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionService.collectionChanged$.subscribe(async () => {
                 await this.processListsAsync();
             })
         );

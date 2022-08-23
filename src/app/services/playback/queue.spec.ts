@@ -43,6 +43,22 @@ describe('Queue', () => {
         });
     });
 
+    describe('numberOfTracks', () => {
+        it('should return the number of tracks', () => {
+            // Arrange
+            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
+            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            queue.setTracks([track1, track2, track3], false);
+
+            // Act
+            const numberOfTracks: number = queue.numberOfTracks;
+
+            // Assert
+            expect(numberOfTracks).toEqual(3);
+        });
+    });
+
     describe('setTracks', () => {
         it('should set the tracks in the order they were provided when shuffle is false', () => {
             // Arrange

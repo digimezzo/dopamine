@@ -197,5 +197,10 @@
     "random": "Random",
     "invert-notification-area-icon-color": "Invert notification area icon color",
     "pages": "Pages",
-    "which-pages-should-be-visible": "Which pages should be visible?"
+    "which-pages-should-be-visible": "Which pages should be visible?",
+    "delete-file": "Delete file",
+    "delete-files": "Delete files",
+    "confirm-delete-file": "Are you sure you want to delete this file? You can restore it from the trash.",
+    "confirm-delete-files": "Are you sure you want to delete these files? You can restore them from the trash.",
+    "delete-files-error": "An error occurred while deleting files. Please verify the log if you need more information."
 }

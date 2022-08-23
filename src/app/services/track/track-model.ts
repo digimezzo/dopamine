@@ -12,6 +12,10 @@ export class TrackModel {
 
     public playlistPath: string = '';
 
+    public get id(): number {
+        return this.track.trackId;
+    }
+
     public get path(): string {
         return this.track.path;
     }

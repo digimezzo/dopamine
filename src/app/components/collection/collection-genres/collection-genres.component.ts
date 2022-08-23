@@ -6,6 +6,7 @@ import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseGenreService } from '../../../services/genre/base-genre.service';
 import { GenreModel } from '../../../services/genre/genre-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
@@ -35,6 +36,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         public tracksPersister: GenresTracksPersister,
         private collectionPersister: CollectionPersister,
         private indexingService: BaseIndexingService,
+        private collectionService: BaseCollectionService,
         private genreService: BaseGenreService,
         private albumService: BaseAlbumService,
         private trackService: BaseTrackService,
@@ -81,6 +83,12 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(async () => {
+                await this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionService.collectionChanged$.subscribe(async () => {
                 await this.processListsAsync();
             })
         );

@@ -9,6 +9,7 @@ describe('TrackModel', () => {
 
     beforeEach(() => {
         track = new Track('/home/user/Music/track1.mp3');
+        track.trackId = 42;
         track.trackNumber = 5;
         track.discNumber = 1;
         track.discCount = 2;
@@ -76,6 +77,19 @@ describe('TrackModel', () => {
 
             // Assert
             expect(trackModel.playlistPath).toEqual('');
+        });
+    });
+
+    describe('id', () => {
+        it('should return the track TrackID', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const id: number = trackModel.id;
+
+            // Assert
+            expect(id).toEqual(42);
         });
     });
 

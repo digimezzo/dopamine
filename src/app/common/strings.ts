@@ -30,7 +30,7 @@ export class Strings {
             if (stringToCheck.trim() === '') {
                 return true;
             }
-        } catch (error) {
+        } catch (e) {
             return true;
         }
 

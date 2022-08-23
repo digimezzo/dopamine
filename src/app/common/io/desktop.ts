@@ -78,4 +78,8 @@ export class Desktop {
     public getApplicationWindowSize(): WindowSize {
         return new WindowSize(window.innerWidth, window.innerHeight);
     }
+
+    public async moveFileToTrashAsync(filePath: string): Promise<void> {
+        await remote.shell.trashItem(filePath);
+    }
 }

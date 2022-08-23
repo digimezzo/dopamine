@@ -9,6 +9,7 @@ import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -44,6 +45,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
         private indexingService: BaseIndexingService,
+        private collectionService: BaseCollectionService,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
         private navigationService: BaseNavigationService,
@@ -92,6 +94,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
+                this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionService.collectionChanged$.subscribe(() => {
                 this.processListsAsync();
             })
         );

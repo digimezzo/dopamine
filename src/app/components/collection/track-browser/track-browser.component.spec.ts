@@ -5,6 +5,8 @@ import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
+import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
@@ -24,8 +26,10 @@ describe('TrackBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackOrderingMock: IMock<TrackOrdering>;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
+    let collectionServiceMock: IMock<BaseCollectionService>;
+    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let dialogServiceMock: IMock<BaseDialogService>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -48,6 +52,9 @@ describe('TrackBrowserComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        collectionServiceMock = Mock.ofType<BaseCollectionService>();
+        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
         loggerMock = Mock.ofType<Logger>();
@@ -61,6 +68,11 @@ describe('TrackBrowserComponent', () => {
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
+
+        translatorServiceMock.setup((x) => x.getAsync('delete-file')).returns(async () => 'delete-file');
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-file')).returns(async () => 'confirm-delete-file');
+        translatorServiceMock.setup((x) => x.getAsync('delete-files')).returns(async () => 'delete-files');
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-files')).returns(async () => 'confirm-delete-files');
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -118,6 +130,9 @@ describe('TrackBrowserComponent', () => {
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             playbackIndicationServiceMock.object,
+            collectionServiceMock.object,
+            translatorServiceMock.object,
+            dialogServiceMock.object,
             trackOrderingMock.object,
             loggerMock.object
         );
@@ -524,6 +539,58 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, trackModel2), Times.once());
+        });
+    });
+
+    describe('onDeleteAsync', () => {
+        it('should show confirmation dialog with singular text when 1 track is provided', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1]);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onDeleteAsync();
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-file', 'confirm-delete-file'), Times.once());
+        });
+
+        it('should show confirmation dialog with plural text when more than 1 track is provided', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onDeleteAsync();
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files'), Times.once());
+        });
+
+        it('should not delete tracks if the user has not confirmed', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files')).returns(async() => false);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onDeleteAsync();
+
+            // Assert
+            collectionServiceMock.verify((x) => x.deleteTracksAsync(It.isAny()), Times.never());
+        });
+
+        it('should delete tracks if the user has confirmed', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files')).returns(async() => true);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onDeleteAsync();
+
+            // Assert
+            collectionServiceMock.verify((x) => x.deleteTracksAsync([trackModel1, trackModel2]), Times.once());
         });
     });
 });

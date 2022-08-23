@@ -189,5 +189,10 @@
     "random": "Случайное",
     "invert-notification-area-icon-color": "Инвертировать цвет значка области уведомлений",
     "pages": "Страницы",
-    "which-pages-should-be-visible": "Какие страницы должны быть видны?"
+    "which-pages-should-be-visible": "Какие страницы должны быть видны?",
+    "delete-file": "Delete file",
+    "delete-files": "Delete files",
+    "confirm-delete-file": "Are you sure you want to delete this file? You can restore it from the trash.",
+    "confirm-delete-files": "Are you sure you want to delete these files? You can restore them from the trash.",
+    "delete-files-error": "An error occurred while deleting files. Please verify the log if you need more information."
 }

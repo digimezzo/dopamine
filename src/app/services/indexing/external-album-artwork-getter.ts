@@ -9,7 +9,7 @@ import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 export class ExternalAlbumArtworkGetter {
     constructor(
         private externalArtworkPathGetter: ExternalArtworkPathGetter,
-        private imageprocessor: ImageProcessor,
+        private imageProcessor: ImageProcessor,
         private logger: Logger
     ) {}
 
@@ -24,9 +24,9 @@ export class ExternalAlbumArtworkGetter {
             const externalArtworkPath: string = this.externalArtworkPathGetter.getExternalArtworkPath(fileMetadata.path);
 
             if (!Strings.isNullOrWhiteSpace(externalArtworkPath)) {
-                artworkData = await this.imageprocessor.convertLocalImageToBufferAsync(externalArtworkPath);
+                artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath);
             }
-        } catch (error) {
+        } catch (e) {
             this.logger.error(
                 `Could not get external artwork for track with path='${fileMetadata.path}'`,
                 'ExternalAlbumArtworkGetter',

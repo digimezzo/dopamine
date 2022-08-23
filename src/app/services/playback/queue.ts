@@ -14,6 +14,10 @@ export class Queue {
         return this._tracks;
     }
 
+    public get numberOfTracks(): number {
+        return this._tracks.length;
+    }
+
     public setTracks(tracksToSet: TrackModel[], shuffle: boolean): void {
         this._tracks = tracksToSet;
 

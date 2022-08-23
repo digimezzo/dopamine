@@ -51,10 +51,12 @@ describe('PlaybackService', () => {
     let track2: Track;
     let track3: Track;
     let track4: Track;
+    let track5: Track;
     let trackModel1: TrackModel;
     let trackModel2: TrackModel;
     let trackModel3: TrackModel;
     let trackModel4: TrackModel;
+    let trackModel5: TrackModel;
 
     let trackModels: TrackModel[];
     let orderedTrackModels: TrackModel[];
@@ -114,10 +116,18 @@ describe('PlaybackService', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
 
+        track5 = new Track('Path 5');
+        track5.trackTitle = 'Title 5';
+        track5.albumArtists = ';Album artist 3;';
+        track5.albumTitle = 'Album title 3';
+        track5.trackNumber = 3;
+        track5.discNumber = 1;
+
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
         trackModel3 = new TrackModel(track3, translatorServiceMock.object);
         trackModel4 = new TrackModel(track4, translatorServiceMock.object);
+        trackModel5 = new TrackModel(track5, translatorServiceMock.object);
 
         trackModels = [trackModel1, trackModel2, trackModel3, trackModel4];
         orderedTrackModels = [trackModel2, trackModel1, trackModel3, trackModel4];
@@ -1981,5 +1991,82 @@ describe('PlaybackService', () => {
 
     describe('addPlaylistToQueueAsync', () => {
         test.todo('should write tests');
+    });
+
+    describe('stopIfPlayingAsync', () => {
+        it('should not stop playback if there is no track playing', () => {
+            // Arrange
+
+            // Act
+            service.stopIfPlayingAsync(trackModel2);
+
+            // Assert
+            audioPlayerMock.verify((x) => x.stop(), Times.never());
+        });
+
+        it('should not play the next track if there is no track playing', () => {
+            // Arrange
+
+            // Act
+            service.stopIfPlayingAsync(trackModel2);
+
+            // Assert
+            queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
+            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
+        });
+
+        it('should not stop playback if the given track is not playing', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+
+            // Act
+            service.stopIfPlayingAsync(trackModel2);
+
+            // Assert
+            audioPlayerMock.verify((x) => x.stop(), Times.never());
+        });
+
+        it('should not play the next track if the given track is not playing', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+
+            // Act
+            service.stopIfPlayingAsync(trackModel2);
+
+            // Assert
+            queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
+            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
+        });
+
+        it('should stop playback if the given track is playing and it is the only track in the queue', () => {
+            // Arrange
+            service.enqueueAndPlayTracks([trackModel1], trackModel1);
+            audioPlayerMock.reset();
+            queueMock.setup((x) => x.numberOfTracks).returns(() => 1);
+
+            // Act
+            service.stopIfPlayingAsync(trackModel1);
+
+            // Assert
+            queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
+            audioPlayerMock.verify((x) => x.stop(), Times.once());
+        });
+
+        it('should play the next track if the given track is playing and it not the only track in the queue', () => {
+            // Arrange
+            service.enqueueAndPlayTracks(trackModels, trackModel1);
+            audioPlayerMock.reset();
+            queueMock.setup((x) => x.numberOfTracks).returns(() => 4);
+            queueMock.setup((x) => x.getNextTrack(trackModel1, It.isAny())).returns(() => trackModel2);
+
+            // Act
+            service.stopIfPlayingAsync(trackModel1);
+
+            // Assert
+            queueMock.verify((x) => x.getNextTrack(trackModel1, It.isAny()), Times.once());
+            audioPlayerMock.verify((x) => x.play(trackModel2.path), Times.once());
+        });
     });
 });

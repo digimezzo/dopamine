@@ -346,6 +346,16 @@ export class PlaybackService implements BasePlaybackService {
         }
     }
 
+    public stopIfPlayingAsync(track: TrackModel): void {
+        if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
+            if (this.queue.numberOfTracks === 1) {
+                this.stop();
+            } else {
+                this.playNext();
+            }
+        }
+    }
+
     private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);

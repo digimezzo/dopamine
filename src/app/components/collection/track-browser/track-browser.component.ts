@@ -6,11 +6,14 @@ import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
+import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
@@ -34,6 +37,9 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private playbackIndicationService: BasePlaybackIndicationService,
+        private collectionService: BaseCollectionService,
+        private translatorService: BaseTranslatorService,
+        private dialogService: BaseDialogService,
         private trackOrdering: TrackOrdering,
         private logger: Logger
     ) {}
@@ -117,6 +123,32 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
     public async onAddToQueueAsync(): Promise<void> {
         await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+    }
+
+    public async onDeleteAsync(): Promise<void> {
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+
+        let dialogTitle: string = await this.translatorService.getAsync('delete-file');
+        let dialogText: string = await this.translatorService.getAsync('confirm-delete-file');
+
+        if (tracks.length > 1) {
+            dialogTitle = await this.translatorService.getAsync('delete-files');
+            dialogText = await this.translatorService.getAsync('confirm-delete-files');
+        }
+
+        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
+
+        if (userHasConfirmed) {
+            try {
+                if (!this.collectionService.deleteTracksAsync(tracks)) {
+                    throw new Error('deleteTracksAsync returned false');
+                }
+            } catch (e) {
+                this.logger.error(`Could not delete all files. Error: ${e.message}`, 'TrackBrowserComponent', 'onDelete');
+                const errorText: string = await this.translatorService.getAsync('delete-files-error');
+                this.dialogService.showErrorDialog(errorText);
+            }
+        }
     }
 
     private orderTracks(): void {

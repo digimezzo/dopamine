@@ -9,6 +9,7 @@ import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
@@ -33,6 +34,7 @@ describe('CollectionFoldersComponent', () => {
     let searchServiceMock: IMock<BaseSearchService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
+    let collectionServiceMock: IMock<BaseCollectionService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let folderServiceMock: IMock<BaseFolderService>;
@@ -51,6 +53,9 @@ describe('CollectionFoldersComponent', () => {
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
     let indexingServiceIndexingFinishedMock: Subject<void>;
+
+    let collectionChangedMock: Subject<void>;
+    let collectionChangedMock$: Observable<void>;
 
     let folder1: FolderModel;
     let folder2: FolderModel;
@@ -80,6 +85,7 @@ describe('CollectionFoldersComponent', () => {
             mouseSelectionWatcherMock.object,
             addToPlaylistMenuMock.object,
             indexingServiceMock.object,
+            collectionServiceMock.object,
             collectionPersisterMock.object,
             settingsStub,
             navigationServiceMock.object,
@@ -99,6 +105,7 @@ describe('CollectionFoldersComponent', () => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        collectionServiceMock = Mock.ofType<BaseCollectionService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
@@ -149,6 +156,10 @@ describe('CollectionFoldersComponent', () => {
         indexingServiceIndexingFinishedMock = new Subject();
         const indexingServiceIndexingFinishedMock$: Observable<void> = indexingServiceIndexingFinishedMock.asObservable();
         indexingServiceMock.setup((x) => x.indexingFinished$).returns(() => indexingServiceIndexingFinishedMock$);
+
+        collectionChangedMock = new Subject();
+        collectionChangedMock$ = collectionChangedMock.asObservable();
+        collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
 
         selectedTabChangedMock = new Subject();
         selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
@@ -750,6 +761,44 @@ describe('CollectionFoldersComponent', () => {
             expect(component.subfolders.length).toEqual(0);
             expect(component.subfolderBreadCrumbs.length).toEqual(0);
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should get the folders when collection has changed and the selected tab is folders', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+
+            const component: CollectionFoldersComponent = createComponent();
+            await component.ngOnInit();
+            folderServiceMock.reset();
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => subfolders);
+
+            // Act
+            collectionChangedMock.next();
+            const scheduler: Scheduler = new Scheduler();
+            await scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds + Constants.shortListLoadDelayMilliseconds + 100);
+
+            // Assert
+            folderServiceMock.verify((x) => x.getFolders(), Times.exactly(1));
+        });
+
+        it('should not get the folders when collection has changed and the selected tab is not folders', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+
+            const component: CollectionFoldersComponent = createComponent();
+            await component.ngOnInit();
+            folderServiceMock.reset();
+            folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
+            folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(async () => subfolders);
+
+            // Act
+            collectionChangedMock.next();
+            const scheduler: Scheduler = new Scheduler();
+            await scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds + Constants.shortListLoadDelayMilliseconds + 100);
+
+            // Assert
+            folderServiceMock.verify((x) => x.getFolders(), Times.never());
         });
     });
 

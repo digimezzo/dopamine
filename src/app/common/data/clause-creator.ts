@@ -5,9 +5,15 @@ export class ClauseCreator {
         return Strings.replaceAll(sourceString, `'`, `''`);
     }
 
-    public static createInClause(columnName: string, clauseItems: string[]): string {
+    public static createTextInClause(columnName: string, clauseItems: string[]): string {
         const quotedClauseItems: string[] = clauseItems.map((item) => `'` + ClauseCreator.escapeQuotes(item) + `'`);
         const commaSeparatedItems: string = quotedClauseItems.join(',');
+
+        return `${columnName} IN (${commaSeparatedItems})`;
+    }
+
+    public static createNumericInClause(columnName: string, clauseItems: number[]): string {
+        const commaSeparatedItems: string = clauseItems.join(',');
 
         return `${columnName} IN (${commaSeparatedItems})`;
     }
