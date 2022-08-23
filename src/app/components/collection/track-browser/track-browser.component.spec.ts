@@ -69,10 +69,10 @@ describe('TrackBrowserComponent', () => {
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
 
-        translatorServiceMock.setup((x) => x.getAsync('delete-file')).returns(async () => 'delete-file');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-file')).returns(async () => 'confirm-delete-file');
-        translatorServiceMock.setup((x) => x.getAsync('delete-files')).returns(async () => 'delete-files');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-files')).returns(async () => 'confirm-delete-files');
+        translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(async () => 'delete-song');
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(async () => 'confirm-delete-song');
+        translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(async () => 'delete-songs');
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-songs')).returns(async () => 'confirm-delete-songs');
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -552,7 +552,7 @@ describe('TrackBrowserComponent', () => {
             await component.onDeleteAsync();
 
             // Assert
-            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-file', 'confirm-delete-file'), Times.once());
+            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-song', 'confirm-delete-song'), Times.once());
         });
 
         it('should show confirmation dialog with plural text when more than 1 track is provided', async () => {
@@ -564,13 +564,15 @@ describe('TrackBrowserComponent', () => {
             await component.onDeleteAsync();
 
             // Assert
-            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files'), Times.once());
+            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'), Times.once());
         });
 
         it('should not delete tracks if the user has not confirmed', async () => {
             // Arrange
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files')).returns(async() => false);
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
+                .returns(async () => false);
             const component: TrackBrowserComponent = createComponent();
 
             // Act
@@ -583,7 +585,7 @@ describe('TrackBrowserComponent', () => {
         it('should delete tracks if the user has confirmed', async () => {
             // Arrange
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-files', 'confirm-delete-files')).returns(async() => true);
+            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs')).returns(async () => true);
             const component: TrackBrowserComponent = createComponent();
 
             // Act

@@ -128,12 +128,12 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
     public async onDeleteAsync(): Promise<void> {
         const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
 
-        let dialogTitle: string = await this.translatorService.getAsync('delete-file');
-        let dialogText: string = await this.translatorService.getAsync('confirm-delete-file');
+        let dialogTitle: string = await this.translatorService.getAsync('delete-song');
+        let dialogText: string = await this.translatorService.getAsync('confirm-delete-song');
 
         if (tracks.length > 1) {
-            dialogTitle = await this.translatorService.getAsync('delete-files');
-            dialogText = await this.translatorService.getAsync('confirm-delete-files');
+            dialogTitle = await this.translatorService.getAsync('delete-songs');
+            dialogText = await this.translatorService.getAsync('confirm-delete-songs');
         }
 
         const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
@@ -145,7 +145,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
                 }
             } catch (e) {
                 this.logger.error(`Could not delete all files. Error: ${e.message}`, 'TrackBrowserComponent', 'onDelete');
-                const errorText: string = await this.translatorService.getAsync('delete-files-error');
+                const errorText: string = await this.translatorService.getAsync('delete-songs-error');
                 this.dialogService.showErrorDialog(errorText);
             }
         }
