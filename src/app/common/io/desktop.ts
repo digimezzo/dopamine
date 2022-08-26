@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OpenDialogReturnValue, remote } from 'electron';
 import { Observable, Subject } from 'rxjs';
-import { WindowSize } from './window-size';
 
 @Injectable()
 export class Desktop {
@@ -75,11 +74,15 @@ export class Desktop {
         return remote.systemPreferences.getAccentColor();
     }
 
-    public getApplicationWindowSize(): WindowSize {
-        return new WindowSize(window.innerWidth, window.innerHeight);
-    }
-
     public async moveFileToTrashAsync(filePath: string): Promise<void> {
         await remote.shell.trashItem(filePath);
+    }
+
+    public getMusicDirectory(): string {
+        return remote.app.getPath('music');
+    }
+
+    public getApplicationDataDirectory(): string {
+        return remote.app.getPath('userData');
     }
 }

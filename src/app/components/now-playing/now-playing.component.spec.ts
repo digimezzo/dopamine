@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { Desktop } from '../../common/io/desktop';
+import { BaseApplication } from '../../common/io/base-application';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -17,7 +17,7 @@ describe('NowPlayingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
-    let desktopMock: IMock<Desktop>;
+    let applicationMock: IMock<BaseApplication>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -31,7 +31,7 @@ describe('NowPlayingComponent', () => {
             metadataServiceMock.object,
             playbackServiceMock.object,
             searchServiceMock.object,
-            desktopMock.object
+            applicationMock.object
         );
     }
 
@@ -41,9 +41,9 @@ describe('NowPlayingComponent', () => {
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
-        desktopMock = Mock.ofType<Desktop>();
+        applicationMock = Mock.ofType<BaseApplication>();
 
-        desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(1000, 600));
+        applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(1000, 600));
 
         appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
 
@@ -222,8 +222,8 @@ describe('NowPlayingComponent', () => {
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
             // Arrange
-            desktopMock.reset();
-            desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(550, 600));
             const component: NowPlayingComponent = createComponent();
             const event: any = {};
 
@@ -256,8 +256,8 @@ describe('NowPlayingComponent', () => {
 
         it('should set the now playing sizes in relation to window width if width is too small', async () => {
             // Arrange
-            desktopMock.reset();
-            desktopMock.setup((x) => x.getApplicationWindowSize()).returns(() => new WindowSize(550, 600));
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(550, 600));
             const component: NowPlayingComponent = createComponent();
             const event: any = {};
 

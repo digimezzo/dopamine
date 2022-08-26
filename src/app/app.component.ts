@@ -1,10 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material';
-import { remote } from 'electron';
 import log from 'electron-log';
 import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
+import { Desktop } from './common/io/desktop';
 import { Logger } from './common/logger';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
@@ -31,10 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private addToPlaylistMenu: AddToPlaylistMenu,
+        private desktop: Desktop,
         private logger: Logger
     ) {
         log.create('renderer');
-        log.transports.file.resolvePath = () => path.join(remote.app.getPath('userData'), 'logs', 'Dopamine.log');
+        log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
     }
 
     @ViewChild('playbackQueueDrawer') public playbackQueueDrawer: MatDrawer;

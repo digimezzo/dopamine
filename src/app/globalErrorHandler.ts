@@ -1,12 +1,13 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { BrowserWindow, remote } from 'electron';
+import { BrowserWindow } from 'electron';
+import { BaseApplication } from './common/io/base-application';
 import { Logger } from './common/logger';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    constructor(private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
+    constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
 
     public handleError(e: Error): void {
         this.logger.error(`Handling global error. Error: ${e.message}.`, 'GlobalErrorHandler', 'handleError');
@@ -27,7 +28,7 @@ export class GlobalErrorHandler implements ErrorHandler {
             dialogRef.afterClosed().subscribe((result) => {
                 // Quit the application
                 this.logger.info('Closing application', 'GlobalErrorHandler', 'showGlobalErrorDialog');
-                const win: BrowserWindow = remote.getCurrentWindow();
+                const win: BrowserWindow = this.application.getCurrentWindow();
                 win.close();
             });
         });

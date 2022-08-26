@@ -2,6 +2,7 @@ import { MatDrawer } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
+import { Desktop } from './common/io/desktop';
 import { Logger } from './common/logger';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
@@ -21,6 +22,7 @@ describe('AppComponent', () => {
     let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
+    let desktopMock: IMock<Desktop>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
@@ -37,6 +39,7 @@ describe('AppComponent', () => {
             trayServiceMock.object,
             searchServiceMock.object,
             addToPlaylistMenuMock.object,
+            desktopMock.object,
             loggerMock.object
         );
     }
@@ -50,6 +53,7 @@ describe('AppComponent', () => {
         trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        desktopMock = Mock.ofType<Desktop>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 

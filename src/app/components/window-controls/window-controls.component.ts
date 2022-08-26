@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BrowserWindow } from 'electron';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { BaseApplication } from '../../common/io/base-application';
 
 @Component({
     selector: 'app-window-controls',
@@ -10,22 +10,22 @@ import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
     encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    constructor(private remoteProxy: BaseRemoteProxy) {}
+    constructor(private application: BaseApplication) {}
 
     public canMaximize: boolean = false;
 
     public ngOnInit(): void {
-        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        const window: BrowserWindow = this.application.getCurrentWindow();
         this.canMaximize = !window.isMaximized();
     }
 
     public minButtonClick(): void {
-        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        const window: BrowserWindow = this.application.getCurrentWindow();
         window.minimize();
     }
 
     public maxRestoreClick(): void {
-        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        const window: BrowserWindow = this.application.getCurrentWindow();
 
         if (window.isMaximized()) {
             window.unmaximize();
@@ -37,7 +37,7 @@ export class WindowControlsComponent implements OnInit {
     }
 
     public closeButtonClick(): void {
-        const window: BrowserWindow = this.remoteProxy.getCurrentWindow();
+        const window: BrowserWindow = this.application.getCurrentWindow();
         window.close();
     }
 }

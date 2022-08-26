@@ -25,7 +25,7 @@ import {
     MatTabsModule,
     MatTooltipDefaultOptions,
     MatTooltipModule,
-    MAT_TOOLTIP_DEFAULT_OPTIONS
+    MAT_TOOLTIP_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -58,16 +58,16 @@ import { FileValidator } from './common/file-validator';
 import { Hacks } from './common/hacks';
 import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
+import { Application } from './common/io/application';
+import { BaseApplication } from './common/io/base-application';
 import { BaseFileSystem } from './common/io/base-file-system';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
-import { BaseRemoteProxy } from './common/io/base-remote-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileSystem } from './common/io/file-system';
 import { IpcProxy } from './common/io/ipc-proxy';
-import { RemoteProxy } from './common/io/remote-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
@@ -522,7 +522,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseSettings, useClass: Settings },
         { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
-        { provide: BaseRemoteProxy, useClass: RemoteProxy },
+        { provide: BaseApplication, useClass: Application },
         { provide: BaseIpcProxy, useClass: IpcProxy },
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },

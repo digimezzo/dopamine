@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
 import { Observable, Subject } from 'rxjs';
-import { BaseRemoteProxy } from './base-remote-proxy';
+import { BaseApplication } from './base-application';
+import { WindowSize } from './window-size';
 
 @Injectable()
-export class RemoteProxy implements BaseRemoteProxy {
+export class Application implements BaseApplication {
     private argumentsReceived: Subject<string[]> = new Subject();
 
     constructor() {
@@ -21,6 +22,10 @@ export class RemoteProxy implements BaseRemoteProxy {
 
     public getCurrentWindow(): Electron.BrowserWindow {
         return remote.getCurrentWindow();
+    }
+
+    public getWindowSize(): WindowSize {
+        return new WindowSize(window.innerWidth, window.innerHeight);
     }
 
     public getParameters(): string[] {

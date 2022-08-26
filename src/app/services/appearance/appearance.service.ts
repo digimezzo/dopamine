@@ -5,8 +5,8 @@ import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
+import { BaseApplication } from '../../common/io/base-application';
 import { BaseFileSystem } from '../../common/io/base-file-system';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
@@ -34,7 +34,7 @@ export class AppearanceService implements BaseAppearanceService {
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer,
-        private remoteProxy: BaseRemoteProxy,
+        private application: BaseApplication,
         private fileSystem: BaseFileSystem,
         private desktop: Desktop,
         private defaultThemesCreator: DefaultThemesCreator,
@@ -141,7 +141,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private initialize(): void {
-        this._windowHasNativeTitleBar = this.remoteProxy.getGlobal('windowHasFrame');
+        this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame');
 
         this._themesDirectoryPath = this.getThemesDirectoryPath();
         this.ensureThemesDirectoryExists();

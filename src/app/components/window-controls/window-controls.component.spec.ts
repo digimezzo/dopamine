@@ -1,15 +1,15 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { BaseApplication } from '../../common/io/base-application';
 import { WindowControlsComponent } from './window-controls.component';
 
 describe('WindowControlsComponent', () => {
-    let remoteProxyMock: IMock<BaseRemoteProxy>;
+    let applicationMock: IMock<BaseApplication>;
 
     let component: WindowControlsComponent;
 
     beforeEach(() => {
-        remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
-        component = new WindowControlsComponent(remoteProxyMock.object);
+        applicationMock = Mock.ofType<BaseApplication>();
+        component = new WindowControlsComponent(applicationMock.object);
     });
 
     describe('constructor', () => {

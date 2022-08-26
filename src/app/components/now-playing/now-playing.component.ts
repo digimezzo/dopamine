@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Desktop } from '../../common/io/desktop';
+import { BaseApplication } from '../../common/io/base-application';
 import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -91,7 +91,7 @@ export class NowPlayingComponent implements OnInit {
         private metadataService: BaseMetadataService,
         private playbackService: BasePlaybackService,
         private searchService: BaseSearchService,
-        private desktop: Desktop
+        private application: BaseApplication
     ) {}
 
     public background1IsUsed: boolean = false;
@@ -160,7 +160,7 @@ export class NowPlayingComponent implements OnInit {
     }
 
     private setSizes(): void {
-        const applicationWindowSize: WindowSize = this.desktop.getApplicationWindowSize();
+        const applicationWindowSize: WindowSize = this.application.getWindowSize();
         const playbackControlsHeight: number = 70;
         const windowControlsHeight: number = 46;
         const horizontalMargin: number = 100;

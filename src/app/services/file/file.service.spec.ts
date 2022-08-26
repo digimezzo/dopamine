@@ -2,7 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { FileValidator } from '../../common/file-validator';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
@@ -15,7 +15,7 @@ describe('FileService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let fileValidatorMock: IMock<FileValidator>;
-    let remoteProxyMock: IMock<BaseRemoteProxy>;
+    let applicationMock: IMock<BaseApplication>;
     let loggerMock: IMock<Logger>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -29,7 +29,7 @@ describe('FileService', () => {
         return new FileService(
             playbackServiceMock.object,
             trackModelFactoryMock.object,
-            remoteProxyMock.object,
+            applicationMock.object,
             fileValidatorMock.object,
             loggerMock.object
         );
@@ -39,7 +39,7 @@ describe('FileService', () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         fileValidatorMock = Mock.ofType<FileValidator>();
-        remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
+        applicationMock = Mock.ofType<BaseApplication>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -61,7 +61,7 @@ describe('FileService', () => {
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();
 
-        remoteProxyMock.setup((x) => x.argumentsReceived$).returns(() => argumentsReceivedMock$);
+        applicationMock.setup((x) => x.argumentsReceived$).returns(() => argumentsReceivedMock$);
     });
 
     describe('constructor', () => {
@@ -137,7 +137,7 @@ describe('FileService', () => {
     describe('hasPlayableFilesAsParameters', () => {
         it('should return true if there is at least 1 playable file as parameter', () => {
             // Arrange
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.ogg', 'file 3.bmp']);
             const service: BaseFileService = createService();
 
             // Act
@@ -148,7 +148,7 @@ describe('FileService', () => {
         });
 
         it('should return false if there are no playable files as parameters', () => {
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
 
             // Arrange
             const service: BaseFileService = createService();
@@ -164,7 +164,7 @@ describe('FileService', () => {
     describe('enqueueParameterFilesAsync', () => {
         it('should enqueue all playable tracks found as parameters and play the first track', async () => {
             // Arrange
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => ['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
             const service: BaseFileService = createService();
 
             // Act
@@ -186,7 +186,7 @@ describe('FileService', () => {
 
         it('should not enqueue and play anything if parameters are undefined', async () => {
             // Arrange
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => undefined);
+            applicationMock.setup((x) => x.getParameters()).returns(() => undefined);
             const service: BaseFileService = createService();
 
             // Act
@@ -198,7 +198,7 @@ describe('FileService', () => {
 
         it('should not enqueue and play anything if parameters are empty', async () => {
             // Arrange
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => []);
+            applicationMock.setup((x) => x.getParameters()).returns(() => []);
             const service: BaseFileService = createService();
 
             // Act
@@ -210,7 +210,7 @@ describe('FileService', () => {
 
         it('should not enqueue and play anything if there are no playable tracks found as parameters', async () => {
             // Arrange
-            remoteProxyMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
+            applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
             const service: BaseFileService = createService();
 
             // Act

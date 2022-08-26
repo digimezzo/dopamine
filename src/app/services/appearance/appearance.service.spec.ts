@@ -3,8 +3,8 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
+import { BaseApplication } from '../../common/io/base-application';
 import { BaseFileSystem } from '../../common/io/base-file-system';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
 import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
@@ -22,7 +22,7 @@ describe('AppearanceService', () => {
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
-    let remoteProxyMock: IMock<BaseRemoteProxy>;
+    let applicationMock: IMock<BaseApplication>;
     let fileSystemMock: IMock<BaseFileSystem>;
     let desktopMock: IMock<Desktop>;
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
@@ -43,7 +43,7 @@ describe('AppearanceService', () => {
             settingsMock.object,
             loggerMock.object,
             overlayContainerMock.object,
-            remoteProxyMock.object,
+            applicationMock.object,
             fileSystemMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
@@ -128,7 +128,7 @@ describe('AppearanceService', () => {
             settingsStub,
             loggerMock.object,
             overlayContainerMock.object,
-            remoteProxyMock.object,
+            applicationMock.object,
             fileSystemMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
@@ -273,7 +273,7 @@ describe('AppearanceService', () => {
         settingsMock = Mock.ofType<BaseSettings>();
         loggerMock = Mock.ofType<Logger>();
         overlayContainerMock = Mock.ofType<OverlayContainer>();
-        remoteProxyMock = Mock.ofType<BaseRemoteProxy>();
+        applicationMock = Mock.ofType<BaseApplication>();
         fileSystemMock = Mock.ofType<BaseFileSystem>();
         desktopMock = Mock.ofType<Desktop>();
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
@@ -316,8 +316,8 @@ describe('AppearanceService', () => {
 
         it('should set windowHasNativeTitleBar to true if the window has a frame', () => {
             // Arrange
-            remoteProxyMock.reset();
-            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
 
             // Act
             const service: BaseAppearanceService = createService();
@@ -328,8 +328,8 @@ describe('AppearanceService', () => {
 
         it('should set windowHasNativeTitleBar to false if the window has no frame', () => {
             // Arrange
-            remoteProxyMock.reset();
-            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
 
             // Act
             const service: BaseAppearanceService = createService();
@@ -446,8 +446,8 @@ describe('AppearanceService', () => {
     describe('windowHasNativeTitleBar', () => {
         it('should return true if the window has a frame', () => {
             // Arrange
-            remoteProxyMock.reset();
-            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => true);
             const service: BaseAppearanceService = createService();
 
             // Act
@@ -459,8 +459,8 @@ describe('AppearanceService', () => {
 
         it('should return true if the window has no frame', () => {
             // Arrange
-            remoteProxyMock.reset();
-            remoteProxyMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getGlobal('windowHasFrame')).returns(() => false);
             const service: BaseAppearanceService = createService();
 
             // Act

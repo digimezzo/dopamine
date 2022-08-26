@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { remote } from 'electron';
 import * as events from 'events';
 import * as fs from 'fs-extra';
 import * as os from 'os';
@@ -8,6 +7,7 @@ import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
 import { BaseFileSystem } from './base-file-system';
+import { Desktop } from './desktop';
 
 @Injectable()
 export class FileSystem implements BaseFileSystem {
@@ -15,9 +15,9 @@ export class FileSystem implements BaseFileSystem {
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
-    constructor() {
-        this._applicationDataDirectory = remote.app.getPath('userData');
-        this._musicDirectory = remote.app.getPath('music');
+    constructor(private desktop: Desktop) {
+        this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
+        this._musicDirectory = this.desktop.getMusicDirectory();
         this._pathSeparator = path.sep;
     }
 

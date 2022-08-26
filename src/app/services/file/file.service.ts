@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileValidator } from '../../common/file-validator';
-import { BaseRemoteProxy } from '../../common/io/base-remote-proxy';
+import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
@@ -15,12 +15,12 @@ export class FileService implements BaseFileService {
     constructor(
         private playbackService: BasePlaybackService,
         private trackModelFactory: TrackModelFactory,
-        private remoteProxy: BaseRemoteProxy,
+        private application: BaseApplication,
         private fileValidator: FileValidator,
         private logger: Logger
     ) {
         this.subscription.add(
-            this.remoteProxy.argumentsReceived$.subscribe((argv: string[]) => {
+            this.application.argumentsReceived$.subscribe((argv: string[]) => {
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
                     this.enqueueGivenParameterFilesAsync(argv);
                 }
@@ -29,13 +29,13 @@ export class FileService implements BaseFileService {
     }
 
     public hasPlayableFilesAsParameters(): boolean {
-        const parameters: string[] = this.remoteProxy.getParameters();
+        const parameters: string[] = this.application.getParameters();
 
         return this.hasPlayableFilesAsGivenParameters(parameters);
     }
 
     public async enqueueParameterFilesAsync(): Promise<void> {
-        const parameters: string[] = this.remoteProxy.getParameters();
+        const parameters: string[] = this.application.getParameters();
         await this.enqueueGivenParameterFilesAsync(parameters);
     }
 
