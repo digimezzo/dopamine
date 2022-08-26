@@ -30,4 +30,6 @@ export abstract class BaseTrackRepository {
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track;
     public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;
     public abstract enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean): void;
+    public abstract updatePlayCount(trackId: number, playCount: number): void;
+    public abstract updateSkipCount(trackId: number, skipCount: number): void;
 }

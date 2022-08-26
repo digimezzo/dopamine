@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.13] - 2022-08-15
+## [3.0.0-preview.13] - 2022-08-24
 
 ### Added
 
 -   Added support for MP4 audio playback
+-   Added option to delete song files from the computer
 -   Added German translation
 
 ### Changed

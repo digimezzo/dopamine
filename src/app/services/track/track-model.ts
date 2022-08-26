@@ -111,4 +111,20 @@ export class TrackModel {
     public get fileSizeInBytes(): number {
         return this.track.fileSize;
     }
+
+    public get playCount(): number {
+        return this.track.playCount;
+    }
+
+    public get skipCount(): number {
+        return this.track.skipCount;
+    }
+
+    public increasePlayCount(): void {
+        this.track.playCount++;
+    }
+
+    public increaseSkipCount(): void {
+        this.track.skipCount++;
+    }
 }

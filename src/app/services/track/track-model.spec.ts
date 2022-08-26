@@ -22,6 +22,8 @@ describe('TrackModel', () => {
         track.albumArtists = ';Album artist 1;;Album artist 2;';
         track.duration = 45648713213;
         track.fileSize = 7704126;
+        track.playCount = 9;
+        track.skipCount = 7;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
@@ -497,6 +499,58 @@ describe('TrackModel', () => {
 
             // Assert
             expect(fileSizeInBytes).toEqual(7704126);
+        });
+    });
+
+    describe('playCount', () => {
+        it('should return the track play count', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const playCount: number = trackModel.playCount;
+
+            // Assert
+            expect(playCount).toEqual(9);
+        });
+    });
+
+    describe('skipCount', () => {
+        it('should return the track skip count', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const skipCount: number = trackModel.skipCount;
+
+            // Assert
+            expect(skipCount).toEqual(7);
+        });
+    });
+
+    describe('increasePlayCount', () => {
+        it('should increase the track play count by 1', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            trackModel.increasePlayCount();
+
+            // Assert
+            expect(trackModel.playCount).toEqual(10);
+        });
+    });
+
+    describe('increaseSkipCount', () => {
+        it('should increase the track skip count by 1', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            trackModel.increaseSkipCount();
+
+            // Assert
+            expect(trackModel.skipCount).toEqual(8);
         });
     });
 });

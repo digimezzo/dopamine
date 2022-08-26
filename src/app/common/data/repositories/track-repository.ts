@@ -490,4 +490,26 @@ export class TrackRepository implements BaseTrackRepository {
 
         statement.run();
     }
+
+    public updatePlayCount(trackId: number, playCount: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`UPDATE Track SET PlayCount=@playCount WHERE TrackID=@trackId;`);
+
+        statement.run({
+            trackId: trackId,
+            playCount: playCount,
+        });
+    }
+
+    public updateSkipCount(trackId: number, skipCount: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`UPDATE Track SET SkipCount=@skipCount WHERE TrackID=@trackId;`);
+
+        statement.run({
+            trackId: trackId,
+            skipCount: skipCount,
+        });
+    }
 }

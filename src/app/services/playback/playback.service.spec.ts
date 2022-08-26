@@ -357,7 +357,7 @@ describe('PlaybackService', () => {
         it('should play the next track on playback finished if a next track is found', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
             audioPlayerMock.reset();
             progressUpdaterMock.reset();
 
@@ -396,7 +396,7 @@ describe('PlaybackService', () => {
             }
 
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
             audioPlayerMock.reset();
 
             // Act
@@ -413,7 +413,7 @@ describe('PlaybackService', () => {
             }
 
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, true)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), true)).returns(() => trackModel2);
             audioPlayerMock.reset();
 
             // Act
@@ -430,7 +430,7 @@ describe('PlaybackService', () => {
             }
 
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
             audioPlayerMock.reset();
 
             // Act
@@ -463,10 +463,34 @@ describe('PlaybackService', () => {
             queueMock.verify((x) => x.getNextTrack(It.isAny(), true), Times.exactly(1));
         });
 
+        it('should increase play count for the current track on playback finished', () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            trackModelMock.verify((x) => x.increasePlayCount(), Times.once());
+        });
+
+        it('should save play count for the current track on playback finished', () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+
+            // Act
+            playbackFinished.next();
+
+            // Assert
+            trackServiceMock.verify((x) => x.savePlayCount(trackModelMock.object), Times.once());
+        });
+
         it('should raise an event, on playback finished, that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
 
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;
@@ -1325,7 +1349,7 @@ describe('PlaybackService', () => {
     describe('playNext', () => {
         it('should stop playback if a next track is not found', () => {
             // Arrange
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
 
@@ -1347,7 +1371,7 @@ describe('PlaybackService', () => {
         it('should raise an event that playback is stopped if a next track is not found', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
             let playbackIsStopped: boolean = false;
@@ -1368,7 +1392,7 @@ describe('PlaybackService', () => {
         it('should set the current track to undefined before raising a stop event', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => undefined);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
             let currentTrack: TrackModel;
@@ -1389,7 +1413,7 @@ describe('PlaybackService', () => {
         it('should play the next track if found', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
 
@@ -1446,7 +1470,7 @@ describe('PlaybackService', () => {
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, false)).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;
             subscription.add(
@@ -1462,6 +1486,54 @@ describe('PlaybackService', () => {
             // Assert
             expect(receivedTrack).toBe(trackModel2);
             expect(isPlayingPreviousTrack).toBeFalsy();
+        });
+
+        it('should increase play count for the current track if progress is more than 80%', () => {
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+            progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
+
+            // Act
+            service.playNext();
+
+            // Assert
+            trackModelMock.verify((x) => x.increasePlayCount(), Times.once());
+        });
+
+        it('should save play count for the current track if progress is more than 80%', () => {
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+            progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
+
+            // Act
+            service.playNext();
+
+            // Assert
+            trackServiceMock.verify((x) => x.savePlayCount(trackModelMock.object), Times.once());
+        });
+
+        it('should increase skip count for the current track if progress is less than 80%', () => {
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+            progressUpdaterProgressChanged.next(new PlaybackProgress(79, 100));
+
+            // Act
+            service.playNext();
+
+            // Assert
+            trackModelMock.verify((x) => x.increaseSkipCount(), Times.once());
+        });
+
+        it('should save skip count for the current track if progress is less than 80%', () => {
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
+            progressUpdaterProgressChanged.next(new PlaybackProgress(79, 100));
+
+            // Act
+            service.playNext();
+
+            // Assert
+            trackServiceMock.verify((x) => x.saveSkipCount(trackModelMock.object), Times.once());
         });
     });
 
@@ -1993,12 +2065,12 @@ describe('PlaybackService', () => {
         test.todo('should write tests');
     });
 
-    describe('stopIfPlayingAsync', () => {
+    describe('stopIfPlaying', () => {
         it('should not stop playback if there is no track playing', () => {
             // Arrange
 
             // Act
-            service.stopIfPlayingAsync(trackModel2);
+            service.stopIfPlaying(trackModel2);
 
             // Assert
             audioPlayerMock.verify((x) => x.stop(), Times.never());
@@ -2008,7 +2080,7 @@ describe('PlaybackService', () => {
             // Arrange
 
             // Act
-            service.stopIfPlayingAsync(trackModel2);
+            service.stopIfPlaying(trackModel2);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
@@ -2021,7 +2093,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.reset();
 
             // Act
-            service.stopIfPlayingAsync(trackModel2);
+            service.stopIfPlaying(trackModel2);
 
             // Assert
             audioPlayerMock.verify((x) => x.stop(), Times.never());
@@ -2033,7 +2105,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.reset();
 
             // Act
-            service.stopIfPlayingAsync(trackModel2);
+            service.stopIfPlaying(trackModel2);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
@@ -2047,22 +2119,22 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.numberOfTracks).returns(() => 1);
 
             // Act
-            service.stopIfPlayingAsync(trackModel1);
+            service.stopIfPlaying(trackModel1);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(It.isAny(), It.isAny()), Times.never());
             audioPlayerMock.verify((x) => x.stop(), Times.once());
         });
 
-        it('should play the next track if the given track is playing and it not the only track in the queue', () => {
+        it('should play the next track if the given track is playing and it not the only track in the queue', async () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels, trackModel1);
             audioPlayerMock.reset();
             queueMock.setup((x) => x.numberOfTracks).returns(() => 4);
-            queueMock.setup((x) => x.getNextTrack(trackModel1, It.isAny())).returns(() => trackModel2);
+            queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), It.isAny())).returns(() => trackModel2);
 
             // Act
-            service.stopIfPlayingAsync(trackModel1);
+            await service.stopIfPlaying(trackModel1);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(trackModel1, It.isAny()), Times.once());

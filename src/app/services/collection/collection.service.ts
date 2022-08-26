@@ -26,7 +26,7 @@ export class CollectionService implements BaseCollectionService {
         this.trackRepository.deleteTracks(tracks.map((x) => x.id));
 
         for (const track of tracks) {
-            await this.playbackService.stopIfPlayingAsync(track);
+            await this.playbackService.stopIfPlaying(track);
 
             try {
                 await this.desktop.moveFileToTrashAsync(track.path);

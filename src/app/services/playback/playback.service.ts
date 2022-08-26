@@ -319,6 +319,8 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public playNext(): void {
+        this.increaseCountersForCurrentTrackBasedOnProgress();
+
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
         const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
@@ -346,7 +348,7 @@ export class PlaybackService implements BasePlaybackService {
         }
     }
 
-    public stopIfPlayingAsync(track: TrackModel): void {
+    public stopIfPlaying(track: TrackModel): void {
         if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
             if (this.queue.numberOfTracks === 1) {
                 this.stop();
@@ -381,7 +383,10 @@ export class PlaybackService implements BasePlaybackService {
         this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
     }
 
-    private playNextOnPlaybackFinished(): void {
+    private playbackFinishedHandler(): void {
+        this.logger.info(`Track finished: '${this.currentTrack?.path}'`, 'PlaybackService', 'playbackFinishedHandler');
+        this.increasePlayCountForCurrentTrack();
+
         if (this.loopMode === LoopMode.One) {
             this.play(this.currentTrack, false);
 
@@ -400,10 +405,46 @@ export class PlaybackService implements BasePlaybackService {
         this.stop();
     }
 
+    private increaseCountersForCurrentTrackBasedOnProgress(): void {
+        if (this.progress == undefined) {
+            this.logger.warn('Progress was undefined', 'PlaybackService', 'increaseCountersForCurrentTrackBasedOnProgress');
+
+            return;
+        }
+
+        if (this.progress.progressPercent <= 80) {
+            this.increaseSkipCountForCurrentTrack();
+        } else {
+            this.increasePlayCountForCurrentTrack();
+        }
+    }
+
+    private increasePlayCountForCurrentTrack(): void {
+        if (this.currentTrack == undefined) {
+            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increasePlayCountForCurrentTrack');
+
+            return;
+        }
+
+        this.currentTrack.increasePlayCount();
+        this.trackService.savePlayCount(this.currentTrack);
+    }
+
+    private increaseSkipCountForCurrentTrack(): void {
+        if (this.currentTrack == undefined) {
+            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increaseSkipCountForCurrentTrack');
+
+            return;
+        }
+
+        this.currentTrack.increaseSkipCount();
+        this.trackService.saveSkipCount(this.currentTrack);
+    }
+
     private initializeSubscriptions(): void {
         this.subscription.add(
             this.audioPlayer.playbackFinished$.subscribe(() => {
-                this.playNextOnPlaybackFinished();
+                this.playbackFinishedHandler();
             })
         );
 

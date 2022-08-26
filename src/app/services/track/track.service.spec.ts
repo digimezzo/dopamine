@@ -383,4 +383,38 @@ describe('TrackService', () => {
             expect(tracksModels.tracks.length).toEqual(0);
         });
     });
+
+    describe('savePlayCount', () => {
+        it('should update play count in the database', () => {
+            // Arrange
+            const track: Track = new Track('path');
+            track.trackId = 9;
+
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            trackModel.increasePlayCount();
+
+            // Act
+            service.savePlayCount(trackModel);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.updatePlayCount(9, 1), Times.once());
+        });
+    });
+
+    describe('saveSkipCount', () => {
+        it('should update play count in the database', () => {
+            // Arrange
+            const track: Track = new Track('path');
+            track.trackId = 9;
+
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            trackModel.increaseSkipCount();
+
+            // Act
+            service.saveSkipCount(trackModel);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.updateSkipCount(9, 1), Times.once());
+        });
+    });
 });

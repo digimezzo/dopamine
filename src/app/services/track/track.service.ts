@@ -136,4 +136,12 @@ export class TrackService implements BaseTrackService {
 
         return trackModels;
     }
+
+    public savePlayCount(track: TrackModel): void {
+        this.trackRepository.updatePlayCount(track.id, track.playCount);
+    }
+
+    public saveSkipCount(track: TrackModel): void {
+        this.trackRepository.updateSkipCount(track.id, track.skipCount);
+    }
 }
