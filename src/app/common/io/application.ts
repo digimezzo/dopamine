@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ipcRenderer, remote } from 'electron';
+import * as remote from '@electron/remote';
+import { ipcRenderer } from 'electron';
 import { Observable, Subject } from 'rxjs';
 import { BaseApplication } from './base-application';
 import { WindowSize } from './window-size';

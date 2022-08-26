@@ -1,32 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var electron_1 = require("electron");
-var electron_log_1 = require("electron-log");
-var Store = require("electron-store");
-var windowStateKeeper = require("electron-window-state");
-var os = require("os");
-var path = require("path");
-var url = require("url");
+const electron_1 = require("electron");
+const electron_log_1 = require("electron-log");
+const Store = require("electron-store");
+const windowStateKeeper = require("electron-window-state");
+const os = require("os");
+const path = require("path");
+const url = require("url");
 /**
  * Command line parameters
  */
-electron_1.app.commandLine.appendSwitch('disable-color-correct-rendering');
-electron_1.app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+electron_1.app.commandLine.appendSwitch('disable-color-correct-rendering'); // Prevents incorrect color rendering
+electron_1.app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); // Prevents requiring user interaction to play audio
+electron_1.app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the cache folder at each startup
 /**
  * Logging
  */
 electron_log_1.default.create('main');
-electron_log_1.default.transports.file.resolvePath = function () { return path.join(electron_1.app.getPath('userData'), 'logs', 'Dopamine.log'); };
+electron_log_1.default.transports.file.resolvePath = () => path.join(electron_1.app.getPath('userData'), 'logs', 'Dopamine.log');
 /**
  * Variables
  */
-var globalAny = global; // Global does not allow setting custom properties. We need to cast it to "any" first.
-var settings = new Store();
-var args = process.argv.slice(1);
-var isServing = args.some(function (val) { return val === '--serve'; });
-var mainWindow;
-var tray;
-var isQuitting;
+const globalAny = global; // Global does not allow setting custom properties. We need to cast it to "any" first.
+const settings = new Store();
+const args = process.argv.slice(1);
+const isServing = args.some((val) => val === '--serve');
+let mainWindow;
+let tray;
+let isQuitting;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
@@ -59,7 +60,7 @@ function shouldCloseToNotificationArea() {
     return settings.get('closeToNotificationArea');
 }
 function getTrayIcon() {
-    var invertColor = settings.get('invertNotificationAreaIconColor');
+    const invertColor = settings.get('invertNotificationAreaIconColor');
     if (electron_1.nativeTheme.shouldUseDarkColors) {
         if (invertColor) {
             return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
@@ -79,10 +80,12 @@ function createMainWindow() {
     // Suppress the default menu
     electron_1.Menu.setApplicationMenu(undefined);
     // Load the previous state with fallback to defaults
-    var windowState = windowStateKeeper({
+    const windowState = windowStateKeeper({
         defaultWidth: 870,
         defaultHeight: 620,
     });
+    const remoteMain = require('@electron/remote/main');
+    remoteMain.initialize();
     // Create the browser window
     mainWindow = new electron_1.BrowserWindow({
         x: windowState.x,
@@ -95,16 +98,16 @@ function createMainWindow() {
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
-            enableRemoteModule: true,
             contextIsolation: false,
         },
         show: false,
     });
+    remoteMain.enable(mainWindow.webContents);
     globalAny.windowHasFrame = windowHasFrame();
     windowState.manage(mainWindow);
     if (isServing) {
         require('electron-reload')(__dirname, {
-            electron: require(__dirname + "/node_modules/electron"),
+            electron: require(`${__dirname}/node_modules/electron`),
         });
         mainWindow.loadURL('http://localhost:4200');
     }
@@ -116,7 +119,7 @@ function createMainWindow() {
         }));
     }
     // Emitted when the window is closed.
-    mainWindow.on('closed', function () {
+    mainWindow.on('closed', () => {
         // Dereference the window object, usually you would store window
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
@@ -124,12 +127,12 @@ function createMainWindow() {
     });
     // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
-    mainWindow.on('ready-to-show', function () {
+    mainWindow.on('ready-to-show', () => {
         mainWindow.show();
         mainWindow.focus();
     });
     // Makes links open in external browser
-    var handleRedirect = function (e, localUrl) {
+    const handleRedirect = (e, localUrl) => {
         // Check that the requested url is not the current page
         if (localUrl !== mainWindow.webContents.getURL()) {
             e.preventDefault();
@@ -138,7 +141,7 @@ function createMainWindow() {
     };
     mainWindow.webContents.on('will-navigate', handleRedirect);
     mainWindow.webContents.on('new-window', handleRedirect);
-    mainWindow.webContents.on('before-input-event', function (event, input) {
+    mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
             // if (serve) {
             mainWindow.webContents.toggleDevTools();
@@ -146,13 +149,13 @@ function createMainWindow() {
             event.preventDefault();
         }
     });
-    mainWindow.on('minimize', function (event) {
+    mainWindow.on('minimize', (event) => {
         if (shouldMinimizeToNotificationArea()) {
             event.preventDefault();
             mainWindow.hide();
         }
     });
-    mainWindow.on('close', function (event) {
+    mainWindow.on('close', (event) => {
         if (shouldCloseToNotificationArea()) {
             if (!isQuitting) {
                 event.preventDefault();
@@ -167,13 +170,13 @@ function createMainWindow() {
  */
 try {
     electron_log_1.default.info('[Main] [] +++ Starting +++');
-    var gotTheLock = electron_1.app.requestSingleInstanceLock();
+    const gotTheLock = electron_1.app.requestSingleInstanceLock();
     if (!gotTheLock) {
         electron_log_1.default.info('[Main] [] There is already another instance running. Closing.');
         electron_1.app.quit();
     }
     else {
-        electron_1.app.on('second-instance', function (event, argv, workingDirectory) {
+        electron_1.app.on('second-instance', (event, argv, workingDirectory) => {
             electron_log_1.default.info('[Main] [] Attempt to run second instance. Showing existing window.');
             mainWindow.webContents.send('arguments-received', argv);
             // Someone tried to run a second instance, we should focus the existing window.
@@ -189,7 +192,7 @@ try {
         // Some APIs can only be used after this event occurs.
         electron_1.app.on('ready', createMainWindow);
         // Quit when all windows are closed.
-        electron_1.app.on('window-all-closed', function () {
+        electron_1.app.on('window-all-closed', () => {
             electron_log_1.default.info('[App] [window-all-closed] +++ Stopping +++');
             // On OS X it is common for applications and their menu bar
             // to stay active until the user quits explicitly with Cmd + Q
@@ -197,20 +200,20 @@ try {
                 electron_1.app.quit();
             }
         });
-        electron_1.app.on('activate', function () {
+        electron_1.app.on('activate', () => {
             // On OS X it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow == undefined) {
                 createMainWindow();
             }
         });
-        electron_1.app.on('before-quit', function () {
+        electron_1.app.on('before-quit', () => {
             isQuitting = true;
         });
-        electron_1.app.whenReady().then(function () {
+        electron_1.app.whenReady().then(() => {
             // See: https://github.com/electron/electron/issues/23757
-            electron_1.protocol.registerFileProtocol('file', function (request, callback) {
-                var pathname = decodeURI(request.url.replace('file:///', ''));
+            electron_1.protocol.registerFileProtocol('file', (request, callback) => {
+                const pathname = decodeURI(request.url.replace('file:///', ''));
                 callback(pathname);
             });
             if (shouldShowIconInNotificationArea()) {
@@ -218,34 +221,34 @@ try {
                 tray.setToolTip('Dopamine');
             }
         });
-        electron_1.nativeTheme.on('updated', function () {
+        electron_1.nativeTheme.on('updated', () => {
             if (tray == undefined) {
                 return;
             }
             tray.setImage(getTrayIcon());
         });
-        electron_1.ipcMain.on('update-tray-context-menu', function (event, arg) {
+        electron_1.ipcMain.on('update-tray-context-menu', (event, arg) => {
             if (tray == undefined) {
                 return;
             }
-            var contextMenu = electron_1.Menu.buildFromTemplate([
+            const contextMenu = electron_1.Menu.buildFromTemplate([
                 {
                     label: arg.showDopamineLabel,
-                    click: function () {
+                    click() {
                         mainWindow.show();
                         mainWindow.focus();
                     },
                 },
                 {
                     label: arg.exitLabel,
-                    click: function () {
+                    click() {
                         electron_1.app.quit();
                     },
                 },
             ]);
             tray.setContextMenu(contextMenu);
         });
-        electron_1.ipcMain.on('update-tray-icon', function (event, arg) {
+        electron_1.ipcMain.on('update-tray-icon', (event, arg) => {
             if (tray == undefined) {
                 return;
             }
@@ -254,7 +257,7 @@ try {
     }
 }
 catch (e) {
-    electron_log_1.default.info("[Main] [] Could not start. Error: " + e.message);
+    electron_log_1.default.info(`[Main] [] Could not start. Error: ${e.message}`);
     throw e;
 }
 //# sourceMappingURL=main.js.map

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { OpenDialogReturnValue, remote } from 'electron';
+import * as remote from '@electron/remote';
+import { OpenDialogReturnValue } from 'electron';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable()

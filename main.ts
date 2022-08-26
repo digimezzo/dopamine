@@ -9,8 +9,9 @@ import * as url from 'url';
 /**
  * Command line parameters
  */
-app.commandLine.appendSwitch('disable-color-correct-rendering');
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+app.commandLine.appendSwitch('disable-color-correct-rendering'); // Prevents incorrect color rendering
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); // Prevents requiring user interaction to play audio
+app.commandLine.appendSwitch('disable-http-cache'); // Disables clearing of the cache folder at each startup
 
 /**
  * Logging
@@ -97,6 +98,9 @@ function createMainWindow(): void {
         defaultHeight: 620,
     });
 
+    const remoteMain = require('@electron/remote/main');
+    remoteMain.initialize();
+
     // Create the browser window
     mainWindow = new BrowserWindow({
         x: windowState.x,
@@ -109,11 +113,12 @@ function createMainWindow(): void {
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,
-            enableRemoteModule: true,
             contextIsolation: false,
         },
         show: false,
     });
+
+    remoteMain.enable(mainWindow.webContents);
 
     globalAny.windowHasFrame = windowHasFrame();
 
