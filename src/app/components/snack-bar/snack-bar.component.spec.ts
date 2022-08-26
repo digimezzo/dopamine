@@ -3,6 +3,8 @@ import { Desktop } from '../../common/io/desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarComponent } from './snack-bar.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('SnackBarComponent', () => {
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let desktopMock: IMock<Desktop>;

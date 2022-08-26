@@ -5,6 +5,8 @@ import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { SnackBarService } from './snack-bar.service';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('SnackBarService', () => {
     let zone: IMock<NgZone>;
     let matSnackBar: IMock<MatSnackBar>;

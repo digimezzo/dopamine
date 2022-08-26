@@ -6,6 +6,8 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { UpdateService } from './update.service';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('UpdateService', () => {
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;

@@ -5,6 +5,8 @@ import { Desktop } from '../../../common/io/desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { AboutComponent } from './about.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('AboutComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
     let desktopMock: IMock<Desktop>;

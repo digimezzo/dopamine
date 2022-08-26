@@ -5,6 +5,8 @@ import { BasePlaylistService } from '../../../services/playlist/base-playlist.se
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { EditPlaylistDialogComponent } from './edit-playlist-dialog.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('EditPlaylistDialogComponent', () => {
     let component: EditPlaylistDialogComponent;
     const dataMock: any = { inputText: '' };

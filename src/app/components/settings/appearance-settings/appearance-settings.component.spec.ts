@@ -5,6 +5,8 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AppearanceSettingsComponent } from './appearance-settings.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('AppearanceSettingsComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;

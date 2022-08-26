@@ -13,6 +13,8 @@ import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;

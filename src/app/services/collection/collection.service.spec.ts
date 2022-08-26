@@ -10,6 +10,8 @@ import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseCollectionService } from './base-collection.service';
 import { CollectionService } from './collection.service';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('CollectionService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;

@@ -18,6 +18,8 @@ import { ThemeCreator } from './theme/theme-creator';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 import { ThemeOptions } from './theme/theme-options';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('AppearanceService', () => {
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;

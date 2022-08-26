@@ -10,6 +10,8 @@ import { BaseIndexingService } from '../../services/indexing/base-indexing.servi
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { AddFolderComponent } from './add-folder.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('AddFolderComponent', () => {
     let desktopMock: IMock<Desktop>;
     let translatorServiceMock: IMock<BaseTranslatorService>;

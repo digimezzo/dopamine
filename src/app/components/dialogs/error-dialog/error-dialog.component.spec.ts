@@ -4,6 +4,8 @@ import { Desktop } from '../../../common/io/desktop';
 import { FileSystem } from '../../../common/io/file-system';
 import { ErrorDialogComponent } from './error-dialog.component';
 
+jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
+
 describe('ErrorDialogComponent', () => {
     let dialogRefMock: IMock<MatDialogRef<ErrorDialogComponent>>;
     let desktopMock: IMock<Desktop>;
