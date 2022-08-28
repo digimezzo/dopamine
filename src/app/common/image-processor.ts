@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { nativeImage, NativeImage, Size } from 'electron';
 import * as fs from 'fs-extra';
 import fetch from 'node-fetch';
 import { BaseFileSystem } from './io/base-file-system';
@@ -27,5 +28,16 @@ export class ImageProcessor {
 
     public convertBufferToImageUrl(imageBuffer: Buffer): string {
         return 'data:image/png;base64,' + imageBuffer.toString('base64');
+    }
+
+    public async resizeImageAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
+        let image: NativeImage = await nativeImage.createFromBuffer(imageBuffer);
+        const imageSize: Size = image.getSize();
+
+        if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
+            image = image.resize({ width: maxWidth, height: maxHeight, quality: 'best' });
+        }
+
+        return image.toJPEG(jpegQuality);
     }
 }

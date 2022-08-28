@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BaseFileSystem } from '../io/base-file-system';
 import { Logger } from '../logger';
 import { BaseDatabaseMigrator } from './base-database-migrator';
 import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';
-import { InitialMigration } from './migrations/001-initial';
+import { Migration1 } from './migrations/migration1';
+import { Migration2 } from './migrations/migration2';
 
 @Injectable()
 export class DatabaseMigrator implements BaseDatabaseMigrator {
-    private migrations: Migration[] = [new InitialMigration()];
+    private migrations: Migration[] = [new Migration1(), new Migration2()];
 
-    constructor(private databaseFactory: DatabaseFactory, private fileSystem: BaseFileSystem, private logger: Logger) {}
+    constructor(private databaseFactory: DatabaseFactory, private logger: Logger) {}
 
     public async migrateAsync(): Promise<void> {
         const databaseVersion: number = this.getDatabaseVersion();
@@ -22,11 +22,11 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
             this.logger.info('The database is up to date. No migrations to perform.', 'DatabaseMigrator', 'migrateAsync');
         } else if (mostRecentMigration > databaseVersion) {
             this.logger.info('Database is too old. Applying migrations.', 'DatabaseMigrator', 'migrateAsync');
-            migrationsToApply = this.getMigrationsToApply(true);
+            migrationsToApply = this.getMigrationsToApply(databaseVersion, false);
         } else if (mostRecentMigration < databaseVersion) {
             this.logger.info('Database is too new. Reverting migrations.', 'DatabaseMigrator', 'migrateAsync');
             mustRevert = true;
-            migrationsToApply = this.getMigrationsToApply(false);
+            migrationsToApply = this.getMigrationsToApply(databaseVersion, true);
         }
 
         const database: any = this.databaseFactory.create();
@@ -70,17 +70,21 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
                     'DatabaseMigrator',
                     'migrateAsync'
                 );
+
+                database.prepare('ROLLBACK;').run();
             }
         }
     }
 
-    private getMigrationsToApply(inDescendingOrder: boolean): Migration[] {
+    private getMigrationsToApply(databaseVersion: number, inDescendingOrder: boolean): Migration[] {
         let sortedMigrations: Migration[] = [];
 
         if (inDescendingOrder) {
-            sortedMigrations = this.migrations.sort((a, b) => (a.id > b.id ? -1 : 1));
+            const migrations: Migration[] = this.migrations.filter((x) => x.id < databaseVersion);
+            sortedMigrations = migrations.sort((a, b) => (a.id > b.id ? -1 : 1));
         } else {
-            sortedMigrations = this.migrations.sort((a, b) => (a.id > b.id ? 1 : -1));
+            const migrations: Migration[] = this.migrations.filter((x) => x.id > databaseVersion);
+            sortedMigrations = migrations.sort((a, b) => (a.id > b.id ? 1 : -1));
         }
 
         return sortedMigrations;

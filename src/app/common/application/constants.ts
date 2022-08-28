@@ -35,6 +35,9 @@ export class Constants {
 
     public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
 
+    public static readonly cachedCoverArtMaximumSize: number = 360;
+    public static readonly cachedCoverArtJpegQuality: number = 80;
+
     public static readonly externalCoverArtPatterns: string[] = [
         'front.png',
         'front.jpg',

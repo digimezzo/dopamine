@@ -1,8 +1,8 @@
 import { Migration } from '../migration';
 
-export class InitialMigration extends Migration {
+export class Migration1 extends Migration {
     public id: number = 1;
-    public name: string = '001-initial';
+    public name: string = 'Migration1';
 
     public up(): void {
         this.sql(`CREATE TABLE Folder (

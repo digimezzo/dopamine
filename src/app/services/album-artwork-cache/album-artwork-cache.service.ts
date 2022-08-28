@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Constants } from '../../common/application/constants';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
@@ -30,19 +31,25 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         }
     }
 
-    public async addArtworkDataToCacheAsync(data: Buffer): Promise<AlbumArtworkCacheId> {
-        if (data == undefined) {
+    public async addArtworkDataToCacheAsync(imageBuffer: Buffer): Promise<AlbumArtworkCacheId> {
+        if (imageBuffer == undefined) {
             return undefined;
         }
 
-        if (data.length === 0) {
+        if (imageBuffer.length === 0) {
             return undefined;
         }
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
-            await this.imageProcessor.convertImageBufferToFileAsync(data, cachedArtworkFilePath);
+            const cachedArtworkThumbnailFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
+            const thumbnailBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
+                imageBuffer,
+                Constants.cachedCoverArtMaximumSize,
+                Constants.cachedCoverArtMaximumSize,
+                Constants.cachedCoverArtJpegQuality
+            );
+            await this.imageProcessor.convertImageBufferToFileAsync(thumbnailBuffer, cachedArtworkThumbnailFilePath);
 
             return albumArtworkCacheId;
         } catch (e) {
