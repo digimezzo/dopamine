@@ -1,4 +1,5 @@
 import { IMock, Mock, Times } from 'typemoq';
+import { Constants } from '../../common/application/constants';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
@@ -63,10 +64,10 @@ describe('AlbumArtworkCacheService', () => {
         });
         it('should return undefined when the data is empty', async () => {
             // Arrange
-            const data = Buffer.alloc(0);
+            const imageBuffer = Buffer.alloc(0);
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
             expect(albumArtworkCacheId).toBeUndefined();
@@ -78,29 +79,39 @@ describe('AlbumArtworkCacheService', () => {
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
             fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
-            const data = Buffer.from([1, 2, 3]);
+            const imageBuffer = Buffer.from([1, 2, 3]);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
             expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn.id);
         });
 
-        it('should save data to file when the data is not empty', async () => {
+        it('should save thumbnail to file when the data is not empty', async () => {
             // Arrange
+            const imageBuffer = Buffer.from([1, 2, 3]);
+            const resizedImageBuffer = Buffer.from([4, 5, 6]);
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
-            const imagePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
+            const cachedArtworkFilePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => imagePath);
-
-            const data = Buffer.from([1, 2, 3]);
+            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => cachedArtworkFilePath);
+            imageProcessorMock
+                .setup((x) =>
+                    x.resizeImageAsync(
+                        imageBuffer,
+                        Constants.cachedCoverArtMaximumSize,
+                        Constants.cachedCoverArtMaximumSize,
+                        Constants.cachedCoverArtJpegQuality
+                    )
+                )
+                .returns(async () => resizedImageBuffer);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(data);
+            await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
-            imageProcessorMock.verify((x) => x.convertImageBufferToFileAsync(data, imagePath), Times.exactly(1));
+            imageProcessorMock.verify((x) => x.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath), Times.once());
         });
     });
 
@@ -108,15 +119,15 @@ describe('AlbumArtworkCacheService', () => {
         it('should delete cached artwork file if it exists', async () => {
             // Arrange
             const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
-            const imagePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
+            const cachedArtworkFilePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
-            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => imagePath);
+            fileSystemMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => cachedArtworkFilePath);
 
             // Act
             await service.removeArtworkDataFromCacheAsync(albumArtworkCacheIdToCreate.id);
 
             // Assert
-            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(imagePath), Times.exactly(1));
+            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(cachedArtworkFilePath), Times.exactly(1));
         });
     });
 });

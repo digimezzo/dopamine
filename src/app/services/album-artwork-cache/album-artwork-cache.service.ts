@@ -42,14 +42,14 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkThumbnailFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
-            const thumbnailBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
+            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
+            const resizedImageBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtJpegQuality
             );
-            await this.imageProcessor.convertImageBufferToFileAsync(thumbnailBuffer, cachedArtworkThumbnailFilePath);
+            await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
         } catch (e) {
