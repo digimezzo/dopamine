@@ -232,6 +232,8 @@ import { BaseNavigationService } from './services/navigation/base-navigation.ser
 import { NavigationService } from './services/navigation/navigation.service';
 import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
+import { BasePlaybackInformationService } from './services/playback-information/base-playback-information.service';
+import { PlaybackInformationService } from './services/playback-information/playback-information.service';
 import { AudioPlayer } from './services/playback/audio-player';
 import { BaseAudioPlayer } from './services/playback/base-audio-player';
 import { BasePlaybackService } from './services/playback/base-playback.service';
@@ -511,6 +513,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseCollectionService, useClass: CollectionService },
         { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
+        { provide: BasePlaybackInformationService, useClass: PlaybackInformationService },
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
         { provide: BasePlaylistService, useClass: PlaylistService },

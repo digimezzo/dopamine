@@ -2,8 +2,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
+import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
+import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
 
 @Component({
@@ -46,7 +46,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playbackService: BasePlaybackService, private scheduler: Scheduler) {}
+    constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
 
     @Input()
     public height: number = 0;
@@ -72,21 +72,24 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        await this.switchDown(this.playbackService.currentTrack, false);
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.switchDown(currentPlaybackInformation.track, false);
 
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                if (playbackStarted.isPlayingPreviousTrack) {
-                    await this.switchDown(playbackStarted.currentTrack, true);
-                } else {
-                    await this.switchUp(playbackStarted.currentTrack);
-                }
+            this.playbackInformationService.playingNextTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchUp(playbackInformation.track);
             })
         );
 
         this.subscription.add(
-            this.playbackService.playbackStopped$.subscribe(async () => {
-                await this.switchUp(undefined);
+            this.playbackInformationService.playingPreviousTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchDown(playbackInformation.track, true);
+            })
+        );
+
+        this.subscription.add(
+            this.playbackInformationService.playingNoTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchUp(playbackInformation.track);
             })
         );
     }

@@ -319,7 +319,9 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.reset();
 
             // Act
+            jest.useFakeTimers();
             windowSizeChanged.next();
+            jest.runAllTimers();
 
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));
@@ -367,7 +369,9 @@ describe('AlbumBrowserComponent', () => {
             albumRowsGetterMock.reset();
 
             // Act
+            jest.useFakeTimers();
             mouseButtonReleased.next();
+            jest.runAllTimers();
 
             // Assert
             albumRowsGetterMock.verify((x) => x.getAlbumRows(500, albums, AlbumOrder.byAlbumArtist), Times.exactly(1));

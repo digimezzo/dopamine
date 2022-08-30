@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
+import { debounceTime } from 'rxjs/operators';
+import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
@@ -73,13 +75,13 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        this.applicationService.windowSizeChanged$.subscribe(() => {
+        this.applicationService.windowSizeChanged$.pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds)).subscribe(() => {
             if (this.hasAvailableWidthChanged()) {
                 this.orderAlbums();
             }
         });
 
-        this.applicationService.mouseButtonReleased$.subscribe(() => {
+        this.applicationService.mouseButtonReleased$.pipe(debounceTime(Constants.albumsRedrawDelayMilliseconds)).subscribe(() => {
             if (this.hasAvailableWidthChanged()) {
                 this.orderAlbums();
             }

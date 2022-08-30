@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+-   Fixed an issue where image and text would not change simultaneously when the playing song changes
+
 ## [3.0.0-preview.12] - 2022-07-28
 
 ### Added

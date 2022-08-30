@@ -6,11 +6,12 @@ import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaybackIndicationService } from './playback-indication.service';
 
-describe('SnackBarService', () => {
+describe('PlaybackIndicationService', () => {
     let pathValidator: IMock<PathValidator>;
 
     let service: PlaybackIndicationService;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+
     beforeEach(() => {
         pathValidator = Mock.ofType<PathValidator>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();

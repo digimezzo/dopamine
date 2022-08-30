@@ -2,37 +2,47 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { Scheduler } from '../../common/scheduling/scheduler';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
+import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
+import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackInformationComponent } from './playback-information.component';
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackInformationComponent;
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
     let schedulerMock: IMock<Scheduler>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
-    let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
-    let playbackServicePlaybackStoppedMock: Subject<void>;
+    let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
+    let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
+    let playbackInformationService_PlayingNoTrack: Subject<PlaybackInformation>;
 
     const flushPromises = () => new Promise(setImmediate);
 
     beforeEach(async () => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         schedulerMock = Mock.ofType<Scheduler>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        component = new PlaybackInformationComponent(playbackServiceMock.object, schedulerMock.object);
+        component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
-        playbackServicePlaybackStartedMock = new Subject();
-        const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
-        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStartedMock$);
+        playbackInformationService_PlayingNextTrack = new Subject();
+        const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =
+            playbackInformationService_PlayingNextTrack.asObservable();
+        playbackInformationServiceMock.setup((x) => x.playingNextTrack$).returns(() => playbackInformationService_PlayingNextTrack$);
 
-        playbackServicePlaybackStoppedMock = new Subject();
-        const playbackServicePlaybackStoppedMock$: Observable<void> = playbackServicePlaybackStoppedMock.asObservable();
-        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStoppedMock$);
+        playbackInformationService_PlayingPreviousTrack = new Subject();
+        const playbackInformationService_PlayingPreviousTrack$: Observable<PlaybackInformation> =
+            playbackInformationService_PlayingPreviousTrack.asObservable();
+        playbackInformationServiceMock
+            .setup((x) => x.playingPreviousTrack$)
+            .returns(() => playbackInformationService_PlayingPreviousTrack$);
+
+        playbackInformationService_PlayingNoTrack = new Subject();
+        const playbackInformationService_PlayingNoTrack$: Observable<PlaybackInformation> =
+            playbackInformationService_PlayingNoTrack.asObservable();
+        playbackInformationServiceMock.setup((x) => x.playingNoTrack$).returns(() => playbackInformationService_PlayingNoTrack$);
     });
 
     describe('constructor', () => {
@@ -126,7 +136,10 @@ describe('PlaybackInformationComponent', () => {
             track1.trackTitle = 'My title';
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
 
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act
             await component.ngOnInit();
@@ -137,17 +150,22 @@ describe('PlaybackInformationComponent', () => {
             expect(component.contentAnimation).toEqual('down');
         });
 
-        it('should set bottom content items and animate up when playing a next track on playbackStarted', async () => {
+        it('should subscribe to playbackInformationService.playingNextTrack, set bottom content and animate up when playing a next track', async () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/track1.mp3');
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
 
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+
             // Act
             await component.ngOnInit();
 
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, false));
+            playbackInformationService_PlayingNextTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
 
             await flushPromises();
 
@@ -157,17 +175,22 @@ describe('PlaybackInformationComponent', () => {
             expect(component.contentAnimation).toEqual('animated-up');
         });
 
-        it('should set top content items and animate down when playing a previous track on playbackStarted', async () => {
+        it('should subscribe to playbackInformationService.playingPreviousTrack, set bottom content and animate down when playing a next track', async () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/track1.mp3');
             track1.artists = 'My artist';
             track1.trackTitle = 'My title';
             const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
 
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+
             // Act
             await component.ngOnInit();
 
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, true));
+            playbackInformationService_PlayingPreviousTrack.next(new PlaybackInformation(trackModel1, 'image-url-mock'));
 
             await flushPromises();
 
@@ -177,15 +200,24 @@ describe('PlaybackInformationComponent', () => {
             expect(component.contentAnimation).toEqual('animated-down');
         });
 
-        it('should set bottom content items and animate up when playing a next track on playbackStopped', async () => {
+        it('should subscribe to playbackInformationService.playingNoTrack, set bottom content and animate up when playing no track', async () => {
             // Arrange
+            const track1: Track = new Track('/home/user/Music/track1.mp3');
+            track1.artists = 'My artist';
+            track1.trackTitle = 'My title';
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
+
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act
             await component.ngOnInit();
             component.bottomContentArtist = 'My artist';
             component.bottomContentTitle = 'My title';
 
-            playbackServicePlaybackStoppedMock.next();
+            playbackInformationService_PlayingNoTrack.next(new PlaybackInformation(undefined, ''));
 
             await flushPromises();
 

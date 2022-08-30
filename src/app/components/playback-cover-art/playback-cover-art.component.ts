@@ -2,10 +2,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
-import { TrackModel } from '../../services/track/track-model';
+import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
+import { PlaybackInformation } from '../../services/playback-information/playback-information';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -47,7 +45,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService, private scheduler: Scheduler) {}
+    constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
 
     public contentAnimation: string = 'down';
 
@@ -64,28 +62,29 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        await this.switchDown(this.playbackService.currentTrack, false);
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.switchDown(currentPlaybackInformation.imageUrl, false);
 
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                if (playbackStarted.isPlayingPreviousTrack) {
-                    await this.switchDown(playbackStarted.currentTrack, true);
-                } else {
-                    await this.switchUp(playbackStarted.currentTrack);
-                }
+            this.playbackInformationService.playingNextTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchUp(playbackInformation.imageUrl);
             })
         );
 
         this.subscription.add(
-            this.playbackService.playbackStopped$.subscribe(async () => {
-                await this.switchUp(undefined);
+            this.playbackInformationService.playingPreviousTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchDown(playbackInformation.imageUrl, true);
+            })
+        );
+
+        this.subscription.add(
+            this.playbackInformationService.playingNoTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
+                await this.switchUp(playbackInformation.imageUrl);
             })
         );
     }
 
-    private async switchUp(track: TrackModel): Promise<void> {
-        const newImage: string = await this.metadataService.createImageUrlAsync(track);
-
+    private async switchUp(newImage: string): Promise<void> {
         if (this.contentAnimation !== 'down') {
             this.topImageUrl = this.currentImageUrl;
 
@@ -99,9 +98,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(350);
     }
 
-    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        const newImage: string = await this.metadataService.createImageUrlAsync(track);
-
+    private async switchDown(newImage: string, performAnimation: boolean): Promise<void> {
         if (performAnimation) {
             if (this.contentAnimation !== 'up') {
                 this.bottomImageUrl = this.currentImageUrl;
