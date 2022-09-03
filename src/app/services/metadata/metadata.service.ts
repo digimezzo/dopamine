@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { FileMetadata } from '../../common/metadata/file-metadata';
@@ -11,6 +12,7 @@ import { BaseMetadataService } from './base-metadata.service';
 export class MetadataService implements BaseMetadataService {
     constructor(
         private fileMetadataFactory: FileMetadataFactory,
+        private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
         private logger: Logger
@@ -36,9 +38,22 @@ export class MetadataService implements BaseMetadataService {
 
             return this.imageProcessor.convertBufferToImageUrl(coverArt);
         } catch (error) {
-            this.logger.error(`Could not create image URL for track with path=${track.path}`, 'MetadataService', 'createImageUrlAsync');
+            this.logger.error(
+                `Could not create image URL for track with path=${track.path}. Error: ${error.message}`,
+                'MetadataService',
+                'createImageUrlAsync'
+            );
         }
 
         return '';
+    }
+
+    public saveTrackRating(track: TrackModel): void {
+        try {
+            this.trackRepository.updateRating(track.id, track.rating);
+        } catch (error) {
+            this.logger.error(`Could not save rating. Error: ${error.message}`, 'MetadataService', 'saveTrackRating');
+            throw new Error(error.message);
+        }
     }
 }

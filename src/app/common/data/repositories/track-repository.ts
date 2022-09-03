@@ -512,4 +512,15 @@ export class TrackRepository implements BaseTrackRepository {
             skipCount: skipCount,
         });
     }
+
+    public updateRating(trackId: number, rating: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`UPDATE Track SET Rating=@rating WHERE TrackID=@trackId;`);
+
+        statement.run({
+            trackId: trackId,
+            rating: rating,
+        });
+    }
 }

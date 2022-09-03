@@ -120,6 +120,13 @@ export class TrackModel {
         return this.track.skipCount;
     }
 
+    public get rating(): number {
+        return this.track.rating;
+    }
+    public set rating(v: number) {
+        this.track.rating = v;
+    }
+
     public increasePlayCount(): void {
         this.track.playCount++;
     }

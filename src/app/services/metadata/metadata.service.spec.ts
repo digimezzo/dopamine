@@ -1,5 +1,6 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { FileMetadata } from '../../common/metadata/file-metadata';
@@ -13,6 +14,7 @@ import { MetadataService } from './metadata.service';
 
 describe('MetadataService', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
+    let trackRepositoryMock: IMock<BaseTrackRepository>;
     let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
     let imageProcessorMock: IMock<ImageProcessor>;
     let loggerMock: IMock<Logger>;
@@ -21,12 +23,14 @@ describe('MetadataService', () => {
 
     beforeEach(() => {
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
+        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         service = new MetadataService(
             fileMetadataFactoryMock.object,
+            trackRepositoryMock.object,
             albumArtworkGetterMock.object,
             imageProcessorMock.object,
             loggerMock.object
@@ -62,6 +66,7 @@ describe('MetadataService', () => {
 
             service = new MetadataService(
                 fileMetadataFactoryMock.object,
+                trackRepositoryMock.object,
                 albumArtworkGetterMock.object,
                 imageProcessorMock.object,
                 loggerMock.object
@@ -83,6 +88,7 @@ describe('MetadataService', () => {
 
             service = new MetadataService(
                 fileMetadataFactoryMock.object,
+                trackRepositoryMock.object,
                 albumArtworkGetterMock.object,
                 imageProcessorMock.object,
                 loggerMock.object
@@ -106,6 +112,7 @@ describe('MetadataService', () => {
 
             service = new MetadataService(
                 fileMetadataFactoryMock.object,
+                trackRepositoryMock.object,
                 albumArtworkGetterMock.object,
                 imageProcessorMock.object,
                 loggerMock.object
@@ -116,6 +123,27 @@ describe('MetadataService', () => {
 
             // Assert
             expect(imageUrl).toEqual('image-url');
+        });
+    });
+
+    describe('saveTrackRating', () => {
+        it('should update the track rating', async () => {
+            // Arrange
+            const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
+
+            service = new MetadataService(
+                fileMetadataFactoryMock.object,
+                trackRepositoryMock.object,
+                albumArtworkGetterMock.object,
+                imageProcessorMock.object,
+                loggerMock.object
+            );
+
+            // Act
+            await service.saveTrackRating(track);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.updateRating(track.id, track.rating), Times.once());
         });
     });
 });

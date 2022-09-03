@@ -32,4 +32,5 @@ export abstract class BaseTrackRepository {
     public abstract enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean): void;
     public abstract updatePlayCount(trackId: number, playCount: number): void;
     public abstract updateSkipCount(trackId: number, skipCount: number): void;
+    public abstract updateRating(trackId: number, rating: number): void;
 }

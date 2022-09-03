@@ -151,6 +151,7 @@ import { PlaybackInformationComponent } from './components/playback-information/
 import { PlaybackProgressComponent } from './components/playback-progress/playback-progress.component';
 import { PlaybackQueueComponent } from './components/playback-queue/playback-queue.component';
 import { PlaybackTimeComponent } from './components/playback-time/playback-time.component';
+import { RatingComponent } from './components/rating/rating.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { AdvancedSettingsComponent } from './components/settings/advanced-settings/advanced-settings.component';
 import { AppearanceSettingsComponent } from './components/settings/appearance-settings/appearance-settings.component';
@@ -371,6 +372,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistComponent,
         EditPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
+        RatingComponent,
     ],
     imports: [
         BrowserAnimationsModule,

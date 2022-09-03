@@ -24,6 +24,7 @@ describe('TrackModel', () => {
         track.fileSize = 7704126;
         track.playCount = 9;
         track.skipCount = 7;
+        track.rating = 4;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
@@ -525,6 +526,31 @@ describe('TrackModel', () => {
 
             // Assert
             expect(skipCount).toEqual(7);
+        });
+    });
+
+    describe('rating', () => {
+        it('should return the track rating', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rating: number = trackModel.rating;
+
+            // Assert
+            expect(rating).toEqual(4);
+        });
+
+        it('should set the track rating', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            trackModel.rating = 2;
+
+            // Assert
+            expect(trackModel.rating).toEqual(2);
+            expect(track.rating).toEqual(2);
         });
     });
 

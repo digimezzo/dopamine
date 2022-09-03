@@ -202,5 +202,6 @@
     "delete-songs": "Nummers verwijderen",
     "confirm-delete-song": "Weet je zeker dat je dit nummer wilt verwijderen? U kunt het herstellen vanuit de prullenbak.",
     "confirm-delete-songs": "Weet je zeker dat je deze nummers wilt verwijderen? U kunt ze herstellen vanuit de prullenbak.",
-    "delete-songs-error": "Er is een fout opgetreden bij het verwijderen van nummers. Controleer het log bestand als u meer informatie nodig heeft."
+    "delete-songs-error": "Er is een fout opgetreden bij het verwijderen van nummers. Controleer het log bestand als u meer informatie nodig heeft.",
+    "save-rating-error": "Er is een fout opgetreden bij het opslaan van de beoordeling. Controleer het log bestand als u meer informatie nodig heeft."
 }

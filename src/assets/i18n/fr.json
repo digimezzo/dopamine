@@ -202,5 +202,6 @@
     "delete-songs": "Supprimer les numéros",
     "confirm-delete-song": "Voulez-vous vraiment supprimer ce numéro? Vous pouvez le restaurer à partir de la corbeille.",
     "confirm-delete-songs": "Voulez-vous vraiment supprimer ces numéros? Vous pouvez les restaurer à partir de la corbeille.",
-    "delete-songs-error": "Une erreur s'est produite lors de la suppression des numéros. Veuillez vérifier le log si vous avez besoin de plus d'informations."
+    "delete-songs-error": "Une erreur s'est produite lors de la suppression des numéros. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
+    "save-rating-error": "Une erreur s'est produite lors de l'enregistrement du classement. Veuillez vérifier le journal si vous avez besoin de plus d'informations."
 }
