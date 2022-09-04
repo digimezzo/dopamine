@@ -26,8 +26,7 @@
                         "styles": ["src/styles.scss", "./node_modules/line-awesome/dist/line-awesome/css/line-awesome.css"],
                         "stylePreprocessorOptions": {
                             "includePaths": ["src/css"]
-                        },
-                        "scripts": ["node_modules/hammerjs/hammer.min.js"]
+                        }
                     },
                     "configurations": {
                         "dev": {

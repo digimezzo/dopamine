@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../common/context-menu-opener';
 import { MouseSelectionWatcher } from '../../common/mouse-selection-watcher';

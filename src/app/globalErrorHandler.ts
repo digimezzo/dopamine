@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BrowserWindow } from 'electron';
 import { BaseApplication } from './common/io/base-application';
 import { Logger } from './common/logger';

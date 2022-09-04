@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable()
 export class ContextMenuOpener {
