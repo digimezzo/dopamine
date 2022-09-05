@@ -1,11 +1,11 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'custom-mat-themes';
 
-$custom-typography: mat-typography-config(
+$custom-typography: mat.define-typography-config(
     $font-family: 'opensans',
 );
 
-@include mat-core($custom-typography);
+@include mat.core($custom-typography);
 
 $default-palette: (
     50: var(--theme-accent-50),
@@ -40,21 +40,21 @@ $default-palette: (
     ),
 );
 
-$default-theme-primary: mat-palette($default-palette);
-$default-theme-accent: mat-palette($default-palette);
-$default-theme-warn: mat-palette($default-palette);
+$default-theme-primary: mat.define-palette($default-palette);
+$default-theme-accent: mat.define-palette($default-palette);
+$default-theme-warn: mat.define-palette($default-palette);
 
 $default-theme-dark: custom-mat-dark-theme($default-theme-primary, $default-theme-accent, $default-theme-warn);
 $default-theme-light: custom-mat-light-theme($default-theme-primary, $default-theme-accent, $default-theme-warn);
 
-@include angular-material-theme($default-theme-dark);
+@include mat.all-component-themes($default-theme-dark);
 
 .default-theme-dark {
-    @include angular-material-theme($default-theme-dark);
+    @include mat.all-component-themes($default-theme-dark);
 }
 
 .default-theme-light {
-    @include angular-material-theme($default-theme-light);
+    @include mat.all-component-themes($default-theme-light);
 }
 
 .theme-header-background {
