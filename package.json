@@ -39,7 +39,7 @@
         "test-file": "npx jest --verbose -i"
     },
     "devDependencies": {
-        "@angular-builders/custom-webpack": "^10.0.0",
+        "@angular-builders/custom-webpack": "^11.0.0",
         "@angular-devkit/build-angular": "~0.1102.18",
         "@angular/cli": "11.2.19",
         "@angular/common": "11.2.14",
@@ -94,7 +94,7 @@
         "constants-browserify": "^1.0.0",
         "crypto-browserify": "^3.12.0",
         "discord-rpc": "^4.0.1",
-        "electron-log": "4.3.5",
+        "electron-log": "4.4.8",
         "electron-store": "7.0.3",
         "electron-window-state": "5.0.3",
         "fs-extra": "10.1.0",

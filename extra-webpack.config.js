@@ -6,7 +6,7 @@ module.exports = {
             fs: require.resolve('browserify-fs'),
             http: require.resolve('stream-http'),
             https: require.resolve('https-browserify'),
-            os: require.resolve('os-browserify'),
+            os: require.resolve('os-browserify/browser'),
             path: require.resolve('path-browserify'),
             readline: require.resolve('readline-browserify'),
             stream: require.resolve('stream-browserify'),
@@ -15,5 +15,10 @@ module.exports = {
     },
     externals: {
         'better-sqlite3': 'commonjs better-sqlite3',
+        electron: 'commonjs electron',
+        ipc: 'commonjs ipc',
+        'ipc-renderer': 'commonjs ipc-renderer',
+        remote: 'commonjs remote',
+        fs: 'commonjs fs',
     },
 };
