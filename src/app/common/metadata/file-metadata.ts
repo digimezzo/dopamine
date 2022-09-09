@@ -2,7 +2,7 @@ export interface FileMetadata {
     path: string;
     bitRate: number;
     sampleRate: number;
-    durationInSeconds: number;
+    durationInMilliseconds: number;
     title: string;
     album: string;
     albumArtists: string[];

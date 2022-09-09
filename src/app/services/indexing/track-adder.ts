@@ -15,9 +15,9 @@ import { TrackFiller } from './track-filler';
 @Injectable()
 export class TrackAdder {
     constructor(
-        private trackrepository: BaseTrackRepository,
+        private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
-        private removedTrackrepository: BaseRemovedTrackRepository,
+        private removedTrackRepository: BaseRemovedTrackRepository,
         private indexablePathFetcher: IndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
@@ -39,8 +39,8 @@ export class TrackAdder {
                     const newTrack: Track = new Track(indexablePath.path);
                     await this.trackFiller.addFileMetadataToTrackAsync(newTrack);
 
-                    this.trackrepository.addTrack(newTrack);
-                    const addedTrack: Track = this.trackrepository.getTrackByPath(newTrack.path);
+                    this.trackRepository.addTrack(newTrack);
+                    const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path);
 
                     this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
 
@@ -80,8 +80,8 @@ export class TrackAdder {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = this.trackrepository.getAllTracks().map((x) => x.path);
-        const removedTrackPaths: string[] = this.removedTrackrepository.getRemovedTracks().map((x) => x.path);
+        const trackPaths: string[] = this.trackRepository.getAllTracks().map((x) => x.path);
+        const removedTrackPaths: string[] = this.removedTrackRepository.getRemovedTracks().map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);

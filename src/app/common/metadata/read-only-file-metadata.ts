@@ -1,13 +1,11 @@
-import * as mm from 'music-metadata';
-import { IAudioMetadata } from 'music-metadata';
+import { File } from 'node-taglib-sharp';
 import { FileMetadata } from './file-metadata';
-
 export class ReadOnlyFileMetadata implements FileMetadata {
     private constructor(public path: string) {}
 
     public bitRate: number;
     public sampleRate: number;
-    public durationInSeconds: number;
+    public durationInMilliseconds: number;
     public title: string;
     public album: string;
     public albumArtists: string[];
@@ -32,94 +30,89 @@ export class ReadOnlyFileMetadata implements FileMetadata {
     }
 
     private async readFileMetadataAsync(): Promise<void> {
-        const audioMetadata: IAudioMetadata = await mm.parseFile(this.path);
+        const tagLibFile = File.createFromPath(this.path);
 
-        if (audioMetadata == undefined) {
-            return;
-        }
-
-        if (audioMetadata.format == undefined) {
-            return;
-        }
-
-        if (audioMetadata.format.bitrate != undefined && !Number.isNaN(audioMetadata.format.bitrate)) {
-            this.bitRate = audioMetadata.format.bitrate;
-        }
-
-        if (audioMetadata.format.sampleRate != undefined && !Number.isNaN(audioMetadata.format.sampleRate)) {
-            this.sampleRate = audioMetadata.format.sampleRate;
-        }
-
-        if (audioMetadata.format.duration != undefined && !Number.isNaN(audioMetadata.format.duration)) {
-            this.durationInSeconds = audioMetadata.format.duration;
-        }
-
-        if (audioMetadata.common == undefined) {
-            return;
-        }
-
-        if (audioMetadata.common.title != undefined) {
-            this.title = audioMetadata.common.title;
-        }
-
-        if (audioMetadata.common.album != undefined) {
-            this.album = audioMetadata.common.album;
-        }
-
-        if (audioMetadata.common.albumartist != undefined) {
-            this.albumArtists = [audioMetadata.common.albumartist];
-        }
-
-        if (audioMetadata.common.artists != undefined) {
-            this.artists = audioMetadata.common.artists;
-        }
-
-        if (audioMetadata.common.genre != undefined) {
-            this.genres = audioMetadata.common.genre;
-        }
-
-        if (audioMetadata.common.comment != undefined && audioMetadata.common.comment.length > 0) {
-            this.comment = audioMetadata.common.comment[0];
-        }
-
-        if (audioMetadata.common.grouping != undefined && audioMetadata.common.grouping.length > 0) {
-            this.grouping = audioMetadata.common.grouping[0];
-        }
-
-        if (audioMetadata.common.year != undefined && !Number.isNaN(audioMetadata.common.year)) {
-            this.year = audioMetadata.common.year;
-        }
-
-        if (audioMetadata.common.track != undefined) {
-            if (audioMetadata.common.track.no != undefined && !Number.isNaN(audioMetadata.common.track.no)) {
-                this.trackNumber = audioMetadata.common.track.no;
+        if (tagLibFile.tag != undefined) {
+            if (tagLibFile.tag.performers != undefined) {
+                this.artists = tagLibFile.tag.performers;
             }
 
-            if (audioMetadata.common.track.of != undefined && !Number.isNaN(audioMetadata.common.track.of)) {
-                this.trackCount = audioMetadata.common.track.of;
-            }
-        }
-
-        if (audioMetadata.common.disk != undefined) {
-            if (audioMetadata.common.disk.no != undefined && !Number.isNaN(audioMetadata.common.disk.no)) {
-                this.discNumber = audioMetadata.common.disk.no;
+            if (tagLibFile.tag.title != undefined) {
+                this.title = tagLibFile.tag.title;
             }
 
-            if (audioMetadata.common.disk.of != undefined && !Number.isNaN(audioMetadata.common.disk.of)) {
-                this.discCount = audioMetadata.common.disk.of;
+            if (tagLibFile.tag.album != undefined) {
+                this.album = tagLibFile.tag.album;
+            }
+
+            if (tagLibFile.tag.albumArtists != undefined) {
+                this.albumArtists = tagLibFile.tag.albumArtists;
+            }
+
+            if (tagLibFile.tag.genres != undefined) {
+                this.genres = tagLibFile.tag.genres;
+            }
+
+            if (tagLibFile.tag.year != undefined && !Number.isNaN(tagLibFile.tag.year)) {
+                this.year = tagLibFile.tag.year;
+            }
+
+            if (tagLibFile.tag.comment != undefined) {
+                this.comment = tagLibFile.tag.comment;
+            }
+
+            if (tagLibFile.tag.grouping != undefined) {
+                this.grouping = tagLibFile.tag.grouping;
+            }
+
+            if (tagLibFile.tag.track != undefined && !Number.isNaN(tagLibFile.tag.track)) {
+                this.trackNumber = tagLibFile.tag.track;
+            }
+
+            if (tagLibFile.tag.trackCount != undefined && !Number.isNaN(tagLibFile.tag.trackCount)) {
+                this.trackCount = tagLibFile.tag.trackCount;
+            }
+
+            if (tagLibFile.tag.disc != undefined && !Number.isNaN(tagLibFile.tag.disc)) {
+                this.discNumber = tagLibFile.tag.disc;
+            }
+
+            if (tagLibFile.tag.discCount != undefined && !Number.isNaN(tagLibFile.tag.discCount)) {
+                this.discCount = tagLibFile.tag.discCount;
+            }
+
+            if (tagLibFile.tag.lyrics != undefined) {
+                this.lyrics = tagLibFile.tag.lyrics;
+            }
+
+            if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {
+                let couldGetPicture: boolean = false;
+
+                for (const picture of tagLibFile.tag.pictures) {
+                    if (!couldGetPicture) {
+                        try {
+                            this.picture = Buffer.from(picture.data.toBase64String(), 'base64');
+                            couldGetPicture = true;
+                        } catch (error) {}
+                    }
+                }
             }
         }
 
-        if (audioMetadata.common.rating != undefined && audioMetadata.common.rating.length > 0) {
-            this.rating = audioMetadata.common.rating[0].rating;
+        if (tagLibFile.properties != undefined) {
+            if (tagLibFile.properties.durationMilliseconds != undefined && !Number.isNaN(tagLibFile.properties.durationMilliseconds)) {
+                this.durationInMilliseconds = tagLibFile.properties.durationMilliseconds;
+            }
+
+            if (tagLibFile.properties.audioBitrate != undefined && !Number.isNaN(tagLibFile.properties.audioBitrate)) {
+                this.bitRate = tagLibFile.properties.audioBitrate;
+            }
+
+            if (tagLibFile.properties.audioSampleRate != undefined && !Number.isNaN(tagLibFile.properties.audioSampleRate)) {
+                this.sampleRate = tagLibFile.properties.audioSampleRate;
+            }
         }
 
-        if (audioMetadata.common.lyrics != undefined && audioMetadata.common.lyrics.length > 0) {
-            this.lyrics = audioMetadata.common.lyrics[0];
-        }
-
-        if (audioMetadata.common.picture != undefined && audioMetadata.common.picture.length > 0) {
-            this.picture = audioMetadata.common.picture[0].data;
-        }
+        this.rating = 0; // TODO
     }
 }

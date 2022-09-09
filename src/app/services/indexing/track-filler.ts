@@ -26,9 +26,6 @@ export class TrackFiller {
             const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
             const dateNowTicks: number = DateTime.convertDateToTicks(new Date());
 
-            // Store duration in milliseconds, for compatibility with Dopamine 2 database.
-            const durationInMilliseconds: number = fileMetadata.durationInSeconds * 1000;
-
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);
             track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
             track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
@@ -44,7 +41,7 @@ export class TrackFiller {
             track.trackCount = this.trackFieldCreator.createNumberField(fileMetadata.trackCount);
             track.discNumber = this.trackFieldCreator.createNumberField(fileMetadata.discNumber);
             track.discCount = this.trackFieldCreator.createNumberField(fileMetadata.discCount);
-            track.duration = this.trackFieldCreator.createNumberField(durationInMilliseconds);
+            track.duration = this.trackFieldCreator.createNumberField(fileMetadata.durationInMilliseconds);
             track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
             track.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
             track.dateAdded = dateNowTicks;
@@ -62,7 +59,7 @@ export class TrackFiller {
             track.indexingFailureReason = e.message;
 
             this.logger.error(
-                `Error while retrieving tag information for file ${track.path}. Error: ${e.message}`,
+                `Error while retrieving tag information for file ${track.path}. Error: ${e}`,
                 'TrackFiller',
                 'addFileMetadataToTrackAsync'
             );
