@@ -73,7 +73,7 @@ describe('CollectionFoldersComponent', () => {
 
     let tracks: TrackModels;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionFoldersComponent {
         const component: CollectionFoldersComponent = new CollectionFoldersComponent(

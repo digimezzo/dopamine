@@ -25,7 +25,7 @@ describe('TrayService', () => {
         translatorServiceMock.setup((x) => x.languageChanged$).returns(() => translateServiceProxyLanguageChanged$);
     });
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createService(): TrayService {
         return new TrayService(translatorServiceMock.object, settingsMock.object, ipcProxyMock.object);

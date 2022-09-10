@@ -62,7 +62,7 @@ describe('CollectionAlbumsComponent', () => {
     let trackModel2: TrackModel;
     let tracks: TrackModels;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionAlbumsComponent {
         const component: CollectionAlbumsComponent = new CollectionAlbumsComponent(

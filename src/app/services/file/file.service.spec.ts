@@ -23,7 +23,7 @@ describe('FileService', () => {
     let argumentsReceivedMock: Subject<string[]>;
     let argumentsReceivedMock$: Observable<string[]>;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createService(): BaseFileService {
         return new FileService(

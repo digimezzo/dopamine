@@ -22,7 +22,7 @@ describe('NowPlayingComponent', () => {
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): NowPlayingComponent {
         return new NowPlayingComponent(

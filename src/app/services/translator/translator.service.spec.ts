@@ -34,7 +34,7 @@ describe('TranslatorService', () => {
         settingsMock.setup((x) => x.language).returns(() => 'fr');
     });
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createService(): TranslatorService {
         return new TranslatorService(translateServiceProxyMock.object, settingsMock.object);

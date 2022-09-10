@@ -61,7 +61,7 @@ describe('CollectionArtistsComponent', () => {
     let selectedTabChangedMock: Subject<void>;
     let selectedTabChangedMock$: Observable<void>;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionArtistsComponent {
         const component: CollectionArtistsComponent = new CollectionArtistsComponent(

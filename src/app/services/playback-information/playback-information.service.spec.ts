@@ -21,7 +21,7 @@ describe('PlaybackInformationService', () => {
     let track: Track;
     let trackModel: TrackModel;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();

@@ -18,7 +18,7 @@ describe('PlaybackInformationComponent', () => {
     let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
     let playbackInformationService_PlayingNoTrack: Subject<PlaybackInformation>;
 
-    const flushPromises = () => new Promise(setImmediate);
+    const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(async () => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
