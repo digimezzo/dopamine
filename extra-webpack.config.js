@@ -1,6 +1,7 @@
 module.exports = {
     resolve: {
         alias: {
+            assert: require.resolve('assert'),
             constants: require.resolve('constants-browserify'),
             crypto: require.resolve('crypto-browserify'),
             fs: require.resolve('browserify-fs'),
@@ -11,6 +12,7 @@ module.exports = {
             readline: require.resolve('readline-browserify'),
             stream: require.resolve('stream-browserify'),
             timers: require.resolve('timers-browserify'),
+            util: require.resolve('util'),
         },
     },
     externals: {

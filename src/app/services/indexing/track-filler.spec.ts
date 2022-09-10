@@ -355,7 +355,7 @@ describe('TrackFiller', () => {
         it('should fill in track duration with the duration of the audio file', async () => {
             // Arrange
             const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.durationInSeconds = 123456;
+            fileMetadataMock.durationInMilliseconds = 123456000;
 
             fileMetadataFactoryMock
                 .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))

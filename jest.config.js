@@ -17,4 +17,5 @@ module.exports = {
             tsConfig: '<rootDir>/tsconfig.spec.json',
         },
     },
+    setupFiles: ['<rootDir>/jest.crypto-setup.js'],
 };
