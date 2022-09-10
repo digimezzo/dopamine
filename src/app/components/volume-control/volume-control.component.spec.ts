@@ -1,4 +1,4 @@
-import { MatSliderChange } from '@angular/material';
+import { MatSliderChange } from '@angular/material/slider';
 import { IMock, Mock, Times } from 'typemoq';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { VolumeControlComponent } from './volume-control.component';

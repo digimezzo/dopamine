@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Desktop } from '../../../common/io/desktop';
 import { FileSystem } from '../../../common/io/file-system';

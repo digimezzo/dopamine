@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, Mock, Times } from 'typemoq';
 import { InputDialogComponent } from './input-dialog.component';
 

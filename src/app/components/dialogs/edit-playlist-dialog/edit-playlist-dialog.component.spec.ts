@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, Mock } from 'typemoq';
 import { Desktop } from '../../../common/io/desktop';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
