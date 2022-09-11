@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { Metadata } from '../../common/metadata/metadata';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseMetadataService } from './base-metadata.service';
@@ -24,7 +24,7 @@ export class MetadataService implements BaseMetadataService {
         }
 
         try {
-            const fileMetaData: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            const fileMetaData: Metadata = this.fileMetadataFactory.create(track.path);
 
             if (fileMetaData == undefined) {
                 return '';

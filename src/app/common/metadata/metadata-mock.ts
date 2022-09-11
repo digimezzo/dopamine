@@ -1,6 +1,6 @@
-import { FileMetadata } from './file-metadata';
+import { Metadata } from './metadata';
 
-export class FileMetadataMock implements FileMetadata {
+export class MetadataMock implements Metadata {
     public path: string;
     public bitRate: number;
     public sampleRate: number;

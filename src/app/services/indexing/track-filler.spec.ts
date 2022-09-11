@@ -5,7 +5,7 @@ import { DateTime } from '../../common/date-time';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
-import { FileMetadataMock } from '../../common/metadata/file-metadata-mock';
+import { MetadataMock } from '../../common/metadata/metadata-mock';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { TrackFieldCreator } from './track-field-creator';
 import { TrackFiller } from './track-filler';
@@ -69,12 +69,10 @@ describe('TrackFiller', () => {
     describe('addFileMetadataToTrackAsync', () => {
         it('should fill in track artists with a multi value track field', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.artists = ['Artist 1', 'Artist 2'];
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.artists = ['Artist 1', 'Artist 2'];
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -82,18 +80,16 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.artists), Times.exactly(1));
+            trackFieldCreatorMock.verify((x) => x.createMultiTextField(metadataMock.artists), Times.exactly(1));
             expect(track.artists).toEqual(';Artist 1;;Artist 2;');
         });
 
         it('should fill in track genres with a multi value track field', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.genres = ['Genre 1', 'Genre 2'];
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.genres = ['Genre 1', 'Genre 2'];
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -101,18 +97,16 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.genres), Times.exactly(1));
+            trackFieldCreatorMock.verify((x) => x.createMultiTextField(metadataMock.genres), Times.exactly(1));
             expect(track.genres).toEqual(';Genre 1;;Genre 2;');
         });
 
         it('should fill in track albumTitle with a single value track field', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.album = 'Album title';
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.album = 'Album title';
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -120,18 +114,16 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.album), Times.exactly(1));
+            trackFieldCreatorMock.verify((x) => x.createTextField(metadataMock.album), Times.exactly(1));
             expect(track.albumTitle).toEqual('Album title');
         });
 
         it('should fill in track albumArtists with a multi value track field', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -139,19 +131,17 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createMultiTextField(fileMetadataMock.albumArtists), Times.exactly(1));
+            trackFieldCreatorMock.verify((x) => x.createMultiTextField(metadataMock.albumArtists), Times.exactly(1));
             expect(track.albumArtists).toEqual(';Album artist 1;;Album artist 2;');
         });
 
         it('should fill in track albumKey with a generated album key', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.album = 'Album title';
-            fileMetadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.album = 'Album title';
+            metadataMock.albumArtists = ['Album artist 1', 'Album artist 2'];
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -165,11 +155,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track fileName with the file name of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -183,11 +171,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track mimeType with the mime type of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -202,11 +188,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track fileSize with the file size of the audio file in bytes', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -221,12 +205,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track bitRate with the bit rate of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.bitRate = 320;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.bitRate = 320;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -240,12 +222,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track sampleRate with the sample rate of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.sampleRate = 44;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.sampleRate = 44;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -259,12 +239,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track trackTitle with a single value track field', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.title = 'Track title';
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.title = 'Track title';
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -272,18 +250,16 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            trackFieldCreatorMock.verify((x) => x.createTextField(fileMetadataMock.title), Times.exactly(1));
+            trackFieldCreatorMock.verify((x) => x.createTextField(metadataMock.title), Times.exactly(1));
             expect(track.trackTitle).toEqual('Track title');
         });
 
         it('should fill in track trackNumber with the track number of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.trackNumber = 1;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.trackNumber = 1;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -297,12 +273,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track trackCount with the track count of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.trackCount = 15;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.trackCount = 15;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -316,12 +290,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track discNumber with the disc number of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.discNumber = 1;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.discNumber = 1;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -335,12 +307,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track discCount with the disc count of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.discCount = 2;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.discCount = 2;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -354,12 +324,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track duration with the duration of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.durationInMilliseconds = 123456000;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.durationInMilliseconds = 123456000;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             trackFieldCreatorMock.setup((x) => x.createNumberField(123456000)).returns(() => 123456000);
@@ -375,12 +343,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track year with the year of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.year = 2020;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.year = 2020;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -394,12 +360,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are undefined', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.lyrics = undefined;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.lyrics = undefined;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -412,12 +376,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are empty', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.lyrics = '';
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.lyrics = '';
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -430,12 +392,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are not empty', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.lyrics = 'Blabla';
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.lyrics = 'Blabla';
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -448,11 +408,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track dateAdded wit hthe current date and time in ticks', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -468,11 +426,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track dateFileCreated with the date that the file was created in ticks', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -485,11 +441,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track dateLastSynced with the current date and time in ticks', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -505,11 +459,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track dateFileModified with the date that the file was modified in ticks', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -522,11 +474,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track needsIndexing with 0', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -539,11 +489,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track needsAlbumArtworkIndexing with 1', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -556,12 +504,10 @@ describe('TrackFiller', () => {
 
         it('should fill in track rating with the rating of the audio file', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
-            fileMetadataMock.rating = 4;
+            const metadataMock: MetadataMock = new MetadataMock();
+            metadataMock.rating = 4;
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -575,11 +521,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track indexingSuccess with 1 if no errors occur', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -592,11 +536,9 @@ describe('TrackFiller', () => {
 
         it('should fill in an empty track indexingFailureReason if no errors occur', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             // Act
@@ -609,11 +551,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track indexingSuccess with 0 if errors occur', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
             // Act
@@ -626,11 +566,9 @@ describe('TrackFiller', () => {
 
         it('should fill in track indexingFailureReason with the error text if an error occur', async () => {
             // Arrange
-            const fileMetadataMock: FileMetadataMock = new FileMetadataMock();
+            const metadataMock: MetadataMock = new MetadataMock();
 
-            fileMetadataFactoryMock
-                .setup((x) => x.createReadOnlyAsync('/home/user/Music/Track 1.mp3'))
-                .returns(async () => fileMetadataMock);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/Track 1.mp3')).returns(() => metadataMock);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
             // Act

@@ -4,8 +4,8 @@ import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { Metadata } from '../../common/metadata/metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { Strings } from '../../common/strings';
 import { TrackFieldCreator } from './track-field-creator';
@@ -23,7 +23,7 @@ export class TrackFiller {
 
     public async addFileMetadataToTrackAsync(track: Track): Promise<Track> {
         try {
-            const fileMetadata: FileMetadata = await this.fileMetadataFactory.createReadOnlyAsync(track.path);
+            const fileMetadata: Metadata = this.fileMetadataFactory.create(track.path);
             const dateNowTicks: number = DateTime.convertDateToTicks(new Date());
 
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);

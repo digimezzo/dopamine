@@ -3,9 +3,9 @@ import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
-import { FileMetadataMock } from '../../common/metadata/file-metadata-mock';
+import { Metadata } from '../../common/metadata/metadata';
+import { MetadataMock } from '../../common/metadata/metadata-mock';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -62,7 +62,7 @@ describe('MetadataService', () => {
         it('should create an empty image url if no file metadata was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(track.path)).returns(() => undefined);
+            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => undefined);
 
             service = new MetadataService(
                 fileMetadataFactoryMock.object,
@@ -82,8 +82,8 @@ describe('MetadataService', () => {
         it('should create an empty image url if no cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadata1: FileMetadata = new FileMetadataMock();
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(track.path)).returns(async () => fileMetadata1);
+            const fileMetadata1: Metadata = new MetadataMock();
+            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => fileMetadata1);
             albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, false)).returns(async () => undefined);
 
             service = new MetadataService(
@@ -104,9 +104,9 @@ describe('MetadataService', () => {
         it('should create an image url if cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadata1: FileMetadata = new FileMetadataMock();
+            const fileMetadata1: Metadata = new MetadataMock();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
-            fileMetadataFactoryMock.setup((x) => x.createReadOnlyAsync(track.path)).returns(async () => fileMetadata1);
+            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => fileMetadata1);
             albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, false)).returns(async () => albumArtworkData1);
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(albumArtworkData1)).returns(() => 'image-url');
 
