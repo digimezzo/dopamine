@@ -1,7 +1,10 @@
-import { File } from 'node-taglib-sharp';
+import { File, Id3v2FrameClassType, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
 import { Metadata } from './metadata';
+import { RatingConverter } from './rating-converter';
 
 export class FileMetadata implements Metadata {
+    private windowsPopMUser: string = 'Windows Media Player 9 Series';
+
     public constructor(public path: string) {
         this.readFileMetadata(path);
     }
@@ -89,7 +92,9 @@ export class FileMetadata implements Metadata {
                         try {
                             this.picture = Buffer.from(picture.data.toBase64String(), 'base64');
                             couldGetPicture = true;
-                        } catch (error) {}
+                        } catch (error) {
+                            // Intended suppression
+                        }
                     }
                 }
             }
@@ -109,8 +114,35 @@ export class FileMetadata implements Metadata {
             }
         }
 
-        this.rating = 0; // TODO
+        this.rating = 0;
+
+        try {
+            this.rating = this.readRatingFromFile(tagLibFile);
+        } catch (error) {
+            // Intended suppression
+        }
 
         tagLibFile.dispose();
+    }
+
+    private readRatingFromFile(tagLibFile: File): number {
+        const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
+        const popularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
+            Id3v2FrameClassType.PopularimeterFrame
+        );
+
+        if (popularimeterFrames.length > 0) {
+            // First, try to get the rating from the default Windows PopM user.
+            const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = popularimeterFrames.filter(
+                (x) => x.user === this.windowsPopMUser
+            );
+
+            if (popularimeterFramesForWindowsUser.length > 0) {
+                return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+            }
+
+            // No rating found for the default Windows PopM user. Try for other PopM users.
+            return RatingConverter.popM2StarRating(popularimeterFrames[0].rating);
+        }
     }
 }
