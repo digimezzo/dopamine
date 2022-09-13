@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { FileFormats } from '../../common/application/file-formats';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
+import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
-import { Metadata } from '../../common/metadata/metadata';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseMetadataService } from './base-metadata.service';
@@ -15,6 +18,8 @@ export class MetadataService implements BaseMetadataService {
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
+        private fileSystem: BaseFileSystem,
+        private settings: BaseSettings,
         private logger: Logger
     ) {}
 
@@ -24,7 +29,7 @@ export class MetadataService implements BaseMetadataService {
         }
 
         try {
-            const fileMetaData: Metadata = this.fileMetadataFactory.create(track.path);
+            const fileMetaData: FileMetadata = this.fileMetadataFactory.create(track.path);
 
             if (fileMetaData == undefined) {
                 return '';
@@ -51,6 +56,13 @@ export class MetadataService implements BaseMetadataService {
     public saveTrackRating(track: TrackModel): void {
         try {
             this.trackRepository.updateRating(track.id, track.rating);
+
+            if (this.settings.saveRatingToAudioFiles && this.fileSystem.getFileExtension(track.path).toLowerCase() === FileFormats.mp3) {
+                const fileMetaData: FileMetadata = this.fileMetadataFactory.create(track.path);
+                fileMetaData.rating = track.rating;
+                fileMetaData.save();
+                this.logger.info(`Saved rating to file '${track.path}'`, 'MetadataService', 'saveTrackRating');
+            }
         } catch (error) {
             this.logger.error(`Could not save rating. Error: ${error.message}`, 'MetadataService', 'saveTrackRating');
             throw new Error(error.message);

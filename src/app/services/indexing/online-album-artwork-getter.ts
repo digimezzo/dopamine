@@ -3,14 +3,14 @@ import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { Metadata } from '../../common/metadata/metadata';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
     constructor(private imageprocessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
-    public async getOnlineArtworkAsync(fileMetadata: Metadata): Promise<Buffer> {
+    public async getOnlineArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {
             return undefined;
         }

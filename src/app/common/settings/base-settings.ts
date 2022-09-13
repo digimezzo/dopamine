@@ -54,4 +54,6 @@ export abstract class BaseSettings {
     public abstract showAlbumsPage: boolean;
     public abstract showPlaylistsPage: boolean;
     public abstract showFoldersPage: boolean;
+    public abstract showRating: boolean;
+    public abstract saveRatingToAudioFiles: boolean;
 }

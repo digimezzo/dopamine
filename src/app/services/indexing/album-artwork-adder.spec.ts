@@ -5,9 +5,8 @@ import { Track } from '../../common/data/entities/track';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
-import { Metadata } from '../../common/metadata/metadata';
-import { MetadataMock } from '../../common/metadata/metadata-mock';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
@@ -167,11 +166,11 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
 
             // Act
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
@@ -186,12 +185,12 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => undefined);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => undefined);
 
             // Act
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
@@ -206,13 +205,13 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => albumArtworkData1);
 
             // Act
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
@@ -227,13 +226,13 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => albumArtworkData1);
             albumArtworkCacheServiceMock.setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1)).returns(async () => undefined);
 
             // Act
@@ -249,14 +248,14 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
             const albumArtworkCacheId1: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => albumArtworkData1);
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
                 .returns(async () => albumArtworkCacheId1);
@@ -274,13 +273,13 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => albumArtworkData1);
             albumArtworkCacheServiceMock.setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1)).returns(async () => undefined);
 
             // Act
@@ -296,14 +295,14 @@ describe('AlbumArtworkAdder', () => {
             albumData1.albumKey = 'AlbumKey1';
 
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const fileMetadata1: Metadata = new MetadataMock();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
             const albumArtworkCacheId1: AlbumArtworkCacheId = new AlbumArtworkCacheId();
 
             trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
             trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => fileMetadata1);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadata1, true)).returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.create('/home/user/Music/track1.mp3')).returns(() => metaDataMock.object);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(metaDataMock.object, true)).returns(async () => albumArtworkData1);
             albumArtworkCacheServiceMock
                 .setup((x) => x.addArtworkDataToCacheAsync(albumArtworkData1))
                 .returns(async () => albumArtworkCacheId1);

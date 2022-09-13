@@ -3,7 +3,7 @@ import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { Metadata } from '../../common/metadata/metadata';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 
 describe('OnlineAlbumArtworkGetter', () => {
@@ -58,7 +58,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => undefined);
             metaDataMock.setup((x) => x.title).returns(() => '');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -83,7 +83,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -108,7 +108,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => undefined);
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -133,7 +133,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => undefined);
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -158,7 +158,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => undefined);
@@ -183,7 +183,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -204,7 +204,7 @@ describe('OnlineAlbumArtworkGetter', () => {
 
             imageProcessorMock.setup((x) => x.convertOnlineImageToBufferAsync(It.isAnyString())).throws(new Error('An error occurred'));
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);
@@ -229,7 +229,7 @@ describe('OnlineAlbumArtworkGetter', () => {
                 .setup((x) => x.convertOnlineImageToBufferAsync('http://images.com/image.png'))
                 .returns(async () => expectedAlbumArtwork);
 
-            const metaDataMock: IMock<Metadata> = Mock.ofType<Metadata>();
+            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
             metaDataMock.setup((x) => x.album).returns(() => 'My album title');
             metaDataMock.setup((x) => x.title).returns(() => 'My track title');
             metaDataMock.setup((x) => x.artists).returns(() => ['Artist 1', 'Artist 2']);

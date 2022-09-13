@@ -1,12 +1,14 @@
-import { File, Id3v2FrameClassType, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
-import { Metadata } from './metadata';
+import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
 import { RatingConverter } from './rating-converter';
 
-export class FileMetadata implements Metadata {
+export class FileMetadata {
+    private _rating: number = 0;
+    private ratingHasChanged: boolean = false;
+
     private windowsPopMUser: string = 'Windows Media Player 9 Series';
 
     public constructor(public path: string) {
-        this.readFileMetadata(path);
+        this.readFromFile();
     }
 
     public bitRate: number;
@@ -24,12 +26,31 @@ export class FileMetadata implements Metadata {
     public trackCount: number;
     public discNumber: number;
     public discCount: number;
-    public rating: number;
     public lyrics: string;
     public picture: Buffer;
 
-    private readFileMetadata(path: string): void {
-        const tagLibFile = File.createFromPath(path);
+    public get rating(): number {
+        return this._rating;
+    }
+    public set rating(v: number) {
+        this._rating = v;
+        this.ratingHasChanged = true;
+    }
+
+    public save(): void {
+        const tagLibFile = File.createFromPath(this.path);
+
+        if (this.ratingHasChanged) {
+            this.writeRatingToFile(tagLibFile, this.rating);
+            this.ratingHasChanged = false;
+        }
+
+        tagLibFile.save();
+        tagLibFile.dispose();
+    }
+
+    private readFromFile(): void {
+        const tagLibFile = File.createFromPath(this.path);
 
         if (tagLibFile.tag != undefined) {
             if (tagLibFile.tag.performers != undefined) {
@@ -114,10 +135,8 @@ export class FileMetadata implements Metadata {
             }
         }
 
-        this.rating = 0;
-
         try {
-            this.rating = this.readRatingFromFile(tagLibFile);
+            this._rating = this.readRatingFromFile(tagLibFile);
         } catch (error) {
             // Intended suppression
         }
@@ -127,22 +146,50 @@ export class FileMetadata implements Metadata {
 
     private readRatingFromFile(tagLibFile: File): number {
         const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
-        const popularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
+        const allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
             Id3v2FrameClassType.PopularimeterFrame
         );
 
-        if (popularimeterFrames.length > 0) {
-            // First, try to get the rating from the default Windows PopM user.
-            const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = popularimeterFrames.filter(
-                (x) => x.user === this.windowsPopMUser
-            );
-
-            if (popularimeterFramesForWindowsUser.length > 0) {
-                return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
-            }
-
-            // No rating found for the default Windows PopM user. Try for other PopM users.
-            return RatingConverter.popM2StarRating(popularimeterFrames[0].rating);
+        if (allPopularimeterFrames.length === 0) {
+            return 0;
         }
+
+        const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
+            (x) => x.user === this.windowsPopMUser
+        );
+
+        if (popularimeterFramesForWindowsUser.length > 0) {
+            return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating);
+        }
+
+        return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating);
+    }
+
+    private writeRatingToFile(tagLibFile: File, rating: number): void {
+        const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
+        const allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
+            Id3v2FrameClassType.PopularimeterFrame
+        );
+
+        if (allPopularimeterFrames.length === 0) {
+            const newPopularimeterFrame = Id3v2PopularimeterFrame.fromUser(this.windowsPopMUser);
+            newPopularimeterFrame.rating = rating;
+            id3v2Tag.removeFrames(Id3v2FrameIdentifiers.POPM);
+            id3v2Tag.addFrame(newPopularimeterFrame);
+
+            return;
+        }
+
+        const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
+            (x) => x.user === this.windowsPopMUser
+        );
+
+        if (popularimeterFramesForWindowsUser.length > 0) {
+            popularimeterFramesForWindowsUser[0].rating = RatingConverter.starToPopMRating(rating);
+
+            return;
+        }
+
+        allPopularimeterFrames[0].rating = RatingConverter.starToPopMRating(rating);
     }
 }

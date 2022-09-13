@@ -501,6 +501,24 @@ export class Settings implements BaseSettings {
         this.settings.set('showFoldersPage', v);
     }
 
+    //  Save rating to audio files
+    public get saveRatingToAudioFiles(): boolean {
+        return this.settings.get('saveRatingToAudioFiles');
+    }
+
+    public set saveRatingToAudioFiles(v: boolean) {
+        this.settings.set('saveRatingToAudioFiles', v);
+    }
+
+    //  Show rating
+    public get showRating(): boolean {
+        return this.settings.get('showRating');
+    }
+
+    public set showRating(v: boolean) {
+        this.settings.set('showRating', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -713,6 +731,14 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('showFoldersPage')) {
             this.settings.set('showFoldersPage', true);
+        }
+
+        if (!this.settings.has('showRating')) {
+            this.settings.set('showRating', true);
+        }
+
+        if (!this.settings.has('saveRatingToAudioFiles')) {
+            this.settings.set('saveRatingToAudioFiles', false);
         }
     }
 }

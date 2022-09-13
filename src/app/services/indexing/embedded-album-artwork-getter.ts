@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../common/logger';
-import { Metadata } from '../../common/metadata/metadata';
+import { FileMetadata } from '../../common/metadata/file-metadata';
 
 @Injectable()
 export class EmbeddedAlbumArtworkGetter {
     constructor(private logger: Logger) {}
 
-    public getEmbeddedArtwork(fileMetadata: Metadata): Buffer {
+    public getEmbeddedArtwork(fileMetadata: FileMetadata): Buffer {
         if (fileMetadata == undefined) {
             return undefined;
         }

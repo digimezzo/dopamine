@@ -61,7 +61,7 @@
                     >{{ track.artists }}</span
                 >
                 <span></span>
-                <app-rating [track]="track"></app-rating>
+                <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
             </div>
         </div>
     </div>
