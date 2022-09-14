@@ -8,6 +8,12 @@
     display: flex;
     flex-direction: row;
     font-size: 20px;
+    width: 20px;
+}
+
+.app-volume-control__icon__alt {
+    @extend .app-volume-control__icon;
+    padding-left: 1px;
 }
 
 .app-volume-control__slider {
