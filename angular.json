@@ -12,7 +12,7 @@
                     "builder": "@angular-builders/custom-webpack:browser",
                     "options": {
                         "customWebpackConfig": {
-                            "path": "./extra-webpack.config.js",
+                            "path": "./angular.webpack.js",
                             "mergeStrategies": {
                                 "externals": "append"
                             }
