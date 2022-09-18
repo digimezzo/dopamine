@@ -206,5 +206,6 @@
     "save-rating-error": "An error occurred while saving the rating. Please verify the log if you need more information.",
     "rating": "Rating",
     "show-rating": "Show rating",
-    "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)"
+    "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
 }

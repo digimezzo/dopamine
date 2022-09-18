@@ -1,17 +1,24 @@
-<div class="app-playlist-browser" #playlistBrowserElement>
-    <div class="app-playlist-browser__header m-1 no-select">
-        <div class="app-playlist-browser__playlistscount">
-            <div class="app-playlist-browser__playlistscount__number mr-2">{{ this.playlists.length }}</div>
+<div class="h-100pct w-100pct d-flex flex-column" #playlistBrowserElement>
+    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1 no-select">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.playlists.length }}</div>
             <div *ngIf="this.playlists.length === 1">{{ 'playlist' | translate }}</div>
             <div *ngIf="this.playlists.length !== 1">{{ 'playlists' | translate }}</div>
         </div>
         <div class="d-flex flex-row align-items-center">
             <div
                 *ngIf="this.playlistService.hasActivePlaylistFolder"
-                class="app-playlist-browser__add-button pointer secondary-text las la-plus mr-4"
+                class="w-24px h-24px radius-12px d-flex align-items-center justify-content-center pointer mr-4"
+                [ngClass]="{ 'pulsating-bg': !this.hasPlaylists }"
                 matTooltip="{{ 'create-playlist' | translate }}"
                 (click)="createPlaylistAsync()"
-            ></div>
+            >
+                <div
+                    class="font-20px secondary-text las la-plus"
+                    style="margin-top: 1px"
+                    [ngClass]="{ 'primary-text-important': !this.hasPlaylists }"
+                ></div>
+            </div>
             <div class="pointer" (click)="this.togglePlaylistOrder()">
                 <div class="secondary-text" *ngIf="this.selectedPlaylistOrder === playlistOrderEnum.byPlaylistNameAscending">
                     {{ 'by-playlist-name-ascending' | translate }}
@@ -22,9 +29,15 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-playlist-browser__playlists mt-3" itemSize="0">
+    <div
+        class="d-flex flex-grow align-items-center justify-content-center no-select secondary-text font-size-medium"
+        *ngIf="!this.hasPlaylists"
+    >
+        {{ 'playlist-folder-is-empty' | translate }}
+    </div>
+    <cdk-virtual-scroll-viewport class="mt-3 flex-grow" itemSize="0" *ngIf="this.hasPlaylists">
         <div *cdkVirtualFor="let playlistRow of this.playlistRows">
-            <div class="playlist-row">
+            <div class="d-flex flex-row">
                 <app-playlist
                     class="m-2"
                     *ngFor="let playlist of playlistRow.playlists"

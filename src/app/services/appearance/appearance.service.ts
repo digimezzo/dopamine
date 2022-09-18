@@ -266,6 +266,9 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
         element.style.setProperty('--theme-accent-color', accentColorToApply);
 
+        const accentRgbArray: number[] = ColorConverter.stringToRgb(accentColorToApply);
+        element.style.setProperty('--theme-rgb-accent', accentRgbArray.join(','));
+
         element.style.setProperty('--theme-accent-color-50', palette.color50);
         element.style.setProperty('--theme-accent-color-100', palette.color100);
         element.style.setProperty('--theme-accent-color-200', palette.color200);

@@ -1,7 +1,7 @@
-<div class="app-genre-browser">
-    <div class="app-genre-browser__header m-1 no-select">
-        <div class="app-genre-browser__genrescount">
-            <div class="app-genre-browser__genrescount__number mr-2">{{ this.genres.length }}</div>
+<div class="h-100pct w-100pct d-flex flex-column">
+    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1 no-select">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.genres.length }}</div>
             <div *ngIf="this.genres.length === 1">{{ 'genre' | translate }}</div>
             <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
         </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-genre-browser__genres mt-3" itemSize="24">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="24">
         <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
             <app-genre
                 [genre]="genre"

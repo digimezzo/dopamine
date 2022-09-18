@@ -73,6 +73,10 @@
     cursor: pointer;
 }
 
+.primary-text-important {
+    color: var(--theme-primary-text) !important;
+}
+
 .secondary-text {
     color: var(--theme-secondary-text);
 }

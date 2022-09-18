@@ -206,5 +206,6 @@
     "save-rating-error": "Une erreur s'est produite lors de l'enregistrement du classement. Veuillez vérifier le journal si vous avez besoin de plus d'informations.",
     "rating": "Classement",
     "show-rating": "Afficher classement",
-    "save-rating-to-audio-files": "Enregistrez le classement dans les fichiers audio (MP3 uniquement)"
+    "save-rating-to-audio-files": "Enregistrez le classement dans les fichiers audio (MP3 uniquement)",
+    "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists."
 }

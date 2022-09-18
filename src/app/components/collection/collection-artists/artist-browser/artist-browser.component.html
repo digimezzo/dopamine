@@ -1,7 +1,7 @@
-<div class="app-artist-browser">
-    <div class="app-artist-browser__header m-1 no-select">
-        <div class="app-artist-browser__artistscount">
-            <div class="app-artist-browser__artistscount__number mr-2">{{ this.artists.length }}</div>
+<div class="h-100pct w-100pct d-flex flex-column">
+    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1 no-select">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.artists.length }}</div>
             <div class="pointer" *ngIf="this.selectedArtistType === artistTypeEnum.trackArtists" (click)="this.toggleArtistType()">
                 {{ 'track-artists' | translate }}
             </div>
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-artist-browser__artists mt-3" itemSize="24">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="24">
         <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"

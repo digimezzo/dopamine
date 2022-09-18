@@ -1,32 +1,5 @@
-.folder-browser {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.folder-browser__header {
-    display: flex;
-    flex-direction: row;
-}
-
-.folder-browser__title {
-    flex: 1;
-}
-
-.folder-browser__message {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
 .subfolder {
     height: 28px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex: 1;
 }
 
 .subfolder:hover {
@@ -37,40 +10,11 @@
     background: var(--theme-hovered-item-background);
 }
 
-.subfolder__icon {
-    font-size: 20px;
-    transform: rotate(-90deg);
-}
-
-.subfolder__name {
-    flex: 1;
-}
 .folder-browser__list {
     height: 100%;
     width: 100%;
     overflow-x: hidden !important;
     overflow-y: auto;
-}
-
-.tracks-browser {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.tracks-browser__header {
-    display: flex;
-    flex-direction: row;
-}
-
-.tracks-browser__trackscount {
-    color: var(--theme-accent-color);
-}
-
-.tracks-browser__breadcrumbs {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .tracks-browser__breadcrumb {
@@ -81,8 +25,4 @@
     font-size: var(--fontsize-normal) !important;
     white-space: nowrap;
     overflow: hidden;
-}
-
-.tracks-browser__tracks {
-    flex: 1;
 }

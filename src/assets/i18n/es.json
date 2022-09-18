@@ -206,5 +206,6 @@
     "save-rating-error": "Ocurrió un error al guardar la calificación. Verifique el registro si necesita más información.",
     "rating": "Clasificacion",
     "show-rating": "Mostrar Clasificacion",
-    "save-rating-to-audio-files": "Guarde la calificación en los archivos de audio (solo MP3)"
+    "save-rating-to-audio-files": "Guarde la calificación en los archivos de audio (solo MP3)",
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
 }

@@ -76,6 +76,10 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         }
     }
 
+    public get hasPlaylists(): boolean {
+        return this._playlists.length > 0;
+    }
+
     public ngOnInit(): void {
         this.applicationService.windowSizeChanged$.subscribe(() => {
             if (this.hasAvailableWidthChanged()) {

@@ -1,0 +1,32 @@
+.h-24px {
+    height: 24px;
+}
+
+.w-24px {
+    width: 24px;
+}
+
+.radius-12px {
+    border-radius: 12px;
+}
+
+.font-20px {
+    font-size: 20px;
+}
+
+.h-100pct {
+    height: 100%;
+}
+
+.w-100pct {
+    width: 100%;
+}
+
+.font-size-medium {
+    font-weight: lighter !important;
+    font-size: var(--fontsize-medium) !important;
+}
+
+.rotate-90ccw {
+    transform: rotate(-90deg);
+}

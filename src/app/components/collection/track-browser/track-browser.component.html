@@ -1,7 +1,7 @@
-<div class="app-track-browser">
-    <div class="app-track-browser__header m-1 no-select">
-        <div class="app-track-browser__trackscount">
-            <div class="app-track-browser__trackscount__number mr-2">{{ this.tracks.numberOfTracks }}</div>
+<div class="h-100pct w-100pct d-flex flex-column">
+    <div class="h-24px align-items-center justify-content-between d-flex flex-row m-1 no-select">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.tracks.numberOfTracks }}</div>
             <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="app-track-browser__tracks mt-3" itemSize="46">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.orderedTracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"

@@ -206,5 +206,6 @@
     "save-rating-error": "Возникла ошибка при сохранении оценки. Пожалуйста, проверьте журнал, если вам нужны подробности.",
     "rating": "Оценки",
     "show-rating": "Показывать оценки",
-    "save-rating-to-audio-files": "Сохранять оценки в аудиофайлы (только MP3)"
+    "save-rating-to-audio-files": "Сохранять оценки в аудиофайлы (только MP3)",
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
 }
