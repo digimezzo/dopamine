@@ -52,6 +52,10 @@
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
         <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onShowInFolder()">
+            <span>{{ 'show-in-folder' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onDeleteAsync()">
             <span>{{ 'delete' | translate }}</span>
         </button>

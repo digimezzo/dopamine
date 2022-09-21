@@ -1,13 +1,12 @@
 import { IMock, Mock, Times } from 'typemoq';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Desktop } from '../../common/io/desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarComponent } from './snack-bar.component';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('SnackBarComponent', () => {
     let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let component: SnackBarComponent;
 
     beforeEach(() => {

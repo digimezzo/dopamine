@@ -6,8 +6,8 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
+import { BaseDesktop } from './base-desktop';
 import { BaseFileSystem } from './base-file-system';
-import { Desktop } from './desktop';
 
 @Injectable()
 export class FileSystem implements BaseFileSystem {
@@ -15,7 +15,7 @@ export class FileSystem implements BaseFileSystem {
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
-    constructor(private desktop: Desktop) {
+    constructor(private desktop: BaseDesktop) {
         this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
         this._musicDirectory = this.desktop.getMusicDirectory();
         this._pathSeparator = path.sep;

@@ -174,7 +174,7 @@
     "remove-image": "Remover imagen",
     "choose-image": "Elegir una imagen",
     "add-to-playlist": "Agregar a la lista de reproducción",
-    "remove-from-playlist": "Eliminar de la lista de reproducción",
+    "remove-from-playlist": "Eliminar de la lista de reproducción...",
     "confirm-remove-from-playlist": "¿Quitar de la lista de reproducción?",
     "confirm-remove-from-playlist-long": "¿Seguro que quieres eliminar estas canciones de la lista de reproducción?",
     "remove-from-playlist-error": "Ocurrió un error al eliminar canciones de la lista de reproducción. Verifique el registro si necesita más información.",
@@ -207,5 +207,6 @@
     "rating": "Clasificacion",
     "show-rating": "Mostrar Clasificacion",
     "save-rating-to-audio-files": "Guarde la calificación en los archivos de audio (solo MP3)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

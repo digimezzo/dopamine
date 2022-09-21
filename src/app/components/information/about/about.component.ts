@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../common/application/contact-information';
 import { ProductInformation } from '../../../common/application/product-information';
-import { Desktop } from '../../../common/io/desktop';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
     encapsulation: ViewEncapsulation.None,
 })
 export class AboutComponent implements OnInit {
-    constructor(private dialogService: BaseDialogService, private desktop: Desktop) {}
+    constructor(private dialogService: BaseDialogService, private desktop: BaseDesktop) {}
 
     public applicationVersion: string = ProductInformation.applicationVersion;
     public applicationCopyright: string = ProductInformation.applicationCopyright;

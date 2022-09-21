@@ -2,7 +2,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { AppComponent } from './app.component';
-import { Desktop } from './common/io/desktop';
+import { BaseDesktop } from './common/io/base-desktop';
 import { Logger } from './common/logger';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
@@ -13,8 +13,6 @@ import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
@@ -24,7 +22,7 @@ describe('AppComponent', () => {
     let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
@@ -55,7 +53,7 @@ describe('AppComponent', () => {
         trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
 

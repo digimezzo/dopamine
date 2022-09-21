@@ -4,7 +4,7 @@ import log from 'electron-log';
 import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
-import { Desktop } from './common/io/desktop';
+import { BaseDesktop } from './common/io/base-desktop';
 import { Logger } from './common/logger';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private addToPlaylistMenu: AddToPlaylistMenu,
-        private desktop: Desktop,
+        private desktop: BaseDesktop,
         private logger: Logger
     ) {
         log.create('renderer');

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Constants } from '../../../common/application/constants';
-import { Desktop } from '../../../common/io/desktop';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Strings } from '../../../common/strings';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
@@ -17,7 +17,7 @@ export class EditPlaylistDialogComponent implements OnInit {
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
         private playlistService: BasePlaylistService,
         private translatorService: BaseTranslatorService,
-        private desktop: Desktop
+        private desktop: BaseDesktop
     ) {
         dialogRef.disableClose = true;
     }

@@ -174,7 +174,7 @@
     "remove-image": "移除图片",
     "choose-image": "选择一张图片",
     "add-to-playlist": "添加到播放列表",
-    "remove-from-playlist": "从播放列表中移除",
+    "remove-from-playlist": "从播放列表中移除...",
     "confirm-remove-from-playlist": "确定要从播放列表中移除吗?",
     "confirm-remove-from-playlist-long": "您确定要从播放列表中移除这些歌曲吗?",
     "remove-from-playlist-error": "从播放列表中移除歌曲时出错。 如果您需要更多信息，请查看日志。",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

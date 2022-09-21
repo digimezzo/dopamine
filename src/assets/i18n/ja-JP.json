@@ -174,7 +174,7 @@
     "remove-image": "画像を削除",
     "choose-image": "画像を選択",
     "add-to-playlist": "プレイリストに追加",
-    "remove-from-playlist": "プレイリストから削除",
+    "remove-from-playlist": "プレイリストから削除...",
     "confirm-remove-from-playlist": "プレイリストから削除しますか?",
     "confirm-remove-from-playlist-long": "対象曲をプレイリストから削除してもよろしいですか?",
     "remove-from-playlist-error": "プレイリストから曲を削除中にエラーが発生しました。 さらに情報が必要な場合は、ログを確認してください。",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

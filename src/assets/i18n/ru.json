@@ -174,7 +174,7 @@
     "remove-image": "Удалить изображение",
     "choose-image": "Выбрать изображение",
     "add-to-playlist": "Добавить в плейлист",
-    "remove-from-playlist": "Удалить из плейлиста",
+    "remove-from-playlist": "Удалить из плейлиста...",
     "confirm-remove-from-playlist": "Удалить из плейлиста?",
     "confirm-remove-from-playlist-long": "Уверены, что хотите удалить эти песни из плейлиста?",
     "remove-from-playlist-error": "Произошла ошибка при удалении песен из плейлиста. Пожалуйста, проверьте журнал, если вам нужны подробности.",
@@ -207,5 +207,6 @@
     "rating": "Оценки",
     "show-rating": "Показывать оценки",
     "save-rating-to-audio-files": "Сохранять оценки в аудиофайлы (только MP3)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

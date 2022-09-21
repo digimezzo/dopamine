@@ -174,7 +174,7 @@
     "remove-image": "Afbeelding verwijderen",
     "choose-image": "Kies een afbeelding",
     "add-to-playlist": "Toevoegen aan playlist",
-    "remove-from-playlist": "Verwijderen van playlist",
+    "remove-from-playlist": "Verwijderen van playlist...",
     "confirm-remove-from-playlist": "Verwijderen van playlist?",
     "confirm-remove-from-playlist-long": "Weet je zeker dat je deze nummers uit de playlist wilt verwijderen?",
     "remove-from-playlist-error": "Er is een fout opgetreden bij het verwijderen van nummers uit de playlist. Controleer het log bestand als u meer informatie nodig heeft.",
@@ -207,5 +207,6 @@
     "rating": "Beoordeling",
     "show-rating": "Toon beoordeling",
     "save-rating-to-audio-files": "Sla de beoordeling op in de audiobestanden (alleen MP3)",
-    "playlist-folder-is-empty": "Deze afspeellijstmap is leeg. Vergeet niet om afspeellijsten te maken."
+    "playlist-folder-is-empty": "Deze afspeellijstmap is leeg. Vergeet niet om afspeellijsten te maken.",
+    "show-in-folder": "Weergeven in map"
 }

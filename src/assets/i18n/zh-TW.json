@@ -174,7 +174,7 @@
     "remove-image": "移除圖像",
     "choose-image": "選取圖像",
     "add-to-playlist": "新增至播放清單",
-    "remove-from-playlist": "從播放清單中移除",
+    "remove-from-playlist": "從播放清單中移除...",
     "confirm-remove-from-playlist": "從播放清單中移除？",
     "confirm-remove-from-playlist-long": "確定要從播放清單中移除這些曲目嗎？",
     "remove-from-playlist-error": "從播放清單中移除曲目時出錯。如果需要更多資訊，請參閱日誌檔。",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

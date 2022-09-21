@@ -6,8 +6,8 @@ import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
 import { BaseApplication } from '../../common/io/base-application';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseFileSystem } from '../../common/io/base-file-system';
-import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -36,7 +36,7 @@ export class AppearanceService implements BaseAppearanceService {
         private overlayContainer: OverlayContainer,
         private application: BaseApplication,
         private fileSystem: BaseFileSystem,
-        private desktop: Desktop,
+        private desktop: BaseDesktop,
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy
     ) {

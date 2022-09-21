@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Desktop } from '../../common/io/desktop';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
@@ -18,7 +18,7 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 })
 export class AddFolderComponent implements OnInit {
     constructor(
-        private desktop: Desktop,
+        private desktop: BaseDesktop,
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,
         private dialogService: BaseDialogService,

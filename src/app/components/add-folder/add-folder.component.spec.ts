@@ -1,6 +1,6 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Folder } from '../../common/data/entities/folder';
-import { Desktop } from '../../common/io/desktop';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
@@ -10,10 +10,8 @@ import { BaseIndexingService } from '../../services/indexing/base-indexing.servi
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { AddFolderComponent } from './add-folder.component';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('AddFolderComponent', () => {
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let folderServiceMock: IMock<BaseFolderService>;
     let dialogServiceMock: IMock<BaseDialogService>;
@@ -25,7 +23,7 @@ describe('AddFolderComponent', () => {
     let componentWithStub: AddFolderComponent;
 
     beforeEach(() => {
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();

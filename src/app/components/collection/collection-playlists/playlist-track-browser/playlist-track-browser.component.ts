@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
+import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
@@ -36,6 +37,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         private playbackIndicationService: BasePlaybackIndicationService,
         private translatorService: BaseTranslatorService,
         private dialogService: BaseDialogService,
+        private desktop: BaseDesktop,
         private logger: Logger
     ) {}
 
@@ -116,6 +118,14 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
     public async onAddToQueueAsync(): Promise<void> {
         await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+    }
+
+    public onShowInFolder(): void {
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+
+        if (tracks.length > 0) {
+            this.desktop.showFileInDirectory(tracks[0].path);
+        }
     }
 
     private orderTracks(): void {

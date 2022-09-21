@@ -1,7 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
 import { ProductInformation } from '../../common/application/product-information';
-import { Desktop } from '../../common/io/desktop';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { UpdateService } from './update.service';
@@ -12,7 +12,7 @@ describe('UpdateService', () => {
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;
     let gitHubMock: IMock<GitHubApi>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
 
     let service: UpdateService;
 
@@ -20,7 +20,7 @@ describe('UpdateService', () => {
         settingsMock = Mock.ofType<BaseSettings>();
         loggerMock = Mock.ofType<Logger>();
         gitHubMock = Mock.ofType<GitHubApi>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
 
         service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
     });

@@ -174,7 +174,7 @@
     "remove-image": "Supprimer l'image",
     "choose-image": "Choisissez une image",
     "add-to-playlist": "Ajouter à la playlist",
-    "remove-from-playlist": "Supprimer de la playlist",
+    "remove-from-playlist": "Supprimer de la playlist...",
     "confirm-remove-from-playlist": "Supprimer de la playlist?",
     "confirm-remove-from-playlist-long": "Voulez-vous vraiment supprimer ces numéros de la playlist?",
     "remove-from-playlist-error": "Une erreur s'est produite lors de la suppression de numéros de la playlist. Veuillez vérifier le log si vous avez besoin de plus d'informations.",
@@ -207,5 +207,6 @@
     "rating": "Classement",
     "show-rating": "Afficher classement",
     "save-rating-to-audio-files": "Enregistrez le classement dans les fichiers audio (MP3 uniquement)",
-    "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists."
+    "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists.",
+    "show-in-folder": "Afficher dans le dossier"
 }

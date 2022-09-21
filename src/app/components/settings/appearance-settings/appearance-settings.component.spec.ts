@@ -1,17 +1,15 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Desktop } from '../../../common/io/desktop';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AppearanceSettingsComponent } from './appearance-settings.component';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('AppearanceSettingsComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let settingsMock: IMock<BaseSettings>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
 
     let component: AppearanceSettingsComponent;
 
@@ -19,7 +17,7 @@ describe('AppearanceSettingsComponent', () => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         settingsMock = Mock.ofType<BaseSettings>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
 
         appearanceServiceMock.setup((x) => x.themesDirectoryPath).returns(() => '/my/path');
 

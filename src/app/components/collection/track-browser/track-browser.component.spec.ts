@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Track } from '../../../common/data/entities/track';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
@@ -25,6 +26,7 @@ describe('TrackBrowserComponent', () => {
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackOrderingMock: IMock<TrackOrdering>;
+    let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
     let collectionServiceMock: IMock<BaseCollectionService>;
@@ -57,6 +59,7 @@ describe('TrackBrowserComponent', () => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
@@ -134,6 +137,7 @@ describe('TrackBrowserComponent', () => {
             translatorServiceMock.object,
             dialogServiceMock.object,
             trackOrderingMock.object,
+            desktopMock.object,
             loggerMock.object
         );
     }
@@ -593,6 +597,32 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             collectionServiceMock.verify((x) => x.deleteTracksAsync([trackModel1, trackModel2]), Times.once());
+        });
+    });
+
+    describe('onShowInFolder', () => {
+        it('should not show in folder if there are no tracks selected', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onShowInFolder();
+
+            // Assert
+            desktopMock.verify((x) => x.showFileInDirectory(It.isAny()), Times.never());
+        });
+
+        it('should show the first selected track in folder if there are tracks selected', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
+            const component: TrackBrowserComponent = createComponent();
+
+            // Act
+            await component.onShowInFolder();
+
+            // Assert
+            desktopMock.verify((x) => x.showFileInDirectory(trackModel1.path), Times.once());
         });
     });
 });

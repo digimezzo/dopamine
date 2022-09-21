@@ -1,14 +1,13 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Desktop } from '../../../common/io/desktop';
 import { FileSystem } from '../../../common/io/file-system';
 import { ErrorDialogComponent } from './error-dialog.component';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('ErrorDialogComponent', () => {
     let dialogRefMock: IMock<MatDialogRef<ErrorDialogComponent>>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let fileSystemMock: IMock<FileSystem>;
 
     let component: ErrorDialogComponent;

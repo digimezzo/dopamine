@@ -1,11 +1,9 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, Mock } from 'typemoq';
-import { Desktop } from '../../../common/io/desktop';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { EditPlaylistDialogComponent } from './edit-playlist-dialog.component';
-
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 
 describe('EditPlaylistDialogComponent', () => {
     let component: EditPlaylistDialogComponent;
@@ -13,13 +11,13 @@ describe('EditPlaylistDialogComponent', () => {
     let dialogRefMock: IMock<MatDialogRef<EditPlaylistDialogComponent>>;
     let playlistServiceMock: IMock<BasePlaylistService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
 
     beforeEach(() => {
         dialogRefMock = Mock.ofType<MatDialogRef<EditPlaylistDialogComponent>>();
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
 
         component = new EditPlaylistDialogComponent(
             dataMock,

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Hacks } from '../../../common/hacks';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
@@ -53,6 +54,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private playbackIndicationService: BasePlaybackIndicationService,
         private foldersPersister: FoldersPersister,
         private scheduler: Scheduler,
+        private desktop: BaseDesktop,
         private logger: Logger,
         private hacks: Hacks
     ) {}
@@ -212,5 +214,13 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     public async onAddToQueueAsync(): Promise<void> {
         await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+    }
+
+    public onShowInFolder(): void {
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+
+        if (tracks.length > 0) {
+            this.desktop.showFileInDirectory(tracks[0].path);
+        }
     }
 }

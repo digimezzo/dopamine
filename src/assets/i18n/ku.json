@@ -174,7 +174,7 @@
     "remove-image": "Wêneyê rake",
     "choose-image": "Wêneyekê hilbijêre",
     "add-to-playlist": "Tevlî rêzoka lêdanê bike",
-    "remove-from-playlist": "Ji rêzoka lêdanê rake",
+    "remove-from-playlist": "Ji rêzoka lêdanê rake...",
     "confirm-remove-from-playlist": "Ji rêzoka lêdanê rake?",
     "confirm-remove-from-playlist-long": "Ma tu dixwazî van stranan ji rêzoka lêdanê jê bibî?",
     "remove-from-playlist-error": "Di dema jêbirina stranan ji rêzoka lêdanê de çewtî derket. Ji bo bêtir zanyarî li pelê têketinê binêre.",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

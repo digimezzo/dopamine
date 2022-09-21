@@ -4,8 +4,8 @@ import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { BaseApplication } from '../../common/io/base-application';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseFileSystem } from '../../common/io/base-file-system';
-import { Desktop } from '../../common/io/desktop';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -18,15 +18,13 @@ import { ThemeCreator } from './theme/theme-creator';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 import { ThemeOptions } from './theme/theme-options';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('AppearanceService', () => {
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
     let applicationMock: IMock<BaseApplication>;
     let fileSystemMock: IMock<BaseFileSystem>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
 
@@ -277,7 +275,7 @@ describe('AppearanceService', () => {
         overlayContainerMock = Mock.ofType<OverlayContainer>();
         applicationMock = Mock.ofType<BaseApplication>();
         fileSystemMock = Mock.ofType<BaseFileSystem>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
 

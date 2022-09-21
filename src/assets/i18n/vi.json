@@ -174,7 +174,7 @@
     "remove-image": "Xóa hình ảnh",
     "choose-image": "Chọn một hình ảnh",
     "add-to-playlist": "Thêm vào danh sách phát",
-    "remove-from-playlist": "Xóa khỏi danh sách phát",
+    "remove-from-playlist": "Xóa khỏi danh sách phát...",
     "confirm-remove-from-playlist": "Xóa khỏi danh sách phát?",
     "confirm-remove-from-playlist-long": "Bạn có chắc muốn xóa bài hát khỏi danh sách phát?",
     "remove-from-playlist-error": "Đã xảy ra lỗi khi xóa bài hát khỏi danh sách phát. Vui lòng xem tập tin log để biết thêm thông tin.",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

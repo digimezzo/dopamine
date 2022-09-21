@@ -174,7 +174,7 @@
     "remove-image": "Odebrat obrázek",
     "choose-image": "Vybrat obrázek",
     "add-to-playlist": "Přidat do seznamu skladeb",
-    "remove-from-playlist": "Odebrat ze seznamu skladeb",
+    "remove-from-playlist": "Odebrat ze seznamu skladeb...",
     "confirm-remove-from-playlist": "Odebrat ze seznamu skladeb?",
     "confirm-remove-from-playlist-long": "Opravdu chcete odebrat tyto skladby ze seznamu skladeb?",
     "remove-from-playlist-error": "Při odebírání skladeb ze seznamu skladeb se vyskytla chyba. Pro více informací zkontrolujte protokol.",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

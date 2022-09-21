@@ -1,21 +1,19 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { ContactInformation } from '../../../common/application/contact-information';
 import { ProductInformation } from '../../../common/application/product-information';
-import { Desktop } from '../../../common/io/desktop';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { AboutComponent } from './about.component';
 
-jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
-
 describe('AboutComponent', () => {
     let dialogServiceMock: IMock<BaseDialogService>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
 
     let component: AboutComponent;
 
     beforeEach(() => {
         dialogServiceMock = Mock.ofType<BaseDialogService>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
 
         component = new AboutComponent(dialogServiceMock.object, desktopMock.object);
     });

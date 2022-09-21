@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { Desktop } from '../../common/io/desktop';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
@@ -15,7 +15,7 @@ jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 describe('CollectionService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let desktopMock: IMock<Desktop>;
+    let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -32,7 +32,7 @@ describe('CollectionService', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        desktopMock = Mock.ofType<Desktop>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();

@@ -5,6 +5,7 @@ import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Folder } from '../../../common/data/entities/folder';
 import { Track } from '../../../common/data/entities/track';
 import { Hacks } from '../../../common/hacks';
+import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
@@ -43,6 +44,7 @@ describe('CollectionFoldersComponent', () => {
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let foldersPersisterMock: IMock<FoldersPersister>;
     let schedulerMock: IMock<Scheduler>;
+    let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -93,6 +95,7 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.object,
             foldersPersisterMock.object,
             schedulerMock.object,
+            desktopMock.object,
             loggerMock.object,
             hacksMock.object
         );
@@ -116,6 +119,7 @@ describe('CollectionFoldersComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
         schedulerMock = Mock.ofType<Scheduler>();
+        desktopMock = Mock.ofType<BaseDesktop>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
@@ -1256,6 +1260,32 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, track1), Times.once());
+        });
+    });
+
+    describe('onShowInFolder', () => {
+        it('should not show in folder if there are no tracks selected', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Act
+            await component.onShowInFolder();
+
+            // Assert
+            desktopMock.verify((x) => x.showFileInDirectory(It.isAny()), Times.never());
+        });
+
+        it('should show the first selected track in folder if there are tracks selected', async () => {
+            // Arrange
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [track1, track2]);
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Act
+            await component.onShowInFolder();
+
+            // Assert
+            desktopMock.verify((x) => x.showFileInDirectory(track1.path), Times.once());
         });
     });
 });

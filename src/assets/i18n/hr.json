@@ -174,7 +174,7 @@
     "remove-image": "Ukloni sliku",
     "choose-image": "Odaberi sliku",
     "add-to-playlist": "Dodaj na popis",
-    "remove-from-playlist": "Ukloni s popisa",
+    "remove-from-playlist": "Ukloni s popisa...",
     "confirm-remove-from-playlist": "Ukloniti s popisa?",
     "confirm-remove-from-playlist-long": "Sigurno želiš ukloniti ove pjesme s popisa za reprodukciju?",
     "remove-from-playlist-error": "Dogodila se greška prilikom uklanjanja pjesama s popisa za reprodukciju. Pogledaj zapisnik, ako trebaš više informacija.",
@@ -207,5 +207,6 @@
     "rating": "Rating",
     "show-rating": "Show rating",
     "save-rating-to-audio-files": "Save the rating to the audio files (MP3 only)",
-    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists."
+    "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
+    "show-in-folder": "Show in folder"
 }

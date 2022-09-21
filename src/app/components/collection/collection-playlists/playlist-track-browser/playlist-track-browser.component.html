@@ -37,10 +37,14 @@
 ></div>
 <mat-menu #playlistTrackContextMenu="matMenu">
     <ng-template matMenuContent>
-        <button mat-menu-item (click)="onRemoveFromPlaylistAsync()">{{ 'remove-from-playlist' | translate }}</button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onAddToQueueAsync()">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onShowInFolder()">
+            <span>{{ 'show-in-folder' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onRemoveFromPlaylistAsync()">{{ 'remove-from-playlist' | translate }}</button>
     </ng-template>
 </mat-menu>

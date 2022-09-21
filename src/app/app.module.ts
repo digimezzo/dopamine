@@ -55,6 +55,7 @@ import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
 import { BaseApplication } from './common/io/base-application';
+import { BaseDesktop } from './common/io/base-desktop';
 import { BaseFileSystem } from './common/io/base-file-system';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
@@ -416,7 +417,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
             multi: true,
         },
         ElectronService,
-        Desktop,
         DatabaseFactory,
         TrackIndexer,
         DirectoryWalker,
@@ -525,6 +525,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseIpcProxy, useClass: IpcProxy },
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
+        { provide: BaseDesktop, useClass: Desktop },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

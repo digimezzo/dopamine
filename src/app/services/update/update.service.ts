@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
 import { ProductInformation } from '../../common/application/product-information';
-import { Desktop } from '../../common/io/desktop';
+import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseUpdateService } from './base-update.service';
@@ -11,7 +11,7 @@ export class UpdateService implements BaseUpdateService {
     public _isUpdateAvailable: boolean = false;
     private _latestRelease: string = '';
 
-    constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: Desktop) {}
+    constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: BaseDesktop) {}
 
     public get isUpdateAvailable(): boolean {
         return this._isUpdateAvailable;
