@@ -27,12 +27,12 @@
                 </ng-template>
                 <app-collection-albums></app-collection-albums>
             </mat-tab>
-            <!-- <mat-tab>
-                    <ng-template mat-tab-label>
-                        {{ 'tracks' | translate }}
-                    </ng-template>
-                    <app-collection-tracks></app-collection-tracks>
-                </mat-tab> -->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{ 'tracks' | translate }}
+                </ng-template>
+                <app-collection-tracks></app-collection-tracks>
+            </mat-tab>
             <mat-tab *ngIf="settings.showPlaylistsPage">
                 <ng-template mat-tab-label>
                     {{ 'playlists' | translate }}
