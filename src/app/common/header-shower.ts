@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { ArtistModel } from '../services/artist/artist-model';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { CanShowHeader } from './can-show-header';
+import { HeaderModel } from './header-model';
 
 @Injectable()
 export class HeaderShower {
-    constructor(private translatorService: BaseTranslatorService) {}
+    constructor() {}
 
     public showHeaders(canShowHeaders: CanShowHeader[]): void {
         let previousHeader: string = uuidv4();
 
-        for (const artist of canShowHeaders) {
-            artist.showHeader = false;
+        for (const canShowHeader of canShowHeaders) {
+            canShowHeader.showHeader = false;
 
-            if (artist.header !== previousHeader) {
-                const indexOfCanShowHeader = canShowHeaders.indexOf(artist);
+            if (canShowHeader.header !== previousHeader) {
+                const indexOfCanShowHeader = canShowHeaders.indexOf(canShowHeader);
 
                 if (indexOfCanShowHeader > -1) {
-                    const headerArtist: ArtistModel = new ArtistModel(artist.header, this.translatorService);
-                    headerArtist.showHeader = true;
-                    canShowHeaders.splice(indexOfCanShowHeader, 0, headerArtist);
+                    const header: HeaderModel = new HeaderModel(canShowHeader);
+                    canShowHeaders.splice(indexOfCanShowHeader, 0, header);
                 }
             }
 
-            previousHeader = artist.header;
+            previousHeader = canShowHeader.header;
         }
     }
 }
