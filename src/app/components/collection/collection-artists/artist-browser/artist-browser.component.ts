@@ -1,3 +1,4 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
@@ -20,6 +21,8 @@ import { ArtistOrder } from './artist-order';
     providers: [MouseSelectionWatcher],
 })
 export class ArtistBrowserComponent implements OnInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport) private viewPort: CdkVirtualScrollViewport;
+
     private _artists: ArtistModel[] = [];
     private _artistsPersister: ArtistsPersister;
 
@@ -78,6 +81,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     public setSelectedArtists(event: any, artistToSelect: ArtistModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
         this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
+        this.scrollToMiddle();
     }
 
     public toggleArtistType(): void {
@@ -161,6 +165,14 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
         for (const selectedArtist of selectedArtists) {
             selectedArtist.isSelected = true;
+        }
+    }
+
+    public scrollToMiddle(): void {
+        const selectedIndex = this._artists.findIndex((elem) => elem.header === 'o' && elem.showHeader);
+
+        if (selectedIndex > -1) {
+            this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
 }

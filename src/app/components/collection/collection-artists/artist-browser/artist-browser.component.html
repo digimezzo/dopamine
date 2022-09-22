@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="24">
+    <cdk-virtual-scroll-viewport class="flex-grow" itemSize="30">
         <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"

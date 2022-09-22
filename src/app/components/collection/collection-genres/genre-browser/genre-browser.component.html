@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="24">
+    <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="30">
         <div *cdkVirtualFor="let genre of this.orderedGenres" (mousedown)="setSelectedGenres($event, genre)">
             <app-genre
                 [genre]="genre"
