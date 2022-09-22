@@ -2,10 +2,10 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
+import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
@@ -32,7 +32,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
-        private headerShower: HeaderShower,
+        private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private logger: Logger
     ) {}
 
@@ -147,7 +147,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.headerShower.showHeaders(orderedArtists);
+            this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists);
             this.applySelectedArtists();
         } catch (e) {
             this.logger.error(`Could not order artists. Error: ${e.message}`, 'ArtistBrowserComponent', 'orderArtists');
@@ -169,7 +169,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     }
 
     public scrollToMiddle(): void {
-        const selectedIndex = this._artists.findIndex((elem) => elem.header === 'o' && elem.showHeader);
+        const selectedIndex = this._artists.findIndex((elem) => elem.zoomHeader === 'o' && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');

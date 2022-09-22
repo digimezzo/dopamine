@@ -51,7 +51,6 @@ import { RemovedTrackRepository } from './common/data/repositories/removed-track
 import { TrackRepository } from './common/data/repositories/track-repository';
 import { FileValidator } from './common/file-validator';
 import { Hacks } from './common/hacks';
-import { HeaderShower } from './common/header-shower';
 import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
 import { BaseApplication } from './common/io/base-application';
@@ -77,6 +76,7 @@ import { TrackOrdering } from './common/ordering/track-ordering';
 import { PathValidator } from './common/path-validator';
 import { BaseScheduler } from './common/scheduling/base-scheduler';
 import { Scheduler } from './common/scheduling/scheduler';
+import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
 import { Shuffler } from './common/shuffler';
@@ -459,7 +459,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GenreOrdering,
         TrackOrdering,
         PresenceUpdater,
-        HeaderShower,
+        SemanticZoomHeaderAdder,
         DefaultThemesCreator,
         ArtistsPersister,
         ArtistsAlbumsPersister,

@@ -1,9 +1,9 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
+import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
@@ -19,7 +19,7 @@ describe('ArtistBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let artistOrderingMock: IMock<ArtistOrdering>;
-    let headerShowerMock: IMock<HeaderShower>;
+    let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
@@ -34,7 +34,7 @@ describe('ArtistBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             artistOrderingMock.object,
-            headerShowerMock.object,
+            semanticZoomHeaderAdderMock.object,
             loggerMock.object
         );
     }
@@ -45,7 +45,7 @@ describe('ArtistBrowserComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         artistOrderingMock = Mock.ofType<ArtistOrdering>();
-        headerShowerMock = Mock.ofType<HeaderShower>();
+        semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
 
@@ -269,7 +269,7 @@ describe('ArtistBrowserComponent', () => {
             component.artists = [artist1, artist2];
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.never());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedArtists), Times.never());
         });
 
         it('should show the headers for the ordered artists if artistsPersister is not undefined', () => {
@@ -282,9 +282,9 @@ describe('ArtistBrowserComponent', () => {
             component.artists = [artist1, artist2];
 
             // Assert
-            headerShowerMock.verify(
+            semanticZoomHeaderAdderMock.verify(
                 (x) =>
-                    x.showHeaders(
+                    x.addZoomHeaders(
                         It.is(
                             (artists: ArtistModel[]) =>
                                 artists.length === 2 &&
@@ -400,7 +400,7 @@ describe('ArtistBrowserComponent', () => {
             component.artistsPersister = artistsPersisterMock.object;
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.once());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedArtists), Times.once());
         });
 
         it('should apply the selected artists', () => {
@@ -540,13 +540,13 @@ describe('ArtistBrowserComponent', () => {
 
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
-            headerShowerMock.reset();
+            semanticZoomHeaderAdderMock.reset();
 
             // Act
             component.toggleArtistOrder();
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedArtists), Times.once());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedArtists), Times.once());
         });
     });
 

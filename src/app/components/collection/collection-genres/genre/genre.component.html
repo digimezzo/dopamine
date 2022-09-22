@@ -1,7 +1,7 @@
 <div class="app-genre no-select">
-    <div class="app-genre__header mx-1" *ngIf="genre.showHeader">{{ genre.header }}</div>
+    <div class="app-genre__header mx-1" *ngIf="genre.isZoomHeader">{{ genre.zoomHeader }}</div>
     <div
-        *ngIf="!genre.showHeader"
+        *ngIf="!genre.isZoomHeader"
         class="app-genre__name ellipsis px-1"
         [ngClass]="{
             'selected-item-background': genre.isSelected,

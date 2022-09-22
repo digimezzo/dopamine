@@ -32,13 +32,13 @@ describe('ArtistModel', () => {
             expect(artistModel.isSelected).toBeDefined();
         });
 
-        it('should define showHeader as false', () => {
+        it('should define isZoomHeader as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(artistModel.showHeader).toBeFalsy();
+            expect(artistModel.isZoomHeader).toBeFalsy();
         });
 
         it('should define name', () => {
@@ -65,7 +65,7 @@ describe('ArtistModel', () => {
             // Act
 
             // Assert
-            expect(artistModel.header).toBeDefined();
+            expect(artistModel.zoomHeader).toBeDefined();
         });
     });
 

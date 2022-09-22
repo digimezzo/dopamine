@@ -1,9 +1,9 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
+import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
@@ -18,7 +18,7 @@ describe('GenreBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreOrderingMock: IMock<GenreOrdering>;
-    let headerShowerMock: IMock<HeaderShower>;
+    let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let genresPersisterMock: IMock<GenresPersister>;
@@ -33,7 +33,7 @@ describe('GenreBrowserComponent', () => {
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             genreOrderingMock.object,
-            headerShowerMock.object,
+            semanticZoomHeaderAdderMock.object,
             loggerMock.object
         );
     }
@@ -44,7 +44,7 @@ describe('GenreBrowserComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         genreOrderingMock = Mock.ofType<GenreOrdering>();
-        headerShowerMock = Mock.ofType<HeaderShower>();
+        semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
@@ -248,7 +248,7 @@ describe('GenreBrowserComponent', () => {
             component.genres = [genre1, genre2];
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.never());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedGenres), Times.never());
         });
 
         it('should show the headers for the ordered genres if genresPersister is not undefined', () => {
@@ -261,9 +261,9 @@ describe('GenreBrowserComponent', () => {
             component.genres = [genre1, genre2];
 
             // Assert
-            headerShowerMock.verify(
+            semanticZoomHeaderAdderMock.verify(
                 (x) =>
-                    x.showHeaders(
+                    x.addZoomHeaders(
                         It.is(
                             (genres: GenreModel[]) =>
                                 genres.length === 2 &&
@@ -379,7 +379,7 @@ describe('GenreBrowserComponent', () => {
             component.genresPersister = genresPersisterMock.object;
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.once());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedGenres), Times.once());
         });
 
         it('should apply the selected genres', () => {
@@ -519,13 +519,13 @@ describe('GenreBrowserComponent', () => {
 
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
-            headerShowerMock.reset();
+            semanticZoomHeaderAdderMock.reset();
 
             // Act
             component.toggleGenreOrder();
 
             // Assert
-            headerShowerMock.verify((x) => x.showHeaders(component.orderedGenres), Times.once());
+            semanticZoomHeaderAdderMock.verify((x) => x.addZoomHeaders(component.orderedGenres), Times.once());
         });
 
         describe('onAddToQueueAsync', () => {

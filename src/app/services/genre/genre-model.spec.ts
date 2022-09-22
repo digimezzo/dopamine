@@ -32,13 +32,13 @@ describe('GenreModel', () => {
             expect(genreModel.isSelected).toBeDefined();
         });
 
-        it('should define showHeader as false', () => {
+        it('should define isZoomHeader as false', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(genreModel.showHeader).toBeFalsy();
+            expect(genreModel.isZoomHeader).toBeFalsy();
         });
 
         it('should define name', () => {
@@ -65,7 +65,7 @@ describe('GenreModel', () => {
             // Act
 
             // Assert
-            expect(genreModel.header).toBeDefined();
+            expect(genreModel.zoomHeader).toBeDefined();
         });
     });
 

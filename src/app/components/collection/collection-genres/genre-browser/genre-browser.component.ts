@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { HeaderShower } from '../../../../common/header-shower';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
+import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
@@ -28,7 +28,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
-        private headerShower: HeaderShower,
+        private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private logger: Logger
     ) {}
 
@@ -118,7 +118,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.headerShower.showHeaders(orderedGenres);
+            this.semanticZoomHeaderAdder.addZoomHeaders(orderedGenres);
             this.applySelectedGenres();
         } catch (e) {
             this.logger.error(`Could not order genres. Error: ${e.message}`, 'GenreBrowserComponent', 'orderGenres');

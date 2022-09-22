@@ -1,16 +1,16 @@
-import { CanShowHeader } from './can-show-header';
+import { SemanticZoomable } from './semantic-zoomable';
 
-export class CanShowHeaderImplementation extends CanShowHeader {
+export class SemanticZoomableImplementation extends SemanticZoomable {
     public name: string;
     public displayName: string;
-    public showHeader: boolean;
+    public isZoomHeader: boolean;
 }
 
-describe('CanShowHeader', () => {
-    let canShowHeader: CanShowHeader;
+describe('SemanticZoomable', () => {
+    let semanticZoomable: SemanticZoomable;
 
     beforeEach(() => {
-        canShowHeader = new CanShowHeaderImplementation();
+        semanticZoomable = new SemanticZoomableImplementation();
     });
 
     describe('constructor', () => {
@@ -18,25 +18,25 @@ describe('CanShowHeader', () => {
             // Arrange
             // Act
             // Assert
-            expect(canShowHeader).toBeDefined();
+            expect(semanticZoomable).toBeDefined();
         });
 
-        it('should define showHeader as false', () => {
+        it('should define isZoomHeader as false', () => {
             // Arrange
             // Act
             // Assert
-            expect(canShowHeader.showHeader).toBeFalsy();
+            expect(semanticZoomable.isZoomHeader).toBeFalsy();
         });
     });
 
     describe('sortableName', () => {
         it('should return a sortable name', () => {
             // Arrange
-            canShowHeader = new CanShowHeaderImplementation();
-            canShowHeader.name = 'The Text';
+            semanticZoomable = new SemanticZoomableImplementation();
+            semanticZoomable.name = 'The Text';
 
             // Act
-            const sortableName: string = canShowHeader.sortableName;
+            const sortableName: string = semanticZoomable.sortableName;
 
             // Assert
             expect(sortableName).toEqual('text');
@@ -46,11 +46,11 @@ describe('CanShowHeader', () => {
     describe('header', () => {
         it('should return a header containing a letter if the first letter is known as alphabetical header', () => {
             // Arrange
-            canShowHeader = new CanShowHeaderImplementation();
-            canShowHeader.name = 'The Text';
+            semanticZoomable = new SemanticZoomableImplementation();
+            semanticZoomable.name = 'The Text';
 
             // Act
-            const header: string = canShowHeader.header;
+            const header: string = semanticZoomable.zoomHeader;
 
             // Assert
             expect(header).toEqual('t');
@@ -58,11 +58,11 @@ describe('CanShowHeader', () => {
 
         it('should return a header containing a letter if the first letter is not known as alphabetical header', () => {
             // Arrange
-            canShowHeader = new CanShowHeaderImplementation();
-            canShowHeader.name = '1 Text';
+            semanticZoomable = new SemanticZoomableImplementation();
+            semanticZoomable.name = '1 Text';
 
             // Act
-            const header: string = canShowHeader.header;
+            const header: string = semanticZoomable.zoomHeader;
 
             // Assert
             expect(header).toEqual('#');

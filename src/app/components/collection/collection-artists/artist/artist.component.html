@@ -1,7 +1,7 @@
 <div class="app-artist no-select">
-    <div class="app-artist__header mx-1" *ngIf="artist.showHeader">{{ artist.header }}</div>
+    <div class="app-artist__header mx-1" *ngIf="artist.isZoomHeader">{{ artist.zoomHeader }}</div>
     <div
-        *ngIf="!artist.showHeader"
+        *ngIf="!artist.isZoomHeader"
         class="app-artist__name ellipsis px-1"
         [ngClass]="{
             'selected-item-background': artist.isSelected,
