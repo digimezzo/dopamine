@@ -22,8 +22,8 @@ describe('SemanticZoomHeaderAdder', () => {
         semanticZoomHeaderAdder = new SemanticZoomHeaderAdder();
     });
 
-    describe('showHeaders', () => {
-        it('should show the headers', () => {
+    describe('addZoomHeaders', () => {
+        it('should add zoom headers', () => {
             // Arrange
             const semanticZoomables: SemanticZoomable[] = [semanticZoomable1, semanticZoomable2, semanticZoomable3, semanticZoomable4];
 
@@ -31,10 +31,15 @@ describe('SemanticZoomHeaderAdder', () => {
             semanticZoomHeaderAdder.addZoomHeaders(semanticZoomables);
 
             // Assert
+            expect(semanticZoomables.length).toEqual(6);
             expect(semanticZoomables[0].isZoomHeader).toBeTruthy();
+            expect(semanticZoomables[0].zoomHeader).toEqual('z');
             expect(semanticZoomables[1].isZoomHeader).toBeFalsy();
-            expect(semanticZoomables[2].isZoomHeader).toBeTruthy();
-            expect(semanticZoomables[3].isZoomHeader).toBeFalsy();
+            expect(semanticZoomables[2].isZoomHeader).toBeFalsy();
+            expect(semanticZoomables[3].isZoomHeader).toBeTruthy();
+            expect(semanticZoomables[3].zoomHeader).toEqual('a');
+            expect(semanticZoomables[4].isZoomHeader).toBeFalsy();
+            expect(semanticZoomables[5].isZoomHeader).toBeFalsy();
         });
     });
 });
