@@ -21,7 +21,8 @@
             </div>
         </div>
     </div>
-    <cdk-virtual-scroll-viewport class="flex-grow" itemSize="30">
+    <app-semantic-zoom-index *ngIf="this.isSemanticZooming"></app-semantic-zoom-index>
+    <cdk-virtual-scroll-viewport *ngIf="!this.isSemanticZooming" class="flex-grow" itemSize="30">
         <div *cdkVirtualFor="let artist of this.orderedArtists" (mousedown)="setSelectedArtists($event, artist)">
             <app-artist
                 [artist]="artist"

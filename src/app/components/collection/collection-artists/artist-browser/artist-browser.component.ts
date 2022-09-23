@@ -36,6 +36,8 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
+    public isSemanticZooming: boolean = true;
+
     @ViewChild('artistContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public artistContextMenu: MatMenuTrigger;
 

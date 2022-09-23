@@ -118,6 +118,7 @@ import { PlaylistsTracksPersister } from './components/collection/collection-pla
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
+import { SemanticZoomIndexComponent } from './components/collection/semantic-zoom-index/semantic-zoom-index.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
@@ -369,6 +370,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EditPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
+        SemanticZoomIndexComponent,
     ],
     imports: [
         BrowserAnimationsModule,
