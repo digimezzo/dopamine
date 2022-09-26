@@ -1,12 +1,18 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Subscription } from 'rxjs';
+import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
+import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreOrder } from './genre-order';
@@ -19,18 +25,26 @@ import { GenreOrder } from './genre-order';
     providers: [MouseSelectionWatcher],
 })
 export class GenreBrowserComponent implements OnInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport) private viewPort: CdkVirtualScrollViewport;
+
     private _genres: GenreModel[] = [];
     private _genresPersister: GenresPersister;
+    private subscription: Subscription = new Subscription();
 
     constructor(
         public playbackService: BasePlaybackService,
+        private semanticZoomService: BaseSemanticZoomService,
+        private applicationService: BaseApplicationService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
+        private scheduler: BaseScheduler,
         private logger: Logger
     ) {}
+
+    public shouldZoomOut: boolean = false;
 
     @ViewChild('genreContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public genreContextMenu: MatMenuTrigger;
@@ -66,13 +80,35 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public ngOnDestroy(): void {}
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.subscription.add(
+            this.semanticZoomService.zoomOutRequested$.subscribe(() => {
+                this.shouldZoomOut = true;
+            })
+        );
+
+        this.subscription.add(
+            this.semanticZoomService.zoomInRequested$.subscribe((text: string) => {
+                this.scrollToZoomHeaderAsync(text);
+            })
+        );
+
+        this.subscription.add(
+            this.applicationService.mouseButtonReleased$.subscribe(() => {
+                this.shouldZoomOut = false;
+            })
+        );
+    }
 
     public setSelectedGenres(event: any, genreToSelect: GenreModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
-        this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems);
+        if (!genreToSelect.isZoomHeader) {
+            this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
+            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems);
+        }
     }
 
     public toggleGenreOrder(): void {
@@ -136,6 +172,17 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
         for (const selectedGenre of selectedGenres) {
             selectedGenre.isSelected = true;
+        }
+    }
+
+    private async scrollToZoomHeaderAsync(text: string): Promise<void> {
+        this.shouldZoomOut = false;
+        await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
+
+        const selectedIndex = this._genres.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
+
+        if (selectedIndex > -1) {
+            this.viewPort.scrollToIndex(selectedIndex, 'smooth');
         }
     }
 }

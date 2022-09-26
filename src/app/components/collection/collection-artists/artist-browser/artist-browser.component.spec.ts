@@ -3,10 +3,13 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
+import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
@@ -15,11 +18,14 @@ import { ArtistOrder } from './artist-order';
 
 describe('ArtistBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
+    let applicationServiceMock: IMock<BaseApplicationService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let artistOrderingMock: IMock<ArtistOrdering>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
+    let schedulerMock: IMock<BaseScheduler>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
@@ -30,22 +36,28 @@ describe('ArtistBrowserComponent', () => {
     function createComponent(): ArtistBrowserComponent {
         return new ArtistBrowserComponent(
             playbackServiceMock.object,
+            semanticZoomServiceMock.object,
+            applicationServiceMock.object,
             addToPlaylistMenuMock.object,
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             artistOrderingMock.object,
             semanticZoomHeaderAdderMock.object,
+            schedulerMock.object,
             loggerMock.object
         );
     }
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
+        applicationServiceMock = Mock.ofType<BaseApplicationService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         artistOrderingMock = Mock.ofType<ArtistOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
+        schedulerMock = Mock.ofType<BaseScheduler>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
 
@@ -182,6 +194,16 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             expect(component.addToPlaylistMenu).toBeDefined();
+        });
+
+        it('should declare shouldZoomOut as false', () => {
+            // Arrange
+
+            // Act
+            const component: ArtistBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
         });
     });
 
@@ -419,11 +441,12 @@ describe('ArtistBrowserComponent', () => {
     });
 
     describe('setSelectedArtists', () => {
-        it('should set the selected items on mouseSelectionWatcher', () => {
+        it('should set the selected items on mouseSelectionWatcher if the artist is a not zoom header', () => {
             // Arrange
             const event: any = {};
             const component: ArtistBrowserComponent = createComponent();
             component.artists = [artist1, artist2];
+            artist1.isZoomHeader = false;
             component.artistsPersister = artistsPersisterMock.object;
 
             // Act
@@ -433,7 +456,22 @@ describe('ArtistBrowserComponent', () => {
             mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.exactly(1));
         });
 
-        it('should persist the selected artist', () => {
+        it('should not set the selected items on mouseSelectionWatcher if the artist is a zoom header', () => {
+            // Arrange
+            const event: any = {};
+            const component: ArtistBrowserComponent = createComponent();
+            component.artists = [artist1, artist2];
+            artist1.isZoomHeader = true;
+            component.artistsPersister = artistsPersisterMock.object;
+
+            // Act
+            component.setSelectedArtists(event, artist1);
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, artist1), Times.never());
+        });
+
+        it('should persist the selected artist if the artist is a not zoom header', () => {
             // Arrange
 
             mouseSelectionWatcherMock.reset();
@@ -442,6 +480,7 @@ describe('ArtistBrowserComponent', () => {
 
             const event: any = {};
             component.artists = [artist1, artist2];
+            artist1.isZoomHeader = false;
             component.artistsPersister = artistsPersisterMock.object;
 
             // Act
@@ -449,6 +488,25 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             artistsPersisterMock.verify((x) => x.setSelectedArtists([artist1, artist2]), Times.exactly(1));
+        });
+
+        it('should not persist the selected artist if the artist is a zoom header', () => {
+            // Arrange
+
+            mouseSelectionWatcherMock.reset();
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [artist1, artist2]);
+            const component: ArtistBrowserComponent = createComponent();
+
+            const event: any = {};
+            component.artists = [artist1, artist2];
+            artist1.isZoomHeader = true;
+            component.artistsPersister = artistsPersisterMock.object;
+
+            // Act
+            component.setSelectedArtists(event, artist1);
+
+            // Assert
+            artistsPersisterMock.verify((x) => x.setSelectedArtists([artist1, artist2]), Times.never());
         });
     });
 

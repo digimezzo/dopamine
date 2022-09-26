@@ -1,14 +1,19 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Subscription } from 'rxjs';
+import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
+import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistOrder } from './artist-order';
@@ -25,18 +30,22 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
     private _artists: ArtistModel[] = [];
     private _artistsPersister: ArtistsPersister;
+    private subscription: Subscription = new Subscription();
 
     constructor(
         public playbackService: BasePlaybackService,
+        private semanticZoomService: BaseSemanticZoomService,
+        private applicationService: BaseApplicationService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
+        private scheduler: BaseScheduler,
         private logger: Logger
     ) {}
 
-    public isSemanticZooming: boolean = true;
+    public shouldZoomOut: boolean = false;
 
     @ViewChild('artistContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public artistContextMenu: MatMenuTrigger;
@@ -76,14 +85,35 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public ngOnDestroy(): void {}
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.subscription.add(
+            this.semanticZoomService.zoomOutRequested$.subscribe(() => {
+                this.shouldZoomOut = true;
+            })
+        );
+
+        this.subscription.add(
+            this.semanticZoomService.zoomInRequested$.subscribe((text: string) => {
+                this.scrollToZoomHeaderAsync(text);
+            })
+        );
+
+        this.subscription.add(
+            this.applicationService.mouseButtonReleased$.subscribe(() => {
+                this.shouldZoomOut = false;
+            })
+        );
+    }
 
     public setSelectedArtists(event: any, artistToSelect: ArtistModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
-        this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
-        this.scrollToMiddle();
+        if (!artistToSelect.isZoomHeader) {
+            this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
+            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
+        }
     }
 
     public toggleArtistType(): void {
@@ -170,8 +200,11 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         }
     }
 
-    public scrollToMiddle(): void {
-        const selectedIndex = this._artists.findIndex((elem) => elem.zoomHeader === 'o' && elem.isZoomHeader);
+    private async scrollToZoomHeaderAsync(text: string): Promise<void> {
+        this.shouldZoomOut = false;
+        await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
+
+        const selectedIndex = this._artists.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');

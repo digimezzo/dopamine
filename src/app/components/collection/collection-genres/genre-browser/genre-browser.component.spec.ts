@@ -3,9 +3,12 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
+import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
@@ -14,11 +17,14 @@ import { GenreOrder } from './genre-order';
 
 describe('GenreBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
+    let applicationServiceMock: IMock<BaseApplicationService>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreOrderingMock: IMock<GenreOrdering>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
+    let schedulerMock: IMock<BaseScheduler>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let genresPersisterMock: IMock<GenresPersister>;
@@ -29,22 +35,28 @@ describe('GenreBrowserComponent', () => {
     function createComponent(): GenreBrowserComponent {
         return new GenreBrowserComponent(
             playbackServiceMock.object,
+            semanticZoomServiceMock.object,
+            applicationServiceMock.object,
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             genreOrderingMock.object,
             semanticZoomHeaderAdderMock.object,
+            schedulerMock.object,
             loggerMock.object
         );
     }
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
+        applicationServiceMock = Mock.ofType<BaseApplicationService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         genreOrderingMock = Mock.ofType<GenreOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
+        schedulerMock = Mock.ofType<BaseScheduler>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
@@ -161,6 +173,16 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             expect(component.addToPlaylistMenu).toBeDefined();
+        });
+
+        it('should declare shouldZoomOut as false', () => {
+            // Arrange
+
+            // Act
+            const component: GenreBrowserComponent = createComponent();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
         });
     });
 
@@ -398,11 +420,12 @@ describe('GenreBrowserComponent', () => {
     });
 
     describe('setSelectedGenres', () => {
-        it('should set the selected items on mouseSelectionWatcher', () => {
+        it('should set the selected items on mouseSelectionWatcher if the genre is a not zoom header', () => {
             // Arrange
             const event: any = {};
             const component: GenreBrowserComponent = createComponent();
             component.genres = [genre1, genre2];
+            genre1.isZoomHeader = false;
             component.genresPersister = genresPersisterMock.object;
 
             // Act
@@ -412,7 +435,22 @@ describe('GenreBrowserComponent', () => {
             mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.exactly(1));
         });
 
-        it('should persist the selected genre', () => {
+        it('should not set the selected items on mouseSelectionWatcher if the genre is a zoom header', () => {
+            // Arrange
+            const event: any = {};
+            const component: GenreBrowserComponent = createComponent();
+            component.genres = [genre1, genre2];
+            genre1.isZoomHeader = true;
+            component.genresPersister = genresPersisterMock.object;
+
+            // Act
+            component.setSelectedGenres(event, genre1);
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, genre1), Times.never());
+        });
+
+        it('should persist the selected genre if the genre is a not zoom header', () => {
             // Arrange
 
             mouseSelectionWatcherMock.reset();
@@ -421,6 +459,7 @@ describe('GenreBrowserComponent', () => {
 
             const event: any = {};
             component.genres = [genre1, genre2];
+            genre1.isZoomHeader = false;
             component.genresPersister = genresPersisterMock.object;
 
             // Act
@@ -428,6 +467,25 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             genresPersisterMock.verify((x) => x.setSelectedGenres([genre1, genre2]), Times.exactly(1));
+        });
+
+        it('should not persist the selected genre if the genre is a zoom header', () => {
+            // Arrange
+
+            mouseSelectionWatcherMock.reset();
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [genre1, genre2]);
+            const component: GenreBrowserComponent = createComponent();
+
+            const event: any = {};
+            component.genres = [genre1, genre2];
+            genre1.isZoomHeader = true;
+            component.genresPersister = genresPersisterMock.object;
+
+            // Act
+            component.setSelectedGenres(event, genre1);
+
+            // Assert
+            genresPersisterMock.verify((x) => x.setSelectedGenres([genre1, genre2]), Times.never());
         });
     });
 
