@@ -1,14 +1,17 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
+import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { GenreComponent } from './genre.component';
 
 describe('GenreComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
     let component: GenreComponent;
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        component = new GenreComponent(appearanceServiceMock.object);
+        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
+        component = new GenreComponent(appearanceServiceMock.object, semanticZoomServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -37,6 +40,27 @@ describe('GenreComponent', () => {
 
             // Assert
             expect(component.appearanceService).toBeDefined();
+        });
+
+        it('should define semanticZoomService', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.semanticZoomService).toBeDefined();
+        });
+    });
+
+    describe('requestZoomOut', () => {
+        it('should request zoom out', () => {
+            // Arrange
+
+            // Act
+            component.requestZoomOut();
+
+            // Assert
+            semanticZoomServiceMock.verify((x) => x.requestZoomOut(), Times.once());
         });
     });
 });

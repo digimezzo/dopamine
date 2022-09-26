@@ -1,5 +1,7 @@
 <div class="app-artist no-select">
-    <div class="app-artist__header mx-1" *ngIf="artist.isZoomHeader">{{ artist.zoomHeader }}</div>
+    <div class="app-artist__header pointer mx-1" *ngIf="artist.isZoomHeader" (click)="this.requestZoomOut()">
+        {{ artist.zoomHeader }}
+    </div>
     <div
         *ngIf="!artist.isZoomHeader"
         class="app-artist__name ellipsis px-1"

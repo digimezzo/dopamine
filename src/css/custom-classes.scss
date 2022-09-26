@@ -30,6 +30,10 @@
     height: calc(100vh - 120px);
 }
 
+.collection-viewport-smaller {
+    height: calc(100vh - 210px);
+}
+
 .left-side-pane {
     height: 100%;
     background-color: var(--theme-side-pane-background);

@@ -118,7 +118,8 @@ import { PlaylistsTracksPersister } from './components/collection/collection-pla
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
-import { SemanticZoomIndexComponent } from './components/collection/semantic-zoom-index/semantic-zoom-index.component';
+import { SemanticZoomButtonComponent } from './components/collection/semantic-zoom/semantic-zoom-button/semantic-zoom-button.component';
+import { SemanticZoomComponent } from './components/collection/semantic-zoom/semantic-zoom.component';
 import { TotalsComponent } from './components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './components/collection/track/track.component';
@@ -248,6 +249,8 @@ import { PlaylistModelFactory } from './services/playlist/playlist-model-factory
 import { PlaylistService } from './services/playlist/playlist.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
+import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-zoom.service';
+import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTrackService } from './services/track/base-track.service';
@@ -370,7 +373,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EditPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
-        SemanticZoomIndexComponent,
+        SemanticZoomComponent,
+        SemanticZoomButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -520,6 +524,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseFolderService, useClass: FolderService },
         { provide: BaseFileService, useClass: FileService },
         { provide: BaseTrayService, useClass: TrayService },
+        { provide: BaseSemanticZoomService, useClass: SemanticZoomService },
         { provide: BaseSettings, useClass: Settings },
         { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },

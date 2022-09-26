@@ -1,0 +1,12 @@
+.app-semantic-zoom-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 16px 0px 16px 16px;
+    font-size: 16px;
+    margin: auto;
+}
