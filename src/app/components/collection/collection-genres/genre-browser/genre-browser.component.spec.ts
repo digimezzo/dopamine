@@ -1,4 +1,7 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
@@ -14,6 +17,24 @@ import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreBrowserComponent } from './genre-browser.component';
 import { GenreOrder } from './genre-order';
+
+export class CdkVirtualScrollViewportMock {
+    private _scrollToIndexIndex: number = -1;
+    private _scrollToIndexBehavior: ScrollBehavior = undefined;
+
+    public get scrollToIndexIndex() : number {
+        return this._scrollToIndexIndex;
+    }
+
+    public get scrollToIndexbehavior() : string {
+        return this._scrollToIndexBehavior;
+    }
+
+    public scrollToIndex(index: number, behavior?: ScrollBehavior): void{
+        this._scrollToIndexIndex = index;
+        this._scrollToIndexBehavior = behavior;
+    }
+}
 
 describe('GenreBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
@@ -32,6 +53,10 @@ describe('GenreBrowserComponent', () => {
     let genre1: GenreModel;
     let genre2: GenreModel;
 
+    let semanticZoomService_zoomOutRequested: Subject<void>;
+    let semanticZoomService_zoomInRequested: Subject<string>;
+    let applicationService_mouseButtonReleased: Subject<void>;
+
     function createComponent(): GenreBrowserComponent {
         return new GenreBrowserComponent(
             playbackServiceMock.object,
@@ -47,6 +72,8 @@ describe('GenreBrowserComponent', () => {
         );
     }
 
+    const flushPromises = () => new Promise(process.nextTick);
+
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
@@ -60,6 +87,18 @@ describe('GenreBrowserComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
+
+        semanticZoomService_zoomOutRequested = new Subject();
+        semanticZoomService_zoomInRequested = new Subject();
+        applicationService_mouseButtonReleased = new Subject();
+
+        const semanticZoomService_zoomOutRequested$: Observable<void> = semanticZoomService_zoomOutRequested.asObservable();
+        const semanticZoomService_zoomInRequested$: Observable<string> = semanticZoomService_zoomInRequested.asObservable();
+        const applicationService_mouseButtonReleased$: Observable<void> = applicationService_mouseButtonReleased.asObservable();
+
+        semanticZoomServiceMock.setup((x) => x.zoomOutRequested$).returns(() => semanticZoomService_zoomOutRequested$);
+        semanticZoomServiceMock.setup((x) => x.zoomInRequested$).returns(() => semanticZoomService_zoomInRequested$);
+        applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => applicationService_mouseButtonReleased$);
 
         genre1 = new GenreModel('One genre', translatorServiceMock.object);
         genre2 = new GenreModel('Two genre', translatorServiceMock.object);
@@ -184,6 +223,58 @@ describe('GenreBrowserComponent', () => {
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
         });
+    });
+
+    describe('ngOnInit', () => {
+        it('should set shouldZoomOut to true when zoom out is requested', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.shouldZoomOut = false;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomOutRequested.next();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeTruthy();
+        });
+
+        it('should scroll to zoom header when zoom in is requested', async() => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            genre1.isZoomHeader = true;
+            genre2.isZoomHeader = true;
+            component.genres = [genre1, genre2];
+            component.shouldZoomOut = true;
+
+            const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
+            component.viewPort = viewportMockAny;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomInRequested.next('t');
+            await flushPromises();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
+            schedulerMock.verify(x => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
+
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
+            expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
+        });
+
+        it('should set shouldZoomOut to false when mouse button is released', () => {
+            // Arrange
+            const component: GenreBrowserComponent = createComponent();
+            component.shouldZoomOut = true;
+
+            // Act
+            component.ngOnInit();
+            applicationService_mouseButtonReleased.next();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
+       });
     });
 
     describe('genres', () => {

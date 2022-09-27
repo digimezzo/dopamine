@@ -1,4 +1,6 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
@@ -16,6 +18,24 @@ import { ArtistsPersister } from '../artists-persister';
 import { ArtistBrowserComponent } from './artist-browser.component';
 import { ArtistOrder } from './artist-order';
 
+export class CdkVirtualScrollViewportMock {
+    private _scrollToIndexIndex: number = -1;
+    private _scrollToIndexBehavior: ScrollBehavior = undefined;
+
+    public get scrollToIndexIndex() : number {
+        return this._scrollToIndexIndex;
+    }
+
+    public get scrollToIndexbehavior() : string {
+        return this._scrollToIndexBehavior;
+    }
+
+    public scrollToIndex(index: number, behavior?: ScrollBehavior): void{
+        this._scrollToIndexIndex = index;
+        this._scrollToIndexBehavior = behavior;
+    }
+}
+
 describe('ArtistBrowserComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
@@ -29,6 +49,10 @@ describe('ArtistBrowserComponent', () => {
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
+
+    let semanticZoomService_zoomOutRequested: Subject<void>;
+    let semanticZoomService_zoomInRequested: Subject<string>;
+    let applicationService_mouseButtonReleased: Subject<void>;
 
     let artist1: ArtistModel;
     let artist2: ArtistModel;
@@ -48,6 +72,8 @@ describe('ArtistBrowserComponent', () => {
         );
     }
 
+    const flushPromises = () => new Promise(process.nextTick);
+
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
@@ -61,9 +87,21 @@ describe('ArtistBrowserComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
 
+        semanticZoomService_zoomOutRequested = new Subject();
+        semanticZoomService_zoomInRequested = new Subject();
+        applicationService_mouseButtonReleased = new Subject();
+
+        const semanticZoomService_zoomOutRequested$: Observable<void> = semanticZoomService_zoomOutRequested.asObservable();
+        const semanticZoomService_zoomInRequested$: Observable<string> = semanticZoomService_zoomInRequested.asObservable();
+        const applicationService_mouseButtonReleased$: Observable<void> = applicationService_mouseButtonReleased.asObservable();
+
+        semanticZoomServiceMock.setup((x) => x.zoomOutRequested$).returns(() => semanticZoomService_zoomOutRequested$);
+        semanticZoomServiceMock.setup((x) => x.zoomInRequested$).returns(() => semanticZoomService_zoomInRequested$);
+        applicationServiceMock.setup((x) => x.mouseButtonReleased$).returns(() => applicationService_mouseButtonReleased$);
+
         artistsPersisterMock = Mock.ofType<ArtistsPersister>();
-        artist1 = new ArtistModel('artist1', translatorServiceMock.object);
-        artist2 = new ArtistModel('artist2', translatorServiceMock.object);
+        artist1 = new ArtistModel('One artist', translatorServiceMock.object);
+        artist2 = new ArtistModel('Two artist', translatorServiceMock.object);
 
         artistOrderingMock.setup((x) => x.getArtistsOrderedAscending([])).returns(() => []);
         artistOrderingMock.setup((x) => x.getArtistsOrderedDescending([])).returns(() => []);
@@ -204,6 +242,58 @@ describe('ArtistBrowserComponent', () => {
 
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should set shouldZoomOut to true when zoom out is requested', () => {
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.shouldZoomOut = false;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomOutRequested.next();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeTruthy();
+        });
+
+        it('should scroll to zoom header when zoom in is requested', async () => {
+             // Arrange
+             const component: ArtistBrowserComponent = createComponent();
+             artist1.isZoomHeader = true;
+             artist2.isZoomHeader = true;
+             component.artists = [artist1, artist2];
+             component.shouldZoomOut = true;
+ 
+             const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
+             component.viewPort = viewportMockAny;
+ 
+             // Act
+             component.ngOnInit();
+             semanticZoomService_zoomInRequested.next('t');
+             await flushPromises();
+ 
+             // Assert
+             expect(component.shouldZoomOut).toBeFalsy();
+             schedulerMock.verify(x => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
+ 
+             expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
+             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
+        });
+
+        it('should set shouldZoomOut to false when mouse button is released', () => {
+             // Arrange
+             const component: ArtistBrowserComponent = createComponent();
+             component.shouldZoomOut = true;
+ 
+             // Act
+             component.ngOnInit();
+             applicationService_mouseButtonReleased.next();
+ 
+             // Assert
+             expect(component.shouldZoomOut).toBeFalsy();
         });
     });
 

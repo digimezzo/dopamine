@@ -25,7 +25,7 @@ import { GenreOrder } from './genre-order';
     providers: [MouseSelectionWatcher],
 })
 export class GenreBrowserComponent implements OnInit, OnDestroy {
-    @ViewChild(CdkVirtualScrollViewport) private viewPort: CdkVirtualScrollViewport;
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     private _genres: GenreModel[] = [];
     private _genresPersister: GenresPersister;

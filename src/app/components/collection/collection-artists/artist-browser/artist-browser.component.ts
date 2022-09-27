@@ -26,7 +26,7 @@ import { ArtistOrder } from './artist-order';
     providers: [MouseSelectionWatcher],
 })
 export class ArtistBrowserComponent implements OnInit, OnDestroy {
-    @ViewChild(CdkVirtualScrollViewport) private viewPort: CdkVirtualScrollViewport;
+    @ViewChild(CdkVirtualScrollViewport) public viewPort: CdkVirtualScrollViewport;
 
     private _artists: ArtistModel[] = [];
     private _artistsPersister: ArtistsPersister;
