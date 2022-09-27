@@ -1,13 +1,34 @@
-import { Component, Input } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, Input, OnInit } from '@angular/core';
+import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { SemanticZoomable } from '../../../common/semantic-zoomable';
 
 @Component({
     selector: 'app-semantic-zoom',
     templateUrl: './semantic-zoom.component.html',
     styleUrls: ['./semantic-zoom.component.scss'],
+    animations: [
+        trigger('fadeIn', [
+            state(
+                'visible',
+                style({
+                    opacity: 1,
+                })
+            ),
+            state(
+                'hidden',
+                style({
+                    opacity: 0,
+                })
+            ),
+            transition('hidden => visible', animate('.25s')),
+        ]),
+    ],
 })
-export class SemanticZoomComponent {
-    constructor() {}
+export class SemanticZoomComponent implements OnInit {
+    constructor(private scheduler: BaseScheduler) {}
+
+    public fadeIn: string = 'hidden';
 
     @Input()
     public SemanticZoomables: SemanticZoomable[] = [];
@@ -21,6 +42,11 @@ export class SemanticZoomComponent {
         ['t', 'u', 'v', 'w'],
         ['x', 'y', 'z'],
     ];
+
+    public async ngOnInit(): Promise<void> {
+        await this.scheduler.sleepAsync(100);
+        this.fadeIn = 'visible';
+    }
 
     public isZoomable(text: string): boolean {
         const headers: string[] = this.SemanticZoomables.map((x) => x.zoomHeader);
