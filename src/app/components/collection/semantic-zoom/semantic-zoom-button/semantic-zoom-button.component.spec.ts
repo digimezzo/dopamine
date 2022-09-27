@@ -21,6 +21,15 @@ describe('SemanticZoomButtonComponent', () => {
             // Assert
             expect(component).toBeDefined();
         });
+
+        it('should declare isZoomable as false', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(component.isZoomable).toBeFalsy();
+        });
     });
 
     describe('requestZoomIn', () => {

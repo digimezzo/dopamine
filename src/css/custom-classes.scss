@@ -25,6 +25,11 @@
     opacity: 0.4;
 }
 
+.more-inactive {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
 .collection-viewport {
     /* The splitter resize gutter is not displayed when the height is not set explicitly */
     height: calc(100vh - 120px);

@@ -1,3 +1,7 @@
-<div class="app-semantic-zoom-button no-select pointer" (mousedown)="this.requestZoomIn()">
+<div
+    class="app-semantic-zoom-button no-select pointer"
+    (mousedown)="this.requestZoomIn()"
+    [ngClass]="{ 'more-inactive': !this.isZoomable }"
+>
     {{ this.text }}
 </div>

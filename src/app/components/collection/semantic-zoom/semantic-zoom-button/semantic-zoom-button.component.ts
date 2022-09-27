@@ -11,6 +11,7 @@ export class SemanticZoomButtonComponent implements OnInit {
     constructor(public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public text: string = '';
+    @Input() public isZoomable: boolean = false;
 
     public ngOnInit(): void {}
 
