@@ -32,6 +32,10 @@ export class RatingComponent implements OnInit {
     public ngOnInit(): void {}
 
     public async setRatingAsync(rating: number): Promise<void> {
+        if(this._track == undefined){
+            return;
+        }
+
         let ratingToSet: number = rating;
 
         if (this._track.rating === rating) {
