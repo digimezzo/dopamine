@@ -18,5 +18,6 @@ module.exports = {
         timers: 'commonjs timers',
         util: 'commonjs util',
         constants: 'commonjs constants',
+        net: 'commonjs net',
     },
 };

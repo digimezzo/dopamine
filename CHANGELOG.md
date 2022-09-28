@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed a problem uninstalling
+-   Fixed Discord Rich Presence not updating
 
 ## [3.0.0-preview.14] - 2022-09-16
 
