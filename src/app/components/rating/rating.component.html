@@ -2,27 +2,27 @@
     <div class="zero-star-zone pointer" (click)="this.setRatingAsync(0)"></div>
     <div
         class="secondary-text las la-star pointer"
-        [ngClass]="{ 'accent-color-important': this.track.rating >= 1 }"
+        [ngClass]="{ 'accent-color-important': this.track?.rating >= 1 }"
         (click)="this.setRatingAsync(1)"
     ></div>
     <div
         class="secondary-text las la-star pointer"
-        [ngClass]="{ 'accent-color-important': this.track.rating >= 2 }"
+        [ngClass]="{ 'accent-color-important': this.track?.rating >= 2 }"
         (click)="this.setRatingAsync(2)"
     ></div>
     <div
         class="secondary-text las la-star pointer"
-        [ngClass]="{ 'accent-color-important': this.track.rating >= 3 }"
+        [ngClass]="{ 'accent-color-important': this.track?.rating >= 3 }"
         (click)="this.setRatingAsync(3)"
     ></div>
     <div
         class="secondary-text las la-star pointer"
-        [ngClass]="{ 'accent-color-important': this.track.rating >= 4 }"
+        [ngClass]="{ 'accent-color-important': this.track?.rating >= 4 }"
         (click)="this.setRatingAsync(4)"
     ></div>
     <div
         class="secondary-text las la-star pointer"
-        [ngClass]="{ 'accent-color-important': this.track.rating >= 5 }"
+        [ngClass]="{ 'accent-color-important': this.track?.rating >= 5 }"
         (click)="this.setRatingAsync(5)"
     ></div>
 </div>

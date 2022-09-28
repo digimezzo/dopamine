@@ -7,7 +7,7 @@
             [style.padding-top.px]="smallFontSize / 2"
             [style.padding-bottom.px]="largeFontSize / 2"
         >
-            {{ this.topContentArtist }}
+            {{ this.topContentTrack?.artists }}
         </div>
         <div
             class="ellipsis"
@@ -15,8 +15,9 @@
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"
         >
-            {{ this.topContentTitle }}
+            {{ this.topContentTrack?.title }}
         </div>
+        <app-rating class="rating-position" [track]="this.topContentTrack" *ngIf="this.settings.showRating && this.topContentTrack != undefined"></app-rating>
     </div>
     <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
         <div
@@ -26,7 +27,7 @@
             [style.padding-top.px]="smallFontSize / 2"
             [style.padding-bottom.px]="largeFontSize / 2"
         >
-            {{ this.bottomContentArtist }}
+            {{ this.bottomContentTrack?.artists }}
         </div>
         <div
             class="ellipsis"
@@ -34,7 +35,8 @@
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"
         >
-            {{ this.bottomContentTitle }}
+            {{ this.bottomContentTrack?.title }}
         </div>
+        <app-rating class="rating-position" [track]="this.bottomContentTrack" *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"></app-rating>
     </div>
 </div>

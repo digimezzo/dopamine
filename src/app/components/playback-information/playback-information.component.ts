@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
+import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
@@ -46,7 +47,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
+    constructor(private playbackInformationService: BasePlaybackInformationService, public settings: BaseSettings, private scheduler: Scheduler) {}
 
     @Input()
     public height: number = 0;
@@ -59,13 +60,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topContentArtist: string = '';
-    public topContentTitle: string = '';
-    public bottomContentArtist: string = '';
-    public bottomContentTitle: string = '';
+    public topContentTrack: TrackModel = undefined;
+    public bottomContentTrack: TrackModel = undefined;
 
-    private currentArtist: string = '';
-    private currentTitle: string = '';
+    private currentTrack: TrackModel = undefined;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -95,55 +93,45 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     private async switchUp(track: TrackModel): Promise<void> {
-        let newArtist: string = '';
-        let newTitle: string = '';
+        let newTrack: TrackModel = undefined;
 
         if (track != undefined) {
-            newArtist = track.artists;
-            newTitle = track.title;
+            newTrack = track;
         }
 
         if (this.contentAnimation !== 'down') {
-            this.topContentArtist = this.currentArtist;
-            this.topContentTitle = this.currentTitle;
+            this.topContentTrack = this.currentTrack;
 
             this.contentAnimation = 'down';
             await this.scheduler.sleepAsync(100);
         }
 
-        this.bottomContentArtist = newArtist;
-        this.bottomContentTitle = newTitle;
-        this.currentArtist = newArtist;
-        this.currentTitle = newTitle;
+        this.bottomContentTrack = newTrack;
+        this.currentTrack = newTrack;
 
         this.contentAnimation = 'animated-up';
         await this.scheduler.sleepAsync(350);
     }
 
     private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        let newArtist: string = '';
-        let newTitle: string = '';
+        let newTrack: TrackModel = undefined;
 
         if (track != undefined) {
-            newArtist = track.artists;
-            newTitle = track.title;
+            newTrack = track;
         }
 
         if (performAnimation) {
             if (this.contentAnimation !== 'up') {
-                this.bottomContentArtist = this.currentArtist;
-                this.bottomContentTitle = this.currentTitle;
+                this.bottomContentTrack = this.currentTrack;
 
                 this.contentAnimation = 'up';
                 await this.scheduler.sleepAsync(100);
             }
         }
 
-        this.topContentArtist = newArtist;
-        this.topContentTitle = newTitle;
-        this.currentArtist = newArtist;
-        this.currentTitle = newTitle;
-
+        this.topContentTrack = newTrack;
+        this.currentTrack = newTrack;
+       
         if (performAnimation) {
             this.contentAnimation = 'animated-down';
             await this.scheduler.sleepAsync(350);
