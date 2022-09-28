@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Improved playlists screen to avoid confusion when creating new playlist folders
+-   Updated Russian translation
 
 ### Removed
 
