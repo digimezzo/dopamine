@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.15] - 2022-09-28
+
+### Added
+
+-   Added semantic zoom for artists and genres
+-   Added context menu option to view song files in their folder
+
+### Changed
+
+-   Improved playlists screen to avoid confusion when creating new playlist folders
+
+### Removed
+
+### Fixed
+
+-   Fixed a problem uninstalling
+
 ## [3.0.0-preview.14] - 2022-09-16
 
 ### Added
