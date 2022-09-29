@@ -9,6 +9,7 @@ export class Constants {
         new Language('bg', 'Bulgarian', 'български', false),
         new Language('cs', 'Czech', 'Čeština', true),
         new Language('de', 'German', 'Deutsch', true),
+        new Language('el', 'Greek', 'Ελληνικά', true),
         new Language('en', 'English', 'English', true),
         new Language('es', 'Spanish', 'Español', true),
         new Language('fr', 'French', 'Français', true),
