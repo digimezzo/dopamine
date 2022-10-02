@@ -177,7 +177,7 @@ export class NowPlayingComponent implements OnInit {
         }
 
         this.playbackInformationHeight = this.coverArtSize / 2;
-        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 2.5;
+        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 2.8;
         this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 2;
     }
 

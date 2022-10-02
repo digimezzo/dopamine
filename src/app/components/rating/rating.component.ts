@@ -24,6 +24,9 @@ export class RatingComponent implements OnInit {
     public fontSize: number = 0;
 
     @Input()
+    public lineHeight: number = 1;
+
+    @Input()
     public set track(v: TrackModel) {
         this._track = v;
     }

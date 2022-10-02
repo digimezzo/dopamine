@@ -1,20 +1,9 @@
 <div class="app-playback-information no-select" [style.height.px]="height">
     <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div
-            class="ellipsis secondary-text ml-1"
-            [style.font-size.px]="largeFontSize"
-            [style.line-height.px]="largeFontSize"
-            [style.padding-top.px]="smallFontSize / 2"
-            [style.padding-bottom.px]="largeFontSize / 2"
-        >
+        <div class="ellipsis secondary-text ml-1" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.artists }}
         </div>
-        <div
-            class="ellipsis ml-1"
-            [style.font-size.px]="smallFontSize"
-            [style.line-height.px]="smallFontSize"
-            [style.padding-bottom.px]="smallFontSize / 2"
-        >
+        <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.title }}
         </div>
         <app-rating
@@ -22,31 +11,21 @@
             [track]="this.topContentTrack"
             *ngIf="this.settings.showRating && this.topContentTrack != undefined"
             [fontSize]="smallFontSize"
+            [lineHeight]="1.5"
         ></app-rating>
     </div>
     <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div
-            class="ellipsis secondary-text ml-1"
-            [style.font-size.px]="largeFontSize"
-            [style.line-height.px]="largeFontSize"
-            [style.padding-top.px]="smallFontSize / 2"
-            [style.padding-bottom.px]="largeFontSize / 2"
-        >
+        <div class="ellipsis secondary-text ml-1" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.artists }}
         </div>
-        <div
-            class="ellipsis ml-1"
-            [style.font-size.px]="smallFontSize"
-            [style.line-height.px]="smallFontSize"
-            [style.padding-bottom.px]="smallFontSize / 2"
-        >
+        <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.title }}
         </div>
         <app-rating
             [track]="this.bottomContentTrack"
             *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
             [fontSize]="smallFontSize"
+            [lineHeight]="1.5"
         ></app-rating>
     </div>
-    z
 </div>
