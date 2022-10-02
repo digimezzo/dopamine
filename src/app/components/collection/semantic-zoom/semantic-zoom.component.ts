@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
+import { Constants } from '../../../common/application/constants';
 import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { SemanticZoomable } from '../../../common/semantic-zoomable';
 
@@ -44,7 +45,7 @@ export class SemanticZoomComponent implements OnInit {
     ];
 
     public async ngOnInit(): Promise<void> {
-        await this.scheduler.sleepAsync(100);
+        await this.scheduler.sleepAsync(Constants.semanticZoomOutDelayMilliseconds);
         this.fadeIn = 'visible';
     }
 

@@ -7,12 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.15] - 2022-09-28
+## [3.0.0-preview.15] - 2022-10-02
 
 ### Added
 
 -   Added semantic zoom for artists and genres
 -   Added context menu option to view song files in their folder
+-   Added rating to now playing screen and controls
+-   Added Greek translation
 
 ### Changed
 
