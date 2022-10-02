@@ -215,9 +215,9 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.coverArtSize).toEqual(242);
-            expect(component.playbackInformationHeight).toEqual(121);
-            expect(component.playbackInformationLargeFontSize).toEqual(48.4);
-            expect(component.playbackInformationSmallFontSize).toEqual(24.2);
+            expect(component.playbackInformationHeight).toEqual(242);
+            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
+            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', () => {
@@ -232,9 +232,9 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.coverArtSize).toEqual(150);
-            expect(component.playbackInformationHeight).toEqual(75);
-            expect(component.playbackInformationLargeFontSize).toEqual(30);
-            expect(component.playbackInformationSmallFontSize).toEqual(15);
+            expect(component.playbackInformationHeight).toEqual(150);
+            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
+            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
         });
     });
 
@@ -249,9 +249,9 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.coverArtSize).toEqual(242);
-            expect(component.playbackInformationHeight).toEqual(121);
-            expect(component.playbackInformationLargeFontSize).toEqual(48.4);
-            expect(component.playbackInformationSmallFontSize).toEqual(24.2);
+            expect(component.playbackInformationHeight).toEqual(242);
+            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
+            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
         });
 
         it('should set the now playing sizes in relation to window width if width is too small', async () => {
@@ -266,9 +266,9 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.coverArtSize).toEqual(150);
-            expect(component.playbackInformationHeight).toEqual(75);
-            expect(component.playbackInformationLargeFontSize).toEqual(30);
-            expect(component.playbackInformationSmallFontSize).toEqual(15);
+            expect(component.playbackInformationHeight).toEqual(150);
+            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
+            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
         });
 
         it('should set background2 if background1 is used and background1 is different than the proposed background and light theme is used', async () => {

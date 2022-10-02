@@ -56,6 +56,9 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     ) {}
 
     @Input()
+    public isCentered: boolean = false;
+
+    @Input()
     public height: number = 0;
 
     @Input()

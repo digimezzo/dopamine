@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Improved playlists screen to avoid confusion when creating new playlist folders
+-   Artist name is displayed on 2 lines on now playing screen when too long
 -   Updated Russian translation
 
 ### Removed

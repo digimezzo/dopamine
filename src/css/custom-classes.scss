@@ -57,6 +57,14 @@
     text-overflow: ellipsis;
 }
 
+.ellipsis-two-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .accent-color {
     color: var(--theme-accent-color);
 }
@@ -88,6 +96,10 @@
 
 .secondary-text {
     color: var(--theme-secondary-text);
+}
+
+.overflow-hidden {
+    overflow: hidden;
 }
 
 .overflow-hidden-important {

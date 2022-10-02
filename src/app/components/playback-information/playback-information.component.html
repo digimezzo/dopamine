@@ -1,6 +1,16 @@
-<div class="app-playback-information no-select" [style.height.px]="height">
-    <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div class="ellipsis secondary-text ml-1" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
+<div class="d-flex flex-column overflow-hidden" [style.height.px]="height">
+    <div
+        class="d-flex flex-column"
+        [ngClass]="this.isCentered ? 'justify-content-center' : 'justify-content-flex-end'"
+        [@contentAnimation]="contentAnimation"
+        [style.min-height.px]="height"
+    >
+        <div
+            class="secondary-text ml-1"
+            [ngClass]="this.isCentered ? 'ellipsis' : 'ellipsis-two-lines'"
+            [style.font-size.px]="largeFontSize"
+            [style.line-height]="1.5"
+        >
             {{ this.topContentTrack?.artists }}
         </div>
         <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
@@ -14,8 +24,18 @@
             [lineHeight]="1.5"
         ></app-rating>
     </div>
-    <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div class="ellipsis secondary-text ml-1" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
+    <div
+        class="d-flex flex-column"
+        [ngClass]="this.isCentered ? 'justify-content-center' : 'justify-content-flex-end'"
+        [@contentAnimation]="contentAnimation"
+        [style.min-height.px]="height"
+    >
+        <div
+            class="secondary-text ml-1"
+            [ngClass]="this.isCentered ? 'ellipsis' : 'ellipsis-two-lines'"
+            [style.font-size.px]="largeFontSize"
+            [style.line-height]="1.5"
+        >
             {{ this.bottomContentTrack?.artists }}
         </div>
         <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
