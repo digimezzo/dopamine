@@ -8,6 +8,7 @@ import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
+import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
@@ -24,6 +25,7 @@ describe('TrackBrowserComponent', () => {
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackOrderingMock: IMock<TrackOrdering>;
     let desktopMock: IMock<BaseDesktop>;
@@ -38,6 +40,8 @@ describe('TrackBrowserComponent', () => {
 
     let playbackStoppedMock: Subject<void>;
     let playbackStoppedMock$: Observable<void>;
+
+    let metadataService_ratingSaved: Subject<TrackModel>;
 
     let track1: Track;
     let track2: Track;
@@ -54,6 +58,7 @@ describe('TrackBrowserComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
         collectionServiceMock = Mock.ofType<BaseCollectionService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
@@ -72,6 +77,10 @@ describe('TrackBrowserComponent', () => {
         playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
         tracksPersisterMock.setup((x) => x.getSelectedTrackOrder()).returns(() => TrackOrder.byTrackTitleDescending);
 
+        metadataService_ratingSaved = new Subject();
+        const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
+        metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
+
         translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(async () => 'delete-song');
         translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(async () => 'confirm-delete-song');
         translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(async () => 'delete-songs');
@@ -83,6 +92,7 @@ describe('TrackBrowserComponent', () => {
         track1.albumTitle = 'Album title 1';
         track1.trackNumber = 1;
         track1.discNumber = 1;
+        track1.rating = 1;
 
         track2 = new Track('Path 2');
         track2.trackTitle = 'Title 2';
@@ -90,6 +100,7 @@ describe('TrackBrowserComponent', () => {
         track2.albumTitle = 'Album title 1';
         track2.trackNumber = 1;
         track2.discNumber = 2;
+        track2.rating = 2;
 
         track3 = new Track('Path 3');
         track3.trackTitle = 'Title 3';
@@ -97,6 +108,7 @@ describe('TrackBrowserComponent', () => {
         track3.albumTitle = 'Album title 2';
         track3.trackNumber = 1;
         track3.discNumber = 1;
+        track3.rating = 3;
 
         track4 = new Track('Path 4');
         track4.trackTitle = 'Title 4';
@@ -104,6 +116,7 @@ describe('TrackBrowserComponent', () => {
         track4.albumTitle = 'Album title 2';
         track4.trackNumber = 2;
         track4.discNumber = 1;
+        track4.rating = 4;
 
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
@@ -132,6 +145,7 @@ describe('TrackBrowserComponent', () => {
             addToPlaylistMenuMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
+            metadataServiceMock.object,
             playbackIndicationServiceMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
@@ -297,6 +311,27 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.clearPlayingTrack(component.orderedTracks), Times.exactly(1));
+        });
+
+        it('should update the rating for a track that has the same path as the track for which rating was saved', () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            component.tracks = tracks;
+
+            const track5 = new Track('Path 1');
+            track5.rating = 5;
+
+            const trackModel5: TrackModel = new TrackModel(track5, translatorServiceMock.object);
+
+            // Act
+            component.ngOnInit();
+            metadataService_ratingSaved.next(trackModel5);
+
+            // Assert
+            expect(track1.rating).toEqual(5);
+            expect(track2.rating).toEqual(2);
+            expect(track3.rating).toEqual(3);
+            expect(track4.rating).toEqual(4);
         });
     });
 

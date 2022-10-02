@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { FileFormats } from '../../common/application/file-formats';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
@@ -13,6 +14,8 @@ import { BaseMetadataService } from './base-metadata.service';
 
 @Injectable()
 export class MetadataService implements BaseMetadataService {
+    private ratingSaved: Subject<TrackModel> = new Subject();
+
     constructor(
         private fileMetadataFactory: FileMetadataFactory,
         private trackRepository: BaseTrackRepository,
@@ -22,6 +25,8 @@ export class MetadataService implements BaseMetadataService {
         private settings: BaseSettings,
         private logger: Logger
     ) {}
+
+    public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
 
     public async createImageUrlAsync(track: TrackModel): Promise<string> {
         if (track == undefined) {
@@ -63,6 +68,8 @@ export class MetadataService implements BaseMetadataService {
                 fileMetaData.save();
                 this.logger.info(`Saved rating to file '${track.path}'`, 'MetadataService', 'saveTrackRating');
             }
+
+            this.ratingSaved.next(track);
         } catch (error) {
             this.logger.error(`Could not save rating. Error: ${error.message}`, 'MetadataService', 'saveTrackRating');
             throw new Error(error.message);

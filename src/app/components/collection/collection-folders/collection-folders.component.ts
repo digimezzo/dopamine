@@ -15,6 +15,7 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -45,6 +46,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
+        private metadataService: BaseMetadataService,
         private indexingService: BaseIndexingService,
         private collectionService: BaseCollectionService,
         private collectionPersister: CollectionPersister,
@@ -112,7 +114,21 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subscription.add(
+            this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
+                this.updateTrackRating(track);
+            })
+        );
+
         await this.processListsAsync();
+    }
+
+    private updateTrackRating(trackWithUpToDateRating: TrackModel): void {
+        for (const track of this.tracks.tracks) {
+            if (track.path === trackWithUpToDateRating.path) {
+                track.rating = trackWithUpToDateRating.rating;
+            }
+        }
     }
 
     public splitDragEnd(event: any): void {

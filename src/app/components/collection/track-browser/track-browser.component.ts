@@ -9,6 +9,7 @@ import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
+import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
@@ -37,6 +38,7 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
+        private metadataService: BaseMetadataService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private collectionService: BaseCollectionService,
         private translatorService: BaseTranslatorService,
@@ -92,6 +94,20 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
                 this.playbackIndicationService.clearPlayingTrack(this.orderedTracks);
             })
         );
+
+        this.subscription.add(
+            this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
+                this.updateTrackRating(track);
+            })
+        );
+    }
+
+    private updateTrackRating(trackWithUpToDateRating: TrackModel): void {
+        for (const track of this.tracks.tracks) {
+            if (track.path === trackWithUpToDateRating.path) {
+                track.rating = trackWithUpToDateRating.rating;
+            }
+        }
     }
 
     public setSelectedTracks(event: any, trackToSelect: TrackModel): void {

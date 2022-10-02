@@ -15,6 +15,7 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
+import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -36,6 +37,7 @@ describe('CollectionFoldersComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let collectionServiceMock: IMock<BaseCollectionService>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let folderServiceMock: IMock<BaseFolderService>;
@@ -67,11 +69,16 @@ describe('CollectionFoldersComponent', () => {
     let subfolder2: SubfolderModel;
     let subfolders: SubfolderModel[];
 
-    let track1: TrackModel;
-    let track2: TrackModel;
+    let track1: Track;
+    let track2: Track;
+
+    let trackModel1: TrackModel;
+    let trackModel2: TrackModel;
 
     let selectedTabChangedMock: Subject<void>;
     let selectedTabChangedMock$: Observable<void>;
+
+    let metadataService_ratingSaved: Subject<TrackModel>;
 
     let tracks: TrackModels;
 
@@ -86,6 +93,7 @@ describe('CollectionFoldersComponent', () => {
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             addToPlaylistMenuMock.object,
+            metadataServiceMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
             collectionPersisterMock.object,
@@ -109,6 +117,7 @@ describe('CollectionFoldersComponent', () => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         collectionServiceMock = Mock.ofType<BaseCollectionService>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         folderServiceMock = Mock.ofType<BaseFolderService>();
@@ -138,16 +147,20 @@ describe('CollectionFoldersComponent', () => {
         foldersPersisterMock.setup((x) => x.getOpenedFolder(It.isAny())).returns(() => folder1);
         foldersPersisterMock.setup((x) => x.getOpenedSubfolder()).returns(() => subfolder1);
 
-        track1 = new TrackModel(new Track('track1'), translatorServiceMock.object);
-        track2 = new TrackModel(new Track('track2'), translatorServiceMock.object);
+        track1 = new Track('track1');
+        track1.rating = 1;
+        track2 = new Track('track2');
+        track2.rating = 2;
+        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
 
         tracks = new TrackModels();
-        tracks.addTrack(track1);
-        tracks.addTrack(track2);
+        tracks.addTrack(trackModel1);
+        tracks.addTrack(trackModel2);
 
         trackServiceMock.setup((x) => x.getTracksInSubfolderAsync(It.isAny())).returns(async () => tracks);
 
-        playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
+        playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 
         playbackServicePlaybackStartedMock = new Subject();
         const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
@@ -168,6 +181,10 @@ describe('CollectionFoldersComponent', () => {
         selectedTabChangedMock = new Subject();
         selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
         collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
+
+        metadataService_ratingSaved = new Subject();
+        const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
+        metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
     });
 
     describe('constructor', () => {
@@ -525,7 +542,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, track1), Times.exactly(1));
+            playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, trackModel1), Times.exactly(1));
         });
 
         it('should not set the playing subfolder if the selected tab is not folders', async () => {
@@ -551,7 +568,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, track1), Times.exactly(1));
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, trackModel1), Times.exactly(1));
         });
 
         it('should not set the playing track if the selected tab is not folders', async () => {
@@ -575,25 +592,25 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.reset();
 
             // Act
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(track1, false));
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, false));
 
             // Assert
-            playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, track1), Times.exactly(1));
+            playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, trackModel1), Times.exactly(1));
         });
 
         it('should set the playing track on playback started', async () => {
             // Arrange
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => track1);
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
 
             playbackIndicationServiceMock.reset();
 
             // Act
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(track1, false));
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, false));
 
             // Assert
-            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, track1), Times.exactly(1));
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, trackModel1), Times.exactly(1));
         });
 
         it('should set the opened folder from the settings if the selected tab is folders', async () => {
@@ -804,6 +821,26 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.never());
         });
+
+        it('should update the rating for a track that has the same path as the track for which rating was saved', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            const component: CollectionFoldersComponent = createComponent();
+            component.tracks = tracks;
+
+            const track3 = new Track('track1');
+            track3.rating = 3;
+
+            const trackModel3: TrackModel = new TrackModel(track3, translatorServiceMock.object);
+
+            // Act
+            component.ngOnInit();
+            metadataService_ratingSaved.next(trackModel3);
+
+            // Assert
+            expect(trackModel1.rating).toEqual(3);
+            expect(trackModel2.rating).toEqual(2);
+        });
     });
 
     describe('goToManageCollection', () => {
@@ -891,10 +928,10 @@ describe('CollectionFoldersComponent', () => {
             const event: any = {};
 
             // Act
-            component.setSelectedTrack(event, track1);
+            component.setSelectedTrack(event, trackModel1);
 
             // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, track1), Times.exactly(1));
+            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel1), Times.exactly(1));
         });
     });
 
@@ -1238,14 +1275,14 @@ describe('CollectionFoldersComponent', () => {
     describe('onAddToQueueAsync', () => {
         it('should add the selected tracks to the queue', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [track1, track2]);
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const component: CollectionFoldersComponent = createComponent();
 
             // Act
             await component.onAddToQueueAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.addTracksToQueueAsync([track1, track2]), Times.once());
+            playbackServiceMock.verify((x) => x.addTracksToQueueAsync([trackModel1, trackModel2]), Times.once());
         });
     });
 
@@ -1256,10 +1293,10 @@ describe('CollectionFoldersComponent', () => {
             const event: any = {};
 
             // Act
-            component.onTrackContextMenuAsync(event, track1);
+            component.onTrackContextMenuAsync(event, trackModel1);
 
             // Assert
-            contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, track1), Times.once());
+            contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, trackModel1), Times.once());
         });
     });
 
@@ -1278,14 +1315,14 @@ describe('CollectionFoldersComponent', () => {
 
         it('should show the first selected track in folder if there are tracks selected', async () => {
             // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [track1, track2]);
+            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const component: CollectionFoldersComponent = createComponent();
 
             // Act
             await component.onShowInFolder();
 
             // Assert
-            desktopMock.verify((x) => x.showFileInDirectory(track1.path), Times.once());
+            desktopMock.verify((x) => x.showFileInDirectory(trackModel1.path), Times.once());
         });
     });
 });

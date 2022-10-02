@@ -1,7 +1,7 @@
 <div class="app-playback-information no-select" [style.height.px]="height">
     <div class="app-playback-information__top__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
         <div
-            class="ellipsis secondary-text"
+            class="ellipsis secondary-text ml-1"
             [style.font-size.px]="largeFontSize"
             [style.line-height.px]="largeFontSize"
             [style.padding-top.px]="smallFontSize / 2"
@@ -10,18 +10,23 @@
             {{ this.topContentTrack?.artists }}
         </div>
         <div
-            class="ellipsis"
+            class="ellipsis ml-1"
             [style.font-size.px]="smallFontSize"
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"
         >
             {{ this.topContentTrack?.title }}
         </div>
-        <app-rating class="rating-position" [track]="this.topContentTrack" *ngIf="this.settings.showRating && this.topContentTrack != undefined"></app-rating>
+        <app-rating
+            class="rating-position"
+            [track]="this.topContentTrack"
+            *ngIf="this.settings.showRating && this.topContentTrack != undefined"
+            [fontSize]="smallFontSize"
+        ></app-rating>
     </div>
     <div class="app-playback-information__bottom__content" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
         <div
-            class="ellipsis secondary-text"
+            class="ellipsis secondary-text ml-1"
             [style.font-size.px]="largeFontSize"
             [style.line-height.px]="largeFontSize"
             [style.padding-top.px]="smallFontSize / 2"
@@ -30,13 +35,18 @@
             {{ this.bottomContentTrack?.artists }}
         </div>
         <div
-            class="ellipsis"
+            class="ellipsis ml-1"
             [style.font-size.px]="smallFontSize"
             [style.line-height.px]="smallFontSize"
             [style.padding-bottom.px]="smallFontSize / 2"
         >
             {{ this.bottomContentTrack?.title }}
         </div>
-        <app-rating class="rating-position" [track]="this.bottomContentTrack" *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"></app-rating>
+        <app-rating
+            [track]="this.bottomContentTrack"
+            *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
+            [fontSize]="smallFontSize"
+        ></app-rating>
     </div>
+    z
 </div>

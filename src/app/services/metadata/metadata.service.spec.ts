@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
@@ -185,6 +186,29 @@ describe('MetadataService', () => {
 
             // Assert
             fileMetadataMock.verify((x) => x.save(), Times.once());
+        });
+
+        it('should notify that rating is saved', async () => {
+            // Arrange
+            settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+
+            const service: BaseMetadataService = createService();
+
+            const subscription: Subscription = new Subscription();
+            let ratingSaved: boolean = false;
+
+            subscription.add(
+                service.ratingSaved$.subscribe(() => {
+                    ratingSaved = true;
+                })
+            );
+
+            // Act
+            await service.saveTrackRating(track);
+
+            // Assert
+            expect(ratingSaved).toBeTruthy();
         });
     });
 });

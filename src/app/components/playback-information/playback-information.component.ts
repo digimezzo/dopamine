@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
@@ -47,7 +48,12 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playbackInformationService: BasePlaybackInformationService, public settings: BaseSettings, private scheduler: Scheduler) {}
+    constructor(
+        private playbackInformationService: BasePlaybackInformationService,
+        private metadataService: BaseMetadataService,
+        public settings: BaseSettings,
+        private scheduler: Scheduler
+    ) {}
 
     @Input()
     public height: number = 0;
@@ -90,10 +96,16 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
                 await this.switchUp(playbackInformation.track);
             })
         );
+
+        this.subscription.add(
+            this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
+                this.currentTrack.rating = track.rating;
+            })
+        );
     }
 
     private async switchUp(track: TrackModel): Promise<void> {
-        let newTrack: TrackModel = undefined;
+        let newTrack: TrackModel;
 
         if (track != undefined) {
             newTrack = track;
@@ -114,7 +126,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        let newTrack: TrackModel = undefined;
+        let newTrack: TrackModel;
 
         if (track != undefined) {
             newTrack = track;
@@ -131,7 +143,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
         this.topContentTrack = newTrack;
         this.currentTrack = newTrack;
-       
+
         if (performAnimation) {
             this.contentAnimation = 'animated-down';
             await this.scheduler.sleepAsync(350);

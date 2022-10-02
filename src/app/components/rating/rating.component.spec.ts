@@ -10,15 +10,29 @@ describe('RatingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let ratingComponent: RatingComponent;
+
+    function createComponent(): RatingComponent {
+        return new RatingComponent(metadataServiceMock.object, dialogServiceMock.object, translatorServiceMock.object);
+    }
 
     beforeEach(() => {
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        ratingComponent = new RatingComponent(metadataServiceMock.object, dialogServiceMock.object, translatorServiceMock.object);
 
         translatorServiceMock.setup((x) => x.getAsync('save-rating-error')).returns(async () => 'save-rating-error');
+    });
+
+    describe('constructor', () => {
+        it('should initialize fontSize as 0', () => {
+            // Arrange
+
+            // Act
+            const ratingComponent: RatingComponent = createComponent();
+
+            // Assert
+            expect(ratingComponent.fontSize).toEqual(0);
+        });
     });
 
     describe('track', () => {
@@ -26,6 +40,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
 
             // Act
             ratingComponent.track = trackModel;
@@ -41,6 +56,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             // Act
@@ -55,6 +71,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             // Act
@@ -69,6 +86,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             // Act
@@ -83,6 +101,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             // Act
@@ -97,6 +116,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             metadataServiceMock.setup((x) => x.saveTrackRating(It.isAny())).throws(new Error('The error text'));
@@ -113,6 +133,7 @@ describe('RatingComponent', () => {
             const track: Track = new Track('Path');
             track.rating = 3;
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
             // Act

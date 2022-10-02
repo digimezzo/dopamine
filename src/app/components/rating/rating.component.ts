@@ -21,6 +21,9 @@ export class RatingComponent implements OnInit {
     ) {}
 
     @Input()
+    public fontSize: number = 0;
+
+    @Input()
     public set track(v: TrackModel) {
         this._track = v;
     }
@@ -32,7 +35,7 @@ export class RatingComponent implements OnInit {
     public ngOnInit(): void {}
 
     public async setRatingAsync(rating: number): Promise<void> {
-        if(this._track == undefined){
+        if (this._track == undefined) {
             return;
         }
 

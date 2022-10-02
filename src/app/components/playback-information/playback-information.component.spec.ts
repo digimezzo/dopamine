@@ -2,6 +2,8 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { Scheduler } from '../../common/scheduling/scheduler';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
@@ -9,8 +11,9 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 import { PlaybackInformationComponent } from './playback-information.component';
 
 describe('PlaybackInformationComponent', () => {
-    let component: PlaybackInformationComponent;
     let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
+    let settingsMock: IMock<BaseSettings>;
     let schedulerMock: IMock<Scheduler>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -18,14 +21,27 @@ describe('PlaybackInformationComponent', () => {
     let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
     let playbackInformationService_PlayingNoTrack: Subject<PlaybackInformation>;
 
+    let metadataService_ratingSaved: Subject<TrackModel>;
+
     const flushPromises = () => new Promise(process.nextTick);
+
+    function createComponent(): PlaybackInformationComponent {
+        return new PlaybackInformationComponent(
+            playbackInformationServiceMock.object,
+            metadataServiceMock.object,
+            settingsMock.object,
+            schedulerMock.object
+        );
+    }
 
     beforeEach(async () => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
+        settingsMock = Mock.ofType<BaseSettings>();
         schedulerMock = Mock.ofType<Scheduler>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+        const component: PlaybackInformationComponent = createComponent();
 
         playbackInformationService_PlayingNextTrack = new Subject();
         const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =
@@ -43,6 +59,10 @@ describe('PlaybackInformationComponent', () => {
         const playbackInformationService_PlayingNoTrack$: Observable<PlaybackInformation> =
             playbackInformationService_PlayingNoTrack.asObservable();
         playbackInformationServiceMock.setup((x) => x.playingNoTrack$).returns(() => playbackInformationService_PlayingNoTrack$);
+
+        metadataService_ratingSaved = new Subject();
+        const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
+        metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
     });
 
     describe('constructor', () => {
@@ -50,6 +70,7 @@ describe('PlaybackInformationComponent', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
@@ -59,51 +80,37 @@ describe('PlaybackInformationComponent', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
             expect(component.contentAnimation).toEqual('down');
         });
 
-        it('should initialize topContentArtist as empty', () => {
+        it('should initialize topContentTrack as undefined', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
-            expect(component.topContentArtist).toEqual('');
+            expect(component.topContentTrack).toBeUndefined();
         });
 
-        it('should initialize topContentTitle as empty', () => {
+        it('should initialize bottomContentTrack as undefined', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
-            expect(component.topContentTitle).toEqual('');
-        });
-
-        it('should initialize bottomContentArtist as empty', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(component.bottomContentArtist).toEqual('');
-        });
-
-        it('should initialize bottomContentTitle as empty', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(component.bottomContentTitle).toEqual('');
+            expect(component.bottomContentTrack).toBeUndefined();
         });
 
         it('should initialize height as 0', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
             expect(component.height).toEqual(0);
@@ -113,6 +120,7 @@ describe('PlaybackInformationComponent', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
             expect(component.largeFontSize).toEqual(0);
@@ -122,6 +130,7 @@ describe('PlaybackInformationComponent', () => {
             // Arrange
 
             // Act
+            const component: PlaybackInformationComponent = createComponent();
 
             // Assert
             expect(component.smallFontSize).toEqual(0);
@@ -139,14 +148,13 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
-            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackInformationComponent = createComponent();
 
             // Act
             await component.ngOnInit();
 
             // Assert
-            expect(component.topContentArtist).toEqual('My artist');
-            expect(component.topContentTitle).toEqual('My title');
+            expect(component.topContentTrack).toBe(trackModel1);
             expect(component.contentAnimation).toEqual('down');
         });
 
@@ -160,7 +168,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
-            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackInformationComponent = createComponent();
 
             // Act
             await component.ngOnInit();
@@ -170,8 +178,7 @@ describe('PlaybackInformationComponent', () => {
             await flushPromises();
 
             // Assert
-            expect(component.bottomContentArtist).toEqual('My artist');
-            expect(component.bottomContentTitle).toEqual('My title');
+            expect(component.bottomContentTrack).toEqual(trackModel1);
             expect(component.contentAnimation).toEqual('animated-up');
         });
 
@@ -185,7 +192,7 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
-            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackInformationComponent = createComponent();
 
             // Act
             await component.ngOnInit();
@@ -195,8 +202,7 @@ describe('PlaybackInformationComponent', () => {
             await flushPromises();
 
             // Assert
-            expect(component.topContentArtist).toEqual('My artist');
-            expect(component.topContentTitle).toEqual('My title');
+            expect(component.topContentTrack).toEqual(trackModel1);
             expect(component.contentAnimation).toEqual('animated-down');
         });
 
@@ -210,21 +216,46 @@ describe('PlaybackInformationComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
-            component = new PlaybackInformationComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            const component: PlaybackInformationComponent = createComponent();
 
             // Act
             await component.ngOnInit();
-            component.bottomContentArtist = 'My artist';
-            component.bottomContentTitle = 'My title';
+            component.bottomContentTrack = trackModel1;
 
             playbackInformationService_PlayingNoTrack.next(new PlaybackInformation(undefined, ''));
 
             await flushPromises();
 
             // Assert
-            expect(component.bottomContentArtist).toEqual('');
-            expect(component.bottomContentTitle).toEqual('');
+            expect(component.bottomContentTrack).toBeUndefined();
             expect(component.contentAnimation).toEqual('animated-up');
+        });
+
+        it('should update the rating of the current track if rating is saved', async () => {
+            // Arrange
+            const track1: Track = new Track('/home/user/Music/track1.mp3');
+            track1.artists = 'My artist';
+            track1.trackTitle = 'My title';
+            track1.rating = 2;
+            const trackModel1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
+
+            const track2: Track = new Track('/home/user/Music/track2.mp3');
+            track2.artists = 'My artist 2';
+            track2.trackTitle = 'My title 2';
+            track2.rating = 4;
+            const trackModel2: TrackModel = new TrackModel(track2, translatorServiceMock.object);
+
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            metadataService_ratingSaved.next(trackModel2);
+
+            // Assert
+            expect(component.topContentTrack.rating).toEqual(4);
         });
     });
 });
