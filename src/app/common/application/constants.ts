@@ -161,12 +161,6 @@ export class Constants {
             'https://momentjs.com/',
             'https://github.com/moment/moment/blob/develop/LICENSE'
         ),
-        // new ExternalComponent(
-        //     'music-metadata',
-        //     'Stream and file based music metadata parser for node. Supporting a wide range of audio and tag formats.',
-        //     'https://github.com/borewit/music-metadata',
-        //     'https://github.com/Borewit/music-metadata/blob/master/README.md'
-        // ),
         new ExternalComponent(
             'Node Fetch',
             'A light-weight module that brings Fetch API to Node.js.',
