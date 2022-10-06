@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.16] - 2022-10-06
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+- Rating is not shown in the lists of songs
+
 ## [3.0.0-preview.15] - 2022-10-02
 
 ### Added

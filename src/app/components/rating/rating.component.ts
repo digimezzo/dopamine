@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { TrackModel } from '../../services/track/track-model';
@@ -17,11 +19,12 @@ export class RatingComponent implements OnInit {
     constructor(
         private metadataService: BaseMetadataService,
         private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService
+        private translatorService: BaseTranslatorService,
+        private appearanceService: BaseAppearanceService,
     ) {}
 
     @Input()
-    public fontSize: number = 0;
+    public fontSize: number = this.appearanceService.selectedFontSize.normalSize;
 
     @Input()
     public lineHeight: number = 1;
