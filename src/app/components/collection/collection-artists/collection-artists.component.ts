@@ -16,7 +16,6 @@ import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
@@ -117,7 +116,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === CollectionTab.artists) {
+        if (this.collectionPersister.selectedTab === Constants.artistsTablabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

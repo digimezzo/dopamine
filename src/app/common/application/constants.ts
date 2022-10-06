@@ -87,6 +87,13 @@ export class Constants {
         'z',
     ];
 
+    public static artistsTablabel: string = 'artists';
+    public static genresTablabel: string = 'genres';
+    public static albumsTablabel: string = 'albums';
+    public static tracksTablabel: string = 'tracks';
+    public static playlistsTablabel: string = 'playlists';
+    public static foldersTablabel: string = 'folders';
+
     // Transparent 1x1 Gif to avoid broken image icons.
     // See: https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html/29111371
     public static emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';

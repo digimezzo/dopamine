@@ -1,73 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { CollectionTab } from './collection-tab';
+import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 
 @Injectable()
 export class CollectionPersister {
-    public selectedTab: CollectionTab;
+    private _selectedTab : string;
+    
     private selectedTabChanged: Subject<void> = new Subject();
 
     constructor(private settings: BaseSettings) {
         this.initializeFromSettings();
     }
 
+    public get selectedTab() : string {
+        return this._selectedTab;
+    }
+
+    public set selectedTab(v : string) {
+        this._selectedTab = v;
+        this.settings.selectedCollectionTab = v;
+        this.selectedTabChanged.next();
+    }
+
     public selectedTabChanged$: Observable<void> = this.selectedTabChanged.asObservable();
 
-    public getSelectedTabIndex(): number {
-        switch (this.selectedTab) {
-            case CollectionTab.artists:
-                return 0;
-            case CollectionTab.genres:
-                return 1;
-            case CollectionTab.albums:
-                return 2;
-            case CollectionTab.tracks:
-                return 3;
-            case CollectionTab.playlists:
-                return 4;
-            case CollectionTab.folders:
-                return 5;
-            default: {
-                return 0;
-            }
-        }
-    }
-
-    public setSelectedTabFromTabIndex(selectedIndex: number): void {
-        switch (selectedIndex) {
-            case 0:
-                this.saveSelectedTab(CollectionTab.artists);
-                break;
-            case 1:
-                this.saveSelectedTab(CollectionTab.genres);
-                break;
-            case 2:
-                this.saveSelectedTab(CollectionTab.albums);
-                break;
-            case 3:
-                this.saveSelectedTab(CollectionTab.tracks);
-                break;
-            case 4:
-                this.saveSelectedTab(CollectionTab.playlists);
-                break;
-            case 5:
-                this.saveSelectedTab(CollectionTab.folders);
-                break;
-            default: {
-                this.saveSelectedTab(CollectionTab.artists);
-                break;
-            }
-        }
-    }
-
     private initializeFromSettings(): void {
-        this.selectedTab = (CollectionTab as any)[this.settings.selectedCollectionTab];
-    }
-
-    private saveSelectedTab(selectedTab: CollectionTab): void {
-        this.selectedTab = selectedTab;
-        this.settings.selectedCollectionTab = CollectionTab[selectedTab];
-        this.selectedTabChanged.next();
+        this.selectedTab = this.settings.selectedCollectionTab;
     }
 }

@@ -26,7 +26,6 @@ import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -191,7 +190,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === CollectionTab.folders) {
+        if (this.collectionPersister.selectedTab === Constants.foldersTablabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

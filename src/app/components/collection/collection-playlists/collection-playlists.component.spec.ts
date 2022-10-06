@@ -11,7 +11,6 @@
 // import { PlaylistModel } from '../../../services/playlist/playlist-model';
 // import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 // import { CollectionPersister } from '../collection-persister';
-// import { CollectionTab } from '../collection-tab';
 // import { CollectionPlaylistsComponent } from './collection-playlists.component';
 
 describe('CollectionPlaylistsComponent', () => {

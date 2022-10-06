@@ -27,7 +27,6 @@ import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 
@@ -368,7 +367,7 @@ describe('CollectionFoldersComponent', () => {
     describe('ngOnInit', () => {
         it('should get the folders if the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -381,7 +380,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get the folders if the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -394,7 +393,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the opened folder if there are no subfolders and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
@@ -410,7 +409,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get breadcrumbs for the opened folder if there are no subfolders and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
@@ -426,7 +425,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the opened folder if there are subfolders but none is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
@@ -446,7 +445,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -459,7 +458,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -472,7 +471,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the opened folder if there are no subfolders and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
@@ -488,7 +487,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the opened folder if there are subfolders but none is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             folderServiceMock.reset();
             folderServiceMock.setup((x) => x.getFolders()).returns(() => folders);
@@ -508,7 +507,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -521,7 +520,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get tracks if the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -534,7 +533,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing subfolder if the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -547,7 +546,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not set the playing subfolder if the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -560,7 +559,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should set the playing track if the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -573,7 +572,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not set the playing track if the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
 
@@ -614,7 +613,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should set the opened folder from the settings if the selected tab is folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -627,7 +626,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should not set the opened folder from the settings if the selected tab is not folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -640,7 +639,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should get subfolders for the the opened subfolder from the settings  if the selected tab is folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -653,7 +652,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should not get subfolders for the the opened subfolder from the settings if the selected tab is not folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -666,7 +665,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should save the opened subfolder to the settings if the selected tab is folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -682,7 +681,7 @@ describe('CollectionFoldersComponent', () => {
         });
 
         it('should not save the opened subfolder to the settings if the selected tab is not folders', async () => {
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
@@ -696,7 +695,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get the folders when indexing is finished and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -715,7 +714,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get the folders when indexing is finished and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -734,7 +733,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should fill the lists if the selected tab changes to folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -757,7 +756,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should clear the lists if the selected tab changes to not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -771,7 +770,7 @@ describe('CollectionFoldersComponent', () => {
             await flushPromises();
 
             collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             // Act
             selectedTabChangedMock.next();
@@ -786,7 +785,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get the folders when collection has changed and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -805,7 +804,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get the folders when collection has changed and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -824,7 +823,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should update the rating for a track that has the same path as the track for which rating was saved', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
             const component: CollectionFoldersComponent = createComponent();
             component.tracks = tracks;
 
@@ -953,7 +952,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get subfolders for the given opened subfolder if the opened folder is not undefined and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -970,7 +969,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get subfolders for the given opened subfolder if the opened folder is not undefined and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -987,7 +986,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the opened folder if there are no subfolders and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1004,7 +1003,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get breadcrumbs for the opened folder if there are no subfolders and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1021,7 +1020,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the opened folder if there are subfolders but none is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1042,7 +1041,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get breadcrumbs for the opened folder if there are subfolders but none is go to parent and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1063,7 +1062,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1080,7 +1079,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1097,7 +1096,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the opened folder if there are no subfolders and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1114,7 +1113,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get tracks for the opened folder if there are no subfolders and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1131,7 +1130,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the opened folder if there are subfolders but none is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1152,7 +1151,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get tracks for the opened folder if there are subfolders but none is go to parent and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1173,7 +1172,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should get tracks for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1189,7 +1188,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not get tracks for the first go to parent subfolder if there are subfolders and at least one is go to parent and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1205,7 +1204,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should save the opened subfolder to the settings and the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1223,7 +1222,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not save the opened subfolder to the settings and the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1238,7 +1237,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should initialize MouseSelectionWatcher using tracks if the selected tab is folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.folders);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();
@@ -1256,7 +1255,7 @@ describe('CollectionFoldersComponent', () => {
 
         it('should not initialize MouseSelectionWatcher using tracks if the selected tab is not folders', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionFoldersComponent = createComponent();
             await component.ngOnInit();

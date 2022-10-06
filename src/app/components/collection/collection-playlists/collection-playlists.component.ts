@@ -11,7 +11,6 @@ import { PlaylistModel } from '../../../services/playlist/playlist-model';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { PlaylistFoldersPersister } from './playlist-folders-persister';
 import { PlaylistsPersister } from './playlists-persister';
 import { PlaylistsTracksPersister } from './playlists-tracks-persister';
@@ -98,7 +97,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === CollectionTab.playlists) {
+        if (this.collectionPersister.selectedTab === Constants.playlistsTablabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

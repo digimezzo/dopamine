@@ -1,5 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
+import { Constants } from '../../../common/application/constants';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
 import { FileSystem } from '../../../common/io/file-system';
@@ -19,7 +20,6 @@ import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
@@ -358,7 +358,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get all artists if artists type is allArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -379,7 +379,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get all track artists if artists type is trackArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -399,7 +399,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get all album artists if artists type is albumArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -419,7 +419,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should not get artists if the selected tab is not artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.genres);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTablabel);
 
             const component: CollectionArtistsComponent = createComponent();
 
@@ -433,7 +433,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get all albums if there are no selected artists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -460,7 +460,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get albums for all selected artists if there are selected artists and artists type is allArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -489,7 +489,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get albums for selected track artists if there are selected artists and artists type is trackArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -517,7 +517,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get albums for selected album artists if there are selected artists and artists type is albumArtists and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -545,7 +545,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should not get albums if the selected tab is not artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.genres);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -572,7 +572,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get all tracks if there are no selected artists and no selected albums and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -606,7 +606,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get tracks for the selected artists if there are selected artists but no selected albums and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -644,7 +644,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get tracks for the selected albums if there are no selected artists but there are selected albums and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -678,7 +678,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should get tracks for the selected albums if there are selected genres and there are selected albums and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -714,7 +714,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should not get tracks if the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const component: CollectionArtistsComponent = createComponent();
 
@@ -991,7 +991,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should fill the lists when indexing is finished and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -1045,7 +1045,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should not fill the lists when indexing is finished and the selected tab is not artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.genres);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTablabel);
 
             const component: CollectionArtistsComponent = createComponent();
             await component.ngOnInit();
@@ -1069,7 +1069,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should fill the lists if the selected tab has changed to artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
@@ -1088,7 +1088,7 @@ describe('CollectionArtistsComponent', () => {
             await component.ngOnInit();
 
             collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             // Act
             selectedTabChangedMock.next();
@@ -1108,7 +1108,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should clear the lists if the selected tab has changed to not artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
@@ -1132,7 +1132,7 @@ describe('CollectionArtistsComponent', () => {
             trackServiceMock.reset();
             trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
             collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.albums);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
 
             // Act
             selectedTabChangedMock.next();
@@ -1149,7 +1149,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should fill the lists when collection has changed and the selected tab is artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.artists);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -1203,7 +1203,7 @@ describe('CollectionArtistsComponent', () => {
 
         it('should not fill the lists when collection has changed and the selected tab is not artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => CollectionTab.genres);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTablabel);
 
             const component: CollectionArtistsComponent = createComponent();
             await component.ngOnInit();

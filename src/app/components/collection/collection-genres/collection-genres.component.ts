@@ -15,7 +15,6 @@ import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
 import { CollectionPersister } from '../collection-persister';
-import { CollectionTab } from '../collection-tab';
 import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
@@ -109,7 +108,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === CollectionTab.genres) {
+        if (this.collectionPersister.selectedTab === Constants.genresTablabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

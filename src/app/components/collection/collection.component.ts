@@ -1,9 +1,12 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../services/search/base-search.service';
 import { CollectionPersister } from './collection-persister';
+import { TabSelectionGetter } from './tab-selection-getter';
 
 @Component({
     selector: 'app-collection',
@@ -12,16 +15,43 @@ import { CollectionPersister } from './collection-persister';
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionComponent implements OnInit {
+export class CollectionComponent implements AfterViewInit {
     private _selectedIndex: number;
 
+    @ViewChild("tabGroup", { static: false }) tabGroup:MatTabGroup ;
+    
     constructor(
         public appearanceService: BaseAppearanceService,
         public settings: BaseSettings,
         private playbackService: BasePlaybackService,
         private searchService: BaseSearchService,
-        private collectionPersister: CollectionPersister
+        private collectionPersister: CollectionPersister,
+        private tabSelectionGetter: TabSelectionGetter
     ) {}
+
+    get artistsTablabel() {
+        return Constants.artistsTablabel;
+    }
+
+    get genresTablabel() {
+        return Constants.genresTablabel;
+    }
+
+    get albumsTablabel() {
+        return Constants.albumsTablabel;
+    }
+
+    get tracksTablabel() {
+        return Constants.tracksTablabel;
+    }
+
+    get playlistsTablabel() {
+        return Constants.playlistsTablabel;
+    }
+
+    get foldersTablabel() {
+        return Constants.foldersTablabel;
+    }
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -36,7 +66,7 @@ export class CollectionComponent implements OnInit {
 
     public set selectedIndex(v: number) {
         this._selectedIndex = v;
-        this.collectionPersister.setSelectedTabFromTabIndex(v);
+        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(this.tabGroup, v);
 
         // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
         // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
@@ -44,7 +74,7 @@ export class CollectionComponent implements OnInit {
         window.dispatchEvent(new Event('tab-changed'));
     }
 
-    public ngOnInit(): void {
-        this.selectedIndex = this.collectionPersister.getSelectedTabIndex();
+    public ngAfterViewInit(): void {
+        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.tabGroup, this.collectionPersister.selectedTab);
     }
 }
