@@ -1,5 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
+import { FontSize } from '../../common/application/font-size';
 import { Track } from '../../common/data/entities/track';
+import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { TrackModel } from '../../services/track/track-model';
@@ -10,28 +12,47 @@ describe('RatingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
 
     function createComponent(): RatingComponent {
-        return new RatingComponent(metadataServiceMock.object, dialogServiceMock.object, translatorServiceMock.object);
+        return new RatingComponent(
+            metadataServiceMock.object,
+            dialogServiceMock.object,
+            translatorServiceMock.object,
+            appearanceServiceMock.object
+        );
     }
 
     beforeEach(() => {
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
 
         translatorServiceMock.setup((x) => x.getAsync('save-rating-error')).returns(async () => 'save-rating-error');
     });
 
     describe('constructor', () => {
-        it('should initialize fontSize as 0', () => {
+        it('should initialize fontSize from the selected font size normal size', () => {
+            // Arrange
+            const fontSize: FontSize = new FontSize(13);
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => fontSize);
+
+            // Act
+            const ratingComponent: RatingComponent = createComponent();
+
+            // Assert
+            expect(ratingComponent.fontSize).toEqual(13);
+        });
+
+        it('should initialize lineHeight as 1', () => {
             // Arrange
 
             // Act
             const ratingComponent: RatingComponent = createComponent();
 
             // Assert
-            expect(ratingComponent.fontSize).toEqual(0);
+            expect(ratingComponent.lineHeight).toEqual(1);
         });
     });
 
