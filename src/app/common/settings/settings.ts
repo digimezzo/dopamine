@@ -483,6 +483,15 @@ export class Settings implements BaseSettings {
         this.settings.set('showAlbumsPage', v);
     }
 
+     //  Show tracks page
+     public get showTracksPage(): boolean {
+        return this.settings.get('showTracksPage');
+    }
+
+    public set showTracksPage(v: boolean) {
+        this.settings.set('showTracksPage', v);
+    }
+
     //  Show playlists page
     public get showPlaylistsPage(): boolean {
         return this.settings.get('showPlaylistsPage');
@@ -723,6 +732,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('showAlbumsPage')) {
             this.settings.set('showAlbumsPage', true);
+        }
+
+        if (!this.settings.has('showTracksPage')) {
+            this.settings.set('showTracksPage', true);
         }
 
         if (!this.settings.has('showPlaylistsPage')) {

@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -399,6 +400,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatChipsModule,
         MatProgressBarModule,
         MatSliderModule,
+        MatTableModule,
         DragDropModule,
         HammerModule,
         FormsModule,
