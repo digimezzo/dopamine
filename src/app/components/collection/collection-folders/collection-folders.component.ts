@@ -190,7 +190,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.foldersTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.foldersTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

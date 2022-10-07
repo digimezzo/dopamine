@@ -92,7 +92,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.albumsTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.albumsTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

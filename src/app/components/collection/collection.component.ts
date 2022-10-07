@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { AfterViewInit, Component, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
@@ -18,8 +18,8 @@ import { TabSelectionGetter } from './tab-selection-getter';
 export class CollectionComponent implements AfterViewInit {
     private _selectedIndex: number;
 
-    @ViewChild("tabGroup", { static: false }) tabGroup:MatTabGroup ;
-    
+    @ViewChild('tabGroup', { static: false }) private tabGroup: MatTabGroup;
+
     constructor(
         public appearanceService: BaseAppearanceService,
         public settings: BaseSettings,
@@ -29,28 +29,28 @@ export class CollectionComponent implements AfterViewInit {
         private tabSelectionGetter: TabSelectionGetter
     ) {}
 
-    get artistsTablabel() {
-        return Constants.artistsTablabel;
+    public get artistsTabLabel(): string {
+        return Constants.artistsTabLabel;
     }
 
-    get genresTablabel() {
-        return Constants.genresTablabel;
+    public get genresTabLabel(): string {
+        return Constants.genresTabLabel;
     }
 
-    get albumsTablabel() {
-        return Constants.albumsTablabel;
+    public get albumsTabLabel(): string {
+        return Constants.albumsTabLabel;
     }
 
-    get tracksTablabel() {
-        return Constants.tracksTablabel;
+    public get tracksTabLabel(): string {
+        return Constants.tracksTabLabel;
     }
 
-    get playlistsTablabel() {
-        return Constants.playlistsTablabel;
+    public get playlistsTabLabel(): string {
+        return Constants.playlistsTabLabel;
     }
 
-    get foldersTablabel() {
-        return Constants.foldersTablabel;
+    public get foldersTabLabel(): string {
+        return Constants.foldersTabLabel;
     }
 
     @HostListener('document:keyup', ['$event'])

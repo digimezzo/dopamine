@@ -2,7 +2,7 @@
     <as-split gutterSize="4" unit="percent" direction="horizontal" (dragEnd)="splitDragEnd($event)" #split="asSplit">
         <as-split-area [size]="leftPaneSize" minSize="5" maxSize="95">
             <div class="left-side-pane">
-                <div class="h-100pct d-flex flex-column p-3">
+                <div class="h-100 d-flex flex-column p-3">
                     <!-- Folders in collection -->
                     <div *ngIf="this.folderService.collectionHasFolders" class="d-flex flex-row m-1">
                         <div class="flex-grow no-select">{{ 'folder' | translate }}</div>
@@ -67,7 +67,7 @@
                     </cdk-virtual-scroll-viewport>
                     <!-- No folders in collection -->
                     <div
-                        class="d-flex flex-column h-100pct align-items-center justify-content-center"
+                        class="d-flex flex-column h-100 align-items-center justify-content-center"
                         *ngIf="!this.folderService.collectionHasFolders"
                     >
                         {{ 'no-folders-in-collection' | translate }}
@@ -79,7 +79,7 @@
             </div>
         </as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
-            <div class="h-100pct d-flex flex-column p-3">
+            <div class="h-100 d-flex flex-column p-3">
                 <div class="d-flex flex-row m-1 no-select">
                     <div class="accent-color mr-2">{{ this.tracks.numberOfTracks }}</div>
                     <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>

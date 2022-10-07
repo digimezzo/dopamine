@@ -5,7 +5,6 @@ import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../services/search/base-search.service';
-import { CollectionPersister } from './collection-persister';
 import { CollectionComponent } from './collection.component';
 import { TabSelectionGetter } from './tab-selection-getter';
 
@@ -15,7 +14,7 @@ describe('CollectionComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let collectionPersisterStub: any;
-    let tabSelectionGetterMock : IMock<TabSelectionGetter>;
+    let tabSelectionGetterMock: IMock<TabSelectionGetter>;
 
     function createComponent(): CollectionComponent {
         return new CollectionComponent(
@@ -70,14 +69,14 @@ describe('CollectionComponent', () => {
     });
 
     describe('artistsTablabel', () => {
-         it('should return Constants.artistsTablabel', async () => {
+        it('should return Constants.artistsTablabel', async () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
             // Act
 
             // Assert
-            expect(component.artistsTablabel).toEqual(Constants.artistsTablabel);
+            expect(component.artistsTablabel).toEqual(Constants.artistsTabLabel);
         });
     });
 
@@ -89,7 +88,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.genresTablabel).toEqual(Constants.genresTablabel);
+            expect(component.genresTablabel).toEqual(Constants.genresTabLabel);
         });
     });
 
@@ -101,7 +100,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.albumsTablabel).toEqual(Constants.albumsTablabel);
+            expect(component.albumsTablabel).toEqual(Constants.albumsTabLabel);
         });
     });
 
@@ -113,7 +112,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.tracksTablabel).toEqual(Constants.tracksTablabel);
+            expect(component.tracksTablabel).toEqual(Constants.tracksTabLabel);
         });
     });
 
@@ -125,7 +124,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.playlistsTablabel).toEqual(Constants.playlistsTablabel);
+            expect(component.playlistsTablabel).toEqual(Constants.playlistsTabLabel);
         });
     });
 
@@ -137,7 +136,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.foldersTablabel).toEqual(Constants.foldersTablabel);
+            expect(component.foldersTablabel).toEqual(Constants.foldersTabLabel);
         });
     });
 
@@ -151,22 +150,22 @@ describe('CollectionComponent', () => {
 
             // Assert
             expect(component.selectedIndex).toEqual(3);
-            tabSelectionGetterMock.verify(x => x.getTabLabelForIndex(It.isObjectWith<MatTabGroup>({}), 3), Times.once());
-        });  
+            tabSelectionGetterMock.verify((x) => x.getTabLabelForIndex(It.isObjectWith<MatTabGroup>({}), 3), Times.once());
+        });
     });
 
     describe('ngAfterViewInit', () => {
         it('should get tab index for tab label and set selected index', async () => {
             // Arrange
             const component: CollectionComponent = createComponent();
-            tabSelectionGetterMock.setup(x => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists')).returns(() => 4);
+            tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists')).returns(() => 4);
             collectionPersisterStub.selectedTab = 'playlists';
 
             // Act
             component.ngAfterViewInit();
 
             // Assert
-            tabSelectionGetterMock.verify(x => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists'), Times.once());
+            tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists'), Times.once());
             expect(component.selectedIndex).toEqual(4);
         });
     });

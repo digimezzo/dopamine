@@ -22,7 +22,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         private logger: Logger
     ) {}
 
-    public displayedColumns: string[] = ['title'];
+    public displayedColumns: string[] = ['artist', 'title'];
     public tracks: TrackModels = new TrackModels();
 
     public ngOnDestroy(): void {
@@ -41,7 +41,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.tracksTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.tracksTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

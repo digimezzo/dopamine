@@ -97,7 +97,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.playlistsTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.playlistsTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

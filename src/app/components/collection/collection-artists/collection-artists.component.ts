@@ -116,7 +116,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.artistsTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.artistsTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

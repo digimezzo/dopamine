@@ -33,10 +33,14 @@
 .collection-viewport {
     /* The splitter resize gutter is not displayed when the height is not set explicitly */
     height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+    overflow: auto;
 }
 
 .collection-viewport-smaller {
     height: calc(100vh - 210px);
+    max-height: calc(100vh - 210px);
+    overflow: auto;
 }
 
 .left-side-pane {

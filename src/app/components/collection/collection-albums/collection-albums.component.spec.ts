@@ -310,7 +310,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should get all albums and the selected tab is albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
@@ -327,7 +327,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should not get all albums and the selected tab is not albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             const component: CollectionAlbumsComponent = createComponent();
 
@@ -340,7 +340,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should get all tracks if there are no selected albums and the selected tab is albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
@@ -364,7 +364,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should get tracks for the selected albums if there are selected albums and the selected tab is albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
@@ -386,7 +386,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should not get tracks if the selected tab is not albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             const component: CollectionAlbumsComponent = createComponent();
 
@@ -449,7 +449,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should fill the lists when indexing is finished and the selected tab is albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
@@ -472,7 +472,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should not fill the lists when indexing is finished and the selected tab is not albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
@@ -495,7 +495,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should fill the lists if the selected tab has changed to albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
@@ -506,7 +506,7 @@ describe('CollectionAlbumsComponent', () => {
             await component.ngOnInit();
 
             collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             // Act
             selectedTabChangedMock.next();
@@ -521,7 +521,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should clear the lists if the selected tab has changed to not albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
@@ -532,7 +532,7 @@ describe('CollectionAlbumsComponent', () => {
             await component.ngOnInit();
 
             collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             albumServiceMock.reset();
             trackServiceMock.reset();
@@ -550,7 +550,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should fill the lists when collection has changed and the selected tab is albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
@@ -573,7 +573,7 @@ describe('CollectionAlbumsComponent', () => {
 
         it('should not fill the lists when collection has changed and the selected tab is not albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTablabel);
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
