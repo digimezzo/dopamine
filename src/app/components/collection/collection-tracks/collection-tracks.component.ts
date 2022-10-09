@@ -1,10 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
+import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
 
@@ -13,26 +17,30 @@ import { CollectionPersister } from '../collection-persister';
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
 })
-export class CollectionTracksComponent implements OnInit, OnDestroy {
+export class CollectionTracksComponent implements AfterViewInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
         public searchService: BaseSearchService,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
+        private liveAnnouncer: LiveAnnouncer,
         private scheduler: Scheduler,
         private logger: Logger
     ) {}
 
-    public displayedColumns: string[] = ['artist', 'title'];
+    @ViewChild(MatSort) private sort: MatSort;
+
+    public displayedColumns: string[] = ['artists', 'title'];
     public tracks: TrackModels = new TrackModels();
+    public dataSource: MatTableDataSource<TrackModel> = new MatTableDataSource(this.tracks.tracks);
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
         this.clearLists();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public async ngAfterViewInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(async () => {
                 await this.processListsAsync();
@@ -67,5 +75,15 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
 
     private getTracks(): void {
         this.tracks = this.trackService.getAllTracks();
+        this.dataSource = new MatTableDataSource(this.tracks.tracks);
+        this.dataSource.sort = this.sort;
+    }
+
+    public announceSortChange(sortState: Sort): void {
+        if (sortState.direction) {
+            this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+        } else {
+            this.liveAnnouncer.announce('Sorting cleared');
+        }
     }
 }

@@ -1,13 +1,13 @@
 <div class="collection-viewport">
     <div class="d-flex flex-column m-3">
         <div class="collection-viewport-smaller">
-            <table mat-table [dataSource]="tracks.tracks" class="w-100">
-                <ng-container matColumnDef="artist">
-                    <th mat-header-cell *matHeaderCellDef>Artist</th>
+            <table mat-table [dataSource]="dataSource" matSort class="w-100" (matSortChange)="announceSortChange($event)">
+                <ng-container matColumnDef="artists">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="">Artist</th>
                     <td mat-cell *matCellDef="let track">{{ track.artists }}</td>
                 </ng-container>
                 <ng-container matColumnDef="title">
-                    <th mat-header-cell *matHeaderCellDef>Title</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="">Title</th>
                     <td mat-cell *matCellDef="let track">{{ track.title }}</td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
