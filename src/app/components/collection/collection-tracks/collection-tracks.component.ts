@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
@@ -16,6 +17,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public searchService: BaseSearchService,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,
