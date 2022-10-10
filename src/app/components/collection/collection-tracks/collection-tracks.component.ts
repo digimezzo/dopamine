@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
@@ -33,7 +33,7 @@ export class CollectionTracksComponent implements AfterViewInit, OnDestroy {
 
     public displayedColumns: string[] = ['artists', 'title'];
     public tracks: TrackModels = new TrackModels();
-    public dataSource: MatTableDataSource<TrackModel> = new MatTableDataSource(this.tracks.tracks);
+    public dataSource: TableVirtualScrollDataSource<TrackModel> = new TableVirtualScrollDataSource(this.tracks.tracks);
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -71,11 +71,12 @@ export class CollectionTracksComponent implements AfterViewInit, OnDestroy {
 
     private clearLists(): void {
         this.tracks = new TrackModels();
+        this.dataSource = new TableVirtualScrollDataSource(this.tracks.tracks);
     }
 
     private getTracks(): void {
         this.tracks = this.trackService.getAllTracks();
-        this.dataSource = new MatTableDataSource(this.tracks.tracks);
+        this.dataSource = new TableVirtualScrollDataSource(this.tracks.tracks);
         this.dataSource.sort = this.sort;
     }
 

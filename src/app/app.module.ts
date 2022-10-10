@@ -30,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSplitModule } from 'angular-split';
+import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
@@ -410,6 +411,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         HttpClientModule,
         AppRoutingModule,
         AngularSplitModule,
+        TableVirtualScrollModule,
         ScrollingModule,
         TranslateModule.forRoot({
             loader: {

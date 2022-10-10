@@ -1,6 +1,6 @@
 <div class="collection-viewport">
     <div class="d-flex flex-column m-3">
-        <div class="collection-viewport-smaller">
+        <cdk-virtual-scroll-viewport tvsItemSize="48" headerHeight="56" class="collection-viewport-smaller">
             <table mat-table [dataSource]="dataSource" matSort class="w-100" (matSortChange)="announceSortChange($event)">
                 <ng-container matColumnDef="artists">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="">Artist</th>
@@ -13,7 +13,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
-        </div>
+        </cdk-virtual-scroll-viewport>
         <app-totals
             class="mt-3"
             [totalDurationInMilliseconds]="this.tracks.totalDurationInMilliseconds"
