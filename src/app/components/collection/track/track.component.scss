@@ -19,6 +19,10 @@
     height: 46px;
 }
 
+.app-track__body:hover {
+    background: var(--theme-hovered-item-background);
+}
+
 .app-track__left {
     display: flex;
     width: 40px;

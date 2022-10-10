@@ -11,6 +11,10 @@
     padding: 2px;
 }
 
+.app-playlist-border:hover {
+    background: var(--theme-hovered-item-background);
+}
+
 .app-playlist-content {
     width: 120px;
     display: flex;

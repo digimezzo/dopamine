@@ -20,3 +20,7 @@
     height: 30px;
     line-height: 30px;
 }
+
+.app-artist__name:hover {
+    background: var(--theme-hovered-item-background);
+}

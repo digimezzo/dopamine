@@ -16,6 +16,10 @@
     background-color: var(--theme-selected-item-text) !important;
 }
 
+.hovered-item-background {
+    background-color: var(--theme-hovered-item-background);
+}
+
 .hidden {
     visibility: hidden;
 }
