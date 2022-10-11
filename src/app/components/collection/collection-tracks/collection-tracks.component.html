@@ -1,9 +1,18 @@
 <div class="collection-viewport p-3">
     <div class="h-100 w-100 d-flex flex-column">
-        <cdk-virtual-scroll-viewport class="flex-grow" itemSize="20">
-            <div *cdkVirtualFor="let track of this.orderedTracks">
-                <div style="height: 20px">{{ track.title }}</div>
-            </div>
+        <table>
+            <tr class="tracks-table-row">
+                <td>Artist</td>
+                <td>Title</td>
+            </tr>
+        </table>
+        <cdk-virtual-scroll-viewport class="flex-grow mt-2" itemSize="28">
+            <table>
+                <tr *cdkVirtualFor="let track of this.orderedTracks" class="tracks-table-row">
+                    <td>{{ track.artists }}</td>
+                    <td>{{ track.title }}</td>
+                </tr>
+            </table>
         </cdk-virtual-scroll-viewport>
         <app-totals
             class="mt-3"
