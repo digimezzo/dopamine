@@ -2,20 +2,21 @@
     <div class="h-100 w-100 d-flex flex-column">
         <table class="track-table no-select">
             <tr class="tracks-table-header">
-                <td class="w-48px pointer">#</td>
-                <td class="ellipsis pointer">Artist</td>
-                <td class="ellipsis pointer">Title</td>
-                <td class="ellipsis pointer">Album</td>
+                <td class="ellipsis pointer secondary-text">{{ 'title' | translate }}</td>
+                <td class="ellipsis pointer secondary-text">{{ 'artists' | translate }}</td>
+                <td class="ellipsis pointer secondary-text">{{ 'album' | translate }}</td>
+                <td class="ellipsis pointer secondary-text">{{ 'genres' | translate }}</td>
+                <td class="w-48px pointer secondary-text">#</td>
             </tr>
         </table>
-        <mat-divider></mat-divider>
         <cdk-virtual-scroll-viewport class="flex-grow mt-2" itemSize="28">
             <table class="track-table no-select">
                 <tr *cdkVirtualFor="let track of this.orderedTracks" class="tracks-table-row">
-                    <td class="w-48px pointer">{{ track.number }}</td>
                     <td class="ellipsis">{{ track.artists }}</td>
                     <td class="ellipsis">{{ track.title }}</td>
                     <td class="ellipsis">{{ track.albumTitle }}</td>
+                    <td class="ellipsis">{{ track.genres }}</td>
+                    <td class="w-48px pointer">{{ track.number }}</td>
                 </tr>
             </table>
         </cdk-virtual-scroll-viewport>

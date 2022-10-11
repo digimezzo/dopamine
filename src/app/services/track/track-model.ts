@@ -68,6 +68,22 @@ export class TrackModel {
         return commaSeparatedArtists;
     }
 
+    public get genres(): string {
+        const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
+
+        if (trackGenres == undefined || trackGenres.length === 0) {
+            return this.translatorService.get('unknown-genre');
+        }
+
+        const commaSeparatedGenres: string = trackGenres.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
+
+        if (commaSeparatedGenres.length === 0) {
+            return this.translatorService.get('unknown-genre');
+        }
+
+        return commaSeparatedGenres;
+    }
+
     public get albumKey(): string {
         return this.track.albumKey;
     }

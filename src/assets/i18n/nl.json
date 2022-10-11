@@ -208,5 +208,6 @@
     "show-rating": "Toon beoordeling",
     "save-rating-to-audio-files": "Sla de beoordeling op in de audiobestanden (alleen MP3)",
     "playlist-folder-is-empty": "Deze afspeellijstmap is leeg. Vergeet niet om afspeellijsten te maken.",
-    "show-in-folder": "Weergeven in map"
+    "show-in-folder": "Weergeven in map",
+    "title": "Titel"
 }

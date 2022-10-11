@@ -208,5 +208,6 @@
     "show-rating": "Δείξε την κριτική",
     "save-rating-to-audio-files": "Αποθήκευση της κριτικής στα αρχεία ήχου (MP3 μόνο)",
     "playlist-folder-is-empty": "Αυτός ο φάκελος playlist είναι κενός. Μην ξεχάσεις να δημιουργήσεις μερικά playlists.",
-    "show-in-folder": "Δείξε στον φάκελο"
+    "show-in-folder": "Δείξε στον φάκελο",
+    "title": "Title"
 }

@@ -208,5 +208,6 @@
     "show-rating": "Afficher classement",
     "save-rating-to-audio-files": "Enregistrez le classement dans les fichiers audio (MP3 uniquement)",
     "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists.",
-    "show-in-folder": "Afficher dans le dossier"
+    "show-in-folder": "Afficher dans le dossier",
+    "title": "Titre"
 }

@@ -17,6 +17,7 @@ describe('TrackModel', () => {
         track.fileName = 'track1';
         track.trackTitle = 'Track title';
         track.artists = ';Artist 1;;Artist 2;';
+        track.genres = ';Genre 1;;Genre 2;';
         track.albumKey = 'albumKey1';
         track.albumTitle = 'Album title';
         track.albumArtists = ';Album artist 1;;Album artist 2;';
@@ -29,6 +30,7 @@ describe('TrackModel', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
+        translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
     });
 
     describe('constructor', () => {
@@ -322,6 +324,105 @@ describe('TrackModel', () => {
             expect(artists).toEqual('Artist 1, Artist 3');
         });
     });
+
+    describe('genres', () => {
+        it('should return Unknown genres if track genres is undefined', () => {
+            // Arrange
+            track.genres = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Unknown genre');
+        });
+
+        it('should return Unknown genre if track genres is empty', () => {
+            // Arrange
+            track.genres = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Unknown genre');
+        });
+
+        it('should return Unknown genre if track genre contains only one empty genr', () => {
+            // Arrange
+            track.genres = ';;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Unknown genre');
+        });
+
+        it('should return the genre if track genres contains only one genre', () => {
+            // Arrange
+            track.genres = ';Genre 1;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Genre 1');
+        });
+
+        it('should return all genres separated by a comma if track genres contains multiple genres', () => {
+            // Arrange
+            track.genres = ';Genre 1;;Genre 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Genre 1, Genre 2');
+        });
+
+        it('should not return empty genres', () => {
+            // Arrange
+            track.genres = ';Genre 1;;;;Genre 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Genre 1, Genre 3');
+        });
+
+        it('should not return space genres', () => {
+            // Arrange
+            track.genres = ';Genre 1;; ;;Genre 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Genre 1, Genre 3');
+        });
+
+        it('should not return double space genres', () => {
+            // Arrange
+            track.genres = ';Genre 1;;  ;;Genre 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const genres: string = trackModel.genres;
+
+            // Assert
+            expect(genres).toEqual('Genre 1, Genre 3');
+        });
+    });
+
 
     describe('albumKey', () => {
         it('should return the track albumKey', () => {
