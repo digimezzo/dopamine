@@ -1,7 +1,14 @@
 .track-table {
     width: 100%;
     table-layout: fixed;
+    border-collapse: collapse;
 }
+
 .tracks-table-row {
     height: 28px;
+}
+
+.tracks-table-row:hover {
+    height: 28px;
+    background: var(--theme-hovered-item-background);
 }

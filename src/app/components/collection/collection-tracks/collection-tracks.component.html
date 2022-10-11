@@ -1,16 +1,20 @@
 <div class="collection-viewport p-3">
     <div class="h-100 w-100 d-flex flex-column">
-        <table class="track-table">
+        <table class="track-table no-select">
             <tr class="tracks-table-row">
-                <td style="width: 50%">Artist</td>
-                <td style="width: 50%">Title</td>
+                <td class="w-48px">#</td>
+                <td class="ellipsis">Artist</td>
+                <td class="ellipsis">Title</td>
+                <td class="ellipsis">Album</td>
             </tr>
         </table>
         <cdk-virtual-scroll-viewport class="flex-grow mt-2" itemSize="28">
-            <table class="track-table">
+            <table class="track-table no-select">
                 <tr *cdkVirtualFor="let track of this.orderedTracks" class="tracks-table-row">
-                    <td style="width: 50%">{{ track.artists }}</td>
-                    <td style="width: 50%">{{ track.title }}</td>
+                    <td class="w-48px">{{ track.number }}</td>
+                    <td class="ellipsis">{{ track.artists }}</td>
+                    <td class="ellipsis">{{ track.title }}</td>
+                    <td class="ellipsis">{{ track.albumTitle }}</td>
                 </tr>
             </table>
         </cdk-virtual-scroll-viewport>
