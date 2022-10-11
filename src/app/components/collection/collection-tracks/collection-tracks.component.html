@@ -5,6 +5,7 @@
                 <thead>
                     <tr class="tracks-table-header">
                         <th class="pointer secondary-text ellipsis">{{ 'title' | translate }}</th>
+                        <th class="tracks-table-rating-column pointer"><div class="secondary-text ellipsis" style="margin-left: 4px">{{ 'rating' | translate }}</div></th>
                         <th class="pointer secondary-text ellipsis">{{ 'artists' | translate }}</th>
                         <th class="pointer secondary-text ellipsis">{{ 'album' | translate }}</th>
                         <th class="pointer secondary-text ellipsis">{{ 'genres' | translate }}</th>
@@ -15,11 +16,12 @@
                 <tbody>
                     <tr *cdkVirtualFor="let track of this.orderedTracks" class="tracks-table-row">
                         <td class="ellipsis">{{ track.artists }}</td>
+                        <td class="tracks-table-rating-column ellipsis"><app-rating [track]="track"></app-rating></td>
                         <td class="ellipsis">{{ track.title }}</td>
                         <td class="ellipsis">{{ track.albumTitle }}</td>
                         <td class="ellipsis">{{ track.genres }}</td>
-                        <td class="tracks-table-number-column secondary-text">{{ track.number }}</td>
-                        <td class="tracks-table-number-column secondary-text ellipsis">{{ track.year }}</td>
+                        <td class="tracks-table-number-column">{{ track.number }}</td>
+                        <td class="tracks-table-number-column ellipsis">{{ track.year }}</td>
                     </tr>
                 </tbody>
             </table>
