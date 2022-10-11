@@ -113,3 +113,8 @@
 .overflow-hidden-important {
     overflow: hidden !important;
 }
+
+.scrollbar-gutter-stable {
+    overflow: auto;
+    scrollbar-gutter: stable;
+}

@@ -181,6 +181,7 @@ import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
+import { ZeroToBlankPipe } from './pipes/zero-to-blank.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -345,6 +346,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SubfoldersFilterPipe,
         PlaylistsFilterPipe,
         ImageToFilePathPipe,
+        ZeroToBlankPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
