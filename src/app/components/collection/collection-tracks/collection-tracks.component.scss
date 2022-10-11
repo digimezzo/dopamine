@@ -8,11 +8,26 @@
     height: 28px;
 }
 
+.tracks-table-header td {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .tracks-table-row {
     height: 28px;
+}
+
+.tracks-table-row td {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .tracks-table-row:hover {
     height: 28px;
     background: var(--theme-hovered-item-background);
+}
+
+.tracks-table-number-column {
+   width: 56px;
+   text-align: right;
 }

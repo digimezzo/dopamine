@@ -2,11 +2,12 @@
     <div class="h-100 w-100 d-flex flex-column">
         <table class="track-table no-select">
             <tr class="tracks-table-header">
-                <td class="ellipsis pointer secondary-text">{{ 'title' | translate }}</td>
-                <td class="ellipsis pointer secondary-text">{{ 'artists' | translate }}</td>
-                <td class="ellipsis pointer secondary-text">{{ 'album' | translate }}</td>
-                <td class="ellipsis pointer secondary-text">{{ 'genres' | translate }}</td>
-                <td class="w-48px pointer secondary-text">#</td>
+                <td class="pointer secondary-text ellipsis">{{ 'title' | translate }}</td>
+                <td class="pointer secondary-text ellipsis">{{ 'artists' | translate }}</td>
+                <td class="pointer secondary-text ellipsis">{{ 'album' | translate }}</td>
+                <td class="pointer secondary-text ellipsis">{{ 'genres' | translate }}</td>
+                <td class="tracks-table-number-column pointer secondary-text">#</td>
+                <td class="tracks-table-number-column pointer secondary-text ellipsis">{{ 'year' | translate }}</td>
             </tr>
         </table>
         <cdk-virtual-scroll-viewport class="flex-grow mt-2" itemSize="28">
@@ -16,7 +17,8 @@
                     <td class="ellipsis">{{ track.title }}</td>
                     <td class="ellipsis">{{ track.albumTitle }}</td>
                     <td class="ellipsis">{{ track.genres }}</td>
-                    <td class="w-48px pointer">{{ track.number }}</td>
+                    <td class="tracks-table-number-column secondary-text">{{ track.number }}</td>
+                    <td class="tracks-table-number-column secondary-text ellipsis">{{ track.year }}</td>
                 </tr>
             </table>
         </cdk-virtual-scroll-viewport>
