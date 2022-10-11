@@ -1,7 +1,4 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
-import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
@@ -17,30 +14,26 @@ import { CollectionPersister } from '../collection-persister';
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
 })
-export class CollectionTracksComponent implements AfterViewInit, OnDestroy {
+export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
         public searchService: BaseSearchService,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
-        private liveAnnouncer: LiveAnnouncer,
         private scheduler: Scheduler,
         private logger: Logger
     ) {}
 
-    @ViewChild(MatSort) private sort: MatSort;
-
-    public displayedColumns: string[] = ['artists', 'title'];
     public tracks: TrackModels = new TrackModels();
-    public dataSource: TableVirtualScrollDataSource<TrackModel> = new TableVirtualScrollDataSource(this.tracks.tracks);
+    public orderedTracks: TrackModel[] = [];
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
         this.clearLists();
     }
 
-    public async ngAfterViewInit(): Promise<void> {
+    public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(async () => {
                 await this.processListsAsync();
@@ -71,20 +64,11 @@ export class CollectionTracksComponent implements AfterViewInit, OnDestroy {
 
     private clearLists(): void {
         this.tracks = new TrackModels();
-        this.dataSource = new TableVirtualScrollDataSource(this.tracks.tracks);
+        this.orderedTracks = [];
     }
 
     private getTracks(): void {
         this.tracks = this.trackService.getAllTracks();
-        this.dataSource = new TableVirtualScrollDataSource(this.tracks.tracks);
-        this.dataSource.sort = this.sort;
-    }
-
-    public announceSortChange(sortState: Sort): void {
-        if (sortState.direction) {
-            this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-        } else {
-            this.liveAnnouncer.announce('Sorting cleared');
-        }
+        this.orderedTracks = this.tracks.tracks;
     }
 }

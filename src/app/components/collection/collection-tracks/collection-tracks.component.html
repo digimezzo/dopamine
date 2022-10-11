@@ -1,18 +1,9 @@
-<div class="collection-viewport">
-    <div class="d-flex flex-column m-3">
-        <cdk-virtual-scroll-viewport tvsItemSize="48" headerHeight="56" class="collection-viewport-smaller">
-            <table mat-table [dataSource]="dataSource" matSort class="w-100" (matSortChange)="announceSortChange($event)">
-                <ng-container matColumnDef="artists">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="">Artist</th>
-                    <td mat-cell *matCellDef="let track">{{ track.artists }}</td>
-                </ng-container>
-                <ng-container matColumnDef="title">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="">Title</th>
-                    <td mat-cell *matCellDef="let track">{{ track.title }}</td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
+<div class="collection-viewport p-3">
+    <div class="h-100 w-100 d-flex flex-column">
+        <cdk-virtual-scroll-viewport class="flex-grow" itemSize="20">
+            <div *cdkVirtualFor="let track of this.orderedTracks">
+                <div style="height: 20px">{{ track.title }}</div>
+            </div>
         </cdk-virtual-scroll-viewport>
         <app-totals
             class="mt-3"
