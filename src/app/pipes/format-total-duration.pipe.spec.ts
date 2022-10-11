@@ -106,14 +106,14 @@ describe('FormatTotalDurationPipe', () => {
             expect(formattedTotalDuration).toEqual('6 hours 35 minutes 16 seconds');
         });
 
-        it('should return "36 hours 35 minutes 16 seconds" if total duration is 131716000 milliseconds', () => {
+        it('should return "1.5 days" if total duration is 131716000 milliseconds', () => {
             // Arrange
 
             // Act
             const formattedTotalDuration: string = formatTotalDurationPipe.transform(131716000);
 
             // Assert
-            expect(formattedTotalDuration).toEqual('36 hours 35 minutes 16 seconds');
+            expect(formattedTotalDuration).toEqual('1.5 days');
         });
     });
 });
