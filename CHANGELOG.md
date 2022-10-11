@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.17] - 2022-10-11
+
+### Added
+
+### Changed
+
+-   Updated Simplified Chinese translation
+-   Updated Traditional Chinese translation
+
+### Removed
+
+### Fixed
+
 ## [3.0.0-preview.16] - 2022-10-06
 
 ### Added
@@ -17,8 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed bug where rating is not shown in the lists of songs
-- Fixed bug where pages following a hidden page do not load their data
+-   Fixed bug where rating is not shown in the lists of songs
+-   Fixed bug where pages following a hidden page do not load their data
 
 ## [3.0.0-preview.15] - 2022-10-02
 
