@@ -8,9 +8,15 @@
     height: 28px;
 }
 
-.tracks-table-header td {
+.tracks-table-header th {
     padding-left: 8px;
     padding-right: 8px;
+    text-align: left;
+    font-weight: unset;
+    background-color: var(--theme-main-background);
+    position: sticky;
+    z-index: 100;
+    top: 0;
 }
 
 .tracks-table-row {
@@ -20,6 +26,7 @@
 .tracks-table-row td {
     padding-left: 8px;
     padding-right: 8px;
+    text-align: left;
 }
 
 .tracks-table-row:hover {
@@ -29,5 +36,5 @@
 
 .tracks-table-number-column {
    width: 56px;
-   text-align: right;
+   text-align: right !important;
 }
