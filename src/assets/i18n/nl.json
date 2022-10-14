@@ -210,5 +210,9 @@
     "playlist-folder-is-empty": "Deze afspeellijstmap is leeg. Vergeet niet om afspeellijsten te maken.",
     "show-in-folder": "Weergeven in map",
     "title": "Titel",
-    "year": "Jaar"
+    "year": "Jaar",
+    "day": "dag",
+    "hour": "uur",
+    "minute": "minuut",
+    "second": "seconde"
 }

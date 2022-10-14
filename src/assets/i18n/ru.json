@@ -210,5 +210,9 @@
     "playlist-folder-is-empty": "Эта папка плейлистов пуста. Не забудьте создать несколько плейлистов.",
     "show-in-folder": "Показать в папке",
     "title": "Title",
-    "year": "Year"
+    "year": "Year",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second"
 }

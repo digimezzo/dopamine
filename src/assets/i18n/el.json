@@ -210,5 +210,9 @@
     "playlist-folder-is-empty": "Αυτός ο φάκελος playlist είναι κενός. Μην ξεχάσεις να δημιουργήσεις μερικά playlists.",
     "show-in-folder": "Δείξε στον φάκελο",
     "title": "Title",
-    "year": "Year"
+    "year": "Year",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second"
 }

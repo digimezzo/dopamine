@@ -210,5 +210,9 @@
     "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists.",
     "show-in-folder": "Afficher dans le dossier",
     "title": "Titre",
-    "year": "Année"
+    "year": "Année",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "minute",
+    "second": "seconde"
 }

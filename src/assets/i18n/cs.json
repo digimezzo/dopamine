@@ -210,5 +210,9 @@
     "playlist-folder-is-empty": "This playlist folder is empty. Don't forget to create some playlists.",
     "show-in-folder": "Show in folder",
     "title": "Title",
-    "year": "Year"
+    "year": "Year",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second"
 }
