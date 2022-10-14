@@ -5,8 +5,8 @@ import { BaseTranslatorService } from '../services/translator/base-translator.se
 export class FormatTotalDurationPipe implements PipeTransform {
     constructor(private translatorService: BaseTranslatorService) {}
 
-    public transform(totalDurationInMilliseconds: number): string {
-        if (totalDurationInMilliseconds == undefined || totalDurationInMilliseconds <= 0) {
+    public transform(totalMilliseconds: number): string {
+        if (totalMilliseconds == undefined || totalMilliseconds <= 0) {
             return '';
         }
 
@@ -19,38 +19,30 @@ export class FormatTotalDurationPipe implements PipeTransform {
         const secondText: string = this.translatorService.get('second');
         const secondsText: string = this.translatorService.get('seconds');
 
-        const totalDurationInSeconds: number = totalDurationInMilliseconds / 1000;
-        const totalDurationInMinutes: number = totalDurationInSeconds / 60;
-        const totalDurationInHours: number = totalDurationInMinutes / 60;
-        const totalDurationInDays: number = totalDurationInHours / 24;
+        const totalSeconds: number = totalMilliseconds / 1000;
+        const totalMinutes: number = totalSeconds / 60;
+        const totalHours: number = totalMinutes / 60;
+        const totalDays: number = totalHours / 24;
 
-        if (totalDurationInDays >= 1) {
-            const days: number = Math.round(totalDurationInDays * 10) / 10;
+        const roundedTotalDays: number = Math.round(totalDays * 10) / 10;
+        const roundedTotalHours: number = Math.round(totalHours * 10) / 10;
+        const minutesOnly: number = Math.floor(totalMinutes) % 60;
+        const secondsOnly: number = Math.floor(totalSeconds) % 60;
 
-            return `${days} ${days === 1 ? dayText : daysText}`;
+        if (totalDays >= 1 || roundedTotalHours === 24) {
+            return `${roundedTotalDays} ${roundedTotalDays === 1 ? dayText : daysText}`;
         }
 
-        if (totalDurationInHours >= 1) {
-            const hours: number = Math.round(totalDurationInHours * 10) / 10;
-
-            if (hours === 24) {
-                return `1 ${dayText}`;
-            }
-
-            return `${hours} ${hours === 1 ? hourText : hoursText}`;
+        if (totalHours >= 1) {
+            return `${roundedTotalHours} ${roundedTotalHours === 1 ? hourText : hoursText}`;
         }
 
-        const minutes: number = Math.floor(totalDurationInMinutes) % 60;
-        const seconds: number = Math.floor(totalDurationInSeconds) % 60;
+        if (totalMinutes >= 1) {
+            const secondsSuffix: string = secondsOnly > 0 ? ` ${secondsOnly} ${secondsOnly === 1 ? secondText : secondsText}` : '';
 
-        if (totalDurationInMinutes >= 1) {
-            if (seconds > 0) {
-                return `${minutes} ${minutes === 1 ? minuteText : minutesText} ${seconds} ${seconds === 1 ? secondText : secondsText}`;
-            }
-
-            return `${minutes} ${minutes === 1 ? minuteText : minutesText}`;
+            return `${minutesOnly} ${minutesOnly === 1 ? minuteText : minutesText}${secondsSuffix}`;
         }
 
-        return `${seconds} ${seconds === 1 ? secondText : secondsText}`;
+        return `${secondsOnly} ${secondsOnly === 1 ? secondText : secondsText}`;
     }
 }
