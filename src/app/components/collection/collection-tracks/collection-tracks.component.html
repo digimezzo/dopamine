@@ -4,6 +4,7 @@
             <table class="tracks-table no-select">
                 <tr class="tracks-table-header">
                     <td class="pointer secondary-text ellipsis">{{ 'title' | translate }}</td>
+                    <td class="tracks-table-playback-indicator-column pointer"></td>
                     <td class="tracks-table-rating-column pointer">
                         <div class="secondary-text ellipsis">{{ 'rating' | translate }}</div>
                     </td>
@@ -18,10 +19,22 @@
 
         <cdk-virtual-scroll-viewport class="flex-grow scrollbar-gutter-stable mt-2" itemSize="28">
             <table class="tracks-table no-select">
-                <tr *cdkVirtualFor="let track of this.orderedTracks" class="tracks-table-row">
-                    <td class="ellipsis">{{ track.artists }}</td>
-                    <td class="tracks-table-rating-column ellipsis"><app-rating [track]="track"></app-rating></td>
+                <tr
+                    *cdkVirtualFor="let track of this.orderedTracks"
+                    class="tracks-table-row"
+                    [ngClass]="{ 'selected-item-background': track.isSelected }"
+                    (mousedown)="setSelectedTracks($event, track)"
+                >
                     <td class="ellipsis">{{ track.title }}</td>
+                    <td class="tracks-table-playback-indicator-column">
+                        <app-playback-indicator
+                            *ngIf="track.isPlaying"
+                            class="mx-2"
+                            [isSelected]="track.isSelected"
+                        ></app-playback-indicator>
+                    </td>
+                    <td class="tracks-table-rating-column ellipsis"><app-rating [track]="track"></app-rating></td>
+                    <td class="ellipsis">{{ track.artists }}</td>
                     <td class="ellipsis">{{ track.albumTitle }}</td>
                     <td class="ellipsis">{{ track.genres }}</td>
                     <td class="tracks-table-number-column">{{ track.number | zeroToBlank }}</td>

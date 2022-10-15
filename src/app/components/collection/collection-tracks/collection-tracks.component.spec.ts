@@ -1,8 +1,9 @@
 import { Observable, Subject } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
 import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -14,6 +15,7 @@ import { CollectionTracksComponent } from './collection-tracks.component';
 
 describe('CollectionTracksComponent', () => {
     let searchServiceMock: IMock<BaseSearchService>;
+    let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackServiceMock: IMock<BaseTrackService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let schedulerMock: IMock<Scheduler>;
@@ -29,6 +31,7 @@ describe('CollectionTracksComponent', () => {
     function createComponent(): CollectionTracksComponent {
         const component: CollectionTracksComponent = new CollectionTracksComponent(
             searchServiceMock.object,
+            mouseSelectionWatcherMock.object,
             trackServiceMock.object,
             collectionPersisterMock.object,
             schedulerMock.object,
@@ -57,6 +60,7 @@ describe('CollectionTracksComponent', () => {
 
     beforeEach(() => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         schedulerMock = Mock.ofType<Scheduler>();
@@ -206,6 +210,131 @@ describe('CollectionTracksComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should initialize mouseSelectionWatcher using tracks if the selected tab is tracks', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.tracksTabLabel);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const tracks: TrackModels = createTrackModels([track1, track2]);
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+
+            const component: CollectionTracksComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            await flushPromises();
+
+            // Assert
+            // TODO: TypeMoq does not consider the call with track.track to have been performed (The reference to tracks.tracks seems lost).
+            // So we use a workaround to ensure that the correct call occurs.
+            // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
+            mouseSelectionWatcherMock.verify(
+                (x) =>
+                    x.initialize(
+                        It.is(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 && trackModels[0].path === track1.path && trackModels[1].path === track2.path
+                        ),
+                        false
+                    ),
+                Times.once()
+            );
+        });
+
+        it('should not initialize mouseSelectionWatcher using tracks if the selected tab is not tracks', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const tracks: TrackModels = createTrackModels([track1, track2]);
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+
+            const component: CollectionTracksComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            await flushPromises();
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.initialize(It.isAny(), false), Times.never());
+        });
+
+        it('should initialize mouseSelectionWatcher using tracks if the selected tab has changed to tracks', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const tracks: TrackModels = createTrackModels([track1, track2]);
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+
+            const component: CollectionTracksComponent = createComponent();
+            await component.ngOnInit();
+
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.tracksTabLabel);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            // TODO: TypeMoq does not consider the call with track.track to have been performed (The reference to tracks.tracks seems lost).
+            // So we use a workaround to ensure that the correct call occurs.
+            // mouseSelectionWatcherMock.verify((x) => x.initialize(tracks.tracks, false), Times.exactly(1));
+            mouseSelectionWatcherMock.verify(
+                (x) =>
+                    x.initialize(
+                        It.is(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 && trackModels[0].path === track1.path && trackModels[1].path === track2.path
+                        ),
+                        false
+                    ),
+                Times.once()
+            );
+        });
+
+        it('should not initialize mouseSelectionWatcher using tracks if the selected tab has changed to not tracks', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const tracks: TrackModels = createTrackModels([track1, track2]);
+            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+
+            const component: CollectionTracksComponent = createComponent();
+            await component.ngOnInit();
+
+            collectionPersisterMock.reset();
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
+
+            // Act
+            selectedTabChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.initialize(It.isAny(), false), Times.never());
+        });
+    });
+
+    describe('setSelectedTracks', () => {
+        it('should set the selected item on mouseSelectionWatcher', () => {
+            // Arrange
+            const component: CollectionTracksComponent = createComponent();
+            const event: any = {};
+            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), translatorServiceMock.object);
+
+            // Act
+            component.setSelectedTracks(event, trackModel);
+
+            // Assert
+            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel), Times.once());
         });
     });
 });

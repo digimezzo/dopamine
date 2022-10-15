@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
+import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -13,12 +14,14 @@ import { CollectionPersister } from '../collection-persister';
     selector: 'app-collection-tracks',
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
+    providers: [MouseSelectionWatcher],
 })
 export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
         public searchService: BaseSearchService,
+        public mouseSelectionWatcher: MouseSelectionWatcher,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,
@@ -46,6 +49,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private async processListsAsync(): Promise<void> {
         if (this.collectionPersister.selectedTab === Constants.tracksTabLabel) {
             await this.fillListsAsync();
+            this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         } else {
             this.clearLists();
         }
@@ -70,5 +74,9 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private getTracks(): void {
         this.tracks = this.trackService.getAllTracks();
         this.orderedTracks = this.tracks.tracks;
+    }
+
+    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 }
