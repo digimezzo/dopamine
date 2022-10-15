@@ -5,6 +5,7 @@ import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
@@ -14,6 +15,7 @@ import { CollectionPersister } from '../collection-persister';
 import { CollectionTracksComponent } from './collection-tracks.component';
 
 describe('CollectionTracksComponent', () => {
+    let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackServiceMock: IMock<BaseTrackService>;
@@ -30,6 +32,7 @@ describe('CollectionTracksComponent', () => {
 
     function createComponent(): CollectionTracksComponent {
         const component: CollectionTracksComponent = new CollectionTracksComponent(
+            playbackServiceMock.object,
             searchServiceMock.object,
             mouseSelectionWatcherMock.object,
             trackServiceMock.object,
@@ -59,6 +62,7 @@ describe('CollectionTracksComponent', () => {
     }
 
     beforeEach(() => {
+        playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
@@ -92,6 +96,16 @@ describe('CollectionTracksComponent', () => {
 
             // Assert
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should define playbackService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionTracksComponent = createComponent();
+
+            // Assert
+            expect(component.playbackService).toBeDefined();
         });
 
         it('should define searchService', () => {

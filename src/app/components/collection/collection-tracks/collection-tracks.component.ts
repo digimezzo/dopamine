@@ -4,6 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
@@ -20,6 +21,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
+        public playbackService: BasePlaybackService,
         public searchService: BaseSearchService,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private trackService: BaseTrackService,
