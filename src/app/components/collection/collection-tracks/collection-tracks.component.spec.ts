@@ -5,6 +5,7 @@ import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -17,6 +18,7 @@ import { CollectionTracksComponent } from './collection-tracks.component';
 describe('CollectionTracksComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackServiceMock: IMock<BaseTrackService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -34,6 +36,7 @@ describe('CollectionTracksComponent', () => {
         const component: CollectionTracksComponent = new CollectionTracksComponent(
             playbackServiceMock.object,
             searchServiceMock.object,
+            appearanceServiceMock.object,
             mouseSelectionWatcherMock.object,
             trackServiceMock.object,
             collectionPersisterMock.object,
@@ -62,6 +65,7 @@ describe('CollectionTracksComponent', () => {
     }
 
     beforeEach(() => {
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
@@ -116,6 +120,16 @@ describe('CollectionTracksComponent', () => {
 
             // Assert
             expect(component.searchService).toBeDefined();
+        });
+
+        it('should define appearanceService', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionTracksComponent = createComponent();
+
+            // Assert
+            expect(component.appearanceService).toBeDefined();
         });
     });
 

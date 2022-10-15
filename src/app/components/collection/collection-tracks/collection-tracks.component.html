@@ -26,7 +26,19 @@
                     (mousedown)="setSelectedTracks($event, track)"
                     (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
                 >
-                    <td class="ellipsis">{{ track.title }}</td>
+                    <td>
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.title }}
+                        </div>
+                    </td>
                     <td class="tracks-table-playback-indicator-column">
                         <app-playback-indicator
                             *ngIf="track.isPlaying"
@@ -34,12 +46,72 @@
                             [isSelected]="track.isSelected"
                         ></app-playback-indicator>
                     </td>
-                    <td class="tracks-table-rating-column ellipsis"><app-rating [track]="track"></app-rating></td>
-                    <td class="ellipsis">{{ track.artists }}</td>
-                    <td class="ellipsis">{{ track.albumTitle }}</td>
-                    <td class="ellipsis">{{ track.genres }}</td>
-                    <td class="tracks-table-number-column">{{ track.number | zeroToBlank }}</td>
-                    <td class="tracks-table-number-column ellipsis">{{ track.year | zeroToBlank }}</td>
+                    <td class="tracks-table-rating-column"><app-rating [track]="track"></app-rating></td>
+                    <td>
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.artists }}
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.albumTitle }}
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.genres }}
+                        </div>
+                    </td>
+                    <td class="tracks-table-number-column">
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.number | zeroToBlank }}
+                        </div>
+                    </td>
+                    <td class="tracks-table-number-column">
+                        <div
+                            class="ellipsis"
+                            [ngClass]="{
+                                'accent-color':
+                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                                'selected-item-text-color-important':
+                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                            }"
+                        >
+                            {{ track.year | zeroToBlank }}
+                        </div>
+                    </td>
                 </tr>
             </table>
         </cdk-virtual-scroll-viewport>
