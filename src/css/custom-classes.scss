@@ -8,6 +8,10 @@
     background-color: var(--theme-selected-item-background);
 }
 
+.selected-item-background-important {
+    background-color: var(--theme-selected-item-background) !important;
+}
+
 .selected-item-text-color-important {
     color: var(--theme-selected-item-text) !important;
 }
