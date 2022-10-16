@@ -27,6 +27,7 @@ import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
+import { ListItemStyler } from '../list-item-styler';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 
@@ -52,6 +53,7 @@ describe('CollectionFoldersComponent', () => {
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
+    let listItemStylerMock: IMock<ListItemStyler>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -92,6 +94,7 @@ describe('CollectionFoldersComponent', () => {
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             addToPlaylistMenuMock.object,
+            listItemStylerMock.object,
             metadataServiceMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
@@ -132,6 +135,7 @@ describe('CollectionFoldersComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        listItemStylerMock = Mock.ofType<ListItemStyler>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -255,16 +259,6 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.tracks).toBeDefined();
-        });
-
-        it('should declare but not define selectedSubfolder', () => {
-            // Arrange
-
-            // Act
-            const component: CollectionFoldersComponent = createComponent();
-
-            // Assert
-            expect(component.selectedSubfolder).toBeUndefined();
         });
 
         it('should define appearanceService', () => {
@@ -909,13 +903,19 @@ describe('CollectionFoldersComponent', () => {
         it('should set the selected subfolder', () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
-            component.selectedSubfolder = undefined;
+            component.subfolders = subfolders;
+
+            for (const subfolder of component.subfolders) {
+                subfolder.isSelected = false;
+            }
 
             // Act
             component.setSelectedSubfolder(subfolder1);
 
             // Assert
-            expect(component.selectedSubfolder).toBe(subfolder1);
+            const selectedSubfolders: SubfolderModel[] = component.subfolders.filter((x) => x.isSelected);
+            expect(selectedSubfolders.length).toEqual(1);
+            expect(selectedSubfolders[0]).toBe(subfolder1);
         });
     });
 

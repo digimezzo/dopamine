@@ -12,6 +12,10 @@
     color: var(--theme-selected-item-text) !important;
 }
 
+.selected-item-color {
+    color: var(--theme-selected-item-text);
+}
+
 .selected-item-text-background-important {
     background-color: var(--theme-selected-item-text) !important;
 }
@@ -102,7 +106,7 @@
     color: var(--theme-primary-text) !important;
 }
 
-.secondary-text {
+.secondary-color {
     color: var(--theme-secondary-text);
 }
 

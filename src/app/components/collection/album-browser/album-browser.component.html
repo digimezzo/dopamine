@@ -7,31 +7,31 @@
         </div>
 
         <div class="pointer" (click)="toggleAlbumOrder()">
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleAscending">
                 {{ 'by-album-title-ascending' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumTitleDescending">
                 {{ 'by-album-title-descending' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateAdded">
                 {{ 'by-date-added' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byDateCreated">
                 {{ 'by-date-created' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byAlbumArtist">
                 {{ 'by-album-artist' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearAscending">
                 {{ 'by-year-ascending' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byYearDescending">
                 {{ 'by-year-descending' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.byLastPlayed">
                 {{ 'by-last-played' | translate }}
             </div>
-            <div class="secondary-text" *ngIf="this.selectedAlbumOrder === albumOrderEnum.random">
+            <div class="secondary-color" *ngIf="this.selectedAlbumOrder === albumOrderEnum.random">
                 {{ 'random' | translate }}
             </div>
         </div>

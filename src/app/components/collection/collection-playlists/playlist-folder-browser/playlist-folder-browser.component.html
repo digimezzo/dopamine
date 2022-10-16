@@ -6,7 +6,7 @@
             <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
         </div>
         <div
-            class="playlist-folder-browser__add-button pointer secondary-text las la-plus"
+            class="playlist-folder-browser__add-button pointer secondary-color las la-plus"
             matTooltip="{{ 'create-playlist-folder' | translate }}"
             (click)="createPlaylistFolderAsync()"
         ></div>

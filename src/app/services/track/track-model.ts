@@ -1,9 +1,10 @@
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { Track } from '../../common/data/entities/track';
+import { IStylable } from '../../common/i-stylable';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
-export class TrackModel {
+export class TrackModel implements IStylable {
     constructor(private track: Track, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;

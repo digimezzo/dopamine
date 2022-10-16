@@ -5,7 +5,6 @@ import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -13,12 +12,13 @@ import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
+import { ListItemStyler } from '../list-item-styler';
 import { CollectionTracksComponent } from './collection-tracks.component';
 
 describe('CollectionTracksComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let listItemStylerMock: IMock<ListItemStyler>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackServiceMock: IMock<BaseTrackService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
@@ -36,8 +36,8 @@ describe('CollectionTracksComponent', () => {
         const component: CollectionTracksComponent = new CollectionTracksComponent(
             playbackServiceMock.object,
             searchServiceMock.object,
-            appearanceServiceMock.object,
             mouseSelectionWatcherMock.object,
+            listItemStylerMock.object,
             trackServiceMock.object,
             collectionPersisterMock.object,
             schedulerMock.object,
@@ -65,7 +65,7 @@ describe('CollectionTracksComponent', () => {
     }
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        listItemStylerMock = Mock.ofType<ListItemStyler>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
@@ -122,14 +122,14 @@ describe('CollectionTracksComponent', () => {
             expect(component.searchService).toBeDefined();
         });
 
-        it('should define appearanceService', () => {
+        it('should define listItemStyler', () => {
             // Arrange
 
             // Act
             const component: CollectionTracksComponent = createComponent();
 
             // Assert
-            expect(component.appearanceService).toBeDefined();
+            expect(component.listItemStyler).toBeDefined();
         });
     });
 

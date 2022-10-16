@@ -26,6 +26,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
+import { ListItemStyler } from '../list-item-styler';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -45,6 +46,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
+        public listItemStyler: ListItemStyler,
         private metadataService: BaseMetadataService,
         private indexingService: BaseIndexingService,
         private collectionService: BaseCollectionService,
@@ -71,7 +73,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public folders: FolderModel[] = [];
     public openedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
-    public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModels = new TrackModels();
 
@@ -181,8 +182,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         await this.setOpenedSubfolderAsync(persistedOpenedSubfolder);
     }
 
-    public setSelectedSubfolder(subfolder: SubfolderModel): void {
-        this.selectedSubfolder = subfolder;
+    public setSelectedSubfolder(subfolderToSelect: SubfolderModel): void {
+        for (const subfolder of this.subfolders) {
+            subfolder.isSelected = false;
+        }
+
+        subfolderToSelect.isSelected = true;
     }
 
     public goToManageCollection(): void {

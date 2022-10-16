@@ -119,6 +119,7 @@ import { PlaylistsTracksPersister } from './components/collection/collection-pla
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
+import { ListItemStyler } from './components/collection/list-item-styler';
 import { SemanticZoomButtonComponent } from './components/collection/semantic-zoom/semantic-zoom-button/semantic-zoom-button.component';
 import { SemanticZoomComponent } from './components/collection/semantic-zoom/semantic-zoom.component';
 import { TabSelectionGetter } from './components/collection/tab-selection-getter';
@@ -498,6 +499,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FileValidator,
         DateProxy,
         TabSelectionGetter,
+        ListItemStyler,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileSystem, useClass: FileSystem },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
