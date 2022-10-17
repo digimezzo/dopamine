@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { TrackModel } from '../../../services/track/track-model';
-import { ListItemStyler } from '../list-item-styler';
 
 @Component({
     selector: 'app-track',

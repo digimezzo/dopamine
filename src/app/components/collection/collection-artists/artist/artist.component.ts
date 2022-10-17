@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
+import { ListItemStyler } from '../../../../common/styling/list-item-styler';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 
@@ -10,7 +10,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./artist.component.scss'],
 })
 export class ArtistComponent implements OnInit {
-    constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
+    constructor(public listItemStyler: ListItemStyler, public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public artist: ArtistModel;
 

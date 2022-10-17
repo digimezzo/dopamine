@@ -5,6 +5,7 @@ import { Track } from '../../../common/data/entities/track';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -12,7 +13,6 @@ import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
-import { ListItemStyler } from '../list-item-styler';
 import { CollectionTracksComponent } from './collection-tracks.component';
 
 describe('CollectionTracksComponent', () => {

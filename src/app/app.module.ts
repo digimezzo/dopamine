@@ -81,6 +81,7 @@ import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
 import { Shuffler } from './common/shuffler';
+import { ListItemStyler } from './common/styling/list-item-styler';
 import { TextSanitizer } from './common/text-sanitizer';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
@@ -119,7 +120,6 @@ import { PlaylistsTracksPersister } from './components/collection/collection-pla
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
-import { ListItemStyler } from './components/collection/list-item-styler';
 import { SemanticZoomButtonComponent } from './components/collection/semantic-zoom/semantic-zoom-button/semantic-zoom-button.component';
 import { SemanticZoomComponent } from './components/collection/semantic-zoom/semantic-zoom.component';
 import { TabSelectionGetter } from './components/collection/tab-selection-getter';

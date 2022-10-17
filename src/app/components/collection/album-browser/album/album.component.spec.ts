@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
+import { ListItemStyler } from '../../../../common/styling/list-item-styler';
 import { AlbumComponent } from './album.component';
 
 describe('AlbumComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let listItemStylerMock: IMock<ListItemStyler>;
     let component: AlbumComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        component = new AlbumComponent(appearanceServiceMock.object);
+        listItemStylerMock = Mock.ofType<ListItemStyler>();
+        component = new AlbumComponent(listItemStylerMock.object);
     });
 
     describe('constructor', () => {
@@ -30,13 +30,13 @@ describe('AlbumComponent', () => {
             expect(component.album).toBeUndefined();
         });
 
-        it('should define appearanceService', () => {
+        it('should define listItemStyler', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.appearanceService).toBeDefined();
+            expect(component.listItemStyler).toBeDefined();
         });
 
         it('should define isSelected as false', () => {

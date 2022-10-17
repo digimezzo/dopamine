@@ -21,9 +21,9 @@
             <div
                 class="playlist-folder__name no-select ellipsis px-1"
                 [ngClass]="{
-                    'selected-item-background-important': playlistFolder.isSelected,
-                    'selected-item-text-color-important': playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                    'selected-item-background-important': playlistFolder.isSelected
                 }"
+                [class]="this.listItemStyler.getSelectableColorClass(playlistFolder, false)"
             >
                 {{ playlistFolder.name }}
             </div>

@@ -9,6 +9,7 @@ import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -27,7 +28,6 @@ import { TrackModels } from '../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
-import { ListItemStyler } from '../list-item-styler';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FoldersPersister } from './folders-persister';
 

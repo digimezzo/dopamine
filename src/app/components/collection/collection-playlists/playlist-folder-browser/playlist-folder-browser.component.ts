@@ -4,7 +4,7 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Strings } from '../../../../common/strings';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
+import { ListItemStyler } from '../../../../common/styling/list-item-styler';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { BasePlaylistFolderService } from '../../../../services/playlist-folder/base-playlist-folder.service';
@@ -25,7 +25,7 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     private _playlistFoldersPersister: PlaylistFoldersPersister;
 
     constructor(
-        public appearanceService: BaseAppearanceService,
+        public listItemStyler: ListItemStyler,
         public playlistFolderService: BasePlaylistFolderService,
         public playlistService: BasePlaylistService,
         public playbackService: BasePlaybackService,

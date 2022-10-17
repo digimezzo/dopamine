@@ -4,13 +4,13 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
-import { ListItemStyler } from '../list-item-styler';
 
 @Component({
     selector: 'app-collection-tracks',

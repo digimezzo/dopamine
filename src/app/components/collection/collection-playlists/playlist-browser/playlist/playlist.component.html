@@ -16,9 +16,7 @@
             <div
                 class="app-playlist__information ellipsis"
                 matTooltip="{{ playlist.name }}"
-                [ngClass]="{
-                    'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                }"
+                [class]="this.listItemStyler.getSelectableColorClass(this, false)"
             >
                 {{ playlist.name }}
             </div>

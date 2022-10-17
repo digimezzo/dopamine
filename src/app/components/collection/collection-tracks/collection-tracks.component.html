@@ -27,7 +27,7 @@
                     (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
                 >
                     <td>
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.title }}
                         </div>
                     </td>
@@ -40,27 +40,27 @@
                     </td>
                     <td class="tracks-table-rating-column"><app-rating [track]="track"></app-rating></td>
                     <td>
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.artists }}
                         </div>
                     </td>
                     <td>
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.albumTitle }}
                         </div>
                     </td>
                     <td>
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.genres }}
                         </div>
                     </td>
                     <td class="tracks-table-number-column">
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.number | zeroToBlank }}
                         </div>
                     </td>
                     <td class="tracks-table-number-column">
-                        <div class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                        <div class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                             {{ track.year | zeroToBlank }}
                         </div>
                     </td>

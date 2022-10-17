@@ -19,23 +19,23 @@
         [matRippleTrigger]="trigger"
         #trigger
     >
-        <div class="app-track__left" [class]="this.listItemStyler.getTextColorClass(track, true, false)">
+        <div class="app-track__left" [class]="this.listItemStyler.getPlayableColorClass(track, true, false)">
             {{ track.number | formatTrackNumber }}
         </div>
         <div class="app-track__right">
             <div class="app-track__top">
-                <span class="app-track__top__title ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, false)">{{
+                <span class="app-track__top__title ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">{{
                     track.title
                 }}</span>
                 <div class="app-track__playback__and__duration">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
-                    <div [class]="this.listItemStyler.getTextColorClass(track, false, false)">
+                    <div [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
                 </div>
             </div>
             <div class="app-track__bottom">
-                <span class="ellipsis" [class]="this.listItemStyler.getTextColorClass(track, false, true)">{{ track.artists }}</span>
+                <span class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, true)">{{ track.artists }}</span>
                 <span></span>
                 <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
             </div>

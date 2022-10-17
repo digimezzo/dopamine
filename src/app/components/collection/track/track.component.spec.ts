@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { ListItemStyler } from '../list-item-styler';
+import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { TrackComponent } from './track.component';
 
 describe('TrackComponent', () => {

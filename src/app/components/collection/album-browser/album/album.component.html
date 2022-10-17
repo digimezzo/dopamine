@@ -18,18 +18,14 @@
                 <div
                     class="app-album__information__line1 ellipsis"
                     matTooltip="{{ album.albumTitle }}"
-                    [ngClass]="{
-                        'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                    }"
+                    [class]="this.listItemStyler.getSelectableColorClass(this, false)"
                 >
                     {{ album.albumTitle }}
                 </div>
                 <div
-                    class="app-album__information__line2 ellipsis secondary-color"
+                    class="app-album__information__line2 ellipsis"
                     matTooltip="{{ album.albumArtist }}"
-                    [ngClass]="{
-                        'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                    }"
+                    [class]="this.listItemStyler.getSelectableColorClass(this, true)"
                 >
                     {{ album.albumArtist }}
                 </div>
