@@ -1,35 +1,35 @@
 <div class="d-flex flex-row">
     <div class="w-4px pointer" (click)="this.setRatingAsync(0)"></div>
     <div
-        class="secondary-color las la-star pointer"
+        class="secondary-text las la-star pointer"
         [ngClass]="{ 'accent-color-important': this.track?.rating >= 1 }"
         (click)="this.setRatingAsync(1)"
         [style.font-size.px]="fontSize"
         [style.line-height]="lineHeight"
     ></div>
     <div
-        class="secondary-color las la-star pointer"
+        class="secondary-text las la-star pointer"
         [ngClass]="{ 'accent-color-important': this.track?.rating >= 2 }"
         (click)="this.setRatingAsync(2)"
         [style.font-size.px]="fontSize"
         [style.line-height]="lineHeight"
     ></div>
     <div
-        class="secondary-color las la-star pointer"
+        class="secondary-text las la-star pointer"
         [ngClass]="{ 'accent-color-important': this.track?.rating >= 3 }"
         (click)="this.setRatingAsync(3)"
         [style.font-size.px]="fontSize"
         [style.line-height]="lineHeight"
     ></div>
     <div
-        class="secondary-color las la-star pointer"
+        class="secondary-text las la-star pointer"
         [ngClass]="{ 'accent-color-important': this.track?.rating >= 4 }"
         (click)="this.setRatingAsync(4)"
         [style.font-size.px]="fontSize"
         [style.line-height]="lineHeight"
     ></div>
     <div
-        class="secondary-color las la-star pointer"
+        class="secondary-text las la-star pointer"
         [ngClass]="{ 'accent-color-important': this.track?.rating >= 5 }"
         (click)="this.setRatingAsync(5)"
         [style.font-size.px]="fontSize"

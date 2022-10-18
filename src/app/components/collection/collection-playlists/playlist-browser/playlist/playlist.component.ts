@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ISelectable } from '../../../../../common/styling/i-selectable';
-import { ListItemStyler } from '../../../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../../../services/appearance/base-appearance.service';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 
 @Component({
@@ -9,8 +8,8 @@ import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
     templateUrl: './playlist.component.html',
     styleUrls: ['./playlist.component.scss'],
 })
-export class PlaylistComponent implements OnInit, ISelectable {
-    constructor(public listItemStyler: ListItemStyler) {}
+export class PlaylistComponent implements OnInit {
+    constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public playlist: PlaylistModel;
     @Input() public isSelected: boolean = false;

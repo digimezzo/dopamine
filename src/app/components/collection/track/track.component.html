@@ -1,11 +1,11 @@
 <div class="app-track no-select">
     <div class="app-track__header mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
         <div class="app-track__header__top pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
-        <div class="secondary-color ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
+        <div class="secondary-text ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
             {{ track.albumTitle }}
         </div>
         <div
-            class="secondary-color ellipsis"
+            class="secondary-text ellipsis"
             *ngIf="track.discNumber > 0 && track.discCount > 1"
             matTooltip="{{ track.albumTitle }} ({{ track.discNumber }}/{{ track.discCount }})"
         >
@@ -14,28 +14,52 @@
     </div>
     <div
         class="app-track__body px-1"
-        [ngClass]="{ 'selected-item-background-important': track.isSelected }"
+        [ngClass]="{ 'selected-item-background': track.isSelected }"
         matRipple
         [matRippleTrigger]="trigger"
         #trigger
     >
-        <div class="app-track__left" [class]="this.listItemStyler.getPlayableColorClass(track, true, false)">
+        <div
+            class="app-track__left"
+            [ngClass]="{
+                'accent-color': !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+            }"
+        >
             {{ track.number | formatTrackNumber }}
         </div>
         <div class="app-track__right">
             <div class="app-track__top">
-                <span class="app-track__top__title ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">{{
-                    track.title
-                }}</span>
+                <span
+                    class="app-track__top__title ellipsis"
+                    [ngClass]="{
+                        'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                        'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                    }"
+                    >{{ track.title }}</span
+                >
                 <div class="app-track__playback__and__duration">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
-                    <div [class]="this.listItemStyler.getPlayableColorClass(track, false, false)">
+                    <div
+                        [ngClass]="{
+                            'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                            'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                        }"
+                    >
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
                 </div>
             </div>
             <div class="app-track__bottom">
-                <span class="ellipsis" [class]="this.listItemStyler.getPlayableColorClass(track, false, true)">{{ track.artists }}</span>
+                <span
+                    class="ellipsis"
+                    [ngClass]="{
+                        'secondary-text': !track.isPlaying,
+                        'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
+                        'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                    }"
+                    >{{ track.artists }}</span
+                >
                 <span></span>
                 <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
             </div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ListItemStyler } from '../../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 
@@ -10,7 +10,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./genre.component.scss'],
 })
 export class GenreComponent implements OnInit {
-    constructor(public listItemStyler: ListItemStyler, public semanticZoomService: BaseSemanticZoomService) {}
+    constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public genre: GenreModel;
 

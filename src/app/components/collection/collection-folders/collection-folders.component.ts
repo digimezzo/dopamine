@@ -9,7 +9,6 @@ import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { ListItemStyler } from '../../../common/styling/list-item-styler';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -46,7 +45,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
-        public listItemStyler: ListItemStyler,
         private metadataService: BaseMetadataService,
         private indexingService: BaseIndexingService,
         private collectionService: BaseCollectionService,
@@ -73,6 +71,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public folders: FolderModel[] = [];
     public openedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
+    public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModels = new TrackModels();
 
@@ -182,12 +181,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         await this.setOpenedSubfolderAsync(persistedOpenedSubfolder);
     }
 
-    public setSelectedSubfolder(subfolderToSelect: SubfolderModel): void {
-        for (const subfolder of this.subfolders) {
-            subfolder.isSelected = false;
-        }
-
-        subfolderToSelect.isSelected = true;
+    public setSelectedSubfolder(subfolder: SubfolderModel): void {
+        this.selectedSubfolder = subfolder;
     }
 
     public goToManageCollection(): void {

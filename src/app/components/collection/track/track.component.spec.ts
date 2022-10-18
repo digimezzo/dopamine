@@ -1,18 +1,18 @@
 import { IMock, Mock } from 'typemoq';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { ListItemStyler } from '../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { TrackComponent } from './track.component';
 
 describe('TrackComponent', () => {
-    let listItemStylerMock: IMock<ListItemStyler>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let settingsMock: IMock<BaseSettings>;
     let component: TrackComponent;
 
     beforeEach(() => {
-        listItemStylerMock = Mock.ofType<ListItemStyler>();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         settingsMock = Mock.ofType<BaseSettings>();
 
-        component = new TrackComponent(listItemStylerMock.object, settingsMock.object);
+        component = new TrackComponent(appearanceServiceMock.object, settingsMock.object);
     });
 
     describe('constructor', () => {
@@ -43,13 +43,13 @@ describe('TrackComponent', () => {
             expect(component.canShowHeader).toBeFalsy();
         });
 
-        it('should define listItemStyler', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.listItemStyler).toBeDefined();
+            expect(component.appearanceService).toBeDefined();
         });
 
         it('should define settings', () => {

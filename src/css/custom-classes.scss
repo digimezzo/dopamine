@@ -8,16 +8,8 @@
     background-color: var(--theme-selected-item-background);
 }
 
-.selected-item-background-important {
-    background-color: var(--theme-selected-item-background) !important;
-}
-
 .selected-item-text-color-important {
     color: var(--theme-selected-item-text) !important;
-}
-
-.selected-item-color {
-    color: var(--theme-selected-item-text);
 }
 
 .selected-item-text-background-important {
@@ -110,7 +102,7 @@
     color: var(--theme-primary-text) !important;
 }
 
-.secondary-color {
+.secondary-text {
     color: var(--theme-secondary-text);
 }
 

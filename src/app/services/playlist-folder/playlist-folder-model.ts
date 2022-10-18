@@ -1,7 +1,6 @@
 import { Strings } from '../../common/strings';
-import { ISelectable } from '../../common/styling/i-selectable';
 
-export class PlaylistFolderModel implements ISelectable {
+export class PlaylistFolderModel {
     constructor(public name: string, public path: string, public isModifiable: boolean) {}
 
     public isSelected: boolean = false;

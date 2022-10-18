@@ -6,7 +6,7 @@
             <div *ngIf="this.playlistFolders.length !== 1">{{ 'playlist-folders' | translate }}</div>
         </div>
         <div
-            class="playlist-folder-browser__add-button pointer secondary-color las la-plus"
+            class="playlist-folder-browser__add-button pointer secondary-text las la-plus"
             matTooltip="{{ 'create-playlist-folder' | translate }}"
             (click)="createPlaylistFolderAsync()"
         ></div>
@@ -21,9 +21,9 @@
             <div
                 class="playlist-folder__name no-select ellipsis px-1"
                 [ngClass]="{
-                    'selected-item-background-important': playlistFolder.isSelected
+                    'selected-item-background': playlistFolder.isSelected,
+                    'selected-item-text-color-important': playlistFolder.isSelected && this.appearanceService.shouldOverrideSelectedItemText
                 }"
-                [class]="this.listItemStyler.getSelectableColorClass(playlistFolder, false)"
             >
                 {{ playlistFolder.name }}
             </div>

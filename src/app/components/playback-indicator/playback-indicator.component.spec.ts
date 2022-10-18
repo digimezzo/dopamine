@@ -21,13 +21,13 @@ describe('PlaybackControlsComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define isSelected as false', () => {
+        it('should declare isSelected', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.isSelected).toBeFalsy();
+            expect(component.isSelected).toBeUndefined();
         });
 
         it('should define appearanceService', () => {

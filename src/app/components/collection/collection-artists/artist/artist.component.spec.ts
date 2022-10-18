@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { ListItemStyler } from '../../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { ArtistComponent } from './artist.component';
 
 describe('GenreComponent', () => {
-    let listItemStylerMock: IMock<ListItemStyler>;
+    let appearanceServiceMock: IMock<BaseAppearanceService>;
     let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
     let component: ArtistComponent;
 
     beforeEach(() => {
-        listItemStylerMock = Mock.ofType<ListItemStyler>();
+        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
-        component = new ArtistComponent(listItemStylerMock.object, semanticZoomServiceMock.object);
+        component = new ArtistComponent(appearanceServiceMock.object, semanticZoomServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -33,13 +33,13 @@ describe('GenreComponent', () => {
             expect(component.artist).toBeUndefined();
         });
 
-        it('should define listItemStyler', () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.listItemStyler).toBeDefined();
+            expect(component.appearanceService).toBeDefined();
         });
 
         it('should define semanticZoomService', () => {

@@ -12,7 +12,7 @@ export class PlaybackIndicatorComponent implements OnInit {
     constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input()
-    public isSelected: boolean = false;
+    public isSelected: boolean;
 
     public ngOnInit(): void {}
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { ListItemStyler } from '../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { TrackModel } from '../../../services/track/track-model';
 
 @Component({
@@ -10,7 +10,7 @@ import { TrackModel } from '../../../services/track/track-model';
     styleUrls: ['./track.component.scss'],
 })
 export class TrackComponent implements OnInit {
-    constructor(public listItemStyler: ListItemStyler, public settings: BaseSettings) {}
+    constructor(public appearanceService: BaseAppearanceService, public settings: BaseSettings) {}
 
     @Input() public track: TrackModel;
     @Input() public canShowHeader: boolean = false;

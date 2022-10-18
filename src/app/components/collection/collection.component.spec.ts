@@ -76,7 +76,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.artistsTabLabel).toEqual(Constants.artistsTabLabel);
+            expect(component.artistsTablabel).toEqual(Constants.artistsTabLabel);
         });
     });
 
@@ -88,7 +88,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.genresTabLabel).toEqual(Constants.genresTabLabel);
+            expect(component.genresTablabel).toEqual(Constants.genresTabLabel);
         });
     });
 
@@ -100,7 +100,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.albumsTabLabel).toEqual(Constants.albumsTabLabel);
+            expect(component.albumsTablabel).toEqual(Constants.albumsTabLabel);
         });
     });
 
@@ -112,7 +112,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.tracksTabLabel).toEqual(Constants.tracksTabLabel);
+            expect(component.tracksTablabel).toEqual(Constants.tracksTabLabel);
         });
     });
 
@@ -124,7 +124,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.playlistsTabLabel).toEqual(Constants.playlistsTabLabel);
+            expect(component.playlistsTablabel).toEqual(Constants.playlistsTabLabel);
         });
     });
 
@@ -136,7 +136,7 @@ describe('CollectionComponent', () => {
             // Act
 
             // Assert
-            expect(component.foldersTabLabel).toEqual(Constants.foldersTabLabel);
+            expect(component.foldersTablabel).toEqual(Constants.foldersTabLabel);
         });
     });
 

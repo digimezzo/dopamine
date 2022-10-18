@@ -4,7 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
-import { ListItemStyler } from '../../../common/styling/list-item-styler';
+import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -24,8 +24,8 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     constructor(
         public playbackService: BasePlaybackService,
         public searchService: BaseSearchService,
+        public appearanceService: BaseAppearanceService,
         public mouseSelectionWatcher: MouseSelectionWatcher,
-        public listItemStyler: ListItemStyler,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,

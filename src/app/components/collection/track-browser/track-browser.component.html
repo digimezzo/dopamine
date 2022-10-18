@@ -6,13 +6,13 @@
             <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
         </div>
         <div class="pointer" (click)="toggleTrackOrder()">
-            <div class="secondary-color" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleAscending">
                 {{ 'by-track-title-ascending' | translate }}
             </div>
-            <div class="secondary-color" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byTrackTitleDescending">
                 {{ 'by-track-title-descending' | translate }}
             </div>
-            <div class="secondary-color" *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
+            <div class="secondary-text" *ngIf="this.selectedTrackOrder === trackOrderEnum.byAlbum">
                 {{ 'by-album' | translate }}
             </div>
         </div>

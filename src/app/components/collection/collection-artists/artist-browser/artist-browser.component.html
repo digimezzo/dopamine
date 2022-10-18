@@ -13,10 +13,10 @@
             </div>
         </div>
         <div class="pointer" (click)="toggleArtistOrder()">
-            <div class="secondary-color" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistAscending">
                 {{ 'by-artist-ascending' | translate }}
             </div>
-            <div class="secondary-color" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
+            <div class="secondary-text" *ngIf="this.selectedArtistOrder === artistOrderEnum.byArtistDescending">
                 {{ 'by-artist-descending' | translate }}
             </div>
         </div>

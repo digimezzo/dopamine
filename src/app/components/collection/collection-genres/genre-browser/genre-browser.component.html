@@ -6,10 +6,10 @@
             <div *ngIf="this.genres.length !== 1">{{ 'genres' | translate }}</div>
         </div>
         <div class="pointer" (click)="toggleGenreOrder()">
-            <div class="secondary-color" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
+            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreAscending">
                 {{ 'by-genre-ascending' | translate }}
             </div>
-            <div class="secondary-color" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
+            <div class="secondary-text" *ngIf="this.selectedGenreOrder === genreOrderEnum.byGenreDescending">
                 {{ 'by-genre-descending' | translate }}
             </div>
         </div>

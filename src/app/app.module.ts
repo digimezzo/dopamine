@@ -81,7 +81,6 @@ import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
 import { BaseSettings } from './common/settings/base-settings';
 import { Settings } from './common/settings/settings';
 import { Shuffler } from './common/shuffler';
-import { ListItemStyler } from './common/styling/list-item-styler';
 import { TextSanitizer } from './common/text-sanitizer';
 import { AddFolderComponent } from './components/add-folder/add-folder.component';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
@@ -499,7 +498,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FileValidator,
         DateProxy,
         TabSelectionGetter,
-        ListItemStyler,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileSystem, useClass: FileSystem },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
