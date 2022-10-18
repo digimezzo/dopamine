@@ -6,8 +6,7 @@
         *ngIf="!artist.isZoomHeader"
         class="app-artist__name ellipsis px-1"
         [ngClass]="{
-            'selected-item-background': artist.isSelected,
-            'selected-item-text-color-important': artist.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+            'selected-item-background-important': artist.isSelected
         }"
         matRipple
         [matRippleTrigger]="trigger"

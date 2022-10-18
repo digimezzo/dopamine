@@ -5,10 +5,7 @@
     <div
         *ngIf="!genre.isZoomHeader"
         class="app-genre__name ellipsis px-1"
-        [ngClass]="{
-            'selected-item-background': genre.isSelected,
-            'selected-item-text-color-important': genre.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-        }"
+        [ngClass]="{ 'selected-item-background-important': genre.isSelected }"
         matRipple
         [matRippleTrigger]="trigger"
         #trigger

@@ -43,8 +43,6 @@ export class AppearanceService implements BaseAppearanceService {
         this.initialize();
     }
 
-    public shouldOverrideSelectedItemText: boolean = false;
-
     public get windowHasNativeTitleBar(): boolean {
         return this._windowHasNativeTitleBar;
     }
@@ -203,14 +201,6 @@ export class AppearanceService implements BaseAppearanceService {
         );
     }
 
-    private setShouldOverrideSelectedItemText(selectedItemText: string): void {
-        this.shouldOverrideSelectedItemText = false;
-
-        if (!Strings.isNullOrWhiteSpace(selectedItemText)) {
-            this.shouldOverrideSelectedItemText = true;
-        }
-    }
-
     private safeApplyTheme(): boolean {
         const selectedThemeName: string = this.selectedTheme.name;
 
@@ -316,7 +306,6 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-window-button-icon', neutralColors.windowButtonIcon);
         element.style.setProperty('--theme-hovered-item-background', neutralColors.hoveredItemBackground);
         element.style.setProperty('--theme-selected-item-background', neutralColors.selectedItemBackground);
-        element.style.setProperty('--theme-selected-item-text', neutralColors.selectedItemText);
         element.style.setProperty('--theme-tab-text', neutralColors.tabText);
         element.style.setProperty('--theme-selected-tab-text', neutralColors.selectedTabText);
         element.style.setProperty('--theme-main-background', neutralColors.mainBackground);
@@ -338,7 +327,6 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-search-box-text', neutralColors.searchBoxText);
         element.style.setProperty('--theme-search-box-icon', neutralColors.searchBoxIcon);
         element.style.setProperty('--theme-dialog-background', neutralColors.dialogBackground);
-        this.setShouldOverrideSelectedItemText(neutralColors.selectedItemText);
     }
 
     private setSelectedThemeFromSettings(): void {

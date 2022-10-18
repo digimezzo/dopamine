@@ -14,17 +14,13 @@
     </div>
     <div
         class="app-track__body px-1"
-        [ngClass]="{ 'selected-item-background': track.isSelected }"
+        [ngClass]="{ 'selected-item-background-important': track.isSelected }"
         matRipple
         [matRippleTrigger]="trigger"
         #trigger
     >
         <div
-            class="app-track__left"
-            [ngClass]="{
-                'accent-color': !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-            }"
+            class="app-track__left accent-color"
         >
             {{ track.number | formatTrackNumber }}
         </div>
@@ -32,20 +28,12 @@
             <div class="app-track__top">
                 <span
                     class="app-track__top__title ellipsis"
-                    [ngClass]="{
-                        'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                        'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                    }"
+                    [ngClass]="{ 'accent-color': track.isPlaying }"
                     >{{ track.title }}</span
                 >
                 <div class="app-track__playback__and__duration">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
-                    <div
-                        [ngClass]="{
-                            'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                            'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                        }"
-                    >
+                    <div [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
                 </div>
@@ -55,8 +43,7 @@
                     class="ellipsis"
                     [ngClass]="{
                         'secondary-text': !track.isPlaying,
-                        'accent-color': track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                        'selected-item-text-color-important': track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
+                        'accent-color': track.isPlaying
                     }"
                     >{{ track.artists }}</span
                 >

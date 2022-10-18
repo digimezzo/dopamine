@@ -4,16 +4,8 @@
     user-select: none;
 }
 
-.selected-item-background {
-    background-color: var(--theme-selected-item-background);
-}
-
-.selected-item-text-color-important {
-    color: var(--theme-selected-item-text) !important;
-}
-
-.selected-item-text-background-important {
-    background-color: var(--theme-selected-item-text) !important;
+.selected-item-background-important {
+    background-color: var(--theme-selected-item-background) !important;
 }
 
 .hovered-item-background {

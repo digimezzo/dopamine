@@ -22,19 +22,14 @@
                 <tr
                     *cdkVirtualFor="let track of this.orderedTracks"
                     class="tracks-table-row"
-                    [ngClass]="{ 'selected-item-background': track.isSelected }"
+                    [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                     (mousedown)="setSelectedTracks($event, track)"
                     (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
                 >
                     <td>
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.title }}
                         </div>
@@ -50,12 +45,7 @@
                     <td>
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.artists }}
                         </div>
@@ -63,12 +53,7 @@
                     <td>
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.albumTitle }}
                         </div>
@@ -76,12 +61,7 @@
                     <td>
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.genres }}
                         </div>
@@ -89,12 +69,7 @@
                     <td class="tracks-table-number-column">
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.number | zeroToBlank }}
                         </div>
@@ -102,12 +77,7 @@
                     <td class="tracks-table-number-column">
                         <div
                             class="ellipsis"
-                            [ngClass]="{
-                                'accent-color':
-                                    track.isPlaying && !(track.isSelected && this.appearanceService.shouldOverrideSelectedItemText),
-                                'selected-item-text-color-important':
-                                    track.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                            }"
+                            [ngClass]="{ 'accent-color': track.isPlaying }"
                         >
                             {{ track.year | zeroToBlank }}
                         </div>

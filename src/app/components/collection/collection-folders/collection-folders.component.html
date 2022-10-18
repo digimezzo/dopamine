@@ -31,18 +31,11 @@
                         >
                             <div
                                 class="subfolder d-flex flex-row align-items-center flex-grow no-select p-1"
-                                [ngClass]="{ 'selected-item-background': subfolder === selectedSubfolder }"
+                                [ngClass]="{ 'selected-item-background-important': subfolder === selectedSubfolder }"
                             >
                                 <i
                                     *ngIf="!subfolder.isPlaying"
-                                    class="font-20px rotate-90ccw mr-2 lar la-folder"
-                                    [ngClass]="{
-                                        'accent-color': !(
-                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
-                                        ),
-                                        'selected-item-text-color-important':
-                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
-                                    }"
+                                    class="font-20px rotate-90ccw mr-2 lar la-folder accent-color"
                                 ></i>
                                 <app-playback-indicator
                                     *ngIf="subfolder.isPlaying"
@@ -52,13 +45,7 @@
                                 <div
                                     class="flex-grow ellipsis"
                                     matTooltip="{{ subfolder.path }}"
-                                    [ngClass]="{
-                                        'accent-color':
-                                            subfolder.isPlaying &&
-                                            !(subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText),
-                                        'selected-item-text-color-important':
-                                            subfolder === selectedSubfolder && this.appearanceService.shouldOverrideSelectedItemText
-                                    }"
+                                    [ngClass]="{ 'accent-color': subfolder.isPlaying }"
                                 >
                                     {{ subfolder | subfolderName }}
                                 </div>
@@ -100,7 +87,6 @@
                         matRipple
                         (mousedown)="setSelectedTrack($event, track)"
                         (contextmenu)="onTrackContextMenuAsync($event, track)"
-                        [ngClass]="{ 'selected-item-background': track.isSelected }"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>
                     </div>
