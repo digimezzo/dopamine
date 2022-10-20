@@ -106,8 +106,9 @@
     overflow: hidden !important;
 }
 
-.scrollbar-gutter-stable {
-    overflow: auto;
+.scrollbar-gutter-stable-y {
+    overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-gutter: stable;
 }
 
