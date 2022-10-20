@@ -170,6 +170,7 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { AlbumsFilterPipe } from './pipes/albums-filter.pipe';
 import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
+import { FormatTicksToDateTimeStringPipe } from './pipes/format-date-time.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
@@ -347,6 +348,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistsFilterPipe,
         ImageToFilePathPipe,
         ZeroToBlankPipe,
+        FormatTicksToDateTimeStringPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,

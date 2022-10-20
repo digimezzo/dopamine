@@ -81,10 +81,10 @@
                         </div>
                     </td>
                     <td>
-                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateLastPlayed }}</div>
+                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateLastPlayed | formatTicksToDateTimeString }}</div>
                     </td>
                     <td>
-                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateAdded }}</div>
+                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateAdded | formatTicksToDateTimeString }}</div>
                     </td>
                 </tr>
             </table>
