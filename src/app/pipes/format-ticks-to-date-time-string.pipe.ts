@@ -16,6 +16,6 @@ export class FormatTicksToDateTimeStringPipe implements PipeTransform {
          // Based on https://github.com/vyushin/ticks-to-date/blob/master/src/ticksToDate.js
         const date: Date = new Date((ticks + offsetInTicks) / 10000 + new Date('0001-01-01T00:00:00Z').getTime());
 
-        return moment(date).format('YYYY-MM-DD HH:mm');;
+        return moment(date).format('MMM DD, YYYY HH:mm');;
     }
 }
