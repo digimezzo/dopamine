@@ -1,5 +1,6 @@
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
@@ -143,8 +144,17 @@ export class TrackModel {
         this.track.rating = v;
     }
 
-    public increasePlayCount(): void {
+    public get dateLastPlayed(): number {
+        return this.track.dateLastPlayed;
+    }
+
+    public get dateAdded(): number {
+        return this.track.dateAdded;
+    }
+
+    public increasePlayCountAndDateLastPlayed(): void {
         this.track.playCount++;
+        this.track.dateLastPlayed = DateTime.convertDateToTicks(new Date());
     }
 
     public increaseSkipCount(): void {

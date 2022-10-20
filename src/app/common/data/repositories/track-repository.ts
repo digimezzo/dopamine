@@ -491,14 +491,17 @@ export class TrackRepository implements BaseTrackRepository {
         statement.run();
     }
 
-    public updatePlayCount(trackId: number, playCount: number): void {
+    public updatePlayCountAndDateLastPlayed(trackId: number, playCount: number, dateLastPlayedInTicks: number): void {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`UPDATE Track SET PlayCount=@playCount WHERE TrackID=@trackId;`);
+        const statement = database.prepare(
+            `UPDATE Track SET PlayCount=@playCount, DateLastPlayed=@dateLastPlayedInTicks WHERE TrackID=@trackId;`
+        );
 
         statement.run({
             trackId: trackId,
             playCount: playCount,
+            dateLastPlayedInTicks: dateLastPlayedInTicks,
         });
     }
 

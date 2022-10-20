@@ -214,5 +214,9 @@
     "day": "day",
     "hour": "hour",
     "minute": "minute",
-    "second": "second"
+    "second": "second",
+    "plays": "Plays",
+    "skips": "Skips",
+    "last-played": "Last played",
+    "date-added": "Date added"
 }

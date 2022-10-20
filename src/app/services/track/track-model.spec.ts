@@ -26,6 +26,8 @@ describe('TrackModel', () => {
         track.playCount = 9;
         track.skipCount = 7;
         track.rating = 4;
+        track.dateAdded = 89;
+        track.dateLastPlayed = 74;
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
@@ -423,7 +425,6 @@ describe('TrackModel', () => {
         });
     });
 
-
     describe('albumKey', () => {
         it('should return the track albumKey', () => {
             // Arrange
@@ -661,7 +662,7 @@ describe('TrackModel', () => {
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
             // Act
-            trackModel.increasePlayCount();
+            trackModel.increasePlayCountAndDateLastPlayed();
 
             // Assert
             expect(trackModel.playCount).toEqual(10);
@@ -678,6 +679,32 @@ describe('TrackModel', () => {
 
             // Assert
             expect(trackModel.skipCount).toEqual(8);
+        });
+    });
+
+    describe('dateLastPlayed', () => {
+        it('should return the track date last played', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const dateLastPlayed: number = trackModel.dateLastPlayed;
+
+            // Assert
+            expect(dateLastPlayed).toEqual(74);
+        });
+    });
+
+    describe('dateAdded', () => {
+        it('should return the track date added', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const dateAdded: number = trackModel.dateAdded;
+
+            // Assert
+            expect(dateAdded).toEqual(89);
         });
     });
 });

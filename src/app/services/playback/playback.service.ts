@@ -385,7 +385,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private playbackFinishedHandler(): void {
         this.logger.info(`Track finished: '${this.currentTrack?.path}'`, 'PlaybackService', 'playbackFinishedHandler');
-        this.increasePlayCountForCurrentTrack();
+        this.increasePlayCountAndDateLastPlayedForCurrentTrack();
 
         if (this.loopMode === LoopMode.One) {
             this.play(this.currentTrack, false);
@@ -415,19 +415,19 @@ export class PlaybackService implements BasePlaybackService {
         if (this.progress.progressPercent <= 80) {
             this.increaseSkipCountForCurrentTrack();
         } else {
-            this.increasePlayCountForCurrentTrack();
+            this.increasePlayCountAndDateLastPlayedForCurrentTrack();
         }
     }
 
-    private increasePlayCountForCurrentTrack(): void {
+    private increasePlayCountAndDateLastPlayedForCurrentTrack(): void {
         if (this.currentTrack == undefined) {
-            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increasePlayCountForCurrentTrack');
+            this.logger.warn('CurrentTrack is undefined', 'PlaybackService', 'increasePlayCountAndDateLastPlayedForCurrentTrack');
 
             return;
         }
 
-        this.currentTrack.increasePlayCount();
-        this.trackService.savePlayCount(this.currentTrack);
+        this.currentTrack.increasePlayCountAndDateLastPlayed();
+        this.trackService.savePlayCountAndDateLastPlayed(this.currentTrack);
     }
 
     private increaseSkipCountForCurrentTrack(): void {

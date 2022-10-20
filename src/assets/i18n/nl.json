@@ -214,5 +214,9 @@
     "day": "dag",
     "hour": "uur",
     "minute": "minuut",
-    "second": "seconde"
+    "second": "seconde",
+    "plays": "Afgespeeld",
+    "skips": "Overgeslagen",
+    "last-played": "Laatst afgespeeld",
+    "date-added": "Toevoegdatum"
 }
