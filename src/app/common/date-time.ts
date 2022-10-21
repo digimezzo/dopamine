@@ -23,6 +23,18 @@ export class DateTime {
         return dotNetTicks;
     }
 
+    public static convertTicksToDate(ticks: number): Date {
+        // Based on https://github.com/vyushin/ticks-to-date/blob/master/src/ticksToDate.js
+        const dateWithoutOffset: Date = new Date(ticks / 10000 + new Date('0001-01-01T00:00:00Z').getTime());
+
+        const offset: number = dateWithoutOffset.getTimezoneOffset();
+        const offsetInMilliseconds: number = offset * 60000;
+
+        const date: Date = new Date(dateWithoutOffset.getTime() + offsetInMilliseconds);
+
+        return date;
+    }
+
     public static convertDateToUnixTime(date: Date): number {
         // Date in JavaScript also contains time zone offset. We need to remove it.
         const offsetInMilliseconds: number = date.getTimezoneOffset() * 60000;
