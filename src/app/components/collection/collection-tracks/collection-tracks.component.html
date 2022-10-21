@@ -1,6 +1,11 @@
 <div class="collection-viewport p-3">
     <div class="h-100 w-100 d-flex flex-column">
-        <div class="scrollbar-gutter-stable-y">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
+            <div *ngIf="this.tracks.tracks.length === 1">{{ 'song' | translate }}</div>
+            <div *ngIf="this.tracks.tracks.length !== 1">{{ 'songs' | translate }}</div>
+        </div>
+        <div class="mt-3 scrollbar-gutter-stable-y">
             <table class="tracks-table no-select">
                 <tr class="tracks-table-header">
                     <td class="pointer secondary-text ellipsis">{{ 'title' | translate }}</td>
@@ -81,10 +86,14 @@
                         </div>
                     </td>
                     <td>
-                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateLastPlayed | formatTicksToDateTimeString }}</div>
+                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+                            {{ track.dateLastPlayed | formatTicksToDateTimeString }}
+                        </div>
                     </td>
                     <td>
-                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.dateAdded | formatTicksToDateTimeString }}</div>
+                        <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
+                            {{ track.dateAdded | formatTicksToDateTimeString }}
+                        </div>
                     </td>
                 </tr>
             </table>
