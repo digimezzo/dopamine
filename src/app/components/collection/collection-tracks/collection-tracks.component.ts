@@ -4,11 +4,8 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
-import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
 
@@ -22,10 +19,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     constructor(
-        public playbackService: BasePlaybackService,
         public searchService: BaseSearchService,
-        public appearanceService: BaseAppearanceService,
-        public mouseSelectionWatcher: MouseSelectionWatcher,
         private trackService: BaseTrackService,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,
@@ -33,7 +27,6 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     ) {}
 
     public tracks: TrackModels = new TrackModels();
-    public orderedTracks: TrackModel[] = [];
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -53,7 +46,6 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private async processListsAsync(): Promise<void> {
         if (this.collectionPersister.selectedTab === Constants.tracksTabLabel) {
             await this.fillListsAsync();
-            this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
         } else {
             this.clearLists();
         }
@@ -72,15 +64,9 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
 
     private clearLists(): void {
         this.tracks = new TrackModels();
-        this.orderedTracks = [];
     }
 
     private getTracks(): void {
         this.tracks = this.trackService.getAllTracks();
-        this.orderedTracks = this.tracks.tracks;
-    }
-
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 }

@@ -116,6 +116,7 @@ import { PlaylistFoldersPersister } from './components/collection/collection-pla
 import { PlaylistTrackBrowserComponent } from './components/collection/collection-playlists/playlist-track-browser/playlist-track-browser.component';
 import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
 import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
+import { CollectionTracksTableComponent } from './components/collection/collection-tracks/collection-tracks-table/collection-tracks-table.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
@@ -170,8 +171,8 @@ import { GlobalErrorHandler } from './globalErrorHandler';
 import { AlbumsFilterPipe } from './pipes/albums-filter.pipe';
 import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
-import { FormatTicksToDateTimeStringPipe } from './pipes/format-ticks-to-date-time-string.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
+import { FormatTicksToDateTimeStringPipe } from './pipes/format-ticks-to-date-time-string.pipe';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
@@ -381,6 +382,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         RatingComponent,
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
+        CollectionTracksTableComponent
     ],
     imports: [
         BrowserAnimationsModule,

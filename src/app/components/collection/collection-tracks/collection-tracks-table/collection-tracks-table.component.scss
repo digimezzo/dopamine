@@ -1,0 +1,24 @@
+.tracks-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow-x: hidden;
+}
+
+.tracks-table td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: left;
+}
+
+.tracks-table-row {
+    height: 28px;
+}
+
+.tracks-table-row:hover {
+    background: var(--theme-hovered-item-background);
+}
+
+.tracks-table-header {
+    height: 28px;
+}
