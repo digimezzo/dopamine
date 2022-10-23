@@ -1,7 +1,11 @@
+import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../../../common/data/entities/track';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
+import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
+import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
@@ -10,7 +14,18 @@ import { CollectionTracksTableComponent } from './collection-tracks-table.compon
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let metadataServiceMock: IMock<BaseMetadataService>;
+    let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+
     let translatorServiceMock: IMock<BaseTranslatorService>;
+
+    let playbackStartedMock: Subject<PlaybackStarted>;
+    let playbackStartedMock$: Observable<PlaybackStarted>;
+
+    let playbackStoppedMock: Subject<void>;
+    let playbackStoppedMock$: Observable<void>;
+
+    let metadataService_ratingSaved: Subject<TrackModel>;
 
     let track1: Track;
     let track2: Track;
@@ -25,7 +40,9 @@ describe('CollectionTracksTableComponent', () => {
     function createComponent(): CollectionTracksTableComponent {
         const component: CollectionTracksTableComponent = new CollectionTracksTableComponent(
             playbackServiceMock.object,
-            mouseSelectionWatcherMock.object
+            mouseSelectionWatcherMock.object,
+            metadataServiceMock.object,
+            playbackIndicationServiceMock.object
         );
 
         return component;
@@ -34,7 +51,22 @@ describe('CollectionTracksTableComponent', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        metadataServiceMock = Mock.ofType<BaseMetadataService>();
+        playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+
+        playbackStartedMock = new Subject();
+        playbackStartedMock$ = playbackStartedMock.asObservable();
+        playbackStoppedMock = new Subject();
+        playbackStoppedMock$ = playbackStoppedMock.asObservable();
+        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackStartedMock$);
+        playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackStoppedMock$);
+        playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
+
+        metadataService_ratingSaved = new Subject();
+        const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
+        metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -91,6 +123,54 @@ describe('CollectionTracksTableComponent', () => {
         });
     });
 
+    describe('ngOnInit', () => {
+        it('should set the playing track on playback started', () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+            playbackIndicationServiceMock.reset();
+
+            // Act
+            component.ngOnInit();
+            playbackStartedMock.next(new PlaybackStarted(trackModel1, false));
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
+        });
+
+        it('should clear the playing track on playback stopped', () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+
+            // Act
+            component.ngOnInit();
+            playbackStoppedMock.next();
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.clearPlayingTrack(component.orderedTracks), Times.exactly(1));
+        });
+
+        it('should update the rating for a track that has the same path as the track for which rating was saved', () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+            component.tracks = tracks;
+
+            const track5 = new Track('Path 1');
+            track5.rating = 5;
+
+            const trackModel5: TrackModel = new TrackModel(track5, translatorServiceMock.object);
+
+            // Act
+            component.ngOnInit();
+            metadataService_ratingSaved.next(trackModel5);
+
+            // Assert
+            expect(track1.rating).toEqual(5);
+            expect(track2.rating).toEqual(2);
+            expect(track3.rating).toEqual(3);
+            expect(track4.rating).toEqual(4);
+        });
+    });
+
     describe('tracks', () => {
         it('should set and get the tracks', () => {
             // Arrange
@@ -131,6 +211,20 @@ describe('CollectionTracksTableComponent', () => {
                     ),
                 Times.exactly(1)
             );
+        });
+
+        it('should set the playing track', () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+            component.ngOnInit();
+
+            playbackIndicationServiceMock.reset();
+
+            // Act
+            component.tracks = tracks;
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
         });
 
         // it('should order the tracks', () => {

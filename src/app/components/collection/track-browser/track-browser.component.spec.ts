@@ -281,6 +281,22 @@ describe('TrackBrowserComponent', () => {
             expect(component.orderedTracks[2]).toBe(trackModel2);
             expect(component.orderedTracks[3]).toBe(trackModel1);
         });
+
+        it('should set the playing track', () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            component.selectedTrackOrder = TrackOrder.byTrackTitleDescending;
+            component.tracksPersister = tracksPersisterMock.object;
+            component.ngOnInit();
+
+            playbackIndicationServiceMock.reset();
+
+            // Act
+            component.tracks = tracks;
+
+            // Assert
+            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
+        });
     });
 
     describe('ngOnInit', () => {
