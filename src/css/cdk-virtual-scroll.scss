@@ -4,3 +4,8 @@
     top: unset !important;
     left: unset !important;
 }
+
+.cdk-overlay-dark-backdrop{
+    background: rgba(var(--theme-rgb-base),0.3)!important
+}
+

@@ -169,10 +169,16 @@ export class Constants {
             'https://github.com/moment/moment/blob/develop/LICENSE'
         ),
         new ExternalComponent(
+            'music-metadata',
+            'Stream and file based music metadata parser for node. Supporting a wide range of audio and tag formats.',
+            'https://github.com/borewit/music-metadata',
+            'https://github.com/Borewit/music-metadata/blob/master/README.md'
+        ),
+        new ExternalComponent(
             'Node Fetch',
             'A light-weight module that brings Fetch API to Node.js.',
-            'https://github.com/benrr101/node-taglib-sharp',
-            'https://github.com/benrr101/node-taglib-sharp/blob/develop/LICENSE'
+            'https://github.com/node-fetch/node-fetch',
+            'https://github.com/node-fetch/node-fetch/blob/master/LICENSE.md'
         ),
         new ExternalComponent(
             'sanitize-filename',
@@ -183,8 +189,8 @@ export class Constants {
         new ExternalComponent(
             'TagLib# for Node',
             'A node.js port of mono/taglib-sharp.',
-            'https://github.com/node-fetch/node-fetch',
-            'https://github.com/node-fetch/node-fetch/blob/master/LICENSE.md'
+            'https://github.com/benrr101/node-taglib-sharp',
+            'https://github.com/benrr101/node-taglib-sharp/blob/develop/LICENSE'
         ),
         new ExternalComponent(
             'TinyColor',
