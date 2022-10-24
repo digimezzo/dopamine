@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../../../common/data/entities/track';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
@@ -16,6 +17,7 @@ describe('CollectionTracksTableComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+    let dialogServiceMock: IMock<BaseDialogService>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -42,7 +44,8 @@ describe('CollectionTracksTableComponent', () => {
             playbackServiceMock.object,
             mouseSelectionWatcherMock.object,
             metadataServiceMock.object,
-            playbackIndicationServiceMock.object
+            playbackIndicationServiceMock.object,
+            dialogServiceMock.object
         );
 
         return component;
@@ -53,6 +56,7 @@ describe('CollectionTracksTableComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
@@ -254,6 +258,19 @@ describe('CollectionTracksTableComponent', () => {
 
             // Assert
             mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel2), Times.once());
+        });
+    });
+
+    describe('showEditColumnsDialogAsync', () => {
+        it('should show the edit columns dialog', async () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+
+            // Act
+            await component.showEditColumnsDialogAsync();
+
+            // Assert
+            dialogServiceMock.verify((x) => x.showEditColumnsDialogAsync(), Times.once());
         });
     });
 });

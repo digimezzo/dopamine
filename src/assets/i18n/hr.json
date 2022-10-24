@@ -218,5 +218,6 @@
     "plays": "Plays",
     "skips": "Skips",
     "last-played": "Last played",
-    "date-added": "Date added"
+    "date-added": "Date added",
+    "edit-columns": "Edit columns..."
 }

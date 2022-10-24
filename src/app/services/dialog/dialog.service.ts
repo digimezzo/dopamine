@@ -91,4 +91,12 @@ export class DialogService implements BaseDialogService {
 
         this.isInputDialogOpened = false;
     }
+
+    public async showEditColumnsDialogAsync(): Promise<void> {
+        const dialogRef: MatDialogRef<EditPlaylistDialogComponent> = this.dialog.open(EditPlaylistDialogComponent, {
+            width: '450px',
+        });
+
+        await dialogRef.afterClosed().toPromise();
+    }
 }

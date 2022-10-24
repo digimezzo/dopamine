@@ -1,8 +1,15 @@
 <div class="h-100 w-100 d-flex flex-column">
-    <div class="d-flex flex-row align-items-center">
-        <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
-        <div *ngIf="this.tracks.tracks.length === 1">{{ 'song' | translate }}</div>
-        <div *ngIf="this.tracks.tracks.length !== 1">{{ 'songs' | translate }}</div>
+    <div class="h-24px d-flex flex-row align-items-center justify-content-between">
+        <div class="d-flex flex-row align-items-center">
+            <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
+            <div *ngIf="this.tracks.tracks.length === 1">{{ 'song' | translate }}</div>
+            <div *ngIf="this.tracks.tracks.length !== 1">{{ 'songs' | translate }}</div>
+        </div>
+        <i
+            class="las la-columns secondary-text pointer"
+            (click)="this.showEditColumnsDialogAsync()"
+            matTooltip="{{ 'edit-columns' | translate }}"
+        ></i>
     </div>
     <div class="mt-3 scrollbar-gutter-stable-y">
         <table class="tracks-table no-select">

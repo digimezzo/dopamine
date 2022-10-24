@@ -218,5 +218,6 @@
     "plays": "Afgespeeld",
     "skips": "Overgeslagen",
     "last-played": "Laatst afgespeeld",
-    "date-added": "Toevoegdatum"
+    "date-added": "Toevoegdatum",
+    "edit-columns": "Kolommen bewerken..."
 }

@@ -218,5 +218,6 @@
     "plays": "Lectures",
     "skips": "Sauts",
     "last-played": "Dernière lecture",
-    "date-added": "Date d'ajout"
+    "date-added": "Date d'ajout",
+    "edit-columns": "Modifier les colonnes..."
 }

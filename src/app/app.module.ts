@@ -128,6 +128,7 @@ import { TrackBrowserComponent } from './components/collection/track-browser/tra
 import { TrackComponent } from './components/collection/track/track.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { EditColumnsDialogComponent } from './components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
 import { EditPlaylistDialogComponent } from './components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { InputDialogComponent } from './components/dialogs/input-dialog/input-dialog.component';
@@ -315,6 +316,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         InputDialogComponent,
         ErrorDialogComponent,
         LicenseDialogComponent,
+        EditColumnsDialogComponent,
         ManageCollectionComponent,
         ManageMusicComponent,
         ManageRefreshComponent,
@@ -382,7 +384,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         RatingComponent,
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
-        CollectionTracksTableComponent
+        CollectionTracksTableComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -549,6 +551,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         },
     ],
     bootstrap: [AppComponent],
-    entryComponents: [ConfirmationDialogComponent, InputDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
+    entryComponents: [
+        ConfirmationDialogComponent,
+        InputDialogComponent,
+        ErrorDialogComponent,
+        LicenseDialogComponent,
+        SnackBarComponent,
+        EditColumnsDialogComponent,
+    ],
 })
 export class AppModule {}

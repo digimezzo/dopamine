@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
@@ -24,7 +25,8 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
         public playbackService: BasePlaybackService,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private metadataService: BaseMetadataService,
-        private playbackIndicationService: BasePlaybackIndicationService
+        private playbackIndicationService: BasePlaybackIndicationService,
+        private dialogService: BaseDialogService
     ) {}
 
     public orderedTracks: TrackModel[] = [];
@@ -79,5 +81,9 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
                 track.rating = trackWithUpToDateRating.rating;
             }
         }
+    }
+
+    public async showEditColumnsDialogAsync(): Promise<void> {
+        await this.dialogService.showEditColumnsDialogAsync();
     }
 }
