@@ -219,5 +219,8 @@
     "skips": "Overgeslagen",
     "last-played": "Laatst afgespeeld",
     "date-added": "Toevoegdatum",
-    "edit-columns": "Kolommen bewerken..."
+    "edit-columns": "Kolommen bewerken...",
+    "columns": "Kolommen",
+    "duration": "Looptijd",
+    "number": "Nummer"
 }
