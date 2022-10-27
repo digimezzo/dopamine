@@ -5,8 +5,8 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
@@ -91,7 +91,7 @@ describe('MetadataService', () => {
         it('should create an empty image url if no cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataMock.object);
             albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataMock.object, false)).returns(async () => undefined);
 
@@ -107,7 +107,7 @@ describe('MetadataService', () => {
         it('should create an image url if cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
             fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataMock.object);
             albumArtworkGetterMock
@@ -143,7 +143,7 @@ describe('MetadataService', () => {
         it('should not save the rating to the audio file if the setting saveRatingToAudioFiles is false', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataMock.object);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
 
@@ -159,7 +159,7 @@ describe('MetadataService', () => {
         it('should not save the rating to the audio file if the setting saveRatingToAudioFiles is true but the file extension is not .mp3', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(async () => fileMetadataMock.object);
             const track: TrackModel = new TrackModel(new Track('path2.ogg'), translatorServiceMock.object);
 
@@ -175,7 +175,7 @@ describe('MetadataService', () => {
         it('should save the rating to the audio file if the setting saveRatingToAudioFiles is true and the file extension is .mp3', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataMock.object);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
 

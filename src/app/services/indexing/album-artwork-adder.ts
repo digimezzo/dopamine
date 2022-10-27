@@ -5,8 +5,7 @@ import { Track } from '../../common/data/entities/track';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
@@ -19,7 +18,7 @@ export class AlbumArtworkAdder {
         private albumArtworkCacheService: BaseAlbumArtworkCacheService,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,
-        private fileMetadataFactory: FileMetadataFactory,
+        private fileMetadataFactory: BaseFileMetadataFactory,
         private snackbarService: BaseSnackBarService,
         private logger: Logger,
         private albumArtworkGetter: AlbumArtworkGetter

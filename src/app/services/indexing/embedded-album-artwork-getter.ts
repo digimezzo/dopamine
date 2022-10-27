@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 
 @Injectable()

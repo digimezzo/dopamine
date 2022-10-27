@@ -4,7 +4,7 @@ import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { Strings } from '../../common/strings';
@@ -13,7 +13,7 @@ import { TrackFieldCreator } from './track-field-creator';
 @Injectable()
 export class TrackFiller {
     constructor(
-        private fileMetadataFactory: FileMetadataFactory,
+        private fileMetadataFactory: BaseFileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
         private fileSystem: BaseFileSystem,

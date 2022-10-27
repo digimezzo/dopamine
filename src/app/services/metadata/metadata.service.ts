@@ -5,7 +5,7 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
@@ -17,7 +17,7 @@ export class MetadataService implements BaseMetadataService {
     private ratingSaved: Subject<TrackModel> = new Subject();
 
     constructor(
-        private fileMetadataFactory: FileMetadataFactory,
+        private fileMetadataFactory: BaseFileMetadataFactory,
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
         private imageProcessor: ImageProcessor,

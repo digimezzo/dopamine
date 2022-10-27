@@ -66,6 +66,7 @@ import { IpcProxy } from './common/io/ipc-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
+import { BaseFileMetadataFactory } from './common/metadata/base-file-metadata-factory';
 import { FileMetadataFactory } from './common/metadata/file-metadata-factory';
 import { MetadataPatcher } from './common/metadata/metadata-patcher';
 import { MimeTypes } from './common/metadata/mime-types';
@@ -535,6 +536,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
+        { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
