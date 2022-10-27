@@ -2,14 +2,13 @@ import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFra
 import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 
-export class FileMetadata implements IFileMetadata {
+export class TagLibFileMetadata implements IFileMetadata {
     private _rating: number = 0;
     private ratingHasChanged: boolean = false;
 
     private windowsPopMUser: string = 'Windows Media Player 9 Series';
 
-    public constructor(public path: string) {
-    }
+    public constructor(public path: string) {}
 
     public bitRate: number;
     public sampleRate: number;
