@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 
 describe('EmbeddedAlbumArtworkGetter', () => {
@@ -20,7 +20,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
         it('should return embedded artwork if fileMetaData is not undefined', () => {
             // Arrange
             const loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-            const metaDataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             const embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter = new EmbeddedAlbumArtworkGetter(loggerMock.object);
 
             const expectedArtwork = Buffer.from([1, 2, 3]);

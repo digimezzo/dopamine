@@ -53,7 +53,7 @@ export class RatingComponent implements OnInit {
         this._track.rating = ratingToSet;
 
         try {
-            this.metadataService.saveTrackRating(this._track);
+            await this.metadataService.saveTrackRatingAsync(this._track);
         } catch (error) {
             this.dialogService.showErrorDialog(await this.translatorService.getAsync('save-rating-error'));
         }

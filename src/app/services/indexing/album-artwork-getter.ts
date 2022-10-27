@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileMetadata } from '../../common/metadata/file-metadata';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
 import { ExternalAlbumArtworkGetter } from './external-album-artwork-getter';
@@ -14,7 +14,7 @@ export class AlbumArtworkGetter {
         private settings: BaseSettings
     ) {}
 
-    public async getAlbumArtworkAsync(fileMetadata: FileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
+    public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
         if (fileMetadata == undefined) {
             return undefined;
         }

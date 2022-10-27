@@ -5,8 +5,8 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
@@ -17,7 +17,7 @@ export class MetadataService implements BaseMetadataService {
     private ratingSaved: Subject<TrackModel> = new Subject();
 
     constructor(
-        private fileMetadataFactory: FileMetadataFactory,
+        private fileMetadataFactory: BaseFileMetadataFactory,
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
@@ -34,7 +34,7 @@ export class MetadataService implements BaseMetadataService {
         }
 
         try {
-            const fileMetaData: FileMetadata = this.fileMetadataFactory.create(track.path);
+            const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
             if (fileMetaData == undefined) {
                 return '';
@@ -58,12 +58,12 @@ export class MetadataService implements BaseMetadataService {
         return '';
     }
 
-    public saveTrackRating(track: TrackModel): void {
+    public async saveTrackRatingAsync(track: TrackModel): Promise<void> {
         try {
             this.trackRepository.updateRating(track.id, track.rating);
 
             if (this.settings.saveRatingToAudioFiles && this.fileSystem.getFileExtension(track.path).toLowerCase() === FileFormats.mp3) {
-                const fileMetaData: FileMetadata = this.fileMetadataFactory.create(track.path);
+                const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
                 fileMetaData.rating = track.rating;
                 fileMetaData.save();
                 this.logger.info(`Saved rating to file '${track.path}'`, 'MetadataService', 'saveTrackRating');

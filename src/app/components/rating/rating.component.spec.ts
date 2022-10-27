@@ -129,7 +129,7 @@ describe('RatingComponent', () => {
             await ratingComponent.setRatingAsync(3);
 
             // Assert
-            metadataServiceMock.verify((x) => x.saveTrackRating(trackModel), Times.once());
+            metadataServiceMock.verify((x) => x.saveTrackRatingAsync(trackModel), Times.once());
         });
 
         it('should show an error dialog when saving the track rating failed', async () => {
@@ -140,7 +140,7 @@ describe('RatingComponent', () => {
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
-            metadataServiceMock.setup((x) => x.saveTrackRating(It.isAny())).throws(new Error('The error text'));
+            metadataServiceMock.setup((x) => x.saveTrackRatingAsync(It.isAny())).throws(new Error('The error text'));
 
             // Act
             await ratingComponent.setRatingAsync(3);

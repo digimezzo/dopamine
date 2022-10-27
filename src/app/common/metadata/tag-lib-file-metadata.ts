@@ -1,15 +1,14 @@
 import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
+import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 
-export class FileMetadata {
+export class TagLibFileMetadata implements IFileMetadata {
     private _rating: number = 0;
     private ratingHasChanged: boolean = false;
 
     private windowsPopMUser: string = 'Windows Media Player 9 Series';
 
-    public constructor(public path: string) {
-        this.readFromFile();
-    }
+    public constructor(public path: string) {}
 
     public bitRate: number;
     public sampleRate: number;
@@ -49,7 +48,7 @@ export class FileMetadata {
         tagLibFile.dispose();
     }
 
-    private readFromFile(): void {
+    public async loadAsync(): Promise<void> {
         const tagLibFile = File.createFromPath(this.path);
 
         if (tagLibFile.tag != undefined) {

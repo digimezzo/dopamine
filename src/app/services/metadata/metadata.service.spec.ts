@@ -5,14 +5,44 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseMetadataService } from './base-metadata.service';
 import { MetadataService } from './metadata.service';
+
+class FileMetadataImplementation implements IFileMetadata {
+    public path: string;
+    public bitRate: number;
+    public sampleRate: number;
+    public durationInMilliseconds: number;
+    public title: string;
+    public album: string;
+    public albumArtists: string[];
+    public artists: string[];
+    public genres: string[];
+    public comment: string;
+    public grouping: string;
+    public year: number;
+    public trackNumber: number;
+    public trackCount: number;
+    public discNumber: number;
+    public discCount: number;
+    public lyrics: string;
+    public picture: Buffer;
+    public rating: number;
+
+    public isSaved: boolean = false;
+
+    public save(): void {
+        this.isSaved = true;
+    }
+
+    public async loadAsync(): Promise<void> {}
+}
 
 describe('MetadataService', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
@@ -77,7 +107,7 @@ describe('MetadataService', () => {
         it('should create an empty image url if no file metadata was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => undefined);
+            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => undefined);
 
             const service: BaseMetadataService = createService();
 
@@ -91,9 +121,9 @@ describe('MetadataService', () => {
         it('should create an empty image url if no cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => fileMetadataMock.object);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataMock.object, false)).returns(async () => undefined);
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, false)).returns(async () => undefined);
 
             const service: BaseMetadataService = createService();
 
@@ -107,12 +137,10 @@ describe('MetadataService', () => {
         it('should create an image url if cover art was found', async () => {
             // Arrange
             const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
+            const fileMetadataStub = new FileMetadataImplementation();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
-            fileMetadataFactoryMock.setup((x) => x.create(track.path)).returns(() => fileMetadataMock.object);
-            albumArtworkGetterMock
-                .setup((x) => x.getAlbumArtworkAsync(fileMetadataMock.object, false))
-                .returns(async () => albumArtworkData1);
+            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, false)).returns(async () => albumArtworkData1);
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(albumArtworkData1)).returns(() => 'image-url');
 
             const service: BaseMetadataService = createService();
@@ -134,7 +162,7 @@ describe('MetadataService', () => {
             const service: BaseMetadataService = createService();
 
             // Act
-            await service.saveTrackRating(track);
+            await service.saveTrackRatingAsync(track);
 
             // Assert
             trackRepositoryMock.verify((x) => x.updateRating(track.id, track.rating), Times.once());
@@ -143,49 +171,49 @@ describe('MetadataService', () => {
         it('should not save the rating to the audio file if the setting saveRatingToAudioFiles is false', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetadataFactoryMock.setup((x) => x.create('path1.mp3')).returns(() => fileMetadataMock.object);
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
             // Act
-            await service.saveTrackRating(track);
+            await service.saveTrackRatingAsync(track);
 
             // Assert
-            fileMetadataMock.verify((x) => x.save(), Times.never());
+            expect(fileMetadataStub.isSaved).toBeFalsy();
         });
 
         it('should not save the rating to the audio file if the setting saveRatingToAudioFiles is true but the file extension is not .mp3', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetadataFactoryMock.setup((x) => x.create('path2.ogg')).returns(() => fileMetadataMock.object);
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(async () => fileMetadataStub);
             const track: TrackModel = new TrackModel(new Track('path2.ogg'), translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
             // Act
-            await service.saveTrackRating(track);
+            await service.saveTrackRatingAsync(track);
 
             // Assert
-            fileMetadataMock.verify((x) => x.save(), Times.never());
+            expect(fileMetadataStub.isSaved).toBeFalsy();
         });
 
         it('should save the rating to the audio file if the setting saveRatingToAudioFiles is true and the file extension is .mp3', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
-            const fileMetadataMock: IMock<FileMetadata> = Mock.ofType<FileMetadata>();
-            fileMetadataFactoryMock.setup((x) => x.create('path1.mp3')).returns(() => fileMetadataMock.object);
+            const fileMetadataStub = new FileMetadataImplementation();
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
             // Act
-            await service.saveTrackRating(track);
+            await service.saveTrackRatingAsync(track);
 
             // Assert
-            fileMetadataMock.verify((x) => x.save(), Times.once());
+            expect(fileMetadataStub.isSaved).toBeTruthy();
         });
 
         it('should notify that rating is saved', async () => {
@@ -205,7 +233,7 @@ describe('MetadataService', () => {
             );
 
             // Act
-            await service.saveTrackRating(track);
+            await service.saveTrackRatingAsync(track);
 
             // Assert
             expect(ratingSaved).toBeTruthy();

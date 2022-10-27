@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { FileMetadata } from '../../common/metadata/file-metadata';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { Strings } from '../../common/strings';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
@@ -13,7 +13,7 @@ export class ExternalAlbumArtworkGetter {
         private logger: Logger
     ) {}
 
-    public async getExternalArtworkAsync(fileMetadata: FileMetadata): Promise<Buffer> {
+    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {
             return undefined;
         }
