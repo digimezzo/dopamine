@@ -7,6 +7,7 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { Logger } from '../../common/logger';
 import { FileMetadata } from '../../common/metadata/file-metadata';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
@@ -79,10 +80,10 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        let fileMetadata: FileMetadata;
+        let fileMetadata: IFileMetadata;
 
         try {
-            fileMetadata = this.fileMetadataFactory.create(track.path);
+            fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
         } catch (e) {
             this.logger.info(
                 `Could not create file metadata for path='${track.path}'. Error: ${e.message}`,
