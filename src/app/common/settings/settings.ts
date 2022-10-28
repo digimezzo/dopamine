@@ -528,6 +528,15 @@ export class Settings implements BaseSettings {
         this.settings.set('showRating', v);
     }
 
+    //  Tracks page visible columns
+    public get tracksPageVisibleColumns(): string {
+        return this.settings.get('tracksPageVisibleColumns');
+    }
+
+    public set tracksPageVisibleColumns(v: string) {
+        this.settings.set('tracksPageVisibleColumns', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -752,6 +761,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('saveRatingToAudioFiles')) {
             this.settings.set('saveRatingToAudioFiles', false);
+        }
+
+        if (!this.settings.has('tracksPageVisibleColumns')) {
+            this.settings.set('tracksPageVisibleColumns', 'rating;artists;duration;number');
         }
     }
 }
