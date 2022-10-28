@@ -70,5 +70,54 @@ export class EditColumnsDialogComponent implements OnInit {
         }
     }
 
-    public saveToSettings(): void {}
+    public saveToSettings(): void {
+        const tracksPageVisibleColumns: string[] = [];
+
+        if(this.showRating){
+            tracksPageVisibleColumns.push('rating');
+        }
+
+        if(this.showArtists){
+            tracksPageVisibleColumns.push('artists');
+        }
+
+        if(this.showAlbum){
+            tracksPageVisibleColumns.push('album');
+        }
+
+        if(this.showGenres){
+            tracksPageVisibleColumns.push('genres');
+        }
+
+        if(this.showDuration){
+            tracksPageVisibleColumns.push('duration');
+        }
+
+        if(this.showNumber){
+            tracksPageVisibleColumns.push('number');
+        }
+
+        if(this.showYear){
+            tracksPageVisibleColumns.push('year');
+        }
+
+        if(this.showPlays){
+            tracksPageVisibleColumns.push('plays');
+        }
+
+        if(this.showSkips){
+            tracksPageVisibleColumns.push('skips');
+        }
+
+        if(this.showLastPlayed){
+            tracksPageVisibleColumns.push('lastPlayed');
+        }
+
+        if(this.showDateAdded){
+            tracksPageVisibleColumns.push('dateAdded');
+        }
+
+        const tracksPageVisibleColumnsAsString: string = tracksPageVisibleColumns.join(';');
+        this.settings.tracksPageVisibleColumns = tracksPageVisibleColumnsAsString;
+    }
 }
