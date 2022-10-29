@@ -260,6 +260,8 @@ import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
+import { BaseTracksColumnsService } from './services/track-columns/base-tracks-columns.service';
+import { TracksColumnsService } from './services/track-columns/tracks-columns.service';
 import { BaseTrackService } from './services/track/base-track.service';
 import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
@@ -547,6 +549,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
+        { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
