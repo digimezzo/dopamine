@@ -1,20 +1,46 @@
 <app-dialog-header icon="las la-columns" title="{{ 'columns' | translate }}"></app-dialog-header>
 <mat-dialog-content
     ><div class="d-flex flex-column">
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showRating"></mat-checkbox>{{ 'rating' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showArtists"></mat-checkbox>{{ 'artists' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showAlbum"></mat-checkbox>{{ 'album' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showGenres"></mat-checkbox>{{ 'genres' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showDuration"></mat-checkbox>{{ 'duration' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showNumber"></mat-checkbox>{{ 'number' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showYear"></mat-checkbox>{{ 'year' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showPlays"></mat-checkbox>{{ 'plays' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showSkips"></mat-checkbox>{{ 'skips' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showLastPlayed"></mat-checkbox>{{ 'last-played' | translate }}</div>
-        <div class="d-flex flex-row p-1"><mat-checkbox class="mr-2" [(ngModel)]="showDateAdded"></mat-checkbox>{{ 'date-added' | translate }}</div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showRating"></mat-checkbox>{{ 'rating' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showArtists"></mat-checkbox>{{ 'artists' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showAlbum"></mat-checkbox>{{ 'album' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showGenres"></mat-checkbox>{{ 'genres' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDuration"></mat-checkbox>{{ 'duration' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showNumber"></mat-checkbox>{{ 'number' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showYear"></mat-checkbox>{{ 'year' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showPlays"></mat-checkbox>{{ 'plays' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showSkips"></mat-checkbox>{{ 'skips' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDateLastPlayed"></mat-checkbox
+            >{{ 'last-played' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDateAdded"></mat-checkbox
+            >{{ 'date-added' | translate }}
+        </div>
     </div></mat-dialog-content
 >
 <mat-dialog-actions>
-    <button mat-raised-button [mat-dialog-close]="true" (click)="saveToSettings()">{{ 'ok' | translate | uppercase }}</button>
+    <button mat-raised-button [mat-dialog-close]="true" (click)="this.saveTracksColumnsVisibility()">
+        {{ 'ok' | translate | uppercase }}
+    </button>
     <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
 </mat-dialog-actions>
