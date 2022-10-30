@@ -31,6 +31,7 @@ describe('CollectionTracksTableComponent', () => {
     let playbackStoppedMock$: Observable<void>;
 
     let metadataService_ratingSaved: Subject<TrackModel>;
+    let tracksColumnsService_tracksColumnsVisibilityChanged: Subject<TracksColumnsVisibility>;
 
     let track1: Track;
     let track2: Track;
@@ -76,6 +77,13 @@ describe('CollectionTracksTableComponent', () => {
         metadataService_ratingSaved = new Subject();
         const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
         metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
+
+        tracksColumnsService_tracksColumnsVisibilityChanged = new Subject();
+        const tracksColumnsService_tracksColumnsVisibilityChanged$: Observable<TracksColumnsVisibility> =
+            tracksColumnsService_tracksColumnsVisibilityChanged.asObservable();
+        tracksColumnsServiceMock
+            .setup((x) => x.tracksColumnsVisibilityChanged$)
+            .returns(() => tracksColumnsService_tracksColumnsVisibilityChanged$);
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -205,6 +213,19 @@ describe('CollectionTracksTableComponent', () => {
             expect(track2.rating).toEqual(2);
             expect(track3.rating).toEqual(3);
             expect(track4.rating).toEqual(4);
+        });
+
+        it('should update tracksColumnsVisibility when tracks columns visibility has changed', () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
+            const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
+
+            // Act
+            component.ngOnInit();
+            tracksColumnsService_tracksColumnsVisibilityChanged.next(tracksColumnsVisibility);
+
+            // Assert
+            expect(component.tracksColumnsVisibility).toBe(tracksColumnsVisibility);
         });
     });
 

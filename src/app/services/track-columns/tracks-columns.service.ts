@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseTracksColumnsService } from './base-tracks-columns.service';
 import { TracksColumnsVisibility } from './track-columns-visibility';
 
 @Injectable()
 export class TracksColumnsService implements BaseTracksColumnsService {
+    private tracksColumnsVisibilityChanged: Subject<TracksColumnsVisibility> = new Subject<TracksColumnsVisibility>();
+
     public constructor(private settings: BaseSettings) {}
+
+    public tracksColumnsVisibilityChanged$: Observable<TracksColumnsVisibility> = this.tracksColumnsVisibilityChanged.asObservable();
 
     public getTracksColumnsVisibility(): TracksColumnsVisibility {
         const tracksPageVisibleColumnsAsString: string = this.settings.tracksPageVisibleColumns;
@@ -105,5 +110,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
 
         const tracksPageVisibleColumnsAsString: string = tracksPageVisibleColumns.join(';');
         this.settings.tracksPageVisibleColumns = tracksPageVisibleColumnsAsString;
+
+        this.tracksColumnsVisibilityChanged.next(tracksColumnsVisibility);
     }
 }

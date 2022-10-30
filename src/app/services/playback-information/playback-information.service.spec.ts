@@ -57,6 +57,19 @@ describe('PlaybackInformationService', () => {
             expect(service).toBeDefined();
         });
 
+        it('should define playingNextTrack$', () => {
+            // Arrange
+
+            // Act
+            const service: BasePlaybackInformationService = new PlaybackInformationService(
+                playbackServiceMock.object,
+                metadataServiceMock.object
+            );
+
+            // Assert
+            expect(service.playingNextTrack$).toBeDefined();
+        });
+
         it('should subscribe to playbackService.playbackStarted and raise playingPreviousTrack containing defined playback information when playing a previous track', async () => {
             // Arrange
             const service: BasePlaybackInformationService = new PlaybackInformationService(

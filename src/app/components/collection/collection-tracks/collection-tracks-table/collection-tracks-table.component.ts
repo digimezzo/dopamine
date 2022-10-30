@@ -54,6 +54,12 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
             })
         );
 
+        this.subscription.add(
+            this.tracksColumnsService.tracksColumnsVisibilityChanged$.subscribe((tracksColumnsVisibility) => {
+                this.tracksColumnsVisibility = tracksColumnsVisibility;
+            })
+        );
+
         this.tracksColumnsVisibility = this.tracksColumnsService.getTracksColumnsVisibility();
     }
 
