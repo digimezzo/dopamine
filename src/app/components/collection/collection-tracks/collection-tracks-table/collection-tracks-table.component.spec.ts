@@ -7,6 +7,8 @@ import { BaseMetadataService } from '../../../../services/metadata/base-metadata
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
+import { BaseTracksColumnsService } from '../../../../services/track-columns/base-tracks-columns.service';
+import { TracksColumnsVisibility } from '../../../../services/track-columns/track-columns-visibility';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
@@ -17,6 +19,7 @@ describe('CollectionTracksTableComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+    let tracksColumnsServiceMock: IMock<BaseTracksColumnsService>;
     let dialogServiceMock: IMock<BaseDialogService>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -45,6 +48,7 @@ describe('CollectionTracksTableComponent', () => {
             mouseSelectionWatcherMock.object,
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
+            tracksColumnsServiceMock.object,
             dialogServiceMock.object
         );
 
@@ -56,6 +60,7 @@ describe('CollectionTracksTableComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        tracksColumnsServiceMock = Mock.ofType<BaseTracksColumnsService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -125,9 +130,7 @@ describe('CollectionTracksTableComponent', () => {
             // Assert
             expect(component).toBeDefined();
         });
-    });
 
-    describe('ngOnInit', () => {
         it('should define tracksColumnsVisibility', async () => {
             // Arrange
 
@@ -136,6 +139,26 @@ describe('CollectionTracksTableComponent', () => {
 
             // Assert
             expect(component.tracksColumnsVisibility).toBeDefined();
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should get tracksColumnsVisibility', async () => {
+            // Arrange
+            const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
+            tracksColumnsVisibility.showAlbum = true;
+            tracksColumnsServiceMock.setup((x) => x.getTracksColumnsVisibility()).returns(() => tracksColumnsVisibility);
+            const component: CollectionTracksTableComponent = createComponent();
+
+            // Act
+            const tracksColumnsVisibilityBeforeInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
+            component.ngOnInit();
+            const tracksColumnsVisibilityAfterInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
+
+            // Assert
+            expect(tracksColumnsVisibilityBeforeInit.showAlbum).toBeFalsy();
+            expect(tracksColumnsVisibilityAfterInit.showAlbum).toBeTruthy();
+            expect(component.tracksColumnsVisibility).toBe(tracksColumnsVisibility);
         });
 
         it('should set the playing track on playback started', () => {
