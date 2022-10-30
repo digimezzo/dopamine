@@ -89,26 +89,26 @@ describe('TracksColumnsVisibility', () => {
             expect(tracksColumnsVisibility.showYear).toBeTruthy();
         });
 
-        it('should set showPlays', () => {
+        it('should set showPlayCount', () => {
             // Arrange
             const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 
             // Act
-            tracksColumnsVisibility.showPlays = true;
+            tracksColumnsVisibility.showPlayCount = true;
 
             // Assert
-            expect(tracksColumnsVisibility.showPlays).toBeTruthy();
+            expect(tracksColumnsVisibility.showPlayCount).toBeTruthy();
         });
 
-        it('should set showSkips', () => {
+        it('should set showSkipCount', () => {
             // Arrange
             const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 
             // Act
-            tracksColumnsVisibility.showSkips = true;
+            tracksColumnsVisibility.showSkipCount = true;
 
             // Assert
-            expect(tracksColumnsVisibility.showSkips).toBeTruthy();
+            expect(tracksColumnsVisibility.showSkipCount).toBeTruthy();
         });
 
         it('should set showDateLastPlayed', () => {

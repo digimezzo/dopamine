@@ -16,19 +16,33 @@
             <tr class="tracks-table-header">
                 <td class="pointer secondary-text ellipsis">{{ 'title' | translate }}</td>
                 <td class="w-48px pointer"></td>
-                <td class="w-84px pointer">
+                <td class="w-84px pointer" *ngIf="this.tracksColumnsVisibility.showRating">
                     <div class="secondary-text ellipsis ml-1">{{ 'rating' | translate }}</div>
                 </td>
-                <td class="pointer secondary-text ellipsis">{{ 'artists' | translate }}</td>
-                <td class="pointer secondary-text ellipsis">{{ 'album' | translate }}</td>
-                <td class="pointer secondary-text ellipsis">{{ 'genres' | translate }}</td>
-                <td class="w-56px pointer"><i class="secondary-text las la-clock"></i></td>
-                <td class="w-56px pointer secondary-text text-align-right-important">#</td>
-                <td class="w-56px pointer secondary-text ellipsis">{{ 'year' | translate }}</td>
-                <td class="w-56px pointer secondary-text ellipsis">{{ 'plays' | translate }}</td>
-                <td class="w-56px pointer secondary-text ellipsis">{{ 'skips' | translate }}</td>
-                <td class="pointer secondary-text ellipsis">{{ 'last-played' | translate }}</td>
-                <td class="pointer secondary-text ellipsis">{{ 'date-added' | translate }}</td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showArtists">
+                    {{ 'artists' | translate }}
+                </td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showAlbum">{{ 'album' | translate }}</td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showGenres">{{ 'genres' | translate }}</td>
+                <td class="w-56px pointer" *ngIf="this.tracksColumnsVisibility.showDuration">
+                    <i class="secondary-text las la-clock"></i>
+                </td>
+                <td class="w-56px pointer secondary-text text-align-right-important" *ngIf="this.tracksColumnsVisibility.showNumber">#</td>
+                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showYear">
+                    {{ 'year' | translate }}
+                </td>
+                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showPlayCount">
+                    {{ 'plays' | translate }}
+                </td>
+                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showSkipCount">
+                    {{ 'skips' | translate }}
+                </td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showDateLastPlayed">
+                    {{ 'last-played' | translate }}
+                </td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showDateAdded">
+                    {{ 'date-added' | translate }}
+                </td>
             </tr>
         </table>
     </div>
@@ -50,53 +64,53 @@
                 <td class="w-48px">
                     <app-playback-indicator *ngIf="track.isPlaying" [isSelected]="track.isSelected"></app-playback-indicator>
                 </td>
-                <td class="w-84px"><app-rating [track]="track"></app-rating></td>
-                <td>
+                <td class="w-84px" *ngIf="this.tracksColumnsVisibility.showRating"><app-rating [track]="track"></app-rating></td>
+                <td *ngIf="this.tracksColumnsVisibility.showArtists">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.artists }}
                     </div>
                 </td>
-                <td>
+                <td *ngIf="this.tracksColumnsVisibility.showAlbum">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.albumTitle }}
                     </div>
                 </td>
-                <td>
+                <td *ngIf="this.tracksColumnsVisibility.showGenre">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.genres }}
                     </div>
                 </td>
-                <td class="w-56px">
+                <td class="w-56px" *ngIf="this.tracksColumnsVisibility.showDuration">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
                 </td>
-                <td class="w-56px text-align-right-important">
+                <td class="w-56px text-align-right-important" *ngIf="this.tracksColumnsVisibility.showNumber">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.number | zeroToBlank }}
                     </div>
                 </td>
-                <td class="w-56px">
+                <td class="w-56px" *ngIf="this.tracksColumnsVisibility.showYear">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.year | zeroToBlank }}
                     </div>
                 </td>
-                <td class="w-56px">
+                <td class="w-56px" *ngIf="this.tracksColumnsVisibility.showPlayCount">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.playCount }}
                     </div>
                 </td>
-                <td class="w-56px">
+                <td class="w-56px" *ngIf="this.tracksColumnsVisibility.showSkipCount">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.skipCount }}
                     </div>
                 </td>
-                <td>
+                <td *ngIf="this.tracksColumnsVisibility.showDateLastPlayed">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.dateLastPlayed | formatTicksToDateTimeString }}
                     </div>
                 </td>
-                <td>
+                <td *ngIf="this.tracksColumnsVisibility.showDateAdded">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.dateAdded | formatTicksToDateTimeString }}
                     </div>

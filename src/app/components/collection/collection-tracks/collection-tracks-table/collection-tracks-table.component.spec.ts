@@ -128,6 +128,16 @@ describe('CollectionTracksTableComponent', () => {
     });
 
     describe('ngOnInit', () => {
+        it('should define tracksColumnsVisibility', async () => {
+            // Arrange
+
+            // Act
+            const component: CollectionTracksTableComponent = createComponent();
+
+            // Assert
+            expect(component.tracksColumnsVisibility).toBeDefined();
+        });
+
         it('should set the playing track on playback started', () => {
             // Arrange
             const component: CollectionTracksTableComponent = createComponent();

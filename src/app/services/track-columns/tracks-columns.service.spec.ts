@@ -44,8 +44,8 @@ describe('TracksColumnsService', () => {
             expect(tracksColumnsVisibility.showDuration).toBeTruthy();
             expect(tracksColumnsVisibility.showNumber).toBeTruthy();
             expect(tracksColumnsVisibility.showYear).toBeFalsy();
-            expect(tracksColumnsVisibility.showPlays).toBeFalsy();
-            expect(tracksColumnsVisibility.showSkips).toBeFalsy();
+            expect(tracksColumnsVisibility.showPlayCount).toBeFalsy();
+            expect(tracksColumnsVisibility.showSkipCount).toBeFalsy();
             expect(tracksColumnsVisibility.showDateLastPlayed).toBeFalsy();
             expect(tracksColumnsVisibility.showDateAdded).toBeFalsy();
         });
@@ -64,8 +64,8 @@ describe('TracksColumnsService', () => {
             tracksColumnsVisibility.showDuration = true;
             tracksColumnsVisibility.showNumber = true;
             tracksColumnsVisibility.showYear = true;
-            tracksColumnsVisibility.showPlays = false;
-            tracksColumnsVisibility.showSkips = true;
+            tracksColumnsVisibility.showPlayCount = false;
+            tracksColumnsVisibility.showSkipCount = true;
             tracksColumnsVisibility.showDateLastPlayed = true;
             tracksColumnsVisibility.showDateAdded = true;
 
@@ -74,7 +74,7 @@ describe('TracksColumnsService', () => {
 
             // Assert
             expect(settingsStub.tracksPageVisibleColumns).toEqual(
-                'rating;artists;genres;duration;number;year;skips;dateLastPlayed;dateAdded'
+                'rating;artists;genres;duration;number;year;skipCount;dateLastPlayed;dateAdded'
             );
         });
     });

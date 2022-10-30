@@ -6,8 +6,8 @@ export class TracksColumnsVisibility {
     public showDuration: boolean;
     public showNumber: boolean;
     public showYear: boolean;
-    public showPlays: boolean;
-    public showSkips: boolean;
+    public showPlayCount: boolean;
+    public showSkipCount: boolean;
     public showDateLastPlayed: boolean;
     public showDateAdded: boolean;
 }

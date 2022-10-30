@@ -37,11 +37,11 @@ export class TracksColumnsService implements BaseTracksColumnsService {
                     case 'year':
                         tracksColumnsVisibility.showYear = true;
                         break;
-                    case 'plays':
-                        tracksColumnsVisibility.showPlays = true;
+                    case 'playCount':
+                        tracksColumnsVisibility.showPlayCount = true;
                         break;
-                    case 'skips':
-                        tracksColumnsVisibility.showSkips = true;
+                    case 'skipCount':
+                        tracksColumnsVisibility.showSkipCount = true;
                         break;
                     case 'dateLastPlayed':
                         tracksColumnsVisibility.showDateLastPlayed = true;
@@ -87,12 +87,12 @@ export class TracksColumnsService implements BaseTracksColumnsService {
             tracksPageVisibleColumns.push('year');
         }
 
-        if (tracksColumnsVisibility.showPlays) {
-            tracksPageVisibleColumns.push('plays');
+        if (tracksColumnsVisibility.showPlayCount) {
+            tracksPageVisibleColumns.push('playCount');
         }
 
-        if (tracksColumnsVisibility.showSkips) {
-            tracksPageVisibleColumns.push('skips');
+        if (tracksColumnsVisibility.showSkipCount) {
+            tracksPageVisibleColumns.push('skipCount');
         }
 
         if (tracksColumnsVisibility.showDateLastPlayed) {

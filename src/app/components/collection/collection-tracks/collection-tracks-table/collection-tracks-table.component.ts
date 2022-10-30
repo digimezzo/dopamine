@@ -6,6 +6,8 @@ import { BaseMetadataService } from '../../../../services/metadata/base-metadata
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
+import { BaseTracksColumnsService } from '../../../../services/track-columns/base-tracks-columns.service';
+import { TracksColumnsVisibility } from '../../../../services/track-columns/track-columns-visibility';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 
@@ -26,10 +28,12 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private metadataService: BaseMetadataService,
         private playbackIndicationService: BasePlaybackIndicationService,
+        private tracksColumnsService: BaseTracksColumnsService,
         private dialogService: BaseDialogService
     ) {}
 
     public orderedTracks: TrackModel[] = [];
+    public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 
     public ngOnInit(): void {
         this.subscription.add(
@@ -49,6 +53,8 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
                 this.updateTrackRating(track);
             })
         );
+
+        this.tracksColumnsVisibility = this.tracksColumnsService.getTracksColumnsVisibility();
     }
 
     public get tracks(): TrackModels {
