@@ -77,7 +77,8 @@
                         "production": {
                             "browserTarget": "dopamine:build:production"
                         }
-                    }
+                    },
+                    "defaultConfiguration": "dev"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",

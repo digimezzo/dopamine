@@ -75,6 +75,9 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.tabGroup, this.collectionPersister.selectedTab);
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.tabGroup, this.collectionPersister.selectedTab);
+        }, 0);
     }
 }
