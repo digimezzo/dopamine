@@ -483,8 +483,8 @@ export class Settings implements BaseSettings {
         this.settings.set('showAlbumsPage', v);
     }
 
-     //  Show tracks page
-     public get showTracksPage(): boolean {
+    //  Show tracks page
+    public get showTracksPage(): boolean {
         return this.settings.get('showTracksPage');
     }
 
@@ -535,6 +535,15 @@ export class Settings implements BaseSettings {
 
     public set tracksPageVisibleColumns(v: string) {
         this.settings.set('tracksPageVisibleColumns', v);
+    }
+
+    //  Tracks page order by column
+    public get tracksPageOrderByColumn(): string {
+        return this.settings.get('tracksPageOrderByColumn');
+    }
+
+    public set tracksPageOrderByColumn(v: string) {
+        this.settings.set('tracksPageOrderByColumn', v);
     }
 
     // Initialize
@@ -765,6 +774,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('tracksPageVisibleColumns')) {
             this.settings.set('tracksPageVisibleColumns', 'rating;artists;duration;number');
+        }
+
+        if (!this.settings.has('tracksPageOrderByColumn')) {
+            this.settings.set('tracksPageOrderByColumn', '');
         }
     }
 }
