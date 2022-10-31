@@ -57,7 +57,7 @@ describe('TracksColumnsService', () => {
             expect(tracksColumnsVisibility.showAlbum).toBeFalsy();
             expect(tracksColumnsVisibility.showGenres).toBeFalsy();
             expect(tracksColumnsVisibility.showDuration).toBeTruthy();
-            expect(tracksColumnsVisibility.showNumber).toBeTruthy();
+            expect(tracksColumnsVisibility.showTrackNumber).toBeTruthy();
             expect(tracksColumnsVisibility.showYear).toBeFalsy();
             expect(tracksColumnsVisibility.showPlayCount).toBeFalsy();
             expect(tracksColumnsVisibility.showSkipCount).toBeFalsy();
@@ -66,7 +66,7 @@ describe('TracksColumnsService', () => {
         });
     });
 
-    describe('saveTracksColumnsVisibility', () => {
+    describe('setTracksColumnsVisibility', () => {
         it('should save tracks columns visibility to settings', () => {
             // Arrange
             service = createService();
@@ -77,7 +77,7 @@ describe('TracksColumnsService', () => {
             tracksColumnsVisibility.showAlbum = false;
             tracksColumnsVisibility.showGenres = true;
             tracksColumnsVisibility.showDuration = true;
-            tracksColumnsVisibility.showNumber = true;
+            tracksColumnsVisibility.showTrackNumber = true;
             tracksColumnsVisibility.showYear = true;
             tracksColumnsVisibility.showPlayCount = false;
             tracksColumnsVisibility.showSkipCount = true;
@@ -85,7 +85,7 @@ describe('TracksColumnsService', () => {
             tracksColumnsVisibility.showDateAdded = true;
 
             // Act
-            service.saveTracksColumnsVisibility(tracksColumnsVisibility);
+            service.setTracksColumnsVisibility(tracksColumnsVisibility);
 
             // Assert
             expect(settingsStub.tracksPageVisibleColumns).toEqual(
@@ -107,7 +107,7 @@ describe('TracksColumnsService', () => {
             );
 
             // Act
-            service.saveTracksColumnsVisibility(newTracksColumnsVisibility);
+            service.setTracksColumnsVisibility(newTracksColumnsVisibility);
 
             // Assert
             expect(receivedTracksColumnsVisibility).toBe(newTracksColumnsVisibility);

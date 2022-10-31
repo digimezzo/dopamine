@@ -16,7 +16,7 @@ export class EditColumnsDialogComponent implements OnInit {
         this.tracksColumnsVisibility = this.tracksColumnsService.getTracksColumnsVisibility();
     }
 
-    public saveTracksColumnsVisibility(): void {
-        this.tracksColumnsService.saveTracksColumnsVisibility(this.tracksColumnsVisibility);
+    public setTracksColumnsVisibility(): void {
+        this.tracksColumnsService.setTracksColumnsVisibility(this.tracksColumnsVisibility);
     }
 }

@@ -4,7 +4,7 @@ export class TracksColumnsVisibility {
     public showAlbum: boolean;
     public showGenres: boolean;
     public showDuration: boolean;
-    public showNumber: boolean;
+    public showTrackNumber: boolean;
     public showYear: boolean;
     public showPlayCount: boolean;
     public showSkipCount: boolean;

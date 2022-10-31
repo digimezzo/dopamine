@@ -7,6 +7,8 @@ import { BasePlaybackIndicationService } from '../../../../services/playback-ind
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { BaseTracksColumnsService } from '../../../../services/track-columns/base-tracks-columns.service';
+import { TracksColumnsOrder } from '../../../../services/track-columns/track-columns-order';
+import { TracksColumnsOrderDirection } from '../../../../services/track-columns/track-columns-order-direction';
 import { TracksColumnsVisibility } from '../../../../services/track-columns/track-columns-visibility';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
@@ -34,6 +36,11 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
 
     public orderedTracks: TrackModel[] = [];
     public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
+
+    public tracksColumnsOrderEnum: typeof TracksColumnsOrder = TracksColumnsOrder;
+    public tracksColumnsOrderDirectionEnum: typeof TracksColumnsOrderDirection = TracksColumnsOrderDirection;
+    public selectedTracksColumnsOrder: TracksColumnsOrder = TracksColumnsOrder.none;
+    public selectedTracksColumnsOrderDirection: TracksColumnsOrderDirection = TracksColumnsOrderDirection.ascending;
 
     public ngOnInit(): void {
         this.subscription.add(
@@ -97,5 +104,53 @@ export class CollectionTracksTableComponent implements OnInit, OnDestroy {
 
     public async showEditColumnsDialogAsync(): Promise<void> {
         await this.dialogService.showEditColumnsDialogAsync();
+    }
+
+    public orderByTrackTitle(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byTrackTitle);
+    }
+
+    public orderByRating(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byRating);
+    }
+
+    public orderByArtists(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byArtists);
+    }
+
+    public orderByAlbum(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byAlbum);
+    }
+
+    public orderByGenres(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byGenres);
+    }
+
+    public orderByDuration(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byDuration);
+    }
+
+    public orderByTrackNumber(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byTrackNumber);
+    }
+
+    public orderByYear(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byYear);
+    }
+
+    public orderByPlayCount(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byPlayCount);
+    }
+
+    public orderBySkipCount(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.bySkipCount);
+    }
+
+    public orderByDateAdded(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byDateAdded);
+    }
+
+    public orderByDateLastPlayed(): void {
+        this.tracksColumnsService.setTracksColumnsOrder(TracksColumnsOrder.byDateLastPlayed);
     }
 }

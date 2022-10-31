@@ -1,0 +1,15 @@
+export enum TracksColumnsOrder {
+    none = 0,
+    byTrackTitle = 1,
+    byRating = 2,
+    byArtists = 3,
+    byAlbum = 4,
+    byGenres = 5,
+    byDuration = 6,
+    byTrackNumber = 7,
+    byYear = 8,
+    byPlayCount = 9,
+    bySkipCount = 10,
+    byDateLastPlayed = 11,
+    byDateAdded = 12,
+}

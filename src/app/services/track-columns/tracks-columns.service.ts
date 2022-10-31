@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseTracksColumnsService } from './base-tracks-columns.service';
+import { TracksColumnsOrder } from './track-columns-order';
 import { TracksColumnsVisibility } from './track-columns-visibility';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
                         tracksColumnsVisibility.showDuration = true;
                         break;
                     case 'number':
-                        tracksColumnsVisibility.showNumber = true;
+                        tracksColumnsVisibility.showTrackNumber = true;
                         break;
                     case 'year':
                         tracksColumnsVisibility.showYear = true;
@@ -61,7 +62,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
         return tracksColumnsVisibility;
     }
 
-    public saveTracksColumnsVisibility(tracksColumnsVisibility: TracksColumnsVisibility): void {
+    public setTracksColumnsVisibility(tracksColumnsVisibility: TracksColumnsVisibility): void {
         const tracksPageVisibleColumns: string[] = [];
 
         if (tracksColumnsVisibility.showRating) {
@@ -84,7 +85,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
             tracksPageVisibleColumns.push('duration');
         }
 
-        if (tracksColumnsVisibility.showNumber) {
+        if (tracksColumnsVisibility.showTrackNumber) {
             tracksPageVisibleColumns.push('number');
         }
 
@@ -113,4 +114,6 @@ export class TracksColumnsService implements BaseTracksColumnsService {
 
         this.tracksColumnsVisibilityChanged.next(tracksColumnsVisibility);
     }
+
+    public setTracksColumnsOrder(tracksColumnsOrder: TracksColumnsOrder): void {}
 }

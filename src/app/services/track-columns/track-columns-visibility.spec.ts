@@ -67,15 +67,15 @@ describe('TracksColumnsVisibility', () => {
             expect(tracksColumnsVisibility.showDuration).toBeTruthy();
         });
 
-        it('should set showNumber', () => {
+        it('should set showtrackNumber', () => {
             // Arrange
             const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 
             // Act
-            tracksColumnsVisibility.showNumber = true;
+            tracksColumnsVisibility.showTrackNumber = true;
 
             // Assert
-            expect(tracksColumnsVisibility.showNumber).toBeTruthy();
+            expect(tracksColumnsVisibility.showTrackNumber).toBeTruthy();
         });
 
         it('should set showYear', () => {

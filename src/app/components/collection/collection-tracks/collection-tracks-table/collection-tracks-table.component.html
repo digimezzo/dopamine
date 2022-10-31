@@ -14,33 +14,67 @@
     <div class="mt-3 scrollbar-gutter-stable-y">
         <table class="tracks-table no-select">
             <tr class="tracks-table-header">
-                <td class="pointer secondary-text ellipsis">{{ 'title' | translate }}</td>
+                <td class="pointer secondary-text ellipsis" (click)="this.orderByTrackTitle()">{{ 'title' | translate }}</td>
                 <td class="w-48px pointer"></td>
-                <td class="w-84px pointer" *ngIf="this.tracksColumnsVisibility.showRating">
+                <td class="w-84px pointer" *ngIf="this.tracksColumnsVisibility.showRating" (click)="this.orderByRating()">
                     <div class="secondary-text ellipsis ml-1">{{ 'rating' | translate }}</div>
                 </td>
-                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showArtists">
+                <td
+                    class="pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showArtists"
+                    (click)="this.orderByArtists()"
+                >
                     {{ 'artists' | translate }}
                 </td>
-                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showAlbum">{{ 'album' | translate }}</td>
-                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showGenres">{{ 'genres' | translate }}</td>
-                <td class="w-56px pointer" *ngIf="this.tracksColumnsVisibility.showDuration">
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showAlbum" (click)="this.orderByAlbum()">
+                    {{ 'album' | translate }}
+                </td>
+                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showGenres" (click)="this.orderByGenres()">
+                    {{ 'genres' | translate }}
+                </td>
+                <td class="w-56px pointer" *ngIf="this.tracksColumnsVisibility.showDuration" (click)="this.orderByDuration()">
                     <i class="secondary-text las la-clock"></i>
                 </td>
-                <td class="w-56px pointer secondary-text text-align-right-important" *ngIf="this.tracksColumnsVisibility.showNumber">#</td>
-                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showYear">
+                <td
+                    class="w-56px pointer secondary-text text-align-right-important"
+                    *ngIf="this.tracksColumnsVisibility.showTrackNumber"
+                    (click)="this.orderByTrackNumber()"
+                >
+                    #
+                </td>
+                <td
+                    class="w-56px pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showYear"
+                    (click)="this.orderByYear()"
+                >
                     {{ 'year' | translate }}
                 </td>
-                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showPlayCount">
+                <td
+                    class="w-56px pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showPlayCount"
+                    (click)="this.orderByPlayCount()"
+                >
                     {{ 'plays' | translate }}
                 </td>
-                <td class="w-56px pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showSkipCount">
+                <td
+                    class="w-56px pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showSkipCount"
+                    (click)="this.orderBySkipCount()"
+                >
                     {{ 'skips' | translate }}
                 </td>
-                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showDateLastPlayed">
+                <td
+                    class="pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showDateLastPlayed"
+                    (click)="this.orderByDateAdded()"
+                >
                     {{ 'last-played' | translate }}
                 </td>
-                <td class="pointer secondary-text ellipsis" *ngIf="this.tracksColumnsVisibility.showDateAdded">
+                <td
+                    class="pointer secondary-text ellipsis"
+                    *ngIf="this.tracksColumnsVisibility.showDateAdded"
+                    (click)="this.orderByDateLastPlayed()"
+                >
                     {{ 'date-added' | translate }}
                 </td>
             </tr>
@@ -75,7 +109,7 @@
                         {{ track.albumTitle }}
                     </div>
                 </td>
-                <td *ngIf="this.tracksColumnsVisibility.showGenre">
+                <td *ngIf="this.tracksColumnsVisibility.showGenres">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.genres }}
                     </div>
@@ -85,7 +119,7 @@
                         {{ track.durationInMilliseconds | formatTrackDuration }}
                     </div>
                 </td>
-                <td class="w-56px text-align-right-important" *ngIf="this.tracksColumnsVisibility.showNumber">
+                <td class="w-56px text-align-right-important" *ngIf="this.tracksColumnsVisibility.showTrackNumber">
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
                         {{ track.number | zeroToBlank }}
                     </div>

@@ -50,15 +50,15 @@ describe('EditColumnsDialogComponent', () => {
         });
     });
 
-    describe('saveTracksColumnsVisibility', () => {
-        it('should save save tracksColumnsVisibility', () => {
+    describe('setTracksColumnsVisibility', () => {
+        it('should set tracksColumnsVisibility', () => {
             // Arrange
 
             // Act
-            component.saveTracksColumnsVisibility();
+            component.setTracksColumnsVisibility();
 
             // Assert
-            tracksColumnsServiceMock.verify((x) => x.saveTracksColumnsVisibility(component.tracksColumnsVisibility), Times.once());
+            tracksColumnsServiceMock.verify((x) => x.setTracksColumnsVisibility(component.tracksColumnsVisibility), Times.once());
         });
     });
 });
