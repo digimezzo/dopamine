@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0-preview.17] - 2022-10-11
+## [3.0.0-preview.17] - 2022-11-02
 
 ### Added
+
+-   Added "Songs" screen
 
 ### Changed
 
@@ -19,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
+
+-   Fixed a crash that happens when rating a song that isn't currently playing
+-   Fixed .m4a and .opus files not indexing anymore
+-   Fixed tabs which are displayed above the notifications not being clickable
 
 ## [3.0.0-preview.16] - 2022-10-06
 
