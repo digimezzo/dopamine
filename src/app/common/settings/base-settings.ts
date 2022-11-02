@@ -58,5 +58,5 @@ export abstract class BaseSettings {
     public abstract showRating: boolean;
     public abstract saveRatingToAudioFiles: boolean;
     public abstract tracksPageVisibleColumns: string;
-    public abstract tracksPageOrderByColumn: string;
+    public abstract tracksPageColumnsOrder: string;
 }

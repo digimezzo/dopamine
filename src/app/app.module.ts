@@ -117,6 +117,7 @@ import { PlaylistFoldersPersister } from './components/collection/collection-pla
 import { PlaylistTrackBrowserComponent } from './components/collection/collection-playlists/playlist-track-browser/playlist-track-browser.component';
 import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
 import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
+import { CollectionTracksTableHeaderComponent } from './components/collection/collection-tracks/collection-tracks-table/collection-tracks-table-header/collection-tracks-table-header.component';
 import { CollectionTracksTableComponent } from './components/collection/collection-tracks/collection-tracks-table/collection-tracks-table.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
@@ -261,6 +262,7 @@ import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.serv
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { BaseTracksColumnsService } from './services/track-columns/base-tracks-columns.service';
+import { TracksColumnsOrdering } from './services/track-columns/tracks-columns-ordering';
 import { TracksColumnsService } from './services/track-columns/tracks-columns.service';
 import { BaseTrackService } from './services/track/base-track.service';
 import { TrackModelFactory } from './services/track/track-model-factory';
@@ -388,6 +390,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
         CollectionTracksTableComponent,
+        CollectionTracksTableHeaderComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -478,6 +481,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ArtistOrdering,
         GenreOrdering,
         TrackOrdering,
+        TracksColumnsOrdering,
         PresenceUpdater,
         SemanticZoomHeaderAdder,
         DefaultThemesCreator,

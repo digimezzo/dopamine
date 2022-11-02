@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseTracksColumnsService } from '../../../services/track-columns/base-tracks-columns.service';
-import { TracksColumnsVisibility } from '../../../services/track-columns/track-columns-visibility';
+import { TracksColumnsVisibility } from '../../../services/track-columns/tracks-columns-visibility';
 import { EditColumnsDialogComponent } from './edit-columns-dialog.component';
 
 describe('EditColumnsDialogComponent', () => {

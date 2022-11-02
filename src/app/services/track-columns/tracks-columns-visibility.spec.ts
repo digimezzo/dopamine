@@ -1,4 +1,4 @@
-import { TracksColumnsVisibility } from './track-columns-visibility';
+import { TracksColumnsVisibility } from './tracks-columns-visibility';
 
 describe('TracksColumnsVisibility', () => {
     describe('constructor', () => {

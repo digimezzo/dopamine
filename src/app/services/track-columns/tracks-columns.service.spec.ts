@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { BaseTracksColumnsService } from './base-tracks-columns.service';
-import { TracksColumnsVisibility } from './track-columns-visibility';
+import { TracksColumnsVisibility } from './tracks-columns-visibility';
 import { TracksColumnsService } from './tracks-columns.service';
 
 describe('TracksColumnsService', () => {
@@ -45,7 +45,7 @@ describe('TracksColumnsService', () => {
         it('should get tracks columns visibility from settings', () => {
             // Arrange
             service = createService();
-            settingsStub.tracksPageVisibleColumns = 'rating;artists;duration;number';
+            settingsStub.tracksPageVisibleColumns = 'rating;artists;duration;trackNumber';
 
             // Act
             const tracksColumnsVisibility: TracksColumnsVisibility = service.getTracksColumnsVisibility();
@@ -70,7 +70,7 @@ describe('TracksColumnsService', () => {
         it('should save tracks columns visibility to settings', () => {
             // Arrange
             service = createService();
-            settingsStub.tracksPageVisibleColumns = 'rating;artists;duration;number';
+            settingsStub.tracksPageVisibleColumns = 'rating;artists;duration;trackNumber';
             const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
             tracksColumnsVisibility.showRating = true;
             tracksColumnsVisibility.showArtists = true;
@@ -89,7 +89,7 @@ describe('TracksColumnsService', () => {
 
             // Assert
             expect(settingsStub.tracksPageVisibleColumns).toEqual(
-                'rating;artists;genres;duration;number;year;skipCount;dateLastPlayed;dateAdded'
+                'rating;artists;genres;duration;trackNumber;year;skipCount;dateLastPlayed;dateAdded'
             );
         });
 
@@ -112,5 +112,13 @@ describe('TracksColumnsService', () => {
             // Assert
             expect(receivedTracksColumnsVisibility).toBe(newTracksColumnsVisibility);
         });
+    });
+
+    describe('getTracksColumnsOrder', () => {
+        test.todo('should write tests');
+    });
+
+    describe('setTracksColumnsOrder', () => {
+        test.todo('should write tests');
     });
 });

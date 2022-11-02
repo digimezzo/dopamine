@@ -2,57 +2,77 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseTracksColumnsService } from './base-tracks-columns.service';
-import { TracksColumnsOrder } from './track-columns-order';
-import { TracksColumnsVisibility } from './track-columns-visibility';
+import { TracksColumnsOrder } from './tracks-columns-order';
+import { TracksColumnsOrderColumn } from './tracks-columns-order-column';
+import { TracksColumnsOrderDirection } from './tracks-columns-order-direction';
+import { TracksColumnsVisibility } from './tracks-columns-visibility';
 
 @Injectable()
 export class TracksColumnsService implements BaseTracksColumnsService {
+    private trackTitleSettingsString: string = 'trackTitle';
+    private ratingSettingsString: string = 'rating';
+    private artistsSettingsString: string = 'artists';
+    private albumSettingsString: string = 'album';
+    private genresSettingsString: string = 'genres';
+    private durationSettingsString: string = 'duration';
+    private trackNumberSettingsString: string = 'trackNumber';
+    private yearSettingsString: string = 'year';
+    private playCountSettingsString: string = 'playCount';
+    private skipCountSettingsString: string = 'skipCount';
+    private dateLastPlayedSettingsString: string = 'dateLastPlayed';
+    private dateAddedPlayedSettingsString: string = 'dateAdded';
+
+    private ascendingSettingsString: string = 'ascending';
+    private descendingSettingsString: string = 'descending';
+
     private tracksColumnsVisibilityChanged: Subject<TracksColumnsVisibility> = new Subject<TracksColumnsVisibility>();
+    private tracksColumnsOrderChanged: Subject<TracksColumnsOrder> = new Subject<TracksColumnsOrder>();
 
     public constructor(private settings: BaseSettings) {}
 
     public tracksColumnsVisibilityChanged$: Observable<TracksColumnsVisibility> = this.tracksColumnsVisibilityChanged.asObservable();
+    public tracksColumnsOrderChanged$: Observable<TracksColumnsOrder> = this.tracksColumnsOrderChanged.asObservable();
 
     public getTracksColumnsVisibility(): TracksColumnsVisibility {
-        const tracksPageVisibleColumnsAsString: string = this.settings.tracksPageVisibleColumns;
-        const tracksPageVisibleColumns: string[] = tracksPageVisibleColumnsAsString.split(';');
+        const tracksPageVisibleColumnsFromSettings: string = this.settings.tracksPageVisibleColumns;
+        const tracksPageVisibleColumns: string[] = tracksPageVisibleColumnsFromSettings.split(';');
 
         const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 
         if (tracksPageVisibleColumns.length > 0) {
             for (const tracksPageVisibleColumn of tracksPageVisibleColumns) {
                 switch (tracksPageVisibleColumn) {
-                    case 'rating':
+                    case this.ratingSettingsString:
                         tracksColumnsVisibility.showRating = true;
                         break;
-                    case 'artists':
+                    case this.artistsSettingsString:
                         tracksColumnsVisibility.showArtists = true;
                         break;
-                    case 'album':
+                    case this.albumSettingsString:
                         tracksColumnsVisibility.showAlbum = true;
                         break;
-                    case 'genres':
+                    case this.genresSettingsString:
                         tracksColumnsVisibility.showGenres = true;
                         break;
-                    case 'duration':
+                    case this.durationSettingsString:
                         tracksColumnsVisibility.showDuration = true;
                         break;
-                    case 'number':
+                    case this.trackNumberSettingsString:
                         tracksColumnsVisibility.showTrackNumber = true;
                         break;
-                    case 'year':
+                    case this.yearSettingsString:
                         tracksColumnsVisibility.showYear = true;
                         break;
-                    case 'playCount':
+                    case this.playCountSettingsString:
                         tracksColumnsVisibility.showPlayCount = true;
                         break;
-                    case 'skipCount':
+                    case this.skipCountSettingsString:
                         tracksColumnsVisibility.showSkipCount = true;
                         break;
-                    case 'dateLastPlayed':
+                    case this.dateLastPlayedSettingsString:
                         tracksColumnsVisibility.showDateLastPlayed = true;
                         break;
-                    case 'dateAdded':
+                    case this.dateAddedPlayedSettingsString:
                         tracksColumnsVisibility.showDateAdded = true;
                         break;
                 }
@@ -66,54 +86,197 @@ export class TracksColumnsService implements BaseTracksColumnsService {
         const tracksPageVisibleColumns: string[] = [];
 
         if (tracksColumnsVisibility.showRating) {
-            tracksPageVisibleColumns.push('rating');
+            tracksPageVisibleColumns.push(this.ratingSettingsString);
         }
 
         if (tracksColumnsVisibility.showArtists) {
-            tracksPageVisibleColumns.push('artists');
+            tracksPageVisibleColumns.push(this.artistsSettingsString);
         }
 
         if (tracksColumnsVisibility.showAlbum) {
-            tracksPageVisibleColumns.push('album');
+            tracksPageVisibleColumns.push(this.albumSettingsString);
         }
 
         if (tracksColumnsVisibility.showGenres) {
-            tracksPageVisibleColumns.push('genres');
+            tracksPageVisibleColumns.push(this.genresSettingsString);
         }
 
         if (tracksColumnsVisibility.showDuration) {
-            tracksPageVisibleColumns.push('duration');
+            tracksPageVisibleColumns.push(this.durationSettingsString);
         }
 
         if (tracksColumnsVisibility.showTrackNumber) {
-            tracksPageVisibleColumns.push('number');
+            tracksPageVisibleColumns.push(this.trackNumberSettingsString);
         }
 
         if (tracksColumnsVisibility.showYear) {
-            tracksPageVisibleColumns.push('year');
+            tracksPageVisibleColumns.push(this.yearSettingsString);
         }
 
         if (tracksColumnsVisibility.showPlayCount) {
-            tracksPageVisibleColumns.push('playCount');
+            tracksPageVisibleColumns.push(this.playCountSettingsString);
         }
 
         if (tracksColumnsVisibility.showSkipCount) {
-            tracksPageVisibleColumns.push('skipCount');
+            tracksPageVisibleColumns.push(this.skipCountSettingsString);
         }
 
         if (tracksColumnsVisibility.showDateLastPlayed) {
-            tracksPageVisibleColumns.push('dateLastPlayed');
+            tracksPageVisibleColumns.push(this.dateLastPlayedSettingsString);
         }
 
         if (tracksColumnsVisibility.showDateAdded) {
-            tracksPageVisibleColumns.push('dateAdded');
+            tracksPageVisibleColumns.push(this.dateAddedPlayedSettingsString);
         }
 
-        const tracksPageVisibleColumnsAsString: string = tracksPageVisibleColumns.join(';');
-        this.settings.tracksPageVisibleColumns = tracksPageVisibleColumnsAsString;
+        const tracksPageVisibleColumnsForSettings: string = tracksPageVisibleColumns.join(';');
+        this.settings.tracksPageVisibleColumns = tracksPageVisibleColumnsForSettings;
 
         this.tracksColumnsVisibilityChanged.next(tracksColumnsVisibility);
     }
 
-    public setTracksColumnsOrder(tracksColumnsOrder: TracksColumnsOrder): void {}
+    public getTracksColumnsOrder(): TracksColumnsOrder {
+        const tracksColumnsOrderFromSettings: string = this.settings.tracksPageColumnsOrder;
+        const tracksColumnsOrderFromSettingsParts: string[] = tracksColumnsOrderFromSettings.split(';');
+
+        const tracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
+            TracksColumnsOrderColumn.trackTitle,
+            TracksColumnsOrderDirection.ascending
+        );
+
+        if (tracksColumnsOrderFromSettingsParts.length > 1) {
+            switch (tracksColumnsOrderFromSettingsParts[0]) {
+                case this.trackTitleSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.trackTitle;
+                    break;
+                case this.ratingSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.rating;
+                    break;
+                case this.artistsSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.artists;
+                    break;
+                case this.albumSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.album;
+                    break;
+                case this.genresSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.genres;
+                    break;
+                case this.durationSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.duration;
+                    break;
+                case this.trackNumberSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.trackNumber;
+                    break;
+                case this.yearSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.year;
+                    break;
+                case this.playCountSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.playCount;
+                    break;
+                case this.skipCountSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.skipCount;
+                    break;
+                case this.dateLastPlayedSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.dateLastPlayed;
+                    break;
+                case this.dateAddedPlayedSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.dateAdded;
+                    break;
+                default: {
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.trackTitle;
+                    break;
+                }
+            }
+
+            switch (tracksColumnsOrderFromSettingsParts[1]) {
+                case this.ascendingSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderDirection = TracksColumnsOrderDirection.ascending;
+                    break;
+                case this.descendingSettingsString:
+                    tracksColumnsOrder.tracksColumnsOrderDirection = TracksColumnsOrderDirection.descending;
+                    break;
+                default: {
+                    tracksColumnsOrder.tracksColumnsOrderDirection = TracksColumnsOrderDirection.ascending;
+                    break;
+                }
+            }
+        }
+
+        return tracksColumnsOrder;
+    }
+
+    public setTracksColumnsOrder(tracksColumnsOrderColumn: TracksColumnsOrderColumn): void {
+        const currentTracksColumnsOrder: TracksColumnsOrder = this.getTracksColumnsOrder();
+        const newTracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
+            tracksColumnsOrderColumn,
+            TracksColumnsOrderDirection.ascending
+        );
+
+        if (currentTracksColumnsOrder.tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {
+            newTracksColumnsOrder.tracksColumnsOrderDirection = TracksColumnsOrderDirection.descending;
+        }
+
+        const tracksPageColumnsOrderForSettingsParts: string[] = [];
+
+        switch (newTracksColumnsOrder.tracksColumnsOrderColumn) {
+            case TracksColumnsOrderColumn.trackTitle:
+                tracksPageColumnsOrderForSettingsParts.push(this.trackTitleSettingsString);
+                break;
+            case TracksColumnsOrderColumn.rating:
+                tracksPageColumnsOrderForSettingsParts.push(this.ratingSettingsString);
+                break;
+            case TracksColumnsOrderColumn.artists:
+                tracksPageColumnsOrderForSettingsParts.push(this.artistsSettingsString);
+                break;
+            case TracksColumnsOrderColumn.album:
+                tracksPageColumnsOrderForSettingsParts.push(this.albumSettingsString);
+                break;
+            case TracksColumnsOrderColumn.genres:
+                tracksPageColumnsOrderForSettingsParts.push(this.genresSettingsString);
+                break;
+            case TracksColumnsOrderColumn.duration:
+                tracksPageColumnsOrderForSettingsParts.push(this.durationSettingsString);
+                break;
+            case TracksColumnsOrderColumn.trackNumber:
+                tracksPageColumnsOrderForSettingsParts.push(this.trackNumberSettingsString);
+                break;
+            case TracksColumnsOrderColumn.year:
+                tracksPageColumnsOrderForSettingsParts.push(this.yearSettingsString);
+                break;
+            case TracksColumnsOrderColumn.playCount:
+                tracksPageColumnsOrderForSettingsParts.push(this.playCountSettingsString);
+                break;
+            case TracksColumnsOrderColumn.skipCount:
+                tracksPageColumnsOrderForSettingsParts.push(this.skipCountSettingsString);
+                break;
+            case TracksColumnsOrderColumn.dateLastPlayed:
+                tracksPageColumnsOrderForSettingsParts.push(this.dateLastPlayedSettingsString);
+                break;
+            case TracksColumnsOrderColumn.dateAdded:
+                tracksPageColumnsOrderForSettingsParts.push(this.dateAddedPlayedSettingsString);
+                break;
+            default: {
+                tracksPageColumnsOrderForSettingsParts.push(this.trackTitleSettingsString);
+                break;
+            }
+        }
+
+        switch (newTracksColumnsOrder.tracksColumnsOrderDirection) {
+            case TracksColumnsOrderDirection.ascending:
+                tracksPageColumnsOrderForSettingsParts.push(this.ascendingSettingsString);
+                break;
+            case TracksColumnsOrderDirection.descending:
+                tracksPageColumnsOrderForSettingsParts.push(this.descendingSettingsString);
+                break;
+            default: {
+                tracksPageColumnsOrderForSettingsParts.push(this.ascendingSettingsString);
+                break;
+            }
+        }
+
+        const tracksPageColumnsOrderForSettings: string = tracksPageColumnsOrderForSettingsParts.join(';');
+        this.settings.tracksPageColumnsOrder = tracksPageColumnsOrderForSettings;
+
+        this.tracksColumnsOrderChanged.next(newTracksColumnsOrder);
+    }
 }

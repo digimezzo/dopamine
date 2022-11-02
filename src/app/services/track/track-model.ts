@@ -50,7 +50,7 @@ export class TrackModel {
     }
 
     public get sortableTitle(): string {
-        return Strings.getSortableString(this.track.trackTitle, false);
+        return Strings.getSortableString(this.title, false);
     }
 
     public get artists(): string {
@@ -69,6 +69,10 @@ export class TrackModel {
         return commaSeparatedArtists;
     }
 
+    public get sortableArtists(): string {
+        return Strings.getSortableString(this.artists, false);
+    }
+
     public get genres(): string {
         const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
 
@@ -83,6 +87,10 @@ export class TrackModel {
         }
 
         return commaSeparatedGenres;
+    }
+
+    public get sortableGenres(): string {
+        return Strings.getSortableString(this.genres, false);
     }
 
     public get albumKey(): string {

@@ -537,13 +537,13 @@ export class Settings implements BaseSettings {
         this.settings.set('tracksPageVisibleColumns', v);
     }
 
-    //  Tracks page order by column
-    public get tracksPageOrderByColumn(): string {
-        return this.settings.get('tracksPageOrderByColumn');
+    //  Tracks page column order
+    public get tracksPageColumnsOrder(): string {
+        return this.settings.get('tracksPageColumnsOrder');
     }
 
-    public set tracksPageOrderByColumn(v: string) {
-        this.settings.set('tracksPageOrderByColumn', v);
+    public set tracksPageColumnsOrder(v: string) {
+        this.settings.set('tracksPageColumnsOrder', v);
     }
 
     // Initialize
@@ -776,8 +776,8 @@ export class Settings implements BaseSettings {
             this.settings.set('tracksPageVisibleColumns', 'rating;artists;duration;number');
         }
 
-        if (!this.settings.has('tracksPageOrderByColumn')) {
-            this.settings.set('tracksPageOrderByColumn', '');
+        if (!this.settings.has('tracksPageColumnsOrder')) {
+            this.settings.set('tracksPageColumnsOrder', '');
         }
     }
 }
