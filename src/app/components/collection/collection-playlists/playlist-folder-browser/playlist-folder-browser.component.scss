@@ -37,3 +37,7 @@
     height: 24px;
     line-height: 24px;
 }
+
+.playlist-folder__name:hover {
+    background: var(--theme-hovered-item-background);
+}

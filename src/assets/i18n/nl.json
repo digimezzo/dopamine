@@ -208,5 +208,19 @@
     "show-rating": "Toon beoordeling",
     "save-rating-to-audio-files": "Sla de beoordeling op in de audiobestanden (alleen MP3)",
     "playlist-folder-is-empty": "Deze afspeellijstmap is leeg. Vergeet niet om afspeellijsten te maken.",
-    "show-in-folder": "Weergeven in map"
+    "show-in-folder": "Weergeven in map",
+    "title": "Titel",
+    "year": "Jaar",
+    "day": "dag",
+    "hour": "uur",
+    "minute": "minuut",
+    "second": "seconde",
+    "plays": "Afgespeeld",
+    "skips": "Overgeslagen",
+    "last-played": "Laatst afgespeeld",
+    "date-added": "Toevoegdatum",
+    "edit-columns": "Kolommen bewerken...",
+    "columns": "Kolommen",
+    "duration": "Looptijd",
+    "number": "Nummer"
 }

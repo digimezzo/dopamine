@@ -1,0 +1,46 @@
+<app-dialog-header icon="las la-columns" title="{{ 'columns' | translate }}"></app-dialog-header>
+<mat-dialog-content
+    ><div class="d-flex flex-column">
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showRating"></mat-checkbox>{{ 'rating' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showArtists"></mat-checkbox>{{ 'artists' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showAlbum"></mat-checkbox>{{ 'album' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showGenres"></mat-checkbox>{{ 'genres' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDuration"></mat-checkbox>{{ 'duration' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showTrackNumber"></mat-checkbox>{{ 'number' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showYear"></mat-checkbox>{{ 'year' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showPlayCount"></mat-checkbox>{{ 'plays' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showSkipCount"></mat-checkbox>{{ 'skips' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDateLastPlayed"></mat-checkbox
+            >{{ 'last-played' | translate }}
+        </div>
+        <div class="d-flex flex-row p-1">
+            <mat-checkbox class="mr-2" [(ngModel)]="this.tracksColumnsVisibility.showDateAdded"></mat-checkbox
+            >{{ 'date-added' | translate }}
+        </div>
+    </div></mat-dialog-content
+>
+<mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="true" (click)="this.setTracksColumnsVisibility()">
+        {{ 'ok' | translate | uppercase }}
+    </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
+</mat-dialog-actions>

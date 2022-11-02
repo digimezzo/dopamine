@@ -8,4 +8,5 @@ export abstract class BaseDialogService {
     public abstract showLicenseDialog(): void;
     public abstract showEditPlaylistDialogAsync(playlist: PlaylistModel): Promise<void>;
     public abstract showCreatePlaylistDialogAsync(): Promise<void>;
+    public abstract showEditColumnsDialogAsync(): Promise<void>;
 }

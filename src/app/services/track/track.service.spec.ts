@@ -384,20 +384,20 @@ describe('TrackService', () => {
         });
     });
 
-    describe('savePlayCount', () => {
-        it('should update play count in the database', () => {
+    describe('savePlayCountAndDateLastPlayed', () => {
+        it('should update play count and date last played in the database', () => {
             // Arrange
             const track: Track = new Track('path');
             track.trackId = 9;
 
             const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
-            trackModel.increasePlayCount();
+            trackModel.increasePlayCountAndDateLastPlayed();
 
             // Act
-            service.savePlayCount(trackModel);
+            service.savePlayCountAndDateLastPlayed(trackModel);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.updatePlayCount(9, 1), Times.once());
+            trackRepositoryMock.verify((x) => x.updatePlayCountAndDateLastPlayed(9, track.playCount, track.dateLastPlayed), Times.once());
         });
     });
 

@@ -1,0 +1,20 @@
+<div class="d-flex flex-row">
+    <div *ngIf="this.icon != undefined && this.isOrderedBy" class="accent-color ellipsis" [ngClass]="this.icon"></div>
+    <div *ngIf="this.icon != undefined && !this.isOrderedBy" class="secondary-text ellipsis" [ngClass]="this.icon"></div>
+    <div *ngIf="this.icon == undefined" class="secondary-text ellipsis" [ngClass]="{ 'accent-color-important': this.isOrderedBy }">
+        {{ this.text }}
+    </div>
+    <div class="d-flex flex-row align-items-center" *ngIf="this.isOrderedBy">
+        <i
+            class="secondary-text ellipsis las la-angle-up ml-1"
+            *ngIf="!this.isOrderedAscending"
+            [ngClass]="{ 'accent-color-important': this.isOrderedBy }"
+        ></i>
+        <i
+            class="secondary-text ellipsis las la-angle-down ml-1"
+            *ngIf="this.isOrderedAscending"
+            [ngClass]="{ 'accent-color-important': this.isOrderedBy }"
+        >
+        </i>
+    </div>
+</div>

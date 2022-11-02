@@ -1,5 +1,6 @@
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
@@ -49,7 +50,7 @@ export class TrackModel {
     }
 
     public get sortableTitle(): string {
-        return Strings.getSortableString(this.track.trackTitle, false);
+        return Strings.getSortableString(this.title, false);
     }
 
     public get artists(): string {
@@ -66,6 +67,30 @@ export class TrackModel {
         }
 
         return commaSeparatedArtists;
+    }
+
+    public get sortableArtists(): string {
+        return Strings.getSortableString(this.artists, false);
+    }
+
+    public get genres(): string {
+        const trackGenres: string[] = DataDelimiter.fromDelimitedString(this.track.genres);
+
+        if (trackGenres == undefined || trackGenres.length === 0) {
+            return this.translatorService.get('unknown-genre');
+        }
+
+        const commaSeparatedGenres: string = trackGenres.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
+
+        if (commaSeparatedGenres.length === 0) {
+            return this.translatorService.get('unknown-genre');
+        }
+
+        return commaSeparatedGenres;
+    }
+
+    public get sortableGenres(): string {
+        return Strings.getSortableString(this.genres, false);
     }
 
     public get albumKey(): string {
@@ -127,8 +152,17 @@ export class TrackModel {
         this.track.rating = v;
     }
 
-    public increasePlayCount(): void {
+    public get dateLastPlayed(): number {
+        return this.track.dateLastPlayed;
+    }
+
+    public get dateAdded(): number {
+        return this.track.dateAdded;
+    }
+
+    public increasePlayCountAndDateLastPlayed(): void {
         this.track.playCount++;
+        this.track.dateLastPlayed = DateTime.convertDateToTicks(new Date());
     }
 
     public increaseSkipCount(): void {

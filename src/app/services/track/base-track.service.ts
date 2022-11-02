@@ -8,6 +8,6 @@ export abstract class BaseTrackService {
     public abstract getTracksForAlbums(albumKeys: string[]): TrackModels;
     public abstract getTracksForArtists(artists: string[], artistType: ArtistType): TrackModels;
     public abstract getTracksForGenres(genres: string[]): TrackModels;
-    public abstract savePlayCount(track: TrackModel): void;
+    public abstract savePlayCountAndDateLastPlayed(track: TrackModel): void;
     public abstract saveSkipCount(track: TrackModel): void;
 }

@@ -1,6 +1,6 @@
 <div class="app-playlist no-select">
     <div class="app-playlist-content">
-        <div class="app-playlist-border" [ngClass]="{ 'selected-item-background': this.isSelected }">
+        <div class="app-playlist-border" [ngClass]="{ 'selected-item-background-important': this.isSelected }">
             <div class="app-playlist__cover">
                 <div class="app-playlist__cover__placeholder">
                     <svg width="256" height="256" viewBox="0 0 256 256">
@@ -16,9 +16,6 @@
             <div
                 class="app-playlist__information ellipsis"
                 matTooltip="{{ playlist.name }}"
-                [ngClass]="{
-                    'selected-item-text-color-important': this.isSelected && this.appearanceService.shouldOverrideSelectedItemText
-                }"
             >
                 {{ playlist.name }}
             </div>

@@ -102,9 +102,15 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
-                this.currentTrack.rating = track.rating;
+                this.setRating(track);
             })
         );
+    }
+
+    private setRating(track: TrackModel): void {
+        if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
+            this.currentTrack.rating = track.rating;
+        }
     }
 
     private async switchUp(track: TrackModel): Promise<void> {

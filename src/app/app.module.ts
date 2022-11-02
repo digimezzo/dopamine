@@ -20,6 +20,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipDefaultOptions, MatTooltipModule, MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
@@ -116,6 +117,8 @@ import { PlaylistFoldersPersister } from './components/collection/collection-pla
 import { PlaylistTrackBrowserComponent } from './components/collection/collection-playlists/playlist-track-browser/playlist-track-browser.component';
 import { PlaylistsPersister } from './components/collection/collection-playlists/playlists-persister';
 import { PlaylistsTracksPersister } from './components/collection/collection-playlists/playlists-tracks-persister';
+import { CollectionTracksTableHeaderComponent } from './components/collection/collection-tracks/collection-tracks-table/collection-tracks-table-header/collection-tracks-table-header.component';
+import { CollectionTracksTableComponent } from './components/collection/collection-tracks/collection-tracks-table/collection-tracks-table.component';
 import { CollectionTracksComponent } from './components/collection/collection-tracks/collection-tracks.component';
 import { CollectionComponent } from './components/collection/collection.component';
 import { ItemSpaceCalculator } from './components/collection/item-space-calculator';
@@ -127,6 +130,7 @@ import { TrackBrowserComponent } from './components/collection/track-browser/tra
 import { TrackComponent } from './components/collection/track/track.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DialogHeaderComponent } from './components/dialogs/dialog-header/dialog-header.component';
+import { EditColumnsDialogComponent } from './components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
 import { EditPlaylistDialogComponent } from './components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { InputDialogComponent } from './components/dialogs/input-dialog/input-dialog.component';
@@ -171,6 +175,7 @@ import { AlbumsFilterPipe } from './pipes/albums-filter.pipe';
 import { ArtistFilterPipe as ArtistsFilterPipe } from './pipes/artists-filter.pipe';
 import { FolderNamePipe } from './pipes/folder-name.pipe';
 import { FormatPlaybackTimePipe } from './pipes/format-playback-time';
+import { FormatTicksToDateTimeStringPipe } from './pipes/format-ticks-to-date-time-string.pipe';
 import { FormatTotalDurationPipe } from './pipes/format-total-duration.pipe';
 import { FormatTotalFileSizePipe } from './pipes/format-total-file-size.pipe';
 import { FormatTrackDurationPipe } from './pipes/format-track-duration.pipe';
@@ -181,6 +186,7 @@ import { PlaylistsFilterPipe } from './pipes/playlists-filter';
 import { SubfolderNamePipe } from './pipes/subfolder-name.pipe';
 import { SubfoldersFilterPipe } from './pipes/subfolders-filter.pipe';
 import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
+import { ZeroToBlankPipe } from './pipes/zero-to-blank.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
 import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
@@ -255,6 +261,9 @@ import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
 import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
+import { BaseTracksColumnsService } from './services/track-columns/base-tracks-columns.service';
+import { TracksColumnsOrdering } from './services/track-columns/tracks-columns-ordering';
+import { TracksColumnsService } from './services/track-columns/tracks-columns.service';
 import { BaseTrackService } from './services/track/base-track.service';
 import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
@@ -312,6 +321,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         InputDialogComponent,
         ErrorDialogComponent,
         LicenseDialogComponent,
+        EditColumnsDialogComponent,
         ManageCollectionComponent,
         ManageMusicComponent,
         ManageRefreshComponent,
@@ -345,6 +355,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SubfoldersFilterPipe,
         PlaylistsFilterPipe,
         ImageToFilePathPipe,
+        ZeroToBlankPipe,
+        FormatTicksToDateTimeStringPipe,
         CollectionPlaylistsComponent,
         CollectionArtistsComponent,
         CollectionAlbumsComponent,
@@ -377,6 +389,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         RatingComponent,
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
+        CollectionTracksTableComponent,
+        CollectionTracksTableHeaderComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -400,6 +414,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatChipsModule,
         MatProgressBarModule,
         MatSliderModule,
+        MatSortModule,
         DragDropModule,
         HammerModule,
         FormsModule,
@@ -466,6 +481,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ArtistOrdering,
         GenreOrdering,
         TrackOrdering,
+        TracksColumnsOrdering,
         PresenceUpdater,
         SemanticZoomHeaderAdder,
         DefaultThemesCreator,
@@ -537,12 +553,20 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
+        { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
         },
     ],
     bootstrap: [AppComponent],
-    entryComponents: [ConfirmationDialogComponent, InputDialogComponent, ErrorDialogComponent, LicenseDialogComponent, SnackBarComponent],
+    entryComponents: [
+        ConfirmationDialogComponent,
+        InputDialogComponent,
+        ErrorDialogComponent,
+        LicenseDialogComponent,
+        SnackBarComponent,
+        EditColumnsDialogComponent,
+    ],
 })
 export class AppModule {}

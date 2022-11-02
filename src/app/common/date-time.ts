@@ -15,20 +15,32 @@ export class DateTime {
         const ticksPerMillisecond: number = 10000;
 
         // Date in JavaScript also contains time zone offset. We need to remove it.
-        const offset: number = date.getTimezoneOffset() * 600000000;
+        const offsetInTicks: number = date.getTimezoneOffset() * 600000000;
 
         // Calculate the total number of .NET ticks for the given date
-        const dotNetTicks: number = epochTicks + date.getTime() * ticksPerMillisecond - offset;
+        const dotNetTicks: number = epochTicks + date.getTime() * ticksPerMillisecond - offsetInTicks;
 
         return dotNetTicks;
     }
 
+    public static convertTicksToDate(ticks: number): Date {
+        // Based on https://github.com/vyushin/ticks-to-date/blob/master/src/ticksToDate.js
+        const dateWithoutOffset: Date = new Date(ticks / 10000 + new Date('0001-01-01T00:00:00Z').getTime());
+
+        const offset: number = dateWithoutOffset.getTimezoneOffset();
+        const offsetInMilliseconds: number = offset * 60000;
+
+        const date: Date = new Date(dateWithoutOffset.getTime() + offsetInMilliseconds);
+
+        return date;
+    }
+
     public static convertDateToUnixTime(date: Date): number {
         // Date in JavaScript also contains time zone offset. We need to remove it.
-        const offset: number = date.getTimezoneOffset() * 60000;
+        const offsetInMilliseconds: number = date.getTimezoneOffset() * 60000;
 
         // Calculate the Unix time for the given date
-        const unixTime: number = Math.floor((date.getTime() - offset) / 1000);
+        const unixTime: number = Math.floor((date.getTime() - offsetInMilliseconds) / 1000);
 
         return unixTime;
     }

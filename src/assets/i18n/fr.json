@@ -208,5 +208,19 @@
     "show-rating": "Afficher classement",
     "save-rating-to-audio-files": "Enregistrez le classement dans les fichiers audio (MP3 uniquement)",
     "playlist-folder-is-empty": "Ce dossier de playlist est vide. N'oubliez pas de créer des playlists.",
-    "show-in-folder": "Afficher dans le dossier"
+    "show-in-folder": "Afficher dans le dossier",
+    "title": "Titre",
+    "year": "Année",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "minute",
+    "second": "seconde",
+    "plays": "Lectures",
+    "skips": "Sauts",
+    "last-played": "Dernière lecture",
+    "date-added": "Date d'ajout",
+    "edit-columns": "Modifier les colonnes...",
+    "columns": "Colonnes",
+    "duration": "Durée",
+    "number": "Numéro"
 }

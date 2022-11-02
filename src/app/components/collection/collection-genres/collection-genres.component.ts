@@ -108,7 +108,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     }
 
     private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.genresTablabel) {
+        if (this.collectionPersister.selectedTab === Constants.genresTabLabel) {
             await this.fillListsAsync();
         } else {
             this.clearLists();

@@ -463,7 +463,7 @@ describe('PlaybackService', () => {
             queueMock.verify((x) => x.getNextTrack(It.isAny(), true), Times.exactly(1));
         });
 
-        it('should increase play count for the current track on playback finished', () => {
+        it('should increase play count and date last played for the current track on playback finished', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
@@ -472,10 +472,10 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            trackModelMock.verify((x) => x.increasePlayCount(), Times.once());
+            trackModelMock.verify((x) => x.increasePlayCountAndDateLastPlayed(), Times.once());
         });
 
-        it('should save play count for the current track on playback finished', () => {
+        it('should save play count and date last played for the current track on playback finished', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
@@ -484,7 +484,7 @@ describe('PlaybackService', () => {
             playbackFinished.next();
 
             // Assert
-            trackServiceMock.verify((x) => x.savePlayCount(trackModelMock.object), Times.once());
+            trackServiceMock.verify((x) => x.savePlayCountAndDateLastPlayed(trackModelMock.object), Times.once());
         });
 
         it('should raise an event, on playback finished, that playback has started, containing the current track and if a next track is being played.', () => {
@@ -1488,7 +1488,7 @@ describe('PlaybackService', () => {
             expect(isPlayingPreviousTrack).toBeFalsy();
         });
 
-        it('should increase play count for the current track if progress is more than 80%', () => {
+        it('should increase play count and date last played for the current track if progress is more than 80%', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
             progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
@@ -1497,10 +1497,10 @@ describe('PlaybackService', () => {
             service.playNext();
 
             // Assert
-            trackModelMock.verify((x) => x.increasePlayCount(), Times.once());
+            trackModelMock.verify((x) => x.increasePlayCountAndDateLastPlayed(), Times.once());
         });
 
-        it('should save play count for the current track if progress is more than 80%', () => {
+        it('should save play count and date last played for the current track if progress is more than 80%', () => {
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             service.enqueueAndPlayTracks([trackModelMock.object], trackModelMock.object);
             progressUpdaterProgressChanged.next(new PlaybackProgress(81, 100));
@@ -1509,7 +1509,7 @@ describe('PlaybackService', () => {
             service.playNext();
 
             // Assert
-            trackServiceMock.verify((x) => x.savePlayCount(trackModelMock.object), Times.once());
+            trackServiceMock.verify((x) => x.savePlayCountAndDateLastPlayed(trackModelMock.object), Times.once());
         });
 
         it('should increase skip count for the current track if progress is less than 80%', () => {

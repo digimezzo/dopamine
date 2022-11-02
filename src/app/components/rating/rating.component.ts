@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -20,7 +19,7 @@ export class RatingComponent implements OnInit {
         private metadataService: BaseMetadataService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
-        private appearanceService: BaseAppearanceService,
+        private appearanceService: BaseAppearanceService
     ) {}
 
     @Input()

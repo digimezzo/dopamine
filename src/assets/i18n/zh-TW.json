@@ -208,5 +208,19 @@
     "show-rating": "顯示評等",
     "save-rating-to-audio-files": "將評等儲存到音訊檔案 (僅限 MP3)",
     "playlist-folder-is-empty": "此播放清單資料夾為空。不要忘記去建立一些播放清單哦。",
-    "show-in-folder": "在資料夾中顯示"
+    "show-in-folder": "在資料夾中顯示",
+    "title": "Title",
+    "year": "Year",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second",
+    "plays": "Plays",
+    "skips": "Skips",
+    "last-played": "Last played",
+    "date-added": "Date added",
+    "edit-columns": "Edit columns...",
+    "columns": "Columns",
+    "duration": "Duration",
+    "number": "Number"
 }

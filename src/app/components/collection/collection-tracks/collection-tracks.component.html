@@ -1,1 +1,6 @@
-<div class="collection-viewport"></div>
+<div class="collection-viewport p-3">
+    <app-collection-tracks-table
+        class="fill"
+        [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"
+    ></app-collection-tracks-table>
+</div>

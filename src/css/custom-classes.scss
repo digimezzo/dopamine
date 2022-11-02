@@ -4,16 +4,12 @@
     user-select: none;
 }
 
-.selected-item-background {
-    background-color: var(--theme-selected-item-background);
+.selected-item-background-important {
+    background-color: var(--theme-selected-item-background) !important;
 }
 
-.selected-item-text-color-important {
-    color: var(--theme-selected-item-text) !important;
-}
-
-.selected-item-text-background-important {
-    background-color: var(--theme-selected-item-text) !important;
+.hovered-item-background {
+    background-color: var(--theme-hovered-item-background);
 }
 
 .hidden {
@@ -33,10 +29,14 @@
 .collection-viewport {
     /* The splitter resize gutter is not displayed when the height is not set explicitly */
     height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+    overflow: auto;
 }
 
-.collection-viewport-smaller {
+.semantic-zoom-out-viewport {
     height: calc(100vh - 210px);
+    max-height: calc(100vh - 210px);
+    overflow: auto;
 }
 
 .left-side-pane {
@@ -104,4 +104,14 @@
 
 .overflow-hidden-important {
     overflow: hidden !important;
+}
+
+.scrollbar-gutter-stable-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+}
+
+.text-align-right-important {
+    text-align: right !important;
 }

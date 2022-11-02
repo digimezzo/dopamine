@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { EditColumnsDialogComponent } from '../../components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
 import { EditPlaylistDialogComponent } from '../../components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
 import { InputDialogComponent } from '../../components/dialogs/input-dialog/input-dialog.component';
@@ -90,5 +91,13 @@ export class DialogService implements BaseDialogService {
         await dialogRef.afterClosed().toPromise();
 
         this.isInputDialogOpened = false;
+    }
+
+    public async showEditColumnsDialogAsync(): Promise<void> {
+        const dialogRef: MatDialogRef<EditColumnsDialogComponent> = this.dialog.open(EditColumnsDialogComponent, {
+            width: '450px',
+        });
+
+        await dialogRef.afterClosed().toPromise();
     }
 }

@@ -208,5 +208,19 @@
     "show-rating": "Показывать оценки",
     "save-rating-to-audio-files": "Сохранять оценки в аудиофайлы (только MP3)",
     "playlist-folder-is-empty": "Эта папка плейлистов пуста. Не забудьте создать несколько плейлистов.",
-    "show-in-folder": "Показать в папке"
+    "show-in-folder": "Показать в папке",
+    "title": "Title",
+    "year": "Year",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second",
+    "plays": "Plays",
+    "skips": "Skips",
+    "last-played": "Last played",
+    "date-added": "Date added",
+    "edit-columns": "Edit columns...",
+    "columns": "Columns",
+    "duration": "Duration",
+    "number": "Number"
 }

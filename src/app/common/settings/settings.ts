@@ -483,6 +483,15 @@ export class Settings implements BaseSettings {
         this.settings.set('showAlbumsPage', v);
     }
 
+    //  Show tracks page
+    public get showTracksPage(): boolean {
+        return this.settings.get('showTracksPage');
+    }
+
+    public set showTracksPage(v: boolean) {
+        this.settings.set('showTracksPage', v);
+    }
+
     //  Show playlists page
     public get showPlaylistsPage(): boolean {
         return this.settings.get('showPlaylistsPage');
@@ -517,6 +526,24 @@ export class Settings implements BaseSettings {
 
     public set showRating(v: boolean) {
         this.settings.set('showRating', v);
+    }
+
+    //  Tracks page visible columns
+    public get tracksPageVisibleColumns(): string {
+        return this.settings.get('tracksPageVisibleColumns');
+    }
+
+    public set tracksPageVisibleColumns(v: string) {
+        this.settings.set('tracksPageVisibleColumns', v);
+    }
+
+    //  Tracks page column order
+    public get tracksPageColumnsOrder(): string {
+        return this.settings.get('tracksPageColumnsOrder');
+    }
+
+    public set tracksPageColumnsOrder(v: string) {
+        this.settings.set('tracksPageColumnsOrder', v);
     }
 
     // Initialize
@@ -725,6 +752,10 @@ export class Settings implements BaseSettings {
             this.settings.set('showAlbumsPage', true);
         }
 
+        if (!this.settings.has('showTracksPage')) {
+            this.settings.set('showTracksPage', true);
+        }
+
         if (!this.settings.has('showPlaylistsPage')) {
             this.settings.set('showPlaylistsPage', true);
         }
@@ -739,6 +770,14 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('saveRatingToAudioFiles')) {
             this.settings.set('saveRatingToAudioFiles', false);
+        }
+
+        if (!this.settings.has('tracksPageVisibleColumns')) {
+            this.settings.set('tracksPageVisibleColumns', 'rating;artists;duration;number');
+        }
+
+        if (!this.settings.has('tracksPageColumnsOrder')) {
+            this.settings.set('tracksPageColumnsOrder', '');
         }
     }
 }

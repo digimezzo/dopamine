@@ -9,37 +9,37 @@
     </div>
     <div class="window-frame__content">
         <mat-tab-group [(selectedIndex)]="selectedIndex" #tabGroup>
-            <mat-tab *ngIf="settings.showArtistsPage" [label]="artistsTablabel">
+            <mat-tab *ngIf="settings.showArtistsPage" [label]="artistsTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'artists' | translate }}
                 </ng-template>
                 <app-collection-artists></app-collection-artists>
             </mat-tab>
-            <mat-tab *ngIf="settings.showGenresPage" [label]="genresTablabel">
+            <mat-tab *ngIf="settings.showGenresPage" [label]="genresTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'genres' | translate }}
                 </ng-template>
                 <app-collection-genres></app-collection-genres>
             </mat-tab>
-            <mat-tab *ngIf="settings.showAlbumsPage" [label]="albumsTablabel">
+            <mat-tab *ngIf="settings.showAlbumsPage" [label]="albumsTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'albums' | translate }}
                 </ng-template>
                 <app-collection-albums></app-collection-albums>
             </mat-tab>
-            <!-- <mat-tab *ngIf="settings.showTracksPage" [label]="tracksTablabel">
+            <mat-tab *ngIf="settings.showTracksPage" [label]="tracksTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'tracks' | translate }}
                 </ng-template>
                 <app-collection-tracks></app-collection-tracks>
-            </mat-tab> -->
-            <mat-tab *ngIf="settings.showPlaylistsPage" [label]="playlistsTablabel">
+            </mat-tab>
+            <mat-tab *ngIf="settings.showPlaylistsPage" [label]="playlistsTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'playlists' | translate }}
                 </ng-template>
                 <app-collection-playlists></app-collection-playlists>
             </mat-tab>
-            <mat-tab *ngIf="settings.showFoldersPage" [label]="foldersTablabel">
+            <mat-tab *ngIf="settings.showFoldersPage" [label]="foldersTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'folders' | translate }}
                 </ng-template>

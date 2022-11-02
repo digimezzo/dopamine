@@ -11,6 +11,10 @@
     padding: 2px;
 }
 
+.app-album-border:hover {
+    background: var(--theme-hovered-item-background);
+}
+
 .app-album-content {
     width: 120px;
     display: flex;
