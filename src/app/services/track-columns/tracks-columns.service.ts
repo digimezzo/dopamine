@@ -140,7 +140,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
         const tracksColumnsOrderFromSettingsParts: string[] = tracksColumnsOrderFromSettings.split(';');
 
         const tracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
-            TracksColumnsOrderColumn.trackTitle,
+            TracksColumnsOrderColumn.none,
             TracksColumnsOrderDirection.ascending
         );
 
@@ -183,7 +183,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
                     tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.dateAdded;
                     break;
                 default: {
-                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.trackTitle;
+                    tracksColumnsOrder.tracksColumnsOrderColumn = TracksColumnsOrderColumn.none;
                     break;
                 }
             }
