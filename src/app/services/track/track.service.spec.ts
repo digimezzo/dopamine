@@ -202,6 +202,10 @@ describe('TrackService', () => {
         });
     });
 
+    describe('getVisibleTracks', () => {
+        test.todo('should write tests');
+    });
+
     describe('getAlbumTracks', () => {
         it('should return a TrackModels containing no tracks if albumKeys is undefined', () => {
             // Arrange

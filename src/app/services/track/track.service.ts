@@ -46,8 +46,8 @@ export class TrackService implements BaseTrackService {
         return trackModels;
     }
 
-    public getAllTracks(): TrackModels {
-        const tracks: Track[] = this.trackRepository.getAllTracks();
+    public getVisibleTracks(): TrackModels {
+        const tracks: Track[] = this.trackRepository.getVisibleTracks();
         const trackModels: TrackModels = new TrackModels();
 
         for (const track of tracks) {

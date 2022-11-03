@@ -172,7 +172,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
             const artistType: ArtistType = this.artistsPersister.getSelectedArtistType();
             this.tracks = this.trackService.getTracksForArtists(artists, artistType);
         } else {
-            this.tracks = this.trackService.getAllTracks();
+            this.tracks = this.trackService.getVisibleTracks();
         }
     }
 
@@ -180,7 +180,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         if (albumKeys.length > 0) {
             this.tracks = this.trackService.getTracksForAlbums(albumKeys);
         } else {
-            this.tracks = this.trackService.getAllTracks();
+            this.tracks = this.trackService.getVisibleTracks();
         }
     }
 

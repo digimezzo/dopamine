@@ -85,10 +85,20 @@ export class TrackRepository implements BaseTrackRepository {
         database.prepare(`DELETE FROM Track WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`).run();
     }
 
-    public getAllTracks(): Track[] {
+    public getVisibleTracks(): Track[] {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectTracksQueryPart(true));
+
+        const tracks: Track[] = statement.all();
+
+        return tracks;
+    }
+
+    public getAllTracks(): Track[] {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(QueryParts.selectTracksQueryPart(false));
 
         const tracks: Track[] = statement.all();
 

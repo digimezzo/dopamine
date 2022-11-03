@@ -162,7 +162,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         if (genres.length > 0) {
             this.tracks = this.trackService.getTracksForGenres(genres);
         } else {
-            this.tracks = this.trackService.getAllTracks();
+            this.tracks = this.trackService.getVisibleTracks();
         }
     }
 
@@ -170,7 +170,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         if (albumKeys.length > 0) {
             this.tracks = this.trackService.getTracksForAlbums(albumKeys);
         } else {
-            this.tracks = this.trackService.getAllTracks();
+            this.tracks = this.trackService.getVisibleTracks();
         }
     }
 

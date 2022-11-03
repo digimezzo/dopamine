@@ -11,6 +11,7 @@ export abstract class BaseTrackRepository {
     public abstract deleteTracksThatDoNotBelongFolders(): number;
     public abstract deleteTrack(trackId: number): void;
     public abstract deleteTracks(trackIds: number[]): void;
+    public abstract getVisibleTracks(): Track[];
     public abstract getAllTracks(): Track[];
     public abstract getTracksForAlbums(albumKeys: string[]): Track[];
     public abstract getTracksForTrackArtists(trackArtists: string[]): Track[];

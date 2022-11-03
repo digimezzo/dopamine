@@ -464,7 +464,7 @@ describe('CollectionGenresComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
 
@@ -474,7 +474,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -507,7 +507,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres([genre1.name, genre2.name]), Times.once());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -540,7 +540,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey, album2.albumKey]), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -573,7 +573,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey, album2.albumKey]), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -591,7 +591,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(0);
         });
 
@@ -691,7 +691,7 @@ describe('CollectionGenresComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
 
@@ -703,7 +703,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -735,7 +735,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres([genre1.name, genre2.name]), Times.once());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -755,7 +755,7 @@ describe('CollectionGenresComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
 
@@ -767,7 +767,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -799,7 +799,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForGenres(It.isAny()), Times.never());
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey, album2.albumKey]), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -822,7 +822,7 @@ describe('CollectionGenresComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
 
@@ -833,7 +833,7 @@ describe('CollectionGenresComponent', () => {
             albumServiceMock.reset();
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1, album2]);
             trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             component.genres = [];
             component.albums = [];
@@ -846,7 +846,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.once());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.genres.length).toEqual(2);
             expect(component.genres[0]).toEqual(genre1);
             expect(component.genres[1]).toEqual(genre2);
@@ -876,7 +876,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.never());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.genres.length).toEqual(0);
             expect(component.albums.length).toEqual(0);
             expect(component.tracks.tracks.length).toEqual(0);
@@ -896,7 +896,7 @@ describe('CollectionGenresComponent', () => {
 
             const track1: TrackModel = createTrackModel('path1');
             const trackModels: TrackModels = createTrackModels([track1]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
             await component.ngOnInit();
@@ -911,7 +911,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.once());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.genres.length).toEqual(1);
             expect(component.genres[0]).toEqual(genre1);
             expect(component.albums.length).toEqual(1);
@@ -934,7 +934,7 @@ describe('CollectionGenresComponent', () => {
 
             const track1: TrackModel = createTrackModel('path1');
             const trackModels: TrackModels = createTrackModels([track1]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
             await component.ngOnInit();
@@ -943,7 +943,7 @@ describe('CollectionGenresComponent', () => {
             genreServiceMock.setup((x) => x.getGenres()).returns(() => [genre1]);
             albumServiceMock.reset();
             trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
             collectionPersisterMock.reset();
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
 
@@ -954,7 +954,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.never());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.genres.length).toEqual(0);
             expect(component.albums.length).toEqual(0);
             expect(component.tracks.tracks.length).toEqual(0);
@@ -977,7 +977,7 @@ describe('CollectionGenresComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionGenresComponent = createComponent();
 
@@ -988,7 +988,7 @@ describe('CollectionGenresComponent', () => {
             albumServiceMock.reset();
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1, album2]);
             trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             component.genres = [];
             component.albums = [];
@@ -1001,7 +1001,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.once());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.genres.length).toEqual(2);
             expect(component.genres[0]).toEqual(genre1);
             expect(component.genres[1]).toEqual(genre2);
@@ -1031,7 +1031,7 @@ describe('CollectionGenresComponent', () => {
             // Assert
             genreServiceMock.verify((x) => x.getGenres(), Times.never());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.genres.length).toEqual(0);
             expect(component.albums.length).toEqual(0);
             expect(component.tracks.tracks.length).toEqual(0);

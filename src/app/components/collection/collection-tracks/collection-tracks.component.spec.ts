@@ -125,7 +125,7 @@ describe('CollectionTracksComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionTracksComponent = createComponent();
 
@@ -133,7 +133,7 @@ describe('CollectionTracksComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -146,7 +146,7 @@ describe('CollectionTracksComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionTracksComponent = createComponent();
 
@@ -154,7 +154,7 @@ describe('CollectionTracksComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(0);
         });
 
@@ -165,7 +165,7 @@ describe('CollectionTracksComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionTracksComponent = createComponent();
             await component.ngOnInit();
@@ -178,7 +178,7 @@ describe('CollectionTracksComponent', () => {
             await flushPromises();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
@@ -191,7 +191,7 @@ describe('CollectionTracksComponent', () => {
             const track1: TrackModel = createTrackModel('path1');
             const track2: TrackModel = createTrackModel('path2');
             const trackModels: TrackModels = createTrackModels([track1, track2]);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => trackModels);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
 
             const component: CollectionTracksComponent = createComponent();
             await component.ngOnInit();
@@ -204,7 +204,7 @@ describe('CollectionTracksComponent', () => {
             await flushPromises();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(0);
         });
     });

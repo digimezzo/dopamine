@@ -67,6 +67,6 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     }
 
     private getTracks(): void {
-        this.tracks = this.trackService.getAllTracks();
+        this.tracks = this.trackService.getVisibleTracks();
     }
 }

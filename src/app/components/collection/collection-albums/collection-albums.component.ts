@@ -131,7 +131,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         if (albumKeys.length > 0) {
             this.tracks = this.trackService.getTracksForAlbums(albumKeys);
         } else {
-            this.tracks = this.trackService.getAllTracks();
+            this.tracks = this.trackService.getVisibleTracks();
         }
     }
 }

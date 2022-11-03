@@ -132,7 +132,7 @@ describe('CollectionAlbumsComponent', () => {
         albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
 
         albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
-        trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+        trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
         trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
     });
 
@@ -358,7 +358,7 @@ describe('CollectionAlbumsComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
 
@@ -437,13 +437,13 @@ describe('CollectionAlbumsComponent', () => {
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
             await component.ngOnInit();
             trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
 
             // Act
             selectedAlbumsChangedMock.next([]);
 
             // Assert
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.exactly(1));
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
         });
 
@@ -453,7 +453,7 @@ describe('CollectionAlbumsComponent', () => {
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             const component: CollectionAlbumsComponent = createComponent();
@@ -476,7 +476,7 @@ describe('CollectionAlbumsComponent', () => {
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             const component: CollectionAlbumsComponent = createComponent();
@@ -514,7 +514,7 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.once());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
             expect(component.albums.length).toEqual(2);
             expect(component.tracks.tracks.length).toEqual(2);
         });
@@ -543,7 +543,7 @@ describe('CollectionAlbumsComponent', () => {
 
             // Assert
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getAllTracks(), Times.never());
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.albums.length).toEqual(0);
             expect(component.tracks.tracks.length).toEqual(0);
         });
@@ -554,7 +554,7 @@ describe('CollectionAlbumsComponent', () => {
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             const component: CollectionAlbumsComponent = createComponent();
@@ -577,7 +577,7 @@ describe('CollectionAlbumsComponent', () => {
 
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getAllTracks()).returns(() => tracks);
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
             trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
 
             const component: CollectionAlbumsComponent = createComponent();
