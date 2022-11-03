@@ -1,5 +1,5 @@
 import { ByteVector, StringType } from "../byteVector";
-import { CorruptFileError, UnsupportedFormatError } from "../errors";
+import { CorruptFileError } from "../errors";
 import { File } from "../file";
 import { Guards, NumberUtils } from "../utils";
 
@@ -64,13 +64,7 @@ export class OggPageHeader {
         header._version = data.get(4);
         header._flags = data.get(5);
 
-        const absoluteGranularPosition = data.subarray(6, 8).toUlong(false);
-        if (absoluteGranularPosition > Number.MAX_SAFE_INTEGER) {
-            throw new UnsupportedFormatError(
-                "Granular position is too large to be handled with this version of node-taglib-sharp"
-            );
-        }
-        header._absoluteGranularPosition = Number(absoluteGranularPosition);
+        header._absoluteGranularPosition = Number(data.subarray(6, 8).toUlong(false));
         header._streamSerialNumber = data.subarray(14, 4).toUint(false);
         header._pageSequenceNumber = data.subarray(18, 4).toUint(false);
 
