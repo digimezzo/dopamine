@@ -155,18 +155,21 @@ describe('CollectionComponent', () => {
     });
 
     describe('ngAfterViewInit', () => {
-        // TODO: restore this test
-        // it('should get tab index for tab label and set selected index', async () => {
-        //     // Arrange
-        //     const component: CollectionComponent = createComponent();
-        //     tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists')).returns(() => 4);
-        //     collectionPersisterStub.selectedTab = 'playlists';
-        //     // Act
-        //     component.ngAfterViewInit();
-        //     // Assert
-        //     tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists'), Times.once());
-        //     expect(component.selectedIndex).toEqual(4);
-        // });
+        it('should get tab index for tab label and set selected index', async () => {
+            // Arrange
+            const component: CollectionComponent = createComponent();
+            tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists')).returns(() => 4);
+            collectionPersisterStub.selectedTab = 'playlists';
+
+            // Act
+            jest.useFakeTimers();
+            component.ngAfterViewInit();
+            jest.runAllTimers();
+
+            // Assert
+            tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists'), Times.once());
+            expect(component.selectedIndex).toEqual(4);
+        });
     });
 
     describe('handleKeyboardEvent', () => {

@@ -98,7 +98,9 @@ describe('CollectionTracksTableComponent', () => {
             tracksColumnsService_tracksColumnsOrderChanged.asObservable();
         tracksColumnsServiceMock.setup((x) => x.tracksColumnsOrderChanged$).returns(() => tracksColumnsService_tracksColumnsOrderChanged$);
 
-        tracksColumnsServiceMock.setup((x) => x.getTracksColumnsVisibility()).returns(() => new TracksColumnsVisibility());
+        const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
+        tracksColumnsVisibility.showAlbum = true;
+        tracksColumnsServiceMock.setup((x) => x.getTracksColumnsVisibility()).returns(() => tracksColumnsVisibility);
         tracksColumnsServiceMock
             .setup((x) => x.getTracksColumnsOrder())
             .returns(() => new TracksColumnsOrder(TracksColumnsOrderColumn.trackTitle, TracksColumnsOrderDirection.ascending));
@@ -169,24 +171,19 @@ describe('CollectionTracksTableComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        // TODO: restore this test
-        // it('should get tracksColumnsVisibility', async () => {
-        //     // Arrange
-        //     const tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
-        //     tracksColumnsVisibility.showAlbum = true;
-        //     tracksColumnsServiceMock.setup((x) => x.getTracksColumnsVisibility()).returns(() => tracksColumnsVisibility);
-        //     const component: CollectionTracksTableComponent = createComponent();
+        it('should get tracksColumnsVisibility', async () => {
+            // Arrange
+            const component: CollectionTracksTableComponent = createComponent();
 
-        //     // Act
-        //     const tracksColumnsVisibilityBeforeInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
-        //     component.ngOnInit();
-        //     const tracksColumnsVisibilityAfterInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
+            // Act
+            const tracksColumnsVisibilityBeforeInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
+            component.ngOnInit();
+            const tracksColumnsVisibilityAfterInit: TracksColumnsVisibility = component.tracksColumnsVisibility;
 
-        //     // Assert
-        //     expect(tracksColumnsVisibilityBeforeInit.showAlbum).toBeFalsy();
-        //     expect(tracksColumnsVisibilityAfterInit.showAlbum).toBeTruthy();
-        //     expect(component.tracksColumnsVisibility).toBe(tracksColumnsVisibility);
-        // });
+            // Assert
+            expect(tracksColumnsVisibilityBeforeInit.showAlbum).toBeFalsy();
+            expect(tracksColumnsVisibilityAfterInit.showAlbum).toBeTruthy();
+        });
 
         it('should set the playing track on playback started', () => {
             // Arrange
