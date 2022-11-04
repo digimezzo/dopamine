@@ -1,11 +1,4 @@
-import {
-    File,
-    Id3v2FrameClassType,
-    Id3v2FrameIdentifiers,
-    Id3v2PopularimeterFrame,
-    Id3v2Tag,
-    TagTypes,
-} from '../../../dependencies/node-taglib-sharp';
+import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
 import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 

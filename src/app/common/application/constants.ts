@@ -145,12 +145,6 @@ export class Constants {
         ),
         new ExternalComponent('Icons designed by Sharlee', 'Gorgeous Dopamine icons designed by Sharlee.', 'https://www.itssharl.ee/', ''),
         new ExternalComponent(
-            'itiriri',
-            'A library built for ES6 iteration protocol.',
-            'https://github.com/labs42io/itiriri',
-            'https://github.com/labs42io/itiriri/blob/master/LICENSE'
-        ),
-        new ExternalComponent(
             'Icons8 Line Awesome',
             'Replace Font Awesome with modern line icons.',
             'https://github.com/icons8/line-awesome',
