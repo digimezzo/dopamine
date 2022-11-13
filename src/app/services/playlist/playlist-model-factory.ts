@@ -23,7 +23,7 @@ export class PlaylistModelFactory {
     }
 
     private getPlaylistName(playlistPath: string): string {
-        return this.fileSystem.getFileName(playlistPath);
+        return this.fileSystem.getFileNameWithoutExtension(playlistPath);
     }
 
     private getPlaylistFolderName(playlistsParentFolderPath: string, playlistPath: string): string {

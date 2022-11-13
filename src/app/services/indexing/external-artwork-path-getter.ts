@@ -7,22 +7,33 @@ import { Strings } from '../../common/strings';
 export class ExternalArtworkPathGetter {
     constructor(private fileSystem: BaseFileSystem) {}
 
-    public getExternalArtworkPath(audioFilePath: string): string {
+    public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {
             return undefined;
         }
 
         const directory: string = this.fileSystem.getDirectoryPath(audioFilePath);
-        const fileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(audioFilePath);
+        const filesInDirectory: string[] = await this.fileSystem.getFilesInDirectoryAsync(directory);
 
-        for (const externalCoverArtPattern of Constants.externalCoverArtPatterns) {
-            const possibleExternalArtworkFilePath: string = this.fileSystem.combinePath([
-                directory,
-                Strings.replaceAll(externalCoverArtPattern, '%filename%', fileNameWithoutExtension),
-            ]);
+        for (const filePath of filesInDirectory) {
+            const fileName: string = this.fileSystem.getFileName(filePath);
 
-            if (this.fileSystem.pathExists(possibleExternalArtworkFilePath)) {
-                return possibleExternalArtworkFilePath;
+            if (Constants.externalCoverArtPatterns.includes(fileName.toLowerCase())) {
+                return filePath;
+            }
+
+            const fileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(filePath);
+
+            for (const externalCoverArtPattern of Constants.externalCoverArtPatterns) {
+                const externalCoverArtPatternReplacedByFileName: string = Strings.replaceAll(
+                    externalCoverArtPattern,
+                    '%filename%',
+                    fileNameWithoutExtension
+                );
+
+                if (fileName.toLowerCase() === externalCoverArtPatternReplacedByFileName.toLowerCase()) {
+                    return filePath;
+                }
             }
         }
 

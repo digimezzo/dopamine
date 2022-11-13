@@ -83,7 +83,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            expect(component.donateUrl).toEqual('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+            expect(component.donateUrl).toEqual('https://digimezzo.github.io/site/donate');
         });
     });
 

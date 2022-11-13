@@ -17,7 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--   Fixed multiple indexing bugs
+-   Fixed a bug where files which previously failed to index were not re-indexed on the next attempt
+-   Fixed indexing of some OGG files
+-   Fixed indexing of external cover art for cover art files which aren't fully in lowercase
 -   Fixed semantic zoom letter "h" (It was incorrectly displayed as "f")
 
 ## [3.0.0-preview.17] - 2022-11-02

@@ -131,7 +131,7 @@ export class FileSystem implements BaseFileSystem {
     }
 
     public getFileName(fileNameOrPath: string): string {
-        return path.parse(fileNameOrPath).name;
+        return path.basename(fileNameOrPath);
     }
 
     public getFileNameWithoutExtension(fileNameOrPath: string): string {

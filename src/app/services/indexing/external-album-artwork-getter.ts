@@ -21,7 +21,7 @@ export class ExternalAlbumArtworkGetter {
         let artworkData: Buffer;
 
         try {
-            const externalArtworkPath: string = this.externalArtworkPathGetter.getExternalArtworkPath(fileMetadata.path);
+            const externalArtworkPath: string = await this.externalArtworkPathGetter.getExternalArtworkPathAsync(fileMetadata.path);
 
             if (!Strings.isNullOrWhiteSpace(externalArtworkPath)) {
                 artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath);

@@ -49,7 +49,7 @@ describe('SemanticZoomComponent', () => {
             expect(component.buttonTexts).toEqual([
                 ['#', 'a', 'b', 'c'],
                 ['d', 'e', 'f', 'g'],
-                ['f', 'i', 'j', 'k'],
+                ['h', 'i', 'j', 'k'],
                 ['l', 'm', 'n', 'o'],
                 ['p', 'q', 'r', 's'],
                 ['t', 'u', 'v', 'w'],

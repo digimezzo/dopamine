@@ -39,7 +39,9 @@ describe('ExternalAlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             metaDataMock.setup((x) => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
-            externalArtworkPathGetterMock.setup((x) => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')).returns(() => undefined);
+            externalArtworkPathGetterMock
+                .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
+                .returns(async () => undefined);
 
             // Act
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
@@ -53,7 +55,9 @@ describe('ExternalAlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             metaDataMock.setup((x) => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
-            externalArtworkPathGetterMock.setup((x) => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')).returns(() => '');
+            externalArtworkPathGetterMock
+                .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
+                .returns(async () => '');
 
             // Act
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
@@ -67,7 +71,9 @@ describe('ExternalAlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
             metaDataMock.setup((x) => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
-            externalArtworkPathGetterMock.setup((x) => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3')).returns(() => '  ');
+            externalArtworkPathGetterMock
+                .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
+                .returns(async () => '  ');
 
             // Act
             const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
@@ -83,8 +89,8 @@ describe('ExternalAlbumArtworkGetter', () => {
             metaDataMock.setup((x) => x.path).returns(() => '/home/MyUser/Music/track.mp3');
 
             externalArtworkPathGetterMock
-                .setup((x) => x.getExternalArtworkPath('/home/MyUser/Music/track.mp3'))
-                .returns(() => '/home/MyUser/Music/front.png');
+                .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
+                .returns(async () => '/home/MyUser/Music/front.png');
 
             imageProcessorMock
                 .setup((x) => x.convertLocalImageToBufferAsync('/home/MyUser/Music/front.png'))

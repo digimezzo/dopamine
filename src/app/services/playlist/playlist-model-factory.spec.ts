@@ -25,9 +25,11 @@ describe('PlaylistModelFactory', () => {
             .setup((x) => x.getDirectoryPath('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u'))
             .returns(() => '/home/username/Music/Dopamine/Playlists');
         fileSystemMock
-            .setup((x) => x.getFileName('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
+            .setup((x) => x.getFileNameWithoutExtension('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
             .returns(() => 'Playlist 1');
-        fileSystemMock.setup((x) => x.getFileName('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u')).returns(() => 'Playlist 1');
+        fileSystemMock
+            .setup((x) => x.getFileNameWithoutExtension('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u'))
+            .returns(() => 'Playlist 1');
         fileSystemMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
     });
 
