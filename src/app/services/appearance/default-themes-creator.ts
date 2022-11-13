@@ -7,7 +7,7 @@ import { ThemeOptions } from './theme/theme-options';
 
 @Injectable()
 export class DefaultThemesCreator {
-    private creator: ThemeCreator = new ThemeCreator('Digimezzo', 'info@digimezzo.com');
+    private creator: ThemeCreator = new ThemeCreator('Digimezzo', 'digimezzo@outlook.com');
 
     public createAllThemes(): Theme[] {
         const themes: Theme[] = [];

@@ -1,11 +1,11 @@
-# Maintainer: Digimezzo <raphael@digimezzo.com>
+# Maintainer: Digimezzo <digimezzo@outlook.com>
 _pkgname=Dopamine
 pkgname=dopamine
 pkgver=3.0.0
 pkgrel=1
 pkgdesc="The audio player that keeps it simple"
 arch=('x86_64')
-url="https://www.digimezzo.com"
+url="https://digimezzo.github.io/site/"
 license=('GPL3')
 provides=(${pkgname})
 conflicts=(${pkgname})
