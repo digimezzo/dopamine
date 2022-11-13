@@ -9,7 +9,7 @@ describe('ContactInformation', () => {
             const donateUrl: string = ContactInformation.donateUrl;
 
             // Assert
-            expect(donateUrl).toEqual('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8');
+            expect(donateUrl).toEqual('https://digimezzo.github.io/site/donate');
         });
     });
 
@@ -21,7 +21,7 @@ describe('ContactInformation', () => {
             const websiteUrl: string = ContactInformation.websiteUrl;
 
             // Assert
-            expect(websiteUrl).toEqual('https://www.digimezzo.com');
+            expect(websiteUrl).toEqual('https://digimezzo.github.io/site');
         });
     });
 
