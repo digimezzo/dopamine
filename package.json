@@ -101,7 +101,7 @@
         "moment": "2.27.0",
         "music-metadata": "7.13.0",
         "node-fetch": "2.6.1",
-        "node-taglib-sharp": "^5.0.0",
+        "node-taglib-sharp": "^5.0.1",
         "sanitize-filename": "^1.6.3",
         "tinycolor2": "^1.4.2",
         "tslib": "^2.0.0",
