@@ -1,35 +1,69 @@
 import { Injectable } from '@angular/core';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { Constants } from '../../common/application/constants';
+import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 
 @Injectable()
 export class TabSelectionGetter {
-    constructor() {}
+    private tabLabels: string[] = [];
 
-    public getTabLabelForIndex(tabGroup: MatTabGroup, tabIndex: number): string { 
-        if (tabGroup == undefined || tabGroup._tabs == undefined) {
-            return '';
-        }
+    constructor(private settings: BaseSettings) {
+        this.getTabLabels();
+    }
 
-        let selectedTab:MatTab = tabGroup._tabs.toArray().find((tab: MatTab) => tabGroup._tabs.toArray().indexOf(tab) === tabIndex);
-      
-        if(selectedTab != undefined){
-            return selectedTab.textLabel;
+    public getTabLabelForIndex(tabIndex: number): string {
+        this.getTabLabels();
+
+        const selectedTabLabel: string = this.tabLabels[tabIndex];
+
+        if (!Strings.isNullOrWhiteSpace(selectedTabLabel)) {
+            return selectedTabLabel;
         }
 
         return '';
     }
 
-    public getTabIndexForLabel(tabGroup: MatTabGroup, tabLabel: string): number {
-        if (tabGroup == undefined || tabGroup._tabs == undefined) {
+    public getTabIndexForLabel(tabLabel: string): number {
+        if (Strings.isNullOrWhiteSpace(tabLabel)) {
             return 0;
         }
 
-        let selectedTab:MatTab = tabGroup._tabs.toArray().find((tab: MatTab) => tab.textLabel === tabLabel);
-      
-        if(selectedTab != undefined){
-           return tabGroup._tabs.toArray().indexOf(selectedTab);
-        } 
+        this.getTabLabels();
+
+        const selectedTabIndex: number = this.tabLabels.indexOf(tabLabel);
+
+        if (selectedTabIndex > -1) {
+            return selectedTabIndex;
+        }
 
         return 0;
+    }
+
+    private getTabLabels(): void {
+        this.tabLabels = [];
+
+        if (this.settings.showArtistsPage) {
+            this.tabLabels.push(Constants.artistsTabLabel);
+        }
+
+        if (this.settings.showGenresPage) {
+            this.tabLabels.push(Constants.genresTabLabel);
+        }
+
+        if (this.settings.showAlbumsPage) {
+            this.tabLabels.push(Constants.albumsTabLabel);
+        }
+
+        if (this.settings.showTracksPage) {
+            this.tabLabels.push(Constants.tracksTabLabel);
+        }
+
+        if (this.settings.showPlaylistsPage) {
+            this.tabLabels.push(Constants.playlistsTabLabel);
+        }
+
+        if (this.settings.showFoldersPage) {
+            this.tabLabels.push(Constants.foldersTabLabel);
+        }
     }
 }

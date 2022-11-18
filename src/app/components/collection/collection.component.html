@@ -8,7 +8,7 @@
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <div class="window-frame__content">
-        <mat-tab-group [(selectedIndex)]="selectedIndex" #tabGroup>
+        <mat-tab-group [(selectedIndex)]="selectedIndex">
             <mat-tab *ngIf="settings.showArtistsPage" [label]="artistsTabLabel">
                 <ng-template mat-tab-label>
                     {{ 'artists' | translate }}

@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
@@ -15,10 +14,8 @@ import { TabSelectionGetter } from './tab-selection-getter';
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionComponent implements AfterViewInit {
+export class CollectionComponent implements OnInit {
     private _selectedIndex: number;
-
-    @ViewChild('tabGroup', { static: false }) private tabGroup: MatTabGroup;
 
     constructor(
         public appearanceService: BaseAppearanceService,
@@ -66,7 +63,7 @@ export class CollectionComponent implements AfterViewInit {
 
     public set selectedIndex(v: number) {
         this._selectedIndex = v;
-        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(this.tabGroup, v);
+        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(v);
 
         // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
         // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
@@ -74,10 +71,7 @@ export class CollectionComponent implements AfterViewInit {
         window.dispatchEvent(new Event('tab-changed'));
     }
 
-    public ngAfterViewInit(): void {
-        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
-        setTimeout(() => {
-            this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.tabGroup, this.collectionPersister.selectedTab);
-        }, 0);
+    public ngOnInit(): void {
+        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
     }
 }
