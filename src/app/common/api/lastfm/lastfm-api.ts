@@ -115,7 +115,7 @@ export class LastfmApi {
         return lastfmAlbum;
     }
 
-    public async ScrobbleTrackAsync(
+    public async scrobbleTrackAsync(
         sessionKey: string,
         artist: string,
         trackTitle: string,
@@ -150,7 +150,7 @@ export class LastfmApi {
         return isScrobbleSuccessful;
     }
 
-    public async UpdateTrackNowPlayingAsync(sessionKey: string, artist: string, trackTitle: string, albumTitle: string): Promise<boolean> {
+    public async updateTrackNowPlayingAsync(sessionKey: string, artist: string, trackTitle: string, albumTitle: string): Promise<boolean> {
         let isNowPlayingUpdateSuccessful: boolean = false;
 
         const method: string = 'track.updateNowPlaying';
@@ -178,7 +178,7 @@ export class LastfmApi {
         return isNowPlayingUpdateSuccessful;
     }
 
-    public async LoveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
+    public async loveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
         let isLoveTrackSuccessful: boolean = false;
 
         const method: string = 'track.love';
@@ -202,7 +202,7 @@ export class LastfmApi {
         return isLoveTrackSuccessful;
     }
 
-    public async UnloveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
+    public async unloveTrackAsync(sessionKey: string, artist: string, trackTitle: string): Promise<boolean> {
         let isLoveTrackSuccessful: boolean = false;
 
         const method: string = 'track.unlove';
