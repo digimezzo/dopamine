@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0-preview.19] - 2022-11-19
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+-   Fixed a bug where albums weren't all displayed just after startup
+
 ## [3.0.0-preview.18] - 2022-11-13
 
 ### Added
