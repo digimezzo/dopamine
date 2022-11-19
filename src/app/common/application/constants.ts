@@ -120,6 +120,12 @@ export class Constants {
             'https://github.com/JoshuaWise/better-sqlite3/blob/master/LICENSE'
         ),
         new ExternalComponent(
+            'Discord.js RPC Extension',
+            'A simple RPC client for Discord.',
+            'https://github.com/discordjs/RPC',
+            'https://github.com/discordjs/RPC/blob/master/LICENSE'
+        ),
+        new ExternalComponent(
             'electron-log',
             'Just a simple logging module for your Electron application.',
             'https://github.com/megahertz/electron-log',
