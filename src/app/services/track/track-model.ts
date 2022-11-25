@@ -49,6 +49,14 @@ export class TrackModel {
         return this.track.fileName;
     }
 
+    public get rawTitle(): string {
+        if (Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
+            return '';
+        }
+
+        return this.track.trackTitle;
+    }
+
     public get sortableTitle(): string {
         return Strings.getSortableString(this.title, false);
     }
@@ -67,6 +75,24 @@ export class TrackModel {
         }
 
         return commaSeparatedArtists;
+    }
+
+    public get rawArtists(): string[] {
+        const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
+
+        if (trackArtists == undefined) {
+            return [];
+        }
+
+        return trackArtists;
+    }
+
+    public get rawFirstArtist(): string {
+        if (this.rawArtists.length === 0) {
+            return '';
+        }
+
+        return this.rawArtists[0];
     }
 
     public get sortableArtists(): string {
@@ -100,6 +126,14 @@ export class TrackModel {
     public get albumTitle(): string {
         if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
             return this.translatorService.get('unknown-album');
+        }
+
+        return this.track.albumTitle;
+    }
+
+    public get rawAlbumTitle(): string {
+        if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
+            return '';
         }
 
         return this.track.albumTitle;

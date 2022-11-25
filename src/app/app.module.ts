@@ -255,6 +255,8 @@ import { PlaylistDecoder } from './services/playlist/playlist-decoder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
+import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
+import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
 import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-zoom.service';
@@ -554,6 +556,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
+        { provide: BaseScrobblingService, useClass: ScrobblingService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

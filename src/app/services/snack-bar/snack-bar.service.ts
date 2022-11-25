@@ -71,7 +71,6 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async singleTrackAddedToPlaybackQueueAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('single-track-added-to-playback-queue');
-
         this.showSelfClosingSnackBar('las la-check', message);
     }
 
@@ -79,8 +78,12 @@ export class SnackBarService implements BaseSnackBarService {
         const message: string = await this.translatorService.getAsync('multiple-tracks-added-to-playback-queue', {
             numberOfAddedTracks: numberOfAddedTracks,
         });
-
         this.showSelfClosingSnackBar('las la-check', message);
+    }
+
+    public async lastFmLoginFailedAsync(): Promise<void> {
+        const message: string = await this.translatorService.getAsync('last-fm-login-failed');
+        this.showSelfClosingSnackBar('las la-frown', message);
     }
 
     public async dismissAsync(): Promise<void> {

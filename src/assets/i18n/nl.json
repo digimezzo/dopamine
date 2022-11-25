@@ -222,5 +222,15 @@
     "edit-columns": "Kolommen bewerken...",
     "columns": "Kolommen",
     "duration": "Looptijd",
-    "number": "Nummer"
+    "number": "Nummer",
+    "last-fm": "Last.fm",
+    "enable-last-fm-scrobbling": "Schakel Last.fm-scrobbelen in",
+    "username": "Gebruikersnaam",
+    "password": "Paswoord",
+    "log-in": "Log in",
+    "logged-in": "Ingelogd",
+    "logged-out": "Uitgelogd",
+    "last-fm-login-failed": "Inloggen op Last.fm mislukt",
+    "love": "Vind ik leuk",
+    "show-love": "Toon 'Vind ik leuk'"
 }
