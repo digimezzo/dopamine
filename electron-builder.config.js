@@ -1,3 +1,4 @@
+const { getFullVersion } = require('./get-package-information.js');
 
 const config = {
     appId: "com.digimezzo.dopamine",
@@ -51,16 +52,16 @@ const config = {
     extraResources: ["LICENSE"],
     win: {
         target: ["nsis"],
-        artifactName: "${productName}-${version}.${ext}"
+        artifactName: `\${productName}-${getFullVersion()}.\${ext}`
     },
     mac: {
         target: ["dmg"],
-        artifactName: "${productName}-${version}.${ext}"
+        artifactName: `\${productName}-${getFullVersion()}.\${ext}`
     },
     linux: {
-        target: ["AppImage", "deb", "rpm", "pacman", "snap"],
+        target: ["pacman"],
         category: "Audio",
-        artifactName: "${productName}-${version}.${ext}",
+        artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
             Name: "Dopamine 3",
             Terminal: "false"
