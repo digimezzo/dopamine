@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed a bug where albums weren't all displayed just after startup
+-   Fixed "error: local database is inconsistent: name mismatch on package Dopamine-3.0.0" error on Arch based systems
 
 ## [3.0.0-preview.18] - 2022-11-13
 
