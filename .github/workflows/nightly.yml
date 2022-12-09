@@ -34,27 +34,27 @@ jobs:
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-rpm
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.rpm
+                  path: release/Dopamine-*.rpm
             - name: upload deb artifact
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-deb
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.deb
+                  path: release/Dopamine-*.deb
             - name: upload appimage artifact
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-appimage
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.AppImage
+                  path: release/Dopamine-*.AppImage
             - name: upload snap artifact
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-snap
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.snap
+                  path: release/Dopamine-*.snap
             - name: upload pacman artifact
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-pacman
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.pacman
+                  path: release/Dopamine-*.pacman
 
     nightly_build_on_mac:
         runs-on: macos-11
@@ -79,7 +79,7 @@ jobs:
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-macos
-                  path: release/Dopamine-${{ steps.ver_name.outputs.prop }}.dmg
+                  path: release/Dopamine-*.dmg
 
     nightly_build_on_win:
         runs-on: windows-2019
@@ -104,4 +104,4 @@ jobs:
               uses: actions/upload-artifact@v2
               with:
                   name: dopamine-nightly-win
-                  path: release\Dopamine-${{ steps.ver_name.outputs.prop }}.exe
+                  path: release\Dopamine-*.exe
