@@ -141,6 +141,7 @@ import { InformationComponent } from './components/information/information.compo
 import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
+import { LoveComponent } from './components/love/love.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { ManageAlbumCoversComponent } from './components/manage-collection/manage-album-covers/manage-album-covers.component';
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
@@ -389,6 +390,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EditPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
+        LoveComponent,
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
         CollectionTracksTableComponent,

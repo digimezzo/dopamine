@@ -186,6 +186,13 @@ export class TrackModel {
         this.track.rating = v;
     }
 
+    public get love(): number {
+        return this.track.love;
+    }
+    public set love(v: number) {
+        this.track.love = v;
+    }
+
     public get dateLastPlayed(): number {
         return this.track.dateLastPlayed;
     }

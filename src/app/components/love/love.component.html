@@ -1,0 +1,17 @@
+<div class="d-flex">
+    <div
+        class="secondary-text las la-heart pointer"
+        [ngClass]="{ 'accent-color-important': this.track?.love !== 0 }"
+        (click)="this.toggleLove()"
+        [style.font-size.px]="fontSize"
+        [style.line-height]="lineHeight"
+        *ngIf="this.track?.love !== 0"
+    ></div>
+    <div
+        class="secondary-text las la-heart-broken pointer"
+        (click)="this.toggleLove()"
+        [style.font-size.px]="fontSize"
+        [style.line-height]="lineHeight"
+        *ngIf="this.track?.love === 0"
+    ></div>
+</div>
