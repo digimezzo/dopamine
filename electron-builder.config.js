@@ -1,72 +1,72 @@
 const { getFullVersion } = require('./get-package-information.js');
 
 const config = {
-    appId: "com.digimezzo.dopamine",
-    productName: "Dopamine",
+    appId: 'com.digimezzo.dopamine',
+    productName: 'Dopamine',
     fileAssociations: [
         {
-            name: "MP3 Files",
-            description: "MP3 Files",
-            ext: "mp3",
-            icon: "build/mp3"
+            name: 'MP3 Files',
+            description: 'MP3 Files',
+            ext: 'mp3',
+            icon: 'build/mp3',
         },
         {
-            name: "FLAC Files",
-            description: "FLAC Files",
-            ext: "flac",
-            icon: "build/flac"
+            name: 'FLAC Files',
+            description: 'FLAC Files',
+            ext: 'flac',
+            icon: 'build/flac',
         },
         {
-            name: "OGG Files",
-            description: "OGG Files",
-            ext: "ogg",
-            icon: "build/ogg"
+            name: 'OGG Files',
+            description: 'OGG Files',
+            ext: 'ogg',
+            icon: 'build/ogg',
         },
         {
-            name: "M4A Files",
-            description: "M4A Files",
-            ext: "m4a",
-            icon: "build/m4a"
+            name: 'M4A Files',
+            description: 'M4A Files',
+            ext: 'm4a',
+            icon: 'build/m4a',
         },
         {
-            name: "OPUS Files",
-            description: "OPUS Files",
-            ext: "opus",
-            icon: "build/opus"
+            name: 'OPUS Files',
+            description: 'OPUS Files',
+            ext: 'opus',
+            icon: 'build/opus',
         },
         {
-            name: "WAV Files",
-            description: "WAV Files",
-            ext: "wav",
-            icon: "build/wav"
-        }
+            name: 'WAV Files',
+            description: 'WAV Files',
+            ext: 'wav',
+            icon: 'build/wav',
+        },
     ],
     nsis: {
-        shortcutName: "Dopamine 3",
-        perMachine: true
+        shortcutName: 'Dopamine 3',
+        perMachine: true,
     },
     directories: {
-        output: "release"
+        output: 'release',
     },
-    files: ["**/*"],
-    extraResources: ["LICENSE"],
+    files: ['**/*'],
+    extraResources: ['LICENSE'],
     win: {
-        target: ["nsis"],
-        artifactName: `\${productName}-${getFullVersion()}.\${ext}`
+        target: ['nsis'],
+        artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     mac: {
-        target: ["dmg"],
-        artifactName: `\${productName}-${getFullVersion()}.\${ext}`
+        target: ['dmg'],
+        artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     linux: {
-        target: ["pacman"],
-        category: "Audio",
+        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
+        category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {
-            Name: "Dopamine 3",
-            Terminal: "false"
-        }
-    }
+            Name: 'Dopamine 3',
+            Terminal: 'false',
+        },
+    },
 };
 
 module.exports = config;
