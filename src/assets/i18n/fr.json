@@ -232,5 +232,6 @@
     "logged-out": "Déconnecté",
     "last-fm-login-failed": "La connexion Last.fm a échoué",
     "love": "Aimer",
-    "show-love": "Afficher 'Aimer'"
+    "show-love": "Afficher 'Aimer'",
+    "save-love-error": "Une erreur s'est produite lors de l'enregistrement de 'Aimer'. Veuillez vérifier le journal si vous avez besoin de plus d'informations."
 }

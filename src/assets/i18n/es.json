@@ -232,5 +232,6 @@
     "logged-out": "Logged out",
     "last-fm-login-failed": "Last.fm login failed",
     "love": "Love",
-    "show-love": "Show 'Love'"
+    "show-love": "Show 'Love'",
+    "save-love-error": "An error occurred while saving 'Love'. Please verify the log if you need more information."
 }

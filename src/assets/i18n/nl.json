@@ -232,5 +232,6 @@
     "logged-out": "Uitgelogd",
     "last-fm-login-failed": "Inloggen op Last.fm mislukt",
     "love": "Vind ik leuk",
-    "show-love": "Toon 'Vind ik leuk'"
+    "show-love": "Toon 'Vind ik leuk'",
+    "save-love-error": "Er is een fout opgetreden bij het opslaan van 'Vind ik leuk'. Controleer het log bestand als u meer informatie nodig hebt."
 }

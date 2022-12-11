@@ -16,13 +16,22 @@
         <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.title }}
         </div>
-        <app-rating
-            class="rating-position"
-            [track]="this.topContentTrack"
-            *ngIf="this.settings.showRating && this.topContentTrack != undefined"
-            [fontSize]="smallFontSize"
-            [lineHeight]="1.5"
-        ></app-rating>
+        <div class="d-flex flex-row align-items-center">
+            <app-rating
+                class="rating-position"
+                [track]="this.topContentTrack"
+                *ngIf="this.settings.showRating && this.topContentTrack != undefined"
+                [fontSize]="smallFontSize"
+                [lineHeight]="1.5"
+            ></app-rating>
+            <app-love
+                class="ml-2"
+                [track]="this.topContentTrack"
+                *ngIf="this.settings.showLove && this.topContentTrack != undefined"
+                [fontSize]="smallFontSize"
+                [lineHeight]="1.5"
+            ></app-love>
+        </div>
     </div>
     <div
         class="d-flex flex-column"
@@ -41,11 +50,20 @@
         <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.title }}
         </div>
-        <app-rating
-            [track]="this.bottomContentTrack"
-            *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
-            [fontSize]="smallFontSize"
-            [lineHeight]="1.5"
-        ></app-rating>
+        <div class="d-flex flex-row align-items-center">
+            <app-rating
+                [track]="this.bottomContentTrack"
+                *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
+                [fontSize]="smallFontSize"
+                [lineHeight]="1.5"
+            ></app-rating>
+            <app-love
+                class="ml-2"
+                [track]="this.bottomContentTrack"
+                *ngIf="this.settings.showLove && this.bottomContentTrack != undefined"
+                [fontSize]="smallFontSize"
+                [lineHeight]="1.5"
+            ></app-love>
+        </div>
     </div>
 </div>

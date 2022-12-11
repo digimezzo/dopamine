@@ -536,4 +536,15 @@ export class TrackRepository implements BaseTrackRepository {
             rating: rating,
         });
     }
+
+    public updateLove(trackId: number, love: number): void {
+        const database: any = this.databaseFactory.create();
+
+        const statement = database.prepare(`UPDATE Track SET Love=@love WHERE TrackID=@trackId;`);
+
+        statement.run({
+            trackId: trackId,
+            love: love,
+        });
+    }
 }

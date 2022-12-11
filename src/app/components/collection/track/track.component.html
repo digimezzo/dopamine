@@ -33,16 +33,9 @@
                 </div>
             </div>
             <div class="app-track__bottom">
-                <span
-                    class="ellipsis"
-                    [ngClass]="{
-                        'secondary-text': !track.isPlaying,
-                        'accent-color': track.isPlaying
-                    }"
-                    >{{ track.artists }}</span
-                >
+                <span class="ellipsis secondary-text">{{ track.artists }}</span>
                 <span></span>
-                <div class="d-flex flex-row">
+                <div class="d-flex flex-row align-items-center">
                     <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
                     <app-love [track]="track" class="ml-2" *ngIf="this.settings.showLove"></app-love>
                 </div>
