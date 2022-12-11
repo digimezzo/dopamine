@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
@@ -19,7 +20,7 @@ export class ScrobblingService implements BaseScrobblingService {
     private _signInStateChanged: Subject<SignInState> = new Subject();
     private _subscription: Subscription = new Subscription();
     private _currentTrack: TrackModel;
-    private _currentTrackStartTime: Date;
+    private _currentTrackUTCStartTime: Date;
 
     constructor(
         private playbackService: BasePlaybackService,
@@ -154,7 +155,7 @@ export class ScrobblingService implements BaseScrobblingService {
         // As soon as a track starts playing, send a Now Playing request.
         this._canScrobble = true;
         this._currentTrack = playbackStarted.currentTrack;
-        this._currentTrackStartTime = new Date();
+        this._currentTrackUTCStartTime = DateTime.getUTCDate(new Date());
 
         const artist: string = this._currentTrack.rawFirstArtist;
         const trackTitle: string = this._currentTrack.rawTitle;
@@ -223,7 +224,7 @@ export class ScrobblingService implements BaseScrobblingService {
                         artist,
                         trackTitle,
                         albumTitle,
-                        this._currentTrackStartTime
+                        this._currentTrackUTCStartTime
                     );
 
                     if (isSuccess) {

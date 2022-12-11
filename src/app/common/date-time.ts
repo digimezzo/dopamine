@@ -48,4 +48,13 @@ export class DateTime {
     public static ticksToMilliseconds(ticks: number): number {
         return ticks / 10000;
     }
+
+    public static getUTCDate(localDate: Date): Date {
+        const offset: number = localDate.getTimezoneOffset();
+        const offsetInMilliseconds: number = offset * 60000;
+
+        const utcDate: Date = new Date(localDate.getTime() + offsetInMilliseconds);
+
+        return utcDate;
+    }
 }

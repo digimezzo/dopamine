@@ -53,4 +53,17 @@ describe('DateTime', () => {
             expect(unixTime).toEqual(1611512730);
         });
     });
+
+    describe('getUTCDate', () => {
+        it('should return the UTC date', () => {
+            // Arrange
+            const someDate: Date = new Date(2022, 11, 11, 16, 10, 30, 0);
+
+            // Act
+            const utcDate: Date = DateTime.getUTCDate(someDate);
+
+            // Assert
+            expect(utcDate).toEqual(new Date(2022, 11, 11, 15, 10, 30, 0));
+        });
+    });
 });
