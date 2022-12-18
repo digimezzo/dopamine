@@ -3,6 +3,8 @@ _pkgname=Dopamine
 pkgname=dopamine
 pkgver=3.0.0
 pkgrel=1
+prev=true
+prevver=18
 pkgdesc="The audio player that keeps it simple"
 arch=('x86_64')
 url="https://digimezzo.github.io/site/"
@@ -14,10 +16,18 @@ depends=()
 makedepends=('coreutils')
 backup=()
 options=(!strip)
-source=("${_pkgname}-${pkgver}.AppImage::https://github.com/digimezzo/${pkgname}/releases/download/v${pkgver//_/-}/${_pkgname}-${pkgver}.AppImage"
-	"${pkgname}.desktop")
-sha256sums=('TODO'
-		'TODO')
+if [ "${prev}" = false ] ; then
+    source=("${_pkgname}-${pkgver}.AppImage::https://github.com/digimezzo/${pkgname}/releases/download/v${pkgver//_/-}/${_pkgname}-${pkgver}.AppImage"
+	    "${pkgname}.desktop")
+else
+    source=("${_pkgname}-${pkgver}.AppImage::https://github.com/digimezzo/${pkgname}/releases/download/v${pkgver}-preview${prevver}/${_pkgname}-${pkgver}-preview.${prevver}.AppImage"
+	   "${pkgname}.desktop")
+fi
+
+#sha512sums=('SKIP')
+check_checksums(){
+    echo "checksums skipped"
+}
 
 prepare() {
     chmod u+x      ${srcdir}/${_pkgname}-${pkgver}.AppImage
