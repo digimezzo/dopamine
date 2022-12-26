@@ -81,7 +81,7 @@ export class ScrobblingService implements BaseScrobblingService {
             return;
         }
 
-        // We can't send track love for an unknown track
+        // We can't send track love for an unknown track title
         if (Strings.isNullOrWhiteSpace(track.rawTitle)) {
             return;
         }
