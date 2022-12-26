@@ -26,6 +26,7 @@ describe('TrackModel', () => {
         track.playCount = 9;
         track.skipCount = 7;
         track.rating = 4;
+        track.love = -1;
         track.dateAdded = 89;
         track.dateLastPlayed = 74;
 
@@ -327,6 +328,202 @@ describe('TrackModel', () => {
         });
     });
 
+    describe('rawArtists', () => {
+        it('should return an empty array if track artists is undefined', () => {
+            // Arrange
+            track.artists = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual([]);
+        });
+
+        it('should return an empty array if track artists is empty', () => {
+            // Arrange
+            track.artists = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual([]);
+        });
+
+        it('should return an empty array if track artists contains only one empty artist', () => {
+            // Arrange
+            track.artists = ';;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual([]);
+        });
+
+        it('should return an array containing the artist if track artists contains only one artist', () => {
+            // Arrange
+            track.artists = ';Artist 1;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual(['Artist 1']);
+        });
+
+        it('should return an array containing all artists if track artists contains multiple artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual(['Artist 1', 'Artist 2']);
+        });
+
+        it('should not return empty artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual(['Artist 1', 'Artist 3']);
+        });
+
+        it('should not return space artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;; ;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual(['Artist 1', 'Artist 3']);
+        });
+
+        it('should not return double space artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;  ;;Artist 3;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawArtists: string[] = trackModel.rawArtists;
+
+            // Assert
+            expect(rawArtists).toEqual(['Artist 1', 'Artist 3']);
+        });
+    });
+
+    describe('rawFirstArtist', () => {
+        it('should return an empty string if track artists is undefined', () => {
+            // Arrange
+            track.artists = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('');
+        });
+
+        it('should return an empty string if track artists is empty', () => {
+            // Arrange
+            track.artists = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('');
+        });
+
+        it('should return an empty string if track artists contains only one empty artist', () => {
+            // Arrange
+            track.artists = ';;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('');
+        });
+
+        it('should return the artist if track artists contains only one artist', () => {
+            // Arrange
+            track.artists = ';Artist 1;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('Artist 1');
+        });
+
+        it('should return the first artist if track artists contains multiple artists', () => {
+            // Arrange
+            track.artists = ';Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('Artist 1');
+        });
+
+        it('should return the first non-empty artist', () => {
+            // Arrange
+            track.artists = ';;;Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('Artist 1');
+        });
+
+        it('should return the first non-space artist', () => {
+            // Arrange
+            track.artists = '; ;;Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('Artist 1');
+        });
+
+        it('should return the first non-double space artist', () => {
+            // Arrange
+            track.artists = ';   ;;Artist 1;;Artist 2;';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawFirstArtist: string = trackModel.rawFirstArtist;
+
+            // Assert
+            expect(rawFirstArtist).toEqual('Artist 1');
+        });
+    });
+
     describe('genres', () => {
         it('should return "Unknown genre" if track genres is undefined', () => {
             // Arrange
@@ -485,6 +682,55 @@ describe('TrackModel', () => {
 
             // Assert
             expect(albumTitle).toEqual('Album title');
+        });
+    });
+
+    describe('rawAlbumTitle', () => {
+        it('should return an empty string if the track album title is undefined', () => {
+            // Arrange
+            track.albumTitle = undefined;
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawAlbumTitle: string = trackModel.rawAlbumTitle;
+
+            // Assert
+            expect(rawAlbumTitle).toEqual('');
+        });
+
+        it('should return an empty string if the track album title is empty', () => {
+            // Arrange
+            track.albumTitle = '';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawAlbumTitle: string = trackModel.rawAlbumTitle;
+
+            // Assert
+            expect(rawAlbumTitle).toEqual('');
+        });
+
+        it('should return an empty string if the track album title is whitespace', () => {
+            // Arrange
+            track.albumTitle = ' ';
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawAlbumTitle: string = trackModel.rawAlbumTitle;
+
+            // Assert
+            expect(rawAlbumTitle).toEqual('');
+        });
+
+        it('should return the track album title if the track has an album title', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const rawAlbumTitle: string = trackModel.albumTitle;
+
+            // Assert
+            expect(rawAlbumTitle).toEqual('Album title');
         });
     });
 
@@ -653,6 +899,31 @@ describe('TrackModel', () => {
             // Assert
             expect(trackModel.rating).toEqual(2);
             expect(track.rating).toEqual(2);
+        });
+    });
+
+    describe('love', () => {
+        it('should return the track love', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            const love: number = trackModel.love;
+
+            // Assert
+            expect(love).toEqual(-1);
+        });
+
+        it('should set the track love', () => {
+            // Arrange
+            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+
+            // Act
+            trackModel.love = 1;
+
+            // Assert
+            expect(trackModel.love).toEqual(1);
+            expect(track.love).toEqual(1);
         });
     });
 

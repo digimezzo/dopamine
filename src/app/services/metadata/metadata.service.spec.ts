@@ -153,7 +153,7 @@ describe('MetadataService', () => {
         });
     });
 
-    describe('saveTrackRating', () => {
+    describe('saveTrackRatingAsync', () => {
         it('should update the track rating in the database', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
@@ -237,6 +237,45 @@ describe('MetadataService', () => {
 
             // Assert
             expect(ratingSaved).toBeTruthy();
+        });
+    });
+
+    describe('saveTrackLoveAsync', () => {
+        it('should update the track love in the database', async () => {
+            // Arrange
+            settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+
+            const service: BaseMetadataService = createService();
+
+            // Act
+            await service.saveTrackLoveAsync(track);
+
+            // Assert
+            trackRepositoryMock.verify((x) => x.updateLove(track.id, track.love), Times.once());
+        });
+
+        it('should notify that love is saved', async () => {
+            // Arrange
+            settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+
+            const service: BaseMetadataService = createService();
+
+            const subscription: Subscription = new Subscription();
+            let loveSaved: boolean = false;
+
+            subscription.add(
+                service.loveSaved$.subscribe(() => {
+                    loveSaved = true;
+                })
+            );
+
+            // Act
+            await service.saveTrackLoveAsync(track);
+
+            // Assert
+            expect(loveSaved).toBeTruthy();
         });
     });
 });

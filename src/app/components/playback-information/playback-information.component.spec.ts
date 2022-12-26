@@ -22,6 +22,7 @@ describe('PlaybackInformationComponent', () => {
     let playbackInformationService_PlayingNoTrack: Subject<PlaybackInformation>;
 
     let metadataService_ratingSaved: Subject<TrackModel>;
+    let metadataService_loveSaved: Subject<TrackModel>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
@@ -34,11 +35,12 @@ describe('PlaybackInformationComponent', () => {
         );
     }
 
-    function createTrackModel(path: string, artists: string, title: string, rating: number): TrackModel {
+    function createTrackModel(path: string, artists: string, title: string, rating: number, love: number): TrackModel {
         const track: Track = new Track(path);
         track.artists = artists;
         track.trackTitle = title;
         track.rating = rating;
+        track.love = love;
         const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
 
         return trackModel;
@@ -73,6 +75,10 @@ describe('PlaybackInformationComponent', () => {
         metadataService_ratingSaved = new Subject();
         const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
         metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
+
+        metadataService_loveSaved = new Subject();
+        const metadataService_loveSaved$: Observable<TrackModel> = metadataService_loveSaved.asObservable();
+        metadataServiceMock.setup((x) => x.loveSaved$).returns(() => metadataService_loveSaved$);
     });
 
     describe('constructor', () => {
@@ -243,8 +249,8 @@ describe('PlaybackInformationComponent', () => {
 
         it('should update the rating of the current track when the rating is saved of a track with the same path', async () => {
             // Arrange
-            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2);
-            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 4);
+            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2, 0);
+            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 4, 0);
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
@@ -261,8 +267,8 @@ describe('PlaybackInformationComponent', () => {
 
         it('should not update the rating of the current track when the rating is saved of a track with a different path', async () => {
             // Arrange
-            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2);
-            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track2.mp3', 'My artist 2', 'My title 2', 4);
+            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2, 0);
+            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track2.mp3', 'My artist 2', 'My title 2', 4, 0);
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
@@ -275,6 +281,42 @@ describe('PlaybackInformationComponent', () => {
 
             // Assert
             expect(component.topContentTrack.rating).toEqual(2);
+        });
+
+        it('should update the love of the current track when the love is saved of a track with the same path', async () => {
+            // Arrange
+            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2, -1);
+            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 4, 1);
+
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            metadataService_loveSaved.next(trackModel2);
+
+            // Assert
+            expect(component.topContentTrack.love).toEqual(1);
+        });
+
+        it('should not update the love of the current track when the love is saved of a track with a different path', async () => {
+            // Arrange
+            const trackModel1: TrackModel = createTrackModel('/home/user/Music/track1.mp3', 'My artist', 'My title', 2, -1);
+            const trackModel2: TrackModel = createTrackModel('/home/user/Music/track2.mp3', 'My artist 2', 'My title 2', 4, 1);
+
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Act
+            await component.ngOnInit();
+            metadataService_loveSaved.next(trackModel2);
+
+            // Assert
+            expect(component.topContentTrack.love).toEqual(-1);
         });
     });
 });

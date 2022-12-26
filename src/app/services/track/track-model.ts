@@ -84,7 +84,9 @@ export class TrackModel {
             return [];
         }
 
-        return trackArtists;
+        const nonEmptyArtists: string[] = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+
+        return nonEmptyArtists;
     }
 
     public get rawFirstArtist(): string {
@@ -92,7 +94,9 @@ export class TrackModel {
             return '';
         }
 
-        return this.rawArtists[0];
+        const nonEmptyArtists: string[] = this.rawArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+
+        return nonEmptyArtists[0];
     }
 
     public get sortableArtists(): string {

@@ -42,6 +42,7 @@ describe('TrackBrowserComponent', () => {
     let playbackStoppedMock$: Observable<void>;
 
     let metadataService_ratingSaved: Subject<TrackModel>;
+    let metadataService_loveSaved: Subject<TrackModel>;
 
     let track1: Track;
     let track2: Track;
@@ -81,6 +82,10 @@ describe('TrackBrowserComponent', () => {
         const metadataService_ratingSaved$: Observable<TrackModel> = metadataService_ratingSaved.asObservable();
         metadataServiceMock.setup((x) => x.ratingSaved$).returns(() => metadataService_ratingSaved$);
 
+        metadataService_loveSaved = new Subject();
+        const metadataService_loveSaved$: Observable<TrackModel> = metadataService_loveSaved.asObservable();
+        metadataServiceMock.setup((x) => x.loveSaved$).returns(() => metadataService_loveSaved$);
+
         translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(async () => 'delete-song');
         translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(async () => 'confirm-delete-song');
         translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(async () => 'delete-songs');
@@ -93,6 +98,7 @@ describe('TrackBrowserComponent', () => {
         track1.trackNumber = 1;
         track1.discNumber = 1;
         track1.rating = 1;
+        track1.love = 0;
 
         track2 = new Track('Path 2');
         track2.trackTitle = 'Title 2';
@@ -101,6 +107,7 @@ describe('TrackBrowserComponent', () => {
         track2.trackNumber = 1;
         track2.discNumber = 2;
         track2.rating = 2;
+        track2.love = 0;
 
         track3 = new Track('Path 3');
         track3.trackTitle = 'Title 3';
@@ -109,6 +116,7 @@ describe('TrackBrowserComponent', () => {
         track3.trackNumber = 1;
         track3.discNumber = 1;
         track3.rating = 3;
+        track3.love = 0;
 
         track4 = new Track('Path 4');
         track4.trackTitle = 'Title 4';
@@ -117,6 +125,7 @@ describe('TrackBrowserComponent', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
         track4.rating = 4;
+        track4.love = 0;
 
         trackModel1 = new TrackModel(track1, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, translatorServiceMock.object);
@@ -348,6 +357,27 @@ describe('TrackBrowserComponent', () => {
             expect(track2.rating).toEqual(2);
             expect(track3.rating).toEqual(3);
             expect(track4.rating).toEqual(4);
+        });
+
+        it('should update the love for a track that has the same path as the track for which love was saved', () => {
+            // Arrange
+            const component: TrackBrowserComponent = createComponent();
+            component.tracks = tracks;
+
+            const track5 = new Track('Path 1');
+            track5.love = 1;
+
+            const trackModel5: TrackModel = new TrackModel(track5, translatorServiceMock.object);
+
+            // Act
+            component.ngOnInit();
+            metadataService_loveSaved.next(trackModel5);
+
+            // Assert
+            expect(track1.love).toEqual(1);
+            expect(track2.love).toEqual(0);
+            expect(track3.love).toEqual(0);
+            expect(track4.love).toEqual(0);
         });
     });
 
