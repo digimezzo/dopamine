@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { DateTime } from '../../common/date-time';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { Logger } from '../../common/logger';
@@ -52,6 +53,7 @@ describe('MetadataService', () => {
     let loggerMock: IMock<Logger>;
     let fileSystemMock: IMock<BaseFileSystem>;
     let settingsMock: IMock<BaseSettings>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     function createService(): BaseMetadataService {
@@ -74,6 +76,7 @@ describe('MetadataService', () => {
         loggerMock = Mock.ofType<Logger>();
         fileSystemMock = Mock.ofType<BaseFileSystem>();
         settingsMock = Mock.ofType<BaseSettings>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         fileSystemMock.setup((x) => x.getFileExtension('path1.mp3')).returns(() => '.mp3');
@@ -106,7 +109,7 @@ describe('MetadataService', () => {
 
         it('should create an empty image url if no file metadata was found', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
             fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => undefined);
 
             const service: BaseMetadataService = createService();
@@ -120,7 +123,7 @@ describe('MetadataService', () => {
 
         it('should create an empty image url if no cover art was found', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
             const fileMetadataStub = new FileMetadataImplementation();
             fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
             albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, false)).returns(async () => undefined);
@@ -136,7 +139,7 @@ describe('MetadataService', () => {
 
         it('should create an image url if cover art was found', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
             const fileMetadataStub = new FileMetadataImplementation();
             const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
             fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
@@ -157,7 +160,7 @@ describe('MetadataService', () => {
         it('should update the track rating in the database', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -173,7 +176,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const fileMetadataStub = new FileMetadataImplementation();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -189,7 +192,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
             const fileMetadataStub = new FileMetadataImplementation();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(async () => fileMetadataStub);
-            const track: TrackModel = new TrackModel(new Track('path2.ogg'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path2.ogg'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -205,7 +208,7 @@ describe('MetadataService', () => {
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
             const fileMetadataStub = new FileMetadataImplementation();
             fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -219,7 +222,7 @@ describe('MetadataService', () => {
         it('should notify that rating is saved', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -244,7 +247,7 @@ describe('MetadataService', () => {
         it('should update the track love in the database', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 
@@ -258,7 +261,7 @@ describe('MetadataService', () => {
         it('should notify that love is saved', async () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
-            const track: TrackModel = new TrackModel(new Track('path1.mp3'), translatorServiceMock.object);
+            const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
 

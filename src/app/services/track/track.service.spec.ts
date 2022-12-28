@@ -1,6 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { DateTime } from '../../common/date-time';
 import { BaseFileSystem } from '../../common/io/base-file-system';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -14,6 +15,7 @@ describe('TrackService', () => {
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let fileSystemMock: IMock<BaseFileSystem>;
 
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let track1: Track;
@@ -28,6 +30,7 @@ describe('TrackService', () => {
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         fileSystemMock = Mock.ofType<BaseFileSystem>();
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
@@ -52,13 +55,24 @@ describe('TrackService', () => {
         trackRepositoryMock.setup((x) => x.getTracksForTrackArtists(['artist3', 'artist4'])).returns(() => [track2]);
         trackRepositoryMock.setup((x) => x.getTracksForAlbumArtists(['artist3', 'artist4'])).returns(() => [track3]);
 
-        trackModelFactoryMock.setup((x) => x.createFromTrack(track1)).returns(() => new TrackModel(track1, translatorServiceMock.object));
-        trackModelFactoryMock.setup((x) => x.createFromTrack(track2)).returns(() => new TrackModel(track2, translatorServiceMock.object));
-        trackModelFactoryMock.setup((x) => x.createFromTrack(track3)).returns(() => new TrackModel(track3, translatorServiceMock.object));
-        trackModelFactoryMock.setup((x) => x.createFromTrack(track4)).returns(() => new TrackModel(track4, translatorServiceMock.object));
+        trackModelFactoryMock
+            .setup((x) => x.createFromTrack(track1))
+            .returns(() => new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object));
+        trackModelFactoryMock
+            .setup((x) => x.createFromTrack(track2))
+            .returns(() => new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object));
+        trackModelFactoryMock
+            .setup((x) => x.createFromTrack(track3))
+            .returns(() => new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object));
+        trackModelFactoryMock
+            .setup((x) => x.createFromTrack(track4))
+            .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object));
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
-            .returns(async () => new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), translatorServiceMock.object));
+            .returns(
+                async () =>
+                    new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), dateTimeMock.object, translatorServiceMock.object)
+            );
 
         service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileSystemMock.object);
     });
@@ -394,7 +408,7 @@ describe('TrackService', () => {
             const track: Track = new Track('path');
             track.trackId = 9;
 
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             trackModel.increasePlayCountAndDateLastPlayed();
 
             // Act
@@ -411,7 +425,7 @@ describe('TrackService', () => {
             const track: Track = new Track('path');
             track.trackId = 9;
 
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             trackModel.increaseSkipCount();
 
             // Act

@@ -4,6 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Folder } from '../../../common/data/entities/folder';
 import { Track } from '../../../common/data/entities/track';
+import { DateTime } from '../../../common/date-time';
 import { Hacks } from '../../../common/hacks';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
@@ -52,7 +53,7 @@ describe('CollectionFoldersComponent', () => {
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
-
+    let dateTimeMock: IMock<DateTime>;
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
     let indexingServiceIndexingFinishedMock: Subject<void>;
@@ -132,6 +133,7 @@ describe('CollectionFoldersComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        dateTimeMock = Mock.ofType<DateTime>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -150,8 +152,8 @@ describe('CollectionFoldersComponent', () => {
         track1.rating = 1;
         track2 = new Track('track2');
         track2.rating = 2;
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
 
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
@@ -830,7 +832,7 @@ describe('CollectionFoldersComponent', () => {
             const track3 = new Track('track1');
             track3.rating = 3;
 
-            const trackModel3: TrackModel = new TrackModel(track3, translatorServiceMock.object);
+            const trackModel3: TrackModel = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
 
             // Act
             component.ngOnInit();

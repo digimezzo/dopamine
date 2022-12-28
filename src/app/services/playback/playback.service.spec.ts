@@ -2,6 +2,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { FileSystem } from '../../common/io/file-system';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
@@ -40,6 +41,7 @@ describe('PlaybackService', () => {
     let playbackFinished: Subject<void>;
     let progressUpdaterProgressChanged: Subject<PlaybackProgress>;
     let subscription: Subscription;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     const albumData1: AlbumData = new AlbumData();
@@ -67,6 +69,7 @@ describe('PlaybackService', () => {
         trackServiceMock = Mock.ofType<BaseTrackService>();
         playlistServiceMock = Mock.ofType<BasePlaylistService>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
@@ -123,11 +126,11 @@ describe('PlaybackService', () => {
         track5.trackNumber = 3;
         track5.discNumber = 1;
 
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
-        trackModel3 = new TrackModel(track3, translatorServiceMock.object);
-        trackModel4 = new TrackModel(track4, translatorServiceMock.object);
-        trackModel5 = new TrackModel(track5, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
+        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
+        trackModel5 = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object);
 
         trackModels = [trackModel1, trackModel2, trackModel3, trackModel4];
         orderedTrackModels = [trackModel2, trackModel1, trackModel3, trackModel4];

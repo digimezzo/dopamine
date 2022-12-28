@@ -1,5 +1,4 @@
-import { MatTabGroup } from '@angular/material/tabs';
-import { IMock, It, Mock, Times } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
@@ -150,7 +149,7 @@ describe('CollectionComponent', () => {
 
             // Assert
             expect(component.selectedIndex).toEqual(3);
-            tabSelectionGetterMock.verify((x) => x.getTabLabelForIndex(It.isObjectWith<MatTabGroup>({}), 3), Times.once());
+            tabSelectionGetterMock.verify((x) => x.getTabLabelForIndex(3), Times.once());
         });
     });
 
@@ -158,16 +157,14 @@ describe('CollectionComponent', () => {
         it('should get tab index for tab label and set selected index', async () => {
             // Arrange
             const component: CollectionComponent = createComponent();
-            tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists')).returns(() => 4);
+            tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel('playlists')).returns(() => 4);
             collectionPersisterStub.selectedTab = 'playlists';
 
             // Act
-            jest.useFakeTimers();
-            component.ngAfterViewInit();
-            jest.runAllTimers();
+            component.ngOnInit();
 
             // Assert
-            tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel(It.isObjectWith<MatTabGroup>({}), 'playlists'), Times.once());
+            tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel('playlists'), Times.once());
             expect(component.selectedIndex).toEqual(4);
         });
     });

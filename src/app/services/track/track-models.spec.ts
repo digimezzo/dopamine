@@ -1,14 +1,17 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModel } from './track-model';
 import { TrackModels } from './track-models';
 
 describe('TrackModel', () => {
     let trackModels: TrackModels;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     beforeEach(() => {
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         trackModels = new TrackModels();
     });
@@ -136,7 +139,7 @@ describe('TrackModel', () => {
         it('should add a defined track', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/track1.mp3');
-            const trackToAdd: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackToAdd: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             trackModels.tracks = [];
 
             // Act
@@ -150,9 +153,9 @@ describe('TrackModel', () => {
         it('should ensure that tracks are stored in the order in which they are added', () => {
             // Arrange
             const track1: Track = new Track('/home/user/Music/track1.mp3');
-            const trackToAdd1: TrackModel = new TrackModel(track1, translatorServiceMock.object);
+            const trackToAdd1: TrackModel = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
             const track2: Track = new Track('/home/user/Music/track1.mp3');
-            const trackToAdd2: TrackModel = new TrackModel(track2, translatorServiceMock.object);
+            const trackToAdd2: TrackModel = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
             trackModels.tracks = [];
 
             // Act
@@ -168,7 +171,7 @@ describe('TrackModel', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/track1.mp3');
             track.duration = 10;
-            const trackToAdd: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackToAdd: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -181,7 +184,7 @@ describe('TrackModel', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/track1.mp3');
             track.fileSize = 20;
-            const trackToAdd: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackToAdd: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -193,7 +196,7 @@ describe('TrackModel', () => {
         it('should increase numberOfTracks when adding a defined track', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/track1.mp3');
-            const trackToAdd: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackToAdd: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
             // Act
             trackModels.addTrack(trackToAdd);
