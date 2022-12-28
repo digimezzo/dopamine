@@ -10,6 +10,8 @@ import { LastfmBiography } from './lastfm-biography';
 
 @Injectable()
 export class LastfmApi {
+    public constructor(private dateTime: DateTime) {}
+
     public async getMobileSessionAsync(username: string, password: string): Promise<string> {
         const method: string = 'auth.getMobileSession';
         const parameters: Map<string, string> = new Map<string, string>([
@@ -129,7 +131,7 @@ export class LastfmApi {
         const parameters: Map<string, string> = new Map<string, string>([
             ['artist', artist],
             ['track', trackTitle],
-            ['timestamp', DateTime.convertDateToUnixTime(playbackStartTime).toString()],
+            ['timestamp', this.dateTime.convertDateToUnixTime(playbackStartTime).toString()],
             ['api_key', SensitiveInformation.lastfmApiKey],
             ['sk', sessionKey],
         ]);

@@ -25,6 +25,7 @@ export class ScrobblingService implements BaseScrobblingService {
     constructor(
         private playbackService: BasePlaybackService,
         private lastfmApi: LastfmApi,
+        private dateTime: DateTime,
         private settings: BaseSettings,
         private logger: Logger
     ) {
@@ -155,7 +156,7 @@ export class ScrobblingService implements BaseScrobblingService {
         // As soon as a track starts playing, send a Now Playing request.
         this._canScrobble = true;
         this._currentTrack = playbackStarted.currentTrack;
-        this._currentTrackUTCStartTime = DateTime.getUTCDate(new Date());
+        this._currentTrackUTCStartTime = this.dateTime.getUTCDate(new Date());
 
         const artist: string = this._currentTrack.rawFirstArtist;
         const trackTitle: string = this._currentTrack.rawTitle;

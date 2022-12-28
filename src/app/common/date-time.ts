@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class DateTime {
     /**
      * Converts a Javascript Date to .NET Ticks.
@@ -7,7 +10,7 @@ export class DateTime {
      * So a JavaScript Date object must be translated to .NET ticks.
      * @param date The date to convert to .NET Ticks
      */
-    public static convertDateToTicks(date: Date): number {
+    public convertDateToTicks(date: Date): number {
         // The number of .net ticks at the unix epoch
         const epochTicks: number = 621355968000000000;
 
@@ -23,7 +26,7 @@ export class DateTime {
         return dotNetTicks;
     }
 
-    public static convertTicksToDate(ticks: number): Date {
+    public convertTicksToDate(ticks: number): Date {
         // Based on https://github.com/vyushin/ticks-to-date/blob/master/src/ticksToDate.js
         const dateWithoutOffset: Date = new Date(ticks / 10000 + new Date('0001-01-01T00:00:00Z').getTime());
 
@@ -35,7 +38,7 @@ export class DateTime {
         return date;
     }
 
-    public static convertDateToUnixTime(date: Date): number {
+    public convertDateToUnixTime(date: Date): number {
         // Date in JavaScript also contains time zone offset. We need to remove it.
         const offsetInMilliseconds: number = date.getTimezoneOffset() * 60000;
 
@@ -45,11 +48,11 @@ export class DateTime {
         return unixTime;
     }
 
-    public static ticksToMilliseconds(ticks: number): number {
+    public ticksToMilliseconds(ticks: number): number {
         return ticks / 10000;
     }
 
-    public static getUTCDate(localDate: Date): Date {
+    public getUTCDate(localDate: Date): Date {
         const offset: number = localDate.getTimezoneOffset();
         const offsetInMilliseconds: number = offset * 60000;
 

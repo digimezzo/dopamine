@@ -50,6 +50,7 @@ import { FolderRepository } from './common/data/repositories/folder-repository';
 import { FolderTrackRepository } from './common/data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './common/data/repositories/removed-track-repository';
 import { TrackRepository } from './common/data/repositories/track-repository';
+import { DateTime } from './common/date-time';
 import { FileValidator } from './common/file-validator';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
@@ -514,6 +515,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistDecoder,
         FileValidator,
         DateProxy,
+        DateTime,
         TabSelectionGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileSystem, useClass: FileSystem },

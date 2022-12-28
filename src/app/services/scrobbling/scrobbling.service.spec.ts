@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackService } from '../playback/base-playback.service';
@@ -16,6 +17,7 @@ import { SignInState } from './sign-in-state';
 describe('ScrobblingService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let lastfmApiMock: IMock<LastfmApi>;
+    let dateTimeMock: IMock<DateTime>;
     let settingsMock: IMock<BaseSettings>;
     let loggerMock: IMock<Logger>;
 
@@ -35,10 +37,13 @@ describe('ScrobblingService', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         lastfmApiMock = Mock.ofType<LastfmApi>();
+        dateTimeMock = Mock.ofType<DateTime>();
         settingsMock = Mock.ofType<BaseSettings>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+
+        dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => new Date(2022, 11, 28, 9, 47, 0));
 
         playbackService_playbackStarted = new Subject();
         playbackService_playbackStarted$ = playbackService_playbackStarted.asObservable();
@@ -54,7 +59,13 @@ describe('ScrobblingService', () => {
     });
 
     function createService(): BaseScrobblingService {
-        return new ScrobblingService(playbackServiceMock.object, lastfmApiMock.object, settingsMock.object, loggerMock.object);
+        return new ScrobblingService(
+            playbackServiceMock.object,
+            lastfmApiMock.object,
+            dateTimeMock.object,
+            settingsMock.object,
+            loggerMock.object
+        );
     }
 
     function createSettingsMock(
@@ -76,7 +87,7 @@ describe('ScrobblingService', () => {
         track.artists = artists;
         track.trackTitle = title;
 
-        return new TrackModel(track, translatorServiceMock.object);
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     describe('constructor', () => {

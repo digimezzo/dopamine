@@ -5,7 +5,7 @@ import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class TrackModel {
-    constructor(private track: Track, private translatorService: BaseTranslatorService) {}
+    constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;
@@ -207,7 +207,7 @@ export class TrackModel {
 
     public increasePlayCountAndDateLastPlayed(): void {
         this.track.playCount++;
-        this.track.dateLastPlayed = DateTime.convertDateToTicks(new Date());
+        this.track.dateLastPlayed = this.dateTime.convertDateToTicks(new Date());
     }
 
     public increaseSkipCount(): void {
