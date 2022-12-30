@@ -15,12 +15,13 @@ import { SignInState } from './sign-in-state';
 @Injectable()
 export class ScrobblingService implements BaseScrobblingService {
     private _signInState: SignInState = SignInState.SignedOut;
-    private _sessionKey: string = '';
-    private _canScrobble: boolean = false;
-    private _signInStateChanged: Subject<SignInState> = new Subject();
-    private _subscription: Subscription = new Subscription();
-    private _currentTrack: TrackModel;
-    private _currentTrackUTCStartTime: Date;
+
+    private sessionKey: string = '';
+    private canScrobble: boolean = false;
+    private signInStateChanged: Subject<SignInState> = new Subject();
+    private subscription: Subscription = new Subscription();
+    private currentTrack: TrackModel;
+    private currentTrackUTCStartTime: Date;
 
     constructor(
         private playbackService: BasePlaybackService,
@@ -33,7 +34,7 @@ export class ScrobblingService implements BaseScrobblingService {
         this.initializeSubscriptions();
     }
 
-    public signInStateChanged$: Observable<SignInState> = this._signInStateChanged.asObservable();
+    public signInStateChanged$: Observable<SignInState> = this.signInStateChanged.asObservable();
 
     public username: string = '';
     public password: string = '';
@@ -44,12 +45,12 @@ export class ScrobblingService implements BaseScrobblingService {
 
     public async signInAsync(): Promise<void> {
         try {
-            this._sessionKey = await this.lastfmApi.getMobileSessionAsync(this.username, this.password);
+            this.sessionKey = await this.lastfmApi.getMobileSessionAsync(this.username, this.password);
 
-            if (!Strings.isNullOrWhiteSpace(this._sessionKey)) {
+            if (!Strings.isNullOrWhiteSpace(this.sessionKey)) {
                 this.settings.lastFmUsername = this.username;
                 this.settings.lastFmPassword = this.password;
-                this.settings.lastFmSessionKey = this._sessionKey;
+                this.settings.lastFmSessionKey = this.sessionKey;
 
                 this.logger.info(`User '${this.username}' successfully signed in to Last.fm.`, 'ScrobblingService', 'signIn');
 
@@ -63,18 +64,18 @@ export class ScrobblingService implements BaseScrobblingService {
             this._signInState = SignInState.Error;
         }
 
-        this._signInStateChanged.next(this.signInState);
+        this.signInStateChanged.next(this.signInState);
     }
 
     public signOut(): void {
-        this._sessionKey = '';
+        this.sessionKey = '';
         this.settings.lastFmSessionKey = '';
 
         this.logger.info(`User '${this.username}' signed out from Last.fm`, 'ScrobblingService', 'signOut');
 
         this._signInState = SignInState.SignedOut;
 
-        this._signInStateChanged.next(this.signInState);
+        this.signInStateChanged.next(this.signInState);
     }
 
     public async sendTrackLoveAsync(track: TrackModel, love: boolean): Promise<void> {
@@ -90,7 +91,7 @@ export class ScrobblingService implements BaseScrobblingService {
         for (const artist of track.rawArtists) {
             if (love) {
                 try {
-                    await this.lastfmApi.loveTrackAsync(this._sessionKey, artist, track.rawTitle);
+                    await this.lastfmApi.loveTrackAsync(this.sessionKey, artist, track.rawTitle);
                 } catch (e) {
                     this.logger.error(
                         `Could not send track.love to Last.fm. Error: ${e.message}`,
@@ -100,7 +101,7 @@ export class ScrobblingService implements BaseScrobblingService {
                 }
             } else {
                 try {
-                    await this.lastfmApi.unloveTrackAsync(this._sessionKey, artist, track.rawTitle);
+                    await this.lastfmApi.unloveTrackAsync(this.sessionKey, artist, track.rawTitle);
                 } catch (e) {
                     this.logger.error(
                         'Could not send track.unlove to Last.fm. Error: ${e.message}',
@@ -119,12 +120,12 @@ export class ScrobblingService implements BaseScrobblingService {
 
         this.username = this.settings.lastFmUsername;
         this.password = this.settings.lastFmPassword;
-        this._sessionKey = this.settings.lastFmSessionKey;
+        this.sessionKey = this.settings.lastFmSessionKey;
 
         if (
             !Strings.isNullOrWhiteSpace(this.username) &&
             !Strings.isNullOrWhiteSpace(this.password) &&
-            !Strings.isNullOrWhiteSpace(this._sessionKey)
+            !Strings.isNullOrWhiteSpace(this.sessionKey)
         ) {
             this._signInState = SignInState.SignedIn;
         } else {
@@ -133,19 +134,19 @@ export class ScrobblingService implements BaseScrobblingService {
     }
 
     private initializeSubscriptions(): void {
-        this._subscription.add(
+        this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(
                 async (playbackStarted: PlaybackStarted) => await this.handlePlaybackStartedAsync(playbackStarted)
             )
         );
 
-        this._subscription.add(
+        this.subscription.add(
             this.playbackService.progressChanged$.subscribe(
                 async (playbackProgress: PlaybackProgress) => await this.handlePlaybackProgressChangedAsync(playbackProgress)
             )
         );
 
-        this._subscription.add(this.playbackService.playbackSkipped$.subscribe(() => this.handlePlaybackSkipped()));
+        this.subscription.add(this.playbackService.playbackSkipped$.subscribe(() => this.handlePlaybackSkipped()));
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
@@ -154,20 +155,20 @@ export class ScrobblingService implements BaseScrobblingService {
         }
 
         // As soon as a track starts playing, send a Now Playing request.
-        this._canScrobble = true;
-        this._currentTrack = playbackStarted.currentTrack;
-        this._currentTrackUTCStartTime = this.dateTime.getUTCDate(new Date());
+        this.canScrobble = true;
+        this.currentTrack = playbackStarted.currentTrack;
+        this.currentTrackUTCStartTime = this.dateTime.getUTCDate(new Date());
 
-        const artist: string = this._currentTrack.rawFirstArtist;
-        const trackTitle: string = this._currentTrack.rawTitle;
-        const albumTitle: string = this._currentTrack.rawAlbumTitle;
+        const artist: string = this.currentTrack.rawFirstArtist;
+        const trackTitle: string = this.currentTrack.rawTitle;
+        const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
         if (Strings.isNullOrWhiteSpace(artist) || Strings.isNullOrWhiteSpace(trackTitle)) {
             return;
         }
 
         try {
-            const isSuccess: boolean = await this.lastfmApi.updateTrackNowPlayingAsync(this._sessionKey, artist, trackTitle, albumTitle);
+            const isSuccess: boolean = await this.lastfmApi.updateTrackNowPlayingAsync(this.sessionKey, artist, trackTitle, albumTitle);
 
             if (isSuccess) {
                 this.logger.info(
@@ -196,17 +197,17 @@ export class ScrobblingService implements BaseScrobblingService {
             return;
         }
 
-        if (!this._canScrobble) {
+        if (!this.canScrobble) {
             return;
         }
 
-        if (this._currentTrack == undefined) {
+        if (this.currentTrack == undefined) {
             return;
         }
 
-        const artist: string = this._currentTrack.rawFirstArtist;
-        const trackTitle: string = this._currentTrack.rawTitle;
-        const albumTitle: string = this._currentTrack.rawAlbumTitle;
+        const artist: string = this.currentTrack.rawFirstArtist;
+        const trackTitle: string = this.currentTrack.rawTitle;
+        const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
         if (Strings.isNullOrWhiteSpace(artist) || Strings.isNullOrWhiteSpace(trackTitle)) {
             return;
@@ -217,15 +218,15 @@ export class ScrobblingService implements BaseScrobblingService {
         // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier).
         if (playbackProgress.totalSeconds > 30) {
             if (playbackProgress.progressSeconds >= playbackProgress.totalSeconds / 2 || playbackProgress.totalSeconds > 4 * 60) {
-                this._canScrobble = false;
+                this.canScrobble = false;
 
                 try {
                     const isSuccess: boolean = await this.lastfmApi.scrobbleTrackAsync(
-                        this._sessionKey,
+                        this.sessionKey,
                         artist,
                         trackTitle,
                         albumTitle,
-                        this._currentTrackUTCStartTime
+                        this.currentTrackUTCStartTime
                     );
 
                     if (isSuccess) {
@@ -254,6 +255,6 @@ export class ScrobblingService implements BaseScrobblingService {
 
     private handlePlaybackSkipped(): void {
         // When the user skips, we don't allow scrobbling.
-        this._canScrobble = false;
+        this.canScrobble = false;
     }
 }

@@ -82,10 +82,11 @@ describe('ScrobblingService', () => {
         return settingsMock;
     }
 
-    function createTrackModel(path: string, artists: string, title: string): TrackModel {
+    function createTrackModel(path: string, artists: string, title: string, albumTitle: string): TrackModel {
         const track: Track = new Track(path);
         track.artists = artists;
         track.trackTitle = title;
+        track.albumTitle = albumTitle;
 
         return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
@@ -201,12 +202,78 @@ describe('ScrobblingService', () => {
         });
     });
 
+    describe('PlaybackService.playbackStarted', () => {
+        it('should update Last.fm now playing when signed in to Last.fm and artist and title are known', async () => {
+            // Arrange
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1');
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+
+            // Act
+            playbackService_playbackStarted.next(playbackStarted);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.once());
+        });
+
+        it('should not update Last.fm now playing when not signed in to Last.fm', async () => {
+            // Arrange
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(false, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1');
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+
+            // Act
+            playbackService_playbackStarted.next(playbackStarted);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+        });
+
+        it('should not update Last.fm now playing when artist is unknown', async () => {
+            // Arrange
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1');
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+
+            // Act
+            playbackService_playbackStarted.next(playbackStarted);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+        });
+
+        it('should not update Last.fm now playing when title is unknown', async () => {
+            // Arrange
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1');
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+
+            // Act
+            playbackService_playbackStarted.next(playbackStarted);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'), Times.never());
+        });
+    });
+
     describe('sendTrackLoveAsync', () => {
         it('should not send track love/unlove when not signed in', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -220,7 +287,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1');
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -234,7 +301,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1');
+            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1');
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -248,7 +315,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -263,7 +330,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
 
             // Act
             service.sendTrackLoveAsync(trackModel1, false);
