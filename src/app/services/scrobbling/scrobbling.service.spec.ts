@@ -82,11 +82,18 @@ describe('ScrobblingService', () => {
         return settingsMock;
     }
 
-    function createTrackModel(path: string, artists: string, title: string, albumTitle: string): TrackModel {
+    function createTrackModel(
+        path: string,
+        artists: string,
+        title: string,
+        albumTitle: string,
+        durationInMilliseconds: number
+    ): TrackModel {
         const track: Track = new Track(path);
         track.artists = artists;
         track.trackTitle = title;
         track.albumTitle = albumTitle;
+        track.duration = durationInMilliseconds;
 
         return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
@@ -208,7 +215,7 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
             // Act
@@ -224,7 +231,7 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
             // Act
@@ -240,7 +247,7 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
             // Act
@@ -256,7 +263,7 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
             // Act
@@ -268,12 +275,196 @@ describe('ScrobblingService', () => {
         });
     });
 
+    describe('PlaybackService.progressChanged', () => {
+        it('Should scrobble when the track is longer than 30 seconds has been played for at least half its duration', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.once()
+            );
+        });
+
+        it('Should scrobble when the track is longer than 30 seconds has been played for 4 minutes even if it did not play for half its duration', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 900000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(300, 900);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.once()
+            );
+        });
+
+        it('Should not scrobble when the track is shorter than than 30 seconds even if it has been played for at least half its duration', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 20000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(15, 20);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+
+        it('Should not scrobble when after playback has been skipped even if scrobble conditions are met', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_playbackSkipped.next();
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+
+        it('Should not scrobble when not signed in to Last.fm even if scrobble conditions are met', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(false, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+
+        it('Should not scrobble when there is no current track', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+
+        it('Should not scrobble when artist is unknown', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+
+        it('Should not scrobble when title is unknown', async () => {
+            // Arrange
+            const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
+            dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
+            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
+            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
+            playbackService_playbackStarted.next(playbackStarted);
+            const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
+
+            // Act
+            playbackService_progressChanged.next(playbackProgress);
+            await flushPromises();
+
+            // Assert
+            lastfmApiMock.verify(
+                (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
+                Times.never()
+            );
+        });
+    });
+
     describe('sendTrackLoveAsync', () => {
         it('should not send track love/unlove when not signed in', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -287,7 +478,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1', 300000);
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -301,7 +492,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -315,7 +506,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
             service.sendTrackLoveAsync(trackModel1, true);
@@ -330,7 +521,7 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
-            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1');
+            const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
             service.sendTrackLoveAsync(trackModel1, false);
