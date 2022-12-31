@@ -53,8 +53,8 @@ export class DateTime {
     }
 
     public getUTCDate(localDate: Date): Date {
-        const offset: number = localDate.getTimezoneOffset();
-        const offsetInMilliseconds: number = offset * 60000;
+        const offsetInMinutes: number = localDate.getTimezoneOffset();
+        const offsetInMilliseconds: number = offsetInMinutes * 60000;
 
         const utcDate: Date = new Date(localDate.getTime() + offsetInMilliseconds);
 

@@ -72,14 +72,16 @@ describe('DateTime', () => {
     describe('getUTCDate', () => {
         it('should return the UTC date', () => {
             // Arrange
-            const someDate: Date = new Date(2022, 11, 11, 16, 10, 30, 0);
+            const localDate: Date = new Date();
             const dateTime: DateTime = new DateTime();
+            const expectedUtcDate: Date = new Date(localDate);
+            expectedUtcDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
 
             // Act
-            const utcDate: Date = dateTime.getUTCDate(someDate);
+            const utcDate: Date = dateTime.getUTCDate(localDate);
 
             // Assert
-            expect(utcDate).toEqual(new Date(2022, 11, 11, 15, 10, 30, 0));
+            expect(utcDate).toEqual(expectedUtcDate);
         });
     });
 });
