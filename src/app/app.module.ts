@@ -50,6 +50,7 @@ import { FolderRepository } from './common/data/repositories/folder-repository';
 import { FolderTrackRepository } from './common/data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './common/data/repositories/removed-track-repository';
 import { TrackRepository } from './common/data/repositories/track-repository';
+import { DateTime } from './common/date-time';
 import { FileValidator } from './common/file-validator';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
@@ -141,6 +142,7 @@ import { InformationComponent } from './components/information/information.compo
 import { LoadingComponent } from './components/loading/loading.component';
 import { LogoFullComponent } from './components/logo-full/logo-full.component';
 import { LogoSmallComponent } from './components/logo-small/logo-small.component';
+import { LoveComponent } from './components/love/love.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { ManageAlbumCoversComponent } from './components/manage-collection/manage-album-covers/manage-album-covers.component';
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
@@ -255,6 +257,8 @@ import { PlaylistDecoder } from './services/playlist/playlist-decoder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
+import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
+import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { SearchService } from './services/search/search.service';
 import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-zoom.service';
@@ -387,6 +391,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EditPlaylistDialogComponent,
         PlaylistTrackBrowserComponent,
         RatingComponent,
+        LoveComponent,
         SemanticZoomComponent,
         SemanticZoomButtonComponent,
         CollectionTracksTableComponent,
@@ -510,6 +515,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         PlaylistDecoder,
         FileValidator,
         DateProxy,
+        DateTime,
         TabSelectionGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileSystem, useClass: FileSystem },
@@ -554,6 +560,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
+        { provide: BaseScrobblingService, useClass: ScrobblingService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

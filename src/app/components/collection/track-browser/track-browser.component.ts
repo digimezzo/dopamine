@@ -100,12 +100,26 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
                 this.updateTrackRating(track);
             })
         );
+
+        this.subscription.add(
+            this.metadataService.loveSaved$.subscribe((track: TrackModel) => {
+                this.updateTrackLove(track);
+            })
+        );
     }
 
     private updateTrackRating(trackWithUpToDateRating: TrackModel): void {
         for (const track of this.tracks.tracks) {
             if (track.path === trackWithUpToDateRating.path) {
                 track.rating = trackWithUpToDateRating.rating;
+            }
+        }
+    }
+
+    private updateTrackLove(trackWithUpToDateLove: TrackModel): void {
+        for (const track of this.tracks.tracks) {
+            if (track.path === trackWithUpToDateLove.path) {
+                track.love = trackWithUpToDateLove.love;
             }
         }
     }

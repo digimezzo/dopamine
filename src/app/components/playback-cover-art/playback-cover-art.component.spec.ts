@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
@@ -12,6 +13,7 @@ describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
     let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
     let schedulerMock: IMock<Scheduler>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
@@ -28,9 +30,10 @@ describe('PlaybackInformationComponent', () => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         schedulerMock = Mock.ofType<Scheduler>();
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
 
         playbackInformationService_PlayingNextTrack = new Subject();
         const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =

@@ -3,6 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
+import { DateTime } from '../../../common/date-time';
 import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
@@ -34,6 +35,7 @@ describe('CollectionAlbumsComponent', () => {
     let fileSystemMock: IMock<FileSystem>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let collectionServiceMock: IMock<BaseCollectionService>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let selectedAlbumsChangedMock: Subject<string[]>;
@@ -96,6 +98,7 @@ describe('CollectionAlbumsComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         fileSystemMock = Mock.ofType<FileSystem>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         selectedAlbumsChangedMock = new Subject();
@@ -121,8 +124,8 @@ describe('CollectionAlbumsComponent', () => {
         track1.duration = 1;
         track2 = new Track('Path2');
         track2.duration = 2;
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);

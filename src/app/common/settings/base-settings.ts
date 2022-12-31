@@ -41,6 +41,7 @@ export abstract class BaseSettings {
     public abstract genresTabSelectedAlbumOrder: string;
     public abstract genresTabSelectedTrackOrder: string;
     public abstract enableDiscordRichPresence: boolean;
+    public abstract enableLastFmScrobbling: boolean;
     public abstract playlistsTabSelectedPlaylistFolder: string;
     public abstract playlistsTabSelectedPlaylist: string;
     public abstract playlistsTabSelectedPlaylistOrder: string;
@@ -59,4 +60,8 @@ export abstract class BaseSettings {
     public abstract saveRatingToAudioFiles: boolean;
     public abstract tracksPageVisibleColumns: string;
     public abstract tracksPageColumnsOrder: string;
+    public abstract lastFmUsername: string;
+    public abstract lastFmPassword: string;
+    public abstract lastFmSessionKey: string;
+    public abstract showLove: boolean;
 }

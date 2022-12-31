@@ -1,13 +1,26 @@
 import { DateTime } from './date-time';
 
 describe('DateTime', () => {
+    describe('constructor', () => {
+        it('should create', () => {
+            // Arrange
+
+            // Act
+            const dateTime: DateTime = new DateTime();
+
+            // Assert
+            expect(dateTime).toBeDefined();
+        });
+    });
+
     describe('convertDateToTicks', () => {
         it('should return .NET ticks', () => {
             // Arrange
             const someDate: Date = new Date(2021, 0, 24, 18, 25, 30, 263);
+            const dateTime: DateTime = new DateTime();
 
             // Act
-            const ticks: number = DateTime.convertDateToTicks(someDate);
+            const ticks: number = dateTime.convertDateToTicks(someDate);
 
             // Assert
             expect(ticks).toEqual(637471095302630000);
@@ -18,9 +31,10 @@ describe('DateTime', () => {
         it('should return a Date', () => {
             // Arrange
             const someTicks: number = 637471095302630000;
+            const dateTime: DateTime = new DateTime();
 
             // Act
-            const date: Date = DateTime.convertTicksToDate(someTicks);
+            const date: Date = dateTime.convertTicksToDate(someTicks);
 
             const year: number = date.getFullYear();
             const month: number = date.getMonth();
@@ -45,12 +59,27 @@ describe('DateTime', () => {
         it('should return Unix time', () => {
             // Arrange
             const someDate: Date = new Date(2021, 0, 24, 18, 25, 30, 0);
+            const dateTime: DateTime = new DateTime();
 
             // Act
-            const unixTime: number = DateTime.convertDateToUnixTime(someDate);
+            const unixTime: number = dateTime.convertDateToUnixTime(someDate);
 
             // Assert
             expect(unixTime).toEqual(1611512730);
+        });
+    });
+
+    describe('getUTCDate', () => {
+        it('should return the UTC date', () => {
+            // Arrange
+            const someDate: Date = new Date(2022, 11, 11, 16, 10, 30, 0);
+            const dateTime: DateTime = new DateTime();
+
+            // Act
+            const utcDate: Date = dateTime.getUTCDate(someDate);
+
+            // Assert
+            expect(utcDate).toEqual(new Date(2022, 11, 11, 15, 10, 30, 0));
         });
     });
 });

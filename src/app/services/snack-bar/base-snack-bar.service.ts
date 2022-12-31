@@ -11,4 +11,5 @@ export abstract class BaseSnackBarService {
     public abstract multipleTracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void>;
     public abstract singleTrackAddedToPlaybackQueueAsync(): Promise<void>;
     public abstract multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void>;
+    public abstract lastFmLoginFailedAsync(): Promise<void>;
 }

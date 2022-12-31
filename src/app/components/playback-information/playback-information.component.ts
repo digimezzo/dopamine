@@ -105,11 +105,23 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
                 this.setRating(track);
             })
         );
+
+        this.subscription.add(
+            this.metadataService.loveSaved$.subscribe((track: TrackModel) => {
+                this.setLove(track);
+            })
+        );
     }
 
     private setRating(track: TrackModel): void {
         if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
             this.currentTrack.rating = track.rating;
+        }
+    }
+
+    private setLove(track: TrackModel): void {
+        if (this.currentTrack != undefined && this.currentTrack.path === track.path) {
+            this.currentTrack.love = track.love;
         }
     }
 

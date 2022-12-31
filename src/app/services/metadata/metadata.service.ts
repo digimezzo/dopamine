@@ -15,6 +15,7 @@ import { BaseMetadataService } from './base-metadata.service';
 @Injectable()
 export class MetadataService implements BaseMetadataService {
     private ratingSaved: Subject<TrackModel> = new Subject();
+    private loveSaved: Subject<TrackModel> = new Subject();
 
     constructor(
         private fileMetadataFactory: BaseFileMetadataFactory,
@@ -27,6 +28,7 @@ export class MetadataService implements BaseMetadataService {
     ) {}
 
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
+    public loveSaved$: Observable<TrackModel> = this.loveSaved.asObservable();
 
     public async createImageUrlAsync(track: TrackModel): Promise<string> {
         if (track == undefined) {
@@ -72,6 +74,16 @@ export class MetadataService implements BaseMetadataService {
             this.ratingSaved.next(track);
         } catch (error) {
             this.logger.error(`Could not save rating. Error: ${error.message}`, 'MetadataService', 'saveTrackRating');
+            throw new Error(error.message);
+        }
+    }
+
+    public async saveTrackLoveAsync(track: TrackModel): Promise<void> {
+        try {
+            this.trackRepository.updateLove(track.id, track.love);
+            this.loveSaved.next(track);
+        } catch (error) {
+            this.logger.error(`Could not save love. Error: ${error.message}`, 'MetadataService', 'saveTrackRatingAsync');
             throw new Error(error.message);
         }
     }

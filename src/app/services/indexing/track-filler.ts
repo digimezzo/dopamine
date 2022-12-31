@@ -18,13 +18,14 @@ export class TrackFiller {
         private albumKeyGenerator: AlbumKeyGenerator,
         private fileSystem: BaseFileSystem,
         private mimeTypes: MimeTypes,
+        private dateTime: DateTime,
         private logger: Logger
     ) {}
 
     public async addFileMetadataToTrackAsync(track: Track): Promise<Track> {
         try {
             const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
-            const dateNowTicks: number = DateTime.convertDateToTicks(new Date());
+            const dateNowTicks: number = this.dateTime.convertDateToTicks(new Date());
 
             track.artists = this.trackFieldCreator.createMultiTextField(fileMetadata.artists);
             track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);

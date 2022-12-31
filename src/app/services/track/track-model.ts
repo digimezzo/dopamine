@@ -5,7 +5,7 @@ import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class TrackModel {
-    constructor(private track: Track, private translatorService: BaseTranslatorService) {}
+    constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;
@@ -49,6 +49,14 @@ export class TrackModel {
         return this.track.fileName;
     }
 
+    public get rawTitle(): string {
+        if (Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
+            return '';
+        }
+
+        return this.track.trackTitle;
+    }
+
     public get sortableTitle(): string {
         return Strings.getSortableString(this.title, false);
     }
@@ -67,6 +75,28 @@ export class TrackModel {
         }
 
         return commaSeparatedArtists;
+    }
+
+    public get rawArtists(): string[] {
+        const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists);
+
+        if (trackArtists == undefined) {
+            return [];
+        }
+
+        const nonEmptyArtists: string[] = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+
+        return nonEmptyArtists;
+    }
+
+    public get rawFirstArtist(): string {
+        if (this.rawArtists.length === 0) {
+            return '';
+        }
+
+        const nonEmptyArtists: string[] = this.rawArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+
+        return nonEmptyArtists[0];
     }
 
     public get sortableArtists(): string {
@@ -100,6 +130,14 @@ export class TrackModel {
     public get albumTitle(): string {
         if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
             return this.translatorService.get('unknown-album');
+        }
+
+        return this.track.albumTitle;
+    }
+
+    public get rawAlbumTitle(): string {
+        if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
+            return '';
         }
 
         return this.track.albumTitle;
@@ -152,6 +190,13 @@ export class TrackModel {
         this.track.rating = v;
     }
 
+    public get love(): number {
+        return this.track.love;
+    }
+    public set love(v: number) {
+        this.track.love = v;
+    }
+
     public get dateLastPlayed(): number {
         return this.track.dateLastPlayed;
     }
@@ -162,7 +207,7 @@ export class TrackModel {
 
     public increasePlayCountAndDateLastPlayed(): void {
         this.track.playCount++;
-        this.track.dateLastPlayed = DateTime.convertDateToTicks(new Date());
+        this.track.dateLastPlayed = this.dateTime.convertDateToTicks(new Date());
     }
 
     public increaseSkipCount(): void {

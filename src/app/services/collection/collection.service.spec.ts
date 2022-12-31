@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { DateTime } from '../../common/date-time';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BasePlaybackService } from '../playback/base-playback.service';
@@ -18,6 +19,7 @@ describe('CollectionService', () => {
     let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
 
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let service: BaseCollectionService;
@@ -35,17 +37,18 @@ describe('CollectionService', () => {
         desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         track1 = new Track('path1');
         track1.trackId = 1;
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
         track2 = new Track('path2');
         track2.trackId = 2;
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
         track3 = new Track('path3');
         track3.trackId = 3;
-        trackModel3 = new TrackModel(track3, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
 
         service = new CollectionService(playbackServiceMock.object, trackRepositoryMock.object, desktopMock.object, loggerMock.object);
     });

@@ -1,4 +1,4 @@
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
@@ -40,6 +40,7 @@ describe('TrackFiller', () => {
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
     let fileSystemMock: IMock<BaseFileSystem>;
     let mimeTypesMock: IMock<MimeTypes>;
+    let dateTimeMock: IMock<DateTime>;
     let loggerMock: IMock<Logger>;
 
     function createTrackFiller(): TrackFiller {
@@ -49,6 +50,7 @@ describe('TrackFiller', () => {
             albumKeyGeneratorMock.object,
             fileSystemMock.object,
             mimeTypesMock.object,
+            dateTimeMock.object,
             loggerMock.object
         );
     }
@@ -59,6 +61,7 @@ describe('TrackFiller', () => {
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
         fileSystemMock = Mock.ofType<BaseFileSystem>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
+        dateTimeMock = Mock.ofType<DateTime>();
         loggerMock = Mock.ofType<Logger>();
 
         trackFieldCreatorMock.setup((x) => x.createMultiTextField(['Artist 1', 'Artist 2'])).returns(() => ';Artist 1;;Artist 2;');
@@ -460,18 +463,16 @@ describe('TrackFiller', () => {
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            const dateTicksBefore: number = DateTime.convertDateToTicks(new Date());
             await trackFiller.addFileMetadataToTrackAsync(track);
-            const dateTicksAfter: number = DateTime.convertDateToTicks(new Date());
 
             // Assert
-            expect(track.dateAdded).toBeGreaterThanOrEqual(dateTicksBefore);
-            expect(track.dateAdded).toBeLessThanOrEqual(dateTicksAfter);
+            expect(track.dateAdded).toEqual(123456);
         });
 
         it('should fill in track dateFileCreated with the date that the file was created in ticks', async () => {
@@ -497,18 +498,16 @@ describe('TrackFiller', () => {
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
             fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            const dateTicksBefore: number = DateTime.convertDateToTicks(new Date());
             await trackFiller.addFileMetadataToTrackAsync(track);
-            const dateTicksAfter: number = DateTime.convertDateToTicks(new Date());
 
             // Assert
-            expect(track.dateLastSynced).toBeGreaterThanOrEqual(dateTicksBefore);
-            expect(track.dateLastSynced).toBeLessThanOrEqual(dateTicksAfter);
+            expect(track.dateLastSynced).toEqual(123456);
         });
 
         it('should fill in track dateFileModified with the date that the file was modified in ticks', async () => {

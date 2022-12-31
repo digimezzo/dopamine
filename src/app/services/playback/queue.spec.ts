@@ -1,5 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
@@ -10,10 +11,12 @@ describe('Queue', () => {
     let queue: Queue;
     let shufflerMock: IMock<Shuffler>;
     let loggerMock: IMock<Logger>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     beforeEach(() => {
         shufflerMock = Mock.ofType<Shuffler>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
 
@@ -22,6 +25,10 @@ describe('Queue', () => {
 
         queue = new Queue(shufflerMock.object, loggerMock.object);
     });
+
+    function createTrackModel(path: string): TrackModel {
+        return new TrackModel(new Track(path), dateTimeMock.object, translatorServiceMock.object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {
@@ -46,9 +53,9 @@ describe('Queue', () => {
     describe('numberOfTracks', () => {
         it('should return the number of tracks', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -62,9 +69,9 @@ describe('Queue', () => {
     describe('setTracks', () => {
         it('should set the tracks in the order they were provided when shuffle is false', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             // Act
             queue.setTracks([track1, track2, track3], false);
@@ -78,9 +85,9 @@ describe('Queue', () => {
 
         it('should set the tracks in the order they were provided when shuffle is true', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             // Act
             queue.setTracks([track1, track2, track3], true);
@@ -96,7 +103,7 @@ describe('Queue', () => {
     describe('getPreviousTrack', () => {
         it('should return undefined if there are no tracks', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
 
             // Act
 
@@ -106,9 +113,8 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is undefined and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -120,9 +126,8 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is undefined and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
             queue = new Queue(shufflerMock.object, loggerMock.object);
             queue.setTracks([track1, track2], true);
@@ -136,9 +141,21 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is not found and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = new TrackModel(
+                new Track('/home/user/Music/Track1.mp3'),
+                dateTimeMock.object,
+                translatorServiceMock.object
+            );
+            const track2: TrackModel = new TrackModel(
+                new Track('/home/user/Music/Track2.mp3'),
+                dateTimeMock.object,
+                translatorServiceMock.object
+            );
+            const track3: TrackModel = new TrackModel(
+                new Track('/home/user/Music/Track3.mp3'),
+                dateTimeMock.object,
+                translatorServiceMock.object
+            );
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -150,9 +167,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is not found and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
             queue = new Queue(shufflerMock.object, loggerMock.object);
             queue.setTracks([track1, track2], true);
@@ -166,9 +183,9 @@ describe('Queue', () => {
 
         it('should return the previous track if currentTrack is not the first track and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -180,9 +197,9 @@ describe('Queue', () => {
 
         it('should return the previous track if currentTrack is not the first track and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -195,9 +212,9 @@ describe('Queue', () => {
 
         it('should return undefined if currentTrack is the first track and allowWrapAround is false and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -209,9 +226,9 @@ describe('Queue', () => {
 
         it('should return undefined if currentTrack is the first track and allowWrapAround is false and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -224,9 +241,9 @@ describe('Queue', () => {
 
         it('should return the last track if currentTrack is the first track and allowWrapAround is true and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -238,9 +255,9 @@ describe('Queue', () => {
 
         it('should return the last track if currentTrack is the first track and allowWrapAround is true and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], false);
 
@@ -255,7 +272,7 @@ describe('Queue', () => {
     describe('getNextTrack', () => {
         it('should return undefined if there are no tracks', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
 
             // Act
 
@@ -265,9 +282,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is undefined and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -279,9 +296,8 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is undefined and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
             queue.setTracks([track1, track2], true);
 
@@ -294,9 +310,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is not found and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -308,9 +324,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is not found and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
             queue.setTracks([track1, track2], true);
 
@@ -323,9 +339,9 @@ describe('Queue', () => {
 
         it('should return the next track if currentTrack is not the last track and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -337,9 +353,9 @@ describe('Queue', () => {
 
         it('should return the next track if currentTrack is not the last track and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -352,9 +368,9 @@ describe('Queue', () => {
 
         it('should return undefined if currentTrack is the last track and allowWrapAround is false and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -366,9 +382,9 @@ describe('Queue', () => {
 
         it('should return undefined if currentTrack is the last track and allowWrapAround is false and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -381,9 +397,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is the last track and allowWrapAround is true and the queue is not shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -395,9 +411,9 @@ describe('Queue', () => {
 
         it('should return the first track if currentTrack is the last track and allowWrapAround is true and the queue is shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -412,9 +428,9 @@ describe('Queue', () => {
     describe('unShuffle', () => {
         it('should keep tracks in unshuffled order when not being shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -427,9 +443,9 @@ describe('Queue', () => {
 
         it('should keep tracks in unshuffled order after being shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -444,9 +460,9 @@ describe('Queue', () => {
     describe('shuffle', () => {
         it('should put tracks in shuffled order when not being shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
             queue.setTracks([track1, track2, track3], false);
 
@@ -460,9 +476,9 @@ describe('Queue', () => {
 
         it('should keep tracks in shuffled order after being shuffled', () => {
             // Arrange
-            const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-            const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-            const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
             queue.setTracks([track1, track2, track3], true);
 
@@ -476,9 +492,9 @@ describe('Queue', () => {
         describe('removeTracks', () => {
             it('should not remove tracks from queue if tracksToRemove is undefined', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
                 queue.setTracks([track1, track2, track3], false);
 
@@ -494,10 +510,9 @@ describe('Queue', () => {
 
             it('should not remove tracks from queue if tracksToRemove is empty', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
                 queue.setTracks([track1, track2, track3], false);
 
                 // Act
@@ -512,10 +527,9 @@ describe('Queue', () => {
 
             it('should remove tracks from queue if tracksToRemove has items', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
                 queue.setTracks([track1, track2, track3], false);
 
                 // Act
@@ -529,12 +543,11 @@ describe('Queue', () => {
 
             it('should not remove tracks from unshuffled playback order if tracksToRemove is undefined', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], false);
 
                 // Act
@@ -549,12 +562,11 @@ describe('Queue', () => {
 
             it('should not remove tracks from unshuffled playback order if tracksToRemove is empty', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], false);
 
                 // Act
@@ -569,12 +581,11 @@ describe('Queue', () => {
 
             it('should remove tracks from unshuffled playback order if tracksToRemove has items', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], false);
 
                 // Act
@@ -588,12 +599,11 @@ describe('Queue', () => {
 
             it('should not remove tracks from shuffled playback order if tracksToRemove is undefined', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], true);
 
                 // Act
@@ -609,12 +619,11 @@ describe('Queue', () => {
 
             it('should not remove tracks from shuffled playback order if tracksToRemove is empty', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], true);
 
                 // Act
@@ -630,12 +639,11 @@ describe('Queue', () => {
 
             it('should remove tracks from shuffled playback order if tracksToRemove has items', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2, track3, track4, track5], true);
 
                 // Act
@@ -652,12 +660,11 @@ describe('Queue', () => {
         describe('addTracks', () => {
             it('should add tracks to the end of queue when not shuffled', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2], false);
 
                 // Act
@@ -674,12 +681,11 @@ describe('Queue', () => {
 
             it('should add tracks to the end of queue when shuffled', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2], true);
 
                 // Act
@@ -696,12 +702,11 @@ describe('Queue', () => {
 
             it('should add tracks to the end of unshuffled playback order', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2], false);
 
                 // Act
@@ -718,12 +723,11 @@ describe('Queue', () => {
 
             it('should add tracks to the end of shuffled playback order', () => {
                 // Arrange
-                const track1: TrackModel = new TrackModel(new Track('/home/user/Music/Track1.mp3'), translatorServiceMock.object);
-                const track2: TrackModel = new TrackModel(new Track('/home/user/Music/Track2.mp3'), translatorServiceMock.object);
-                const track3: TrackModel = new TrackModel(new Track('/home/user/Music/Track3.mp3'), translatorServiceMock.object);
-                const track4: TrackModel = new TrackModel(new Track('/home/user/Music/Track4.mp3'), translatorServiceMock.object);
-                const track5: TrackModel = new TrackModel(new Track('/home/user/Music/Track5.mp3'), translatorServiceMock.object);
-
+                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
                 queue.setTracks([track1, track2], true);
 
                 // Act

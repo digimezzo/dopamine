@@ -2,6 +2,7 @@ import { IMock, Mock } from 'typemoq';
 import { TrackModel } from '../../services/track/track-model';
 import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { Track } from '../data/entities/track';
+import { DateTime } from '../date-time';
 import { TrackOrdering } from './track-ordering';
 
 describe('TrackOrdering', () => {
@@ -15,6 +16,7 @@ describe('TrackOrdering', () => {
     let trackModel3: TrackModel;
     let trackModel4: TrackModel;
 
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let trackOrdering: TrackOrdering;
@@ -49,12 +51,13 @@ describe('TrackOrdering', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
-        trackModel3 = new TrackModel(track3, translatorServiceMock.object);
-        trackModel4 = new TrackModel(track4, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
+        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
 
         tracks = [trackModel2, trackModel4, trackModel1, trackModel3];
 

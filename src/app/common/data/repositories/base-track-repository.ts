@@ -34,4 +34,5 @@ export abstract class BaseTrackRepository {
     public abstract updatePlayCountAndDateLastPlayed(trackId: number, playCount: number, dateLastPlayedInTicks: number): void;
     public abstract updateSkipCount(trackId: number, skipCount: number): void;
     public abstract updateRating(trackId: number, rating: number): void;
+    public abstract updateLove(trackId: number, love: number): void;
 }
