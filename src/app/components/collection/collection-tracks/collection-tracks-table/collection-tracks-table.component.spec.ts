@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Track } from '../../../../common/data/entities/track';
+import { DateTime } from '../../../../common/date-time';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
@@ -26,7 +27,7 @@ describe('CollectionTracksTableComponent', () => {
     let tracksColumnsServiceMock: IMock<BaseTracksColumnsService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let tracksColumnsOrderingMock: IMock<TracksColumnsOrdering>;
-
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
@@ -71,7 +72,7 @@ describe('CollectionTracksTableComponent', () => {
         tracksColumnsServiceMock = Mock.ofType<BaseTracksColumnsService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         tracksColumnsOrderingMock = Mock.ofType<TracksColumnsOrdering>();
-
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         playbackStartedMock = new Subject();
@@ -137,10 +138,10 @@ describe('CollectionTracksTableComponent', () => {
         track4.discNumber = 1;
         track4.rating = 4;
 
-        trackModel1 = new TrackModel(track1, translatorServiceMock.object);
-        trackModel2 = new TrackModel(track2, translatorServiceMock.object);
-        trackModel3 = new TrackModel(track3, translatorServiceMock.object);
-        trackModel4 = new TrackModel(track4, translatorServiceMock.object);
+        trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
+        trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
+        trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
+        trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
         tracks = new TrackModels();
         tracks.addTrack(trackModel1);
         tracks.addTrack(trackModel2);

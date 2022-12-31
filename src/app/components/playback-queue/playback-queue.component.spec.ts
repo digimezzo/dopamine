@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../common/context-menu-opener';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { MouseSelectionWatcher } from '../../common/mouse-selection-watcher';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../services/playback-indication/base-playback-indication.service';
@@ -18,6 +19,7 @@ describe('PlaybackQueueComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let navigationServiceMock: IMock<BaseNavigationService>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let playbackQueue: TrackModels;
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
@@ -39,6 +41,7 @@ describe('PlaybackQueueComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         playbackServicePlaybackStarted = new Subject();
@@ -46,7 +49,7 @@ describe('PlaybackQueueComponent', () => {
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStarted$);
 
         playbackQueue = new TrackModels();
-        playbackQueue.addTrack(new TrackModel(new Track('DummyPath'), translatorServiceMock.object));
+        playbackQueue.addTrack(new TrackModel(new Track('DummyPath'), dateTimeMock.object, translatorServiceMock.object));
 
         playbackServiceMock.setup((x) => x.playbackQueue).returns(() => playbackQueue);
 
@@ -110,7 +113,7 @@ describe('PlaybackQueueComponent', () => {
     describe('ngOnInit', () => {
         it('should set the playing track when playback starts', () => {
             // Arrange
-            const trackModel: TrackModel = new TrackModel(new Track('DummyPath'), translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(new Track('DummyPath'), dateTimeMock.object, translatorServiceMock.object);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel, false);
             const component: PlaybackQueueComponent = createComponent();
 
@@ -138,7 +141,7 @@ describe('PlaybackQueueComponent', () => {
     describe('onTrackContextMenu', () => {
         it('should open the track context menu', () => {
             // Arrange
-            const trackModel: TrackModel = new TrackModel(new Track('DummyPath'), translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(new Track('DummyPath'), dateTimeMock.object, translatorServiceMock.object);
             const component: PlaybackQueueComponent = createComponent();
             const event: any = {};
 
@@ -155,7 +158,7 @@ describe('PlaybackQueueComponent', () => {
             // Arrange
             const component: PlaybackQueueComponent = createComponent();
             const event: any = {};
-            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), dateTimeMock.object, translatorServiceMock.object);
 
             // Act
             component.setSelectedTracks(event, trackModel);
@@ -168,7 +171,7 @@ describe('PlaybackQueueComponent', () => {
     describe('onRemoveFromQueue', () => {
         it('should remove selected tracks from the queue', () => {
             // Arrange
-            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(new Track('Path 1'), dateTimeMock.object, translatorServiceMock.object);
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel]);
             const component: PlaybackQueueComponent = createComponent();
 

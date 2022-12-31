@@ -15,7 +15,7 @@ export class FileSystem implements BaseFileSystem {
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
-    constructor(private desktop: BaseDesktop) {
+    constructor(private desktop: BaseDesktop, private dateTime: DateTime) {
         this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
         this._musicDirectory = this.desktop.getMusicDirectory();
         this._pathSeparator = path.sep;
@@ -151,14 +151,14 @@ export class FileSystem implements BaseFileSystem {
         const stat = await fs.stat(fileOrDirectory);
         const dateModified: Date = stat.mtime;
 
-        return DateTime.convertDateToTicks(dateModified);
+        return this.dateTime.convertDateToTicks(dateModified);
     }
 
     public async getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number> {
         const stat = await fs.stat(fileOrDirectory);
         const dateCreated: Date = stat.birthtime;
 
-        return DateTime.convertDateToTicks(dateCreated);
+        return this.dateTime.convertDateToTicks(dateCreated);
     }
 
     public pathExists(pathToCheck: string): boolean {

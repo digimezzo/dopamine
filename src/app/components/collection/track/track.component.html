@@ -19,18 +19,12 @@
         [matRippleTrigger]="trigger"
         #trigger
     >
-        <div
-            class="app-track__left accent-color"
-        >
+        <div class="app-track__left accent-color">
             {{ track.number | formatTrackNumber }}
         </div>
         <div class="app-track__right">
             <div class="app-track__top">
-                <span
-                    class="app-track__top__title ellipsis"
-                    [ngClass]="{ 'accent-color': track.isPlaying }"
-                    >{{ track.title }}</span
-                >
+                <span class="app-track__top__title ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">{{ track.title }}</span>
                 <div class="app-track__playback__and__duration">
                     <app-playback-indicator *ngIf="track.isPlaying" class="mx-2" [isSelected]="track.isSelected"></app-playback-indicator>
                     <div [ngClass]="{ 'accent-color': track.isPlaying }">
@@ -39,16 +33,12 @@
                 </div>
             </div>
             <div class="app-track__bottom">
-                <span
-                    class="ellipsis"
-                    [ngClass]="{
-                        'secondary-text': !track.isPlaying,
-                        'accent-color': track.isPlaying
-                    }"
-                    >{{ track.artists }}</span
-                >
+                <span class="ellipsis secondary-text">{{ track.artists }}</span>
                 <span></span>
-                <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
+                <div class="d-flex flex-row align-items-center">
+                    <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
+                    <app-love [track]="track" class="ml-2" *ngIf="this.settings.showLove"></app-love>
+                </div>
             </div>
         </div>
     </div>

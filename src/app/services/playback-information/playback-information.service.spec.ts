@@ -1,6 +1,7 @@
 import { Observable, Subject, Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { BaseMetadataService } from '../metadata/base-metadata.service';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -14,7 +15,7 @@ describe('PlaybackInformationService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let metadataServiceMock: IMock<BaseMetadataService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-
+    let dateTimeMock: IMock<DateTime>;
     let playbackService_PlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackService_PlaybackStoppedMock: Subject<void>;
 
@@ -27,7 +28,7 @@ describe('PlaybackInformationService', () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-
+        dateTimeMock = Mock.ofType<DateTime>();
         playbackService_PlaybackStartedMock = new Subject();
         const playbackService_PlaybackStartedMock$: Observable<PlaybackStarted> = playbackService_PlaybackStartedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackService_PlaybackStartedMock$);
@@ -38,7 +39,7 @@ describe('PlaybackInformationService', () => {
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackService_PlaybackStoppedMock$);
 
         track = new Track('Path');
-        trackModel = new TrackModel(track, translatorServiceMock.object);
+        trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
         metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns(async () => 'imageUrl');
     });

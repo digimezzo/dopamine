@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { FileValidator } from '../../common/file-validator';
 import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
@@ -18,6 +19,7 @@ describe('FileService', () => {
     let applicationMock: IMock<BaseApplication>;
     let loggerMock: IMock<Logger>;
 
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let argumentsReceivedMock: Subject<string[]>;
@@ -42,6 +44,7 @@ describe('FileService', () => {
         applicationMock = Mock.ofType<BaseApplication>();
         loggerMock = Mock.ofType<Logger>();
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         fileValidatorMock.setup((x) => x.isPlayableAudioFile('file 1.mp3')).returns(() => true);
@@ -52,11 +55,11 @@ describe('FileService', () => {
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 1.mp3'))
-            .returns(async () => new TrackModel(new Track('file 1.mp3'), translatorServiceMock.object));
+            .returns(async () => new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object));
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 2.ogg'))
-            .returns(async () => new TrackModel(new Track('file 2.ogg'), translatorServiceMock.object));
+            .returns(async () => new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object));
 
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();

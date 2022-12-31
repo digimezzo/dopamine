@@ -161,9 +161,7 @@ describe('CollectionComponent', () => {
             collectionPersisterStub.selectedTab = 'playlists';
 
             // Act
-            jest.useFakeTimers();
             component.ngOnInit();
-            jest.runAllTimers();
 
             // Assert
             tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel('playlists'), Times.once());

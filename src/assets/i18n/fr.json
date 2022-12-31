@@ -222,5 +222,16 @@
     "edit-columns": "Modifier les colonnes...",
     "columns": "Colonnes",
     "duration": "Durée",
-    "number": "Numéro"
+    "number": "Numéro",
+    "last-fm": "Last.fm",
+    "enable-last-fm-scrobbling": "Activer le scrobbling Last.fm",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "log-in": "Connexion",
+    "logged-in": "Connecté",
+    "logged-out": "Déconnecté",
+    "last-fm-login-failed": "La connexion Last.fm a échoué",
+    "love": "Aimer",
+    "show-love": "Afficher 'Aimer'",
+    "save-love-error": "Une erreur s'est produite lors de l'enregistrement de 'Aimer'. Veuillez vérifier le journal si vous avez besoin de plus d'informations."
 }

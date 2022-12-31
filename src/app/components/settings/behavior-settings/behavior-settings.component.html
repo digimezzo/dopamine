@@ -33,3 +33,10 @@
         >
     </div>
 </div>
+<mat-divider></mat-divider>
+<div class="p-4">
+    <h2>{{ 'love' | translate }}</h2>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="this.settings.showLove"> {{ 'show-love' | translate }}</mat-slide-toggle>
+    </div>
+</div>

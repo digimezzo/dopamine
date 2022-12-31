@@ -3,6 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
+import { DateTime } from '../../../common/date-time';
 import { FileSystem } from '../../../common/io/file-system';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
@@ -40,6 +41,7 @@ describe('CollectionArtistsComponent', () => {
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
 
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let fileSystemMock: IMock<FileSystem>;
 
@@ -99,7 +101,7 @@ describe('CollectionArtistsComponent', () => {
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
         return trackModel;
     }
@@ -129,6 +131,7 @@ describe('CollectionArtistsComponent', () => {
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
 
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileSystemMock = Mock.ofType<FileSystem>();
 

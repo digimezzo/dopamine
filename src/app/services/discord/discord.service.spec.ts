@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -14,6 +15,7 @@ import { PresenceUpdater } from './presence-updater';
 
 describe('DiscordService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let presenceUpdaterMock: IMock<PresenceUpdater>;
     let dateProxyMock: IMock<DateProxy>;
@@ -30,6 +32,7 @@ describe('DiscordService', () => {
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         presenceUpdaterMock = Mock.ofType<PresenceUpdater>();
         dateProxyMock = Mock.ofType<DateProxy>();
@@ -43,7 +46,7 @@ describe('DiscordService', () => {
         const track: Track = new Track('path');
         track.trackTitle = 'title';
         track.artists = ';artist1;;artist2';
-        trackModel = new TrackModel(track, translatorServiceMock.object);
+        trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
         track.duration = 200000;
 
         dateProxyMock.setup((x) => x.now()).returns(() => 10);
@@ -268,7 +271,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(new TrackModel(new Track('Path1'), translatorServiceMock.object), false)
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false)
             );
 
             // Assert
@@ -578,7 +581,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(new TrackModel(new Track('Path1'), translatorServiceMock.object), false)
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false)
             );
 
             // Assert

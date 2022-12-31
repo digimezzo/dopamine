@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
 import { Track } from '../../../common/data/entities/track';
+import { DateTime } from '../../../common/date-time';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSearchService } from '../../../services/search/base-search.service';
@@ -18,7 +19,7 @@ describe('CollectionTracksComponent', () => {
     let collectionPersisterMock: IMock<CollectionPersister>;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
-
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let selectedTabChangedMock: Subject<void>;
@@ -40,7 +41,7 @@ describe('CollectionTracksComponent', () => {
 
     function createTrackModel(path: string): TrackModel {
         const track: Track = new Track(path);
-        const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
         return trackModel;
     }
@@ -61,7 +62,7 @@ describe('CollectionTracksComponent', () => {
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
-
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         selectedTabChangedMock = new Subject();

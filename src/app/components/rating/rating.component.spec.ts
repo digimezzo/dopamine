@@ -1,6 +1,7 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { FontSize } from '../../common/application/font-size';
 import { Track } from '../../common/data/entities/track';
+import { DateTime } from '../../common/date-time';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -11,6 +12,7 @@ import { RatingComponent } from './rating.component';
 describe('RatingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let dialogServiceMock: IMock<BaseDialogService>;
+    let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let appearanceServiceMock: IMock<BaseAppearanceService>;
 
@@ -26,6 +28,7 @@ describe('RatingComponent', () => {
     beforeEach(() => {
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
+        dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
 
@@ -60,7 +63,7 @@ describe('RatingComponent', () => {
         it('should set and get track', () => {
             // Arrange
             const track: Track = new Track('Path');
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
 
             // Act
@@ -76,7 +79,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
@@ -91,7 +94,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
@@ -106,7 +109,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
@@ -121,7 +124,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
@@ -136,7 +139,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 
@@ -153,7 +156,7 @@ describe('RatingComponent', () => {
             // Arrange
             const track: Track = new Track('Path');
             track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, translatorServiceMock.object);
+            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
             ratingComponent.track = trackModel;
 

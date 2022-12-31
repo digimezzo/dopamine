@@ -3,14 +3,14 @@ import { DateTime } from '../common/date-time';
 
 @Pipe({ name: 'formatTicksToDateTimeString' })
 export class FormatTicksToDateTimeStringPipe implements PipeTransform {
-    constructor() {}
+    constructor(private dateTime: DateTime) {}
 
     public transform(ticks: number): string {
         if (ticks == undefined || ticks <= 0) {
             return '';
         }
 
-        const date: Date = DateTime.convertTicksToDate(ticks);
+        const date: Date = this.dateTime.convertTicksToDate(ticks);
 
         const year: number = date.getFullYear();
         const month: string = ('0' + (date.getMonth() + 1)).slice(-2);

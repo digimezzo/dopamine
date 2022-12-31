@@ -420,6 +420,15 @@ export class Settings implements BaseSettings {
         this.settings.set('enableDiscordRichPresence', v);
     }
 
+    // Enable Last.fm scrobbling
+    public get enableLastFmScrobbling(): boolean {
+        return this.settings.get('enableLastFmScrobbling');
+    }
+
+    public set enableLastFmScrobbling(v: boolean) {
+        this.settings.set('enableLastFmScrobbling', v);
+    }
+
     //  Show icon in notification area
     public get showIconInNotificationArea(): boolean {
         return this.settings.get('showIconInNotificationArea');
@@ -544,6 +553,42 @@ export class Settings implements BaseSettings {
 
     public set tracksPageColumnsOrder(v: string) {
         this.settings.set('tracksPageColumnsOrder', v);
+    }
+
+    // Last.fm username
+    public get lastFmUsername(): string {
+        return this.settings.get('lastFmUsername');
+    }
+
+    public set lastFmUsername(v: string) {
+        this.settings.set('lastFmUsername', v);
+    }
+
+    // Last.fm password
+    public get lastFmPassword(): string {
+        return this.settings.get('lastFmPassword');
+    }
+
+    public set lastFmPassword(v: string) {
+        this.settings.set('lastFmPassword', v);
+    }
+
+    // Last.fm session key
+    public get lastFmSessionKey(): string {
+        return this.settings.get('lastFmSessionKey');
+    }
+
+    public set lastFmSessionKey(v: string) {
+        this.settings.set('lastFmSessionKey', v);
+    }
+
+    //  Show love
+    public get showLove(): boolean {
+        return this.settings.get('showLove');
+    }
+
+    public set showLove(v: boolean) {
+        this.settings.set('showLove', v);
     }
 
     // Initialize
@@ -724,6 +769,10 @@ export class Settings implements BaseSettings {
             this.settings.set('enableDiscordRichPresence', false);
         }
 
+        if (!this.settings.has('enableLastFmScrobbling')) {
+            this.settings.set('enableLastFmScrobbling', false);
+        }
+
         if (!this.settings.has('showIconInNotificationArea')) {
             this.settings.set('showIconInNotificationArea', true);
         }
@@ -778,6 +827,22 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('tracksPageColumnsOrder')) {
             this.settings.set('tracksPageColumnsOrder', '');
+        }
+
+        if (!this.settings.has('lastFmUsername')) {
+            this.settings.set('lastFmUsername', '');
+        }
+
+        if (!this.settings.has('lastFmPassword')) {
+            this.settings.set('lastFmPassword', '');
+        }
+
+        if (!this.settings.has('lastFmSessionKey')) {
+            this.settings.set('lastFmSessionKey', '');
+        }
+
+        if (!this.settings.has('showLove')) {
+            this.settings.set('showLove', false);
         }
     }
 }
