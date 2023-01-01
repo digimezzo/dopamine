@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-preview.19] - 2022-11-31
 
--   Added Last.fm support
-
 ### Added
+
+-   Added Last.fm support
 
 ### Changed
 
