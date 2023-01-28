@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTrackService } from './base-track.service';
@@ -15,7 +15,7 @@ export class TrackService implements BaseTrackService {
     constructor(
         private trackModelFactory: TrackModelFactory,
         private trackRepository: BaseTrackRepository,
-        private fileSystem: BaseFileSystem
+        private fileAccess: BaseFileAccess
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
@@ -23,18 +23,18 @@ export class TrackService implements BaseTrackService {
             return new TrackModels();
         }
 
-        const subfolderPathExists: boolean = this.fileSystem.pathExists(subfolderPath);
+        const subfolderPathExists: boolean = this.fileAccess.pathExists(subfolderPath);
 
         if (!subfolderPathExists) {
             return new TrackModels();
         }
 
-        const filesInDirectory: string[] = await this.fileSystem.getFilesInDirectoryAsync(subfolderPath);
+        const filesInDirectory: string[] = await this.fileAccess.getFilesInDirectoryAsync(subfolderPath);
 
         const trackModels: TrackModels = new TrackModels();
 
         for (const file of filesInDirectory) {
-            const fileExtension: string = this.fileSystem.getFileExtension(file);
+            const fileExtension: string = this.fileAccess.getFileExtension(file);
             const fileExtensionIsSupported: boolean = FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase());
 
             if (fileExtensionIsSupported) {

@@ -3,7 +3,7 @@ import { ExpectedCallType, IMock, It, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { FileSystem } from '../../common/io/file-system';
+import { FileAccess } from '../../common/io/file-access';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { TrackOrdering } from '../../common/ordering/track-ordering';
@@ -31,7 +31,7 @@ describe('PlaybackService', () => {
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let audioPlayerMock: IMock<BaseAudioPlayer>;
     let trackOrderingMock: IMock<TrackOrdering>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
     let loggerMock: IMock<Logger>;
     let queueMock: IMock<Queue>;
     let progressUpdaterMock: IMock<ProgressUpdater>;
@@ -73,7 +73,7 @@ describe('PlaybackService', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         audioPlayerMock = Mock.ofType<BaseAudioPlayer>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
         loggerMock = Mock.ofType<Logger>();
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
@@ -89,7 +89,7 @@ describe('PlaybackService', () => {
 
         subscription = new Subscription();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';

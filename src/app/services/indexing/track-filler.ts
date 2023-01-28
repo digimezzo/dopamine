@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -16,7 +16,7 @@ export class TrackFiller {
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
         private logger: Logger
@@ -32,9 +32,9 @@ export class TrackFiller {
             track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
             track.albumArtists = this.trackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
             track.albumKey = this.albumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
-            track.fileName = this.fileSystem.getFileName(track.path);
+            track.fileName = this.fileAccess.getFileName(track.path);
             track.mimeType = this.getMimeType(track.path);
-            track.fileSize = await this.fileSystem.getFileSizeInBytesAsync(track.path);
+            track.fileSize = await this.fileAccess.getFileSizeInBytesAsync(track.path);
             track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
             track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);
             track.trackTitle = this.trackFieldCreator.createTextField(fileMetadata.title);
@@ -46,9 +46,9 @@ export class TrackFiller {
             track.year = this.trackFieldCreator.createNumberField(fileMetadata.year);
             track.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
             track.dateAdded = dateNowTicks;
-            track.dateFileCreated = await this.fileSystem.getDateCreatedInTicksAsync(track.path);
+            track.dateFileCreated = await this.fileAccess.getDateCreatedInTicksAsync(track.path);
             track.dateLastSynced = dateNowTicks;
-            track.dateFileModified = await this.fileSystem.getDateModifiedInTicksAsync(track.path);
+            track.dateFileModified = await this.fileAccess.getDateModifiedInTicksAsync(track.path);
             track.needsIndexing = 0;
             track.needsAlbumArtworkIndexing = 1;
             track.rating = this.trackFieldCreator.createNumberField(fileMetadata.rating);
@@ -70,7 +70,7 @@ export class TrackFiller {
     }
 
     private getMimeType(filePath: string): string {
-        return this.mimeTypes.getMimeTypeForFileExtension(this.fileSystem.getFileExtension(filePath));
+        return this.mimeTypes.getMimeTypeForFileExtension(this.fileAccess.getFileExtension(filePath));
     }
 
     private getHasLyrics(lyrics: string): number {

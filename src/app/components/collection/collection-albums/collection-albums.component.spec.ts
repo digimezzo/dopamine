@@ -4,7 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { AlbumData } from '../../../common/data/entities/album-data';
 import { Track } from '../../../common/data/entities/track';
 import { DateTime } from '../../../common/date-time';
-import { FileSystem } from '../../../common/io/file-system';
+import { FileAccess } from '../../../common/io/file-access';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { AlbumModel } from '../../../services/album/album-model';
@@ -32,7 +32,7 @@ describe('CollectionAlbumsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
     let indexingServiceMock: IMock<BaseIndexingService>;
     let collectionServiceMock: IMock<BaseCollectionService>;
     let dateTimeMock: IMock<DateTime>;
@@ -96,7 +96,7 @@ describe('CollectionAlbumsComponent', () => {
         trackServiceMock = Mock.ofType<BaseTrackService>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -116,8 +116,8 @@ describe('CollectionAlbumsComponent', () => {
         selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
         collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
         albums = [album1, album2];
 
         track1 = new Track('Path1');

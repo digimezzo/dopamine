@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileSystem } from '../../../common/io/file-system';
+import { FileAccess } from '../../../common/io/file-access';
 import { Logger } from '../../../common/logger';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
@@ -11,7 +11,7 @@ import { AlbumsAlbumsPersister } from './albums-albums-persister';
 describe('AlbumsAlbumsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
     let subscription: Subscription;
@@ -29,7 +29,7 @@ describe('AlbumsAlbumsPersister', () => {
     beforeEach(() => {
         settingsStub = { albumsTabSelectedAlbum: '', albumsTabSelectedAlbumOrder: '' };
         loggerMock = Mock.ofType<Logger>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
         subscription = new Subscription();
@@ -40,9 +40,9 @@ describe('AlbumsAlbumsPersister', () => {
         albumData2.albumKey = 'albumKey2';
         albumData3 = new AlbumData();
         albumData3.albumKey = 'albumKey3';
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
-        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileSystemMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileAccessMock.object);
         availableAlbums = [album1, album2, album3];
 
         persister = new AlbumsAlbumsPersister(settingsStub, loggerMock.object);

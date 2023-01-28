@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { BasePlaylistService } from '../playlist/base-playlist.service';
@@ -15,14 +15,14 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
     constructor(
         private playlistService: BasePlaylistService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private textSanitizer: TextSanitizer
     ) {}
 
     public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
 
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
-        const playlistFolderPaths: string[] = await this.fileSystem.getDirectoriesInDirectoryAsync(
+        const playlistFolderPaths: string[] = await this.fileAccess.getDirectoriesInDirectoryAsync(
             this.playlistService.playlistsParentFolderPath
         );
         const playlistFolders: PlaylistFolderModel[] = [];
@@ -37,15 +37,15 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
     }
 
     public deletePlaylistFolder(playlistFolder: PlaylistFolderModel): void {
-        this.fileSystem.deleteDirectoryRecursively(playlistFolder.path);
+        this.fileAccess.deleteDirectoryRecursively(playlistFolder.path);
 
         this.playlistFoldersChanged.next();
     }
 
     public renamePlaylistFolder(playlistFolder: PlaylistFolderModel, newName: string): void {
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(newName);
-        const newPlaylistFolderPath: string = this.fileSystem.changeFolderName(playlistFolder.path, sanitizedPlaylistFolderName);
-        this.fileSystem.renameFileOrDirectory(playlistFolder.path, newPlaylistFolderPath);
+        const newPlaylistFolderPath: string = this.fileAccess.changeFolderName(playlistFolder.path, sanitizedPlaylistFolderName);
+        this.fileAccess.renameFileOrDirectory(playlistFolder.path, newPlaylistFolderPath);
 
         this.playlistFoldersChanged.next();
     }
@@ -56,12 +56,12 @@ export class PlaylistFolderService implements BasePlaylistFolderService {
         }
 
         const sanitizedPlaylistFolderName: string = this.textSanitizer.sanitize(playlistFolderName);
-        const fullPlaylistFolderDirectoryPath: string = this.fileSystem.combinePath([
+        const fullPlaylistFolderDirectoryPath: string = this.fileAccess.combinePath([
             this.playlistService.playlistsParentFolderPath,
             sanitizedPlaylistFolderName,
         ]);
 
-        this.fileSystem.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
+        this.fileAccess.createFullDirectoryPathIfDoesNotExist(fullPlaylistFolderDirectoryPath);
 
         this.playlistFoldersChanged.next();
     }

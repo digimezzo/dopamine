@@ -1,7 +1,7 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -11,7 +11,7 @@ import { AlbumService } from './album-service';
 describe('AlbumService', () => {
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let albumArtworkCacheServiceMock: IMock<BaseAlbumArtworkCacheService>;
     let service: AlbumService;
 
@@ -19,8 +19,8 @@ describe('AlbumService', () => {
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         albumArtworkCacheServiceMock = Mock.ofType<BaseAlbumArtworkCacheService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
-        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, fileSystemMock.object);
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, fileAccessMock.object);
     });
 
     describe('constructor', () => {

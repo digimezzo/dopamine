@@ -1,26 +1,26 @@
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumArtwork } from '../../common/data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 
 describe('AlbumArtworkRemover', () => {
     let albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let loggerMock: IMock<Logger>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let albumArtworkRemover: AlbumArtworkRemover;
 
     beforeEach(() => {
         albumArtworkRepositoryMock = Mock.ofType<BaseAlbumArtworkRepository>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
         loggerMock = Mock.ofType<Logger>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         albumArtworkRemover = new AlbumArtworkRemover(
             albumArtworkRepositoryMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             snackBarServiceMock.object,
             loggerMock.object
         );
@@ -154,13 +154,13 @@ describe('AlbumArtworkRemover', () => {
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'artworkId1');
             const albumArtwork2: AlbumArtwork = new AlbumArtwork('albumKey2', 'artworkId2');
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => [albumArtwork1, albumArtwork2]);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
 
             // Act
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'), Times.exactly(1));
         });
 
         it('should not notify that artwork is being updated if there are no artwork files on disk', async () => {
@@ -168,8 +168,8 @@ describe('AlbumArtworkRemover', () => {
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'artworkId1');
             const albumArtwork2: AlbumArtwork = new AlbumArtwork('albumKey2', 'artworkId2');
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => [albumArtwork1, albumArtwork2]);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock.setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt')).returns(async () => []);
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock.setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt')).returns(async () => []);
 
             // Act
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
@@ -183,17 +183,17 @@ describe('AlbumArtworkRemover', () => {
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');
             const albumArtwork2: AlbumArtwork = new AlbumArtwork('albumKey2', 'album-artworkId2');
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => [albumArtwork1, albumArtwork2]);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'))
                 .returns(async () => [
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
                 ]);
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
                 .returns(() => 'album-artworkId1');
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'))
                 .returns(() => 'album-artworkId2');
 
@@ -207,17 +207,17 @@ describe('AlbumArtworkRemover', () => {
         it('should notify exactly once that artwork is being updated if there are artwork files on disk which are not found in the database', async () => {
             // Arrange
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => []);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'))
                 .returns(async () => [
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
                 ]);
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
                 .returns(() => 'album-artworkId1');
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'))
                 .returns(() => 'album-artworkId2');
 
@@ -231,31 +231,31 @@ describe('AlbumArtworkRemover', () => {
         it('should not delete any artwork files if none are found on disk', async () => {
             // Arrange
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => []);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock.setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt')).returns(async () => []);
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock.setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt')).returns(async () => []);
 
             // Act
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            fileSystemMock.verify((x) => x.deleteFileIfExistsAsync(It.isAny()), Times.never());
+            fileAccessMock.verify((x) => x.deleteFileIfExistsAsync(It.isAny()), Times.never());
         });
 
         it('should delete artwork files if artwork is not found in the database', async () => {
             // Arrange
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => [albumArtwork1]);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'))
                 .returns(async () => [
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
                 ]);
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
                 .returns(() => 'album-artworkId1');
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'))
                 .returns(() => 'album-artworkId2');
 
@@ -263,7 +263,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) => x.deleteFileIfExistsAsync('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'),
                 Times.exactly(1)
             );
@@ -273,17 +273,17 @@ describe('AlbumArtworkRemover', () => {
             // Arrange
             const albumArtwork1: AlbumArtwork = new AlbumArtwork('albumKey1', 'album-artworkId1');
             albumArtworkRepositoryMock.setup((x) => x.getAllAlbumArtwork()).returns(() => [albumArtwork1]);
-            fileSystemMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
-            fileSystemMock
+            fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/.config/Dopamine/Cache/CoverArt');
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/.config/Dopamine/Cache/CoverArt'))
                 .returns(async () => [
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                     '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
                 ]);
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
                 .returns(() => 'album-artworkId1');
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'))
                 .returns(() => 'album-artworkId2');
 
@@ -291,7 +291,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) => x.deleteFileIfExistsAsync('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'),
                 Times.never()
             );

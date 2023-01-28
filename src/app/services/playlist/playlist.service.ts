@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
@@ -36,7 +36,7 @@ export class PlaylistService implements BasePlaylistService {
         private playlistDecoder: PlaylistDecoder,
         private trackModelFactory: TrackModelFactory,
         private fileValidator: FileValidator,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private logger: Logger
     ) {
         this.initialize();
@@ -110,7 +110,7 @@ export class PlaylistService implements BasePlaylistService {
 
         try {
             for (const path of tracksToAdd.map((x) => x.path)) {
-                await this.fileSystem.appendTextToFileAsync(playlistPath, path);
+                await this.fileAccess.appendTextToFileAsync(playlistPath, path);
             }
 
             if (tracksToAdd.length === 1) {
@@ -176,10 +176,10 @@ export class PlaylistService implements BasePlaylistService {
                 }
             }
 
-            await this.fileSystem.clearFileContentsAsync(playlistPath);
+            await this.fileAccess.clearFileContentsAsync(playlistPath);
 
             for (const playlistTrack of playlistTracksAfterRemoval) {
-                await this.fileSystem.appendTextToFileAsync(playlistPath, playlistTrack.path);
+                await this.fileAccess.appendTextToFileAsync(playlistPath, playlistTrack.path);
             }
         } catch (e) {
             this.logger.error(
@@ -309,7 +309,7 @@ export class PlaylistService implements BasePlaylistService {
     public async updateTracksInPlaylistAsync(playlistPath: string, tracks: TrackModel[]): Promise<void> {
         try {
             for (const path of tracks.map((x) => x.path)) {
-                await this.fileSystem.replaceTextInFileAsync(playlistPath, path);
+                await this.fileAccess.replaceTextInFileAsync(playlistPath, path);
             }
         } catch (e) {
             this.logger.error(

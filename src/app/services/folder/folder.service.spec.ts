@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { FolderModel } from './folder-model';
@@ -13,7 +13,7 @@ describe('FolderService', () => {
     let folderRepositoryMock: IMock<BaseFolderRepository>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let loggerMock: IMock<Logger>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
 
     let service: FolderService;
 
@@ -21,9 +21,9 @@ describe('FolderService', () => {
         folderRepositoryMock = Mock.ofType<BaseFolderRepository>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         loggerMock = Mock.ofType<Logger>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
 
-        service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileSystemMock.object);
+        service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileAccessMock.object);
     });
 
     describe('constructor', () => {
@@ -251,7 +251,7 @@ describe('FolderService', () => {
             // Arrange
             const rootFolderPath: string = '/home/user/Music';
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
-            fileSystemMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => false);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
@@ -265,8 +265,8 @@ describe('FolderService', () => {
             const rootFolderPath: string = '/home/user/Music';
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
             const rootFolderDirectories: string[] = ['Root child 1', 'Root child 2', 'Root child 3'];
-            fileSystemMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => true);
-            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(rootFolderPath)).returns(async () => rootFolderDirectories);
+            fileAccessMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync(rootFolderPath)).returns(async () => rootFolderDirectories);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
@@ -284,7 +284,7 @@ describe('FolderService', () => {
             const subfolderPath: string = '/home/user/Music/Subfolder1';
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
             const subfolder: SubfolderModel = new SubfolderModel(subfolderPath, false);
-            fileSystemMock.setup((x) => x.pathExists(subfolderPath)).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists(subfolderPath)).returns(() => false);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
@@ -300,8 +300,8 @@ describe('FolderService', () => {
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
             const subfolder: SubfolderModel = new SubfolderModel(subfolderPath, false);
             const subDirectories: string[] = ['Root child 1', 'Root child 2', 'Root child 3'];
-            fileSystemMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
-            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
+            fileAccessMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
@@ -320,8 +320,8 @@ describe('FolderService', () => {
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
             const subfolder: SubfolderModel = new SubfolderModel(subfolderPath, false);
             const subDirectories: string[] = ['Root child 1', 'Root child 2', 'Root child 3'];
-            fileSystemMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
-            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
+            fileAccessMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(async () => subDirectories);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
@@ -342,9 +342,9 @@ describe('FolderService', () => {
             const rootFolder: FolderModel = new FolderModel(new Folder(rootFolderPath));
             const subfolder: SubfolderModel = new SubfolderModel(subfolderPath, true);
             const subDirectories: string[] = ['Root child 1', 'Root child 2', 'Root child 3'];
-            fileSystemMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
-            fileSystemMock.setup((x) => x.getDirectoryPath(subfolderPath)).returns(() => '/home/user/Music/Sub1');
-            fileSystemMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Sub1')).returns(async () => subDirectories);
+            fileAccessMock.setup((x) => x.pathExists(subfolderPath)).returns(() => true);
+            fileAccessMock.setup((x) => x.getDirectoryPath(subfolderPath)).returns(() => '/home/user/Music/Sub1');
+            fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Sub1')).returns(async () => subDirectories);
 
             // Act
             const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
@@ -364,8 +364,8 @@ describe('FolderService', () => {
             // Arrange
             const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
-            fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music')).returns(() => '/home/user');
-            fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
+            fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music')).returns(() => '/home/user');
+            fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
             const subfolderBreadCrumbs: SubfolderModel[] = await service.getSubfolderBreadCrumbsAsync(
@@ -393,15 +393,15 @@ describe('FolderService', () => {
             // Arrange
             const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1/subfolder2/subfolder3'))
                 .returns(() => '/home/user/Music/subfolder1/subfolder2');
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1/subfolder2'))
                 .returns(() => '/home/user/Music/subfolder1');
 
-            fileSystemMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
+            fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
             const subfolderBreadCrumbs: SubfolderModel[] = await service.getSubfolderBreadCrumbsAsync(

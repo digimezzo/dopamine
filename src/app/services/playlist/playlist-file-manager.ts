@@ -5,7 +5,7 @@ import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from './playlist-model';
@@ -18,7 +18,7 @@ export class PlaylistFileManager {
     constructor(
         private playlistModelFactory: PlaylistModelFactory,
         private fileValidator: FileValidator,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private logger: Logger
     ) {
         this.initialize();
@@ -30,7 +30,7 @@ export class PlaylistFileManager {
 
     public ensurePlaylistsParentFolderExists(playlistsParentFolder: string): void {
         try {
-            this.fileSystem.createFullDirectoryPathIfDoesNotExist(playlistsParentFolder);
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(playlistsParentFolder);
         } catch (e) {
             this.logger.error(
                 `Could not create playlists directory. Error: ${e.message}`,
@@ -41,12 +41,12 @@ export class PlaylistFileManager {
     }
 
     private initialize(): void {
-        const musicDirectory: string = this.fileSystem.musicDirectory();
-        this._playlistsParentFolderPath = this.fileSystem.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
+        const musicDirectory: string = this.fileAccess.musicDirectory();
+        this._playlistsParentFolderPath = this.fileAccess.combinePath([musicDirectory, 'Dopamine', ApplicationPaths.playlistsFolder]);
     }
 
     public async getPlaylistsInPathAsync(path: string): Promise<PlaylistModel[]> {
-        const filePathsInPath: string[] = await this.fileSystem.getFilesInDirectoryAsync(path);
+        const filePathsInPath: string[] = await this.fileAccess.getFilesInDirectoryAsync(path);
         const sortedFilePathsInPath: string[] = filePathsInPath.sort();
         const playlists: PlaylistModel[] = [];
 
@@ -74,7 +74,7 @@ export class PlaylistFileManager {
     }
 
     private isProposedPlaylistImagePathValid(playlistPath: string, proposedPlaylistImagePath: string): boolean {
-        const playlistPathWithoutExtension: string = this.fileSystem.getPathWithoutExtension(playlistPath);
+        const playlistPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(playlistPath);
 
         return (
             proposedPlaylistImagePath != undefined &&
@@ -84,16 +84,16 @@ export class PlaylistFileManager {
     }
 
     public createPlaylist(playlistFolder: PlaylistFolderModel, playlistName: string): PlaylistModel {
-        const playlistPath: string = this.fileSystem.combinePath([playlistFolder.path, `${playlistName}${FileFormats.m3u}`]);
+        const playlistPath: string = this.fileAccess.combinePath([playlistFolder.path, `${playlistName}${FileFormats.m3u}`]);
         const newPlaylist: PlaylistModel = this.playlistModelFactory.create(this._playlistsParentFolderPath, playlistPath, '');
-        this.fileSystem.createFile(playlistPath);
+        this.fileAccess.createFile(playlistPath);
 
         return newPlaylist;
     }
 
     public async deletePlaylistAsync(playlist: PlaylistModel): Promise<void> {
-        await this.fileSystem.deleteFileIfExistsAsync(playlist.path);
-        await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+        await this.fileAccess.deleteFileIfExistsAsync(playlist.path);
+        await this.fileAccess.deleteFileIfExistsAsync(playlist.imagePath);
     }
 
     public async updatePlaylistAsync(playlist: PlaylistModel, newName: string, newImagePath: string): Promise<void> {
@@ -103,7 +103,7 @@ export class PlaylistFileManager {
             playlistPath = this.updatePlaylistPath(playlist, newName);
         }
 
-        await this.fileSystem.deleteFileIfExistsAsync(playlist.imagePath);
+        await this.fileAccess.deleteFileIfExistsAsync(playlist.imagePath);
 
         if (newImagePath !== Constants.emptyImage) {
             await this.createPlaylistImageAsync(playlistPath, newImagePath);
@@ -111,16 +111,16 @@ export class PlaylistFileManager {
     }
 
     private updatePlaylistPath(playlist: PlaylistModel, newName: string): string {
-        const newPlaylistPath: string = this.fileSystem.changeFileName(playlist.path, newName);
-        this.fileSystem.renameFileOrDirectory(playlist.path, newPlaylistPath);
+        const newPlaylistPath: string = this.fileAccess.changeFileName(playlist.path, newName);
+        this.fileAccess.renameFileOrDirectory(playlist.path, newPlaylistPath);
 
         return newPlaylistPath;
     }
 
     private async createPlaylistImageAsync(playlistPath: string, selectedImagePath: string): Promise<void> {
-        const playlistImageExtension: string = this.fileSystem.getFileExtension(selectedImagePath).toLowerCase();
-        const playlistPathWithoutExtension: string = this.fileSystem.getPathWithoutExtension(playlistPath);
+        const playlistImageExtension: string = this.fileAccess.getFileExtension(selectedImagePath).toLowerCase();
+        const playlistPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(playlistPath);
         const newPlaylistImagePath: string = `${playlistPathWithoutExtension}-${uuidv4()}-${playlistImageExtension}`;
-        this.fileSystem.copyFile(selectedImagePath, newPlaylistImagePath);
+        this.fileAccess.copyFile(selectedImagePath, newPlaylistImagePath);
     }
 }

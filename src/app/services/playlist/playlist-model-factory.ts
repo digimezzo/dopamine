@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistModel } from './playlist-model';
 
 @Injectable()
 export class PlaylistModelFactory {
-    constructor(private translatorService: BaseTranslatorService, private fileSystem: BaseFileSystem) {}
+    constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
     public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
         return new PlaylistModel(
@@ -23,17 +23,17 @@ export class PlaylistModelFactory {
     }
 
     private getPlaylistName(playlistPath: string): string {
-        return this.fileSystem.getFileNameWithoutExtension(playlistPath);
+        return this.fileAccess.getFileNameWithoutExtension(playlistPath);
     }
 
     private getPlaylistFolderName(playlistsParentFolderPath: string, playlistPath: string): string {
-        const directoryPath: string = this.fileSystem.getDirectoryPath(playlistPath);
+        const directoryPath: string = this.fileAccess.getDirectoryPath(playlistPath);
         let directoryName: string = '';
 
         if (directoryPath === playlistsParentFolderPath) {
             directoryName = this.translatorService.get('unsorted');
         } else {
-            directoryName = this.fileSystem.getDirectoryOrFileName(directoryPath);
+            directoryName = this.fileAccess.getDirectoryOrFileName(directoryPath);
         }
 
         return directoryName;

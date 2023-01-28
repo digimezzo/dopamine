@@ -57,13 +57,13 @@ import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
 import { BaseApplication } from './common/io/base-application';
 import { BaseDesktop } from './common/io/base-desktop';
-import { BaseFileSystem } from './common/io/base-file-system';
+import { BaseFileAccess } from './common/io/base-file-access';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
-import { FileSystem } from './common/io/file-system';
+import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
@@ -518,7 +518,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         DateTime,
         TabSelectionGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
-        { provide: BaseFileSystem, useClass: FileSystem },
+        { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
         { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
         { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },

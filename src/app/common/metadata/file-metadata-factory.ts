@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../application/file-formats';
-import { BaseFileSystem } from '../io/base-file-system';
+import { BaseFileAccess } from '../io/base-file-access';
 import { BaseFileMetadataFactory } from './base-file-metadata-factory';
 import { IFileMetadata } from './i-file-metadata';
 import { MusicMetadataFileMetadata } from './music-metadata-file-meta-data';
@@ -8,12 +8,12 @@ import { TagLibFileMetadata } from './tag-lib-file-metadata';
 
 @Injectable()
 export class FileMetadataFactory implements BaseFileMetadataFactory {
-    public constructor(private fileSystem: BaseFileSystem) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public async createAsync(path: string): Promise<IFileMetadata> {
         let fileMetadata: IFileMetadata;
 
-        const fileExtension = this.fileSystem.getFileExtension(path).toLowerCase();
+        const fileExtension = this.fileAccess.getFileExtension(path).toLowerCase();
 
         switch (fileExtension) {
             case FileFormats.mp3:

@@ -2,7 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { FolderTrackRepository } from '../../common/data/repositories/folder-track-repository';
 import { TrackRepository } from '../../common/data/repositories/track-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackRemover } from './track-remover';
@@ -11,7 +11,7 @@ describe('Trackremover', () => {
     let trackRepositoryMock: IMock<TrackRepository>;
     let folderTrackRepositoryMock: IMock<FolderTrackRepository>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let loggerMock: IMock<Logger>;
     let trackRemover: TrackRemover;
 
@@ -19,13 +19,13 @@ describe('Trackremover', () => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         folderTrackRepositoryMock = Mock.ofType<FolderTrackRepository>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
         loggerMock = Mock.ofType<Logger>();
         trackRemover = new TrackRemover(
             trackRepositoryMock.object,
             folderTrackRepositoryMock.object,
             snackBarServiceMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             loggerMock.object
         );
     });
@@ -107,8 +107,8 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
-            fileSystemMock.verify((x) => x.pathExists(track1.path), Times.exactly(1));
-            fileSystemMock.verify((x) => x.pathExists(track2.path), Times.exactly(1));
+            fileAccessMock.verify((x) => x.pathExists(track1.path), Times.exactly(1));
+            fileAccessMock.verify((x) => x.pathExists(track2.path), Times.exactly(1));
         });
 
         it('should not check if a path exists if there are no tracks in the in the database', async () => {
@@ -119,7 +119,7 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
-            fileSystemMock.verify((x) => x.pathExists(It.isAny()), Times.never());
+            fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should delete a track from the database if its file is not found on disk', async () => {
@@ -127,7 +127,7 @@ describe('Trackremover', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1]);
-            fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
@@ -141,7 +141,7 @@ describe('Trackremover', () => {
             const track1: Track = new Track('/home/user/Music/Track 1.mp3');
             track1.trackId = 1;
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1]);
-            fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
@@ -157,8 +157,8 @@ describe('Trackremover', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
-            fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
-            fileSystemMock.setup((x) => x.pathExists(track2.path)).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists(track1.path)).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists(track2.path)).returns(() => false);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
@@ -174,8 +174,8 @@ describe('Trackremover', () => {
             const track2: Track = new Track('/home/user/Music/Track 2.mp3');
             track2.trackId = 2;
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
-            fileSystemMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
-            fileSystemMock.setup((x) => x.pathExists(track2.path)).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists(track1.path)).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists(track2.path)).returns(() => true);
 
             // Act
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Track } from '../../common/data/entities/track';
 import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
@@ -13,7 +13,7 @@ export class TrackRemover {
         private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private snackBarService: BaseSnackBarService,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private logger: Logger
     ) {}
 
@@ -68,7 +68,7 @@ export class TrackRemover {
             let numberOfRemovedTracks: number = 0;
 
             for (const track of tracks) {
-                if (!this.fileSystem.pathExists(track.path)) {
+                if (!this.fileAccess.pathExists(track.path)) {
                     this.trackRepository.deleteTrack(track.trackId);
                     numberOfRemovedTracks++;
                 }

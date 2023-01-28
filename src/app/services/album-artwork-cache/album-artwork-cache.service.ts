@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
@@ -12,7 +12,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private logger: Logger
     ) {
         this.createCoverArtCacheOnDisk();
@@ -20,8 +20,8 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
     public async removeArtworkDataFromCacheAsync(artworkId: string): Promise<void> {
         try {
-            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(artworkId);
-            await this.fileSystem.deleteFileIfExistsAsync(cachedArtworkFilePath);
+            const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(artworkId);
+            await this.fileAccess.deleteFileIfExistsAsync(cachedArtworkFilePath);
         } catch (e) {
             this.logger.error(
                 `Could not remove artwork data from cache. Error: ${e.message}`,
@@ -42,7 +42,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
-            const cachedArtworkFilePath: string = this.fileSystem.coverArtFullPath(albumArtworkCacheId.id);
+            const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(albumArtworkCacheId.id);
             const resizedImageBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
@@ -65,7 +65,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
 
     private createCoverArtCacheOnDisk(): void {
         try {
-            this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.fileSystem.coverArtCacheFullPath());
+            this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.fileAccess.coverArtCacheFullPath());
         } catch (e) {
             this.logger.error(
                 `Could not create artwork cache directory. Error: ${e.message}`,

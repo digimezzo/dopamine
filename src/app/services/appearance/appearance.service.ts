@@ -7,7 +7,7 @@ import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
 import { BaseApplication } from '../../common/io/base-application';
 import { BaseDesktop } from '../../common/io/base-desktop';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -35,7 +35,7 @@ export class AppearanceService implements BaseAppearanceService {
         private logger: Logger,
         private overlayContainer: OverlayContainer,
         private application: BaseApplication,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private desktop: BaseDesktop,
         private defaultThemesCreator: DefaultThemesCreator,
         private documentProxy: DocumentProxy
@@ -153,7 +153,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private checkIfThemesDirectoryHasChanged(): void {
-        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
+        const themeFiles: string[] = this.fileAccess.getFilesInDirectory(this.themesDirectoryPath);
         if (themeFiles.length !== this.themes.length) {
             this.refreshThemes();
         }
@@ -391,28 +391,28 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private ensureThemesDirectoryExists(): void {
-        this.fileSystem.createFullDirectoryPathIfDoesNotExist(this.themesDirectoryPath);
+        this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.themesDirectoryPath);
     }
 
     private ensureDefaultThemesExist(): void {
         const defaultThemes: Theme[] = this.defaultThemesCreator.createAllThemes();
 
         for (const defaultTheme of defaultThemes) {
-            const themeFilePath: string = this.fileSystem.combinePath([this.themesDirectoryPath, `${defaultTheme.name}.theme`]);
+            const themeFilePath: string = this.fileAccess.combinePath([this.themesDirectoryPath, `${defaultTheme.name}.theme`]);
 
             // We don't want the isBroken property in the theme files
             const defaultThemeWithoutIsBroken = { ...defaultTheme, isBroken: undefined };
             const stringifiedDefaultTheme: string = JSON.stringify(defaultThemeWithoutIsBroken, undefined, 2);
-            this.fileSystem.writeToFile(themeFilePath, stringifiedDefaultTheme);
+            this.fileAccess.writeToFile(themeFilePath, stringifiedDefaultTheme);
         }
     }
 
     private getThemesFromThemesDirectory(): Theme[] {
-        const themeFiles: string[] = this.fileSystem.getFilesInDirectory(this.themesDirectoryPath);
+        const themeFiles: string[] = this.fileAccess.getFilesInDirectory(this.themesDirectoryPath);
         const themes: Theme[] = [];
 
         for (const themeFile of themeFiles) {
-            const themeFileContent: string = this.fileSystem.getFileContentAsString(themeFile);
+            const themeFileContent: string = this.fileAccess.getFileContentAsString(themeFile);
 
             try {
                 const theme: Theme = JSON.parse(themeFileContent);
@@ -426,8 +426,8 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private getThemesDirectoryPath(): string {
-        const applicationDirectory: string = this.fileSystem.applicationDataDirectory();
-        const themesDirectoryPath: string = this.fileSystem.combinePath([applicationDirectory, ApplicationPaths.themesFolder]);
+        const applicationDirectory: string = this.fileAccess.applicationDataDirectory();
+        const themesDirectoryPath: string = this.fileAccess.combinePath([applicationDirectory, ApplicationPaths.themesFolder]);
 
         return themesDirectoryPath;
     }

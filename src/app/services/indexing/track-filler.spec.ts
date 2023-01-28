@@ -2,7 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -38,7 +38,7 @@ describe('TrackFiller', () => {
     let fileMetadataFactoryMock: IMock<BaseFileMetadataFactory>;
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let mimeTypesMock: IMock<MimeTypes>;
     let dateTimeMock: IMock<DateTime>;
     let loggerMock: IMock<Logger>;
@@ -48,7 +48,7 @@ describe('TrackFiller', () => {
             fileMetadataFactoryMock.object,
             trackFieldCreatorMock.object,
             albumKeyGeneratorMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             mimeTypesMock.object,
             dateTimeMock.object,
             loggerMock.object
@@ -59,7 +59,7 @@ describe('TrackFiller', () => {
         fileMetadataFactoryMock = Mock.ofType<BaseFileMetadataFactory>();
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         dateTimeMock = Mock.ofType<DateTime>();
         loggerMock = Mock.ofType<Logger>();
@@ -87,10 +87,10 @@ describe('TrackFiller', () => {
 
         mimeTypesMock.setup((x) => x.getMimeTypeForFileExtension('.mp3')).returns(() => 'audio/mpeg');
 
-        fileSystemMock.setup((x) => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
-        fileSystemMock.setup((x) => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
+        fileAccessMock.setup((x) => x.getFileName('/home/user/Music/Track 1.mp3')).returns(() => 'Track 1');
+        fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
+        fileAccessMock.setup((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3')).returns(async () => 123);
+        fileAccessMock.setup((x) => x.getDateCreatedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 456);
     });
 
     describe('addFileMetadataToTrackAsync', () => {
@@ -100,7 +100,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.artists = ['Artist 1', 'Artist 2'];
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -118,7 +118,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.genres = ['Genre 1', 'Genre 2'];
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -136,7 +136,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.album = 'Album title';
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -154,7 +154,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.albumArtists = ['Album artist 1', 'Album artist 2'];
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -173,7 +173,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.album = 'Album title';
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -190,7 +190,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -198,7 +198,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
             expect(track.fileName).toEqual('Track 1');
         });
 
@@ -207,7 +207,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -215,7 +215,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
             mimeTypesMock.verify((x) => x.getMimeTypeForFileExtension('.mp3'), Times.exactly(1));
             expect(track.mimeType).toEqual('audio/mpeg');
         });
@@ -225,7 +225,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -233,7 +233,7 @@ describe('TrackFiller', () => {
             await trackFiller.addFileMetadataToTrackAsync(track);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.getFileSizeInBytesAsync('/home/user/Music/Track 1.mp3'), Times.exactly(1));
 
             expect(track.fileSize).toEqual(123);
         });
@@ -244,7 +244,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.bitRate = 320;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -262,7 +262,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.sampleRate = 44;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -280,7 +280,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.title = 'Track title';
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -298,7 +298,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.trackNumber = 1;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -316,7 +316,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.trackCount = 15;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -334,7 +334,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.discNumber = 1;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -352,7 +352,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.discCount = 2;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -370,7 +370,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.durationInMilliseconds = 123456000;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             trackFieldCreatorMock.setup((x) => x.createNumberField(123456000)).returns(() => 123456000);
 
@@ -391,7 +391,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.year = 2020;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
@@ -409,7 +409,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.lyrics = undefined;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -427,7 +427,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.lyrics = '';
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -445,7 +445,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.lyrics = 'Blabla';
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -462,7 +462,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
             const trackFiller: TrackFiller = createTrackFiller();
@@ -480,7 +480,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -497,7 +497,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
             const trackFiller: TrackFiller = createTrackFiller();
@@ -515,7 +515,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -532,7 +532,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -549,7 +549,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -567,7 +567,7 @@ describe('TrackFiller', () => {
             fileMetadataStub.rating = 4;
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -585,7 +585,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -602,7 +602,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -619,7 +619,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
@@ -636,7 +636,7 @@ describe('TrackFiller', () => {
             const fileMetadataStub = new FileMetadataImplementation();
 
             fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
             const trackFiller: TrackFiller = createTrackFiller();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');

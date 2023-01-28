@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from './application/file-formats';
-import { BaseFileSystem } from './io/base-file-system';
+import { BaseFileAccess } from './io/base-file-access';
 
 @Injectable()
 export class FileValidator {
-    public constructor(private fileSystem: BaseFileSystem) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public isPlayableAudioFile(filePath: string): boolean {
-        if (!this.fileSystem.pathExists(filePath)) {
+        if (!this.fileAccess.pathExists(filePath)) {
             return false;
         }
 
-        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+        const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
         if (!FileFormats.supportedAudioExtensions.includes(fileExtension.toLowerCase())) {
             return false;
@@ -21,7 +21,7 @@ export class FileValidator {
     }
 
     public isSupportedPlaylistFile(filePath: string): boolean {
-        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+        const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
         if (FileFormats.supportedPlaylistExtensions.includes(fileExtension.toLowerCase())) {
             return true;
@@ -31,7 +31,7 @@ export class FileValidator {
     }
 
     public isSupportedPlaylistImageFile(filePath: string): boolean {
-        const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+        const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
         if (FileFormats.supportedPlaylistImageExtensions.includes(fileExtension.toLowerCase())) {
             return true;

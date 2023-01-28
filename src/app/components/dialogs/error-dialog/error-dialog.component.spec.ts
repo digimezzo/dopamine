@@ -2,27 +2,27 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Desktop } from '../../../common/io/desktop';
-import { FileSystem } from '../../../common/io/file-system';
+import { FileAccess } from '../../../common/io/file-access';
 import { ErrorDialogComponent } from './error-dialog.component';
 
 describe('ErrorDialogComponent', () => {
     let dialogRefMock: IMock<MatDialogRef<ErrorDialogComponent>>;
     let desktopMock: IMock<BaseDesktop>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
 
     let component: ErrorDialogComponent;
 
     beforeEach(() => {
         dialogRefMock = Mock.ofType<MatDialogRef<ErrorDialogComponent>>();
         desktopMock = Mock.ofType<Desktop>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
 
-        fileSystemMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/.config/Dopamine');
-        fileSystemMock
+        fileAccessMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/.config/Dopamine');
+        fileAccessMock
             .setup((x) => x.combinePath(['/home/.config/Dopamine', 'logs', 'Dopamine.log']))
             .returns(() => '/home/.config/Dopamine/logs/Dopamine.log');
 
-        component = new ErrorDialogComponent(It.isAny(), dialogRefMock.object, desktopMock.object, fileSystemMock.object);
+        component = new ErrorDialogComponent(It.isAny(), dialogRefMock.object, desktopMock.object, fileAccessMock.object);
     });
 
     describe('constructor', () => {

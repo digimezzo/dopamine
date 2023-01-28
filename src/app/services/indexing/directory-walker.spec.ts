@@ -1,6 +1,6 @@
 import { IMock, It, Mock } from 'typemoq';
-import { BaseFileSystem } from '../../common/io/base-file-system';
-import { FileSystem } from '../../common/io/file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
+import { FileAccess } from '../../common/io/file-access';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 
@@ -8,33 +8,33 @@ describe('DirectoryWalker', () => {
     describe('getFilesInDirectoryAsync', () => {
         it('should collect all files in the directory and subdirectories', async () => {
             // Arrange
-            const fileSystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
+            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
@@ -42,11 +42,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
@@ -54,11 +54,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => []);
 
-            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
+            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
@@ -79,33 +79,33 @@ describe('DirectoryWalker', () => {
 
         it('should not collect any directories in the directory and subdirectories', async () => {
             // Arrange
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
+            const fileAccessMock: IMock<FileAccess> = Mock.ofType<FileAccess>();
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
@@ -113,11 +113,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
@@ -125,11 +125,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => []);
 
-            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
+            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
@@ -144,33 +144,33 @@ describe('DirectoryWalker', () => {
 
         it('should not collect errors if non occurred', async () => {
             // Arrange
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
+            const fileAccessMock: IMock<FileAccess> = Mock.ofType<FileAccess>();
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
@@ -178,11 +178,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
@@ -190,11 +190,11 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => []);
 
-            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
+            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');
@@ -205,33 +205,33 @@ describe('DirectoryWalker', () => {
 
         it('should collect errors if any occurred', async () => {
             // Arrange
-            const fileSystemMock: IMock<FileSystem> = Mock.ofType<FileSystem>();
+            const fileAccessMock: IMock<FileAccess> = Mock.ofType<FileAccess>();
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
                 .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => [
                     '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
@@ -239,19 +239,19 @@ describe('DirectoryWalker', () => {
                     '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
                 ]);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
                 .returns(async () => []);
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .throws(new Error('An error occurred'));
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
                 .returns(async () => []);
 
-            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileSystemMock.object);
+            const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
             // Act
             const directoryWalkResult: DirectoryWalkResult = await directoryWalker.getFilesInDirectoryAsync('/home/user/Music');

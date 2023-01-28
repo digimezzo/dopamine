@@ -1,6 +1,6 @@
 import { IMock, It, Mock } from 'typemoq';
 import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileSystem } from '../../../common/io/file-system';
+import { FileAccess } from '../../../common/io/file-access';
 import { Shuffler } from '../../../common/shuffler';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
@@ -12,7 +12,7 @@ import { AlbumRowsGetter } from './album-rows-getter';
 describe('AlbumRowsGetter', () => {
     let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
     let shufflerMock: IMock<Shuffler>;
     let albumRowsGetter: AlbumRowsGetter;
 
@@ -69,19 +69,19 @@ describe('AlbumRowsGetter', () => {
     beforeEach(() => {
         itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
         shufflerMock = Mock.ofType<Shuffler>();
 
         itemSpaceCalculatorMock.setup((x) => x.calculateNumberOfItemsPerRow(It.isAny(), It.isAny())).returns(() => 2);
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
-        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileSystemMock.object);
-        album4 = new AlbumModel(albumData4, translatorServiceMock.object, fileSystemMock.object);
-        album5 = new AlbumModel(albumData5, translatorServiceMock.object, fileSystemMock.object);
-        album6 = new AlbumModel(albumData6, translatorServiceMock.object, fileSystemMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileAccessMock.object);
+        album4 = new AlbumModel(albumData4, translatorServiceMock.object, fileAccessMock.object);
+        album5 = new AlbumModel(albumData5, translatorServiceMock.object, fileAccessMock.object);
+        album6 = new AlbumModel(albumData6, translatorServiceMock.object, fileAccessMock.object);
 
         albums = [album1, album2, album3, album4, album5, album6];
 

@@ -1,36 +1,36 @@
 import { IMock, Mock } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
 
 describe('PlaylistModelFactory', () => {
     let baseTranslatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
 
     function createFactory(): PlaylistModelFactory {
-        return new PlaylistModelFactory(baseTranslatorServiceMock.object, fileSystemMock.object);
+        return new PlaylistModelFactory(baseTranslatorServiceMock.object, fileAccessMock.object);
     }
 
     beforeEach(() => {
         baseTranslatorServiceMock = Mock.ofType<BaseTranslatorService>();
         baseTranslatorServiceMock.setup((x) => x.get('unsorted')).returns(() => 'Unsorted');
 
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
-        fileSystemMock
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock
             .setup((x) => x.getDirectoryPath('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
             .returns(() => '/home/username/Music/Dopamine/Playlists/Folder 1');
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.getDirectoryPath('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u'))
             .returns(() => '/home/username/Music/Dopamine/Playlists');
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.getFileNameWithoutExtension('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u'))
             .returns(() => 'Playlist 1');
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.getFileNameWithoutExtension('/home/username/Music/Dopamine/Playlists/Playlist 1.m3u'))
             .returns(() => 'Playlist 1');
-        fileSystemMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
+        fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
     });
 
     describe('constructor', () => {
@@ -49,7 +49,7 @@ describe('PlaylistModelFactory', () => {
         it('should create a PlaylistFolderModel with an image if the image is not undefined or empty', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png'))
                 .returns(() => false);
 
@@ -72,7 +72,7 @@ describe('PlaylistModelFactory', () => {
         it('should create a PlaylistFolderModel without an image if the image is undefined', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png'))
                 .returns(() => true);
 
@@ -93,7 +93,7 @@ describe('PlaylistModelFactory', () => {
         it('should create a PlaylistFolderModel without an image if the image is empty', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png'))
                 .returns(() => true);
 
@@ -114,7 +114,7 @@ describe('PlaylistModelFactory', () => {
         it('should create a PlaylistFolderModel with Unsorted folderName if playlistPath equals playlistsParentFolderPath', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();
-            fileSystemMock.setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Playlist 1.png')).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Playlist 1.png')).returns(() => true);
 
             // Act
             const playlistModel: PlaylistModel = playlistModelFactory.create(

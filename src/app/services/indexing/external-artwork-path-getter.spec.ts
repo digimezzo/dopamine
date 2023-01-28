@@ -1,24 +1,24 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 describe('ExternalArtworkPathGetter', () => {
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let externalArtworkPathGetter: ExternalArtworkPathGetter;
 
     const audioFilePath: string = '/home/MyUser/Music/MyMusicFile.mp3';
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
 
-        externalArtworkPathGetter = new ExternalArtworkPathGetter(fileSystemMock.object);
+        externalArtworkPathGetter = new ExternalArtworkPathGetter(fileAccessMock.object);
     });
 
     describe('getExternalArtworkPath', () => {
         it('should return undefined if audio file path is undefined', async () => {
             // Arrange
-            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
+            fileAccessMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
 
             // Act
             const externalArtworkPath: string = await externalArtworkPathGetter.getExternalArtworkPathAsync(undefined);
@@ -29,10 +29,10 @@ describe('ExternalArtworkPathGetter', () => {
 
         it('should return undefined if there is no file that matches an external artwork pattern in the same directory', async () => {
             // Arrange
-            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
+            fileAccessMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
                 .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3']);
 
@@ -44,29 +44,29 @@ describe('ExternalArtworkPathGetter', () => {
         });
 
         async function getExternalArtworkPathAsync(artworkFileName: string): Promise<string> {
-            fileSystemMock.reset();
-            fileSystemMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
-            fileSystemMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
+            fileAccessMock.reset();
+            fileAccessMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
+            fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
 
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile');
 
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.png')).returns(() => 'mymusicfile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.png')).returns(() => 'MyMusicFile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.PNG')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.png')).returns(() => 'mymusicfile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.png')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.PNG')).returns(() => 'MyMusicFile');
 
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.jpg')).returns(() => 'mymusicfile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.jpg')).returns(() => 'MyMusicFile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.JPG')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.jpg')).returns(() => 'mymusicfile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.jpg')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.JPG')).returns(() => 'MyMusicFile');
 
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.jpeg')).returns(() => 'mymusicfile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.jpeg')).returns(() => 'MyMusicFile');
-            fileSystemMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.JPEG')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/mymusicfile.jpeg')).returns(() => 'mymusicfile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.jpeg')).returns(() => 'MyMusicFile');
+            fileAccessMock.setup((x) => x.getFileNameWithoutExtension('/home/MyUser/Music/MyMusicFile.JPEG')).returns(() => 'MyMusicFile');
 
-            fileSystemMock
+            fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
                 .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]);
 
-            fileSystemMock.setup((x) => x.getFileName('/home/MyUser/Music/' + artworkFileName)).returns(() => artworkFileName);
+            fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/' + artworkFileName)).returns(() => artworkFileName);
 
             return await externalArtworkPathGetter.getExternalArtworkPathAsync(audioFilePath);
         }

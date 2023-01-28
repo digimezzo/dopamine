@@ -4,7 +4,7 @@ import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { DateTime } from '../../common/date-time';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -51,7 +51,7 @@ describe('MetadataService', () => {
     let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
     let imageProcessorMock: IMock<ImageProcessor>;
     let loggerMock: IMock<Logger>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let settingsMock: IMock<BaseSettings>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -62,7 +62,7 @@ describe('MetadataService', () => {
             trackRepositoryMock.object,
             albumArtworkGetterMock.object,
             imageProcessorMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             settingsMock.object,
             loggerMock.object
         );
@@ -74,13 +74,13 @@ describe('MetadataService', () => {
         albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         loggerMock = Mock.ofType<Logger>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
         settingsMock = Mock.ofType<BaseSettings>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        fileSystemMock.setup((x) => x.getFileExtension('path1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFileExtension('path2.ogg')).returns(() => '.ogg');
+        fileAccessMock.setup((x) => x.getFileExtension('path1.mp3')).returns(() => '.mp3');
+        fileAccessMock.setup((x) => x.getFileExtension('path2.ogg')).returns(() => '.ogg');
     });
 
     describe('constructor', () => {

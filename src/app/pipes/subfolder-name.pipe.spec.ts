@@ -1,17 +1,17 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileSystem } from '../common/io/base-file-system';
+import { BaseFileAccess } from '../common/io/base-file-access';
 import { SubfolderModel } from '../services/folder/subfolder-model';
 import { SubfolderNamePipe } from './subfolder-name.pipe';
 
 describe('SubfolderNamePipe', () => {
-    let filesystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
+    let fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
     let subfolderNamePipe: SubfolderNamePipe;
 
     beforeEach(() => {
-        filesystemMock = Mock.ofType<BaseFileSystem>();
-        filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music/Subfolder1')).returns(() => 'Subfolder1');
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music/Subfolder1')).returns(() => 'Subfolder1');
 
-        subfolderNamePipe = new SubfolderNamePipe(filesystemMock.object);
+        subfolderNamePipe = new SubfolderNamePipe(fileAccessMock.object);
     });
 
     describe('transform', () => {

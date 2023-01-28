@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlbumArtwork } from '../../common/data/entities/album-artwork';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
@@ -10,7 +10,7 @@ import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 export class AlbumArtworkRemover {
     constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private snackBarService: BaseSnackBarService,
         private logger: Logger
     ) {}
@@ -129,8 +129,8 @@ export class AlbumArtworkRemover {
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
             );
 
-            const coverArtCacheFullPath: string = this.fileSystem.coverArtCacheFullPath();
-            const allAlbumArtworkFilePaths: string[] = await this.fileSystem.getFilesInDirectoryAsync(coverArtCacheFullPath);
+            const coverArtCacheFullPath: string = this.fileAccess.coverArtCacheFullPath();
+            const allAlbumArtworkFilePaths: string[] = await this.fileAccess.getFilesInDirectoryAsync(coverArtCacheFullPath);
 
             this.logger.info(
                 `Found ${allAlbumArtworkFilePaths.length} artwork files on disk`,
@@ -141,10 +141,10 @@ export class AlbumArtworkRemover {
             let numberOfRemovedAlbumArtwork: number = 0;
 
             for (const albumArtworkFilePath of allAlbumArtworkFilePaths) {
-                const albumArtworkFileNameWithoutExtension: string = this.fileSystem.getFileNameWithoutExtension(albumArtworkFilePath);
+                const albumArtworkFileNameWithoutExtension: string = this.fileAccess.getFileNameWithoutExtension(albumArtworkFilePath);
 
                 if (!allArtworkIdsInDatabase.includes(albumArtworkFileNameWithoutExtension)) {
-                    await this.fileSystem.deleteFileIfExistsAsync(albumArtworkFilePath);
+                    await this.fileAccess.deleteFileIfExistsAsync(albumArtworkFilePath);
                     numberOfRemovedAlbumArtwork++;
                 }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { BaseFolderService } from './base-folder.service';
@@ -19,7 +19,7 @@ export class FolderService implements BaseFolderService {
         private folderRepository: BaseFolderRepository,
         private logger: Logger,
         private snackBarService: BaseSnackBarService,
-        private fileSystem: BaseFileSystem
+        private fileAccess: BaseFileAccess
     ) {}
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
@@ -74,8 +74,8 @@ export class FolderService implements BaseFolderService {
         if (subfolder == undefined) {
             // If no subfolder is provided, return the subfolders of the root folder.
             try {
-                if (this.fileSystem.pathExists(rootFolder.path)) {
-                    subfolderPaths = await this.fileSystem.getDirectoriesInDirectoryAsync(rootFolder.path);
+                if (this.fileAccess.pathExists(rootFolder.path)) {
+                    subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(rootFolder.path);
                 }
             } catch (e) {
                 this.logger.error(
@@ -87,12 +87,12 @@ export class FolderService implements BaseFolderService {
         } else {
             // If a subfolder is provided, return the subfolders of the subfolder.
             try {
-                if (this.fileSystem.pathExists(subfolder.path)) {
+                if (this.fileAccess.pathExists(subfolder.path)) {
                     let subfolderPathToBrowse: string = subfolder.path;
 
                     // If the ".." subfolder is selected, go to the parent folder.
                     if (subfolder.isGoToParent) {
-                        subfolderPathToBrowse = this.fileSystem.getDirectoryPath(subfolder.path);
+                        subfolderPathToBrowse = this.fileAccess.getDirectoryPath(subfolder.path);
                     }
 
                     // If we're not browsing the root folder, show a folder to go up 1 level.
@@ -101,7 +101,7 @@ export class FolderService implements BaseFolderService {
                     }
 
                     // Return the subfolders of the provided subfolder
-                    subfolderPaths = await this.fileSystem.getDirectoriesInDirectoryAsync(subfolderPathToBrowse);
+                    subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(subfolderPathToBrowse);
                 }
             } catch (e) {
                 this.logger.error(`Could not get subfolderPaths for subfolder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
@@ -148,7 +148,7 @@ export class FolderService implements BaseFolderService {
                 'getSubfolderBreadCrumbsAsync'
             );
             subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
-            parentFolderPath = this.fileSystem.getDirectoryPath(parentFolderPath);
+            parentFolderPath = this.fileAccess.getDirectoryPath(parentFolderPath);
         }
 
         // Always add the root folder

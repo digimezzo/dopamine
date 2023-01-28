@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { FileFormats } from '../../common/application/file-formats';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -22,7 +22,7 @@ export class MetadataService implements BaseMetadataService {
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private settings: BaseSettings,
         private logger: Logger
     ) {}
@@ -64,7 +64,7 @@ export class MetadataService implements BaseMetadataService {
         try {
             this.trackRepository.updateRating(track.id, track.rating);
 
-            if (this.settings.saveRatingToAudioFiles && this.fileSystem.getFileExtension(track.path).toLowerCase() === FileFormats.mp3) {
+            if (this.settings.saveRatingToAudioFiles && this.fileAccess.getFileExtension(track.path).toLowerCase() === FileFormats.mp3) {
                 const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
                 fileMetaData.rating = track.rating;
                 fileMetaData.save();

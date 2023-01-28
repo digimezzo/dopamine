@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
 import { Folder } from '../common/data/entities/folder';
-import { BaseFileSystem } from '../common/io/base-file-system';
+import { BaseFileAccess } from '../common/io/base-file-access';
 import { FolderModel } from '../services/folder/folder-model';
 import { FolderNamePipe } from './folder-name.pipe';
 
@@ -8,9 +8,9 @@ describe('FolderNamePipe', () => {
     describe('transform', () => {
         it('should return empty string if folder is undefined', () => {
             // Arrange
-            const filesystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
-            filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
+            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
 
             // Act
             const folderName: string = directoryNamePipe.transform(undefined);
@@ -21,9 +21,9 @@ describe('FolderNamePipe', () => {
 
         it('should return empty string if folder path is undefined', () => {
             // Arrange
-            const filesystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
-            filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
+            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
             const folder: FolderModel = new FolderModel(new Folder(undefined));
 
             // Act
@@ -35,9 +35,9 @@ describe('FolderNamePipe', () => {
 
         it('should return empty string if folder path is empty', () => {
             // Arrange
-            const filesystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
-            filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
+            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
             const folder: FolderModel = new FolderModel(new Folder(''));
 
             // Act
@@ -49,9 +49,9 @@ describe('FolderNamePipe', () => {
 
         it('should return the folder name of a folder path', () => {
             // Arrange
-            const filesystemMock: IMock<BaseFileSystem> = Mock.ofType<BaseFileSystem>();
-            filesystemMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(filesystemMock.object);
+            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
+            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
             const folder: FolderModel = new FolderModel(new Folder('/home/User/Music'));
 
             // Act

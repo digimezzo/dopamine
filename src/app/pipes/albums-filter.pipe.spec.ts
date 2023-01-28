@@ -1,6 +1,6 @@
 import { IMock, It, Mock } from 'typemoq';
 import { AlbumData } from '../common/data/entities/album-data';
-import { FileSystem } from '../common/io/file-system';
+import { FileAccess } from '../common/io/file-access';
 import { AlbumModel } from '../services/album/album-model';
 import { BaseSearchService } from '../services/search/base-search.service';
 import { BaseTranslatorService } from '../services/translator/base-translator.service';
@@ -9,7 +9,7 @@ import { AlbumsFilterPipe } from './albums-filter.pipe';
 describe('AlbumsFilterPipe', () => {
     let searchServiceMock: IMock<BaseSearchService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
 
     function createPipe(): AlbumsFilterPipe {
         return new AlbumsFilterPipe(searchServiceMock.object);
@@ -20,12 +20,12 @@ describe('AlbumsFilterPipe', () => {
         albumData1.albumTitle = 'album_title1';
         albumData1.albumArtists = ';album_artist1_1;;album_artist1_2;';
         albumData1.year = 2001;
-        const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileSystemMock.object);
+        const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
         const albumData2: AlbumData = new AlbumData();
         albumData2.albumTitle = 'album_title2';
         albumData2.albumArtists = ';album_artist2_1;;album_artist2_2;';
         albumData2.year = 2002;
-        const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileSystemMock.object);
+        const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
         const albums: AlbumModel[] = [album1, album2];
 
         return albums;
@@ -34,7 +34,7 @@ describe('AlbumsFilterPipe', () => {
     beforeEach(() => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
     });
 
     describe('transform', () => {

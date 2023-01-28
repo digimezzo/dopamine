@@ -5,7 +5,7 @@ import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { BaseApplication } from '../../common/io/base-application';
 import { BaseDesktop } from '../../common/io/base-desktop';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -23,7 +23,7 @@ describe('AppearanceService', () => {
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
     let applicationMock: IMock<BaseApplication>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let desktopMock: IMock<BaseDesktop>;
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
@@ -44,7 +44,7 @@ describe('AppearanceService', () => {
             loggerMock.object,
             overlayContainerMock.object,
             applicationMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
             documentProxyMock.object
@@ -127,7 +127,7 @@ describe('AppearanceService', () => {
             loggerMock.object,
             overlayContainerMock.object,
             applicationMock.object,
-            fileSystemMock.object,
+            fileAccessMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
             documentProxyMock.object
@@ -234,28 +234,28 @@ describe('AppearanceService', () => {
         bodyMock = document.createElement('div');
     }
 
-    function resetFileSystemMock(): void {
-        fileSystemMock.reset();
-        fileSystemMock
+    function resetFileAccessMock(): void {
+        fileAccessMock.reset();
+        fileAccessMock
             .setup((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'))
             .returns(() => ['/home/user/.config/Dopamine/Themes/Theme 1.theme', '/home/user/.config/Dopamine/Themes/Theme 2.theme']);
-        fileSystemMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/user/.config/Dopamine');
-        fileSystemMock
+        fileAccessMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/user/.config/Dopamine');
+        fileAccessMock
             .setup((x) => x.combinePath(['/home/user/.config/Dopamine', 'Themes']))
             .returns(() => '/home/user/.config/Dopamine/Themes');
 
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'))
             .returns(() => JSON.stringify(theme1));
 
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'))
             .returns(() => JSON.stringify(theme2));
 
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Theme 1.theme']))
             .returns(() => '/home/user/.config/Dopamine/Themes/Theme 1.theme');
-        fileSystemMock
+        fileAccessMock
             .setup((x) => x.combinePath(['/home/user/.config/Dopamine/Themes', 'Theme 2.theme']))
             .returns(() => '/home/user/.config/Dopamine/Themes/Theme 2.theme');
     }
@@ -270,7 +270,7 @@ describe('AppearanceService', () => {
         loggerMock = Mock.ofType<Logger>();
         overlayContainerMock = Mock.ofType<OverlayContainer>();
         applicationMock = Mock.ofType<BaseApplication>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
         desktopMock = Mock.ofType<BaseDesktop>();
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
@@ -279,7 +279,7 @@ describe('AppearanceService', () => {
         theme2 = createTheme('Theme 2', '#ffffff');
 
         resetDefaultThemesCreatorMock();
-        resetFileSystemMock();
+        resetFileAccessMock();
 
         containerElementMock = document.createElement('div');
         overlayContainerMock.setup((x) => x.getContainerElement()).returns(() => containerElementMock);
@@ -351,7 +351,7 @@ describe('AppearanceService', () => {
             const service: BaseAppearanceService = createService();
 
             // Assert
-            fileSystemMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Themes'), Times.once());
+            fileAccessMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Themes'), Times.once());
         });
 
         it('should ensure that the default themes exist', () => {
@@ -366,12 +366,12 @@ describe('AppearanceService', () => {
             const theme1WithoutIsBroken = { ...theme1, isBroken: undefined };
             const theme2WithoutIsBroken = { ...theme2, isBroken: undefined };
 
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
                 Times.once()
@@ -385,9 +385,9 @@ describe('AppearanceService', () => {
             const service: BaseAppearanceService = createService();
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileAccessMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
+            fileAccessMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileAccessMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {
@@ -936,7 +936,7 @@ describe('AppearanceService', () => {
             // Arrange
             const service: BaseAppearanceService = createService();
             resetDefaultThemesCreatorMock();
-            resetFileSystemMock();
+            resetFileAccessMock();
 
             // Act
             service.refreshThemes();
@@ -946,12 +946,12 @@ describe('AppearanceService', () => {
             const theme1WithoutIsBroken = { ...theme1, isBroken: undefined };
             const theme2WithoutIsBroken = { ...theme2, isBroken: undefined };
 
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
                 Times.once()
             );
-            fileSystemMock.verify(
+            fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
                 Times.once()
@@ -961,15 +961,15 @@ describe('AppearanceService', () => {
         it('should get themes from the themes directory', () => {
             // Arrange
             const service: BaseAppearanceService = createService();
-            resetFileSystemMock();
+            resetFileAccessMock();
 
             // Act
             service.refreshThemes();
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
-            fileSystemMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
+            fileAccessMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
+            fileAccessMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 1.theme'), Times.once());
+            fileAccessMock.verify((x) => x.getFileContentAsString('/home/user/.config/Dopamine/Themes/Theme 2.theme'), Times.once());
         });
 
         it('should set the selected theme from the settings', () => {

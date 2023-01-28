@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
@@ -11,7 +11,7 @@ import { IndexablePath } from './indexable-path';
 @Injectable()
 export class IndexablePathFetcher {
     constructor(
-        private fileSystem: BaseFileSystem,
+        private fileAccess: BaseFileAccess,
         private directoryWalker: DirectoryWalker,
         private logger: Logger,
         private folderRepository: BaseFolderRepository
@@ -32,7 +32,7 @@ export class IndexablePathFetcher {
         }
 
         for (const folder of folders) {
-            if (this.fileSystem.pathExists(folder.path)) {
+            if (this.fileAccess.pathExists(folder.path)) {
                 try {
                     const indexablePathsForFolder: IndexablePath[] = await this.getIndexablePathsForSingleFolderAsync(
                         folder,
@@ -69,10 +69,10 @@ export class IndexablePathFetcher {
 
             for (const filePath of directoryWalkResult.filePaths) {
                 try {
-                    const fileExtension: string = this.fileSystem.getFileExtension(filePath);
+                    const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
                     if (validFileExtensions.includes(fileExtension.toLowerCase())) {
-                        const dateModifiedInTicks: number = await this.fileSystem.getDateModifiedInTicksAsync(filePath);
+                        const dateModifiedInTicks: number = await this.fileAccess.getDateModifiedInTicksAsync(filePath);
                         indexablePaths.push(new IndexablePath(filePath, dateModifiedInTicks, folder.folderId));
                     }
                 } catch (e) {

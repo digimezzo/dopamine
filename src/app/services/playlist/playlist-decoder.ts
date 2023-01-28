@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { PlaylistEntry } from './playlist-entry';
 
 @Injectable()
 export class PlaylistDecoder {
-    constructor(private fileSystem: BaseFileSystem) {}
+    constructor(private fileAccess: BaseFileAccess) {}
 
     public async decodePlaylistAsync(playlistPath: string): Promise<PlaylistEntry[]> {
         let playlistEntries: PlaylistEntry[] = [];
 
         if (
-            this.fileSystem.getFileExtension(playlistPath) === FileFormats.m3u ||
-            this.fileSystem.getFileExtension(playlistPath) === FileFormats.m3u8
+            this.fileAccess.getFileExtension(playlistPath) === FileFormats.m3u ||
+            this.fileAccess.getFileExtension(playlistPath) === FileFormats.m3u8
         ) {
             playlistEntries = await this.decodeM3uPlaylistAsync(playlistPath);
         }
@@ -23,7 +23,7 @@ export class PlaylistDecoder {
 
     private async decodeM3uPlaylistAsync(playlistPath: string): Promise<PlaylistEntry[]> {
         const playlistEntries: PlaylistEntry[] = [];
-        const fileLines: string[] = await this.fileSystem.readLinesAsync(playlistPath);
+        const fileLines: string[] = await this.fileAccess.readLinesAsync(playlistPath);
 
         for (const fileLine of fileLines) {
             // We don't process empty lines and lines containing comments
@@ -41,12 +41,12 @@ export class PlaylistDecoder {
 
     private ensureFullTrackPath(playlistPath: string, trackPath: string): string {
         let fullTrackPath: string = '';
-        const playlistDirectory: string = this.fileSystem.getDirectoryOrFileName(playlistPath);
+        const playlistDirectory: string = this.fileAccess.getDirectoryOrFileName(playlistPath);
 
-        if (this.fileSystem.isAbsolutePath(trackPath)) {
+        if (this.fileAccess.isAbsolutePath(trackPath)) {
             fullTrackPath = trackPath;
         } else {
-            fullTrackPath = this.fileSystem.generateFullPath(playlistDirectory, trackPath);
+            fullTrackPath = this.fileAccess.generateFullPath(playlistDirectory, trackPath);
         }
 
         return fullTrackPath;

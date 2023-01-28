@@ -1,18 +1,18 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
 
 describe('PlaylistFolderModelFactory', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         translatorServiceMock.setup((x) => x.get('unsorted')).returns(() => 'Unsorted');
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
-        fileSystemMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
     });
 
     describe('constructor', () => {
@@ -22,7 +22,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Act
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileSystemMock.object
+                fileAccessMock.object
             );
 
             // Assert
@@ -35,7 +35,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileSystemMock.object
+                fileAccessMock.object
             );
 
             // Act
@@ -55,7 +55,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileSystemMock.object
+                fileAccessMock.object
             );
 
             // Act
@@ -75,7 +75,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileSystemMock.object
+                fileAccessMock.object
             );
 
             // Act

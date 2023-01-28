@@ -1,12 +1,12 @@
 import { Constants } from '../../common/application/constants';
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { AlbumData } from '../../common/data/entities/album-data';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel {
-    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileSystem: BaseFileSystem) {}
+    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
     public isSelected: boolean = false;
     public showYear: boolean = false;
@@ -17,7 +17,7 @@ export class AlbumModel {
             return Constants.emptyImage;
         }
 
-        return 'file:///' + this.fileSystem.coverArtFullPath(this.albumData.artworkId);
+        return 'file:///' + this.fileAccess.coverArtFullPath(this.albumData.artworkId);
     }
 
     public get albumArtist(): string {

@@ -2,7 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { DateTime } from '../../common/date-time';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModel } from './track-model';
@@ -13,7 +13,7 @@ import { TrackService } from './track.service';
 describe('TrackService', () => {
     let trackModelFactoryMock: IMock<TrackModelFactory>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
 
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -28,14 +28,14 @@ describe('TrackService', () => {
     beforeEach(() => {
         trackModelFactoryMock = Mock.ofType<TrackModelFactory>();
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
-        fileSystemMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
-        fileSystemMock
+        fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.mp3')).returns(() => '.mp3');
+        fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
+        fileAccessMock
             .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'))
             .returns(async () => ['/home/user/Music/Subfolder1/track1.mp3', '/home/user/Music/Subfolder1/track1.png']);
 
@@ -74,7 +74,7 @@ describe('TrackService', () => {
                     new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), dateTimeMock.object, translatorServiceMock.object)
             );
 
-        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileSystemMock.object);
+        service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object);
     });
 
     describe('constructor', () => {
@@ -123,7 +123,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            fileSystemMock.verify((x) => x.pathExists(It.isAny()), Times.never());
+            fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should not check if an empty path exists', async () => {
@@ -134,7 +134,7 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            fileSystemMock.verify((x) => x.pathExists(It.isAny()), Times.never());
+            fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should check that the given non empty or undefined path exists', async () => {
@@ -145,13 +145,13 @@ describe('TrackService', () => {
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            fileSystemMock.verify((x) => x.pathExists('/home/user/Music/Subfolder1'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.pathExists('/home/user/Music/Subfolder1'), Times.exactly(1));
         });
 
         it('should return an empty TrackModels when the subfolder path does not exist', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
-            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => false);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => false);
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -165,19 +165,19 @@ describe('TrackService', () => {
         it('should get all files in an existing directory', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
-            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
-            fileSystemMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'), Times.exactly(1));
+            fileAccessMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'), Times.exactly(1));
         });
 
         it('should include tracks for files which have a supported audio extension', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
-            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -189,7 +189,7 @@ describe('TrackService', () => {
         it('should not include tracks for files which have an unsupported audio extension', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
-            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
@@ -206,7 +206,7 @@ describe('TrackService', () => {
         it('should create TrackModels from files', async () => {
             // Arrange
             const subfolderPath: string = '/home/user/Music/Subfolder1';
-            fileSystemMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
+            fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);

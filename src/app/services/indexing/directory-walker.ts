@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DirectoryWalkResult } from './directory-walk-result';
 
 @Injectable()
 export class DirectoryWalker {
-    constructor(private fileSystem: BaseFileSystem) {}
+    constructor(private fileAccess: BaseFileAccess) {}
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<DirectoryWalkResult> {
         const filePaths: string[] = [];
@@ -21,7 +21,7 @@ export class DirectoryWalker {
             let filePathsInDirectory: string[];
 
             try {
-                filePathsInDirectory = await this.fileSystem.getFilesInDirectoryAsync(directoryPath, true, errors);
+                filePathsInDirectory = await this.fileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 errors.push(e);
             }
@@ -40,7 +40,7 @@ export class DirectoryWalker {
             let subdirectoryPathsInDirectory: string[];
 
             try {
-                subdirectoryPathsInDirectory = await this.fileSystem.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
+                subdirectoryPathsInDirectory = await this.fileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
             } catch (e) {
                 errors.push(e);
             }

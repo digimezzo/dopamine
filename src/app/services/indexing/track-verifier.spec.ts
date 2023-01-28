@@ -1,15 +1,15 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
-import { BaseFileSystem } from '../../common/io/base-file-system';
+import { BaseFileAccess } from '../../common/io/base-file-access';
 import { TrackVerifier } from './track-verifier';
 
 describe('TrackVerifier', () => {
-    let fileSystemMock: IMock<BaseFileSystem>;
+    let fileAccessMock: IMock<BaseFileAccess>;
     let trackVerifier: TrackVerifier;
 
     beforeEach(() => {
-        fileSystemMock = Mock.ofType<BaseFileSystem>();
-        trackVerifier = new TrackVerifier(fileSystemMock.object);
+        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        trackVerifier = new TrackVerifier(fileAccessMock.object);
     });
 
     describe('isTrackOutOfDateAsync', () => {
@@ -36,8 +36,8 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 12);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
+            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 12);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
 
             // Act
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
@@ -54,8 +54,8 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 110);
+            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 110);
 
             // Act
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
@@ -72,8 +72,8 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileSystemMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
-            fileSystemMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
+            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(async () => 10);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(async () => 100);
 
             // Act
             const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);

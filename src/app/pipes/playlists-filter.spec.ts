@@ -1,5 +1,5 @@
 import { IMock, It, Mock } from 'typemoq';
-import { FileSystem } from '../common/io/file-system';
+import { FileAccess } from '../common/io/file-access';
 import { PlaylistModel } from '../services/playlist/playlist-model';
 import { BaseSearchService } from '../services/search/base-search.service';
 import { BaseTranslatorService } from '../services/translator/base-translator.service';
@@ -8,7 +8,7 @@ import { PlaylistsFilterPipe } from './playlists-filter';
 describe('PlaylistsFilterPipe', () => {
     let searchServiceMock: IMock<BaseSearchService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileSystemMock: IMock<FileSystem>;
+    let fileAccessMock: IMock<FileAccess>;
 
     function createPipe(): PlaylistsFilterPipe {
         return new PlaylistsFilterPipe(searchServiceMock.object);
@@ -35,7 +35,7 @@ describe('PlaylistsFilterPipe', () => {
     beforeEach(() => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileSystemMock = Mock.ofType<FileSystem>();
+        fileAccessMock = Mock.ofType<FileAccess>();
     });
 
     describe('transform', () => {
