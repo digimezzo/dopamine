@@ -1,8 +1,8 @@
 {
     "name": "Dopamine",
     "version": "3.0.0",
-    "versionSuffix": "preview.19",
-    "copyright": "Copyright Digimezzo Ⓒ 2014 - 2022",
+    "versionSuffix": "preview.20",
+    "copyright": "Copyright Digimezzo Ⓒ 2014 - 2023",
     "description": "Audio player",
     "homepage": "https://github.com/digimezzo/dopamine",
     "author": {
