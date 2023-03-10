@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--   Improved the German translation
+-   Updated German translation
 
 ## [3.0.0-preview.19] - 2022-12-31
 
