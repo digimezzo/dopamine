@@ -111,7 +111,7 @@
                 class="tracks-table-row"
                 [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                 (mousedown)="setSelectedTracks($event, track)"
-                (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
+                (dblclick)="playbackService.enqueueAndPlayTracksFromDoubleClick(this.orderedTracks, track)"
             >
                 <td>
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
