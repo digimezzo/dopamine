@@ -84,7 +84,7 @@
         "zone.js": "~0.11.4"
     },
     "engines": {
-        "node": ">=12.20.1"
+        "node" : ">=16.0.0 <17.0.0"
     },
     "dependencies": {
         "@angular/animations": "12.2.16",
