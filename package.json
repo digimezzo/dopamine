@@ -92,7 +92,7 @@
         "@angular/material": "12.2.13",
         "@electron/remote": "^2.0.8",
         "angular-split": "^5.0.0-beta.2",
-        "better-sqlite3": "7.6.2",
+        "better-sqlite3": "8.3.0",
         "discord-rpc": "^4.0.1",
         "electron-log": "4.4.8",
         "electron-store": "8.1.0",
