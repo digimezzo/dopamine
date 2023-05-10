@@ -74,6 +74,10 @@ $ npm run electron:mac       # Build for Mac
 
 ## Pacman installation notes
 
-The pacman package contains a dependency to package libappindicator-sharp, which is no longer distributed with Arch Linux. I cannot remove this dependency for now, because it is an issue in electron-builder (the packaging tool which is used in this project). It is, however, possible to install Dopamine on Arch Linux or Manjaro using this command:
+The pacman package can be installed using this command (replace x.y.z with the correct version number):
 
-`$ sudo pacman -U Dopamine-3.0.0-preview.3.pacman --assume-installed libappindicator-sharp`
+`$ sudo pacman -U Dopamine-x.y.z.pacman`
+
+If you're getting an error concerning a missing package libappindicator-sharp, use this command to perform the installation instead (replace x.y.z with the correct version number):
+
+`$ sudo pacman -U Dopamine-x.y.z.pacman --assume-installed libappindicator-sharp`
