@@ -13,7 +13,7 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: '14.x'
+                  node-version: '16.x'
             - name: update package directory
               run: sudo apt update
             - name: install rpm and libarchive
@@ -63,7 +63,7 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: '14.x'
+                  node-version: '16.x'
             - name: install dependencies
               run: npm install
             - name: run unit tests
@@ -89,7 +89,7 @@ jobs:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@master
               with:
-                  node-version: '14.x'
+                  node-version: '16.x'
             - name: install dependencies
               run: npm install
             - name: run unit tests
