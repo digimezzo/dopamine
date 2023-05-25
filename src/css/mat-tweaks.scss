@@ -29,3 +29,7 @@
 .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
     background: rgba(var(--theme-rgb-base), 0.1) !important;
 }
+
+.mat-menu-item:hover {
+    background: rgba(var(--theme-rgb-base), 0.06) !important;
+}
