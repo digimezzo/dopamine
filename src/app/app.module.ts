@@ -436,7 +436,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
             },
         }),
     ],
-
     providers: [
         {
             provide: APP_INITIALIZER,
@@ -566,14 +565,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
             useClass: GlobalErrorHandler,
         },
     ],
-    bootstrap: [AppComponent],
-    entryComponents: [
-        ConfirmationDialogComponent,
-        InputDialogComponent,
-        ErrorDialogComponent,
-        LicenseDialogComponent,
-        SnackBarComponent,
-        EditColumnsDialogComponent,
-    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

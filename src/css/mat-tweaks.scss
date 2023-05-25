@@ -1,0 +1,31 @@
+.mat-app-background {
+    background-color: var(--theme-main-background) !important;
+}
+
+.mat-drawer-container {
+    background-color: var(--theme-main-background) !important;
+}
+
+.mat-menu-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-menu-item {
+    color: var(--theme-primary-text) !important;
+}
+
+.mat-dialog-container {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-select-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-option:hover {
+    background: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+    background: rgba(var(--theme-rgb-base), 0.1) !important;
+}

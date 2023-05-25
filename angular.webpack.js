@@ -19,5 +19,7 @@ module.exports = {
         util: 'commonjs util',
         constants: 'commonjs constants',
         net: 'commonjs net',
+        querystring: 'commonjs querystring',
+        url: 'commonjs url',
     },
 };
