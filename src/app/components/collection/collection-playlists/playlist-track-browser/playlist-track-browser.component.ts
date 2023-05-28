@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { BaseDesktop } from '../../../../common/io/base-desktop';

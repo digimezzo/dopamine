@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';

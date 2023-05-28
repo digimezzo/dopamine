@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
+import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({

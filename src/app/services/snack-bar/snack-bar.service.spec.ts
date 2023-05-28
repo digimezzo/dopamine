@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { IMock, Mock } from 'typemoq';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseTranslatorService } from '../translator/base-translator.service';

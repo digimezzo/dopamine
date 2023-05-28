@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Desktop } from '../../../common/io/desktop';

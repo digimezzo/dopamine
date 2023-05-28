@@ -1,10 +1,19 @@
 @use '@angular/material' as mat;
 
-$custom-typography: mat.define-typography-config(
+$custom-typography: mat.define-legacy-typography-config(
     $font-family: 'opensans',
 );
 
-@include mat.core($custom-typography);
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy($custom-typography);`
+@include mat.all-legacy-component-typographies($custom-typography);
+@include mat.legacy-core();
 
 $default-palette: (
     50: var(--theme-accent-50),
@@ -63,14 +72,14 @@ $default-theme-light: mat.define-light-theme(
     )
 );
 
-@include mat.all-component-themes($default-theme-dark);
+@include mat.all-legacy-component-themes($default-theme-dark);
 
 .default-theme-dark {
-    @include mat.all-component-themes($default-theme-dark);
+    @include mat.all-legacy-component-themes($default-theme-dark);
 }
 
 .default-theme-light {
-    @include mat.all-component-themes($default-theme-light);
+    @include mat.all-legacy-component-themes($default-theme-light);
 }
 
 .theme-header-background {
