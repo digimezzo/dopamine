@@ -23,6 +23,9 @@ export class ThemeNeutralColors {
         public searchBox: string,
         public searchBoxText: string,
         public searchBoxIcon: string,
-        public dialogBackground: string
+        public dialogBackground: string,
+        public primaryButtonText: string,
+        public secondaryButtonBackground: string,
+        public secondaryButtonText: string
     ) {}
 }

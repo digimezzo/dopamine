@@ -327,6 +327,9 @@ export class AppearanceService implements BaseAppearanceService {
         element.style.setProperty('--theme-search-box-text', neutralColors.searchBoxText);
         element.style.setProperty('--theme-search-box-icon', neutralColors.searchBoxIcon);
         element.style.setProperty('--theme-dialog-background', neutralColors.dialogBackground);
+        element.style.setProperty('--theme-primary-button-text', neutralColors.primaryButtonText);
+        element.style.setProperty('--theme-secondary-button-background', neutralColors.secondaryButtonBackground);
+        element.style.setProperty('--theme-secondary-button-text', neutralColors.secondaryButtonText);
     }
 
     private setSelectedThemeFromSettings(): void {

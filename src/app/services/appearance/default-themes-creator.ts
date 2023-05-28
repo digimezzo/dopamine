@@ -24,57 +24,63 @@ export class DefaultThemesCreator {
 
     private createDopamineTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#5e5e5e',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#666',
-            '#fff',
-            '#1a1a1a',
-            '#111',
-            '#111',
-            '#171717',
-            '#fff',
-            '#5e5e5e',
-            '#272727',
-            '#999',
-            '#fff',
-            '#5e5e5e',
-            '#202020',
-            'transparent',
-            '#363636',
-            '#363636',
-            '#4883e0',
-            '#202020',
-            '#fff',
-            '#5e5e5e',
-            '#111'
+            '#5e5e5e', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#666', // tabText
+            '#fff', // selectedTabText
+            '#1a1a1a', // mainBackground
+            '#111', // headerBackground
+            '#111', // footerBackground
+            '#171717', // sidePaneBackground
+            '#fff', // primaryText
+            '#5e5e5e', // secondaryText
+            '#272727', // breadcrumbBackground
+            '#999', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#202020', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#363636', // settingsSeparators
+            '#363636', // contextMenuSeparators
+            '#4883e0', // scrollBars
+            '#202020', // searchBox
+            '#fff', // searchBoxText
+            '#5e5e5e', // searchBoxIcon
+            '#111', // dialogBackground
+            '#fff', // primaryButtonText
+            '#585858', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#838383',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#909090',
-            '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
-            '#000',
-            '#838383',
-            '#dfdfdf',
-            '#666',
-            '#000',
-            '#838383',
-            '#cecece',
-            'transparent',
-            '#d7d7d7',
-            '#d7d7d7',
-            '#4883e0',
-            '#dfdfdf',
-            '#000',
-            '#000',
-            '#fdfdfd'
+            '#838383', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#909090', // tabText
+            '#000', // selectedTabText
+            '#f5f5f5', // mainBackground
+            '#fdfdfd', // headerBackground
+            '#fdfdfd', // footerBackground
+            '#efefef', // sidePaneBackground
+            '#000', // primaryText
+            '#838383', // secondaryText
+            '#dfdfdf', // breadcrumbBackground
+            '#666', // sliderBackground
+            '#000', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#d7d7d7', // settingsSeparators
+            '#d7d7d7', // contextMenuSeparators
+            '#4883e0', // scrollBars
+            '#dfdfdf', // searchBox
+            '#000', // searchBoxText
+            '#000', // searchBoxIcon
+            '#fdfdfd', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e0e0e0', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -84,57 +90,63 @@ export class DefaultThemesCreator {
 
     private createZuneTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#5e5e5e',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#666',
-            '#fff',
-            '#1a1a1a',
-            '#111',
-            '#111',
-            '#171717',
-            '#fff',
-            '#5e5e5e',
-            '#272727',
-            '#999',
-            '#fff',
-            '#5e5e5e',
-            '#202020',
-            'transparent',
-            '#363636',
-            '#363636',
-            '#f0266f',
-            '#202020',
-            '#fff',
-            '#5e5e5e',
-            '#111'
+            '#5e5e5e', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#666', // tabText
+            '#fff', // selectedTabText
+            '#1a1a1a', // mainBackground
+            '#111', // headerBackground
+            '#111', // footerBackground
+            '#171717', // sidePaneBackground
+            '#fff', // primaryText
+            '#5e5e5e', // secondaryText
+            '#272727', // breadcrumbBackground
+            '#999', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#202020', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#363636', // settingsSeparators
+            '#363636', // contextMenuSeparators
+            '#f0266f', // scrollBars
+            '#202020', // searchBox
+            '#fff', // searchBoxText
+            '#5e5e5e', // searchBoxIcon
+            '#111', // dialogBackground
+            '#fff', // primaryButtonText
+            '#585858', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#838383',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#909090',
-            '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
-            '#000',
-            '#838383',
-            '#dfdfdf',
-            '#666',
-            '#000',
-            '#838383',
-            '#cecece',
-            'transparent',
-            '#d7d7d7',
-            '#d7d7d7',
-            '#f0266f',
-            '#dfdfdf',
-            '#000',
-            '#000',
-            '#fdfdfd'
+            '#838383', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#909090', // tabText
+            '#000', // selectedTabText
+            '#f5f5f5', // mainBackground
+            '#fdfdfd', // headerBackground
+            '#fdfdfd', // footerBackground
+            '#efefef', // sidePaneBackground
+            '#000', // primaryText
+            '#838383', // secondaryText
+            '#dfdfdf', // breadcrumbBackground
+            '#666', // sliderBackground
+            '#000', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#d7d7d7', // settingsSeparators
+            '#d7d7d7', // contextMenuSeparators
+            '#f0266f', // scrollBars
+            '#dfdfdf', // searchBox
+            '#000', // searchBoxText
+            '#000', // searchBoxIcon
+            '#fdfdfd', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e0e0e0', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -144,57 +156,63 @@ export class DefaultThemesCreator {
 
     private createBeatsTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#5e5e5e',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#666',
-            '#fff',
-            '#1a1a1a',
-            '#111',
-            '#111',
-            '#171717',
-            '#fff',
-            '#5e5e5e',
-            '#272727',
-            '#999',
-            '#fff',
-            '#5e5e5e',
-            '#202020',
-            'transparent',
-            '#363636',
-            '#363636',
-            '#e21839',
-            '#202020',
-            '#fff',
-            '#5e5e5e',
-            '#111'
+            '#5e5e5e', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#666', // tabText
+            '#fff', // selectedTabText
+            '#1a1a1a', // mainBackground
+            '#111', // headerBackground
+            '#111', // footerBackground
+            '#171717', // sidePaneBackground
+            '#fff', // primaryText
+            '#5e5e5e', // secondaryText
+            '#272727', // breadcrumbBackground
+            '#999', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#202020', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#363636', // settingsSeparators
+            '#363636', // contextMenuSeparators
+            '#e21839', // scrollBars
+            '#202020', // searchBox
+            '#fff', // searchBoxText
+            '#5e5e5e', // searchBoxIcon
+            '#111', // dialogBackground
+            '#fff', // primaryButtonText
+            're#585858d', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#838383',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#909090',
-            '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
-            '#000',
-            '#838383',
-            '#dfdfdf',
-            '#666',
-            '#000',
-            '#838383',
-            '#cecece',
-            'transparent',
-            '#d7d7d7',
-            '#d7d7d7',
-            '#e21839',
-            '#dfdfdf',
-            '#000',
-            '#000',
-            '#fdfdfd'
+            '#838383', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#909090', // tabText
+            '#000', // selectedTabText
+            '#f5f5f5', // mainBackground
+            '#fdfdfd', // headerBackground
+            '#fdfdfd', // footerBackground
+            '#efefef', // sidePaneBackground
+            '#000', // primaryText
+            '#838383', // secondaryText
+            '#dfdfdf', // breadcrumbBackground
+            '#666', // sliderBackground
+            '#000', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#d7d7d7', // settingsSeparators
+            '#d7d7d7', // contextMenuSeparators
+            '#f0266f', // scrollBars
+            '#dfdfdf', // searchBox
+            '#000', // searchBoxText
+            '#000', // searchBoxIcon
+            '#fdfdfd', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e0e0e0', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -204,57 +222,63 @@ export class DefaultThemesCreator {
 
     private createNaughtyTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#5e5e5e',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#666',
-            '#fff',
-            '#1a1a1a',
-            '#111',
-            '#111',
-            '#171717',
-            '#fff',
-            '#5e5e5e',
-            '#272727',
-            '#999',
-            '#fff',
-            '#5e5e5e',
-            '#202020',
-            'transparent',
-            '#363636',
-            '#363636',
-            '#f5004a',
-            '#202020',
-            '#fff',
-            '#5e5e5e',
-            '#111'
+            '#5e5e5e', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#666', // tabText
+            '#fff', // selectedTabText
+            '#1a1a1a', // mainBackground
+            '#111', // headerBackground
+            '#111', // footerBackground
+            '#171717', // sidePaneBackground
+            '#fff', // primaryText
+            '#5e5e5e', // secondaryText
+            '#272727', // breadcrumbBackground
+            '#999', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#202020', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#363636', // settingsSeparators
+            '#363636', // contextMenuSeparators
+            '#4883e0', // scrollBars
+            '#202020', // searchBox
+            '#fff', // searchBoxText
+            '#5e5e5e', // searchBoxIcon
+            '#111', // dialogBackground
+            '#fff', // primaryButtonText
+            '#585858', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#838383',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#909090',
-            '#000',
-            '#f5f5f5',
-            '#fdfdfd',
-            '#fdfdfd',
-            '#efefef',
-            '#000',
-            '#838383',
-            '#dfdfdf',
-            '#666',
-            '#000',
-            '#838383',
-            '#cecece',
-            'transparent',
-            '#d7d7d7',
-            '#d7d7d7',
-            '#f5004a',
-            '#dfdfdf',
-            '#000',
-            '#000',
-            '#fdfdfd'
+            '#838383', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#909090', // tabText
+            '#000', // selectedTabText
+            '#f5f5f5', // mainBackground
+            '#fdfdfd', // headerBackground
+            '#fdfdfd', // footerBackground
+            '#efefef', // sidePaneBackground
+            '#000', // primaryText
+            '#838383', // secondaryText
+            '#dfdfdf', // breadcrumbBackground
+            '#666', // sliderBackground
+            '#000', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#d7d7d7', // settingsSeparators
+            '#d7d7d7', // contextMenuSeparators
+            '#f0266f', // scrollBars
+            '#dfdfdf', // searchBox
+            '#000', // searchBoxText
+            '#000', // searchBoxIcon
+            '#fdfdfd', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e0e0e0', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -264,57 +288,63 @@ export class DefaultThemesCreator {
 
     private createUbuntuTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            'white',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#7b7b7b',
-            'white',
-            '#2c2c2c',
-            '#272727',
-            '#272727',
-            '#272727',
-            'white',
-            '#7b7b7b',
-            '#373737',
-            '#999',
-            'white',
-            '#5e5e5e',
-            '#202020',
-            '#151515',
-            '#151515',
-            '#151515',
-            '#7d7d7d',
-            '#373737',
-            '#fff',
-            '#fff',
-            '#272727'
+            'white', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#7b7b7b', // tabText
+            'white', // selectedTabText
+            '#2c2c2c', // mainBackground
+            '#272727', // headerBackground
+            '#272727', // footerBackground
+            '#272727', // sidePaneBackground
+            'white', // primaryText
+            '#7b7b7b', // secondaryText
+            '#373737', // breadcrumbBackground
+            '#999', // sliderBackground
+            'white', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#202020', // albumCoverBackground
+            '#151515', // paneSeparators
+            '#151515', // settingsSeparators
+            '#151515', // contextMenuSeparators
+            '#7d7d7d', // scrollBars
+            '#373737', // searchBox
+            '#fff', // searchBoxText
+            '#fff', // searchBoxIcon
+            '#272727', // dialogBackground
+            '#fff', // primaryButtonText
+            '#595959', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            'black',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#8c8c8c',
-            'black',
-            'white',
-            '#fafafa',
-            '#fafafa',
-            '#fafafa',
-            'black',
-            '#8c8c8c',
-            '#e9e9e9',
-            '#666',
-            'black',
-            '#838383',
-            '#cecece',
-            '#dadada',
-            '#dadada',
-            '#dadada',
-            '#b1b1b1',
-            '#e9e9e9',
-            'black',
-            'black',
-            '#fafafa'
+            'black', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#8c8c8c', // tabText
+            'black', // selectedTabText
+            'white', // mainBackground
+            '#fafafa', // headerBackground
+            '#fafafa', // footerBackground
+            '#fafafa', // sidePaneBackground
+            'black', // primaryText
+            '#8c8c8c', // secondaryText
+            '#e9e9e9', // breadcrumbBackground
+            '#666', // sliderBackground
+            'black', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            '#dadada', // paneSeparators
+            '#dadada', // settingsSeparators
+            '#dadada', // contextMenuSeparators
+            '#b1b1b1', // scrollBars
+            '#e9e9e9', // searchBox
+            'black', // searchBoxText
+            'black', // searchBoxIcon
+            '#fafafa', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e1e1e1', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -324,57 +354,63 @@ export class DefaultThemesCreator {
 
     private createManjaroTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            'white',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#818181',
-            'white',
-            '#2d2d2d',
-            '#313131',
-            '#313131',
-            '#313131',
-            'white',
-            '#818181',
-            '#373737',
-            '#999',
-            'white',
-            '#5e5e5e',
-            '#272727',
-            '#1b1b1b',
-            '#1b1b1b',
-            '#1b1b1b',
-            '#7a7a79',
-            '#373737',
-            '#fff',
-            '#fff',
-            '#313131'
+            'white', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#818181', // tabText
+            'white', // selectedTabText
+            '#2d2d2d', // mainBackground
+            '#313131', // headerBackground
+            '#313131', // footerBackground
+            '#313131', // sidePaneBackground
+            'white', // primaryText
+            '#818181', // secondaryText
+            '#373737', // breadcrumbBackground
+            '#999', // sliderBackground
+            'white', // sliderThumbBackground
+            '#5e5e5e', // albumCoverLogo
+            '#272727', // albumCoverBackground
+            '#1b1b1b', // paneSeparators
+            '#1b1b1b', // settingsSeparators
+            '#1b1b1b', // contextMenuSeparators
+            '#7a7a79', // scrollBars
+            '#373737', // searchBox
+            '#fff', // searchBoxText
+            '#fff', // searchBoxIcon
+            '#313131', // dialogBackground
+            '#fff', // primaryButtonText
+            '#595959', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            'black',
-            'rgba(0, 0, 0, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#838383',
-            'black',
-            'white',
-            '#fafafa',
-            '#fafafa',
-            '#fafafa',
-            'black',
-            '#838383',
-            '#e7e7e7',
-            '#666',
-            'black',
-            '#838383',
-            '#cecece',
-            '#c7c7c7',
-            '#c7c7c7',
-            '#c7c7c7',
-            '#abaeaf',
-            '#e7e7e7',
-            '#000',
-            '#000',
-            '#fafafa'
+            'black', // windowButtonIcon
+            'rgba(0, 0, 0, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#838383', // tabText
+            'black', // selectedTabText
+            'white', // mainBackground
+            '#fafafa', // headerBackground
+            '#fafafa', // footerBackground
+            '#fafafa', // sidePaneBackground
+            'black', // primaryText
+            '#838383', // secondaryText
+            '#e7e7e7', // breadcrumbBackground
+            '#666', // sliderBackground
+            'black', // sliderThumbBackground
+            '#838383', // albumCoverLogo
+            '#cecece', // albumCoverBackground
+            '#c7c7c7', // paneSeparators
+            '#c7c7c7', // settingsSeparators
+            '#c7c7c7', // contextMenuSeparators
+            '#abaeaf', // scrollBars
+            '#e7e7e7', // searchBox
+            '#000', // searchBoxText
+            '#000', // searchBoxIcon
+            '#fafafa', // dialogBackground
+            '#fff', // primaryButtonText
+            '#e1e1e1', // secondaryButtonBackground
+            '#000' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -384,57 +420,63 @@ export class DefaultThemesCreator {
 
     private createPalenightTheme(): Theme {
         const darkColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#7b83a7',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(255, 255, 255, 0.1)',
-            '#7b83a7',
-            '#fbfdfd',
-            '#2f3447',
-            '#272b3b',
-            '#272b3b',
-            '#2b3042',
-            '#fbfdfd',
-            '#7b83a7',
-            '#3a3f53',
-            '#888',
-            '#fff',
-            '#7b83a7',
-            '#212433',
-            'transparent',
-            '#282c3d',
-            '#31364a',
-            '#00908c',
-            '#2f3447',
-            '#fbfdfd',
-            '#7b83a7',
-            '#272b3b'
+            '#7b83a7', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(255, 255, 255, 0.1)', // selectedItemBackground
+            '#7b83a7', // tabText
+            '#fbfdfd', // selectedTabText
+            '#2f3447', // mainBackground
+            '#272b3b', // headerBackground
+            '#272b3b', // footerBackground
+            '#2b3042', // sidePaneBackground
+            '#fbfdfd', // primaryText
+            '#7b83a7', // secondaryText
+            '#3a3f53', // breadcrumbBackground
+            '#888', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#7b83a7', // albumCoverLogo
+            '#212433', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#282c3d', // settingsSeparators
+            '#31364a', // contextMenuSeparators
+            '#00908c', // scrollBars
+            '#2f3447', // searchBox
+            '#fbfdfd', // searchBoxText
+            '#7b83a7', // searchBoxIcon
+            '#272b3b', // dialogBackground
+            '#fff', // primaryButtonText
+            '#3a3f53', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
-            '#7b83a7',
-            'rgba(255, 255, 255, 0.05)',
-            'rgba(0, 0, 0, 0.1)',
-            '#7b83a7',
-            '#fbfdfd',
-            '#2f3447',
-            '#272b3b',
-            '#272b3b',
-            '#2b3042',
-            '#fbfdfd',
-            '#7b83a7',
-            '#3a3f53',
-            '#888',
-            '#fff',
-            '#7b83a7',
-            '#212433',
-            'transparent',
-            '#282c3d',
-            '#31364a',
-            '#00908c',
-            '#2f3447',
-            '#fbfdfd',
-            '#7b83a7',
-            '#272b3b'
+            '#7b83a7', // windowButtonIcon
+            'rgba(255, 255, 255, 0.05)', // hoveredItemBackground
+            'rgba(0, 0, 0, 0.1)', // selectedItemBackground
+            '#7b83a7', // tabText
+            '#fbfdfd', // selectedTabText
+            '#2f3447', // mainBackground
+            '#272b3b', // headerBackground
+            '#272b3b', // footerBackground
+            '#2b3042', // sidePaneBackground
+            '#fbfdfd', // primaryText
+            '#7b83a7', // secondaryText
+            '#3a3f53', // breadcrumbBackground
+            '#888', // sliderBackground
+            '#fff', // sliderThumbBackground
+            '#7b83a7', // albumCoverLogo
+            '#212433', // albumCoverBackground
+            'transparent', // paneSeparators
+            '#282c3d', // settingsSeparators
+            '#31364a', // contextMenuSeparators
+            '#00908c', // scrollBars
+            '#2f3447', // searchBox
+            '#fbfdfd', // searchBoxText
+            '#7b83a7', // searchBoxIcon
+            '#272b3b', // dialogBackground
+            '#fff', // primaryButtonText
+            '#3a3f53', // secondaryButtonBackground
+            '#fff' // secondaryButtonText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);

@@ -6,6 +6,10 @@
     background-color: var(--theme-main-background) !important;
 }
 
+.mat-drawer {
+    background-color: var(--theme-side-pane-background) !important;
+}
+
 .mat-menu-panel {
     background-color: var(--theme-dialog-background) !important;
 }
@@ -32,4 +36,24 @@
 
 .mat-menu-item:hover {
     background: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+.mat-chip {
+    color: var(--theme-primary-text) !important;
+}
+
+.mat-raised-button {
+    background: var(--theme-secondary-button-background) !important;
+}
+
+.mat-raised-button .mat-button-wrapper {
+    color: var(--theme-secondary-button-text) !important;
+}
+
+.mat-raised-button.mat-primary {
+    background: var(--theme-accent-color) !important;
+}
+
+.mat-raised-button.mat-primary .mat-button-wrapper {
+    color: var(--theme-primary-button-text) !important;
 }

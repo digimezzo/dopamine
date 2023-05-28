@@ -88,8 +88,8 @@
     },
     "dependencies": {
         "@angular/animations": "14.3.0",
-        "@angular/cdk": "13.3.8",
-        "@angular/material": "13.3.8",
+        "@angular/cdk": "14.2.6",
+        "@angular/material": "14.2.6",
         "@electron/remote": "^2.0.8",
         "angular-split": "^5.0.0-beta.2",
         "better-sqlite3": "8.3.0",
