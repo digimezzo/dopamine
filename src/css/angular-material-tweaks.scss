@@ -58,3 +58,24 @@
 .mat-mdc-raised-button.mat-primary > * {
     color: var(--theme-primary-button-text) !important;
 }
+
+/* Checkboxes */
+.mdc-checkbox__ripple {
+    display: none !important;
+}
+
+.mat-mdc-checkbox-ripple.mat-mdc-focus-indicator {
+    display: none !important;
+}
+
+.mat-mdc-checkbox
+    .mdc-checkbox
+    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
+    ~ .mdc-checkbox__background {
+    border-width: 1px !important;
+    border-color: var(--theme-secondary-text) !important;
+}
+
+.mdc-checkbox__checkmark-path {
+    stroke: var(--theme-primary-button-text) !important;
+}
