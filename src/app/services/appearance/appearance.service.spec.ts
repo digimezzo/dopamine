@@ -76,6 +76,9 @@ describe('AppearanceService', () => {
             '#0fffff',
             '#0fffff',
             '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
             '#0fffff'
         );
     }
@@ -97,6 +100,9 @@ describe('AppearanceService', () => {
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
             '#1fffff',
             '#1fffff',
             '#1fffff',
@@ -199,6 +205,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-dialog-background')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-primary-button-text')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(scrollBars: string): void {
@@ -226,6 +235,9 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-search-box-icon')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-dialog-background')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-primary-button-text')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#1fffff');
     }
 
     function resetElements(): void {
