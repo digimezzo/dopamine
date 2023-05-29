@@ -38,10 +38,6 @@
     background: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
-.mat-chip {
-    color: var(--theme-primary-text) !important;
-}
-
 /* Buttons */
 .mat-mdc-raised-button {
     background: var(--theme-secondary-button-background) !important;
@@ -78,4 +74,9 @@
 
 .mdc-checkbox__checkmark-path {
     stroke: var(--theme-primary-button-text) !important;
+}
+
+/* Chips */
+.mdc-evolution-chip__text-label {
+    color: var(--theme-primary-text) !important;
 }
