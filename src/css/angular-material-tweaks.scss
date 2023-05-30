@@ -38,7 +38,7 @@
     background: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
-/* Buttons */
+// Buttons
 .mat-mdc-raised-button {
     background: var(--theme-secondary-button-background) !important;
 }
@@ -55,7 +55,7 @@
     color: var(--theme-primary-button-text) !important;
 }
 
-/* Checkboxes */
+// Checkboxes
 .mdc-checkbox__ripple {
     display: none !important;
 }
@@ -76,7 +76,28 @@
     stroke: var(--theme-primary-button-text) !important;
 }
 
-/* Chips */
+// Chips
 .mdc-evolution-chip__text-label {
     color: var(--theme-primary-text) !important;
+}
+
+// TODO: workaround for bug #26348: https://github.com/angular/components/issues/26348
+// Based on code from (this change broke it): https://github.com/angular/components/commit/176213d705f25def682644e29824b340ca1637b6
+// So much time of my life wasted, once again. I shouldn't have to do such things.
+.cdk-virtual-scroll-spacer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 1px;
+    transform-origin: 0 0;
+
+    // Note: We can't put `will-change: transform;` here because it causes Safari to not update the
+    // viewport's `scrollHeight` when the spacer's transform changes.
+
+    [dir='rtl'] & {
+        right: 0;
+        left: auto;
+        transform-origin: 100% 0;
+    }
 }
