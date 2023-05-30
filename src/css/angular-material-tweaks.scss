@@ -18,10 +18,6 @@
     color: var(--theme-primary-text) !important;
 }
 
-.mat-dialog-container {
-    background-color: var(--theme-dialog-background) !important;
-}
-
 .mat-select-panel {
     background-color: var(--theme-dialog-background) !important;
 }
@@ -79,6 +75,20 @@
 // Chips
 .mdc-evolution-chip__text-label {
     color: var(--theme-primary-text) !important;
+}
+
+// Dialogs
+.mat-mdc-dialog-surface {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-mdc-dialog-content {
+    color: var(--theme-primary-text) !important;
+    font-size: var(--fontsize-normal) !important;
+}
+
+.mat-mdc-dialog-actions {
+    padding: 0 24px 24px 24px !important;
 }
 
 // TODO: workaround for bug #26348: https://github.com/angular/components/issues/26348
