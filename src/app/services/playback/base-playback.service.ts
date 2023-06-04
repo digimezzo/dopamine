@@ -29,7 +29,7 @@ export abstract class BasePlaybackService {
     public abstract togglePlayback(): void;
     public abstract toggleLoopMode(): void;
     public abstract toggleIsShuffled(): void;
-    public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
+    public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[]): void;
     public abstract enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void;
     public abstract enqueueAndPlayGenre(genreToPlay: GenreModel): void;
     public abstract enqueueAndPlayAlbum(albumToPlay: AlbumModel): void;

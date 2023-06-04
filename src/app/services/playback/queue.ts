@@ -18,6 +18,14 @@ export class Queue {
         return this._tracks.length;
     }
 
+    public getTracksInPlaybackOrder(): TrackModel[] {
+        let tracksInPlaybackOrder: TrackModel[] = [];
+        for (const trackIndex of this.playbackOrder) {
+            tracksInPlaybackOrder.push(this._tracks[trackIndex]);
+        }
+        return tracksInPlaybackOrder;
+    }
+
     public setTracks(tracksToSet: TrackModel[], shuffle: boolean): void {
         this._tracks = tracksToSet;
 

@@ -22,7 +22,7 @@
             <app-track
                 [track]="track"
                 canShowHeader="true"
-                (dblclick)="playbackService.enqueueAndPlayTracks(this.orderedTracks, track)"
+                (dblclick)="playbackService.enqueueAndPlayTracksFromDoubleClick(this.orderedTracks, track)"
                 (contextmenu)="onTrackContextMenuAsync($event, track)"
             ></app-track>
         </div>
