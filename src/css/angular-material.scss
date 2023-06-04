@@ -1,0 +1,352 @@
+@import 'variables';
+
+// Background color
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-app-background {
+    background-color: var(--theme-main-background) !important;
+}
+.mat-drawer-container {
+    background-color: var(--theme-main-background) !important;
+}
+
+.mat-drawer {
+    background-color: var(--theme-side-pane-background) !important;
+}
+
+.mat-menu-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-dialog-container {
+    background-color: var(--theme-dialog-background) !important;
+}
+.mat-select-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-option:hover {
+    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+    background-color: rgba(var(--theme-rgb-base), 0.1) !important;
+}
+.mat-menu-item:hover {
+    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+// Text color
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-menu-item {
+    color: var(--theme-primary-text) !important;
+}
+
+// Button
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-raised-button {
+    background: var(--theme-secondary-button-background) !important;
+}
+
+.mat-raised-button .mat-button-wrapper {
+    color: var(--theme-secondary-button-text) !important;
+}
+
+.mat-raised-button.mat-primary {
+    background: var(--theme-accent-color) !important;
+}
+
+.mat-raised-button.mat-primary .mat-button-wrapper {
+    color: var(--theme-primary-button-text) !important;
+}
+
+// Chips
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-chip {
+    color: var(--theme-primary-text) !important;
+}
+
+// Checkbox
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-checkbox-frame {
+    border-width: 1px !important;
+    border-color: rgba(var(--theme-rgb-base), 0.54) !important;
+}
+
+.mat-checkbox-ripple {
+    display: none !important;
+}
+
+// Dialog
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-dialog-actions {
+    padding: 24px 0 24px 0 !important; // Fixes bottom padding too small for dialog buttons
+}
+
+// Divider
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-divider {
+    border-top-color: var(--theme-settings-separators) !important;
+}
+
+.mat-menu-content .mat-divider {
+    border-top-color: var(--theme-context-menu-separators) !important;
+}
+
+// Drawer
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-drawer-backdrop.mat-drawer-shown {
+    background: rgba(var(--theme-rgb-base), 1) !important;
+}
+
+.mat-drawer-transition .mat-drawer-backdrop {
+    opacity: 0.2 !important;
+}
+
+// Form
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-form-field-underline {
+    background-color: rgba(var(--theme-rgb-base), 0.42) !important;
+}
+
+.mat-form-field {
+    line-height: unset !important;
+}
+
+.mat-select-arrow {
+    color: rgba(var(--theme-rgb-base), 0.54) !important;
+}
+
+// Menu
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-menu-item {
+    font-size: var(--fontsize-normal) !important;
+    height: unset !important;
+    line-height: unset !important;
+    padding: 8px 12px !important;
+}
+
+.mat-menu-panel {
+    min-height: unset !important;
+    min-width: fit-content !important;
+}
+
+.mat-menu-panel span {
+    padding-right: 20px;
+}
+
+.mat-menu-item-submenu-trigger::after {
+    color: rgba(var(--theme-rgb-base), 0.54) !important;
+}
+
+// Progress bar
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-progress-bar-buffer {
+    background-color: var(--theme-slider-background) !important;
+    opacity: 0.2 !important;
+}
+
+.mat-progress-bar-background {
+    visibility: hidden !important;
+}
+
+.mat-progress-bar-fill::after {
+    background-color: var(--theme-accent-color) !important;
+}
+
+// Slide toggle
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-slide-toggle-bar {
+    background-color: rgba(var(--theme-rgb-base), 0.38) !important;
+}
+
+.mat-slide-toggle-thumb {
+    background-color: #b0b0b0 !important;
+}
+
+.mat-checked .mat-slide-toggle-thumb {
+    background-color: var(--theme-accent-color) !important;
+}
+
+// Slider
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-slider-horizontal {
+    min-width: 75px !important;
+}
+
+.mat-slider-track-background {
+    background-color: var(--theme-slider-background) !important;
+    opacity: 0.2 !important;
+    transform: unset !important;
+}
+
+.mat-slider-focus-ring {
+    display: none !important;
+}
+
+.mat-slider-thumb {
+    transform: unset !important;
+    transition: unset !important;
+    width: 12px !important;
+    height: 12px !important;
+    right: -6px !important;
+    bottom: -6px !important;
+    border: 0px !important;
+    background: var(--theme-slider-thumb-background) !important;
+    display: none;
+}
+
+.mat-slider:hover .mat-slider-thumb {
+    display: block;
+}
+
+// Snack bar
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.accent-snack-bar {
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
+    color: #fff !important;
+}
+
+.mat-snack-bar-container {
+    min-height: 28px !important;
+    padding: 8px !important;
+    min-width: 200px !important;
+    max-width: unset !important;
+    margin: 0px !important;
+}
+
+.cdk-global-overlay-wrapper > .cdk-overlay-pane {
+    margin-top: 50px !important;
+}
+
+.mat-snack-bar-handset {
+    transform-origin: center !important;
+    width: unset !important;
+    min-width: 200px !important;
+}
+
+// Stepper
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-horizontal-stepper-header-container {
+    display: none !important;
+}
+
+.mat-horizontal-content-container {
+    padding: 0px !important;
+    width: 100% !important;
+
+    overflow-y: auto;
+}
+
+// Tab
+// -----------------------------------------------------------------------------------------------------------------------------------------
+mat-tab-group {
+    height: 100%;
+    width: 100%;
+}
+
+.mat-tab-body-content {
+    // Prevents showing of horizontal scrollbar when switching tabs (might be related to cdk virtual scroll)
+    // Found on: https://github.com/angular/components/issues/6104
+    &.ng-animating {
+        overflow: hidden !important;
+    }
+}
+
+.mat-tab-body-wrapper {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.mat-tab-label {
+    min-width: 0 !important;
+    user-select: none; // Prevents accidental selection of the header text
+    padding: 0 12px !important;
+    -webkit-app-region: no-drag;
+    margin-top: 4px;
+    opacity: 1 !important;
+}
+
+.mat-tab-label-container {
+    align-self: flex-end; // Fixes an alignment issue when opening the development tools
+}
+
+.mat-tab-label-content {
+    font-size: var(--fontsize-medium) !important;
+    color: var(--theme-tab-text) !important;
+}
+
+.mat-tab-label-active .mat-tab-label-content {
+    color: var(--theme-selected-tab-text) !important;
+}
+
+.mat-tab-header {
+    margin-top: -50px;
+    border-bottom-style: none !important;
+    margin-left: 50px;
+    margin-right: var(--mat-tab-header-margin-right);
+    height: 50px;
+}
+
+.mat-tab-header .cdk-focused,
+.mat-tab-header .cdk-keyboard-focused {
+    background-color: transparent !important;
+}
+
+// Table
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-table {
+    background: transparent !important;
+}
+
+// Tooltip
+// -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-tooltip {
+    font-size: var(--fontsize-normal) !important;
+    background-color: var(--theme-accent-color) !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    word-break: break-all !important;
+    white-space: normal !important;
+}
+
+// TODO: hacks due to stupid bugs
+// -----------------------------------------------------------------------------------------------------------------------------------------
+// Workaround for bug #26348: https://github.com/angular/components/issues/26348
+// Based on code from (this change broke it): https://github.com/angular/components/commit/176213d705f25def682644e29824b340ca1637b6
+// So much time of my life wasted, once again. I shouldn't have to do such things.
+.cdk-virtual-scroll-spacer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 1px;
+    transform-origin: 0 0;
+
+    // Note: We can't put `will-change: transform;` here because it causes Safari to not update the
+    // viewport's `scrollHeight` when the spacer's transform changes.
+
+    [dir='rtl'] & {
+        right: 0;
+        left: auto;
+        transform-origin: 100% 0;
+    }
+}
+
+// Workaround for bug https://github.com/angular/components/issues/3048 */
+.mat-tab-label-active {
+    .mat-tab-label-content {
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--theme-accent-color);
+            right: 0;
+            bottom: 0;
+        }
+    }
+}
+
+mat-ink-bar {
+    display: none !important;
+}
