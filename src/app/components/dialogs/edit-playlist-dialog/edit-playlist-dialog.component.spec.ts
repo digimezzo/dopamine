@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { IMock, Mock } from 'typemoq';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
