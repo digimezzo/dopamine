@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-$custom-typography: mat.define-typography-config(
+$custom-typography: mat.define-legacy-typography-config(
     $font-family: 'opensans',
 );
 
@@ -12,12 +12,8 @@ $custom-typography: mat.define-typography-config(
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy($custom-typography);`
-/* TODO(mdc-migration): Remove all-legacy-component-typographies once all legacy components are migrated*/
 @include mat.all-legacy-component-typographies($custom-typography);
-@include mat.all-component-typographies($custom-typography);
-/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated*/
 @include mat.legacy-core();
-@include mat.core();
 
 $default-palette: (
     50: var(--theme-accent-50),
@@ -76,21 +72,14 @@ $default-theme-light: mat.define-light-theme(
     )
 );
 
-/* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
 @include mat.all-legacy-component-themes($default-theme-dark);
 
-@include mat.all-component-themes($default-theme-dark);
-
 .default-theme-dark {
-    /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
     @include mat.all-legacy-component-themes($default-theme-dark);
-    @include mat.all-component-themes($default-theme-dark);
 }
 
 .default-theme-light {
-    /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
     @include mat.all-legacy-component-themes($default-theme-light);
-    @include mat.all-component-themes($default-theme-light);
 }
 
 .theme-header-background {
