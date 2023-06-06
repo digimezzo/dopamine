@@ -7,6 +7,7 @@ import { FileAccess } from '../../common/io/file-access';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { TrackOrdering } from '../../common/ordering/track-ordering';
+import { Shuffler } from '../../common/shuffler';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
@@ -24,8 +25,6 @@ import { PlaybackStarted } from './playback-started';
 import { PlaybackService } from './playback.service';
 import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
-import { Shuffler } from '../../common/shuffler';
-import exp from 'constants';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<BaseTrackService>;
@@ -444,7 +443,6 @@ describe('PlaybackService', () => {
             // Arrange
             const getNextTrackSpy = jest.spyOn(queue, 'getNextTrack');
             service.enqueueAndPlayTracks([trackModel1, trackModel2]);
-            
 
             // Act
             playbackFinished.next();
@@ -501,7 +499,7 @@ describe('PlaybackService', () => {
         it('should raise an event, on playback finished, that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
             service.enqueueAndPlayTracks(trackModels);
-            
+
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;
 
@@ -610,8 +608,8 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(shuffleSpy).toHaveBeenCalledTimes(1);
-            let playbackQueueString: string = "";
-            let trackModelString: string = "";
+            let playbackQueueString: string = '';
+            let trackModelString: string = '';
             for (const track of service.playbackQueue.tracks) {
                 playbackQueueString = playbackQueueString + track.sortableTitle;
             }
@@ -634,8 +632,8 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(unShuffleSpy).not.toHaveBeenCalled();
-            let playbackQueueString: string = "";
-            let trackModelString: string = "";
+            let playbackQueueString: string = '';
+            let trackModelString: string = '';
             for (const track of service.playbackQueue.tracks) {
                 playbackQueueString = playbackQueueString + track.sortableTitle;
             }
@@ -685,8 +683,8 @@ describe('PlaybackService', () => {
 
             // Assert
             expect(unShuffleSpy).toHaveBeenCalledTimes(1);
-            let playbackQueueString: string = "";
-            let trackModelString: string = "";
+            let playbackQueueString: string = '';
+            let trackModelString: string = '';
             for (const track of service.playbackQueue.tracks) {
                 playbackQueueString = playbackQueueString + track.sortableTitle;
             }
@@ -760,8 +758,8 @@ describe('PlaybackService', () => {
             // Assert
             expect(setTracksSpy).toHaveBeenCalledTimes(1);
             expect(setTracksSpy).toHaveBeenCalledWith(trackModels, false);
-            let playbackQueueString: string = "";
-            let trackModelString: string = "";
+            let playbackQueueString: string = '';
+            let trackModelString: string = '';
             for (const track of service.playbackQueue.tracks) {
                 playbackQueueString = playbackQueueString + track.sortableTitle;
             }
@@ -782,8 +780,8 @@ describe('PlaybackService', () => {
             // Assert
             expect(setTracksSpy).toHaveBeenCalledTimes(1);
             expect(setTracksSpy).toHaveBeenCalledWith(trackModels, true);
-            let playbackQueueString: string = "";
-            let trackModelString: string = "";
+            let playbackQueueString: string = '';
+            let trackModelString: string = '';
             for (const track of service.playbackQueue.tracks) {
                 playbackQueueString = playbackQueueString + track.sortableTitle;
             }
@@ -903,14 +901,14 @@ describe('PlaybackService', () => {
 
             // randomness means the test could fail (service could "randomly" assign first track to first position)
             // so we run it a few times
-            for(var i=0; i<10; i++) {
+            for (var i = 0; i < 10; i++) {
                 if (service.playbackQueue[0] === tracks.tracks[0]) {
                     service.enqueueAndPlayArtist(artistToPlay, ArtistType.trackArtists);
                 } else {
                     break;
                 }
             }
-    
+
             // Assert
             expect(service.playbackQueue[0]).not.toBe(tracks.tracks[0]);
         });
@@ -1036,14 +1034,14 @@ describe('PlaybackService', () => {
 
             // randomness means the test could fail (service could "randomly" assign first track to first position)
             // so we run it a few times
-            for(var i=0; i<10; i++) {
+            for (var i = 0; i < 10; i++) {
                 if (service.playbackQueue[0] === tracks.tracks[0]) {
                     service.enqueueAndPlayGenre(genreToPlay);
                 } else {
                     break;
                 }
             }
-    
+
             // Assert
             expect(service.playbackQueue[0]).not.toBe(tracks.tracks[0]);
         });
@@ -1113,7 +1111,7 @@ describe('PlaybackService', () => {
             expect(setTracksSpy).toHaveBeenCalledWith(orderedTrackModels, false);
             service.playbackQueue.tracks.forEach((track, index) => {
                 expect(track).toBe(orderedTrackModels[index]);
-            })
+            });
         });
 
         it('should start playback', () => {
@@ -1145,14 +1143,14 @@ describe('PlaybackService', () => {
 
             // randomness means the test could fail (service could "randomly" assign first track to first position)
             // so we run it a few times
-            for(var i=0; i<10; i++) {
+            for (var i = 0; i < 10; i++) {
                 if (service.playbackQueue[0] === tracks.tracks[0]) {
                     service.enqueueAndPlayAlbum(album1);
                 } else {
                     break;
                 }
             }
-    
+
             // Assert
             expect(service.playbackQueue[0]).not.toBe(tracks.tracks[0]);
         });
@@ -1498,7 +1496,7 @@ describe('PlaybackService', () => {
             service.playNext(); // play next, should still be track 1
 
             // Act
-            service.playPrevious(); 
+            service.playPrevious();
 
             // Assert
             expect(getPreviousTrackSpy).toHaveBeenCalledTimes(1);
@@ -1610,9 +1608,11 @@ describe('PlaybackService', () => {
         it('should get the next track without wrap around if loopMode is None', () => {
             // Arrange
             const getNextTrackSpy = jest.spyOn(queue, 'getNextTrack');
+
             while (service.loopMode !== LoopMode.None) {
                 service.toggleLoopMode();
             }
+
             service.enqueueAndPlayTracks([trackModel1, trackModel2]);
 
             // Act
@@ -1623,15 +1623,18 @@ describe('PlaybackService', () => {
             expect(getNextTrackSpy).toHaveBeenCalledWith(trackModel1, false);
             expect(service.currentTrack).toBe(trackModel2);
         });
+
         it('should get the next track with wrap around if loopMode is All', () => {
             // Arrange
             const getNextTrackSpy = jest.spyOn(queue, 'getNextTrack');
+
             while (service.loopMode !== LoopMode.All) {
                 service.toggleLoopMode();
             }
-            // queue two tracks and move playback to second track (last track in queue)
+
             service.enqueueAndPlayTracks([trackModel1, trackModel2]);
-            service.playNext();
+            service.playNext(); // Move playback to second track (last track in queue)
+            getNextTrackSpy.mockClear()
 
             // Act
             service.playNext();
@@ -1641,12 +1644,15 @@ describe('PlaybackService', () => {
             expect(getNextTrackSpy).toHaveBeenCalledWith(trackModel2, true);
             expect(service.currentTrack).toBe(trackModel1);
         });
+
         it('should get the next track with wrap around if loopMode is One', () => {
             // Arrange
             const getNextTrackSpy = jest.spyOn(queue, 'getNextTrack');
+            
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
             }
+
             service.enqueueAndPlayTracks([trackModel1, trackModel2]);
 
             // Act
