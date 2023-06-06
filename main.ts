@@ -71,6 +71,10 @@ function shouldCloseToNotificationArea(): boolean {
 }
 
 function getTrayIcon(): string {
+    if (os.platform() === 'darwin') {
+        return path.join(globalAny.__static, 'icons/trayTemplate.png');
+    }
+
     const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
 
     if (nativeTheme.shouldUseDarkColors) {
