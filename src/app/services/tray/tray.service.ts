@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import * as os from 'os';
 import { BaseIpcProxy } from '../../common/io/base-ipc-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -25,6 +26,10 @@ export class TrayService implements BaseTrayService {
     public set invertNotificationAreaIconColor(v: boolean) {
         this.settings.invertNotificationAreaIconColor = v;
         this.updateTrayIcon();
+    }
+
+    public get needInvertNotificationAreaIconColor(): boolean {
+        return os.platform() !== 'darwin';
     }
 
     public updateTrayContextMenu(): void {

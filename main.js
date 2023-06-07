@@ -60,6 +60,9 @@ function shouldCloseToNotificationArea() {
     return settings.get('closeToNotificationArea');
 }
 function getTrayIcon() {
+    if (os.platform() === 'darwin') {
+        return path.join(globalAny.__static, 'icons/trayTemplate.png');
+    }
     const invertColor = settings.get('invertNotificationAreaIconColor');
     if (electron_1.nativeTheme.shouldUseDarkColors) {
         if (invertColor) {
