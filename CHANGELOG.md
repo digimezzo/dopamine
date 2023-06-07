@@ -5,25 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.20] - 2023-06-06
+## [3.0.0-preview.20] - 2023-06-07
 
 ### Added
 
--   Added Brazilian Portuguese
+-   Added Brazilian Portuguese (Thank you ghsantos)
 
 ### Changed
 
--   The queue now shows the songs in playback order
--   Updated Bulgarian translation
--   Updated Czech translation
--   Updated German translation
--   Updated Russian translation
--   Updated Simplified Chinese translation
--   Updated Vietnamese translation
+-   The queue now shows the songs in playback order (Thank you jessicajeanne)
+-   Updated Bulgarian translation (Thank you kukata)
+-   Updated Czech translation (Thank you Fjuro)
+-   Updated German translation (Thank you BodoTh)
+-   Updated Russian translation (Thank you adem4ik)
+-   Updated Simplified Chinese translation (Thank you 5zhou)
+-   Updated Vietnamese translation (Thank you mastoduy)
 
 ### Removed
 
 ### Fixed
+
+-   Fixed the tray icon on MacOS (Thank you ghsantos)
 
 ## [3.0.0-preview.19] - 2022-12-31
 
