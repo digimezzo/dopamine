@@ -50,7 +50,8 @@ export class DefaultThemesCreator {
             '#111', // dialogBackground
             '#fff', // primaryButtonText
             '#585858', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -80,7 +81,8 @@ export class DefaultThemesCreator {
             '#fdfdfd', // dialogBackground
             '#fff', // primaryButtonText
             '#e0e0e0', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -116,7 +118,8 @@ export class DefaultThemesCreator {
             '#111', // dialogBackground
             '#fff', // primaryButtonText
             '#585858', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -146,7 +149,8 @@ export class DefaultThemesCreator {
             '#fdfdfd', // dialogBackground
             '#fff', // primaryButtonText
             '#e0e0e0', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -182,7 +186,8 @@ export class DefaultThemesCreator {
             '#111', // dialogBackground
             '#fff', // primaryButtonText
             're#585858d', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -212,7 +217,8 @@ export class DefaultThemesCreator {
             '#fdfdfd', // dialogBackground
             '#fff', // primaryButtonText
             '#e0e0e0', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -248,7 +254,8 @@ export class DefaultThemesCreator {
             '#111', // dialogBackground
             '#fff', // primaryButtonText
             '#585858', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -278,7 +285,8 @@ export class DefaultThemesCreator {
             '#fdfdfd', // dialogBackground
             '#fff', // primaryButtonText
             '#e0e0e0', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(false);
@@ -314,7 +322,8 @@ export class DefaultThemesCreator {
             '#272727', // dialogBackground
             '#fff', // primaryButtonText
             '#595959', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -344,7 +353,8 @@ export class DefaultThemesCreator {
             '#fafafa', // dialogBackground
             '#fff', // primaryButtonText
             '#e1e1e1', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -380,7 +390,8 @@ export class DefaultThemesCreator {
             '#313131', // dialogBackground
             '#fff', // primaryButtonText
             '#595959', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -410,7 +421,8 @@ export class DefaultThemesCreator {
             '#fafafa', // dialogBackground
             '#fff', // primaryButtonText
             '#e1e1e1', // secondaryButtonBackground
-            '#000' // secondaryButtonText
+            '#000', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);
@@ -446,7 +458,8 @@ export class DefaultThemesCreator {
             '#272b3b', // dialogBackground
             '#fff', // primaryButtonText
             '#3a3f53', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
@@ -476,7 +489,8 @@ export class DefaultThemesCreator {
             '#272b3b', // dialogBackground
             '#fff', // primaryButtonText
             '#3a3f53', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
 
         const options: ThemeOptions = new ThemeOptions(true);

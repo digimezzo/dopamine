@@ -53,65 +53,67 @@ describe('AppearanceService', () => {
 
     function createDarkColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#000000',
-            '#011111',
-            '#022222',
-            '#033333',
-            '#044444',
-            '#055555',
-            '#066666',
-            '#077777',
-            '#088888',
-            '#099999',
-            '#0aaaaa',
-            '#0bbbbb',
-            '#0ccccc',
-            '#0ddddd',
-            '#0eeeee',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff',
-            '#0fffff'
+            '#000000', // windowButtonIcon
+            '#011111', // hoveredItemBackground
+            '#022222', // selectedItemBackground
+            '#033333', // tabText
+            '#044444', // selectedTabText
+            '#055555', // mainBackground
+            '#066666', // headerBackground
+            '#077777', // footerBackground
+            '#088888', // sidePaneBackground
+            '#099999', // primaryText
+            '#0aaaaa', // secondaryText
+            '#0bbbbb', // breadcrumbBackground
+            '#0ccccc', // sliderBackground
+            '#0ddddd', // sliderThumbBackground
+            '#0eeeee', // albumCoverLogo
+            '#0fffff', // albumCoverBackground
+            '#0fffff', // paneSeparators
+            '#0fffff', // settingsSeparators
+            '#0fffff', // contextMenuSeparators
+            '#0fffff', // scrollBars
+            '#0fffff', // searchBox
+            '#0fffff', // searchBoxText
+            '#0fffff', // searchBoxIcon
+            '#0fffff', // dialogBackground
+            '#0fffff', // primaryButtonText
+            '#0fffff', // secondaryButtonBackground
+            '#0fffff', // secondaryButtonText
+            '#0fffff' // tooltipText
         );
     }
 
     function createLightColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#100000',
-            '#111111',
-            '#122222',
-            '#133333',
-            '#144444',
-            '#155555',
-            '#166666',
-            '#177777',
-            '#188888',
-            '#199999',
-            '#1aaaaa',
-            '#1bbbbb',
-            '#1ccccc',
-            '#1ddddd',
-            '#1eeeee',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff',
-            '#1fffff'
+            '#100000', // windowButtonIcon
+            '#111111', // hoveredItemBackground
+            '#122222', // selectedItemBackground
+            '#133333', // tabText
+            '#144444', // selectedTabText
+            '#155555', // mainBackground
+            '#166666', // headerBackground
+            '#177777', // footerBackground
+            '#188888', // sidePaneBackground
+            '#199999', // primaryText
+            '#1aaaaa', // secondaryText
+            '#1bbbbb', // breadcrumbBackground
+            '#1ccccc', // sliderBackground
+            '#1ddddd', // sliderThumbBackground
+            '#1eeeee', // albumCoverLogo
+            '#1fffff', // albumCoverBackground
+            '#1fffff', // paneSeparators
+            '#1fffff', // settingsSeparators
+            '#1fffff', // contextMenuSeparators
+            '#1fffff', // scrollBars
+            '#1fffff', // searchBox
+            '#1fffff', // searchBoxText
+            '#1fffff', // searchBoxIcon
+            '#1fffff', // dialogBackground
+            '#1fffff', // primaryButtonText
+            '#1fffff', // secondaryButtonBackground
+            '#1fffff', // secondaryButtonText
+            '#1fffff' // tooltipText
         );
     }
 
@@ -208,6 +210,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-primary-button-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(scrollBars: string): void {
@@ -238,6 +241,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-primary-button-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#1fffff');
     }
 
     function resetElements(): void {

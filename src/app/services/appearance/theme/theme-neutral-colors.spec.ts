@@ -29,7 +29,8 @@ describe('ThemeNeutralColors', () => {
             '#ccc', // dialogBackground
             '#ddd', // primaryButtonText
             '#eee', // secondaryButtonBackground
-            '#fff' // secondaryButtonText
+            '#fff', // secondaryButtonText
+            '#fff' // tooltipText
         );
     }
 
@@ -314,6 +315,16 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.secondaryButtonText).toEqual('#fff');
+        });
+
+        it('should set tooltipText', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.tooltipText).toEqual('#fff');
         });
     });
 });
