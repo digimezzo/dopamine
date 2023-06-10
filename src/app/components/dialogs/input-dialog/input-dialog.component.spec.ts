@@ -1,4 +1,4 @@
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, Mock, Times } from 'typemoq';
 import { InputDialogComponent } from './input-dialog.component';
 
