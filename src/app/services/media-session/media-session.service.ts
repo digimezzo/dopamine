@@ -18,13 +18,13 @@ export class MediaSessionService implements BaseMediaSessionService {
     public initialize(): void {
         this.subscription.add(
             this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                this.changeMetadata(playbackInformation)
+                this.changeMetadata(playbackInformation);
             })
         );
 
         this.subscription.add(
             this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                this.changeMetadata(playbackInformation)
+                this.changeMetadata(playbackInformation);
             })
         );
 
@@ -39,7 +39,7 @@ export class MediaSessionService implements BaseMediaSessionService {
     }
 
     private changeMetadata(playbackInformation: PlaybackInformation): void {
-        navigator.mediaSession.metadata = new MediaMetadata({
+        window.navigator.mediaSession.metadata = new MediaMetadata({
             title: playbackInformation.track.title,
             artist: playbackInformation.track.artists,
             album: playbackInformation.track.albumTitle,
