@@ -43,19 +43,19 @@
 
 // Button
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-raised-button {
+.mat-mdc-raised-button {
     background: var(--theme-secondary-button-background) !important;
 }
 
-.mat-raised-button .mat-button-wrapper {
+.mat-mdc-raised-button > * {
     color: var(--theme-secondary-button-text) !important;
 }
 
-.mat-raised-button.mat-primary {
+.mat-mdc-raised-button.mat-primary {
     background: var(--theme-accent-color) !important;
 }
 
-.mat-raised-button.mat-primary .mat-button-wrapper {
+.mat-mdc-raised-button.mat-primary > * {
     color: var(--theme-primary-button-text) !important;
 }
 
