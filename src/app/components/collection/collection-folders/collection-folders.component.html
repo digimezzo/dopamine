@@ -72,15 +72,15 @@
                     <div *ngIf="this.tracks.numberOfTracks === 1">{{ 'track' | translate }}</div>
                     <div *ngIf="this.tracks.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
                 </div>
-                <mat-chip-list class="d-flex flex-row flex-wrap mt-3">
-                    <mat-chip
+                <mat-chip-listbox class="d-flex flex-row flex-wrap mt-3">
+                    <mat-chip-option
                         class="tracks-browser__breadcrumb no-select"
                         *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
                         (click)="setOpenedSubfolderAsync(subfolderBreadCrumb)"
                     >
                         {{ subfolderBreadCrumb | subfolderName }}
-                    </mat-chip>
-                </mat-chip-list>
+                    </mat-chip-option>
+                </mat-chip-listbox>
                 <cdk-virtual-scroll-viewport class="flex-grow mt-3" itemSize="46">
                     <div
                         *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
