@@ -53,11 +53,6 @@ export class PlaybackService implements BasePlaybackService {
     ) {
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
-
-        window.navigator.mediaSession.setActionHandler('play', () => this.togglePlayback())
-        window.navigator.mediaSession.setActionHandler('pause', () => this.togglePlayback())
-        window.navigator.mediaSession.setActionHandler('previoustrack', () => this.playPrevious())
-        window.navigator.mediaSession.setActionHandler('nexttrack', () => this.playNext())
     }
 
     public get playbackQueue(): TrackModels {
