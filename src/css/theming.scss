@@ -52,7 +52,7 @@ $default-theme-primary: mat.define-palette($default-palette);
 $default-theme-accent: mat.define-palette($default-palette);
 $default-theme-warn: mat.define-palette($default-palette);
 
-$default-theme-dark: mat.define-light-theme(
+$default-theme-dark: mat.define-dark-theme(
     (
         color: (
             primary: $default-theme-primary,
