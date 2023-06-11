@@ -179,16 +179,12 @@
 
 // Slide toggle
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-slide-toggle-bar {
-    background-color: rgba(var(--theme-rgb-base), 0.38) !important;
+.mdc-switch {
+    margin-right: 12px !important;
 }
 
-.mat-slide-toggle-thumb {
-    background-color: #b0b0b0 !important;
-}
-
-.mat-checked .mat-slide-toggle-thumb {
-    background-color: var(--theme-accent-color) !important;
+.mdc-switch__icons {
+    visibility: hidden !important;
 }
 
 // Slider
@@ -223,7 +219,7 @@
     display: block;
 }
 
-// Snack bar
+// Snack Bar
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-snackbar__surface {
     background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
