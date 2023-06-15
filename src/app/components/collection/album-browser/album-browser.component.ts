@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { debounceTime } from 'rxjs/operators';
 import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';

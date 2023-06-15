@@ -13,10 +13,6 @@
     background-color: var(--theme-side-pane-background) !important;
 }
 
-.mat-menu-panel {
-    background-color: var(--theme-dialog-background) !important;
-}
-
 .mat-mdc-dialog-container {
     background-color: var(--theme-dialog-background) !important;
 }
@@ -31,13 +27,10 @@
 .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
     background-color: rgba(var(--theme-rgb-base), 0.1) !important;
 }
-.mat-menu-item:hover {
-    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
-}
 
 // Text color
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-menu-item {
+.mat-mdc-menu-item {
     color: var(--theme-primary-text) !important;
 }
 
@@ -112,10 +105,6 @@
     border-top-color: var(--theme-settings-separators) !important;
 }
 
-.mat-menu-content .mat-divider {
-    border-top-color: var(--theme-context-menu-separators) !important;
-}
-
 // Drawer
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-drawer-backdrop.mat-drawer-shown {
@@ -142,24 +131,24 @@
 
 // Menu
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-menu-item {
+.mat-mdc-menu-item > * {
     font-size: var(--fontsize-normal) !important;
-    height: unset !important;
-    line-height: unset !important;
-    padding: 8px 12px !important;
 }
 
-.mat-menu-panel {
-    min-height: unset !important;
-    min-width: fit-content !important;
+.mat-mdc-menu-item {
+    min-height: 32px !important;
 }
 
-.mat-menu-panel span {
-    padding-right: 20px;
+.mat-mdc-menu-panel {
+    background-color: var(--theme-dialog-background) !important;
 }
 
-.mat-menu-item-submenu-trigger::after {
-    color: rgba(var(--theme-rgb-base), 0.54) !important;
+.mat-mdc-menu-content .mat-divider {
+    border-top-color: var(--theme-context-menu-separators) !important;
+}
+
+.mat-mdc-menu-item:hover {
+    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
 // Progress bar

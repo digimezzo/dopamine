@@ -1,6 +1,6 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
