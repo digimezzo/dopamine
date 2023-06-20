@@ -185,7 +185,7 @@ export class AppearanceService implements BaseAppearanceService {
             totalMargin = totalMargin + searchBoxWidth;
         }
 
-        element.style.setProperty('--mat-tab-header-margin-right', totalMargin + 'px');
+        element.style.setProperty('--mat-tab-header-margin-right', totalMargin + 4 + 'px');
     }
 
     private addSubscriptions(): void {
