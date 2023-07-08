@@ -13,7 +13,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -418,7 +417,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatTabsModule,
         MatCheckboxModule,
         MatChipsModule,
-        MatSliderModule,
         MatSortModule,
         DragDropModule,
         HammerModule,
