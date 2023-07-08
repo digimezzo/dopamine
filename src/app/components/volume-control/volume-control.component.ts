@@ -20,12 +20,4 @@ export class VolumeControlComponent implements OnInit {
     public onInputChange(event: MatSliderChange): void {
         this.playbackService.volume = event.value;
     }
-
-    public onMouseWheel(event: any): void {
-        if (event.deltaY > 0) {
-            this.playbackService.volume -= 0.05;
-        } else {
-            this.playbackService.volume += 0.05;
-        }
-    }
 }

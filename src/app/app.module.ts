@@ -14,7 +14,6 @@ import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/materia
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -22,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -163,6 +163,7 @@ import { AppearanceSettingsComponent } from './components/settings/appearance-se
 import { BehaviorSettingsComponent } from './components/settings/behavior-settings/behavior-settings.component';
 import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SliderComponent } from './components/slider/slider.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
@@ -344,6 +345,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         CollectionFoldersComponent,
         CollectionPlaybackPaneComponent,
         VolumeControlComponent,
+        SliderComponent,
         FolderNamePipe,
         SubfolderNamePipe,
         FormatTrackNumberPipe,

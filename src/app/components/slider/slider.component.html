@@ -1,0 +1,17 @@
+<div
+    class="app-slider-container"
+    (mouseenter)="onSliderContainerMouseEnter()"
+    (mouseleave)="onSliderContainerMouseLeave()"
+    (mousedown)="onSliderContainerMouseDown($event)"
+    (wheel)="onSliderContainerMouseWheel($event)"
+>
+    <div class="app-slider-track" #sliderTrack></div>
+    <div class="app-slider-bar" #sliderBar [ngStyle]="{ width: this.sliderBarPosition + 'px' }"></div>
+    <div
+        class="app-slider-thumb"
+        #sliderThumb
+        *ngIf="showSliderThumb"
+        [ngStyle]="{ 'margin-left': this.sliderThumbPosition + 'px' }"
+        (mousedown)="onSliderThumbMouseDown()"
+    ></div>
+</div>

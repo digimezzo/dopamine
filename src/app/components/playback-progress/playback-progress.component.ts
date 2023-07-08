@@ -72,7 +72,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             return;
         }
 
-        this.applyMouseProgress(e.clientX);
+        this.applyMouseProgress(e.pageX);
     }
 
     @HostListener('document:mouseup', ['$event'])
