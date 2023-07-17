@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
+import { NativeElementProxy } from '../../common/native-element-proxy';
 
 @Component({
     selector: 'app-slider',
@@ -13,7 +14,7 @@ export class SliderComponent {
     private _value: number = 0;
     private _sliderThumbWidth: number = 12;
 
-    constructor(private mathExtensions: MathExtensions, private logger: Logger) {}
+    public constructor(private nativeElementProxy: NativeElementProxy, private mathExtensions: MathExtensions, private logger: Logger) {}
 
     @Input()
     public sliderThumbMargin: number = 0;
@@ -130,7 +131,7 @@ export class SliderComponent {
     }
 
     private calculateValue(): void {
-        const sliderWidth: number = this.sliderTrack.nativeElement.offsetWidth;
+        const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
 
         const valueFraction: number = this.sliderBarPosition / sliderWidth;
         const totalSteps: number = this.maximum / this.stepSize;
