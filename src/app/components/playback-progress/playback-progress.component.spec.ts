@@ -258,7 +258,7 @@ describe('PlaybackProgressComponent', () => {
         it('should indicate that the progress container is down', () => {
             // Arrange
             component.isProgressContainerDown = false;
-            const mouseEvent: any = { clientX: 40 };
+            const mouseEvent: any = { pageX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
             mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
 
@@ -271,7 +271,7 @@ describe('PlaybackProgressComponent', () => {
 
         it('should update the progress if playbackService is playing', () => {
             // Arrange
-            const mouseEvent: any = { clientX: 40 };
+            const mouseEvent: any = { pageX: 40 };
             mathExtensionsMock.setup((x) => x.clamp(40, 0, 500)).returns(() => 40);
             mathExtensionsMock.setup((x) => x.clamp(34, 0, 488)).returns(() => 34);
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
@@ -288,7 +288,7 @@ describe('PlaybackProgressComponent', () => {
 
         it('should update not the progress if playbackService is not playing', () => {
             // Arrange
-            const mouseEvent: any = { clientX: 40 };
+            const mouseEvent: any = { pageX: 40 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
 
             // Act
