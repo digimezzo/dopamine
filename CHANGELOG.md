@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Added Brazilian Portuguese (Thank you ghsantos)
+-   Added Brazilian Korean translation (Thank you chaeya)
+-   Added Brazilian Portuguese translation (Thank you ghsantos)
 
 ### Changed
 
