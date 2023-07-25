@@ -12,11 +12,8 @@ $custom-typography: mat.define-typography-config(
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy($custom-typography);`
-/* TODO(mdc-migration): Remove all-legacy-component-typographies once all legacy components are migrated*/
-@include mat.all-legacy-component-typographies($custom-typography);
 @include mat.all-component-typographies($custom-typography);
-/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated*/
-@include mat.legacy-core();
+
 @include mat.core();
 
 $custom-palette: (
@@ -76,19 +73,12 @@ $light-theme: mat.define-light-theme(
     )
 );
 
-/* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
-@include mat.all-legacy-component-themes($dark-theme);
-
 @include mat.all-component-themes($dark-theme);
 
 .default-theme-dark {
-    /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
-    @include mat.all-legacy-component-themes($dark-theme);
     @include mat.all-component-themes($dark-theme);
 }
 
 .default-theme-light {
-    /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated*/
-    @include mat.all-legacy-component-themes($light-theme);
     @include mat.all-component-themes($light-theme);
 }

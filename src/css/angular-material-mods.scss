@@ -1,5 +1,11 @@
 @import 'variables';
 
+// Letter spacing
+// -----------------------------------------------------------------------------------------------------------------------------------------
+* {
+    letter-spacing: unset !important;
+}
+
 // Background color
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-app-background {
@@ -16,16 +22,12 @@
 .mat-mdc-dialog-container {
     background-color: var(--theme-dialog-background) !important;
 }
-.mat-select-panel {
+.mat-mdc-select-panel {
     background-color: var(--theme-dialog-background) !important;
 }
 
-.mat-option:hover {
+.mat-mdc-option:hover {
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
-}
-
-.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
-    background-color: rgba(var(--theme-rgb-base), 0.1) !important;
 }
 
 // Text color
@@ -113,20 +115,6 @@
 
 .mat-drawer-transition .mat-drawer-backdrop {
     opacity: 0.2 !important;
-}
-
-// Form
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-form-field-underline {
-    background-color: rgba(var(--theme-rgb-base), 0.42) !important;
-}
-
-.mat-form-field {
-    line-height: unset !important;
-}
-
-.mat-select-arrow {
-    color: rgba(var(--theme-rgb-base), 0.54) !important;
 }
 
 // Menu
@@ -223,6 +211,45 @@
     font-size: var(--fontsize-normal) !important;
     background-color: var(--theme-accent-color) !important;
     color: var(--theme-tooltip-text) !important;
+}
+
+// Form Field, Input, Select, Autocomplete
+// -----------------------------------------------------------------------------------------------------------------------------------------
+
+.mdc-text-field {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    padding: 0 4px !important;
+}
+
+.mdc-form-field {
+    font-size: var(--fontsize-normal) !important;
+}
+
+.mat-mdc-option {
+    font-size: var(--fontsize-normal) !important;
+    min-height: unset !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.mat-mdc-form-field-infix {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    min-height: unset !important;
+}
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+    width: 12px !important;
+    height: 5px !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: unset !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+    background-color: unset !important;
 }
 
 // TODO: hacks due to stupid bugs
