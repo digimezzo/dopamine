@@ -1178,7 +1178,7 @@ describe('AppearanceService', () => {
             service.applyAppearance();
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('350px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('354px');
         });
 
         it('should apply a correct margin when using system title bar search is visible', () => {
@@ -1194,7 +1194,7 @@ describe('AppearanceService', () => {
             service.applyAppearance();
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('215px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('219px');
         });
     });
 
@@ -1210,7 +1210,7 @@ describe('AppearanceService', () => {
             service.applyMargins(true);
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('350px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('354px');
         });
 
         it('should apply a correct margin when not using system title bar search is not visible', () => {
@@ -1224,7 +1224,7 @@ describe('AppearanceService', () => {
             service.applyMargins(false);
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('180px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('184px');
         });
 
         it('should apply a correct margin when using system title bar search is visible', () => {
@@ -1238,7 +1238,7 @@ describe('AppearanceService', () => {
             service.applyMargins(true);
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('215px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('219px');
         });
 
         it('should apply a correct margin when using system title bar search is not visible', () => {
@@ -1252,7 +1252,7 @@ describe('AppearanceService', () => {
             service.applyMargins(false);
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('45px');
+            expect(documentElementMock.style.getPropertyValue('--mat-tab-header-margin-right')).toEqual('49px');
         });
     });
 });

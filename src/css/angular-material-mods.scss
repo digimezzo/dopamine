@@ -1,5 +1,11 @@
 @import 'variables';
 
+// Letter spacing
+// -----------------------------------------------------------------------------------------------------------------------------------------
+* {
+    letter-spacing: unset !important;
+}
+
 // Background color
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-app-background {
@@ -13,83 +19,92 @@
     background-color: var(--theme-side-pane-background) !important;
 }
 
-.mat-menu-panel {
+.mat-mdc-dialog-container {
+    background-color: var(--theme-dialog-background) !important;
+}
+.mat-mdc-select-panel {
     background-color: var(--theme-dialog-background) !important;
 }
 
-.mat-dialog-container {
-    background-color: var(--theme-dialog-background) !important;
-}
-.mat-select-panel {
-    background-color: var(--theme-dialog-background) !important;
-}
-
-.mat-option:hover {
-    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
-}
-
-.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
-    background-color: rgba(var(--theme-rgb-base), 0.1) !important;
-}
-.mat-menu-item:hover {
+.mat-mdc-option:hover {
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
 // Text color
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-menu-item {
+.mat-mdc-menu-item {
     color: var(--theme-primary-text) !important;
 }
 
 // Button
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-raised-button {
+.mat-mdc-raised-button {
     background: var(--theme-secondary-button-background) !important;
 }
 
-.mat-raised-button .mat-button-wrapper {
+.mat-mdc-raised-button > * {
     color: var(--theme-secondary-button-text) !important;
 }
 
-.mat-raised-button.mat-primary {
+.mat-mdc-raised-button.mat-primary {
     background: var(--theme-accent-color) !important;
 }
 
-.mat-raised-button.mat-primary .mat-button-wrapper {
+.mat-mdc-raised-button.mat-primary > * {
     color: var(--theme-primary-button-text) !important;
 }
 
 // Chips
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-chip {
+.mdc-evolution-chip__text-label {
     color: var(--theme-primary-text) !important;
 }
 
 // Checkbox
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-checkbox-frame {
-    border-width: 1px !important;
-    border-color: rgba(var(--theme-rgb-base), 0.54) !important;
+.mdc-checkbox__ripple {
+    display: none !important;
 }
 
-.mat-checkbox-ripple {
+.mat-mdc-checkbox-ripple.mat-mdc-focus-indicator {
     display: none !important;
+}
+
+.mat-mdc-checkbox
+    .mdc-checkbox
+    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
+    ~ .mdc-checkbox__background {
+    border-width: 1px !important;
+    border-color: var(--theme-secondary-text) !important;
+}
+
+.mdc-checkbox__checkmark-path {
+    stroke: var(--theme-primary-button-text) !important;
 }
 
 // Dialog
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-dialog-actions {
-    padding: 24px 0 24px 0 !important; // Fixes bottom padding too small for dialog buttons
+.mat-mdc-dialog-surface {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-mdc-dialog-content {
+    color: var(--theme-primary-text) !important;
+    font-size: var(--fontsize-normal) !important;
+}
+
+.mat-mdc-dialog-actions {
+    padding: 24px !important;
+}
+
+.mdc-dialog .mdc-dialog__content {
+    padding: 0 24px 0 24px !important;
 }
 
 // Divider
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-divider {
     border-top-color: var(--theme-settings-separators) !important;
-}
-
-.mat-menu-content .mat-divider {
-    border-top-color: var(--theme-context-menu-separators) !important;
 }
 
 // Drawer
@@ -102,126 +117,46 @@
     opacity: 0.2 !important;
 }
 
-// Form
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-form-field-underline {
-    background-color: rgba(var(--theme-rgb-base), 0.42) !important;
-}
-
-.mat-form-field {
-    line-height: unset !important;
-}
-
-.mat-select-arrow {
-    color: rgba(var(--theme-rgb-base), 0.54) !important;
-}
-
 // Menu
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-menu-item {
+.mat-mdc-menu-item > * {
     font-size: var(--fontsize-normal) !important;
-    height: unset !important;
-    line-height: unset !important;
-    padding: 8px 12px !important;
 }
 
-.mat-menu-panel {
-    min-height: unset !important;
-    min-width: fit-content !important;
+.mat-mdc-menu-item {
+    min-height: 32px !important;
 }
 
-.mat-menu-panel span {
-    padding-right: 20px;
+.mat-mdc-menu-panel {
+    background-color: var(--theme-dialog-background) !important;
 }
 
-.mat-menu-item-submenu-trigger::after {
-    color: rgba(var(--theme-rgb-base), 0.54) !important;
+.mat-mdc-menu-content .mat-divider {
+    border-top-color: var(--theme-context-menu-separators) !important;
 }
 
-// Progress bar
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-progress-bar-buffer {
-    background-color: var(--theme-slider-background) !important;
-    opacity: 0.2 !important;
-}
-
-.mat-progress-bar-background {
-    visibility: hidden !important;
-}
-
-.mat-progress-bar-fill::after {
-    background-color: var(--theme-accent-color) !important;
+.mat-mdc-menu-item:hover {
+    background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
 // Slide toggle
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-slide-toggle-bar {
-    background-color: rgba(var(--theme-rgb-base), 0.38) !important;
+.mdc-switch {
+    margin-right: 12px !important;
 }
 
-.mat-slide-toggle-thumb {
-    background-color: #b0b0b0 !important;
+.mdc-switch__icons {
+    visibility: hidden !important;
 }
 
-.mat-checked .mat-slide-toggle-thumb {
-    background-color: var(--theme-accent-color) !important;
-}
-
-// Slider
+// Snack Bar
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-slider-horizontal {
-    min-width: 75px !important;
-}
-
-.mat-slider-track-background {
-    background-color: var(--theme-slider-background) !important;
-    opacity: 0.2 !important;
-    transform: unset !important;
-}
-
-.mat-slider-focus-ring {
-    display: none !important;
-}
-
-.mat-slider-thumb {
-    transform: unset !important;
-    transition: unset !important;
-    width: 12px !important;
-    height: 12px !important;
-    right: -6px !important;
-    bottom: -6px !important;
-    border: 0px !important;
-    background: var(--theme-slider-thumb-background) !important;
-    display: none;
-}
-
-.mat-slider:hover .mat-slider-thumb {
-    display: block;
-}
-
-// Snack bar
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.accent-snack-bar {
+.mdc-snackbar__surface {
     background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%) !important;
-    color: #fff !important;
-}
-
-.mat-snack-bar-container {
-    min-height: 28px !important;
-    padding: 8px !important;
-    min-width: 200px !important;
-    max-width: unset !important;
-    margin: 0px !important;
 }
 
 .cdk-global-overlay-wrapper > .cdk-overlay-pane {
     margin-top: 50px !important;
-}
-
-.mat-snack-bar-handset {
-    transform-origin: center !important;
-    width: unset !important;
-    min-width: 200px !important;
 }
 
 // Stepper
@@ -239,74 +174,82 @@
 
 // Tab
 // -----------------------------------------------------------------------------------------------------------------------------------------
-mat-tab-group {
+.mat-mdc-tab-group {
     height: 100%;
     width: 100%;
 }
 
-.mat-tab-body-content {
-    // Prevents showing of horizontal scrollbar when switching tabs (might be related to cdk virtual scroll)
-    // Found on: https://github.com/angular/components/issues/6104
-    &.ng-animating {
-        overflow: hidden !important;
-    }
-}
-
-.mat-tab-body-wrapper {
+.mat-mdc-tab-body-wrapper {
     flex-grow: 1;
     width: 100%;
 }
 
-.mat-tab-label {
-    min-width: 0 !important;
-    user-select: none; // Prevents accidental selection of the header text
-    padding: 0 12px !important;
+.mat-mdc-tab-header {
+    margin-top: -48px;
+    margin-left: 50px;
+    margin-right: var(--mat-tab-header-margin-right);
+    height: 48px;
+}
+
+.mat-mdc-tab {
+    user-select: none;
     -webkit-app-region: no-drag;
-    margin-top: 4px;
-    opacity: 1 !important;
+    flex-grow: unset !important;
 }
 
-.mat-tab-label-container {
-    align-self: flex-end; // Fixes an alignment issue when opening the development tools
-}
-
-.mat-tab-label-content {
-    font-size: var(--fontsize-medium) !important;
+.mdc-tab__text-label {
     color: var(--theme-tab-text) !important;
 }
 
-.mat-tab-label-active .mat-tab-label-content {
+.mdc-tab--active .mdc-tab__text-label {
     color: var(--theme-selected-tab-text) !important;
-}
-
-.mat-tab-header {
-    margin-top: -50px;
-    border-bottom-style: none !important;
-    margin-left: 50px;
-    margin-right: var(--mat-tab-header-margin-right);
-    height: 50px;
-}
-
-.mat-tab-header .cdk-focused,
-.mat-tab-header .cdk-keyboard-focused {
-    background-color: transparent !important;
-}
-
-// Table
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-table {
-    background: transparent !important;
 }
 
 // Tooltip
 // -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-tooltip {
+.mdc-tooltip__surface {
     font-size: var(--fontsize-normal) !important;
     background-color: var(--theme-accent-color) !important;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    word-break: break-all !important;
-    white-space: normal !important;
     color: var(--theme-tooltip-text) !important;
+}
+
+// Form Field, Input, Select, Autocomplete
+// -----------------------------------------------------------------------------------------------------------------------------------------
+
+.mdc-text-field {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    padding: 0 4px !important;
+}
+
+.mdc-form-field {
+    font-size: var(--fontsize-normal) !important;
+}
+
+.mat-mdc-option {
+    font-size: var(--fontsize-normal) !important;
+    min-height: unset !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.mat-mdc-form-field-infix {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    min-height: unset !important;
+}
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+    width: 12px !important;
+    height: 5px !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: unset !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+    background-color: unset !important;
 }
 
 // TODO: hacks due to stupid bugs
@@ -329,22 +272,6 @@ mat-tab-group {
         right: 0;
         left: auto;
         transform-origin: 100% 0;
-    }
-}
-
-// Workaround for bug https://github.com/angular/components/issues/3048 */
-.mat-tab-label-active {
-    .mat-tab-label-content {
-        &:after {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: var(--theme-accent-color);
-            right: 0;
-            bottom: 0;
-        }
     }
 }
 

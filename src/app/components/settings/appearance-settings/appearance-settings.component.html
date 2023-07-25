@@ -36,7 +36,7 @@
 <div class="p-4">
     <h2>{{ 'language' | translate }}</h2>
     <div>{{ 'choose-language' | translate }}</div>
-    <mat-form-field>
+    <mat-form-field class="mt-2">
         <mat-select [(ngModel)]="translatorService.selectedLanguage">
             <mat-option *ngFor="let language of translatorService.languages" [value]="language">
                 <div *ngIf="language.hasLatinCharacters">{{ language.localizedName }}</div>
@@ -49,7 +49,7 @@
 <div class="p-4">
     <h2>{{ 'text-size' | translate }}</h2>
     <div>{{ 'choose-text-size' | translate }}</div>
-    <mat-form-field>
+    <mat-form-field class="mt-2">
         <mat-select [(ngModel)]="appearanceService.selectedFontSize">
             <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize"> {{ fontSize.normalSize }} px </mat-option>
         </mat-select>

@@ -3,13 +3,6 @@
     flex-direction: column;
 }
 
-.folder {
-    padding: 4px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 .folder:hover {
     background: var(--theme-hovered-item-background);
 }

@@ -1,17 +1,12 @@
 <div class="app-volume-control">
-    <i class="app-volume-control__icon__alt las la-volume-mute" *ngIf="this.playbackService.volume === 0"></i>
-    <i
-        class="app-volume-control__icon__alt las la-volume-down"
-        *ngIf="this.playbackService.volume > 0 && this.playbackService.volume < 0.5"
-    ></i>
-    <i class="app-volume-control__icon las la-volume-up" *ngIf="this.playbackService.volume >= 0.5"></i>
-    <mat-slider
-        min="0"
-        step="0.01"
-        max="1"
-        (input)="onInputChange($event)"
-        [(ngModel)]="this.playbackService.volume"
-        class="app-volume-control__slider ml-1"
-        (wheel)="onMouseWheel($event)"
-    ></mat-slider>
+    <i class="app-volume-control__icon__alt las la-volume-mute" *ngIf="this.volume === 0"></i>
+    <i class="app-volume-control__icon__alt las la-volume-down" *ngIf="this.volume > 0 && this.volume < 0.5"></i>
+    <i class="app-volume-control__icon las la-volume-up" *ngIf="this.volume >= 0.5"></i>
+    <app-slider
+        class="app-volume-control__slider ml-3 mr-2"
+        [stepSize]="0.01"
+        [maximum]="1"
+        [mouseStepSize]="0.05"
+        [(value)]="this.volume"
+    ></app-slider>
 </div>

@@ -2,19 +2,19 @@
     <div>
         <a (click)="addFolderAsync()"><i class="las la-plus mr-1"></i> {{ 'add-folder' | translate }}</a>
     </div>
-    <mat-checkbox class="ml-1 mt-3" [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
+    <mat-checkbox class="mt-3" [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
         {{ 'show-all-folders-in-the-collection' | translate }}</mat-checkbox
     >
-    <ul class="mt-3">
+    <ul class="mt-1">
         <li
             *ngFor="let folder of folders"
             matRipple
             [ngClass]="{ 'selected-item-background-important': folder === selectedFolder }"
             (mousedown)="setSelectedFolder(folder)"
         >
-            <div class="folder no-select">
+            <div class="folder no-select d-flex flex-grow align-items-center">
                 <mat-checkbox
-                    class="folder__checkbox mr-2"
+                    class="folder__checkbox"
                     [(ngModel)]="folder.showInCollection"
                     *ngIf="showCheckBoxes"
                     matTooltip="{{ 'show-in-the-collection' | translate }}"
@@ -23,7 +23,7 @@
                 <i class="folder__icon mr-2 lar la-folder"></i>
                 <div class="folder__path ellipsis" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
                 <i
-                    class="folder__action ml-2 las la-times"
+                    class="folder__action mx-2 las la-times"
                     [ngStyle]="{ display: folder === selectedFolder ? 'block' : 'none' }"
                     matTooltip="{{ 'delete-folder' | translate }}"
                     (click)="deleteFolderAsync(folder)"

@@ -1,4 +1,4 @@
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, It, Mock } from 'typemoq';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 

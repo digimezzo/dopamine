@@ -474,7 +474,15 @@ export class PlaybackService implements BasePlaybackService {
 
     private applyVolumeFromSettings(): void {
         this._volume = this.settings.volume;
-        this.audioPlayer.setVolume(this._volume);
+
+        try {
+            this.audioPlayer.setVolume(this._volume);
+        } catch (error) {
+            this.logger.warn('Could not apply volume from settings. Resetting volume to 0.', 'PlaybackService', 'applyVolumeFromSettings');
+            this.settings.volume = 0;
+            this._volume = 0;
+            this.audioPlayer.setVolume(this._volume);
+        }
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
