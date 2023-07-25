@@ -14,6 +14,7 @@ import { BaseNavigationService } from './services/navigation/base-navigation.ser
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
+import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private discordService: BaseDiscordService,
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
+        private mediaSessionService: BaseMediaSessionService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
         private logger: Logger
@@ -70,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.appearanceService.applyAppearance();
         await this.translatorService.applyLanguageAsync();
         this.trayService.updateTrayContextMenu();
+        this.mediaSessionService.initialize();
 
         this.navigationService.navigateToLoading();
     }

@@ -17,9 +17,11 @@ export class ProgressUpdater {
         this.reportProgress();
         this.shouldReportProgress = true;
 
-        this.interval = window.setInterval(() => {
-            this.reportProgress();
-        }, 500);
+        if (!this.interval) {
+            this.interval = window.setInterval(() => {
+                this.reportProgress();
+            }, 500);
+        }
     }
 
     public stopUpdatingProgress(): void {
@@ -29,7 +31,6 @@ export class ProgressUpdater {
 
     public pauseUpdatingProgress(): void {
         this.shouldReportProgress = false;
-        clearInterval(this.interval);
     }
 
     public getCurrentProgress(): PlaybackProgress {
