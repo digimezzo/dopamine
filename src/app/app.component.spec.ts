@@ -8,6 +8,7 @@ import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
+import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
@@ -21,6 +22,8 @@ describe('AppComponent', () => {
     let discordServiceMock: IMock<BaseDiscordService>;
     let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let mediaSessionServiceMock: IMock<BaseMediaSessionService>;
+
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
@@ -38,6 +41,7 @@ describe('AppComponent', () => {
             discordServiceMock.object,
             trayServiceMock.object,
             searchServiceMock.object,
+            mediaSessionServiceMock.object,
             addToPlaylistMenuMock.object,
             desktopMock.object,
             loggerMock.object
@@ -52,6 +56,7 @@ describe('AppComponent', () => {
         discordServiceMock = Mock.ofType<BaseDiscordService>();
         trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        mediaSessionServiceMock = Mock.ofType<BaseMediaSessionService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
@@ -163,6 +168,17 @@ describe('AppComponent', () => {
 
             // Assert
             matDrawerMock.verify((x) => x.toggle(), Times.exactly(1));
+        });
+
+        it('should initialize MediaSessionService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            mediaSessionServiceMock.verify((x) => x.initialize(), Times.once());
         });
     });
 

@@ -10,11 +10,11 @@ import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
+import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
-import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

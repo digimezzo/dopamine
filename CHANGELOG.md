@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added Brazilian Korean translation (Thank you chaeya)
 -   Added Brazilian Portuguese translation (Thank you ghsantos)
+-   Added media key support (Thank you ghsantos)
 
 ### Changed
 
