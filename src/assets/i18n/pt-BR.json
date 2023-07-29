@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Falha no login do Last.fm",
     "love": "Ame",
     "show-love": "Mostrar 'Ame'",
-    "save-love-error": "Ocorreu um erro ao salvar 'Ame'. Verifique o registro se precisar de mais informações."
+    "save-love-error": "Ocorreu um erro ao salvar 'Ame'. Verifique o registro se precisar de mais informações.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }

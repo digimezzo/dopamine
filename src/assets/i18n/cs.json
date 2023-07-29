@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Přihlášení k Last.fm selhalo",
     "love": "Oblíbené",
     "show-love": "Zobrazit 'Oblíbené'",
-    "save-love-error": "Při ukládání 'Oblíbené' se vyslytla chyba. Pro více informací se podívejte do protokolu."
+    "save-love-error": "Při ukládání 'Oblíbené' se vyslytla chyba. Pro více informací se podívejte do protokolu.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }

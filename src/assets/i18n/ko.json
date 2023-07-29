@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Last.fm 로그인 실패",
     "love": "Love",
     "show-love": "'Love' 보이기",
-    "save-love-error": "'Love' 를 저장하면서 오류가 발생했습니다. 더 많은 정보가 필요한 경우 로그를 확인하십시오."
+    "save-love-error": "'Love' 를 저장하면서 오류가 발생했습니다. 더 많은 정보가 필요한 경우 로그를 확인하십시오.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }

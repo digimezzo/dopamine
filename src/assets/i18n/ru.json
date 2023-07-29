@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Вход в Last.fm не удался",
     "love": "В избранное",
     "show-love": "Показывать избранные",
-    "save-love-error": "Произошла ошибка при сохранении избранного. Пожалуйста, проверьте журнал, если вам нужны подробности."
+    "save-love-error": "Произошла ошибка при сохранении избранного. Пожалуйста, проверьте журнал, если вам нужны подробности.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }

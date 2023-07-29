@@ -12,9 +12,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -57,12 +57,14 @@ import { BaseApplication } from './common/io/base-application';
 import { BaseDesktop } from './common/io/base-desktop';
 import { BaseFileAccess } from './common/io/base-file-access';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
+import { BaseMediaSessionProxy } from './common/io/base-media-session-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
+import { MediaSessionProxy } from './common/io/media-session-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
@@ -556,6 +558,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseApplication, useClass: Application },
         { provide: BaseIpcProxy, useClass: IpcProxy },
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
+        { provide: BaseMediaSessionProxy, useClass: MediaSessionProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },

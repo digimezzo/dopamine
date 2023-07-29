@@ -1,4 +1,13 @@
 <div class="p-4">
+    <h2>{{ 'multimedia-keys' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="this.mediaSessionService.enableMultimediaKeys">
+            {{ 'enable-multimedia-keys' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-4">
     <h2>{{ 'notification-area' | translate }}</h2>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.showIconInNotificationArea">

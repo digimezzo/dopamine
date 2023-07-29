@@ -64,4 +64,5 @@ export abstract class BaseSettings {
     public abstract lastFmPassword: string;
     public abstract lastFmSessionKey: string;
     public abstract showLove: boolean;
+    public abstract enableMultimediaKeys: boolean;
 }

@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Last.fm 登录失败",
     "love": "喜欢",
     "show-love": "显示 '最爱'",
-    "save-love-error": "保存'Love'时出现错误. 如果需要更多信息，请查阅日志."
+    "save-love-error": "保存'Love'时出现错误. 如果需要更多信息，请查阅日志.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }

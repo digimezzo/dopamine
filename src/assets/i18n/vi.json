@@ -233,5 +233,7 @@
     "last-fm-login-failed": "Không thể đăng nhập Last.fm",
     "love": "Yêu thích",
     "show-love": "Hiện 'Yêu thích'",
-    "save-love-error": "Đã xảy ra lỗi khi lưu 'Yêu thích'. Vui lòng xem tập tin log để biết thêm thông tin."
+    "save-love-error": "Đã xảy ra lỗi khi lưu 'Yêu thích'. Vui lòng xem tập tin log để biết thêm thông tin.",
+    "multimedia-keys": "Multimedia keys",
+    "enable-multimedia-keys": "Enable multimedia keys"
 }
