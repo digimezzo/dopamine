@@ -2,8 +2,8 @@
     <!-- Loop -->
     <button
         *ngIf="playbackService.loopMode === loopModeEnum.None"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.toggleLoopMode()"
         matTooltip="{{ 'loop' | translate }}"
     >
@@ -11,8 +11,8 @@
     </button>
     <button
         *ngIf="playbackService.loopMode === loopModeEnum.All"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.toggleLoopMode()"
         matTooltip="{{ 'loop' | translate }}"
     >
@@ -20,8 +20,8 @@
     </button>
     <button
         *ngIf="playbackService.loopMode === loopModeEnum.One"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointermx-1"
+        matRipple
         (click)="playbackService.toggleLoopMode()"
         matTooltip="{{ 'loop' | translate }}"
     >
@@ -31,8 +31,8 @@
 
     <!-- Play previous -->
     <button
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.playPrevious()"
         matTooltip="{{ 'previous' | translate }}"
     >
@@ -42,8 +42,8 @@
     <!-- Play/Pause -->
     <button
         *ngIf="playbackService.canPause"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.pause()"
         matTooltip="{{ 'pause' | translate }}"
     >
@@ -51,8 +51,8 @@
     </button>
     <button
         *ngIf="playbackService.canResume"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.resume()"
         matTooltip="{{ 'play' | translate }}"
     >
@@ -61,8 +61,8 @@
 
     <!-- Play next -->
     <button
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.playNext()"
         matTooltip="{{ 'next' | translate }}"
     >
@@ -72,8 +72,8 @@
     <!-- Shuffle -->
     <button
         *ngIf="!playbackService.isShuffled"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.toggleIsShuffled()"
         matTooltip="{{ 'shuffle' | translate }}"
     >
@@ -81,8 +81,8 @@
     </button>
     <button
         *ngIf="playbackService.isShuffled"
-        class="app-playback-controls__button"
-        mat-icon-button
+        class="app-playback-controls__button pointer mx-1"
+        matRipple
         (click)="playbackService.toggleIsShuffled()"
         matTooltip="{{ 'shuffle' | translate }}"
     >

@@ -1,16 +1,23 @@
 .app-playback-controls {
     display: flex;
     flex-direction: row;
+    height: 36px;
 }
 
 .app-playback-controls__button {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: transparent;
 }
 
 .app-playback-controls__icon {
+    margin-top: 1px; // HACK
     font-size: 20px;
+    color: var(--theme-primary-text);
 }
 
 .app-playback-controls__accenticon {
