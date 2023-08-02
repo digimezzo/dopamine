@@ -1,16 +1,16 @@
 <div class="p-4">
-    <h2>{{ 'updates' | translate }}</h2>
-    <div>
-        <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'check-for-updates' | translate }}</mat-slide-toggle>
-    </div>
-    <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.checkForUpdatesIncludesPreReleases">
-            {{ 'also-check-for-pre-releases' | translate }}</mat-slide-toggle
-        >
-    </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
     <h2>{{ 'welcome-screen' | translate }}</h2>
     <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen' | translate }}</mat-slide-toggle>
+</div>
+<mat-divider></mat-divider>
+<div class="d-flex flex-column p-4">
+    <h2>{{ 'log-file' | translate }}</h2>
+    <div class="d-flex flex-column">
+        <div>{{ 'something-wrong-look-in-log-file' | translate }}</div>
+        <div class="mt-3">
+            <button class="mt-1" mat-raised-button color="primary" (click)="this.viewLog()">
+                {{ 'view-log' | translate | uppercase }}
+            </button>
+        </div>
+    </div>
 </div>

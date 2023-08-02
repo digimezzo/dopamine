@@ -64,6 +64,7 @@ import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
+import { LogViewer } from './common/io/log-viewer';
 import { MediaSessionProxy } from './common/io/media-session-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
@@ -518,6 +519,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         DateProxy,
         DateTime,
         TabSelectionGetter,
+        LogViewer,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

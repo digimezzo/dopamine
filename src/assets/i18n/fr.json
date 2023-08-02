@@ -235,5 +235,7 @@
     "show-love": "Afficher 'Aimer'",
     "save-love-error": "Une erreur s'est produite lors de l'enregistrement de 'Aimer'. Veuillez vérifier le journal si vous avez besoin de plus d'informations.",
     "multimedia-keys": "Touches multimédia",
-    "enable-multimedia-keys": "Activer les touches multimédia"
+    "enable-multimedia-keys": "Activer les touches multimédia",
+    "log-file": "Fichier log",
+    "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log."
 }

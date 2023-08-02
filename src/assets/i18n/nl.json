@@ -235,5 +235,7 @@
     "show-love": "Toon 'Vind ik leuk'",
     "save-love-error": "Er is een fout opgetreden bij het opslaan van 'Vind ik leuk'. Controleer het log bestand als u meer informatie nodig hebt.",
     "multimedia-keys": "Multimedia toetsen",
-    "enable-multimedia-keys": "Schakel multimediatoetsen in"
+    "enable-multimedia-keys": "Schakel multimediatoetsen in",
+    "log-file": "Log bestand",
+    "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand."
 }

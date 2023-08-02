@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Constants } from '../../../common/application/constants';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { BaseFileAccess } from '../../../common/io/base-file-access';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { LogViewer } from '../../../common/io/log-viewer';
 
 @Component({
     selector: 'app-error-dialog',
@@ -14,8 +12,7 @@ export class ErrorDialogComponent implements OnInit {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
-        private desktop: BaseDesktop,
-        private fileAccess: BaseFileAccess
+        private logViewer: LogViewer
     ) {
         this.dialogRef.disableClose = true;
     }
@@ -23,9 +20,6 @@ export class ErrorDialogComponent implements OnInit {
     public ngOnInit(): void {}
 
     public viewLog(): void {
-        // See: https://stackoverflow.com/questions/30381450/open-external-file-with-electron
-        this.desktop.showFileInDirectory(
-            this.fileAccess.combinePath([this.fileAccess.applicationDataDirectory(), 'logs', Constants.logFileName])
-        );
+        this.logViewer.viewLog();
     }
 }

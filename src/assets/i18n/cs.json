@@ -235,5 +235,7 @@
     "show-love": "Zobrazit 'Oblíbené'",
     "save-love-error": "Při ukládání 'Oblíbené' se vyslytla chyba. Pro více informací se podívejte do protokolu.",
     "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys"
+    "enable-multimedia-keys": "Enable multimedia keys",
+    "log-file": "Log file",
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
 }

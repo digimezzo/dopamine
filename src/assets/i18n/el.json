@@ -235,5 +235,7 @@
     "show-love": "Show 'Love'",
     "save-love-error": "An error occurred while saving 'Love'. Please verify the log if you need more information.",
     "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys"
+    "enable-multimedia-keys": "Enable multimedia keys",
+    "log-file": "Log file",
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
 }

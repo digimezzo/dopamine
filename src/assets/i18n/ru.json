@@ -235,5 +235,7 @@
     "show-love": "Показывать избранные",
     "save-love-error": "Произошла ошибка при сохранении избранного. Пожалуйста, проверьте журнал, если вам нужны подробности.",
     "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys"
+    "enable-multimedia-keys": "Enable multimedia keys",
+    "log-file": "Log file",
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
 }

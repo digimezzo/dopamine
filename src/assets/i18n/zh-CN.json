@@ -235,5 +235,7 @@
     "show-love": "显示 '最爱'",
     "save-love-error": "保存'Love'时出现错误. 如果需要更多信息，请查阅日志.",
     "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys"
+    "enable-multimedia-keys": "Enable multimedia keys",
+    "log-file": "Log file",
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
 }

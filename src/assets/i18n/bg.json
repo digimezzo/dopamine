@@ -235,5 +235,7 @@
     "show-love": "Покажи 'Обичани'",
     "save-love-error": "Възникна грешка при запазването на „Любов“. Моля, проверете регистрационния файл, ако имате нужда от повече информация.",
     "multimedia-keys": "Multimedia keys",
-    "enable-multimedia-keys": "Enable multimedia keys"
+    "enable-multimedia-keys": "Enable multimedia keys",
+    "log-file": "Log file",
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
 }

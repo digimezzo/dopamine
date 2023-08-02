@@ -1,4 +1,16 @@
 <div class="p-4">
+    <h2>{{ 'updates' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="settings.checkForUpdates"> {{ 'check-for-updates' | translate }}</mat-slide-toggle>
+    </div>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.checkForUpdatesIncludesPreReleases">
+            {{ 'also-check-for-pre-releases' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="p-4">
     <h2>{{ 'discord' | translate }}</h2>
     <div>
         <mat-slide-toggle [(ngModel)]="this.enableDiscordRichPresence"> {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle>
