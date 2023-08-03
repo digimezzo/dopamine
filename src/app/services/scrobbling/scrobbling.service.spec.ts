@@ -108,13 +108,16 @@ describe('ScrobblingService', () => {
             // Assert
             expect(service).toBeDefined();
         });
+    });
 
+    describe('initialize', () => {
         it('should set username from settings if Last.fm scrobbling is enabled', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.username).toEqual('user');
@@ -123,9 +126,10 @@ describe('ScrobblingService', () => {
         it('should set password from settings if Last.fm scrobbling is enabled', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.password).toEqual('password');
@@ -134,9 +138,10 @@ describe('ScrobblingService', () => {
         it('should not set username from settings if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.username).toEqual('');
@@ -145,9 +150,10 @@ describe('ScrobblingService', () => {
         it('should not set password from settings if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.password).toEqual('');
@@ -156,9 +162,10 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is disabled', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.signInState).toEqual(SignInState.SignedOut);
@@ -167,9 +174,10 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedIn if Last.fm scrobbling is enabled and lastFmUsername, lastFmPassword and lastFmSessionKey are set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.signInState).toEqual(SignInState.SignedIn);
@@ -178,9 +186,10 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmUsername is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, '', 'password', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.signInState).toEqual(SignInState.SignedOut);
@@ -189,9 +198,10 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmPassword is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', '', 'key');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.signInState).toEqual(SignInState.SignedOut);
@@ -200,9 +210,10 @@ describe('ScrobblingService', () => {
         it('should set SignInState to SignedOut if Last.fm scrobbling is enabled and lastFmSessionKey is not set in the settings', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', '');
+            const service: BaseScrobblingService = createService();
 
             // Act
-            const service: BaseScrobblingService = createService();
+            service.initialize();
 
             // Assert
             expect(service.signInState).toEqual(SignInState.SignedOut);
@@ -215,6 +226,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
@@ -231,6 +244,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
@@ -247,6 +262,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
@@ -263,6 +280,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
 
@@ -283,6 +302,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -306,6 +327,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 900000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -329,6 +352,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 20000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -352,6 +377,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -376,6 +403,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -399,6 +428,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const playbackProgress: PlaybackProgress = new PlaybackProgress(200, 300);
 
             // Act
@@ -419,6 +450,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -442,6 +475,8 @@ describe('ScrobblingService', () => {
             lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1;', '', 'albumTitle1', 300000);
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel1, false);
             playbackService_playbackStarted.next(playbackStarted);
@@ -464,6 +499,8 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
@@ -478,6 +515,8 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1', 300000);
 
             // Act
@@ -492,6 +531,8 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
 
             // Act
@@ -506,6 +547,8 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
@@ -521,6 +564,8 @@ describe('ScrobblingService', () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
+            service.initialize();
+
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act

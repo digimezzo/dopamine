@@ -7,6 +7,7 @@ export abstract class BaseScrobblingService {
     public abstract get signInState(): SignInState;
     public abstract username: string;
     public abstract password: string;
+    public abstract initialize(): void;
     public abstract signInAsync(): Promise<void>;
     public abstract signOut(): void;
     public abstract sendTrackLoveAsync(track: TrackModel, love: boolean): Promise<void>;

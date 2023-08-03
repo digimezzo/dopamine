@@ -47,6 +47,13 @@ export class MediaSessionService implements BaseMediaSessionService {
     }
 
     private enableOrDisableMetadataSubscriptions(): void {
+        if (!this.settings.enableMultimediaKeys) {
+            this.subscription.unsubscribe();
+            this.mediaSessionProxy.clearMetadata();
+
+            return;
+        }
+
         if (this.settings.enableMultimediaKeys) {
             this.subscription.add(
                 this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
@@ -59,9 +66,6 @@ export class MediaSessionService implements BaseMediaSessionService {
                     this.setMetadata(playbackInformation);
                 })
             );
-        } else {
-            this.subscription.unsubscribe();
-            this.mediaSessionProxy.clearMetadata();
         }
     }
 

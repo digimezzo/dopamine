@@ -29,10 +29,7 @@ export class ScrobblingService implements BaseScrobblingService {
         private dateTime: DateTime,
         private settings: BaseSettings,
         private logger: Logger
-    ) {
-        this.initializeSessionFromSettings();
-        this.initializeSubscriptions();
-    }
+    ) {}
 
     public signInStateChanged$: Observable<SignInState> = this.signInStateChanged.asObservable();
 
@@ -41,6 +38,11 @@ export class ScrobblingService implements BaseScrobblingService {
 
     public get signInState(): SignInState {
         return this._signInState;
+    }
+
+    public initialize(): void {
+        this.initializeSessionFromSettings();
+        this.initializeSubscriptions();
     }
 
     public async signInAsync(): Promise<void> {
@@ -134,6 +136,12 @@ export class ScrobblingService implements BaseScrobblingService {
     }
 
     private initializeSubscriptions(): void {
+        if (!this.settings.enableLastFmScrobbling) {
+            this.subscription.unsubscribe();
+
+            return;
+        }
+
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(
                 async (playbackStarted: PlaybackStarted) => await this.handlePlaybackStartedAsync(playbackStarted)

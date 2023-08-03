@@ -12,6 +12,7 @@ import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
 import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
+import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private translatorService: BaseTranslatorService,
         private dialogService: BaseDialogService,
         private discordService: BaseDiscordService,
+        private scrobblingService: BaseScrobblingService,
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private mediaSessionService: BaseMediaSessionService,
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
         await this.translatorService.applyLanguageAsync();
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
+        this.scrobblingService.initialize();
 
         this.navigationService.navigateToLoading();
     }
