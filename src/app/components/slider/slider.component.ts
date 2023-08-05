@@ -12,7 +12,8 @@ import { NativeElementProxy } from '../../common/native-element-proxy';
 })
 export class SliderComponent {
     private _value: number = 0;
-    private _sliderThumbWidth: number = 12;
+    private sliderThumbWidth: number = 12;
+    private mouseIsOverSlider = false;
 
     public constructor(private nativeElementProxy: NativeElementProxy, private mathExtensions: MathExtensions, private logger: Logger) {}
 
@@ -57,10 +58,13 @@ export class SliderComponent {
     }
 
     public onSliderContainerMouseEnter(): void {
+        this.mouseIsOverSlider = true;
         this.showSliderThumb = true;
     }
 
     public onSliderContainerMouseLeave(): void {
+        this.mouseIsOverSlider = false;
+
         if (!this.isSliderThumbDown) {
             this.showSliderThumb = false;
         }
@@ -72,9 +76,12 @@ export class SliderComponent {
 
     @HostListener('document:mousedown', ['$event'])
     public onDocumentMouseDown(e: any): void {
-        // HACK: prevents document:mouseup from not being fired sometimes.
-        // See: https://stackoverflow.com/questions/9506041/events-mouseup-not-firing-after-mousemove
-        e.preventDefault();
+        // Checking this.mouseIsOverSlider prevents cancelling mousedown when clicking on other elements (e.g. search box)
+        if (this.mouseIsOverSlider) {
+            // HACK: prevents document:mouseup from not being fired sometimes.
+            // See: https://stackoverflow.com/questions/9506041/events-mouseup-not-firing-after-mousemove
+            e.preventDefault();
+        }
     }
 
     @HostListener('document:mouseup', ['$event'])
@@ -112,9 +119,9 @@ export class SliderComponent {
             this.sliderBarPosition = this.mathExtensions.clamp(position, 0, sliderWidth);
 
             this.sliderThumbPosition = this.mathExtensions.clamp(
-                position - this._sliderThumbWidth / 2,
-                this.sliderThumbMargin - this._sliderThumbWidth / 2,
-                sliderWidth - this.sliderThumbMargin - this._sliderThumbWidth / 2
+                position - this.sliderThumbWidth / 2,
+                this.sliderThumbMargin - this.sliderThumbWidth / 2,
+                sliderWidth - this.sliderThumbMargin - this.sliderThumbWidth / 2
             );
 
             this.calculateValue();
