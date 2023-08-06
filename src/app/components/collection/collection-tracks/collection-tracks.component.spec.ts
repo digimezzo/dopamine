@@ -5,6 +5,7 @@ import { Track } from '../../../common/data/entities/track';
 import { DateTime } from '../../../common/date-time';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModel } from '../../../services/track/track-model';
@@ -16,6 +17,7 @@ import { CollectionTracksComponent } from './collection-tracks.component';
 describe('CollectionTracksComponent', () => {
     let searchServiceMock: IMock<BaseSearchService>;
     let trackServiceMock: IMock<BaseTrackService>;
+    let collectionServiceMock: IMock<BaseCollectionService>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
@@ -25,12 +27,16 @@ describe('CollectionTracksComponent', () => {
     let selectedTabChangedMock: Subject<void>;
     let selectedTabChangedMock$: Observable<void>;
 
+    let collectionChangedMock: Subject<void>;
+    let collectionChangedMock$: Observable<void>;
+
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionTracksComponent {
         const component: CollectionTracksComponent = new CollectionTracksComponent(
             searchServiceMock.object,
             trackServiceMock.object,
+            collectionServiceMock.object,
             collectionPersisterMock.object,
             schedulerMock.object,
             loggerMock.object
@@ -59,6 +65,7 @@ describe('CollectionTracksComponent', () => {
     beforeEach(() => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
         trackServiceMock = Mock.ofType<BaseTrackService>();
+        collectionServiceMock = Mock.ofType<BaseCollectionService>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
@@ -68,6 +75,10 @@ describe('CollectionTracksComponent', () => {
         selectedTabChangedMock = new Subject();
         selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
         collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
+
+        collectionChangedMock = new Subject();
+        collectionChangedMock$ = collectionChangedMock.asObservable();
+        collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
     });
 
     describe('constructor', () => {
@@ -207,6 +218,34 @@ describe('CollectionTracksComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
             expect(component.tracks.tracks.length).toEqual(0);
+        });
+
+        it('should get all tracks if the collection has changed', async () => {
+            // Arrange
+            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.tracksTabLabel);
+
+            const track1: TrackModel = createTrackModel('path1');
+            const track2: TrackModel = createTrackModel('path2');
+            const trackModels: TrackModels = createTrackModels([track1, track2]);
+
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
+
+            const component: CollectionTracksComponent = createComponent();
+            await component.ngOnInit();
+
+            trackServiceMock.reset();
+            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
+
+            // Act
+            collectionChangedMock.next();
+            await flushPromises();
+
+            // Assert
+            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
+            expect(component.tracks.tracks.length).toEqual(2);
+            expect(component.tracks.tracks[0]).toEqual(track1);
+            expect(component.tracks.tracks[1]).toEqual(track2);
         });
     });
 });

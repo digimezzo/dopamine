@@ -1,6 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
+import { BaseDesktop } from '../../../../common/io/base-desktop';
+import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseCollectionService } from '../../../../services/collection/base-collection.service';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
@@ -14,6 +18,9 @@ import { TracksColumnsOrdering } from '../../../../services/track-columns/tracks
 import { TracksColumnsVisibility } from '../../../../services/track-columns/tracks-columns-visibility';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
+import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
+import { TrackBrowserBase } from '../../track-browser/track-brower-base';
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -23,19 +30,37 @@ import { TrackModels } from '../../../../services/track/track-models';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionTracksTableComponent implements OnInit, OnDestroy {
+export class CollectionTracksTableComponent extends TrackBrowserBase implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private _tracks: TrackModels = new TrackModels();
 
     public constructor(
         public playbackService: BasePlaybackService,
         public mouseSelectionWatcher: MouseSelectionWatcher,
+        public addToPlaylistMenu: AddToPlaylistMenu,
+        public contextMenuOpener: ContextMenuOpener,
         private metadataService: BaseMetadataService,
         private playbackIndicationService: BasePlaybackIndicationService,
         private tracksColumnsService: BaseTracksColumnsService,
-        private dialogService: BaseDialogService,
-        private tracksColumnsOrdering: TracksColumnsOrdering
-    ) {}
+        private tracksColumnsOrdering: TracksColumnsOrdering,
+        collectionService: BaseCollectionService,
+        dialogService: BaseDialogService,
+        translatorService: BaseTranslatorService,
+        desktop: BaseDesktop,
+        logger: Logger
+    ) {
+        super(
+            playbackService,
+            dialogService,
+            addToPlaylistMenu,
+            contextMenuOpener,
+            mouseSelectionWatcher,
+            logger,
+            collectionService,
+            translatorService,
+            desktop
+        );
+    }
 
     public orderedTracks: TrackModel[] = [];
     public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();

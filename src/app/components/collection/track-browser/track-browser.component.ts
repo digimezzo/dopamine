@@ -19,6 +19,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
+import { TrackBrowserBase } from './track-brower-base';
 
 @Component({
     selector: 'app-track-browser',
@@ -28,7 +29,7 @@ import { TrackOrder } from '../track-order';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class TrackBrowserComponent implements OnInit, OnDestroy {
+export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, OnDestroy {
     private _tracks: TrackModels = new TrackModels();
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
@@ -40,13 +41,25 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private metadataService: BaseMetadataService,
         private playbackIndicationService: BasePlaybackIndicationService,
-        private collectionService: BaseCollectionService,
-        private translatorService: BaseTranslatorService,
-        private dialogService: BaseDialogService,
         private trackOrdering: TrackOrdering,
-        private desktop: BaseDesktop,
-        private logger: Logger
-    ) {}
+        collectionService: BaseCollectionService,
+        translatorService: BaseTranslatorService,
+        dialogService: BaseDialogService,
+        desktop: BaseDesktop,
+        logger: Logger
+    ) {
+        super(
+            playbackService,
+            dialogService,
+            addToPlaylistMenu,
+            contextMenuOpener,
+            mouseSelectionWatcher,
+            logger,
+            collectionService,
+            translatorService,
+            desktop
+        );
+    }
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
@@ -147,48 +160,6 @@ export class TrackBrowserComponent implements OnInit, OnDestroy {
 
         this.tracksPersister.setSelectedTrackOrder(this.selectedTrackOrder);
         this.orderTracks();
-    }
-
-    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
-        this.contextMenuOpener.open(this.trackContextMenu, event, track);
-    }
-
-    public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
-    }
-
-    public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
-
-        if (tracks.length > 0) {
-            this.desktop.showFileInDirectory(tracks[0].path);
-        }
-    }
-
-    public async onDeleteAsync(): Promise<void> {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
-
-        let dialogTitle: string = await this.translatorService.getAsync('delete-song');
-        let dialogText: string = await this.translatorService.getAsync('confirm-delete-song');
-
-        if (tracks.length > 1) {
-            dialogTitle = await this.translatorService.getAsync('delete-songs');
-            dialogText = await this.translatorService.getAsync('confirm-delete-songs');
-        }
-
-        const userHasConfirmed: boolean = await this.dialogService.showConfirmationDialogAsync(dialogTitle, dialogText);
-
-        if (userHasConfirmed) {
-            try {
-                if (!this.collectionService.deleteTracksAsync(tracks)) {
-                    throw new Error('deleteTracksAsync returned false');
-                }
-            } catch (e) {
-                this.logger.error(`Could not delete all files. Error: ${e.message}`, 'TrackBrowserComponent', 'onDelete');
-                const errorText: string = await this.translatorService.getAsync('delete-songs-error');
-                this.dialogService.showErrorDialog(errorText);
-            }
-        }
     }
 
     private orderTracks(): void {

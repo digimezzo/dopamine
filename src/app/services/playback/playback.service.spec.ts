@@ -1634,7 +1634,7 @@ describe('PlaybackService', () => {
 
             service.enqueueAndPlayTracks([trackModel1, trackModel2]);
             service.playNext(); // Move playback to second track (last track in queue)
-            getNextTrackSpy.mockClear()
+            getNextTrackSpy.mockClear();
 
             // Act
             service.playNext();
@@ -1648,7 +1648,7 @@ describe('PlaybackService', () => {
         it('should get the next track with wrap around if loopMode is One', () => {
             // Arrange
             const getNextTrackSpy = jest.spyOn(queue, 'getNextTrack');
-            
+
             while (service.loopMode !== LoopMode.One) {
                 service.toggleLoopMode();
             }

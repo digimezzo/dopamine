@@ -4,6 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
@@ -21,6 +22,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     constructor(
         public searchService: BaseSearchService,
         private trackService: BaseTrackService,
+        private collectionService: BaseCollectionService,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,
         private logger: Logger
@@ -36,6 +38,12 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(async () => {
+                await this.processListsAsync();
+            })
+        );
+
+        this.subscription.add(
+            this.collectionService.collectionChanged$.subscribe(async () => {
                 await this.processListsAsync();
             })
         );

@@ -112,6 +112,7 @@
                 [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                 (mousedown)="setSelectedTracks($event, track)"
                 (dblclick)="playbackService.enqueueAndPlayTracksFromDoubleClick(this.orderedTracks, track)"
+                (contextmenu)="onTrackContextMenuAsync($event, track)"
             >
                 <td>
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">
@@ -181,3 +182,57 @@
         [totalFileSizeInBytes]="this.tracks.totalFileSizeInBytes"
     ></app-totals>
 </div>
+
+<div
+    #trackContextMenuAnchor
+    style="visibility: hidden; position: fixed"
+    [style.left]="contextMenuOpener.positionX"
+    [style.top]="contextMenuOpener.positionY"
+    [matMenuTriggerFor]="trackContextMenu"
+></div>
+
+<mat-menu #trackContextMenu="matMenu">
+    <ng-template matMenuContent let-genre="data">
+        <button mat-menu-item [matMenuTriggerFor]="addToPlaylistContextMenu">
+            <span>{{ 'add-to-playlist' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onAddToQueueAsync()">
+            <span>{{ 'add-to-playback-queue' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onShowInFolder()">
+            <span>{{ 'show-in-folder' | translate }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onDeleteAsync()">
+            <span>{{ 'delete' | translate }}</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #addToPlaylistContextMenu="matMenu">
+    <div *ngIf="!this.addToPlaylistMenu.hasPlaylists" mat-menu-item class="inactive">{{ 'no-playlists' | translate }}</div>
+    <div *ngIf="this.addToPlaylistMenu.hasPlaylists">
+        <ng-container *ngFor="let playlist of this.addToPlaylistMenu.playlists | keyvalue">
+            <button mat-menu-item [matMenuTriggerFor]="playlistsMenu">
+                <span>{{ playlist.key }}</span>
+            </button>
+            <mat-menu #playlistsMenu="matMenu">
+                <button
+                    *ngFor="let playlist of this.addToPlaylistMenu.playlists[playlist.key] | keyvalue"
+                    mat-menu-item
+                    (click)="
+                        this.addToPlaylistMenu.addTracksToPlaylistAsync(
+                            playlist.value.path,
+                            playlist.value.name,
+                            this.mouseSelectionWatcher.selectedItems
+                        )
+                    "
+                >
+                    <span>{{ playlist.value.name }}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
+    </div>
+</mat-menu>

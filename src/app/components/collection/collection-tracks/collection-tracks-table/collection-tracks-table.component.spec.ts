@@ -1,8 +1,12 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
+import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Track } from '../../../../common/data/entities/track';
 import { DateTime } from '../../../../common/date-time';
+import { BaseDesktop } from '../../../../common/io/base-desktop';
+import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
+import { BaseCollectionService } from '../../../../services/collection/base-collection.service';
 import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
 import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
@@ -17,18 +21,25 @@ import { TracksColumnsVisibility } from '../../../../services/track-columns/trac
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
+import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { CollectionTracksTableComponent } from './collection-tracks-table.component';
 
 describe('CollectionTracksTableComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
+    let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
+    let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
     let tracksColumnsServiceMock: IMock<BaseTracksColumnsService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
     let tracksColumnsOrderingMock: IMock<TracksColumnsOrdering>;
     let dateTimeMock: IMock<DateTime>;
+
+    let collectionServiceMock: IMock<BaseCollectionService>;
+    let dialogServiceMock: IMock<BaseDialogService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
+    let desktopMock: IMock<BaseDesktop>;
+    let loggerMock: IMock<Logger>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -54,11 +65,17 @@ describe('CollectionTracksTableComponent', () => {
         const component: CollectionTracksTableComponent = new CollectionTracksTableComponent(
             playbackServiceMock.object,
             mouseSelectionWatcherMock.object,
+            addToPlaylistMenuMock.object,
+            contextMenuOpenerMock.object,
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
             tracksColumnsServiceMock.object,
+            tracksColumnsOrderingMock.object,
+            collectionServiceMock.object,
             dialogServiceMock.object,
-            tracksColumnsOrderingMock.object
+            translatorServiceMock.object,
+            desktopMock.object,
+            loggerMock.object
         );
 
         return component;
@@ -67,13 +84,19 @@ describe('CollectionTracksTableComponent', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
+        addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
+        contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
         tracksColumnsServiceMock = Mock.ofType<BaseTracksColumnsService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
         tracksColumnsOrderingMock = Mock.ofType<TracksColumnsOrdering>();
         dateTimeMock = Mock.ofType<DateTime>();
+
+        collectionServiceMock = Mock.ofType<BaseCollectionService>();
+        dialogServiceMock = Mock.ofType<BaseDialogService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        desktopMock = Mock.ofType<BaseDesktop>();
+        loggerMock = Mock.ofType<Logger>();
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();

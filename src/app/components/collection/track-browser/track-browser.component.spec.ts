@@ -90,11 +90,6 @@ describe('TrackBrowserComponent', () => {
         const metadataService_loveSaved$: Observable<TrackModel> = metadataService_loveSaved.asObservable();
         metadataServiceMock.setup((x) => x.loveSaved$).returns(() => metadataService_loveSaved$);
 
-        translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(async () => 'delete-song');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(async () => 'confirm-delete-song');
-        translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(async () => 'delete-songs');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-songs')).returns(async () => 'confirm-delete-songs');
-
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
         track1.albumArtists = ';Album artist 1;';
@@ -160,10 +155,10 @@ describe('TrackBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
+            trackOrderingMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
             dialogServiceMock.object,
-            trackOrderingMock.object,
             desktopMock.object,
             loggerMock.object
         );
@@ -600,114 +595,6 @@ describe('TrackBrowserComponent', () => {
 
             // Assert
             playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.orderedTracks, trackModel1), Times.exactly(1));
-        });
-    });
-
-    describe('onAddToQueueAsync', () => {
-        it('should add the selected tracks to the queue', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onAddToQueueAsync();
-
-            // Assert
-            playbackServiceMock.verify((x) => x.addTracksToQueueAsync([trackModel1, trackModel2]), Times.once());
-        });
-    });
-
-    describe('onTrackContextMenuAsync', () => {
-        it('should open the track context menu', async () => {
-            // Arrange
-            const component: TrackBrowserComponent = createComponent();
-            const event: any = {};
-
-            // Act
-            component.onTrackContextMenuAsync(event, trackModel2);
-
-            // Assert
-            contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, trackModel2), Times.once());
-        });
-    });
-
-    describe('onDeleteAsync', () => {
-        it('should show confirmation dialog with singular text when 1 track is provided', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1]);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onDeleteAsync();
-
-            // Assert
-            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-song', 'confirm-delete-song'), Times.once());
-        });
-
-        it('should show confirmation dialog with plural text when more than 1 track is provided', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onDeleteAsync();
-
-            // Assert
-            dialogServiceMock.verify((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'), Times.once());
-        });
-
-        it('should not delete tracks if the user has not confirmed', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            dialogServiceMock
-                .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
-                .returns(async () => false);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onDeleteAsync();
-
-            // Assert
-            collectionServiceMock.verify((x) => x.deleteTracksAsync(It.isAny()), Times.never());
-        });
-
-        it('should delete tracks if the user has confirmed', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs')).returns(async () => true);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onDeleteAsync();
-
-            // Assert
-            collectionServiceMock.verify((x) => x.deleteTracksAsync([trackModel1, trackModel2]), Times.once());
-        });
-    });
-
-    describe('onShowInFolder', () => {
-        it('should not show in folder if there are no tracks selected', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onShowInFolder();
-
-            // Assert
-            desktopMock.verify((x) => x.showFileInDirectory(It.isAny()), Times.never());
-        });
-
-        it('should show the first selected track in folder if there are tracks selected', async () => {
-            // Arrange
-            mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            const component: TrackBrowserComponent = createComponent();
-
-            // Act
-            await component.onShowInFolder();
-
-            // Assert
-            desktopMock.verify((x) => x.showFileInDirectory(trackModel1.path), Times.once());
         });
     });
 });
