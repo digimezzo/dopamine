@@ -93,7 +93,9 @@ describe('FileService', () => {
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
-                    )),
+                        ),
+                        It.is<TrackModel>((trackModel: TrackModel) => trackModel.path === 'file 1.mp3')
+                    ),
                 Times.once()
             );
         });
@@ -107,7 +109,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not enqueue and play anything if parameters are empty when arguments are received', async () => {
@@ -119,7 +121,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not enqueue and play anything if there are no playable tracks found as parameters when arguments are received', async () => {
@@ -131,7 +133,7 @@ describe('FileService', () => {
             await flushPromises();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
     });
 
@@ -178,7 +180,8 @@ describe('FileService', () => {
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
-                        )
+                        ),
+                        It.is<TrackModel>((trackModel: TrackModel) => trackModel.path === 'file 1.mp3')
                     ),
                 Times.once()
             );
@@ -193,7 +196,7 @@ describe('FileService', () => {
             await service.enqueueParameterFilesAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not enqueue and play anything if parameters are empty', async () => {
@@ -205,7 +208,7 @@ describe('FileService', () => {
             await service.enqueueParameterFilesAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
 
         it('should not enqueue and play anything if there are no playable tracks found as parameters', async () => {
@@ -217,7 +220,7 @@ describe('FileService', () => {
             await service.enqueueParameterFilesAsync();
 
             // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny(), It.isAny()), Times.never());
         });
     });
 });

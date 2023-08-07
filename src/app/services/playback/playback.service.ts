@@ -59,9 +59,7 @@ export class PlaybackService implements BasePlaybackService {
         const trackModels: TrackModels = new TrackModels();
 
         if (this.queue.tracks != undefined) {
-            // add tracks to playback queue in playback order so that they will be loaded in the playback order into the view
-            // so that the user can see what is coming next in the queue
-            for (const track of this.queue.getTracksInPlaybackOrder()) {
+            for (const track of this.queue.tracks) {
                 trackModels.addTrack(track);
             }
         }
@@ -113,21 +111,7 @@ export class PlaybackService implements BasePlaybackService {
     public playbackStopped$: Observable<void> = this.playbackStopped.asObservable();
     public playbackSkipped$: Observable<void> = this.playbackSkipped.asObservable();
 
-    public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[]): void {
-        if (tracksToEnqueue == undefined) {
-            return;
-        }
-
-        if (tracksToEnqueue.length === 0) {
-            return;
-        }
-
-        this.queue.setTracks(tracksToEnqueue, this.isShuffled);
-        // play first track in queue (will be a random track if queue is shuffled)
-        this.play(this.playbackQueue.tracks[0], false);
-    }
-
-    public enqueueAndPlayTracksFromDoubleClick(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
+    public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {
             return;
         }
@@ -155,7 +139,7 @@ export class PlaybackService implements BasePlaybackService {
 
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
     public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
@@ -165,7 +149,7 @@ export class PlaybackService implements BasePlaybackService {
 
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.displayName]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
     public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
@@ -175,7 +159,7 @@ export class PlaybackService implements BasePlaybackService {
 
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
-        this.enqueueAndPlayTracks(orderedTracks);
+        this.enqueueAndPlayTracks(orderedTracks, orderedTracks[0]);
     }
 
     public async enqueueAndPlayPlaylistAsync(playlistToPlay: PlaylistModel): Promise<void> {
@@ -184,7 +168,7 @@ export class PlaybackService implements BasePlaybackService {
         }
 
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToPlay]);
-        this.enqueueAndPlayTracks(tracksForPlaylist.tracks);
+        this.enqueueAndPlayTracks(tracksForPlaylist.tracks, tracksForPlaylist.tracks[0]);
     }
 
     public async addTracksToQueueAsync(tracksToAdd: TrackModel[]): Promise<void> {
@@ -474,15 +458,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private applyVolumeFromSettings(): void {
         this._volume = this.settings.volume;
-
-        try {
-            this.audioPlayer.setVolume(this._volume);
-        } catch (error) {
-            this.logger.warn('Could not apply volume from settings. Resetting volume to 0.', 'PlaybackService', 'applyVolumeFromSettings');
-            this.settings.volume = 0;
-            this._volume = 0;
-            this.audioPlayer.setVolume(this._volume);
-        }
+        this.audioPlayer.setVolume(this._volume);
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {

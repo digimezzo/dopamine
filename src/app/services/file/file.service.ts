@@ -75,7 +75,7 @@ export class FileService implements BaseFileService {
             }
 
             if (trackModels.length > 0) {
-                this.playbackService.enqueueAndPlayTracks(trackModels);
+                this.playbackService.enqueueAndPlayTracks(trackModels, trackModels[0]);
             }
         } catch (e) {
             this.logger.error(
