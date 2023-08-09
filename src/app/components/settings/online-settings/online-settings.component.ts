@@ -21,7 +21,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         private discordService: BaseDiscordService,
         private scrobblingService: BaseScrobblingService,
         private snackBarService: BaseSnackBarService,
-        private settings: BaseSettings
+        public settings: BaseSettings
     ) {}
 
     public signInStateEnum: typeof SignInState = SignInState;
