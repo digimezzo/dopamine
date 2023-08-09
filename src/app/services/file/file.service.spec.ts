@@ -78,7 +78,7 @@ describe('FileService', () => {
             expect(service).toBeDefined();
         });
 
-        it('should enqueue all playable tracks found as parameters and play the first track when arguments are received', async () => {
+        it('should enqueue all playable tracks that are found as parameters', async () => {
             // Arrange
             const service: BaseFileService = createService();
 
@@ -93,12 +93,13 @@ describe('FileService', () => {
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
                                 trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
-                    )),
+                        )
+                    ),
                 Times.once()
             );
         });
 
-        it('should not enqueue and play anything if parameters are undefined when arguments are received', async () => {
+        it('should not enqueue anything if parameters are undefined when arguments are received', async () => {
             // Arrange
             const service: BaseFileService = createService();
 
@@ -110,7 +111,7 @@ describe('FileService', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
-        it('should not enqueue and play anything if parameters are empty when arguments are received', async () => {
+        it('should not enqueue anything if parameters are empty when arguments are received', async () => {
             // Arrange
             const service: BaseFileService = createService();
 
@@ -122,7 +123,7 @@ describe('FileService', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
-        it('should not enqueue and play anything if there are no playable tracks found as parameters when arguments are received', async () => {
+        it('should not enqueue anything if there are no playable tracks found as parameters when arguments are received', async () => {
             // Arrange
             const service: BaseFileService = createService();
 
@@ -163,7 +164,7 @@ describe('FileService', () => {
     });
 
     describe('enqueueParameterFilesAsync', () => {
-        it('should enqueue all playable tracks found as parameters and play the first track', async () => {
+        it('should enqueue all playable tracks found as parameters', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
             const service: BaseFileService = createService();
@@ -184,7 +185,7 @@ describe('FileService', () => {
             );
         });
 
-        it('should not enqueue and play anything if parameters are undefined', async () => {
+        it('should not enqueue anything if parameters are undefined', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => undefined);
             const service: BaseFileService = createService();
@@ -196,7 +197,7 @@ describe('FileService', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
-        it('should not enqueue and play anything if parameters are empty', async () => {
+        it('should not enqueue anything if parameters are empty', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => []);
             const service: BaseFileService = createService();
@@ -208,7 +209,7 @@ describe('FileService', () => {
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
-        it('should not enqueue and play anything if there are no playable tracks found as parameters', async () => {
+        it('should not enqueue anything if there are no playable tracks found as parameters', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => ['file 1.png', 'file 2.mkv', 'file 3.bmp']);
             const service: BaseFileService = createService();
