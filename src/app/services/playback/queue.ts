@@ -14,6 +14,16 @@ export class Queue {
         return this._tracks;
     }
 
+    public get tracksInPlaybackOrder(): TrackModel[] {
+        let tracksInPlaybackOrder: TrackModel[] = [];
+
+        for (const trackIndex of this.playbackOrder) {
+            tracksInPlaybackOrder.push(this._tracks[trackIndex]);
+        }
+
+        return tracksInPlaybackOrder;
+    }
+
     public get numberOfTracks(): number {
         return this._tracks.length;
     }
@@ -65,6 +75,18 @@ export class Queue {
 
     public unShuffle(): void {
         this.populatePlayBackOrder();
+    }
+
+    public getFirstTrack(): TrackModel {
+        if (this.playbackOrder == undefined) {
+            return undefined;
+        }
+
+        if (this.playbackOrder.length === 0) {
+            return undefined;
+        }
+
+        return this._tracks[this.playbackOrder[0]];
     }
 
     public getPreviousTrack(currentTrack: TrackModel, allowWrapAround: boolean): TrackModel {

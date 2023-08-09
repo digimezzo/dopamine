@@ -8,7 +8,6 @@ import { BaseTranslatorService } from '../translator/base-translator.service';
 import { Queue } from './queue';
 
 describe('Queue', () => {
-    let queue: Queue;
     let shufflerMock: IMock<Shuffler>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
@@ -19,12 +18,11 @@ describe('Queue', () => {
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         loggerMock = Mock.ofType<Logger>();
-
-        shufflerMock.setup((x) => x.shuffle([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
-        shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
-
-        queue = new Queue(shufflerMock.object, loggerMock.object);
     });
+
+    function createQueue(): Queue {
+        return new Queue(shufflerMock.object, loggerMock.object);
+    }
 
     function createTrackModel(path: string): TrackModel {
         return new TrackModel(new Track(path), dateTimeMock.object, translatorServiceMock.object);
@@ -35,6 +33,7 @@ describe('Queue', () => {
             // Arrange
 
             // Act
+            const queue: Queue = createQueue();
 
             // Assert
             expect(queue).toBeDefined();
@@ -44,6 +43,7 @@ describe('Queue', () => {
             // Arrange
 
             // Act
+            const queue: Queue = createQueue();
 
             // Assert
             expect(queue.tracks.length).toEqual(0);
@@ -56,6 +56,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -73,6 +75,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
+            const queue: Queue = createQueue();
+
             // Act
             queue.setTracks([track1, track2, track3], false);
 
@@ -88,6 +92,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
 
             // Act
             queue.setTracks([track1, track2, track3], true);
@@ -105,6 +111,8 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
 
+            const queue: Queue = createQueue();
+
             // Act
 
             // Assert
@@ -115,6 +123,8 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -129,7 +139,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
-            queue = new Queue(shufflerMock.object, loggerMock.object);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], true);
 
             // Act
@@ -156,6 +167,8 @@ describe('Queue', () => {
                 dateTimeMock.object,
                 translatorServiceMock.object
             );
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -171,7 +184,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
-            queue = new Queue(shufflerMock.object, loggerMock.object);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], true);
 
             // Act
@@ -186,6 +200,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -201,6 +217,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -215,6 +233,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -230,6 +250,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -244,6 +266,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -259,6 +283,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -269,10 +295,60 @@ describe('Queue', () => {
         });
     });
 
+    describe('getFirstTrack', () => {
+        it('should return undefined if there are no tracks', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+
+            const queue: Queue = createQueue();
+
+            // Act
+
+            // Assert
+            expect(queue.getNextTrack(track1, false)).toBeUndefined();
+        });
+
+        it('should return the first track when the queue is not shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], false);
+
+            // Act
+            const firstTrack: TrackModel = queue.getFirstTrack();
+
+            // Assert
+            expect(firstTrack).toBe(track1);
+        });
+
+        it('should return the first track when the queue is shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], true);
+
+            // Act
+            const firstTrack: TrackModel = queue.getFirstTrack();
+
+            // Assert
+            expect(firstTrack).toBe(track2);
+        });
+    });
+
     describe('getNextTrack', () => {
         it('should return undefined if there are no tracks', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+
+            const queue: Queue = createQueue();
 
             // Act
 
@@ -285,6 +361,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -299,6 +377,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], true);
 
             // Act
@@ -313,6 +393,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
@@ -328,6 +410,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2], true);
 
             // Act
@@ -342,6 +426,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -357,6 +443,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -371,6 +459,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -386,6 +476,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -400,6 +492,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -415,6 +509,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -431,6 +527,8 @@ describe('Queue', () => {
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -447,6 +545,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -464,6 +564,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], false);
 
             // Act
@@ -480,6 +582,8 @@ describe('Queue', () => {
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
             const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
             shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [2, 1, 0]);
+
+            const queue: Queue = createQueue();
             queue.setTracks([track1, track2, track3], true);
 
             // Act
@@ -488,259 +592,374 @@ describe('Queue', () => {
             // Assert
             expect(nextTrack).toBe(track1);
         });
+    });
 
-        describe('removeTracks', () => {
-            it('should not remove tracks from queue if tracksToRemove is undefined', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+    describe('removeTracks', () => {
+        it('should not remove tracks from queue if tracksToRemove is undefined', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
-                queue.setTracks([track1, track2, track3], false);
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
 
-                // Act
-                queue.removeTracks(undefined);
+            // Act
+            queue.removeTracks(undefined);
 
-                // Assert
-                expect(queue.tracks.length).toEqual(3);
-                expect(queue.tracks[0]).toBe(track1);
-                expect(queue.tracks[1]).toBe(track2);
-                expect(queue.tracks[2]).toBe(track3);
-            });
-
-            it('should not remove tracks from queue if tracksToRemove is empty', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                queue.setTracks([track1, track2, track3], false);
-
-                // Act
-                queue.removeTracks([]);
-
-                // Assert
-                expect(queue.tracks.length).toEqual(3);
-                expect(queue.tracks[0]).toBe(track1);
-                expect(queue.tracks[1]).toBe(track2);
-                expect(queue.tracks[2]).toBe(track3);
-            });
-
-            it('should remove tracks from queue if tracksToRemove has items', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                queue.setTracks([track1, track2, track3], false);
-
-                // Act
-                queue.removeTracks([track2]);
-
-                // Assert
-                expect(queue.tracks.length).toEqual(2);
-                expect(queue.tracks[0]).toBe(track1);
-                expect(queue.tracks[1]).toBe(track3);
-            });
-
-            it('should not remove tracks from unshuffled playback order if tracksToRemove is undefined', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], false);
-
-                // Act
-                queue.removeTracks(undefined);
-
-                // Assert
-                expect(queue.getNextTrack(track1, false)).toEqual(track2);
-                expect(queue.getNextTrack(track2, false)).toEqual(track3);
-                expect(queue.getNextTrack(track3, false)).toEqual(track4);
-                expect(queue.getNextTrack(track4, false)).toEqual(track5);
-            });
-
-            it('should not remove tracks from unshuffled playback order if tracksToRemove is empty', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], false);
-
-                // Act
-                queue.removeTracks([]);
-
-                // Assert
-                expect(queue.getNextTrack(track1, false)).toEqual(track2);
-                expect(queue.getNextTrack(track2, false)).toEqual(track3);
-                expect(queue.getNextTrack(track3, false)).toEqual(track4);
-                expect(queue.getNextTrack(track4, false)).toEqual(track5);
-            });
-
-            it('should remove tracks from unshuffled playback order if tracksToRemove has items', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], false);
-
-                // Act
-                queue.removeTracks([track2, track4]);
-
-                // Assert
-                expect(queue.tracks.length).toEqual(3);
-                expect(queue.getNextTrack(track1, false)).toEqual(track3);
-                expect(queue.getNextTrack(track3, false)).toEqual(track5);
-            });
-
-            it('should not remove tracks from shuffled playback order if tracksToRemove is undefined', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], true);
-
-                // Act
-                queue.removeTracks(undefined);
-
-                // Assert
-                expect(queue.getNextTrack(track1, false)).toEqual(track2);
-                expect(queue.getNextTrack(track2, false)).toEqual(undefined);
-                expect(queue.getNextTrack(track3, false)).toEqual(track5);
-                expect(queue.getNextTrack(track4, false)).toEqual(track3);
-                expect(queue.getNextTrack(track5, false)).toEqual(track1);
-            });
-
-            it('should not remove tracks from shuffled playback order if tracksToRemove is empty', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], true);
-
-                // Act
-                queue.removeTracks([]);
-
-                // Assert
-                expect(queue.getNextTrack(track1, false)).toEqual(track2);
-                expect(queue.getNextTrack(track2, false)).toEqual(undefined);
-                expect(queue.getNextTrack(track3, false)).toEqual(track5);
-                expect(queue.getNextTrack(track4, false)).toEqual(track3);
-                expect(queue.getNextTrack(track5, false)).toEqual(track1);
-            });
-
-            it('should remove tracks from shuffled playback order if tracksToRemove has items', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2, track3, track4, track5], true);
-
-                // Act
-                queue.removeTracks([track2, track4]);
-
-                // Assert
-                expect(queue.tracks.length).toEqual(3);
-                expect(queue.getNextTrack(track1, false)).toEqual(undefined);
-                expect(queue.getNextTrack(track3, false)).toEqual(track5);
-                expect(queue.getNextTrack(track5, false)).toEqual(track1);
-            });
+            // Assert
+            expect(queue.tracks.length).toEqual(3);
+            expect(queue.tracks[0]).toBe(track1);
+            expect(queue.tracks[1]).toBe(track2);
+            expect(queue.tracks[2]).toBe(track3);
         });
 
-        describe('addTracks', () => {
-            it('should add tracks to the end of queue when not shuffled', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2], false);
+        it('should not remove tracks from queue if tracksToRemove is empty', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
-                // Act
-                queue.addTracks([track3, track4, track5]);
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
 
-                // Assert
-                expect(queue.tracks.length).toEqual(5);
-                expect(queue.tracks[0]).toEqual(track1);
-                expect(queue.tracks[1]).toEqual(track2);
-                expect(queue.tracks[2]).toEqual(track3);
-                expect(queue.tracks[3]).toEqual(track4);
-                expect(queue.tracks[4]).toEqual(track5);
-            });
+            // Act
+            queue.removeTracks([]);
 
-            it('should add tracks to the end of queue when shuffled', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2], true);
+            // Assert
+            expect(queue.tracks.length).toEqual(3);
+            expect(queue.tracks[0]).toBe(track1);
+            expect(queue.tracks[1]).toBe(track2);
+            expect(queue.tracks[2]).toBe(track3);
+        });
 
-                // Act
-                queue.addTracks([track3, track4, track5]);
+        it('should remove tracks from queue if tracksToRemove has items', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
-                // Assert
-                expect(queue.tracks.length).toEqual(5);
-                expect(queue.tracks[0]).toEqual(track1);
-                expect(queue.tracks[1]).toEqual(track2);
-                expect(queue.tracks[2]).toEqual(track3);
-                expect(queue.tracks[3]).toEqual(track4);
-                expect(queue.tracks[4]).toEqual(track5);
-            });
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
 
-            it('should add tracks to the end of unshuffled playback order', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2], false);
+            // Act
+            queue.removeTracks([track2]);
 
-                // Act
-                queue.addTracks([track3, track4, track5]);
+            // Assert
+            expect(queue.tracks.length).toEqual(2);
+            expect(queue.tracks[0]).toBe(track1);
+            expect(queue.tracks[1]).toBe(track3);
+        });
 
-                // Assert
-                expect(queue.tracks.length).toEqual(5);
-                expect(queue.getNextTrack(track1, false)).toEqual(track2);
-                expect(queue.getNextTrack(track2, false)).toEqual(track3);
-                expect(queue.getNextTrack(track3, false)).toEqual(track4);
-                expect(queue.getNextTrack(track4, false)).toEqual(track5);
-                expect(queue.getNextTrack(track5, false)).toEqual(undefined);
-            });
+        it('should not remove tracks from unshuffled playback order if tracksToRemove is undefined', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
 
-            it('should add tracks to the end of shuffled playback order', () => {
-                // Arrange
-                const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
-                const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-                const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
-                const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
-                const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
-                queue.setTracks([track1, track2], true);
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3, track4, track5], false);
 
-                // Act
-                queue.addTracks([track3, track4, track5]);
+            // Act
+            queue.removeTracks(undefined);
 
-                // Assert
-                expect(queue.tracks.length).toEqual(5);
-                expect(queue.getNextTrack(track1, false)).toEqual(track3);
-                expect(queue.getNextTrack(track2, false)).toEqual(track1);
-                expect(queue.getNextTrack(track3, false)).toEqual(track4);
-                expect(queue.getNextTrack(track4, false)).toEqual(track5);
-                expect(queue.getNextTrack(track5, false)).toEqual(undefined);
-            });
+            // Assert
+            expect(queue.getNextTrack(track1, false)).toEqual(track2);
+            expect(queue.getNextTrack(track2, false)).toEqual(track3);
+            expect(queue.getNextTrack(track3, false)).toEqual(track4);
+            expect(queue.getNextTrack(track4, false)).toEqual(track5);
+        });
+
+        it('should not remove tracks from unshuffled playback order if tracksToRemove is empty', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+            const queue: Queue = createQueue();
+
+            queue.setTracks([track1, track2, track3, track4, track5], false);
+
+            // Act
+            queue.removeTracks([]);
+
+            // Assert
+            expect(queue.getNextTrack(track1, false)).toEqual(track2);
+            expect(queue.getNextTrack(track2, false)).toEqual(track3);
+            expect(queue.getNextTrack(track3, false)).toEqual(track4);
+            expect(queue.getNextTrack(track4, false)).toEqual(track5);
+        });
+
+        it('should remove tracks from unshuffled playback order if tracksToRemove has items', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3, track4, track5], false);
+
+            // Act
+            queue.removeTracks([track2, track4]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(3);
+            expect(queue.getNextTrack(track1, false)).toEqual(track3);
+            expect(queue.getNextTrack(track3, false)).toEqual(track5);
+        });
+
+        it('should not remove tracks from shuffled playback order if tracksToRemove is undefined', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3, track4, track5], true);
+
+            // Act
+            queue.removeTracks(undefined);
+
+            // Assert
+            expect(queue.getNextTrack(track1, false)).toEqual(track2);
+            expect(queue.getNextTrack(track2, false)).toEqual(undefined);
+            expect(queue.getNextTrack(track3, false)).toEqual(track5);
+            expect(queue.getNextTrack(track4, false)).toEqual(track3);
+            expect(queue.getNextTrack(track5, false)).toEqual(track1);
+        });
+
+        it('should not remove tracks from shuffled playback order if tracksToRemove is empty', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3, track4, track5], true);
+
+            // Act
+            queue.removeTracks([]);
+
+            // Assert
+            expect(queue.getNextTrack(track1, false)).toEqual(track2);
+            expect(queue.getNextTrack(track2, false)).toEqual(undefined);
+            expect(queue.getNextTrack(track3, false)).toEqual(track5);
+            expect(queue.getNextTrack(track4, false)).toEqual(track3);
+            expect(queue.getNextTrack(track5, false)).toEqual(track1);
+        });
+
+        it('should remove tracks from shuffled playback order if tracksToRemove has items', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1, 2, 3, 4])).returns(() => [3, 2, 4, 0, 1]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3, track4, track5], true);
+
+            // Act
+            queue.removeTracks([track2, track4]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(3);
+            expect(queue.getNextTrack(track1, false)).toEqual(undefined);
+            expect(queue.getNextTrack(track3, false)).toEqual(track5);
+            expect(queue.getNextTrack(track5, false)).toEqual(track1);
+        });
+    });
+
+    describe('addTracks', () => {
+        it('should add tracks to the end of queue when not shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], false);
+
+            // Act
+            queue.addTracks([track3, track4, track5]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(5);
+            expect(queue.tracks[0]).toEqual(track1);
+            expect(queue.tracks[1]).toEqual(track2);
+            expect(queue.tracks[2]).toEqual(track3);
+            expect(queue.tracks[3]).toEqual(track4);
+            expect(queue.tracks[4]).toEqual(track5);
+        });
+
+        it('should add tracks to the end of queue when shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], true);
+
+            // Act
+            queue.addTracks([track3, track4, track5]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(5);
+            expect(queue.tracks[0]).toEqual(track1);
+            expect(queue.tracks[1]).toEqual(track2);
+            expect(queue.tracks[2]).toEqual(track3);
+            expect(queue.tracks[3]).toEqual(track4);
+            expect(queue.tracks[4]).toEqual(track5);
+        });
+
+        it('should add tracks to the end of unshuffled playback order', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], false);
+
+            // Act
+            queue.addTracks([track3, track4, track5]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(5);
+            expect(queue.getNextTrack(track1, false)).toEqual(track2);
+            expect(queue.getNextTrack(track2, false)).toEqual(track3);
+            expect(queue.getNextTrack(track3, false)).toEqual(track4);
+            expect(queue.getNextTrack(track4, false)).toEqual(track5);
+            expect(queue.getNextTrack(track5, false)).toEqual(undefined);
+        });
+
+        it('should add tracks to the end of shuffled playback order', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+            const track4: TrackModel = createTrackModel('/home/user/Music/Track4.mp3');
+            const track5: TrackModel = createTrackModel('/home/user/Music/Track5.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2], true);
+
+            // Act
+            queue.addTracks([track3, track4, track5]);
+
+            // Assert
+            expect(queue.tracks.length).toEqual(5);
+            expect(queue.getNextTrack(track1, false)).toEqual(track3);
+            expect(queue.getNextTrack(track2, false)).toEqual(track1);
+            expect(queue.getNextTrack(track3, false)).toEqual(track4);
+            expect(queue.getNextTrack(track4, false)).toEqual(track5);
+            expect(queue.getNextTrack(track5, false)).toEqual(undefined);
+        });
+    });
+
+    describe('tracks', () => {
+        it('should return the tracks in their original order when not shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
+
+            // Act
+            const tracks: TrackModel[] = queue.tracks;
+
+            // Assert
+            expect(tracks[0].path).toBe(track1.path);
+            expect(tracks[1].path).toBe(track2.path);
+            expect(tracks[2].path).toBe(track3.path);
+        });
+
+        it('should return the tracks in original order when shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], true);
+
+            // Act
+            const tracks: TrackModel[] = queue.tracks;
+
+            // Assert
+            expect(tracks[0].path).toBe(track1.path);
+            expect(tracks[1].path).toBe(track2.path);
+            expect(tracks[2].path).toBe(track3.path);
+        });
+    });
+
+    describe('tracksInPlaybackOrder', () => {
+        it('should return the tracks in original order when not shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], false);
+
+            // Act
+            const tracks: TrackModel[] = queue.tracksInPlaybackOrder;
+
+            // Assert
+            expect(tracks[0].path).toBe(track1.path);
+            expect(tracks[1].path).toBe(track2.path);
+            expect(tracks[2].path).toBe(track3.path);
+        });
+
+        it('should return the tracks in playback order when shuffled', () => {
+            // Arrange
+            const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
+            const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
+            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
+
+            shufflerMock.setup((x) => x.shuffle([0, 1, 2])).returns(() => [1, 2, 0]);
+
+            const queue: Queue = createQueue();
+            queue.setTracks([track1, track2, track3], true);
+
+            // Act
+            const tracks: TrackModel[] = queue.tracksInPlaybackOrder;
+
+            // Assert
+            expect(tracks[0].path).toBe(track2.path);
+            expect(tracks[1].path).toBe(track3.path);
+            expect(tracks[2].path).toBe(track1.path);
         });
     });
 });
