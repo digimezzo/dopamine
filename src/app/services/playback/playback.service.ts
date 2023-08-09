@@ -59,9 +59,8 @@ export class PlaybackService implements BasePlaybackService {
         const trackModels: TrackModels = new TrackModels();
 
         if (this.queue.tracks != undefined) {
-            // add tracks to playback queue in playback order so that they will be loaded in the playback order into the view
-            // so that the user can see what is coming next in the queue
-            for (const track of this.queue.getTracksInPlaybackOrder()) {
+            // Add tracks to playback queue in playback order so that the user can see what is coming next in the queue
+            for (const track of this.queue.tracksInPlaybackOrder) {
                 trackModels.addTrack(track);
             }
         }
@@ -123,11 +122,12 @@ export class PlaybackService implements BasePlaybackService {
         }
 
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
-        // play first track in queue (will be a random track if queue is shuffled)
-        this.play(this.playbackQueue.tracks[0], false);
+
+        // Play first track in queue (will be a random track if queue is shuffled)
+        this.play(this.queue.getFirstTrack(), false);
     }
 
-    public enqueueAndPlayTracksFromDoubleClick(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
+    public enqueueAndPlayTracksStartingFromGivenTrack(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
         if (tracksToEnqueue == undefined) {
             return;
         }
@@ -474,15 +474,7 @@ export class PlaybackService implements BasePlaybackService {
 
     private applyVolumeFromSettings(): void {
         this._volume = this.settings.volume;
-
-        try {
-            this.audioPlayer.setVolume(this._volume);
-        } catch (error) {
-            this.logger.warn('Could not apply volume from settings. Resetting volume to 0.', 'PlaybackService', 'applyVolumeFromSettings');
-            this.settings.volume = 0;
-            this._volume = 0;
-            this.audioPlayer.setVolume(this._volume);
-        }
+        this.audioPlayer.setVolume(this._volume);
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
