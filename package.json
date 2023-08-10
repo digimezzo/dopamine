@@ -58,7 +58,7 @@
         "@types/jest": "^29.5.1",
         "@types/node": "^14.14.33",
         "core-js": "2.6.1",
-        "electron": "^24.0.0",
+        "electron": "^21.0.0",
         "electron-builder": "24.4.0",
         "electron-rebuild": "3.2.9",
         "electron-reload": "1.5.0",
