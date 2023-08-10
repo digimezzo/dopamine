@@ -12,7 +12,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 
 @Directive()
-export abstract class TrackBrowserBase {
+export class TrackBrowserBase {
     constructor(
         public playbackService: BasePlaybackService,
         public dialogService: BaseDialogService,
