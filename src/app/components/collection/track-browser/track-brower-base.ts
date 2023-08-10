@@ -1,4 +1,4 @@
-import { ViewChild } from '@angular/core';
+import { Directive, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { BaseDesktop } from '../../../common/io/base-desktop';
@@ -11,7 +11,8 @@ import { TrackModel } from '../../../services/track/track-model';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 
-export class TrackBrowserBase {
+@Directive()
+export abstract class TrackBrowserBase {
     constructor(
         public playbackService: BasePlaybackService,
         public dialogService: BaseDialogService,
