@@ -237,5 +237,7 @@
     "multimedia-keys": "Touches multimédia",
     "enable-multimedia-keys": "Activer les touches multimédia",
     "log-file": "Fichier log",
-    "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log."
+    "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log.",
+    "showcase": "Exposition",
+    "artist-information": "Informations sur l'artiste"
 }

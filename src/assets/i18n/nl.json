@@ -237,5 +237,7 @@
     "multimedia-keys": "Multimedia toetsen",
     "enable-multimedia-keys": "Schakel multimediatoetsen in",
     "log-file": "Log bestand",
-    "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand."
+    "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand.",
+    "showcase": "Tentoonstelling",
+    "artist-information": "Artiest informatie"
 }

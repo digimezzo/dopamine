@@ -25,28 +25,6 @@
     background-size: cover;
 }
 
-.app-now-playing__content {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-}
-
-.app-now-playing__song {
-    display: flex;
-    flex-direction: row;
-}
-
-.app-now-playing__cover {
-    -webkit-box-reflect: below 4px -webkit-linear-gradient(transparent, transparent 80%, rgba(255, 255, 255, 0.3));
-}
-
-.app-now-playing__songinfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
 .back-button__icon {
     font-size: 20px;
 }

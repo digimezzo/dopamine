@@ -237,5 +237,7 @@
     "multimedia-keys": "Multimedia keys",
     "enable-multimedia-keys": "Enable multimedia keys",
     "log-file": "Log file",
-    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file.",
+    "showcase": "Showcase",
+    "artist-information": "Artist information"
 }
