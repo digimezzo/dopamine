@@ -21,7 +21,14 @@
     </div>
     <div class="window-frame__content">
         <div class="app-now-playing">
-            <app-now-playing-showcase class="flex-grow"> </app-now-playing-showcase>
+            <mat-horizontal-stepper [linear]="false" #stepper class="now-playing-stepper">
+                <!-- Showcase -->
+                <mat-step>
+                    <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
+                </mat-step>
+                <!-- Artist  info -->
+                <mat-step> <div class="collection-viewport">yoyo</div> </mat-step>
+            </mat-horizontal-stepper>
             <app-now-playing-playback-pane
                 class="app-now-playing__playbackpane"
                 [@controlsVisibility]="controlsVisibility"

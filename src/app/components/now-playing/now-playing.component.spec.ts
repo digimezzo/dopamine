@@ -3,6 +3,8 @@ import { IMock, Mock, Times } from 'typemoq';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
+import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { BaseSearchService } from '../../services/search/base-search.service';
@@ -15,9 +17,12 @@ describe('NowPlayingComponent', () => {
     let metadataServiceMock: IMock<BaseMetadataService>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let nowPlayingNavigationServiceMock: IMock<BaseNowPlayingNavigationService>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
+
+    let nowPlayingNavigationServiceNavigatedMock: Subject<NowPlayingPage>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
@@ -27,7 +32,8 @@ describe('NowPlayingComponent', () => {
             navigationServiceMock.object,
             metadataServiceMock.object,
             playbackServiceMock.object,
-            searchServiceMock.object
+            searchServiceMock.object,
+            nowPlayingNavigationServiceMock.object
         );
     }
 
@@ -37,6 +43,7 @@ describe('NowPlayingComponent', () => {
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        nowPlayingNavigationServiceMock = Mock.ofType<BaseNowPlayingNavigationService>();
 
         appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
 
@@ -46,6 +53,10 @@ describe('NowPlayingComponent', () => {
         playbackServicePlaybackStoppedMock = new Subject();
         const playbackServicePlaybackStopped$: Observable<void> = playbackServicePlaybackStoppedMock.asObservable();
         playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackServicePlaybackStopped$);
+
+        nowPlayingNavigationServiceNavigatedMock = new Subject();
+        const nowPlayingNavigationServiceNavigated$: Observable<NowPlayingPage> = nowPlayingNavigationServiceNavigatedMock.asObservable();
+        nowPlayingNavigationServiceMock.setup((x) => x.navigated$).returns(() => nowPlayingNavigationServiceNavigated$);
     });
 
     describe('constructor', () => {
@@ -141,6 +152,16 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.background2Animation).toEqual('fade-in-dark');
+        });
+
+        it('should declare stepper', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingComponent = createComponent();
+
+            // Assert
+            expect(component.stepper).toBeUndefined();
         });
     });
 
@@ -558,6 +579,33 @@ describe('NowPlayingComponent', () => {
             expect(component.background1Animation).toEqual('unset-value');
             expect(component.background2Animation).toEqual('unset-value');
             expect(component.background1IsUsed).toBeFalsy();
+        });
+
+        it('should set stepper.selectedIndex', async () => {
+            // Arrange
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            nowPlayingNavigationServiceMock.setup(x => x.currentNowPlayingPage).returns(() => NowPlayingPage.artistInformation);
+
+            // Act
+            await component.ngOnInit();
+
+            // Assert
+            expect(component.stepper.selectedIndex).toEqual(NowPlayingPage.artistInformation);
+        });
+
+        it('should detect navigation request and set stepper.selectedIndex', async () => {
+            // Arrange
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+            await component.ngOnInit();
+
+            // Act
+            nowPlayingNavigationServiceNavigatedMock.next(NowPlayingPage.artistInformation);
+
+            // Assert
+            expect(component.stepper.selectedIndex).toEqual(NowPlayingPage.artistInformation);
         });
     });
 

@@ -244,6 +244,8 @@ import { BaseMetadataService } from './services/metadata/base-metadata.service';
 import { MetadataService } from './services/metadata/metadata.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { BaseNowPlayingNavigationService } from './services/now-playing-navigation/base-now-playing-navigation.service';
+import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
 import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
 import { BasePlaybackInformationService } from './services/playback-information/base-playback-information.service';
@@ -568,6 +570,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
         { provide: BaseScrobblingService, useClass: ScrobblingService },
+        { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

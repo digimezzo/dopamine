@@ -36,3 +36,9 @@
 .back-button:hover .back-button__icon {
     color: #fff;
 }
+
+.now-playing-stepper {
+    background: transparent !important;
+    flex: 1;
+    width: 100%;
+}

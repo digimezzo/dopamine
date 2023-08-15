@@ -9,12 +9,14 @@
         <div class="app-now-playing-playback-pane-controls__left">
             <i
                 class="app-now-playing__button las la-tv pointer ml-4 mr-2"
-                (click)="this.showPlaybackQueue()"
+                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.showcase }"
+                (click)="this.navigateToShowcase()"
                 matTooltip="{{ 'showcase' | translate }}"
             ></i>
             <i
                 class="app-now-playing__button las la-user pointer mx-2"
-                (click)="this.showPlaybackQueue()"
+                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
+                (click)="this.navigateToArtistInformation()"
                 matTooltip="{{ 'artist-information' | translate }}"
             ></i>
         </div>
