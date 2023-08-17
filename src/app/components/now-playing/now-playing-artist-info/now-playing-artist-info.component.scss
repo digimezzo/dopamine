@@ -1,0 +1,28 @@
+.app-now-playing-artist-info {
+    padding: 120px;
+    height: 100%;
+}
+
+.app-now-playing-artist-info__enabled {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.app-now-playing-artist-info__disabled {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-now-playing-artist-info__picture {
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+    background-color: red;
+}
+
+.app-now-playing-artist-info__text {
+    flex: 1;
+    overflow-y: auto;
+}

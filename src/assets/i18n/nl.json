@@ -239,5 +239,9 @@
     "log-file": "Log bestand",
     "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand.",
     "showcase": "Tentoonstelling",
-    "artist-information": "Artiest informatie"
+    "artist-information": "Artiestinformatie",
+    "download-artist-information-from-lastfm": "Artiestinformatie downloaden van Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Het downloaden van artiestinformatie van Last.fm is momenteel uitgeschakeld. Je kunt het hier of in de instellingen inschakelen.",
+    "biography": "Biografie",
+    "similar": "Vergelijkbaar"
 }

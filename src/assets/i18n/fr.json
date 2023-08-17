@@ -239,5 +239,9 @@
     "log-file": "Fichier log",
     "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log.",
     "showcase": "Exposition",
-    "artist-information": "Informations sur l'artiste"
+    "artist-information": "Informations sur l'artiste",
+    "download-artist-information-from-lastfm": "Télécharger des informations sur l'artiste depuis Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Le téléchargement des informations sur les artistes depuis Last.fm est actuellement désactivé. Vous pouvez l'activer ici ou dans les paramètres.",
+    "biography": "Biographie",
+    "similar": "Similaire"
 }

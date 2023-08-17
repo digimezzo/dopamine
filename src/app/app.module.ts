@@ -149,6 +149,7 @@ import { ManageAlbumCoversComponent } from './components/manage-collection/manag
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
+import { NowPlayingArtistInfoComponent } from './components/now-playing/now-playing-artist-info/now-playing-artist-info.component';
 import { NowPlayingPlaybackPaneComponent } from './components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
 import { NowPlayingShowcaseComponent } from './components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
@@ -404,7 +405,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SemanticZoomButtonComponent,
         CollectionTracksTableComponent,
         CollectionTracksTableHeaderComponent,
-        NowPlayingShowcaseComponent
+        NowPlayingShowcaseComponent,
+        NowPlayingArtistInfoComponent,
     ],
     imports: [
         BrowserAnimationsModule,
