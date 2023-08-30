@@ -1,6 +1,7 @@
 {
     "language-name-english": "Japanese",
     "language-name-localized": "日本語",
+    "language-code": "JP",
     "hi": "こんにちは！",
     "welcome-to-dopamine": "「Dopamine」ドーパミンへようこそ、私たちはあなたがこのアプリを気に入っていただけると思っています！ まず、設定しましょう。",
     "language": "言語",
@@ -242,6 +243,6 @@
     "artist-information": "Artist information",
     "download-artist-information-from-lastfm": "Download artist information from Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
-    "biography": "Biography",
-    "similar": "Similar"
+    "similar": "Similar",
+    "read-more-on-lastfm": "Read more on Last.fm"
 }

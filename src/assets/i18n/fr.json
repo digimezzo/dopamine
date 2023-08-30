@@ -1,6 +1,7 @@
 {
     "language-name-english": "French",
     "language-name-localized": "Français",
+    "language-code": "FR",
     "hi": "Salut!",
     "welcome-to-dopamine": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses.",
     "language": "Langue",
@@ -242,6 +243,6 @@
     "artist-information": "Informations sur l'artiste",
     "download-artist-information-from-lastfm": "Télécharger des informations sur l'artiste depuis Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Le téléchargement des informations sur les artistes depuis Last.fm est actuellement désactivé. Vous pouvez l'activer ici ou dans les paramètres.",
-    "biography": "Biographie",
-    "similar": "Similaire"
+    "similar": "Similaire",
+    "read-more-on-lastfm": "En savoir plus sur Last.fm"
 }

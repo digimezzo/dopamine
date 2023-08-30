@@ -1,6 +1,7 @@
 {
     "language-name-english": "Czech",
     "language-name-localized": "Čeština",
+    "language-code": "CS",
     "hi": "Ahoj!",
     "welcome-to-dopamine": "Vítejte v Dopamine! Doufáme, že se vám bude líbit! Nejprve pojďme nastavit pár věcí.",
     "language": "Jazyk",
@@ -242,6 +243,6 @@
     "artist-information": "Artist information",
     "download-artist-information-from-lastfm": "Download artist information from Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
-    "biography": "Biography",
-    "similar": "Similar"
+    "similar": "Similar",
+    "read-more-on-lastfm": "Read more on Last.fm"
 }

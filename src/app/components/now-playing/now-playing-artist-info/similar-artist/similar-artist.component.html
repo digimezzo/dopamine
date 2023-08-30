@@ -1,0 +1,15 @@
+<div
+    class="similar-artist__picture pointer"
+    (click)="this.similarArtist.browseToUrl()"
+    matTooltip="{{ 'read-more-on-lastfm' | translate }}"
+>
+    <div class="similar-artist__picture--logo">
+        <i class="las la-user"> </i>
+    </div>
+    <div class="similar-artist__picture--content">
+        <img *ngIf="this.similarArtist.imageUrl" [src]="this.similarArtist.imageUrl" [width]="120" [height]="120" draggable="false" />
+    </div>
+    <div class="similar-artist__picture--name">
+        <p>{{ this.similarArtist.name }}</p>
+    </div>
+</div>

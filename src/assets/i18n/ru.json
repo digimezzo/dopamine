@@ -1,6 +1,7 @@
 {
     "language-name-english": "Russian",
     "language-name-localized": "русский",
+    "language-code": "RU",
     "hi": "Привет!",
     "welcome-to-dopamine": "Добро пожаловать в Dopamine, надеемся, он вам понравится! Для начала давайте всё подготовим.",
     "language": "Язык",
@@ -242,6 +243,6 @@
     "artist-information": "Artist information",
     "download-artist-information-from-lastfm": "Download artist information from Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
-    "biography": "Biography",
-    "similar": "Similar"
+    "similar": "Similar",
+    "read-more-on-lastfm": "Read more on Last.fm"
 }
