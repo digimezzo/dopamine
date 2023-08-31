@@ -1,6 +1,7 @@
 {
     "language-name-english": "Traditional Chinese",
     "language-name-localized": "繁體中文",
+    "language-code": "ZH",
     "hi": "嗨！",
     "welcome-to-dopamine": "歡迎使用 Dopamine，我們希望你會愛上它！首先，來完成初始設定吧。",
     "language": "語言",
@@ -237,5 +238,11 @@
     "multimedia-keys": "Multimedia keys",
     "enable-multimedia-keys": "Enable multimedia keys",
     "log-file": "Log file",
-    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file.",
+    "showcase": "Showcase",
+    "artist-information": "Artist information",
+    "download-artist-information-from-lastfm": "Download artist information from Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
+    "similar": "Similar",
+    "read-more-on-lastfm": "Read more on Last.fm"
 }
