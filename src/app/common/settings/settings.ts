@@ -656,7 +656,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('downloadMissingAlbumCovers')) {
-            this.settings.set('downloadMissingAlbumCovers', false);
+            this.settings.set('downloadMissingAlbumCovers', true);
         }
 
         if (!this.settings.has('showAllFoldersInCollection')) {
@@ -864,11 +864,11 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('enableMultimediaKeys')) {
-            this.settings.set('enableMultimediaKeys', false);
+            this.settings.set('enableMultimediaKeys', true);
         }
 
         if (!this.settings.has('downloadArtistInformationFromLastFm')) {
-            this.settings.set('downloadArtistInformationFromLastFm', false);
+            this.settings.set('downloadArtistInformationFromLastFm', true);
         }
     }
 }
