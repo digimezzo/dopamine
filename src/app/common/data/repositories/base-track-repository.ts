@@ -21,6 +21,7 @@ export abstract class BaseTrackRepository {
     public abstract addTrack(track: Track): void;
     public abstract getTrackByPath(path: string): Track;
     public abstract getAlbumDataThatNeedsIndexing(): AlbumData[];
+    public abstract getAlbumDataForAlbumKey(albumKey: string): AlbumData[];
     public abstract getAllAlbumData(): AlbumData[];
     public abstract getAlbumDataForTrackArtists(trackArtists: string[]): AlbumData[];
     public abstract getAlbumDataForAlbumArtists(albumArtists: string[]): AlbumData[];

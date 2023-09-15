@@ -247,6 +247,7 @@ import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { BaseMetadataService } from './services/metadata/base-metadata.service';
+import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
 import { MetadataService } from './services/metadata/metadata.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
@@ -477,6 +478,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ExternalAlbumArtworkGetter,
         EmbeddedAlbumArtworkGetter,
         OnlineAlbumArtworkGetter,
+        CachedAlbumArtworkGetter,
         AlbumArtworkIndexer,
         AlbumArtworkAdder,
         AlbumArtworkRemover,

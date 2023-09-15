@@ -19,6 +19,18 @@ export class MockCreator {
         return trackModel;
     }
 
+    public static createTrackModelWithAlbumKey(path: string, albumKey: string): TrackModel {
+        const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
+        const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+
+        const track: Track = new Track(path);
+        track.albumKey = albumKey;
+
+        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+
+        return trackModel;
+    }
+
     public static createArtistInformation(name: string, url: string, imageUrl: string, biography: string): ArtistInformation {
         const desktopMock: IMock<BaseDesktop> = Mock.ofType<BaseDesktop>();
 

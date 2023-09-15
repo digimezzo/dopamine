@@ -4,6 +4,7 @@ import { BaseFileAccess } from '../io/base-file-access';
 import { BaseFileMetadataFactory } from './base-file-metadata-factory';
 import { IFileMetadata } from './i-file-metadata';
 import { MusicMetadataFileMetadata } from './music-metadata-file-meta-data';
+import { TagLibFileMetadata } from './tag-lib-file-metadata';
 
 @Injectable()
 export class FileMetadataFactory implements BaseFileMetadataFactory {
@@ -16,13 +17,13 @@ export class FileMetadataFactory implements BaseFileMetadataFactory {
 
         switch (fileExtension) {
             case FileFormats.mp3:
-                fileMetadata = new MusicMetadataFileMetadata(path);
+                fileMetadata = new TagLibFileMetadata(path);
                 break;
             case FileFormats.flac:
-                fileMetadata = new MusicMetadataFileMetadata(path);
+                fileMetadata = new TagLibFileMetadata(path);
                 break;
             case FileFormats.ogg:
-                fileMetadata = new MusicMetadataFileMetadata(path);
+                fileMetadata = new TagLibFileMetadata(path);
                 break;
             case FileFormats.m4a:
                 fileMetadata = new MusicMetadataFileMetadata(path);
@@ -31,10 +32,10 @@ export class FileMetadataFactory implements BaseFileMetadataFactory {
                 fileMetadata = new MusicMetadataFileMetadata(path);
                 break;
             case FileFormats.wav:
-                fileMetadata = new MusicMetadataFileMetadata(path);
+                fileMetadata = new TagLibFileMetadata(path);
                 break;
             default:
-                fileMetadata = new MusicMetadataFileMetadata(path);
+                fileMetadata = new TagLibFileMetadata(path);
                 break;
         }
 
