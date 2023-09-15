@@ -31,19 +31,25 @@ export class ArtistInformationService implements BaseArtistInformationService {
             return artistInformation;
         }
 
-        let lastfmArtist: LastfmArtist = await this.lastfmApi.getArtistInfoAsync(
-            track.rawFirstArtist,
-            true,
-            this.translatorService.get('language-code')
-        );
+        let lastfmArtist: LastfmArtist = undefined;
 
-        if (
-            lastfmArtist == undefined ||
-            lastfmArtist.biography == undefined ||
-            Strings.isNullOrWhiteSpace(lastfmArtist.biography.content)
-        ) {
-            // In case there is no localized Biography, get the English one.
-            lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, 'EN');
+        try {
+            lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, this.translatorService.get('language-code'));
+
+            if (
+                lastfmArtist == undefined ||
+                lastfmArtist.biography == undefined ||
+                Strings.isNullOrWhiteSpace(lastfmArtist.biography.content)
+            ) {
+                // In case there is no localized Biography, get the English one.
+                lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, 'EN');
+            }
+        } catch (error) {
+            this.logger.error(
+                `Could not get lastfmArtist. Error: ${error.message}`,
+                'ArtistInformationService',
+                'getArtistInformationAsync'
+            );
         }
 
         if (lastfmArtist == undefined) {
