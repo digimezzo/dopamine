@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Updated Czech translation (Thank you Fjuro)
 -   Updated German translation (Thank you BodoTh)
 -   Updated Russian translation (Thank you adem4ik)
--   Updated Simplified Chinese translation (Thank you 5zhou, Guanran928)
+-   Updated Simplified Chinese translation (Thank you 5zhou, Guanran928, sherlockholmestech)
 -   Updated Vietnamese translation (Thank you mastoduy)
 
 ### Removed

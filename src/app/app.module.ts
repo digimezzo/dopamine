@@ -31,6 +31,7 @@ import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FanartApi } from './common/api/fanart/fanart-api';
 import { GitHubApi } from './common/api/git-hub/git-hub-api';
 import { LastfmApi } from './common/api/lastfm/lastfm-api';
 import { ContextMenuOpener } from './common/context-menu-opener';
@@ -149,7 +150,10 @@ import { ManageAlbumCoversComponent } from './components/manage-collection/manag
 import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
 import { ManageMusicComponent } from './components/manage-collection/manage-music/manage-music.component';
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
+import { NowPlayingArtistInfoComponent } from './components/now-playing/now-playing-artist-info/now-playing-artist-info.component';
+import { SimilarArtistComponent } from './components/now-playing/now-playing-artist-info/similar-artist/similar-artist.component';
 import { NowPlayingPlaybackPaneComponent } from './components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
+import { NowPlayingShowcaseComponent } from './components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { PlaybackCoverArtComponent } from './components/playback-cover-art/playback-cover-art.component';
@@ -201,6 +205,9 @@ import { BaseAppearanceService } from './services/appearance/base-appearance.ser
 import { DefaultThemesCreator } from './services/appearance/default-themes-creator';
 import { ApplicationService } from './services/application/application.service';
 import { BaseApplicationService } from './services/application/base-application.service';
+import { ArtistInformationFactory } from './services/artist-information/artist-information-factory';
+import { ArtistInformationService } from './services/artist-information/artist-information.service';
+import { BaseArtistInformationService } from './services/artist-information/base-artist-information.service';
 import { ArtistService } from './services/artist/artist.service';
 import { BaseArtistService } from './services/artist/base-artist.service';
 import { BaseCollectionService } from './services/collection/base-collection.service';
@@ -240,9 +247,12 @@ import { TrackVerifier } from './services/indexing/track-verifier';
 import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { MediaSessionService } from './services/media-session/media-session.service';
 import { BaseMetadataService } from './services/metadata/base-metadata.service';
+import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
 import { MetadataService } from './services/metadata/metadata.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { BaseNowPlayingNavigationService } from './services/now-playing-navigation/base-now-playing-navigation.service';
+import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
 import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
 import { BasePlaybackInformationService } from './services/playback-information/base-playback-information.service';
@@ -401,6 +411,9 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SemanticZoomButtonComponent,
         CollectionTracksTableComponent,
         CollectionTracksTableHeaderComponent,
+        NowPlayingShowcaseComponent,
+        NowPlayingArtistInfoComponent,
+        SimilarArtistComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -465,6 +478,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ExternalAlbumArtworkGetter,
         EmbeddedAlbumArtworkGetter,
         OnlineAlbumArtworkGetter,
+        CachedAlbumArtworkGetter,
         AlbumArtworkIndexer,
         AlbumArtworkAdder,
         AlbumArtworkRemover,
@@ -484,6 +498,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NativeElementProxy,
         DocumentProxy,
         GitHubApi,
+        FanartApi,
         MetadataPatcher,
         ArtistOrdering,
         GenreOrdering,
@@ -520,6 +535,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         DateTime,
         TabSelectionGetter,
         LogViewer,
+        ArtistInformationFactory,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
@@ -566,6 +582,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
         { provide: BaseScrobblingService, useClass: ScrobblingService },
+        { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
+        { provide: BaseArtistInformationService, useClass: ArtistInformationService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

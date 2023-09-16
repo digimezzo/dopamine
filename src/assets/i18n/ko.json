@@ -1,6 +1,7 @@
 {
     "language-name-english": "Korean",
     "language-name-localized": "한국어",
+    "language-code": "KO",
     "hi": "반갑습니다!",
     "welcome-to-dopamine": "도파민에 오신 것을 환영합니다. 먼저, 환경을 설정합니다.",
     "language": "언어",
@@ -237,5 +238,11 @@
     "multimedia-keys": "Multimedia keys",
     "enable-multimedia-keys": "Enable multimedia keys",
     "log-file": "Log file",
-    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file."
+    "something-wrong-look-in-log-file": "Did something go wrong? Have a look in the log file.",
+    "showcase": "Showcase",
+    "artist-information": "Artist information",
+    "download-artist-information-from-lastfm": "Download artist information from Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
+    "similar": "Similar",
+    "read-more-on-lastfm": "Read more on Last.fm"
 }
