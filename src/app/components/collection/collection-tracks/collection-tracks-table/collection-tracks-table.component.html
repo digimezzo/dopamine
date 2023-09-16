@@ -22,7 +22,7 @@
                     ></app-collection-tracks-table-header>
                 </td>
                 <td class="w-48px pointer"></td>
-                <td *ngIf="this.tracksColumnsVisibility.showArtists" class="w-84px pointer" (click)="this.orderByRating()">
+                <td *ngIf="this.tracksColumnsVisibility.showRating" class="w-84px pointer" (click)="this.orderByRating()">
                     <app-collection-tracks-table-header
                         class="ml-1"
                         [text]="'rating' | translate"

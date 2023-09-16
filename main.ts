@@ -98,8 +98,8 @@ function createMainWindow(): void {
 
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
-        defaultWidth: 870,
-        defaultHeight: 620,
+        defaultWidth: 1000,
+        defaultHeight: 650,
     });
 
     const remoteMain = require('@electron/remote/main');

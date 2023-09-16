@@ -1,11 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 import { Subscription } from 'rxjs';
-import { BaseApplication } from '../../common/io/base-application';
-import { WindowSize } from '../../common/io/window-size';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
+import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
+import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { BaseSearchService } from '../../services/search/base-search.service';
@@ -91,8 +92,10 @@ export class NowPlayingComponent implements OnInit {
         private metadataService: BaseMetadataService,
         private playbackService: BasePlaybackService,
         private searchService: BaseSearchService,
-        private application: BaseApplication
+        private nowPlayingNavigationService: BaseNowPlayingNavigationService
     ) {}
+
+    @ViewChild('stepper') public stepper: MatStepper;
 
     public background1IsUsed: boolean = false;
     public background1: string = '';
@@ -100,10 +103,6 @@ export class NowPlayingComponent implements OnInit {
     public background1Animation: string = 'fade-out';
     public background2Animation: string = this.appearanceService.isUsingLightTheme ? 'fade-in-light' : 'fade-in-dark';
 
-    public coverArtSize: number = 0;
-    public playbackInformationHeight: number = 0;
-    public playbackInformationLargeFontSize: number = 0;
-    public playbackInformationSmallFontSize: number = 0;
     public controlsVisibility: string = 'visible';
 
     @HostListener('document:keyup', ['$event'])
@@ -111,11 +110,6 @@ export class NowPlayingComponent implements OnInit {
         if (event.key === ' ' && !this.searchService.isSearching) {
             this.playbackService.togglePlayback();
         }
-    }
-
-    @HostListener('window:resize', ['$event'])
-    public onResize(event: any): void {
-        this.setSizes();
     }
 
     public async ngOnInit(): Promise<void> {
@@ -131,6 +125,12 @@ export class NowPlayingComponent implements OnInit {
             })
         );
 
+        this.subscription.add(
+            this.nowPlayingNavigationService.navigated$.subscribe((nowPlayingPage: NowPlayingPage) => {
+                this.setNowPlayingPage(nowPlayingPage);
+            })
+        );
+
         document.addEventListener('mousemove', () => {
             this.resetTimer();
         });
@@ -142,7 +142,7 @@ export class NowPlayingComponent implements OnInit {
         await this.setBackgroundsAsync();
 
         this.resetTimer();
-        this.setSizes();
+        this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
     }
 
     public goBackToCollection(): void {
@@ -157,28 +157,6 @@ export class NowPlayingComponent implements OnInit {
         this.timerId = window.setTimeout(() => {
             this.controlsVisibility = 'hidden';
         }, 5000);
-    }
-
-    private setSizes(): void {
-        const applicationWindowSize: WindowSize = this.application.getWindowSize();
-        const playbackControlsHeight: number = 70;
-        const windowControlsHeight: number = 46;
-        const horizontalMargin: number = 100;
-
-        const availableWidth: number = applicationWindowSize.width - horizontalMargin;
-        const availableHeight: number = applicationWindowSize.height - (playbackControlsHeight + windowControlsHeight);
-
-        const proposedCoverArtSize: number = availableHeight / 2;
-
-        if (proposedCoverArtSize * 3 > availableWidth) {
-            this.coverArtSize = availableWidth / 3;
-        } else {
-            this.coverArtSize = proposedCoverArtSize;
-        }
-
-        this.playbackInformationHeight = this.coverArtSize;
-        this.playbackInformationLargeFontSize = this.playbackInformationHeight / 5.6;
-        this.playbackInformationSmallFontSize = this.playbackInformationLargeFontSize / 2;
     }
 
     private async setBackgroundsAsync(): Promise<void> {
@@ -211,5 +189,9 @@ export class NowPlayingComponent implements OnInit {
                 this.background1IsUsed = true;
             }
         }
+    }
+
+    private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
+        this.stepper.selectedIndex = nowPlayingPage;
     }
 }

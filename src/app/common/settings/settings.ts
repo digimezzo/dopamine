@@ -600,6 +600,15 @@ export class Settings implements BaseSettings {
         this.settings.set('enableMultimediaKeys', v);
     }
 
+    // downloadArtistInformationFromLastFm
+    public get downloadArtistInformationFromLastFm(): boolean {
+        return this.settings.get('downloadArtistInformationFromLastFm');
+    }
+
+    public set downloadArtistInformationFromLastFm(v: boolean) {
+        this.settings.set('downloadArtistInformationFromLastFm', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -647,7 +656,7 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('downloadMissingAlbumCovers')) {
-            this.settings.set('downloadMissingAlbumCovers', false);
+            this.settings.set('downloadMissingAlbumCovers', true);
         }
 
         if (!this.settings.has('showAllFoldersInCollection')) {
@@ -855,7 +864,11 @@ export class Settings implements BaseSettings {
         }
 
         if (!this.settings.has('enableMultimediaKeys')) {
-            this.settings.set('enableMultimediaKeys', false);
+            this.settings.set('enableMultimediaKeys', true);
+        }
+
+        if (!this.settings.has('downloadArtistInformationFromLastFm')) {
+            this.settings.set('downloadArtistInformationFromLastFm', true);
         }
     }
 }

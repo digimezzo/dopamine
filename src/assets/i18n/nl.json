@@ -1,6 +1,7 @@
 {
     "language-name-english": "Dutch",
     "language-name-localized": "Nederlands",
+    "language-code": "NL",
     "hi": "Hallo!",
     "welcome-to-dopamine": "Welkom bij Dopamine, we denken dat je het geweldig zult vinden! Laat ons eerst enkele zaken instellen.",
     "language": "Taal",
@@ -237,5 +238,11 @@
     "multimedia-keys": "Multimedia toetsen",
     "enable-multimedia-keys": "Schakel multimediatoetsen in",
     "log-file": "Log bestand",
-    "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand."
+    "something-wrong-look-in-log-file": "Is er iets misgegaan? Kijk eens in het log bestand.",
+    "showcase": "Tentoonstelling",
+    "artist-information": "Artiestinformatie",
+    "download-artist-information-from-lastfm": "Artiestinformatie downloaden van Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Het downloaden van artiestinformatie van Last.fm is momenteel uitgeschakeld. Je kunt het hier of in de instellingen inschakelen.",
+    "similar": "Vergelijkbaar",
+    "read-more-on-lastfm": "Lees meer op Last.fm"
 }
