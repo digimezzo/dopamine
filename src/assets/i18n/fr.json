@@ -1,6 +1,7 @@
 {
     "language-name-english": "French",
     "language-name-localized": "Français",
+    "language-code": "FR",
     "hi": "Salut!",
     "welcome-to-dopamine": "Bienvenue à Dopamine, nous pensons que vous allez l'adorer! Tout d'abord, configurons certaines choses.",
     "language": "Langue",
@@ -237,5 +238,11 @@
     "multimedia-keys": "Touches multimédia",
     "enable-multimedia-keys": "Activer les touches multimédia",
     "log-file": "Fichier log",
-    "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log."
+    "something-wrong-look-in-log-file": "Quelque chose s'est mal passé ? Jetez un oeil dans le fichier log.",
+    "showcase": "Exposition",
+    "artist-information": "Informations sur l'artiste",
+    "download-artist-information-from-lastfm": "Télécharger des informations sur l'artiste depuis Last.fm",
+    "downloading-of-artist-information-from-lastfm-disabled": "Le téléchargement des informations sur les artistes depuis Last.fm est actuellement désactivé. Vous pouvez l'activer ici ou dans les paramètres.",
+    "similar": "Similaire",
+    "read-more-on-lastfm": "En savoir plus sur Last.fm"
 }

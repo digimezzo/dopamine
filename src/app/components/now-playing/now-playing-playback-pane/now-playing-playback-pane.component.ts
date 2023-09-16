@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
+import { BaseNowPlayingNavigationService } from '../../../services/now-playing-navigation/base-now-playing-navigation.service';
+import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
 
 @Component({
     selector: 'app-now-playing-playback-pane',
@@ -8,12 +10,24 @@ import { BaseNavigationService } from '../../../services/navigation/base-navigat
     styleUrls: ['./now-playing-playback-pane.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class NowPlayingPlaybackPaneComponent implements OnInit {
-    constructor(private navigationService: BaseNavigationService) {}
+export class NowPlayingPlaybackPaneComponent {
+    constructor(private navigationService: BaseNavigationService, private nowPlayingNavigationService: BaseNowPlayingNavigationService) {}
 
-    public ngOnInit(): void {}
+    public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
+
+    public get currentNowPlayingPage(): NowPlayingPage {
+        return this.nowPlayingNavigationService.currentNowPlayingPage;
+    }
 
     public showPlaybackQueue(): void {
         this.navigationService.showPlaybackQueue();
+    }
+
+    public navigateToShowcase(): void {
+        this.nowPlayingNavigationService.navigate(NowPlayingPage.showcase);
+    }
+
+    public navigateToArtistInformation(): void {
+        this.nowPlayingNavigationService.navigate(NowPlayingPage.artistInformation);
     }
 }

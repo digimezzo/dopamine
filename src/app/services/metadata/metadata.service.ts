@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
@@ -8,9 +9,11 @@ import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { Strings } from '../../common/strings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseMetadataService } from './base-metadata.service';
+import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
 
 @Injectable()
 export class MetadataService implements BaseMetadataService {
@@ -21,6 +24,7 @@ export class MetadataService implements BaseMetadataService {
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,
+        private cachedAlbumArtworkGetter: CachedAlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
         private fileAccess: BaseFileAccess,
         private settings: BaseSettings,
@@ -32,23 +36,27 @@ export class MetadataService implements BaseMetadataService {
 
     public async createImageUrlAsync(track: TrackModel): Promise<string> {
         if (track == undefined) {
-            return '';
+            return Constants.emptyImage;
         }
 
         try {
             const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
-            if (fileMetaData == undefined) {
-                return '';
+            if (fileMetaData != undefined) {
+                const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+
+                if (coverArt != undefined) {
+                    return this.imageProcessor.convertBufferToImageUrl(coverArt);
+                }
             }
 
-            const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+            const cachedAlbumArtworkPath: string = this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(track.albumKey);
 
-            if (coverArt == undefined) {
-                return '';
+            if (!Strings.isNullOrWhiteSpace(cachedAlbumArtworkPath) && this.fileAccess.pathExists(cachedAlbumArtworkPath)) {
+                return 'file:///' + cachedAlbumArtworkPath;
             }
 
-            return this.imageProcessor.convertBufferToImageUrl(coverArt);
+            return Constants.emptyImage;
         } catch (error) {
             this.logger.error(
                 `Could not create image URL for track with path=${track.path}. Error: ${error.message}`,
@@ -57,7 +65,7 @@ export class MetadataService implements BaseMetadataService {
             );
         }
 
-        return '';
+        return Constants.emptyImage;
     }
 
     public async saveTrackRatingAsync(track: TrackModel): Promise<void> {

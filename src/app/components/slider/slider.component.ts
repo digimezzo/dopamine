@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    Output,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { NativeElementProxy } from '../../common/native-element-proxy';
@@ -10,7 +20,7 @@ import { NativeElementProxy } from '../../common/native-element-proxy';
     styleUrls: ['./slider.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class SliderComponent {
+export class SliderComponent implements AfterViewInit {
     private _value: number = 0;
     private sliderThumbWidth: number = 12;
     private mouseIsOverSlider = false;
@@ -53,6 +63,13 @@ export class SliderComponent {
     public isSliderDragged: boolean = false;
     public isSliderContainerDown: boolean = false;
 
+    public ngAfterViewInit(): void {
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.applyPositionFromValue(this.value);
+        }, 0);
+    }
+
     public onSliderThumbMouseDown(): void {
         this.isSliderThumbDown = true;
     }
@@ -94,6 +111,12 @@ export class SliderComponent {
         if (this.isSliderThumbDown) {
             this.applyPosition(this.getMouseXPositionRelativeToSlider(e.clientX));
         }
+    }
+
+    @HostListener('document:touchmove', ['$event'])
+    public onDocumentTouchMove(e: any): void {
+        const touch: any = e.touches[0] || e.changedTouches[0];
+        this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
     }
 
     public onSliderContainerMouseWheel(event: any): void {
@@ -146,5 +169,16 @@ export class SliderComponent {
 
         this._value = this.mathExtensions.clamp(newValue, 0, this.maximum);
         this.valueChange.emit(this._value);
+    }
+
+    private applyPositionFromValue(value: number): void {
+        const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
+        let position: number = 0;
+
+        if (this.maximum > 0) {
+            position = (value / this.maximum) * sliderWidth;
+        }
+
+        this.applyPosition(position);
     }
 }

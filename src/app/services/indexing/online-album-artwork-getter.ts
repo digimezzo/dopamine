@@ -8,7 +8,7 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    constructor(private imageprocessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
+    constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
     public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {
@@ -58,7 +58,7 @@ export class OnlineAlbumArtworkGetter {
                     let artworkData: Buffer;
 
                     try {
-                        artworkData = await this.imageprocessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
+                        artworkData = await this.imageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
 
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,

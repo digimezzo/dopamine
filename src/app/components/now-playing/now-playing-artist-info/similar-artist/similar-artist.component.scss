@@ -1,0 +1,39 @@
+.similar-artist__picture {
+    overflow: hidden;
+    background: var(--theme-album-cover-background);
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 120px;
+    height: 120px;
+}
+
+.similar-artist__picture div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    width: 120px;
+    height: 120px;
+}
+
+.similar-artist__picture--logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.similar-artist__picture--logo i {
+    color: var(--theme-album-cover-logo);
+    font-size: 80px;
+}
+
+.similar-artist__picture--name {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    padding: 2px 4px;
+    background: linear-gradient(to bottom, transparent 60%, #000000cc 100%);
+}
+
+.similar-artist__picture--name p {
+    padding: 0px;
+    margin: 0px;
+}

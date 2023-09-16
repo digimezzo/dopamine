@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
+import { Constants } from '../../common/application/constants';
 import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { DateTime } from '../../common/date-time';
@@ -9,10 +10,12 @@ import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { MockCreator } from '../../testing/mock-creator';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseMetadataService } from './base-metadata.service';
+import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
 import { MetadataService } from './metadata.service';
 
 class FileMetadataImplementation implements IFileMetadata {
@@ -49,6 +52,7 @@ describe('MetadataService', () => {
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
+    let cachedAlbumArtworkGetterMock: IMock<CachedAlbumArtworkGetter>;
     let imageProcessorMock: IMock<ImageProcessor>;
     let loggerMock: IMock<Logger>;
     let fileAccessMock: IMock<BaseFileAccess>;
@@ -61,6 +65,7 @@ describe('MetadataService', () => {
             fileMetadataFactoryMock.object,
             trackRepositoryMock.object,
             albumArtworkGetterMock.object,
+            cachedAlbumArtworkGetterMock.object,
             imageProcessorMock.object,
             fileAccessMock.object,
             settingsMock.object,
@@ -72,6 +77,7 @@ describe('MetadataService', () => {
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
         albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
+        cachedAlbumArtworkGetterMock = Mock.ofType<CachedAlbumArtworkGetter>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<BaseFileAccess>();
@@ -104,55 +110,53 @@ describe('MetadataService', () => {
             const imageUrl: string = await service.createImageUrlAsync(undefined);
 
             // Assert
-            expect(imageUrl).toEqual('');
+            expect(imageUrl).toEqual(Constants.emptyImage);
         });
 
-        it('should create an empty image url if no file metadata was found', async () => {
+        it('should create an empty image url if file metadata could not be created and there is no cached album artwork', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
-            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => undefined);
-
             const service: BaseMetadataService = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
             const imageUrl: string = await service.createImageUrlAsync(track);
 
             // Assert
-            expect(imageUrl).toEqual('');
+            expect(imageUrl).toEqual(Constants.emptyImage);
         });
 
-        it('should create an empty image url if no cover art was found', async () => {
+        it('should return cached album artwork if file metadata could not be created and there is cached album artwork', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
-            const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, false)).returns(async () => undefined);
-
             const service: BaseMetadataService = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
+            fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 
             // Act
             const imageUrl: string = await service.createImageUrlAsync(track);
 
             // Assert
-            expect(imageUrl).toEqual('');
+            expect(imageUrl).toEqual('file:///cachedAlbumArtworkPath1');
         });
 
-        it('should create an image url if cover art was found', async () => {
+        it('should return cover art if album artwork was found', async () => {
             // Arrange
-            const track: TrackModel = new TrackModel(new Track('path1'), dateTimeMock.object, translatorServiceMock.object);
-            const fileMetadataStub = new FileMetadataImplementation();
-            const albumArtworkData1: Buffer = Buffer.from([1, 2, 3]);
-            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(async () => fileMetadataStub);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetadataStub, false)).returns(async () => albumArtworkData1);
-            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(albumArtworkData1)).returns(() => 'image-url');
-
             const service: BaseMetadataService = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => fileMetaDataMock);
+            const coverArt: Buffer = Buffer.from([1, 2, 3]);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(async () => coverArt);
+            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
             const imageUrl: string = await service.createImageUrlAsync(track);
 
             // Assert
-            expect(imageUrl).toEqual('image-url');
+            expect(imageUrl).toEqual('bufferAsImageUrl');
         });
     });
 
