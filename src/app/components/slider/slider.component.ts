@@ -106,6 +106,11 @@ export class SliderComponent implements AfterViewInit {
         this.isSliderThumbDown = false;
     }
 
+    @HostListener('document:touchend', ['$event'])
+    public onDocumentTouchEnd(e: any): void {
+        this.isSliderThumbDown = false;
+    }
+
     @HostListener('document:mousemove', ['$event'])
     public onDocumentMouseMove(e: any): void {
         if (this.isSliderThumbDown) {
@@ -115,8 +120,10 @@ export class SliderComponent implements AfterViewInit {
 
     @HostListener('document:touchmove', ['$event'])
     public onDocumentTouchMove(e: any): void {
-        const touch: any = e.touches[0] || e.changedTouches[0];
-        this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
+        if (this.isSliderThumbDown) {
+            const touch: any = e.touches[0] || e.changedTouches[0];
+            this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
+        }
     }
 
     public onSliderContainerMouseWheel(event: any): void {
