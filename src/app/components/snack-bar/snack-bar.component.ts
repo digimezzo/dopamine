@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
@@ -10,10 +10,8 @@ import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.ser
     styleUrls: ['./snack-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class SnackBarComponent implements OnInit {
+export class SnackBarComponent {
     constructor(private snackBarService: BaseSnackBarService, private desktop: BaseDesktop, @Inject(MAT_SNACK_BAR_DATA) public data: any) {}
-
-    public ngOnInit(): void {}
 
     public openDataUrl(): void {
         this.desktop.openLink(this.data.url);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     templateUrl: './volume-control.component.html',
     styleUrls: ['./volume-control.component.scss'],
 })
-export class VolumeControlComponent implements OnInit {
+export class VolumeControlComponent {
     constructor(private playbackService: BasePlaybackService) {}
 
     public get volume(): number {
@@ -16,6 +16,4 @@ export class VolumeControlComponent implements OnInit {
     public set volume(v: number) {
         this.playbackService.volume = v;
     }
-
-    public ngOnInit(): void {}
 }

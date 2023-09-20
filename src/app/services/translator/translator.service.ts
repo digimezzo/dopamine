@@ -32,11 +32,11 @@ export class TranslatorService implements BaseTranslatorService {
         this.languageChanged.next();
     }
 
-    public async getAsync(key: string | Array<string>, interpolateParams?: Object): Promise<string> {
+    public async getAsync(key: string | Array<string>, interpolateParams?: object): Promise<string> {
         return await this.translateServiceProxy.get(key, interpolateParams);
     }
 
-    public get(key: string | Array<string>, interpolateParams?: Object): string {
+    public get(key: string | Array<string>, interpolateParams?: object): string {
         return this.translateServiceProxy.instant(key, interpolateParams);
     }
 }

@@ -42,9 +42,7 @@ describe('TranslatorService', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert
@@ -52,9 +50,7 @@ describe('TranslatorService', () => {
         });
 
         it('should define languageChanged$', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert
@@ -62,19 +58,15 @@ describe('TranslatorService', () => {
         });
 
         it('should set the default language', () => {
-            // Arrange
-
-            // Act
-            const service: TranslatorService = createService();
+            // Arrange, Act
+            createService();
 
             // Assert
             translateServiceProxyMock.verify((x) => x.setDefaultLang('en'), Times.once());
         });
 
         it('should set languages from constants', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert

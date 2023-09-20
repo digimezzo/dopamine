@@ -90,10 +90,7 @@ describe('TrackService', () => {
 
     describe('getTracksInSubfolderAsync', () => {
         it('should return an empty TrackModels when the subfolder path is undefined', async () => {
-            // Arrange
-            const subfolderPath: string = undefined;
-
-            // Act
+            // Arrange, Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(undefined);
 
             // Assert
@@ -103,11 +100,8 @@ describe('TrackService', () => {
         });
 
         it('should return an empty TrackModels when the subfolder path is empty', async () => {
-            // Arrange
-            const subfolderPath: string = '';
-
-            // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(undefined);
+            // Arrange, Act
+            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync('');
 
             // Assert
             expect(tracksModels.tracks.length).toEqual(0);
@@ -116,33 +110,24 @@ describe('TrackService', () => {
         });
 
         it('should not check if an undefined path exists', async () => {
-            // Arrange
-            const subfolderPath: string = undefined;
-
-            // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
+            // Arrange, Act
+            await service.getTracksInSubfolderAsync(undefined);
 
             // Assert
             fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should not check if an empty path exists', async () => {
-            // Arrange
-            const subfolderPath: string = '';
-
-            // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
+            // Arrange, Act
+            await service.getTracksInSubfolderAsync('');
 
             // Assert
             fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should check that the given non empty or undefined path exists', async () => {
-            // Arrange
-            const subfolderPath: string = '/home/user/Music/Subfolder1';
-
-            // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
+            // Arrange, Act
+            await service.getTracksInSubfolderAsync('/home/user/Music/Subfolder1');
 
             // Assert
             fileAccessMock.verify((x) => x.pathExists('/home/user/Music/Subfolder1'), Times.exactly(1));
@@ -168,7 +153,7 @@ describe('TrackService', () => {
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
+            await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             fileAccessMock.verify((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'), Times.exactly(1));
@@ -209,7 +194,7 @@ describe('TrackService', () => {
             fileAccessMock.setup((x) => x.pathExists('/home/user/Music/Subfolder1')).returns(() => true);
 
             // Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(subfolderPath);
+            await service.getTracksInSubfolderAsync(subfolderPath);
 
             // Assert
             trackModelFactoryMock.verify((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'), Times.once());

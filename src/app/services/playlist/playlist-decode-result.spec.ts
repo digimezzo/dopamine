@@ -2,8 +2,6 @@ import { PlaylistDecodeResult } from './playlist-decode-result';
 import { PlaylistEntry } from './playlist-entry';
 
 describe('PlaylistDecodeResult', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

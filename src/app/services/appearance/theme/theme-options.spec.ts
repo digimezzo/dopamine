@@ -1,8 +1,6 @@
 import { ThemeOptions } from './theme-options';
 
 describe('ThemeOptions', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

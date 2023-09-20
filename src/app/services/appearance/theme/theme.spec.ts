@@ -38,8 +38,6 @@ describe('Theme', () => {
         );
     }
 
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

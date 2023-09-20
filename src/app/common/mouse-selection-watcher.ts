@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MouseSelectionWatcher {
-    constructor() {}
-
     private items: any[] = [];
     private lastSelectedItem: any;
 

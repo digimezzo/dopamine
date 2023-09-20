@@ -1,8 +1,6 @@
 import { PlaylistFolderModel } from './playlist-folder-model';
 
 describe('PlaylistFolderModel', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

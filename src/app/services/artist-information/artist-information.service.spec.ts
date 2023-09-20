@@ -103,7 +103,7 @@ describe('ArtistInformationService', () => {
     }
 
     function createArtistInformation(biography: string, imageUrl: string): ArtistInformation {
-        let desktopMock: IMock<BaseDesktop> = Mock.ofType<BaseDesktop>();
+        const desktopMock: IMock<BaseDesktop> = Mock.ofType<BaseDesktop>();
 
         return new ArtistInformation(desktopMock.object, 'Taylor Swift', 'url', imageUrl, biography);
     }

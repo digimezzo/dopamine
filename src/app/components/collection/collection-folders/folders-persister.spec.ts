@@ -104,9 +104,6 @@ describe('FoldersPersister', () => {
     describe('setOpenedFolder', () => {
         it('should set an undefined opened folder given that the opened folder is undefined', () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
-
             settingsStub.foldersTabOpenedFolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
@@ -119,9 +116,6 @@ describe('FoldersPersister', () => {
 
         it('should set an empty opened folder in the settings given that the opened folder is undefined', () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
-
             settingsStub.foldersTabOpenedFolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
@@ -151,7 +145,6 @@ describe('FoldersPersister', () => {
         it('should set the opened folder in the settings given that the opened folder is not undefined', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
 
             settingsStub.foldersTabOpenedFolder = '';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
@@ -165,9 +158,6 @@ describe('FoldersPersister', () => {
 
         it('should clear the opened subfolder in the settings given that the opened folder is undefined', () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
-
             settingsStub.foldersTabOpenedSubfolder = '/some/folder/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
 
@@ -181,7 +171,6 @@ describe('FoldersPersister', () => {
         it('should not clear the opened subfolder in the settings given that the opened folder is not undefined', () => {
             // Arrange
             const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
 
             settingsStub.foldersTabOpenedSubfolder = '/some/folder/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);
@@ -267,9 +256,6 @@ describe('FoldersPersister', () => {
 
         it('should set an empty opened subfolder in the settings given that the opened subfolder is undefined', () => {
             // Arrange
-            const folder1: FolderModel = new FolderModel(new Folder('/some/folder'));
-            const folder2: FolderModel = new FolderModel(new Folder('/some/other/folder'));
-
             settingsStub.foldersTabOpenedFolder = '/some/folder';
             settingsStub.foldersTabOpenedSubfolder = '/some/folder/subfolder';
             foldersPersister = new FoldersPersister(settingsStub, loggerMock.object);

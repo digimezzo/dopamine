@@ -4,7 +4,6 @@ import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackService } from '../playback/base-playback.service';
-import { PlaybackStarted } from '../playback/playback-started';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseDiscordService } from './base-discord.service';
 import { PresenceUpdater } from './presence-updater';
@@ -43,7 +42,7 @@ export class DiscordService implements BaseDiscordService {
 
     private addSubscriptions(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+            this.playbackService.playbackStarted$.subscribe(() => {
                 this.updatePresence();
             })
         );

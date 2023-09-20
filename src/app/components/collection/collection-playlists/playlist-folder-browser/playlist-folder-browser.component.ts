@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
@@ -20,7 +20,7 @@ import { PlaylistFoldersPersister } from '../playlist-folders-persister';
     styleUrls: ['./playlist-folder-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistFolderBrowserComponent implements OnInit {
+export class PlaylistFolderBrowserComponent {
     private _playlistFolders: PlaylistFolderModel[] = [];
     private _playlistFoldersPersister: PlaylistFoldersPersister;
 
@@ -63,8 +63,6 @@ export class PlaylistFolderBrowserComponent implements OnInit {
 
     @ViewChild('playlistFolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistFolderContextMenu: MatMenuTrigger;
-
-    public ngOnInit(): void {}
 
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
         if (playlistFolder.isModifiable) {

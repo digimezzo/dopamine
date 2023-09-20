@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { Theme } from '../../services/appearance/theme/theme';
 
@@ -9,10 +9,8 @@ import { Theme } from '../../services/appearance/theme/theme';
     styleUrls: ['./theme-switcher.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ThemeSwitcherComponent implements OnInit {
+export class ThemeSwitcherComponent {
     constructor(public appearanceService: BaseAppearanceService) {}
-
-    public ngOnInit(): void {}
 
     public setTheme(theme: Theme): void {
         this.appearanceService.selectedTheme = theme;

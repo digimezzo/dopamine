@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
 import { ExternalComponent } from '../../../common/application/external-component';
 
@@ -9,10 +9,6 @@ import { ExternalComponent } from '../../../common/application/external-componen
     styleUrls: ['./components.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ComponentsComponent implements OnInit {
-    constructor() {}
-
+export class ComponentsComponent {
     public externalComponents: ExternalComponent[] = Constants.externalComponents;
-
-    public ngOnInit(): void {}
 }

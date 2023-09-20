@@ -15,21 +15,14 @@ describe('FolderModel', () => {
 
     describe('constructor', () => {
         it('should create', async () => {
-            // Arrange
-
-            // Act
-            const folderPath: string = folderModel.path;
-
-            // Assert
+            // Arrange, Act, Assert
             expect(folderModel).toBeDefined();
         });
     });
 
     describe('path', () => {
         it('should return folder path', async () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const folderPath: string = folderModel.path;
 
             // Assert
@@ -37,9 +30,7 @@ describe('FolderModel', () => {
         });
 
         it('should return folderId', async () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const folderId: number = folderModel.folderId;
 
             // Assert
@@ -48,9 +39,7 @@ describe('FolderModel', () => {
 
         describe('showInCollection', () => {
             it('should return true when folder showInCollection is 1', async () => {
-                // Arrange
-
-                // Act
+                // Arrange, Act
                 const showInCollection: boolean = folderModel.showInCollection;
 
                 // Assert

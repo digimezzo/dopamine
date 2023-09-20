@@ -15,7 +15,7 @@ export class Queue {
     }
 
     public get tracksInPlaybackOrder(): TrackModel[] {
-        let tracksInPlaybackOrder: TrackModel[] = [];
+        const tracksInPlaybackOrder: TrackModel[] = [];
 
         for (const trackIndex of this.playbackOrder) {
             tracksInPlaybackOrder.push(this._tracks[trackIndex]);

@@ -170,7 +170,9 @@ describe('ArtistsPersister', () => {
     });
 
     describe('getSelectedArtistType', () => {
-        it('should TODO', () => {});
+        it('should TODO', () => {
+            // Write tests
+        });
     });
 
     describe('setSelectedArtistType', () => {
@@ -199,7 +201,7 @@ describe('ArtistsPersister', () => {
 
         it('should notify that the selected artists type has changed', () => {
             // Arrange
-            let receivedArtistType: ArtistType;
+            let receivedArtistType: ArtistType = ArtistType.allArtists;
 
             subscription.add(
                 persister.selectedArtistTypeChanged$.subscribe((artistType: ArtistType) => {

@@ -5,8 +5,6 @@ import { SemanticZoomableModel } from './semantic-zoomable-model';
 
 @Injectable()
 export class SemanticZoomHeaderAdder {
-    constructor() {}
-
     public addZoomHeaders(semanticZoomables: SemanticZoomable[]): void {
         let previousZoomHeader: string = uuidv4();
 

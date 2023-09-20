@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-license-dialog',
@@ -6,8 +6,4 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./license-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class LicenseDialogComponent implements OnInit {
-    constructor() {}
-
-    public ngOnInit(): void {}
-}
+export class LicenseDialogComponent {}

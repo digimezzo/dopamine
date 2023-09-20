@@ -14,11 +14,11 @@ export class TranslateServiceProxy implements BaseTranslateServiceProxy {
         return await this.translateService.use(lang).toPromise();
     }
 
-    public async get(key: string | string[], interpolateParams?: Object): Promise<any> {
+    public async get(key: string | string[], interpolateParams?: object): Promise<any> {
         return await this.translateService.get(key, interpolateParams).toPromise();
     }
 
-    public instant(key: string | string[], interpolateParams?: Object): string | any {
+    public instant(key: string | string[], interpolateParams?: object): string | any {
         return this.translateService.instant(key, interpolateParams);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../common/application/contact-information';
 import { ProductInformation } from '../../../common/application/product-information';
 import { BaseDesktop } from '../../../common/io/base-desktop';
@@ -11,7 +11,7 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
     styleUrls: ['./about.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
     constructor(private dialogService: BaseDialogService, private desktop: BaseDesktop) {}
 
     public applicationVersion: string = ProductInformation.applicationVersion;
@@ -19,8 +19,6 @@ export class AboutComponent implements OnInit {
     public websiteUrl: string = ContactInformation.websiteUrl;
     public twitterUrl: string = ContactInformation.twitterUrl;
     public githubUrl: string = ContactInformation.githubUrl;
-
-    public ngOnInit(): void {}
 
     public showLicenseDialog(): void {
         this.dialogService.showLicenseDialog();

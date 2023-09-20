@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import log from 'electron-log';
 import * as path from 'path';
@@ -21,7 +21,7 @@ import { BaseTrayService } from './services/tray/base-tray.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     constructor(
@@ -51,8 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
             event.preventDefault();
         }
     }
-
-    public ngOnDestroy(): void {}
 
     public async ngOnInit(): Promise<void> {
         this.logger.info(

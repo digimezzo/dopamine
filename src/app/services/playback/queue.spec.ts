@@ -312,7 +312,6 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
@@ -328,7 +327,6 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
 
@@ -360,7 +358,6 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);

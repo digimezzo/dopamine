@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 
@@ -9,10 +9,8 @@ import { BaseNavigationService } from '../../../services/navigation/base-navigat
     styleUrls: ['./collection-playback-pane.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionPlaybackPaneComponent implements OnInit {
+export class CollectionPlaybackPaneComponent {
     constructor(public appearanceService: BaseAppearanceService, private navigationService: BaseNavigationService) {}
-
-    public ngOnInit(): void {}
 
     public showPlaybackQueue(): void {
         this.navigationService.showPlaybackQueue();

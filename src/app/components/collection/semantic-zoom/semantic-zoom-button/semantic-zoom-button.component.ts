@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 
 @Component({
@@ -7,13 +7,11 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./semantic-zoom-button.component.scss'],
     host: { style: 'display: block' },
 })
-export class SemanticZoomButtonComponent implements OnInit {
+export class SemanticZoomButtonComponent {
     constructor(public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public text: string = '';
     @Input() public isZoomable: boolean = false;
-
-    public ngOnInit(): void {}
 
     public requestZoomIn(): void {
         this.semanticZoomService.requestZoomIn(this.text);

@@ -3,8 +3,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable()
 export class ContextMenuOpener {
-    constructor() {}
-
     public positionX: string = '0px';
     public positionY: string = '0px';
 
@@ -15,7 +13,7 @@ export class ContextMenuOpener {
         this.positionY = event.clientY + 'px';
 
         contextMenu.menuData = { data: data };
-        contextMenu.menu.focusFirstItem('mouse');
+        contextMenu.menu?.focusFirstItem('mouse');
         contextMenu.openMenu();
     }
 }

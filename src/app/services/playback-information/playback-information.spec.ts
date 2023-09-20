@@ -19,10 +19,9 @@ describe('PlaybackInformation', () => {
             // Arrange
             const track: Track = new Track('Path');
             const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-            let playbackInformation: PlaybackInformation;
 
             // Act
-            playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            const playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
 
             // Assert
             expect(playbackInformation).toBeDefined();
@@ -32,10 +31,9 @@ describe('PlaybackInformation', () => {
             // Arrange
             const track: Track = new Track('Path');
             const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-            let playbackInformation: PlaybackInformation;
 
             // Act
-            playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            const playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
 
             // Assert
             expect(playbackInformation.track).toEqual(trackModel);
@@ -45,10 +43,9 @@ describe('PlaybackInformation', () => {
             // Arrange
             const track: Track = new Track('Path');
             const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-            let playbackInformation: PlaybackInformation;
 
             // Act
-            playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            const playbackInformation = new PlaybackInformation(trackModel, 'imageUrl');
 
             // Assert
             expect(playbackInformation.imageUrl).toEqual('imageUrl');

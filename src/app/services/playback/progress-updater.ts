@@ -5,7 +5,7 @@ import { PlaybackProgress } from './playback-progress';
 
 @Injectable()
 export class ProgressUpdater {
-    private interval: number;
+    private interval: number = 0;
     private shouldReportProgress: boolean = false;
     private progressChanged: Subject<PlaybackProgress> = new Subject();
 
@@ -17,7 +17,7 @@ export class ProgressUpdater {
         this.reportProgress();
         this.shouldReportProgress = true;
 
-        if (!this.interval) {
+        if (this.interval === 0) {
             this.interval = window.setInterval(() => {
                 this.reportProgress();
             }, 500);

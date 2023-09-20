@@ -4,8 +4,6 @@ import { DataDelimiter } from './data-delimiter';
 
 @Injectable()
 export class AlbumKeyGenerator {
-    constructor() {}
-
     public generateAlbumKey(albumTitle: string, albumArtists: string[]): string {
         if (!Strings.isNullOrWhiteSpace(albumTitle)) {
             const albumKeyItems: string[] = [];

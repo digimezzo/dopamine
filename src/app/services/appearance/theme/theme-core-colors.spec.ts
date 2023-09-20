@@ -1,8 +1,6 @@
 import { ThemeCoreColors } from './theme-core-colors';
 
 describe('ThemeCoreColors', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

@@ -116,11 +116,6 @@ describe('PlaybackIndicationService', () => {
 
         it('should set all subfolders as not playing', () => {
             // Arrange
-            const playingTrack: TrackModel = new TrackModel(
-                new Track('/home/user/Music/Subfolder1/track1.mp3'),
-                dateTimeMock.object,
-                translatorServiceMock.object
-            );
             const isGoToParentSubfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', true);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
             const subfolder2: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder2', false);
@@ -245,11 +240,6 @@ describe('PlaybackIndicationService', () => {
 
         it('should set all tracks as not playing', () => {
             // Arrange
-            const playingTrack: TrackModel = new TrackModel(
-                new Track('/home/user/Music/track2.mp3'),
-                dateTimeMock.object,
-                translatorServiceMock.object
-            );
             const track1: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,

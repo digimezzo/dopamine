@@ -34,7 +34,7 @@ export class SemanticZoomComponent implements OnInit {
     @Input()
     public SemanticZoomables: SemanticZoomable[] = [];
 
-    public buttonTexts: any = [
+    public buttonTexts: string[][] = [
         ['#', 'a', 'b', 'c'],
         ['d', 'e', 'f', 'g'],
         ['h', 'i', 'j', 'k'],

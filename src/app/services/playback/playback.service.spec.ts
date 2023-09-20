@@ -53,12 +53,11 @@ describe('PlaybackService', () => {
     let track2: Track;
     let track3: Track;
     let track4: Track;
-    let track5: Track;
+
     let trackModel1: TrackModel;
     let trackModel2: TrackModel;
     let trackModel3: TrackModel;
     let trackModel4: TrackModel;
-    let trackModel5: TrackModel;
 
     let trackModels: TrackModel[];
     let orderedTrackModels: TrackModel[];
@@ -119,18 +118,10 @@ describe('PlaybackService', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
 
-        track5 = new Track('Path 5');
-        track5.trackTitle = 'Title 5';
-        track5.albumArtists = ';Album artist 3;';
-        track5.albumTitle = 'Album title 3';
-        track5.trackNumber = 3;
-        track5.discNumber = 1;
-
         trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
         trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
         trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
-        trackModel5 = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object);
 
         trackModels = [trackModel1, trackModel2, trackModel3, trackModel4];
         orderedTrackModels = [trackModel2, trackModel1, trackModel3, trackModel4];
@@ -1074,7 +1065,6 @@ describe('PlaybackService', () => {
             // Arrange
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             audioPlayerMock.reset();
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             let receivedTrack: TrackModel;
             let isPlayingPreviousTrack: boolean;
             subscription.add(

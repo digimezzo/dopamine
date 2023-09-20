@@ -427,7 +427,7 @@ describe('FolderService', () => {
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
 
             // Act
-            const collectionHasFolders: boolean = service.collectionHasFolders;
+            service.collectionHasFolders;
 
             // Assert
             folderRepositoryMock.verify((x) => x.getFolders(), Times.once());
@@ -439,12 +439,12 @@ describe('FolderService', () => {
             const folder2: Folder = new Folder('path2');
 
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
-            const collectionHasFoldersFirstTime: boolean = service.collectionHasFolders;
+            service.collectionHasFolders;
             folderRepositoryMock.reset();
             folderRepositoryMock.setup((x) => x.getFolders()).returns(() => [folder1, folder2]);
 
             // Act
-            const collectionHasFoldersSecondTime: boolean = service.collectionHasFolders;
+            service.collectionHasFolders;
 
             // Assert
             folderRepositoryMock.verify((x) => x.getFolders(), Times.never());

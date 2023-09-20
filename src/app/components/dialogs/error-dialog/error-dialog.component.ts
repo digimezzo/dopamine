@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LogViewer } from '../../../common/io/log-viewer';
 
@@ -8,7 +8,7 @@ import { LogViewer } from '../../../common/io/log-viewer';
     styleUrls: ['./error-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ErrorDialogComponent implements OnInit {
+export class ErrorDialogComponent {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
@@ -16,8 +16,6 @@ export class ErrorDialogComponent implements OnInit {
     ) {
         this.dialogRef.disableClose = true;
     }
-
-    public ngOnInit(): void {}
 
     public viewLog(): void {
         this.logViewer.viewLog();

@@ -12,6 +12,7 @@ export class AudioPlayer implements BaseAudioPlayer {
 
         try {
             // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             this.audio.setSinkId('default');
         } catch (e) {

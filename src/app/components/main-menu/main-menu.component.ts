@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ProductInformation } from '../../common/application/product-information';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../services/update/base-update.service';
@@ -10,12 +10,10 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     styleUrls: ['./main-menu.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class MainMenuComponent implements OnInit {
+export class MainMenuComponent {
     constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
 
     public applicationName: string = ProductInformation.applicationName;
-
-    public ngOnInit(): void {}
 
     public goToManageCollection(): void {
         this.navigationService.navigateToManageCollection();

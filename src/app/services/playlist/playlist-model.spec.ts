@@ -1,8 +1,6 @@
 import { PlaylistModel } from './playlist-model';
 
 describe('PlaylistModel', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

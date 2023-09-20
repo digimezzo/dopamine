@@ -228,7 +228,7 @@ export class LastfmApi {
         return isLoveTrackSuccessful;
     }
 
-    private async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
+    private async getMethodUrl(method: string, isSecure: boolean): Promise<string> {
         return `${isSecure ? 'https' : 'http'}://ws.audioscrobbler.com/2.0/?method=${method}`;
     }
 

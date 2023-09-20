@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { LogViewer } from '../../../common/io/log-viewer';
 import { BaseSettings } from '../../../common/settings/base-settings';
 
@@ -9,10 +9,8 @@ import { BaseSettings } from '../../../common/settings/base-settings';
     styleUrls: ['./advanced-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class AdvancedSettingsComponent implements OnInit {
+export class AdvancedSettingsComponent {
     constructor(public settings: BaseSettings, private logViewer: LogViewer) {}
-
-    public ngOnInit(): void {}
 
     public viewLog(): void {
         this.logViewer.viewLog();

@@ -133,7 +133,7 @@ export class SnackBarService implements BaseSnackBarService {
                 duration: this.calculateDuration(message),
             });
 
-            this.currentSelfClosingSnackBar.afterDismissed().subscribe((info) => {
+            this.currentSelfClosingSnackBar.afterDismissed().subscribe(() => {
                 this.checkIfDismissWasRequested();
             });
         });

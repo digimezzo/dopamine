@@ -3,8 +3,6 @@ import { BaseMediaSessionProxy } from './base-media-session-proxy';
 
 @Injectable()
 export class MediaSessionProxy implements BaseMediaSessionProxy {
-    public constructor() {}
-
     public setActionHandler(action: MediaSessionAction, handler: MediaSessionActionHandler): void {
         window.navigator.mediaSession.setActionHandler(action, handler);
     }
