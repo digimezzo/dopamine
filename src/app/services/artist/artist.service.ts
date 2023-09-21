@@ -9,7 +9,7 @@ import { BaseArtistService } from './base-artist.service';
 
 @Injectable()
 export class ArtistService implements BaseArtistService {
-    constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
+    public constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
 
     public getArtists(artistType: ArtistType): ArtistModel[] {
         const artistDatas: ArtistData[] = [];

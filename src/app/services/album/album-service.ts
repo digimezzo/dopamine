@@ -9,7 +9,7 @@ import { BaseAlbumService } from './base-album-service';
 
 @Injectable()
 export class AlbumService implements BaseAlbumService {
-    constructor(
+    public constructor(
         private trackRepository: BaseTrackRepository,
         private translatorService: BaseTranslatorService,
         private fileAccess: BaseFileAccess

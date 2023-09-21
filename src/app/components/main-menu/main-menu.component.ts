@@ -11,7 +11,7 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class MainMenuComponent {
-    constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
+    public constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
 
     public applicationName: string = ProductInformation.applicationName;
 

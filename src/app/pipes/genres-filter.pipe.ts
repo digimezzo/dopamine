@@ -5,7 +5,7 @@ import { BaseSearchService } from '../services/search/base-search.service';
 
 @Pipe({ name: 'genresFilter' })
 export class GenresFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
     public transform(genres: GenreModel[], textToContain: string): GenreModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {

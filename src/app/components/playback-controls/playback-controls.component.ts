@@ -10,7 +10,7 @@ import { LoopMode } from '../../services/playback/loop-mode';
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackControlsComponent {
-    constructor(public playbackService: BasePlaybackService) {}
+    public constructor(public playbackService: BasePlaybackService) {}
 
     // This is required to use enum values in the template
     public loopModeEnum: typeof LoopMode = LoopMode;

@@ -28,7 +28,7 @@ export class PlaylistService implements BasePlaylistService {
     private playlistsChanged: Subject<void> = new Subject();
     private playlistTracksChanged: Subject<void> = new Subject();
 
-    constructor(
+    public constructor(
         private trackService: BaseTrackService,
         private snackBarService: BaseSnackBarService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,

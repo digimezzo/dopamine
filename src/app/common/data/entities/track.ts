@@ -1,5 +1,5 @@
 export class Track {
-    constructor(public path: string) {
+    public constructor(public path: string) {
         this.trackId = 0;
         this.artists = '';
         this.genres = '';

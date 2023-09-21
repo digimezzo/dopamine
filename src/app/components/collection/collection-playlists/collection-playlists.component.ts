@@ -23,7 +23,7 @@ import { PlaylistsTracksPersister } from './playlists-tracks-persister';
 export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         public playlistFoldersPersister: PlaylistFoldersPersister,
         public playlistsPersister: PlaylistsPersister,

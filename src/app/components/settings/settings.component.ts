@@ -9,5 +9,5 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     encapsulation: ViewEncapsulation.None,
 })
 export class SettingsComponent {
-    constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: BaseAppearanceService) {}
 }

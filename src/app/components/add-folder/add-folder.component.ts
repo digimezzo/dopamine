@@ -17,7 +17,7 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
     encapsulation: ViewEncapsulation.None,
 })
 export class AddFolderComponent implements OnInit {
-    constructor(
+    public constructor(
         private desktop: BaseDesktop,
         private translatorService: BaseTranslatorService,
         private folderService: BaseFolderService,

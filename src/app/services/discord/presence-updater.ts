@@ -7,7 +7,7 @@ import { Logger } from '../../common/logger';
 export class PresenceUpdater {
     private discordClient: any;
 
-    constructor(private logger: Logger) {}
+    public constructor(private logger: Logger) {}
 
     public updatePresence(
         details: string,

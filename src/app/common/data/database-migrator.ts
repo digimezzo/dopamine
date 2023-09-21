@@ -11,7 +11,7 @@ import { Migration3 } from './migrations/migration3';
 export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3()];
 
-    constructor(private databaseFactory: DatabaseFactory, private logger: Logger) {}
+    public constructor(private databaseFactory: DatabaseFactory, private logger: Logger) {}
 
     public async migrateAsync(): Promise<void> {
         const databaseVersion: number = this.getDatabaseVersion();

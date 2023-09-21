@@ -11,7 +11,7 @@ export class UpdateService implements BaseUpdateService {
     public _isUpdateAvailable: boolean = false;
     private _latestRelease: string = '';
 
-    constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: BaseDesktop) {}
+    public constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: BaseDesktop) {}
 
     public get isUpdateAvailable(): boolean {
         return this._isUpdateAvailable;

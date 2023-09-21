@@ -10,7 +10,7 @@ export class FoldersPersister {
     private openedFolderPath: string;
     private openedSubfolderPath: string;
 
-    constructor(private settings: BaseSettings, private logger: Logger) {
+    public constructor(private settings: BaseSettings, private logger: Logger) {
         this.initializeFromSettings();
     }
 

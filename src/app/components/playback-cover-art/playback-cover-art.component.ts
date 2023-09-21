@@ -45,7 +45,7 @@ import { PlaybackInformation } from '../../services/playback-information/playbac
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
+    public constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
 
     public contentAnimation: string = 'down';
 

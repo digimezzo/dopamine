@@ -37,7 +37,7 @@ import { FoldersPersister } from './folders-persister';
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         public appearanceService: BaseAppearanceService,
         public folderService: BaseFolderService,

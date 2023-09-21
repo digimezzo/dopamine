@@ -1,3 +1,3 @@
 export class DirectoryWalkResult {
-    constructor(public filePaths: string[], public errors: Error[]) {}
+    public constructor(public filePaths: string[], public errors: Error[]) {}
 }

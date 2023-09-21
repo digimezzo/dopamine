@@ -7,7 +7,7 @@ import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
 
 @Injectable()
 export class AlbumArtworkGetter {
-    constructor(
+    public constructor(
         private embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter,
         private externalAlbumArtworkGetter: ExternalAlbumArtworkGetter,
         private onlineAlbumArtworkGetter: OnlineAlbumArtworkGetter,

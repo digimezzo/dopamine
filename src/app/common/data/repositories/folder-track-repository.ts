@@ -5,7 +5,7 @@ import { BaseFolderTrackRepository } from './base-folder-track-repository';
 
 @Injectable()
 export class FolderTrackRepository implements BaseFolderTrackRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolderTrack(folderTrack: FolderTrack): void {
         const database: any = this.databaseFactory.create();

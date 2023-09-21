@@ -15,7 +15,7 @@ export class FileAccess implements BaseFileAccess {
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
-    constructor(private desktop: BaseDesktop, private dateTime: DateTime) {
+    public constructor(private desktop: BaseDesktop, private dateTime: DateTime) {
         this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
         this._musicDirectory = this.desktop.getMusicDirectory();
         this._pathSeparator = path.sep;

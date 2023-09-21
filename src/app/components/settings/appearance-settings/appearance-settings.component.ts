@@ -12,7 +12,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
     encapsulation: ViewEncapsulation.None,
 })
 export class AppearanceSettingsComponent implements OnInit, OnDestroy {
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         public translatorService: BaseTranslatorService,
         public settings: BaseSettings,

@@ -9,7 +9,7 @@ export class Desktop implements BaseDesktop {
     private accentColorChanged: Subject<void> = new Subject();
     private nativeThemeUpdated: Subject<void> = new Subject();
 
-    constructor() {
+    public constructor() {
         if (remote.systemPreferences != undefined) {
             remote.systemPreferences.on('accent-color-changed', () => this.accentColorChanged.next());
         }

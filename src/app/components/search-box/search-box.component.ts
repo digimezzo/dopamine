@@ -9,7 +9,7 @@ import { BaseSearchService } from '../../services/search/base-search.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class SearchBoxComponent {
-    constructor(public searchService: BaseSearchService) {}
+    public constructor(public searchService: BaseSearchService) {}
 
     public onBlur(): void {
         this.searchService.stopSearching();

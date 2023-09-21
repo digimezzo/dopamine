@@ -86,7 +86,7 @@ export class NowPlayingComponent implements OnInit {
     private timerId: number = 0;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         private navigationService: BaseNavigationService,
         private metadataService: BaseMetadataService,

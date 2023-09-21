@@ -24,7 +24,7 @@ export class PlaylistFolderBrowserComponent {
     private _playlistFolders: PlaylistFolderModel[] = [];
     private _playlistFoldersPersister: PlaylistFoldersPersister;
 
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         public playlistFolderService: BasePlaylistFolderService,
         public playlistService: BasePlaylistService,

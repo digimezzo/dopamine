@@ -7,7 +7,7 @@ import { PlaylistModel } from './playlist-model';
 
 @Injectable()
 export class PlaylistModelFactory {
-    constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
+    public constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
     public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
         return new PlaylistModel(

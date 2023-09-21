@@ -7,7 +7,11 @@ import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class AlbumModel implements ISelectable {
-    constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
+    public constructor(
+        private albumData: AlbumData,
+        private translatorService: BaseTranslatorService,
+        private fileAccess: BaseFileAccess
+    ) {}
 
     public isSelected: boolean = false;
     public showYear: boolean = false;

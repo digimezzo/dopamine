@@ -28,7 +28,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         public genresPersister: GenresPersister,
         public albumsPersister: GenresAlbumsPersister,

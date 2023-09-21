@@ -12,7 +12,7 @@ import { TrackModels } from './track-models';
 
 @Injectable()
 export class TrackService implements BaseTrackService {
-    constructor(
+    public constructor(
         private trackModelFactory: TrackModelFactory,
         private trackRepository: BaseTrackRepository,
         private fileAccess: BaseFileAccess

@@ -9,7 +9,7 @@ import { BaseAppearanceService } from '../../../../services/appearance/base-appe
     styleUrls: ['./album.component.scss'],
 })
 export class AlbumComponent {
-    constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public album: AlbumModel;
     @Input() public isSelected: boolean = false;

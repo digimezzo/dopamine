@@ -8,7 +8,7 @@ import { TrackUpdater } from './track-updater';
 
 @Injectable()
 export class TrackIndexer {
-    constructor(
+    public constructor(
         private trackRemover: TrackRemover,
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,

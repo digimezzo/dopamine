@@ -5,7 +5,7 @@ import { BaseFolderRepository } from './base-folder-repository';
 
 @Injectable()
 export class FolderRepository implements BaseFolderRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolder(folder: Folder): void {
         const database: any = this.databaseFactory.create();

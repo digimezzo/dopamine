@@ -8,7 +8,7 @@ import { BaseNavigationService } from './base-navigation.service';
 export class NavigationService implements BaseNavigationService {
     private showPlaybackQueueRequested: Subject<void> = new Subject();
 
-    constructor(private appearanceService: BaseAppearanceService, public router: Router) {}
+    public constructor(private appearanceService: BaseAppearanceService, public router: Router) {}
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 

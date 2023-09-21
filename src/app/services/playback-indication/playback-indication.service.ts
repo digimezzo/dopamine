@@ -6,7 +6,7 @@ import { BasePlaybackIndicationService } from './base-playback-indication.servic
 
 @Injectable()
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
-    constructor(private pathValidator: PathValidator) {}
+    public constructor(private pathValidator: PathValidator) {}
 
     public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): void {
         if (subfolders == undefined) {

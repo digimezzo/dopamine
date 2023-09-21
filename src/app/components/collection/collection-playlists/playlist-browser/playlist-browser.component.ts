@@ -27,7 +27,7 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     private _playlistsPersister: PlaylistsPersister;
     private availableWidthInPixels: number = 0;
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public playlistService: BasePlaylistService,
         private applicationService: BaseApplicationService,

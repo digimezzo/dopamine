@@ -4,7 +4,7 @@ import { Strings } from '../../strings';
 
 @Injectable()
 export class GitHubApi {
-    constructor(private httpClient: HttpClient) {}
+    public constructor(private httpClient: HttpClient) {}
 
     public async getLatestReleaseAsync(owner: string, repo: string, includePrereleases: boolean): Promise<string> {
         const url: string = `https://api.github.com/repos/${owner}/${repo}/releases`;

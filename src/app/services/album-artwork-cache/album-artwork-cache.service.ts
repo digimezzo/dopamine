@@ -9,7 +9,7 @@ import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service
 
 @Injectable()
 export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
-    constructor(
+    public constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
         private fileAccess: BaseFileAccess,

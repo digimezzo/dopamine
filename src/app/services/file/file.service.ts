@@ -12,7 +12,7 @@ import { BaseFileService } from './base-file.service';
 export class FileService implements BaseFileService {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private trackModelFactory: TrackModelFactory,
         private application: BaseApplication,

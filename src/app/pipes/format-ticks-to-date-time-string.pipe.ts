@@ -3,7 +3,7 @@ import { DateTime } from '../common/date-time';
 
 @Pipe({ name: 'formatTicksToDateTimeString' })
 export class FormatTicksToDateTimeStringPipe implements PipeTransform {
-    constructor(private dateTime: DateTime) {}
+    public constructor(private dateTime: DateTime) {}
 
     public transform(ticks: number): string {
         if (ticks == undefined || ticks <= 0) {

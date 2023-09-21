@@ -8,7 +8,7 @@ import { GenreModel } from './genre-model';
 
 @Injectable()
 export class GenreService implements BaseGenreService {
-    constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
+    public constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
 
     public getGenres(): GenreModel[] {
         const addedGenres: string[] = [];

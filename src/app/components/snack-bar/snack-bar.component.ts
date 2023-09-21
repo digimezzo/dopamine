@@ -11,7 +11,11 @@ import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.ser
     encapsulation: ViewEncapsulation.None,
 })
 export class SnackBarComponent {
-    constructor(private snackBarService: BaseSnackBarService, private desktop: BaseDesktop, @Inject(MAT_SNACK_BAR_DATA) public data: any) {}
+    public constructor(
+        private snackBarService: BaseSnackBarService,
+        private desktop: BaseDesktop,
+        @Inject(MAT_SNACK_BAR_DATA) public data: any
+    ) {}
 
     public openDataUrl(): void {
         this.desktop.openLink(this.data.url);

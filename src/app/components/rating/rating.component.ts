@@ -15,7 +15,7 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 export class RatingComponent {
     private _track: TrackModel;
 
-    constructor(
+    public constructor(
         private metadataService: BaseMetadataService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,

@@ -13,7 +13,7 @@ import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 
 @Directive()
 export class TrackBrowserBase {
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public dialogService: BaseDialogService,
         public addToPlaylistMenu: AddToPlaylistMenu,

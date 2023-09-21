@@ -7,7 +7,7 @@ import { AlbumArtworkRemover } from './album-artwork-remover';
 
 @Injectable()
 export class AlbumArtworkIndexer {
-    constructor(
+    public constructor(
         private albumArtworkRemover: AlbumArtworkRemover,
         private albumArtworkAdder: AlbumArtworkAdder,
         private snackBarService: BaseSnackBarService,

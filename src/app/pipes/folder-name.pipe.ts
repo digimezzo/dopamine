@@ -5,7 +5,7 @@ import { FolderModel } from '../services/folder/folder-model';
 
 @Pipe({ name: 'folderName' })
 export class FolderNamePipe implements PipeTransform {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public transform(folder: FolderModel): string {
         if (folder == undefined) {

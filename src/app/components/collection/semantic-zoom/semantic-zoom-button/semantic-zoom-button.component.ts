@@ -8,7 +8,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     host: { style: 'display: block' },
 })
 export class SemanticZoomButtonComponent {
-    constructor(public semanticZoomService: BaseSemanticZoomService) {}
+    public constructor(public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public text: string = '';
     @Input() public isZoomable: boolean = false;

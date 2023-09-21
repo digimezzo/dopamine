@@ -8,7 +8,7 @@ export class Queue {
     private _tracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
 
-    constructor(private shuffler: Shuffler, private logger: Logger) {}
+    public constructor(private shuffler: Shuffler, private logger: Logger) {}
 
     public get tracks(): TrackModel[] {
         return this._tracks;

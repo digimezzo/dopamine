@@ -6,7 +6,11 @@ import { IndexablePathFetcher } from './indexable-path-fetcher';
 
 @Injectable()
 export class CollectionChecker {
-    constructor(private indexablePathFetcher: IndexablePathFetcher, private trackRepository: BaseTrackRepository, private logger: Logger) {}
+    public constructor(
+        private indexablePathFetcher: IndexablePathFetcher,
+        private trackRepository: BaseTrackRepository,
+        private logger: Logger
+    ) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
         let collectionIsOutdated: boolean = false;

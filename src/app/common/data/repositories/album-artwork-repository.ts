@@ -5,7 +5,7 @@ import { BaseAlbumArtworkRepository } from './base-album-artwork-repository';
 
 @Injectable()
 export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addAlbumArtwork(albumArtwork: AlbumArtwork): void {
         const database: any = this.databaseFactory.create();

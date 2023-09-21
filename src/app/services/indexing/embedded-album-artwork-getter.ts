@@ -4,7 +4,7 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 
 @Injectable()
 export class EmbeddedAlbumArtworkGetter {
-    constructor(private logger: Logger) {}
+    public constructor(private logger: Logger) {}
 
     public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer {
         if (fileMetadata == undefined) {

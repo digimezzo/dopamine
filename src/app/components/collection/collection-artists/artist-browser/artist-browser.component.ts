@@ -32,7 +32,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private _artistsPersister: ArtistsPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private semanticZoomService: BaseSemanticZoomService,
         private applicationService: BaseApplicationService,

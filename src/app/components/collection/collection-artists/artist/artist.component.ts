@@ -10,7 +10,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./artist.component.scss'],
 })
 export class ArtistComponent {
-    constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
+    public constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public artist: ArtistModel;
 

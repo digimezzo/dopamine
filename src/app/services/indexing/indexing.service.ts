@@ -14,7 +14,7 @@ export class IndexingService implements BaseIndexingService, OnDestroy {
     private subscription: Subscription = new Subscription();
     private foldersHaveChanged: boolean = false;
 
-    constructor(
+    public constructor(
         private collectionChecker: CollectionChecker,
         private trackIndexer: TrackIndexer,
         private albumArtworkIndexer: AlbumArtworkIndexer,

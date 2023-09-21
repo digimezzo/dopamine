@@ -7,7 +7,7 @@ import { BaseAudioPlayer } from './base-audio-player';
 export class AudioPlayer implements BaseAudioPlayer {
     private audio: HTMLAudioElement;
 
-    constructor(private logger: Logger) {
+    public constructor(private logger: Logger) {
         this.audio = new Audio();
 
         try {

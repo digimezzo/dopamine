@@ -7,7 +7,7 @@ import { PlaylistOrder } from '../playlist-order';
 
 @Injectable()
 export class PlaylistRowsGetter {
-    constructor(private playlistSpaceCalculator: ItemSpaceCalculator) {}
+    public constructor(private playlistSpaceCalculator: ItemSpaceCalculator) {}
 
     public getPlaylistRows(availableWidthInPixels: number, playlists: PlaylistModel[], playlistOrder: PlaylistOrder): PlaylistRow[] {
         const playlistRows: PlaylistRow[] = [];

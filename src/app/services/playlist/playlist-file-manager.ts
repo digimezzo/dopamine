@@ -15,7 +15,7 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 export class PlaylistFileManager {
     private _playlistsParentFolderPath: string = '';
 
-    constructor(
+    public constructor(
         private playlistModelFactory: PlaylistModelFactory,
         private fileValidator: FileValidator,
         private fileAccess: BaseFileAccess,

@@ -15,7 +15,7 @@ export class FolderService implements BaseFolderService {
     private _collectionHasFolders: boolean = false;
     private shouldCheckIfCollectionHasFolders: boolean = true;
 
-    constructor(
+    public constructor(
         private folderRepository: BaseFolderRepository,
         private logger: Logger,
         private snackBarService: BaseSnackBarService,

@@ -19,7 +19,7 @@ import { CollectionPersister } from '../collection-persister';
 export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         private trackService: BaseTrackService,
         private collectionService: BaseCollectionService,

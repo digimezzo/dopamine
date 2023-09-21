@@ -9,7 +9,7 @@ export class ProgressUpdater {
     private shouldReportProgress: boolean = false;
     private progressChanged: Subject<PlaybackProgress> = new Subject();
 
-    constructor(private audioPlayer: BaseAudioPlayer) {}
+    public constructor(private audioPlayer: BaseAudioPlayer) {}
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
 

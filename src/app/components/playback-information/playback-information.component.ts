@@ -48,7 +48,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playbackInformationService: BasePlaybackInformationService,
         private metadataService: BaseMetadataService,
         public settings: BaseSettings,

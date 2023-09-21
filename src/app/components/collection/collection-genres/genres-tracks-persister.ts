@@ -5,7 +5,7 @@ import { BaseTracksPersister } from '../base-tracks-persister';
 
 @Injectable()
 export class GenresTracksPersister extends BaseTracksPersister {
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         super(settings, logger);
     }
 

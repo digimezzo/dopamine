@@ -14,7 +14,7 @@ import { TrackModel } from '../services/track/track-model';
 export class AddToPlaylistMenu {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playlistFolderService: BasePlaylistFolderService,
         private playlistService: BasePlaylistService,
         private logger: Logger

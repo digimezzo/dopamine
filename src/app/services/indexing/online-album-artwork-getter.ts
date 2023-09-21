@@ -8,7 +8,7 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
+    public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
     public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
         if (fileMetadata == undefined) {

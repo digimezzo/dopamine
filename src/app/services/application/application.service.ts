@@ -7,7 +7,7 @@ export class ApplicationService implements BaseApplicationService {
     private windowSizeChanged: Subject<void> = new Subject();
     private mouseButtonReleased: Subject<void> = new Subject();
 
-    constructor() {
+    public constructor() {
         fromEvent(window, 'resize').subscribe((event: any) => {
             this.windowSizeChanged.next();
         });

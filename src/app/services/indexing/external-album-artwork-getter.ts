@@ -7,7 +7,7 @@ import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 @Injectable()
 export class ExternalAlbumArtworkGetter {
-    constructor(
+    public constructor(
         private externalArtworkPathGetter: ExternalArtworkPathGetter,
         private imageProcessor: ImageProcessor,
         private logger: Logger

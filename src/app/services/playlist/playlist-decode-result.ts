@@ -1,7 +1,7 @@
 import { PlaylistEntry } from './playlist-entry';
 
 export class PlaylistDecodeResult {
-    constructor(private _playlistName: string, private _playlistEntries: PlaylistEntry[]) {}
+    public constructor(private _playlistName: string, private _playlistEntries: PlaylistEntry[]) {}
 
     public get playlistName(): string {
         return this._playlistName;

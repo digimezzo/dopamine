@@ -14,7 +14,7 @@ export class PlaybackInformationService implements BasePlaybackInformationServic
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
 
-    constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService) {
+    public constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService) {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
                 const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(playbackStarted.currentTrack);

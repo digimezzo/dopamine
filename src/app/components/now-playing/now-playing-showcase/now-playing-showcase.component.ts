@@ -10,7 +10,7 @@ import { WindowSize } from '../../../common/io/window-size';
     encapsulation: ViewEncapsulation.None,
 })
 export class NowPlayingShowcaseComponent implements OnInit {
-    constructor(private application: BaseApplication) {}
+    public constructor(private application: BaseApplication) {}
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;

@@ -8,7 +8,7 @@ import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
 export class AlbumArtworkRemover {
-    constructor(
+    public constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private fileAccess: BaseFileAccess,
         private snackBarService: BaseSnackBarService,

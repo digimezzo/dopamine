@@ -16,7 +16,7 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class LoadingComponent implements OnInit {
-    constructor(
+    public constructor(
         public navigationService: BaseNavigationService,
         private databaseMigrator: BaseDatabaseMigrator,
         public appearanceService: BaseAppearanceService,

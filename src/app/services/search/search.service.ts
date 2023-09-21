@@ -12,7 +12,7 @@ export class SearchService implements BaseSearchService {
     private _searchText: string = '';
     private _delayedSearchText: string = '';
 
-    constructor() {
+    public constructor() {
         this.updateDelayedSearchText
             .pipe(debounceTime(Constants.searchDelayMilliseconds), distinctUntilChanged())
             .subscribe((searchText) => {

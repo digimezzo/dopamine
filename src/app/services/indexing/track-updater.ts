@@ -9,7 +9,7 @@ import { TrackVerifier } from './track-verifier';
 
 @Injectable()
 export class TrackUpdater {
-    constructor(
+    public constructor(
         private trackRepository: BaseTrackRepository,
         private trackFiller: TrackFiller,
         private trackVerifier: TrackVerifier,

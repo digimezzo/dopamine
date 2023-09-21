@@ -9,7 +9,7 @@ import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
 export class TrackRemover {
-    constructor(
+    public constructor(
         private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private snackBarService: BaseSnackBarService,

@@ -29,7 +29,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public playlistService: BasePlaylistService,
         public contextMenuOpener: ContextMenuOpener,

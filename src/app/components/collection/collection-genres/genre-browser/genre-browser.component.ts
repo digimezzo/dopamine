@@ -31,7 +31,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private _genresPersister: GenresPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private semanticZoomService: BaseSemanticZoomService,
         private applicationService: BaseApplicationService,

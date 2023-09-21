@@ -9,7 +9,7 @@ import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
     styleUrls: ['./playlist.component.scss'],
 })
 export class PlaylistComponent {
-    constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public playlist: PlaylistModel;
     @Input() public isSelected: boolean = false;

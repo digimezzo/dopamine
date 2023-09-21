@@ -24,7 +24,7 @@ import { BaseTrayService } from './services/tray/base-tray.service';
 export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private navigationService: BaseNavigationService,
         private appearanceService: BaseAppearanceService,
         private translatorService: BaseTranslatorService,

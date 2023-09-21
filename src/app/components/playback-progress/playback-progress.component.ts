@@ -19,7 +19,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     public progressTrack: ElementRef;
     private progressMargin: number = 6;
 
-    constructor(private playbackService: BasePlaybackService, private mathExtensions: MathExtensions, private logger: Logger) {}
+    public constructor(private playbackService: BasePlaybackService, private mathExtensions: MathExtensions, private logger: Logger) {}
 
     public showProgressThumb: boolean = false;
     public isProgressThumbDown: boolean = false;

@@ -10,7 +10,7 @@ import { Theme } from '../../services/appearance/theme/theme';
     encapsulation: ViewEncapsulation.None,
 })
 export class ThemeSwitcherComponent {
-    constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: BaseAppearanceService) {}
 
     public setTheme(theme: Theme): void {
         this.appearanceService.selectedTheme = theme;

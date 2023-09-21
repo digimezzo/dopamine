@@ -7,7 +7,7 @@ import { BaseRemovedTrackRepository } from './base-removed-track-repository';
 export class RemovedTrackRepository implements BaseRemovedTrackRepository {
     private folderModel: any;
 
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addRemovedTrack(removedTrack: RemovedTrack): void {
         const database: any = this.databaseFactory.create();

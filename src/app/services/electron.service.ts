@@ -12,7 +12,7 @@ export class ElectronService {
     public childProcess: typeof childProcess;
     public fs: typeof fs;
 
-    constructor() {
+    public constructor() {
         // Conditional imports
         if (this.isElectron()) {
             this.ipcRenderer = window.require('electron').ipcRenderer;

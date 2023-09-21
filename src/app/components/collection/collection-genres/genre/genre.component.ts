@@ -10,7 +10,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./genre.component.scss'],
 })
 export class GenreComponent {
-    constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
+    public constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
 
     @Input() public genre: GenreModel;
 

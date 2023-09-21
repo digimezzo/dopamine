@@ -12,7 +12,7 @@ export class PlaylistsPersister {
     private selectedPlaylistOrder: PlaylistOrder;
     private selectedPlaylistsChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

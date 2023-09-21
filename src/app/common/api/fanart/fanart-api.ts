@@ -4,7 +4,7 @@ import { SensitiveInformation } from '../../application/sensitive-information';
 
 @Injectable()
 export class FanartApi {
-    constructor(private httpClient: HttpClient) {}
+    public constructor(private httpClient: HttpClient) {}
 
     public async getArtistThumbnailAsync(musicBrainzId: string): Promise<string> {
         const url: string = `http://webservice.fanart.tv/v3/music/${musicBrainzId}?api_key=${SensitiveInformation.fanartApiKey}`;

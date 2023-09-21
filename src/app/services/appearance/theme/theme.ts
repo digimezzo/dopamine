@@ -4,7 +4,7 @@ import { ThemeNeutralColors } from './theme-neutral-colors';
 import { ThemeOptions } from './theme-options';
 
 export class Theme {
-    constructor(
+    public constructor(
         public name: string,
         public creator: ThemeCreator,
         public coreColors: ThemeCoreColors,

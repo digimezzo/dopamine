@@ -14,7 +14,7 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
     encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeComponent {
-    constructor(
+    public constructor(
         private navigationServiceMock: BaseNavigationService,
         public translatorService: BaseTranslatorService,
         public appearanceService: BaseAppearanceService,

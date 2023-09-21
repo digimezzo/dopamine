@@ -20,7 +20,7 @@ export class MetadataService implements BaseMetadataService {
     private ratingSaved: Subject<TrackModel> = new Subject();
     private loveSaved: Subject<TrackModel> = new Subject();
 
-    constructor(
+    public constructor(
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackRepository: BaseTrackRepository,
         private albumArtworkGetter: AlbumArtworkGetter,

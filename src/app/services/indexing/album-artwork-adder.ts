@@ -14,7 +14,7 @@ import { AlbumArtworkGetter } from './album-artwork-getter';
 
 @Injectable()
 export class AlbumArtworkAdder {
-    constructor(
+    public constructor(
         private albumArtworkCacheService: BaseAlbumArtworkCacheService,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,

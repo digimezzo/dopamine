@@ -9,7 +9,7 @@ import { WindowSize } from './window-size';
 export class Application implements BaseApplication {
     private argumentsReceived: Subject<string[]> = new Subject();
 
-    constructor() {
+    public constructor() {
         ipcRenderer.on('arguments-received', (event, argv) => {
             this.argumentsReceived.next(argv);
         });

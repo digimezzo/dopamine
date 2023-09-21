@@ -12,7 +12,7 @@ import { TrackFieldCreator } from './track-field-creator';
 
 @Injectable()
 export class TrackFiller {
-    constructor(
+    public constructor(
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,

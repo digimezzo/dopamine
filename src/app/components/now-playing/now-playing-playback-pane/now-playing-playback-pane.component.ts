@@ -11,7 +11,10 @@ import { NowPlayingPage } from '../../../services/now-playing-navigation/now-pla
     encapsulation: ViewEncapsulation.None,
 })
 export class NowPlayingPlaybackPaneComponent {
-    constructor(private navigationService: BaseNavigationService, private nowPlayingNavigationService: BaseNowPlayingNavigationService) {}
+    public constructor(
+        private navigationService: BaseNavigationService,
+        private nowPlayingNavigationService: BaseNowPlayingNavigationService
+    ) {}
 
     public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
 

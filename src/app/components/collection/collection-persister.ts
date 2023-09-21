@@ -8,7 +8,7 @@ export class CollectionPersister {
 
     private selectedTabChanged: Subject<void> = new Subject();
 
-    constructor(private settings: BaseSettings) {
+    public constructor(private settings: BaseSettings) {
         this.initializeFromSettings();
     }
 

@@ -14,7 +14,7 @@ import { TrackFiller } from './track-filler';
 
 @Injectable()
 export class TrackAdder {
-    constructor(
+    public constructor(
         private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
         private removedTrackRepository: BaseRemovedTrackRepository,

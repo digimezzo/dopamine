@@ -5,7 +5,7 @@ import { BaseSearchService } from '../services/search/base-search.service';
 
 @Pipe({ name: 'albumsFilter' })
 export class AlbumsFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
     public transform(albums: AlbumModel[], textToContain: string): AlbumModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {

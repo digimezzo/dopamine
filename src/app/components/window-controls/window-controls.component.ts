@@ -10,7 +10,7 @@ import { BaseApplication } from '../../common/io/base-application';
     encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    constructor(private application: BaseApplication) {}
+    public constructor(private application: BaseApplication) {}
 
     public canMaximize: boolean = false;
 

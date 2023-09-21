@@ -15,7 +15,7 @@ export class ArtistsPersister {
     private selectedArtistTypeChanged: Subject<ArtistType> = new Subject();
     private selectedArtistsChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

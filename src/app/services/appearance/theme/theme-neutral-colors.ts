@@ -1,5 +1,5 @@
 export class ThemeNeutralColors {
-    constructor(
+    public constructor(
         public windowButtonIcon: string,
         public hoveredItemBackground: string,
         public selectedItemBackground: string,

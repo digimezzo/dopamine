@@ -7,7 +7,7 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     styleUrls: ['./volume-control.component.scss'],
 })
 export class VolumeControlComponent {
-    constructor(private playbackService: BasePlaybackService) {}
+    public constructor(private playbackService: BasePlaybackService) {}
 
     public get volume(): number {
         return this.playbackService.volume;

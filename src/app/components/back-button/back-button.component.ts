@@ -10,7 +10,7 @@ import { BaseNavigationService } from '../../services/navigation/base-navigation
     encapsulation: ViewEncapsulation.None,
 })
 export class BackButtonComponent {
-    constructor(public navigationService: BaseNavigationService, private indexingService: BaseIndexingService) {}
+    public constructor(public navigationService: BaseNavigationService, private indexingService: BaseIndexingService) {}
 
     public goBackToCollection(): void {
         this.navigationService.navigateToCollection();

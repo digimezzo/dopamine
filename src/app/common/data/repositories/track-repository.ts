@@ -11,7 +11,7 @@ import { BaseTrackRepository } from './base-track-repository';
 
 @Injectable()
 export class TrackRepository implements BaseTrackRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public getNumberOfTracksThatNeedIndexing(): number {
         const database: any = this.databaseFactory.create();

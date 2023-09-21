@@ -5,7 +5,7 @@ import { TrackModels } from '../services/track/track-models';
 
 @Pipe({ name: 'tracksFilter' })
 export class TracksFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
     public transform(tracks: TrackModels, textToContain: string): TrackModels {
         if (Strings.isNullOrWhiteSpace(textToContain)) {

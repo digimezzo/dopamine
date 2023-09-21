@@ -9,7 +9,7 @@ import { Strings } from '../../../common/strings';
     encapsulation: ViewEncapsulation.None,
 })
 export class InputDialogComponent {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<InputDialogComponent>) {
+    public constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<InputDialogComponent>) {
         dialogRef.disableClose = true;
     }
 

@@ -11,7 +11,7 @@ import { BaseMediaSessionService } from './base-media-session.service';
 export class MediaSessionService implements BaseMediaSessionService {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private playbackInformationService: BasePlaybackInformationService,
         private mediaSessionProxy: BaseMediaSessionProxy,

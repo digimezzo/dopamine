@@ -12,7 +12,7 @@ export abstract class BaseAlbumsPersister {
     private selectedAlbumOrder: AlbumOrder;
     private selectedAlbumsChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

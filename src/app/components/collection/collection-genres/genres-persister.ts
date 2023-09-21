@@ -12,7 +12,7 @@ export class GenresPersister {
     private selectedGenreOrder: GenreOrder;
     private selectedGenresChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

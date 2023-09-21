@@ -17,6 +17,7 @@
             "rules": {
                 "@angular-eslint/no-host-metadata-property": "off",
                 "@typescript-eslint/no-inferrable-types": "off",
+                "@typescript-eslint/explicit-member-accessibility": "error",
                 "semi": [2, "always"],
                 "@typescript-eslint/strict-boolean-expressions": [
                     "error",
@@ -45,6 +46,12 @@
         },
         {
             "files": ["*.spec.ts"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "off"
+            }
+        },
+        {
+            "files": ["*-repository.ts"],
             "rules": {
                 "@typescript-eslint/no-explicit-any": "off"
             }

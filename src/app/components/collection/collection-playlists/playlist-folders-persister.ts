@@ -10,7 +10,7 @@ export class PlaylistFoldersPersister {
     private selectedPlaylistFolderNames: string[] = [];
     private selectedPlaylistFoldersChanged: Subject<PlaylistFolderModel[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

@@ -4,7 +4,7 @@ import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 
 @Injectable()
 export class TrackFieldCreator {
-    constructor(private metadataPatcher: MetadataPatcher) {}
+    public constructor(private metadataPatcher: MetadataPatcher) {}
 
     public createNumberField(value: number): number {
         if (value == undefined || Number.isNaN(value)) {

@@ -39,7 +39,7 @@ export class PlaybackService implements BasePlaybackService {
     private _canResume: boolean = true;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private trackService: BaseTrackService,
         private playlistService: BasePlaylistService,
         private snackBarService: BaseSnackBarService,

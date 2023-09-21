@@ -17,7 +17,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     private _signInState: SignInState = SignInState.SignedOut;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private discordService: BaseDiscordService,
         private scrobblingService: BaseScrobblingService,
         private snackBarService: BaseSnackBarService,

@@ -30,7 +30,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     private _themesDirectoryPath: string;
 
-    constructor(
+    public constructor(
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer,

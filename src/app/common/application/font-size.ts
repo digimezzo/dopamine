@@ -1,5 +1,5 @@
 export class FontSize {
-    constructor(public normalSize: number) {}
+    public constructor(public normalSize: number) {}
 
     public mediumSize: number = this.normalSize * 1.143;
     public largeSize: number = this.normalSize * 1.571;

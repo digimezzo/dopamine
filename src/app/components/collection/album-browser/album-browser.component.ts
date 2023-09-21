@@ -27,7 +27,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,

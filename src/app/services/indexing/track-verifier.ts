@@ -4,7 +4,7 @@ import { BaseFileAccess } from '../../common/io/base-file-access';
 
 @Injectable()
 export class TrackVerifier {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public async isTrackOutOfDateAsync(track: Track): Promise<boolean> {
         if (track.fileSize === 0) {

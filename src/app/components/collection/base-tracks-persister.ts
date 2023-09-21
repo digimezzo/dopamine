@@ -8,7 +8,7 @@ import { TrackOrder } from './track-order';
 export abstract class BaseTracksPersister {
     private selectedTrackOrder: TrackOrder;
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 

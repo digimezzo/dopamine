@@ -5,7 +5,7 @@ import { BaseAlbumsPersister } from '../base-albums-persister';
 
 @Injectable()
 export class ArtistsAlbumsPersister extends BaseAlbumsPersister {
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         super(settings, logger);
     }
 

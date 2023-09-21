@@ -30,7 +30,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     private _artist: ArtistInformation = ArtistInformation.empty();
     private _contentAnimation: string = 'fade-in';
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private artistInformationService: BaseArtistInformationService,
         public settings: BaseSettings

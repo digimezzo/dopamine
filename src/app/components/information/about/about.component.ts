@@ -12,7 +12,7 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
     encapsulation: ViewEncapsulation.None,
 })
 export class AboutComponent {
-    constructor(private dialogService: BaseDialogService, private desktop: BaseDesktop) {}
+    public constructor(private dialogService: BaseDialogService, private desktop: BaseDesktop) {}
 
     public applicationVersion: string = ProductInformation.applicationVersion;
     public applicationCopyright: string = ProductInformation.applicationCopyright;

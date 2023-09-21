@@ -12,7 +12,7 @@ import { BaseDialogService } from './base-dialog.service';
 
 @Injectable()
 export class DialogService implements BaseDialogService {
-    constructor(private dialog: MatDialog, private playlistModelFactory: PlaylistModelFactory) {}
+    public constructor(private dialog: MatDialog, private playlistModelFactory: PlaylistModelFactory) {}
 
     public isInputDialogOpened: boolean = false;
 

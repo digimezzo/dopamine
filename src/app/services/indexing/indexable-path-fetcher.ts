@@ -10,7 +10,7 @@ import { IndexablePath } from './indexable-path';
 
 @Injectable()
 export class IndexablePathFetcher {
-    constructor(
+    public constructor(
         private fileAccess: BaseFileAccess,
         private directoryWalker: DirectoryWalker,
         private logger: Logger,

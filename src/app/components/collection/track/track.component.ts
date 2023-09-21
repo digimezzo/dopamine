@@ -10,7 +10,7 @@ import { TrackModel } from '../../../services/track/track-model';
     styleUrls: ['./track.component.scss'],
 })
 export class TrackComponent {
-    constructor(public appearanceService: BaseAppearanceService, public settings: BaseSettings) {}
+    public constructor(public appearanceService: BaseAppearanceService, public settings: BaseSettings) {}
 
     @Input() public track: TrackModel;
     @Input() public canShowHeader: boolean = false;

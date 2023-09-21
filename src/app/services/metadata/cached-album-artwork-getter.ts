@@ -5,7 +5,7 @@ import { BaseFileAccess } from '../../common/io/base-file-access';
 
 @Injectable()
 export class CachedAlbumArtworkGetter {
-    constructor(private trackRepository: BaseTrackRepository, private fileAccess: BaseFileAccess) {}
+    public constructor(private trackRepository: BaseTrackRepository, private fileAccess: BaseFileAccess) {}
 
     public getCachedAlbumArtworkPath(albumKey: string): string {
         const albumDataForAlbumKey: AlbumData[] = this.trackRepository.getAlbumDataForAlbumKey(albumKey);

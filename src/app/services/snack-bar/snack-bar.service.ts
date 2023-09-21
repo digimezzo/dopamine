@@ -11,7 +11,7 @@ export class SnackBarService implements BaseSnackBarService {
     private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
     private isDismissRequested: boolean = false;
 
-    constructor(
+    public constructor(
         private zone: NgZone,
         private matSnackBar: MatSnackBar,
         private translatorService: BaseTranslatorService,

@@ -5,7 +5,7 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {

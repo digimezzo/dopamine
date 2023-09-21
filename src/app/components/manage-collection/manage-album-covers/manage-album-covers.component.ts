@@ -9,7 +9,7 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
     encapsulation: ViewEncapsulation.None,
 })
 export class ManageAlbumCoversComponent {
-    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {}
+    public constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {}
 
     public async refreshAllCoversAsync(): Promise<void> {
         await this.indexingService.indexAlbumArtworkOnlyAsync(false);

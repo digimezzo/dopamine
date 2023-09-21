@@ -23,7 +23,7 @@ export class ScrobblingService implements BaseScrobblingService {
     private currentTrack: TrackModel;
     private currentTrackUTCStartTime: Date;
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private lastfmApi: LastfmApi,
         private dateTime: DateTime,

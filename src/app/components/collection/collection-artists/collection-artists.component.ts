@@ -29,7 +29,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         public artistsPersister: ArtistsPersister,
         public albumsPersister: ArtistsAlbumsPersister,

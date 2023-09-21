@@ -11,5 +11,9 @@ import { BaseTrayService } from '../../../services/tray/base-tray.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class BehaviorSettingsComponent {
-    constructor(public trayService: BaseTrayService, public mediaSessionService: BaseMediaSessionService, public settings: BaseSettings) {}
+    public constructor(
+        public trayService: BaseTrayService,
+        public mediaSessionService: BaseMediaSessionService,
+        public settings: BaseSettings
+    ) {}
 }

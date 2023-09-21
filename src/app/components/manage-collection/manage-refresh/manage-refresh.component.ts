@@ -9,7 +9,7 @@ import { BaseIndexingService } from '../../../services/indexing/base-indexing.se
     encapsulation: ViewEncapsulation.None,
 })
 export class ManageRefreshComponent {
-    constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {}
+    public constructor(public settings: BaseSettings, private indexingService: BaseIndexingService) {}
 
     public async refreshNowAsync(): Promise<void> {
         await this.indexingService.indexCollectionAlwaysAsync();

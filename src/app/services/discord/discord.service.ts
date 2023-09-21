@@ -12,7 +12,7 @@ import { PresenceUpdater } from './presence-updater';
 export class DiscordService implements BaseDiscordService {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private translatorService: BaseTranslatorService,
         private presenceUpdater: PresenceUpdater,

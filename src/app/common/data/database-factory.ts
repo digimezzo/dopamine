@@ -4,7 +4,7 @@ import { BaseFileAccess } from '../io/base-file-access';
 
 @Injectable()
 export class DatabaseFactory {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public create(): any {
         const databaseFile: string = this.fileAccess.combinePath([this.fileAccess.applicationDataDirectory(), 'Dopamine.db']);

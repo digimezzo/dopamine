@@ -9,7 +9,7 @@ import { LogViewer } from '../../../common/io/log-viewer';
     encapsulation: ViewEncapsulation.None,
 })
 export class ErrorDialogComponent {
-    constructor(
+    public constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
         private logViewer: LogViewer

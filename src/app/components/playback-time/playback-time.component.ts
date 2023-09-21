@@ -9,5 +9,5 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackTimeComponent {
-    constructor(public playbackService: BasePlaybackService) {}
+    public constructor(public playbackService: BasePlaybackService) {}
 }

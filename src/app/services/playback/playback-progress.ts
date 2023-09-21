@@ -1,5 +1,5 @@
 export class PlaybackProgress {
-    constructor(public progressSeconds: number, public totalSeconds: number) {}
+    public constructor(public progressSeconds: number, public totalSeconds: number) {}
 
     public get timeRemainingInMilliSeconds(): number {
         if (this.progressSeconds == undefined || this.totalSeconds == undefined || this.totalSeconds === 0) {

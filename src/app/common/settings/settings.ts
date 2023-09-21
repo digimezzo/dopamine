@@ -6,7 +6,7 @@ import { BaseSettings } from './base-settings';
 export class Settings implements BaseSettings {
     private settings: Store<any> = new Store();
 
-    constructor() {
+    public constructor() {
         this.initialize();
     }
 

@@ -6,7 +6,7 @@ import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class TrackModel implements ISelectable {
-    constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
+    public constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;

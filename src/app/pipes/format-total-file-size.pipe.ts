@@ -3,7 +3,7 @@ import { BaseTranslatorService } from '../services/translator/base-translator.se
 
 @Pipe({ name: 'formatTotalFileSize' })
 export class FormatTotalFileSizePipe implements PipeTransform {
-    constructor(private translatorService: BaseTranslatorService) {}
+    public constructor(private translatorService: BaseTranslatorService) {}
 
     public transform(totalFileSizeInBytes: number): string {
         if (totalFileSizeInBytes == undefined || totalFileSizeInBytes <= 0) {

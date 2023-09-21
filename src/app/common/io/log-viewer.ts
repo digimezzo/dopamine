@@ -5,7 +5,7 @@ import { BaseFileAccess } from './base-file-access';
 
 @Injectable()
 export class LogViewer {
-    constructor(private desktop: BaseDesktop, private fileAccess: BaseFileAccess) {}
+    public constructor(private desktop: BaseDesktop, private fileAccess: BaseFileAccess) {}
 
     public viewLog(): void {
         // See: https://stackoverflow.com/questions/30381450/open-external-file-with-electron

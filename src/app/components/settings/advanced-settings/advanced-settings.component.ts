@@ -10,7 +10,7 @@ import { BaseSettings } from '../../../common/settings/base-settings';
     encapsulation: ViewEncapsulation.None,
 })
 export class AdvancedSettingsComponent {
-    constructor(public settings: BaseSettings, private logViewer: LogViewer) {}
+    public constructor(public settings: BaseSettings, private logViewer: LogViewer) {}
 
     public viewLog(): void {
         this.logViewer.viewLog();

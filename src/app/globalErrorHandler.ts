@@ -7,7 +7,7 @@ import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-di
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
+    public constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
 
     public handleError(e: Error): void {
         this.logger.error(`Handling global error. Error: ${e.message}.`, 'GlobalErrorHandler', 'handleError');

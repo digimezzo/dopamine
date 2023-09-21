@@ -11,7 +11,7 @@ import { BaseCollectionService } from './base-collection.service';
 export class CollectionService implements BaseCollectionService {
     private collectionChanged: Subject<void> = new Subject();
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private trackRepository: BaseTrackRepository,
         private desktop: BaseDesktop,

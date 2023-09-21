@@ -4,7 +4,7 @@ import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
 export class ArtistModel extends SemanticZoomable implements ISelectable {
-    constructor(public name: string, private translatorService: BaseTranslatorService) {
+    public constructor(public name: string, private translatorService: BaseTranslatorService) {
         super();
     }
 
