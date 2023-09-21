@@ -59,7 +59,7 @@ export class TrackBrowserBase {
 
         if (userHasConfirmed) {
             try {
-                if (!this.collectionService.deleteTracksAsync(tracks)) {
+                if (!(await this.collectionService.deleteTracksAsync(tracks))) {
                     throw new Error('deleteTracksAsync returned false');
                 }
             } catch (e) {

@@ -3,9 +3,10 @@ import { DataDelimiter } from '../../common/data/data-delimiter';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
+import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
-export class AlbumModel {
+export class AlbumModel implements ISelectable {
     constructor(private albumData: AlbumData, private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
     public isSelected: boolean = false;

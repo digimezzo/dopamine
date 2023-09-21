@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
+import { ISelectable } from '../interfaces/i-selectable';
 
 @Injectable()
 export class MouseSelectionWatcher {
-    private items: any[] = [];
-    private lastSelectedItem: any;
+    private items: ISelectable[] = [];
+    private lastSelectedItem: ISelectable;
 
-    public get selectedItems(): any[] {
+    public get selectedItems(): ISelectable[] {
         return this.items.filter((x) => x.isSelected);
     }
 
-    public initialize(items: any[], selectFirstItem: boolean = false): void {
+    public initialize(items: ISelectable[], selectFirstItem: boolean = false): void {
         if (items == undefined) {
             return;
         }
@@ -25,7 +26,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    public setSelectedItems(event: any, item: any): void {
+    public setSelectedItems(event: any, item: ISelectable): void {
         if (event == undefined) {
             return;
         }
@@ -49,7 +50,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private toggleItemSelection(item: any): void {
+    private toggleItemSelection(item: ISelectable): void {
         item.isSelected = !item.isSelected;
 
         if (item.isSelected) {
@@ -57,11 +58,11 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private selectItemsRange(item: any): void {
+    private selectItemsRange(item: ISelectable): void {
         const currentItemIndex: number = this.items.indexOf(item);
         let lastSelectedItemIndex: number = this.items.indexOf(item);
 
-        if (this.lastSelectedItem) {
+        if (this.lastSelectedItem != undefined) {
             lastSelectedItemIndex = this.items.indexOf(this.lastSelectedItem);
         }
 
@@ -81,7 +82,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private selectSingleItem(item: any): void {
+    private selectSingleItem(item: ISelectable): void {
         const currentItemIndex: number = this.items.indexOf(item);
 
         for (let i = 0; i < this.items.length; i++) {

@@ -1,8 +1,9 @@
 import { SemanticZoomable } from '../../common/semantic-zoomable';
 import { Strings } from '../../common/strings';
+import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
-export class ArtistModel extends SemanticZoomable {
+export class ArtistModel extends SemanticZoomable implements ISelectable {
     constructor(public name: string, private translatorService: BaseTranslatorService) {
         super();
     }

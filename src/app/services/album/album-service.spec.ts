@@ -2,7 +2,6 @@ import { IMock, Mock, Times } from 'typemoq';
 import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
-import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
 import { ArtistType } from '../artist/artist-type';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
@@ -12,12 +11,10 @@ describe('AlbumService', () => {
     let trackRepositoryMock: IMock<BaseTrackRepository>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let fileAccessMock: IMock<BaseFileAccess>;
-    let albumArtworkCacheServiceMock: IMock<BaseAlbumArtworkCacheService>;
     let service: AlbumService;
 
     beforeEach(() => {
         trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        albumArtworkCacheServiceMock = Mock.ofType<BaseAlbumArtworkCacheService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         fileAccessMock = Mock.ofType<BaseFileAccess>();
         service = new AlbumService(trackRepositoryMock.object, translatorServiceMock.object, fileAccessMock.object);

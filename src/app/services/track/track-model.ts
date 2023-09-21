@@ -2,9 +2,10 @@ import { DataDelimiter } from '../../common/data/data-delimiter';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
+import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
-export class TrackModel {
+export class TrackModel implements ISelectable {
     constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;
