@@ -45,13 +45,7 @@
             }
         },
         {
-            "files": ["*.spec.ts"],
-            "rules": {
-                "@typescript-eslint/no-explicit-any": "off"
-            }
-        },
-        {
-            "files": ["*-repository.ts"],
+            "files": ["*.spec.ts", "*-repository.ts"],
             "rules": {
                 "@typescript-eslint/no-explicit-any": "off"
             }
