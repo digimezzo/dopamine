@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
+import { Guards } from '../../common/guards';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
@@ -31,12 +32,12 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         }
     }
 
-    public async addArtworkDataToCacheAsync(imageBuffer: Buffer): Promise<AlbumArtworkCacheId> {
-        if (imageBuffer == undefined) {
+    public async addArtworkDataToCacheAsync(imageBuffer: Buffer): Promise<AlbumArtworkCacheId | undefined> {
+        if (!Guards.isDefined(imageBuffer)) {
             return undefined;
         }
 
-        if (imageBuffer.length === 0) {
+        if (!Guards.isDefined(imageBuffer.length)) {
             return undefined;
         }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
+import { Guards } from '../../common/guards';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
@@ -140,7 +141,7 @@ export class PlaylistService implements BasePlaylistService {
             );
 
             for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
-                const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath);
+                const tracksToRemoveForSinglePlaylist: TrackModel[] | undefined = tracksToRemoveGroupedByPlaylistPath.get(playlistPath);
 
                 await this.removeTracksFromSinglePlaylistAsync(playlistPath, tracksToRemoveForSinglePlaylist);
             }
@@ -156,19 +157,22 @@ export class PlaylistService implements BasePlaylistService {
         this.playlistTracksChanged.next();
     }
 
-    private async removeTracksFromSinglePlaylistAsync(playlistPath: string, tracksToRemove: TrackModel[]): Promise<void> {
-        if (playlistPath == undefined) {
+    private async removeTracksFromSinglePlaylistAsync(
+        playlistPath: string | undefined,
+        tracksToRemove: TrackModel[] | undefined
+    ): Promise<void> {
+        if (!Guards.isDefined(playlistPath)) {
             throw new Error('playlistPath is undefined');
         }
 
-        if (tracksToRemove == undefined) {
+        if (!Guards.isDefined(tracksToRemove)) {
             throw new Error('tracksToRemove is undefined');
         }
 
         try {
-            const allPlaylistTracks: TrackModel[] = await this.decodePlaylistAsync(playlistPath);
+            const allPlaylistTracks: TrackModel[] = await this.decodePlaylistAsync(playlistPath!);
             const playlistTracksAfterRemoval: TrackModel[] = [];
-            const trackPathsToRemove: string[] = tracksToRemove.map((x) => x.path);
+            const trackPathsToRemove: string[] = tracksToRemove!.map((x) => x.path);
 
             for (const playlistTrack of allPlaylistTracks) {
                 if (!trackPathsToRemove.includes(playlistTrack.path)) {
@@ -176,10 +180,10 @@ export class PlaylistService implements BasePlaylistService {
                 }
             }
 
-            await this.fileAccess.clearFileContentsAsync(playlistPath);
+            await this.fileAccess.clearFileContentsAsync(playlistPath!);
 
             for (const playlistTrack of playlistTracksAfterRemoval) {
-                await this.fileAccess.appendTextToFileAsync(playlistPath, playlistTrack.path);
+                await this.fileAccess.appendTextToFileAsync(playlistPath!, playlistTrack.path);
             }
         } catch (e) {
             this.logger.error(

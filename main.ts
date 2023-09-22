@@ -5,6 +5,7 @@ import * as windowStateKeeper from 'electron-window-state';
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
+import { Guards } from './src/app/common/guards';
 
 /**
  * Command line parameters
@@ -32,6 +33,7 @@ let isQuitting;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
@@ -94,7 +96,7 @@ function getTrayIcon(): string {
 
 function createMainWindow(): void {
     // Suppress the default menu
-    Menu.setApplicationMenu(undefined);
+    Menu.setApplicationMenu(null);
 
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
@@ -102,6 +104,7 @@ function createMainWindow(): void {
         defaultHeight: 650,
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
 
@@ -129,6 +132,7 @@ function createMainWindow(): void {
     windowState.manage(mainWindow);
 
     if (isServing) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
         });
@@ -163,6 +167,7 @@ function createMainWindow(): void {
         // Check that the requested url is not the current page
         if (localUrl !== mainWindow.webContents.getURL()) {
             e.preventDefault();
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('electron').shell.openExternal(localUrl);
         }
     };
@@ -189,7 +194,7 @@ function createMainWindow(): void {
 
     mainWindow.on('close', (event: any) => {
         if (shouldCloseToNotificationArea()) {
-            if (!isQuitting) {
+            if (!(<boolean>isQuitting)) {
                 event.preventDefault();
                 mainWindow.hide();
             }
@@ -216,8 +221,8 @@ try {
             mainWindow.webContents.send('arguments-received', argv);
 
             // Someone tried to run a second instance, we should focus the existing window.
-            if (mainWindow) {
-                if (mainWindow.isMinimized()) {
+            if (Guards.isDefined(mainWindow)) {
+                if (<boolean>mainWindow.isMinimized()) {
                     mainWindow.restore();
                 }
 

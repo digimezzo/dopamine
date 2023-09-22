@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Guards } from '../../common/guards';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { BaseTranslatorService } from '../translator/base-translator.service';
@@ -7,8 +8,8 @@ import { BaseSnackBarService } from './base-snack-bar.service';
 
 @Injectable()
 export class SnackBarService implements BaseSnackBarService {
-    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
-    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> | undefined = undefined;
+    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> | undefined = undefined;
     private isDismissRequested: boolean = false;
 
     public constructor(
@@ -87,9 +88,9 @@ export class SnackBarService implements BaseSnackBarService {
     }
 
     public async dismissAsync(): Promise<void> {
-        if (this.currentDismissibleSnackBar != undefined) {
+        if (Guards.isDefined(this.currentDismissibleSnackBar)) {
             this.isDismissRequested = true;
-            this.currentDismissibleSnackBar.dismiss();
+            this.currentDismissibleSnackBar!.dismiss();
             this.currentDismissibleSnackBar = undefined;
         }
     }

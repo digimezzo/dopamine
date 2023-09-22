@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Guards } from '../../common/guards';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 
@@ -6,12 +7,12 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 export class EmbeddedAlbumArtworkGetter {
     public constructor(private logger: Logger) {}
 
-    public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer {
-        if (fileMetadata == undefined) {
+    public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer | undefined {
+        if (!Guards.isDefined(fileMetadata)) {
             return undefined;
         }
 
-        let artworkData: Buffer;
+        let artworkData: Buffer | undefined;
 
         try {
             artworkData = fileMetadata.picture;

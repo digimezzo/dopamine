@@ -109,10 +109,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         );
     }
 
-    public setSelectedArtists(event: any, artistToSelect: ArtistModel): void {
+    public setSelectedArtists(event: MouseEvent, artistToSelect: ArtistModel): void {
         if (!artistToSelect.isZoomHeader) {
             this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
-            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
+            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems as ArtistModel[]);
         }
     }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Guards } from '../../../common/guards';
 import { Logger } from '../../../common/logger';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
@@ -14,7 +15,7 @@ export class FoldersPersister {
         this.initializeFromSettings();
     }
 
-    public getOpenedFolder(availableFolders: FolderModel[]): FolderModel {
+    public getOpenedFolder(availableFolders: FolderModel[]): FolderModel | undefined {
         if (availableFolders == undefined) {
             return undefined;
         }
@@ -36,20 +37,20 @@ export class FoldersPersister {
         return availableFolders[0];
     }
 
-    public setOpenedFolder(openedFolder: FolderModel): void {
+    public setOpenedFolder(openedFolder: FolderModel | undefined): void {
         try {
-            if (openedFolder == undefined) {
+            if (!Guards.isDefined(openedFolder)) {
                 this.saveOpenedFolder('');
                 this.saveOpenedSubfolder('');
             } else {
-                this.saveOpenedFolder(openedFolder.path);
+                this.saveOpenedFolder(openedFolder!.path);
             }
         } catch (e) {
             this.logger.error(`Could not set opened folder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedFolder');
         }
     }
 
-    public getOpenedSubfolder(): SubfolderModel {
+    public getOpenedSubfolder(): SubfolderModel | undefined {
         if (Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }

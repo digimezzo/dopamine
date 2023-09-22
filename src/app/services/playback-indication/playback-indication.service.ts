@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Guards } from '../../common/guards';
 import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
@@ -8,19 +9,19 @@ import { BasePlaybackIndicationService } from './base-playback-indication.servic
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
     public constructor(private pathValidator: PathValidator) {}
 
-    public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): void {
-        if (subfolders == undefined) {
+    public setPlayingSubfolder(subfolders: SubfolderModel[] | undefined, playingTrack: TrackModel | undefined): void {
+        if (!Guards.isDefined(subfolders)) {
             return;
         }
 
-        if (playingTrack == undefined) {
+        if (!Guards.isDefined(playingTrack)) {
             return;
         }
 
-        for (const subfolder of subfolders) {
+        for (const subfolder of subfolders!) {
             subfolder.isPlaying = false;
 
-            if (!subfolder.isGoToParent && this.pathValidator.isParentPath(subfolder.path, playingTrack.path)) {
+            if (!subfolder.isGoToParent && this.pathValidator.isParentPath(subfolder.path, playingTrack!.path)) {
                 subfolder.isPlaying = true;
             }
         }
@@ -36,19 +37,19 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         }
     }
 
-    public setPlayingTrack(tracks: TrackModel[], playingTrack: TrackModel): void {
-        if (tracks == undefined) {
+    public setPlayingTrack(tracks: TrackModel[] | undefined, playingTrack: TrackModel | undefined): void {
+        if (!Guards.isDefined(tracks)) {
             return;
         }
 
-        if (playingTrack == undefined) {
+        if (!Guards.isDefined(playingTrack)) {
             return;
         }
 
-        for (const track of tracks) {
+        for (const track of tracks!) {
             track.isPlaying = false;
 
-            if (track.path === playingTrack.path) {
+            if (track.path === playingTrack!.path) {
                 track.isPlaying = true;
             }
         }

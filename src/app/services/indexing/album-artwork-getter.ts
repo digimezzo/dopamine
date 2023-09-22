@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Guards } from '../../common/guards';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { EmbeddedAlbumArtworkGetter } from './embedded-album-artwork-getter';
@@ -14,27 +15,27 @@ export class AlbumArtworkGetter {
         private settings: BaseSettings
     ) {}
 
-    public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
+    public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
 
-        const embeddedArtwork: Buffer = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
+        const embeddedArtwork: Buffer | undefined = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
 
-        if (embeddedArtwork != undefined) {
+        if (Guards.isDefined(embeddedArtwork)) {
             return embeddedArtwork;
         }
 
-        const externalArtwork: Buffer = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
+        const externalArtwork: Buffer | undefined = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata);
 
-        if (externalArtwork != undefined) {
+        if (Guards.isDefined(externalArtwork)) {
             return externalArtwork;
         }
 
         if (getOnlineArtwork && this.settings.downloadMissingAlbumCovers) {
-            const onlineArtwork: Buffer = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
+            const onlineArtwork: Buffer | undefined = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
 
-            if (onlineArtwork != undefined) {
+            if (Guards.isDefined(onlineArtwork)) {
                 return onlineArtwork;
             }
         }

@@ -43,11 +43,11 @@ export class MetadataService implements BaseMetadataService {
         try {
             const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track!.path);
 
-            if (fileMetaData != undefined) {
-                const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+            if (Guards.isDefined(fileMetaData)) {
+                const coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
 
-                if (coverArt != undefined) {
-                    return this.imageProcessor.convertBufferToImageUrl(coverArt);
+                if (Guards.isDefined(coverArt)) {
+                    return this.imageProcessor.convertBufferToImageUrl(coverArt!);
                 }
             }
 

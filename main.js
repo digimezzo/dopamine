@@ -7,6 +7,7 @@ const windowStateKeeper = require("electron-window-state");
 const os = require("os");
 const path = require("path");
 const url = require("url");
+const guards_1 = require("./src/app/common/guards");
 /**
  * Command line parameters
  */
@@ -30,6 +31,7 @@ let tray;
 let isQuitting;
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 /**
@@ -81,12 +83,13 @@ function getTrayIcon() {
 }
 function createMainWindow() {
     // Suppress the default menu
-    electron_1.Menu.setApplicationMenu(undefined);
+    electron_1.Menu.setApplicationMenu(null);
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
         defaultWidth: 1000,
         defaultHeight: 650,
     });
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
     // Create the browser window
@@ -109,6 +112,7 @@ function createMainWindow() {
     globalAny.windowHasFrame = windowHasFrame();
     windowState.manage(mainWindow);
     if (isServing) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
         });
@@ -139,6 +143,7 @@ function createMainWindow() {
         // Check that the requested url is not the current page
         if (localUrl !== mainWindow.webContents.getURL()) {
             e.preventDefault();
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('electron').shell.openExternal(localUrl);
         }
     };
@@ -183,7 +188,7 @@ try {
             electron_log_1.default.info('[Main] [] Attempt to run second instance. Showing existing window.');
             mainWindow.webContents.send('arguments-received', argv);
             // Someone tried to run a second instance, we should focus the existing window.
-            if (mainWindow) {
+            if (guards_1.Guards.isDefined(mainWindow)) {
                 if (mainWindow.isMinimized()) {
                     mainWindow.restore();
                 }

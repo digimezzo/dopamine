@@ -1,3 +1,4 @@
+import { Guards } from '../../common/guards';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Strings } from '../../common/strings';
 
@@ -5,7 +6,7 @@ export class ArtistInformation {
     private _similarArtists: ArtistInformation[] = [];
 
     public constructor(
-        private desktop: BaseDesktop,
+        private desktop: BaseDesktop | undefined,
         private _name: string,
         private _url: string,
         private _imageUrl: string,
@@ -49,7 +50,9 @@ export class ArtistInformation {
             return;
         }
 
-        this.desktop.openLink(this.url);
+        if (Guards.isDefined(this.desktop)) {
+            this.desktop!.openLink(this.url);
+        }
     }
 
     public static empty(): ArtistInformation {

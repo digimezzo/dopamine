@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Guards } from '../../common/guards';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -82,14 +83,18 @@ export class DiscordService implements BaseDiscordService {
 
         // AudioPlayer does not fill in its progress immediately, so progress is (0,0) when a track starts playing.
         if (timeRemainingInMilliseconds === 0) {
-            return this.playbackService.currentTrack.durationInMilliseconds;
+            if (!Guards.isDefined(this.playbackService.currentTrack)) {
+                return 0;
+            }
+
+            return this.playbackService.currentTrack!.durationInMilliseconds;
         }
 
         return timeRemainingInMilliseconds;
     }
 
     private updatePresence(): void {
-        if (this.playbackService.currentTrack == undefined) {
+        if (!Guards.isDefined(this.playbackService.currentTrack)) {
             this.logger.info(`No currentTrack was found. Not setting Discord Rich Presence.`, 'DiscordService', 'setPresence');
 
             return;
@@ -112,8 +117,8 @@ export class DiscordService implements BaseDiscordService {
         }
 
         this.presenceUpdater.updatePresence(
-            this.playbackService.currentTrack.title,
-            this.playbackService.currentTrack.artists,
+            this.playbackService.currentTrack!.title,
+            this.playbackService.currentTrack!.artists,
             smallImageKey,
             smallImageText,
             largeImageKey,

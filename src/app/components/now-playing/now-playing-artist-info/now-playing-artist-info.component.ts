@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Guards } from '../../../common/guards';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { ArtistInformation } from '../../../services/artist-information/artist-information';
@@ -65,21 +66,21 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    private async showArtistInfoAsync(track: TrackModel): Promise<void> {
-        if (track == undefined) {
+    private async showArtistInfoAsync(track: TrackModel | undefined): Promise<void> {
+        if (!Guards.isDefined(track)) {
             this._artist = ArtistInformation.empty();
 
             return;
         }
 
-        if (this.previousArtistName === track.rawFirstArtist) {
+        if (this.previousArtistName === track!.rawFirstArtist) {
             return;
         }
 
-        this.previousArtistName = track.rawFirstArtist;
+        this.previousArtistName = track!.rawFirstArtist;
 
         this._contentAnimation = 'fade-out';
-        this._artist = await this.artistInformationService.getArtistInformationAsync(track);
+        this._artist = await this.artistInformationService.getArtistInformationAsync(track!);
 
         if (Strings.isNullOrWhiteSpace(this.artist.imageUrl)) {
             // Makes sure that the content is shown when there is no image

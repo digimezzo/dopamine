@@ -7,7 +7,7 @@ import { Strings } from '../../common/strings';
 export class ExternalArtworkPathGetter {
     public constructor(private fileAccess: BaseFileAccess) {}
 
-    public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string> {
+    public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string | undefined> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {
             return undefined;
         }

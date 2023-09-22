@@ -3,6 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
+import { Guards } from '../../../common/guards';
 import { Hacks } from '../../../common/hacks';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
@@ -69,7 +70,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
 
     public folders: FolderModel[] = [];
-    public openedFolder: FolderModel;
+    public openedFolder: FolderModel | undefined;
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
@@ -142,18 +143,18 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         }
     }
 
-    public async setOpenedSubfolderAsync(subfolderToActivate: SubfolderModel): Promise<void> {
-        if (this.openedFolder == undefined) {
+    public async setOpenedSubfolderAsync(subfolderToActivate: SubfolderModel | undefined): Promise<void> {
+        if (!Guards.isDefined(this.openedFolder)) {
             return;
         }
 
         try {
-            this.subfolders = await this.folderService.getSubfoldersAsync(this.openedFolder, subfolderToActivate);
+            this.subfolders = await this.folderService.getSubfoldersAsync(this.openedFolder!, subfolderToActivate);
             const openedSubfolderPath = this.getOpenedSubfolderPath();
 
             this.foldersPersister.setOpenedSubfolder(new SubfolderModel(openedSubfolderPath, false));
 
-            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder, openedSubfolderPath);
+            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder!, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
             this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
 
@@ -172,12 +173,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         }
     }
 
-    public async setOpenedFolderAsync(folderToActivate: FolderModel): Promise<void> {
+    public async setOpenedFolderAsync(folderToActivate: FolderModel | undefined): Promise<void> {
         this.openedFolder = folderToActivate;
 
         this.foldersPersister.setOpenedFolder(folderToActivate);
 
-        const persistedOpenedSubfolder: SubfolderModel = this.foldersPersister.getOpenedSubfolder();
+        const persistedOpenedSubfolder: SubfolderModel | undefined = this.foldersPersister.getOpenedSubfolder();
         await this.setOpenedSubfolderAsync(persistedOpenedSubfolder);
     }
 
@@ -202,7 +203,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.getFolders();
 
         await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
-        const persistedOpenedFolder: FolderModel = this.foldersPersister.getOpenedFolder(this.folders);
+        const persistedOpenedFolder: FolderModel | undefined = this.foldersPersister.getOpenedFolder(this.folders);
         await this.setOpenedFolderAsync(persistedOpenedFolder);
     }
 
@@ -216,7 +217,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     private getOpenedSubfolderPath(): string {
         return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
             ? this.subfolders.filter((x) => x.isGoToParent)[0].path
-            : this.openedFolder.path;
+            : this.openedFolder!.path;
     }
 
     public setSelectedTrack(event: MouseEvent, trackToSelect: TrackModel): void {

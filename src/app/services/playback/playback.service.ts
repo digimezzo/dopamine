@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { Guards } from '../../common/guards';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { TrackOrdering } from '../../common/ordering/track-ordering';
@@ -103,7 +104,7 @@ export class PlaybackService implements BasePlaybackService {
         return this._canResume;
     }
 
-    public currentTrack: TrackModel;
+    public currentTrack: TrackModel | undefined;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
@@ -316,7 +317,7 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public playPrevious(): void {
-        let trackToPlay: TrackModel;
+        let trackToPlay: TrackModel | undefined;
 
         if (this.currentTrack != undefined && this.audioPlayer.progressSeconds > 3) {
             trackToPlay = this.currentTrack;
@@ -325,7 +326,7 @@ export class PlaybackService implements BasePlaybackService {
             trackToPlay = this.queue.getPreviousTrack(this.currentTrack, allowWrapAround);
         }
 
-        if (trackToPlay != undefined) {
+        if (Guards.isDefined(trackToPlay)) {
             this.play(trackToPlay, true);
 
             return;
@@ -338,9 +339,9 @@ export class PlaybackService implements BasePlaybackService {
         this.increaseCountersForCurrentTrackBasedOnProgress();
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
+        const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
-        if (trackToPlay != undefined) {
+        if (Guards.isDefined(trackToPlay)) {
             this.play(trackToPlay, false);
 
             return;
@@ -374,15 +375,20 @@ export class PlaybackService implements BasePlaybackService {
         }
     }
 
-    private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
+    private play(trackToPlay: TrackModel | undefined, isPlayingPreviousTrack: boolean): void {
+        if (!Guards.isDefined(trackToPlay)) {
+            this.logger.info(`trackToPlay is undefined`, 'PlaybackService', 'play');
+            return;
+        }
+
         this.audioPlayer.stop();
-        this.audioPlayer.play(trackToPlay.path);
+        this.audioPlayer.play(trackToPlay!.path);
         this.currentTrack = trackToPlay;
         this._isPlaying = true;
         this._canPause = true;
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();
-        this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
+        this.playbackStarted.next(new PlaybackStarted(trackToPlay!, isPlayingPreviousTrack));
 
         this.logger.info(`Playing '${this.currentTrack?.path}'`, 'PlaybackService', 'play');
     }
@@ -393,10 +399,11 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();
-        this.currentTrack = undefined;
         this.playbackStopped.next();
 
         this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
+
+        this.currentTrack = undefined;
     }
 
     private playbackFinishedHandler(): void {
@@ -410,9 +417,9 @@ export class PlaybackService implements BasePlaybackService {
         }
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
+        const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
-        if (trackToPlay != undefined) {
+        if (Guards.isDefined(trackToPlay)) {
             this.play(trackToPlay, false);
 
             return;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { Guards } from '../../common/guards';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
@@ -62,20 +63,20 @@ export class FolderService implements BaseFolderService {
         return [];
     }
 
-    public async getSubfoldersAsync(rootFolder: FolderModel, subfolder: SubfolderModel): Promise<SubfolderModel[]> {
+    public async getSubfoldersAsync(rootFolder: FolderModel | undefined, subfolder: SubfolderModel | undefined): Promise<SubfolderModel[]> {
         // If no root folder is provided, return no subfolders.
-        if (rootFolder == undefined) {
+        if (!Guards.isDefined(rootFolder)) {
             return [];
         }
 
         const subfolders: SubfolderModel[] = [];
         let subfolderPaths: string[] = [];
 
-        if (subfolder == undefined) {
+        if (!Guards.isDefined(subfolder)) {
             // If no subfolder is provided, return the subfolders of the root folder.
             try {
-                if (this.fileAccess.pathExists(rootFolder.path)) {
-                    subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(rootFolder.path);
+                if (this.fileAccess.pathExists(rootFolder!.path)) {
+                    subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(rootFolder!.path);
                 }
             } catch (e) {
                 this.logger.error(
@@ -87,16 +88,16 @@ export class FolderService implements BaseFolderService {
         } else {
             // If a subfolder is provided, return the subfolders of the subfolder.
             try {
-                if (this.fileAccess.pathExists(subfolder.path)) {
-                    let subfolderPathToBrowse: string = subfolder.path;
+                if (this.fileAccess.pathExists(subfolder!.path)) {
+                    let subfolderPathToBrowse: string = subfolder!.path;
 
                     // If the ".." subfolder is selected, go to the parent folder.
-                    if (subfolder.isGoToParent) {
-                        subfolderPathToBrowse = this.fileAccess.getDirectoryPath(subfolder.path);
+                    if (subfolder!.isGoToParent) {
+                        subfolderPathToBrowse = this.fileAccess.getDirectoryPath(subfolder!.path);
                     }
 
                     // If we're not browsing the root folder, show a folder to go up 1 level.
-                    if (subfolderPathToBrowse !== rootFolder.path) {
+                    if (subfolderPathToBrowse !== rootFolder!.path) {
                         subfolders.push(new SubfolderModel(subfolderPathToBrowse, true));
                     }
 

@@ -5,6 +5,7 @@ import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
+import { Guards } from '../../common/guards';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
@@ -55,10 +56,10 @@ export class PlaylistFileManager {
 
             if (this.fileValidator.isSupportedPlaylistFile(currentPath)) {
                 const playlistPath: string = currentPath;
-                const previousPath: string = Collections.getPreviousItem(sortedFilePathsInPath, index);
-                const nextPath: string = Collections.getNextItem(sortedFilePathsInPath, index);
+                const previousPath: string | undefined = Collections.getPreviousItem<string>(sortedFilePathsInPath, index);
+                const nextPath: string | undefined = Collections.getNextItem<string>(sortedFilePathsInPath, index);
 
-                let playlistImagePath: string = '';
+                let playlistImagePath: string | undefined = undefined;
 
                 if (this.isProposedPlaylistImagePathValid(playlistPath, previousPath)) {
                     playlistImagePath = previousPath;
@@ -73,13 +74,13 @@ export class PlaylistFileManager {
         return playlists;
     }
 
-    private isProposedPlaylistImagePathValid(playlistPath: string, proposedPlaylistImagePath: string): boolean {
+    private isProposedPlaylistImagePathValid(playlistPath: string, proposedPlaylistImagePath: string | undefined): boolean {
         const playlistPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(playlistPath);
 
         return (
-            proposedPlaylistImagePath != undefined &&
-            this.fileValidator.isSupportedPlaylistImageFile(proposedPlaylistImagePath) &&
-            proposedPlaylistImagePath.startsWith(playlistPathWithoutExtension)
+            Guards.isDefined(proposedPlaylistImagePath) &&
+            this.fileValidator.isSupportedPlaylistImageFile(proposedPlaylistImagePath!) &&
+            proposedPlaylistImagePath!.startsWith(playlistPathWithoutExtension)
         );
     }
 

@@ -27,6 +27,6 @@ export class MediaSessionProxy implements BaseMediaSessionProxy {
     }
 
     public clearMetadata(): void {
-        window.navigator.mediaSession.metadata = undefined;
+        window.navigator.mediaSession.metadata = null;
     }
 }
