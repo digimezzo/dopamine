@@ -3,9 +3,7 @@ import { ExternalComponent } from './external-component';
 describe('ExternalComponent', () => {
     describe('constructor', () => {
         it('should set name', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', 'The license url');
 
             // Assert
@@ -13,9 +11,7 @@ describe('ExternalComponent', () => {
         });
 
         it('should set description', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', 'The license url');
 
             // Assert
@@ -23,9 +19,7 @@ describe('ExternalComponent', () => {
         });
 
         it('should set url', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', 'The license url');
 
             // Assert
@@ -33,13 +27,29 @@ describe('ExternalComponent', () => {
         });
 
         it('should set license url', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', 'The license url');
 
             // Assert
             expect(externalComponent.licenseUrl).toEqual('The license url');
+        });
+    });
+
+    describe('hasLicenseUrl', () => {
+        it('should be true if there is a license url', () => {
+            // Arrange, Act
+            const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', 'The license url');
+
+            // Assert
+            expect(externalComponent.hasLicenseUrl).toBeTruthy();
+        });
+
+        it('should be false if there is a license url', () => {
+            // Arrange, Act
+            const externalComponent: ExternalComponent = new ExternalComponent('The name', 'The description', 'The url', '');
+
+            // Assert
+            expect(externalComponent.hasLicenseUrl).toBeFalsy();
         });
     });
 });

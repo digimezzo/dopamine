@@ -172,7 +172,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this.subscription.unsubscribe();
     }
 
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTracks(event: MouseEvent | undefined, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 

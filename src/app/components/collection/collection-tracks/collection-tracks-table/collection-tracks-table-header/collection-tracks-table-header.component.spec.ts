@@ -3,9 +3,7 @@ import { CollectionTracksTableHeaderComponent } from './collection-tracks-table-
 describe('CollectionTracksTableHeaderComponent', () => {
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const component: CollectionTracksTableHeaderComponent = new CollectionTracksTableHeaderComponent();
 
             // Assert
@@ -62,6 +60,27 @@ describe('CollectionTracksTableHeaderComponent', () => {
 
             // Assert
             expect(component.isOrderedAscending).toBeTruthy();
+        });
+    });
+
+    describe('hasIcon', () => {
+        it('should be true if there is an icon', () => {
+            // Arrange
+            const component: CollectionTracksTableHeaderComponent = new CollectionTracksTableHeaderComponent();
+
+            // Act
+            component.icon = 'The icon';
+
+            // Assert
+            expect(component.hasIcon).toBeTruthy();
+        });
+
+        it('should be false if there is no icon', () => {
+            // Arrange, Act
+            const component: CollectionTracksTableHeaderComponent = new CollectionTracksTableHeaderComponent();
+
+            // Assert
+            expect(component.hasIcon).toBeTruthy();
         });
     });
 });

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Strings } from '../../common/strings';
 import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EditColumnsDialogComponent } from '../../components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
 import { EditPlaylistDialogComponent } from '../../components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
@@ -17,18 +18,14 @@ export class DialogService implements BaseDialogService {
     public isInputDialogOpened: boolean = false;
 
     public async showConfirmationDialogAsync(dialogTitle: string, dialogText: string): Promise<boolean> {
-        const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, {
+        const dialogRef: MatDialogRef<ConfirmationDialogComponent, string> = this.dialog.open(ConfirmationDialogComponent, {
             width: '450px',
             data: { dialogTitle: dialogTitle, dialogText: dialogText },
         });
 
-        const result: any = await dialogRef.afterClosed().toPromise();
+        const result: string | undefined = await dialogRef.afterClosed().toPromise();
 
-        if (result) {
-            return true;
-        }
-
-        return false;
+        return !Strings.isNullOrWhiteSpace(result);
     }
 
     public async showInputDialogAsync(dialogTitle: string, placeHolderText: string, inputText: string): Promise<string> {

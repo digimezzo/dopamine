@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ISelectable } from '../interfaces/i-selectable';
+import { Guards } from './guards';
 
 @Injectable()
 export class MouseSelectionWatcher {
@@ -26,23 +27,23 @@ export class MouseSelectionWatcher {
         }
     }
 
-    public setSelectedItems(event: any, item: ISelectable): void {
-        if (event == undefined) {
+    public setSelectedItems(event: MouseEvent | undefined, item: ISelectable): void {
+        if (!Guards.isDefined(event)) {
             return;
         }
 
-        if (item == undefined) {
+        if (!Guards.isDefined(item)) {
             return;
         }
 
-        if (event && event.ctrlKey) {
+        if (event!.ctrlKey) {
             // CTRL is pressed: add item to, or remove item from selection
             this.toggleItemSelection(item);
-        } else if (event && event.shiftKey) {
+        } else if (event!.shiftKey) {
             // SHIFT is pressed: select a range of items
             this.selectItemsRange(item);
         } else {
-            if (event.button !== 0 && this.selectedItems.length > 1) {
+            if (event!.button !== 0 && this.selectedItems.length > 1) {
                 return;
             }
 

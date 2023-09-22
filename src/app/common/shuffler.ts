@@ -7,7 +7,7 @@ export class Shuffler {
      * @param array Based on https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
      * @returns
      */
-    public shuffle(array: any[]): any[] {
+    public shuffle<T>(array: T[]): T[] {
         let currentIndex: number = array.length;
         let randomIndex: number = 0;
 

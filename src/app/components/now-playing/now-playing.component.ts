@@ -8,7 +8,6 @@ import { BaseNavigationService } from '../../services/navigation/base-navigation
 import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
 import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
 import { BaseSearchService } from '../../services/search/base-search.service';
 
 @Component({
@@ -114,7 +113,7 @@ export class NowPlayingComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+            this.playbackService.playbackStarted$.subscribe(async () => {
                 await this.setBackgroundsAsync();
             })
         );

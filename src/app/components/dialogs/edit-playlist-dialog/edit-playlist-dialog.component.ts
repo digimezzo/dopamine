@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../common/application/constants';
+import { Guards } from '../../../common/guards';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Strings } from '../../../common/strings';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
@@ -12,7 +13,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
     styleUrls: ['./edit-playlist-dialog.component.scss'],
 })
 export class EditPlaylistDialogComponent implements OnInit {
-    constructor(
+    public constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
         private playlistService: BasePlaylistService,
@@ -43,7 +44,7 @@ export class EditPlaylistDialogComponent implements OnInit {
 
     public ngOnInit(): void {
         this.dialogRef.afterClosed().subscribe(async (result: any) => {
-            if (result) {
+            if (Guards.isDefined(result)) {
                 await this.updatePlaylistAsync();
             }
         });

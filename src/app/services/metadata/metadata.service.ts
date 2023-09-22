@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Guards } from '../../common/guards';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
@@ -34,13 +35,13 @@ export class MetadataService implements BaseMetadataService {
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
     public loveSaved$: Observable<TrackModel> = this.loveSaved.asObservable();
 
-    public async createImageUrlAsync(track: TrackModel): Promise<string> {
-        if (track == undefined) {
+    public async createImageUrlAsync(track: TrackModel | undefined): Promise<string> {
+        if (!Guards.isDefined(track)) {
             return Constants.emptyImage;
         }
 
         try {
-            const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+            const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track!.path);
 
             if (fileMetaData != undefined) {
                 const coverArt: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
@@ -50,7 +51,7 @@ export class MetadataService implements BaseMetadataService {
                 }
             }
 
-            const cachedAlbumArtworkPath: string = this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(track.albumKey);
+            const cachedAlbumArtworkPath: string = this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(track!.albumKey);
 
             if (!Strings.isNullOrWhiteSpace(cachedAlbumArtworkPath) && this.fileAccess.pathExists(cachedAlbumArtworkPath)) {
                 return 'file:///' + cachedAlbumArtworkPath;
@@ -59,7 +60,7 @@ export class MetadataService implements BaseMetadataService {
             return Constants.emptyImage;
         } catch (error) {
             this.logger.error(
-                `Could not create image URL for track with path=${track.path}. Error: ${error.message}`,
+                `Could not create image URL for track with path=${track!.path}. Error: ${error.message}`,
                 'MetadataService',
                 'createImageUrlAsync'
             );

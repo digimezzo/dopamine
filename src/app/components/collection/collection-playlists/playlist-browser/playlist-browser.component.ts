@@ -102,9 +102,9 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setSelectedPlaylists(event: any, playlistToSelect: PlaylistModel): void {
+    public setSelectedPlaylists(event: MouseEvent, playlistToSelect: PlaylistModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistToSelect);
-        this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems);
+        this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems as PlaylistModel[]);
     }
 
     public togglePlaylistOrder(): void {

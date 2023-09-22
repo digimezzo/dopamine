@@ -7,7 +7,7 @@ import { Strings } from '../../common/strings';
 export class TabSelectionGetter {
     private tabLabels: string[] = [];
 
-    constructor(private settings: BaseSettings) {
+    public constructor(private settings: BaseSettings) {
         this.getTabLabels();
     }
 

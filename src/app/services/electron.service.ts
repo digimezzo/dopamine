@@ -4,6 +4,7 @@ import * as childProcess from 'child_process';
 // the resulting javascript file will look as if you never imported the module at all.
 import { ipcRenderer, webFrame } from 'electron';
 import * as fs from 'fs';
+import { Guards } from '../common/guards';
 
 @Injectable()
 export class ElectronService {
@@ -23,7 +24,7 @@ export class ElectronService {
         }
     }
 
-    public isElectron = () => {
-        return window != undefined && window.process && window.process.type;
-    };
+    public isElectron(): boolean {
+        return Guards.isDefined(window) && Guards.isDefined(window.process) && Guards.isDefined(window.process.type);
+    }
 }

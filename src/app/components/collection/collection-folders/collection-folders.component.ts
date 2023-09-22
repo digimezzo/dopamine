@@ -219,7 +219,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             : this.openedFolder.path;
     }
 
-    public setSelectedTrack(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTrack(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
@@ -228,11 +228,11 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
