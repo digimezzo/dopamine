@@ -65,7 +65,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    private async showArtistInfoAsync(track: TrackModel): Promise<void> {
+    private async showArtistInfoAsync(track: TrackModel | undefined): Promise<void> {
         if (track == undefined) {
             this._artist = ArtistInformation.empty();
 

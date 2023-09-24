@@ -31,11 +31,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         }
     }
 
-    public async addArtworkDataToCacheAsync(imageBuffer: Buffer): Promise<AlbumArtworkCacheId> {
-        if (imageBuffer == undefined) {
-            return undefined;
-        }
-
+    public async addArtworkDataToCacheAsync(imageBuffer: Buffer): Promise<AlbumArtworkCacheId | undefined> {
         if (imageBuffer.length === 0) {
             return undefined;
         }

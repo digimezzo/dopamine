@@ -8,7 +8,7 @@ import { BasePlaybackIndicationService } from './base-playback-indication.servic
 export class PlaybackIndicationService implements BasePlaybackIndicationService {
     public constructor(private pathValidator: PathValidator) {}
 
-    public setPlayingSubfolder(subfolders: SubfolderModel[], playingTrack: TrackModel): void {
+    public setPlayingSubfolder(subfolders: SubfolderModel[] | undefined, playingTrack: TrackModel | undefined): void {
         if (subfolders == undefined) {
             return;
         }
@@ -36,7 +36,7 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         }
     }
 
-    public setPlayingTrack(tracks: TrackModel[], playingTrack: TrackModel): void {
+    public setPlayingTrack(tracks: TrackModel[] | undefined, playingTrack: TrackModel | undefined): void {
         if (tracks == undefined) {
             return;
         }

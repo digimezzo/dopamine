@@ -16,7 +16,7 @@ export interface IFileMetadata {
     discNumber: number;
     discCount: number;
     lyrics: string;
-    picture: Buffer;
+    picture: Buffer | undefined;
     rating: number;
 
     save(): void;

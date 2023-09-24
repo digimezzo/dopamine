@@ -34,7 +34,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
@@ -137,7 +137,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         }
     }
 
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 

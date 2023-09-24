@@ -98,7 +98,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
 
     public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, albumToSelect);
-        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems);
+        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems as AlbumModel[]);
     }
 
     public toggleAlbumOrder(): void {

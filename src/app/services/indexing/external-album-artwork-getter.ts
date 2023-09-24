@@ -13,12 +13,12 @@ export class ExternalAlbumArtworkGetter {
         private logger: Logger
     ) {}
 
-    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
 
-        let artworkData: Buffer;
+        let artworkData: Buffer | undefined;
 
         try {
             const externalArtworkPath: string = await this.externalArtworkPathGetter.getExternalArtworkPathAsync(fileMetadata.path);

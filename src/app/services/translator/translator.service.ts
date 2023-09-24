@@ -19,7 +19,7 @@ export class TranslatorService implements BaseTranslatorService {
     public languages: Language[] = Constants.languages;
 
     public get selectedLanguage(): Language {
-        return this.languages.find((x) => x.code === this.settings.language);
+        return this.languages.find((x) => x.code === this.settings.language)!;
     }
 
     public set selectedLanguage(v: Language) {

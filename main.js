@@ -81,7 +81,7 @@ function getTrayIcon() {
 }
 function createMainWindow() {
     // Suppress the default menu
-    electron_1.Menu.setApplicationMenu(undefined);
+    electron_1.Menu.setApplicationMenu(null);
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
         defaultWidth: 1000,

@@ -7,8 +7,8 @@ import { BaseSnackBarService } from './base-snack-bar.service';
 
 @Injectable()
 export class SnackBarService implements BaseSnackBarService {
-    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
-    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
+    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private isDismissRequested: boolean = false;
 
     public constructor(

@@ -62,7 +62,7 @@ export class FolderService implements BaseFolderService {
         return [];
     }
 
-    public async getSubfoldersAsync(rootFolder: FolderModel, subfolder: SubfolderModel): Promise<SubfolderModel[]> {
+    public async getSubfoldersAsync(rootFolder: FolderModel | undefined, subfolder: SubfolderModel | undefined): Promise<SubfolderModel[]> {
         // If no root folder is provided, return no subfolders.
         if (rootFolder == undefined) {
             return [];

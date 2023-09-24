@@ -58,6 +58,6 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     }
 
     public onRemoveFromQueue(): void {
-        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems);
+        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 }

@@ -10,7 +10,7 @@ import { Strings } from '../../common/strings';
 export class OnlineAlbumArtworkGetter {
     public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
-    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
@@ -41,7 +41,7 @@ export class OnlineAlbumArtworkGetter {
         }
 
         for (const artist of artists) {
-            let lastfmAlbum: LastfmAlbum;
+            let lastfmAlbum: LastfmAlbum | undefined;
 
             try {
                 lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');

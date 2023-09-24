@@ -21,7 +21,7 @@ export class MusicMetadataFileMetadata implements IFileMetadata {
     public discNumber: number;
     public discCount: number;
     public lyrics: string;
-    public picture: Buffer;
+    public picture: Buffer | undefined;
     public rating: number;
 
     public save(): void {

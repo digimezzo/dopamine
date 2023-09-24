@@ -18,7 +18,7 @@ export abstract class BasePlaybackService {
     public abstract playbackResumed$: Observable<void>;
     public abstract playbackStopped$: Observable<void>;
     public abstract playbackSkipped$: Observable<void>;
-    public abstract currentTrack: TrackModel;
+    public abstract currentTrack: TrackModel | undefined;
     public abstract progress: PlaybackProgress;
     public abstract volume: number;
     public abstract loopMode: LoopMode;

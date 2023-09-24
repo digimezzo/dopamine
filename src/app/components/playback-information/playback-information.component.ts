@@ -69,10 +69,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topContentTrack: TrackModel = undefined;
-    public bottomContentTrack: TrackModel = undefined;
+    public topContentTrack: TrackModel | undefined;
+    public bottomContentTrack: TrackModel | undefined;
 
-    private currentTrack: TrackModel = undefined;
+    private currentTrack: TrackModel | undefined;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -125,8 +125,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
     }
 
-    private async switchUp(track: TrackModel): Promise<void> {
-        let newTrack: TrackModel;
+    private async switchUp(track: TrackModel | undefined): Promise<void> {
+        let newTrack: TrackModel | undefined;
 
         if (track != undefined) {
             newTrack = track;
@@ -146,8 +146,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(350);
     }
 
-    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        let newTrack: TrackModel;
+    private async switchDown(track: TrackModel | undefined, performAnimation: boolean): Promise<void> {
+        let newTrack: TrackModel | undefined;
 
         if (track != undefined) {
             newTrack = track;

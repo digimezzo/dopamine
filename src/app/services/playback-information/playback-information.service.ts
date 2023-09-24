@@ -43,7 +43,7 @@ export class PlaybackInformationService implements BasePlaybackInformationServic
         return await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
     }
 
-    private async createPlaybackInformationAsync(track: TrackModel): Promise<PlaybackInformation> {
+    private async createPlaybackInformationAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
         if (track != undefined) {
             const newImage: string = await this.metadataService.createImageUrlAsync(track);
 

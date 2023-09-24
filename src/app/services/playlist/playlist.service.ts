@@ -140,7 +140,7 @@ export class PlaylistService implements BasePlaylistService {
             );
 
             for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
-                const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath);
+                const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath) ?? [];
 
                 await this.removeTracksFromSinglePlaylistAsync(playlistPath, tracksToRemoveForSinglePlaylist);
             }

@@ -103,7 +103,7 @@ export class PlaybackService implements BasePlaybackService {
         return this._canResume;
     }
 
-    public currentTrack: TrackModel;
+    public currentTrack: TrackModel | undefined;
 
     public progressChanged$: Observable<PlaybackProgress> = this.progressChanged.asObservable();
     public playbackStarted$: Observable<PlaybackStarted> = this.playbackStarted.asObservable();
@@ -124,7 +124,11 @@ export class PlaybackService implements BasePlaybackService {
         this.queue.setTracks(tracksToEnqueue, this.isShuffled);
 
         // Play first track in queue (will be a random track if queue is shuffled)
-        this.play(this.queue.getFirstTrack(), false);
+        const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
+
+        if (firstTrack != undefined) {
+            this.play(firstTrack, false);
+        }
     }
 
     public enqueueAndPlayTracksStartingFromGivenTrack(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
@@ -316,7 +320,7 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public playPrevious(): void {
-        let trackToPlay: TrackModel;
+        let trackToPlay: TrackModel | undefined;
 
         if (this.currentTrack != undefined && this.audioPlayer.progressSeconds > 3) {
             trackToPlay = this.currentTrack;
@@ -338,7 +342,7 @@ export class PlaybackService implements BasePlaybackService {
         this.increaseCountersForCurrentTrackBasedOnProgress();
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
+        const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, false);
@@ -393,24 +397,32 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();
-        this.currentTrack = undefined;
         this.playbackStopped.next();
 
-        this.logger.info(`Stopping '${this.currentTrack?.path}'`, 'PlaybackService', 'stop');
+        if (this.currentTrack != undefined) {
+            this.logger.info(`Stopping '${this.currentTrack.path}'`, 'PlaybackService', 'stop');
+        }
+
+        this.currentTrack = undefined;
     }
 
     private playbackFinishedHandler(): void {
-        this.logger.info(`Track finished: '${this.currentTrack?.path}'`, 'PlaybackService', 'playbackFinishedHandler');
+        if (this.currentTrack != undefined) {
+            this.logger.info(`Track finished: '${this.currentTrack.path}'`, 'PlaybackService', 'playbackFinishedHandler');
+        }
+
         this.increasePlayCountAndDateLastPlayedForCurrentTrack();
 
         if (this.loopMode === LoopMode.One) {
-            this.play(this.currentTrack, false);
+            if (this.currentTrack != undefined) {
+                this.play(this.currentTrack, false);
+            }
 
             return;
         }
 
         const allowWrapAround: boolean = this.loopMode === LoopMode.All;
-        const trackToPlay: TrackModel = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
+        const trackToPlay: TrackModel | undefined = this.queue.getNextTrack(this.currentTrack, allowWrapAround);
 
         if (trackToPlay != undefined) {
             this.play(trackToPlay, false);

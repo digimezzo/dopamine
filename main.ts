@@ -26,9 +26,9 @@ const globalAny: any = global; // Global does not allow setting custom propertie
 const settings: Store<any> = new Store();
 const args: string[] = process.argv.slice(1);
 const isServing: boolean = args.some((val) => val === '--serve');
-let mainWindow;
-let tray;
-let isQuitting;
+let mainWindow: BrowserWindow | undefined;
+let tray: Tray;
+let isQuitting: boolean;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
@@ -94,7 +94,7 @@ function getTrayIcon(): string {
 
 function createMainWindow(): void {
     // Suppress the default menu
-    Menu.setApplicationMenu(undefined);
+    Menu.setApplicationMenu(null);
 
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
@@ -154,14 +154,14 @@ function createMainWindow(): void {
     // 'ready-to-show' doesn't fire on Windows in dev mode. In prod it seems to work.
     // See: https://github.com/electron/electron/issues/7779
     mainWindow.on('ready-to-show', () => {
-        mainWindow.show();
-        mainWindow.focus();
+        mainWindow!.show();
+        mainWindow!.focus();
     });
 
     // Makes links open in external browser
     const handleRedirect = (e: any, localUrl: string) => {
         // Check that the requested url is not the current page
-        if (localUrl !== mainWindow.webContents.getURL()) {
+        if (localUrl !== mainWindow!.webContents.getURL()) {
             e.preventDefault();
             require('electron').shell.openExternal(localUrl);
         }
@@ -173,7 +173,7 @@ function createMainWindow(): void {
     mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
             // if (serve) {
-            mainWindow.webContents.toggleDevTools();
+            mainWindow!.webContents.toggleDevTools();
             // }
 
             event.preventDefault();
@@ -183,7 +183,7 @@ function createMainWindow(): void {
     mainWindow.on('minimize', (event: any) => {
         if (shouldMinimizeToNotificationArea()) {
             event.preventDefault();
-            mainWindow.hide();
+            mainWindow!.hide();
         }
     });
 
@@ -191,7 +191,7 @@ function createMainWindow(): void {
         if (shouldCloseToNotificationArea()) {
             if (!isQuitting) {
                 event.preventDefault();
-                mainWindow.hide();
+                mainWindow!.hide();
             }
 
             return false;
@@ -213,7 +213,7 @@ try {
     } else {
         app.on('second-instance', (event, argv, workingDirectory) => {
             log.info('[Main] [] Attempt to run second instance. Showing existing window.');
-            mainWindow.webContents.send('arguments-received', argv);
+            mainWindow!.webContents.send('arguments-received', argv);
 
             // Someone tried to run a second instance, we should focus the existing window.
             if (mainWindow) {
@@ -282,8 +282,8 @@ try {
                 {
                     label: arg.showDopamineLabel,
                     click(): void {
-                        mainWindow.show();
-                        mainWindow.focus();
+                        mainWindow!.show();
+                        mainWindow!.focus();
                     },
                 },
                 {

@@ -71,9 +71,9 @@ export class MediaSessionService implements BaseMediaSessionService {
 
     private setMetadata(playbackInformation: PlaybackInformation): void {
         this.mediaSessionProxy.setMetadata(
-            playbackInformation.track.title,
-            playbackInformation.track.artists,
-            playbackInformation.track.albumTitle,
+            playbackInformation.track?.title ?? '',
+            playbackInformation.track?.artists ?? '',
+            playbackInformation.track?.albumTitle ?? '',
             playbackInformation.imageUrl
         );
     }

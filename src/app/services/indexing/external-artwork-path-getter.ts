@@ -9,7 +9,7 @@ export class ExternalArtworkPathGetter {
 
     public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {
-            return undefined;
+            return '';
         }
 
         const directory: string = this.fileAccess.getDirectoryPath(audioFilePath);
@@ -37,6 +37,6 @@ export class ExternalArtworkPathGetter {
             }
         }
 
-        return undefined;
+        return '';
     }
 }

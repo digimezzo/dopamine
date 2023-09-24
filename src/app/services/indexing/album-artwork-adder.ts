@@ -79,7 +79,7 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        let fileMetadata: IFileMetadata;
+        let fileMetadata: IFileMetadata | undefined;
 
         try {
             fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
@@ -95,13 +95,15 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
+        const albumArtwork: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
 
         if (albumArtwork == undefined) {
             return;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
+        const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(
+            albumArtwork
+        );
 
         if (albumArtworkCacheId == undefined) {
             return;

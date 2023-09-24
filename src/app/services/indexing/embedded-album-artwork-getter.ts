@@ -6,12 +6,12 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 export class EmbeddedAlbumArtworkGetter {
     public constructor(private logger: Logger) {}
 
-    public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer {
+    public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer | undefined {
         if (fileMetadata == undefined) {
             return undefined;
         }
 
-        let artworkData: Buffer;
+        let artworkData: Buffer | undefined;
 
         try {
             artworkData = fileMetadata.picture;

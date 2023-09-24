@@ -81,7 +81,7 @@ export class DiscordService implements BaseDiscordService {
             (this.playbackService.progress.totalSeconds - this.playbackService.progress.progressSeconds) * 1000;
 
         // AudioPlayer does not fill in its progress immediately, so progress is (0,0) when a track starts playing.
-        if (timeRemainingInMilliseconds === 0) {
+        if (timeRemainingInMilliseconds === 0 && this.playbackService.currentTrack != undefined) {
             return this.playbackService.currentTrack.durationInMilliseconds;
         }
 

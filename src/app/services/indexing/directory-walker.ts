@@ -18,7 +18,7 @@ export class DirectoryWalker {
     private async recursivelyGetFilesInDirectoryAsync(directoryPath: string, filePaths: string[], errors: Error[]): Promise<void> {
         try {
             // Process the files found in the directory
-            let filePathsInDirectory: string[];
+            let filePathsInDirectory: string[] = [];
 
             try {
                 filePathsInDirectory = await this.fileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
@@ -26,7 +26,7 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (filePathsInDirectory != undefined && filePathsInDirectory.length > 0) {
+            if (filePathsInDirectory.length > 0) {
                 for (const filePath of filePathsInDirectory) {
                     try {
                         filePaths.push(filePath);
@@ -37,7 +37,7 @@ export class DirectoryWalker {
             }
 
             // Recurse into subdirectories in this directory
-            let subdirectoryPathsInDirectory: string[];
+            let subdirectoryPathsInDirectory: string[] = [];
 
             try {
                 subdirectoryPathsInDirectory = await this.fileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
@@ -45,7 +45,7 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (subdirectoryPathsInDirectory != undefined && subdirectoryPathsInDirectory.length > 0) {
+            if (subdirectoryPathsInDirectory.length > 0) {
                 for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
                         await this.recursivelyGetFilesInDirectoryAsync(subdirectoryPath, filePaths, errors);

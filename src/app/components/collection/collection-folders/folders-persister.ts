@@ -14,11 +14,7 @@ export class FoldersPersister {
         this.initializeFromSettings();
     }
 
-    public getOpenedFolder(availableFolders: FolderModel[]): FolderModel {
-        if (availableFolders == undefined) {
-            return undefined;
-        }
-
+    public getOpenedFolder(availableFolders: FolderModel[]): FolderModel | undefined {
         if (availableFolders.length === 0) {
             return undefined;
         }
@@ -49,7 +45,7 @@ export class FoldersPersister {
         }
     }
 
-    public getOpenedSubfolder(): SubfolderModel {
+    public getOpenedSubfolder(): SubfolderModel | undefined {
         if (Strings.isNullOrWhiteSpace(this.openedFolderPath)) {
             return undefined;
         }

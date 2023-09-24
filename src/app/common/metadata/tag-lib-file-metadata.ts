@@ -26,7 +26,7 @@ export class TagLibFileMetadata implements IFileMetadata {
     public discNumber: number;
     public discCount: number;
     public lyrics: string;
-    public picture: Buffer;
+    public picture: Buffer | undefined;
 
     public get rating(): number {
         return this._rating;

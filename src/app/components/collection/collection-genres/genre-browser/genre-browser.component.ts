@@ -107,7 +107,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     public setSelectedGenres(event: any, genreToSelect: GenreModel): void {
         if (!genreToSelect.isZoomHeader) {
             this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
-            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems);
+            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems as GenreModel[]);
         }
     }
 
