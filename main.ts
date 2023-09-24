@@ -33,6 +33,7 @@ let isQuitting;
 
 // Static folder is not detected correctly in production
 if (process.env.NODE_ENV !== 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
@@ -103,6 +104,7 @@ function createMainWindow(): void {
         defaultHeight: 650,
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const remoteMain = require('@electron/remote/main');
     remoteMain.initialize();
 
@@ -130,6 +132,7 @@ function createMainWindow(): void {
     windowState.manage(mainWindow);
 
     if (isServing) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
         });
@@ -164,6 +167,7 @@ function createMainWindow(): void {
         // Check that the requested url is not the current page
         if (localUrl !== mainWindow.webContents.getURL()) {
             e.preventDefault();
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('electron').shell.openExternal(localUrl);
         }
     };
