@@ -103,7 +103,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
         if (userHasConfirmed) {
             try {
-                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems);
             } catch (e) {
                 this.logger.error(
                     `Could not remove tracks from playlists. Error: ${e.message}`,
@@ -117,11 +117,11 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);

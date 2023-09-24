@@ -31,7 +31,7 @@ export class ArtistInformationService implements BaseArtistInformationService {
             return artistInformation;
         }
 
-        let lastfmArtist: LastfmArtist | undefined = undefined;
+        let lastfmArtist: LastfmArtist = undefined;
 
         try {
             lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, this.translatorService.get('language-code'));

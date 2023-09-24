@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Guards } from '../../common/guards';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DirectoryWalkResult } from './directory-walk-result';
 
@@ -19,7 +18,7 @@ export class DirectoryWalker {
     private async recursivelyGetFilesInDirectoryAsync(directoryPath: string, filePaths: string[], errors: Error[]): Promise<void> {
         try {
             // Process the files found in the directory
-            let filePathsInDirectory: string[] | undefined;
+            let filePathsInDirectory: string[];
 
             try {
                 filePathsInDirectory = await this.fileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
@@ -27,8 +26,8 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (Guards.isDefined(filePathsInDirectory) && filePathsInDirectory!.length > 0) {
-                for (const filePath of filePathsInDirectory!) {
+            if (filePathsInDirectory != undefined && filePathsInDirectory.length > 0) {
+                for (const filePath of filePathsInDirectory) {
                     try {
                         filePaths.push(filePath);
                     } catch (e) {
@@ -38,7 +37,7 @@ export class DirectoryWalker {
             }
 
             // Recurse into subdirectories in this directory
-            let subdirectoryPathsInDirectory: string[] | undefined;
+            let subdirectoryPathsInDirectory: string[];
 
             try {
                 subdirectoryPathsInDirectory = await this.fileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
@@ -46,8 +45,8 @@ export class DirectoryWalker {
                 errors.push(e);
             }
 
-            if (Guards.isDefined(subdirectoryPathsInDirectory) && subdirectoryPathsInDirectory!.length > 0) {
-                for (const subdirectoryPath of subdirectoryPathsInDirectory!) {
+            if (subdirectoryPathsInDirectory != undefined && subdirectoryPathsInDirectory.length > 0) {
+                for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
                         await this.recursivelyGetFilesInDirectoryAsync(subdirectoryPath, filePaths, errors);
                     } catch (e) {

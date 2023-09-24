@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Guards } from '../../common/guards';
 import { Logger } from '../../common/logger';
 import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
@@ -78,7 +77,7 @@ export class Queue {
         this.populatePlayBackOrder();
     }
 
-    public getFirstTrack(): TrackModel | undefined {
+    public getFirstTrack(): TrackModel {
         if (this.playbackOrder == undefined) {
             return undefined;
         }
@@ -90,23 +89,22 @@ export class Queue {
         return this._tracks[this.playbackOrder[0]];
     }
 
-    public getPreviousTrack(currentTrack: TrackModel | undefined, allowWrapAround: boolean): TrackModel | undefined {
+    public getPreviousTrack(currentTrack: TrackModel, allowWrapAround: boolean): TrackModel {
         if (this._tracks.length === 0) {
             return undefined;
         }
 
         const minimumIndex: number = 0;
         const maximumIndex: number = this.playbackOrder.length - 1;
+        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
 
-        if (!Guards.isDefined(currentTrack)) {
+        if (currentTrack == undefined) {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        if (!this._tracks.includes(currentTrack!)) {
+        if (!this._tracks.includes(currentTrack)) {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
-
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack!);
 
         if (currentIndex > minimumIndex) {
             return this._tracks[this.playbackOrder[currentIndex - 1]];
@@ -119,23 +117,22 @@ export class Queue {
         return undefined;
     }
 
-    public getNextTrack(currentTrack: TrackModel | undefined, allowWrapAround: boolean): TrackModel | undefined {
+    public getNextTrack(currentTrack: TrackModel, allowWrapAround: boolean): TrackModel {
         if (this._tracks.length === 0) {
             return undefined;
         }
 
         const minimumIndex: number = 0;
         const maximumIndex: number = this.playbackOrder.length - 1;
+        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack);
 
-        if (!Guards.isDefined(currentTrack)) {
+        if (currentTrack == undefined) {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
 
-        if (!this._tracks.includes(currentTrack!)) {
+        if (!this._tracks.includes(currentTrack)) {
             return this._tracks[this.playbackOrder[minimumIndex]];
         }
-
-        const currentIndex: number = this.findPlaybackOrderIndex(currentTrack!);
 
         if (currentIndex < maximumIndex) {
             return this._tracks[this.playbackOrder[currentIndex + 1]];

@@ -9,7 +9,7 @@ import { PlaylistModel } from './playlist-model';
 export class PlaylistModelFactory {
     public constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
-    public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string | undefined): PlaylistModel {
+    public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
         return new PlaylistModel(
             this.getPlaylistName(playlistPath),
             this.getPlaylistFolderName(playlistsParentFolderPath, playlistPath),
@@ -39,9 +39,9 @@ export class PlaylistModelFactory {
         return directoryName;
     }
 
-    private getPlaylistImage(playlistImagePath: string | undefined): string {
+    private getPlaylistImage(playlistImagePath: string): string {
         if (!Strings.isNullOrWhiteSpace(playlistImagePath)) {
-            return playlistImagePath!;
+            return playlistImagePath;
         }
 
         return Constants.emptyImage;

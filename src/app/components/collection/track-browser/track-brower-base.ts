@@ -33,11 +33,11 @@ export class TrackBrowserBase {
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
@@ -45,7 +45,7 @@ export class TrackBrowserBase {
     }
 
     public async onDeleteAsync(): Promise<void> {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
 
         let dialogTitle: string = await this.translatorService.getAsync('delete-song');
         let dialogText: string = await this.translatorService.getAsync('confirm-delete-song');

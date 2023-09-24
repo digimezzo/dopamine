@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Guards } from '../../common/guards';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -14,20 +13,18 @@ export class ExternalAlbumArtworkGetter {
         private logger: Logger
     ) {}
 
-    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
-        if (!Guards.isDefined(fileMetadata)) {
+    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+        if (fileMetadata == undefined) {
             return undefined;
         }
 
-        let artworkData: Buffer | undefined = undefined;
+        let artworkData: Buffer;
 
         try {
-            const externalArtworkPath: string | undefined = await this.externalArtworkPathGetter.getExternalArtworkPathAsync(
-                fileMetadata.path
-            );
+            const externalArtworkPath: string = await this.externalArtworkPathGetter.getExternalArtworkPathAsync(fileMetadata.path);
 
             if (!Strings.isNullOrWhiteSpace(externalArtworkPath)) {
-                artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath!);
+                artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath);
             }
         } catch (e) {
             this.logger.error(

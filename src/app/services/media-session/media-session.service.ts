@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Guards } from '../../common/guards';
 import { BaseMediaSessionProxy } from '../../common/io/base-media-session-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BasePlaybackInformationService } from '../playback-information/base-playback-information.service';
@@ -71,14 +70,10 @@ export class MediaSessionService implements BaseMediaSessionService {
     }
 
     private setMetadata(playbackInformation: PlaybackInformation): void {
-        if (!Guards.isDefined(playbackInformation.track)) {
-            return;
-        }
-
         this.mediaSessionProxy.setMetadata(
-            playbackInformation.track!.title,
-            playbackInformation.track!.artists,
-            playbackInformation.track!.albumTitle,
+            playbackInformation.track.title,
+            playbackInformation.track.artists,
+            playbackInformation.track.albumTitle,
             playbackInformation.imageUrl
         );
     }

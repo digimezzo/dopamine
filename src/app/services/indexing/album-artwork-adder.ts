@@ -4,7 +4,6 @@ import { AlbumData } from '../../common/data/entities/album-data';
 import { Track } from '../../common/data/entities/track';
 import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { Guards } from '../../common/guards';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -76,11 +75,11 @@ export class AlbumArtworkAdder {
     private async addAlbumArtworkAsync(albumKey: string): Promise<void> {
         const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
 
-        if (!Guards.isDefined(track)) {
+        if (track == undefined) {
             return;
         }
 
-        let fileMetadata: IFileMetadata | undefined = undefined;
+        let fileMetadata: IFileMetadata;
 
         try {
             fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
@@ -92,26 +91,24 @@ export class AlbumArtworkAdder {
             );
         }
 
-        if (!Guards.isDefined(fileMetadata)) {
+        if (fileMetadata == undefined) {
             return;
         }
 
-        const albumArtwork: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata!, true);
+        const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
 
-        if (!Guards.isDefined(albumArtwork)) {
+        if (albumArtwork == undefined) {
             return;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(
-            albumArtwork!
-        );
+        const albumArtworkCacheId: AlbumArtworkCacheId = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
-        if (!Guards.isDefined(albumArtworkCacheId)) {
+        if (albumArtworkCacheId == undefined) {
             return;
         }
 
         await this.trackRepository.disableNeedsAlbumArtworkIndexingAsync(albumKey);
-        const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId!.id);
+        const newAlbumArtwork: AlbumArtwork = new AlbumArtwork(albumKey, albumArtworkCacheId.id);
         this.albumArtworkRepository.addAlbumArtwork(newAlbumArtwork);
     }
 }

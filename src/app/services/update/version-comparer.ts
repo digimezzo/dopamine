@@ -11,8 +11,8 @@ export class VersionComparer {
         const oldVersionHasTag: boolean = oldVersionParts.length > 1;
         const newVersionHasTag: boolean = newVersionParts.length > 1;
 
-        let oldVersionTag: string = '';
-        let newVersionTag: string = '';
+        let oldVersionTag: string;
+        let newVersionTag: string;
 
         if (oldVersionHasTag) {
             oldVersionTag = oldVersionParts[1];

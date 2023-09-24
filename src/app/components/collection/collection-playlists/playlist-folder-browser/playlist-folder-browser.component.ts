@@ -142,10 +142,10 @@ export class PlaylistFolderBrowserComponent {
         }
     }
 
-    public async setSelectedPlaylistFoldersAsync(event: MouseEvent, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
+    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
-        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
-        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
+        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems);
+        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems);
     }
 
     private applySelectedPlaylistFolders(): void {

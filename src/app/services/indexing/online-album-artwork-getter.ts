@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
 import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
-import { Guards } from '../../common/guards';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -11,8 +10,8 @@ import { Strings } from '../../common/strings';
 export class OnlineAlbumArtworkGetter {
     public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
-    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
-        if (!Guards.isDefined(fileMetadata)) {
+    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+        if (fileMetadata == undefined) {
             return undefined;
         }
 
@@ -42,7 +41,7 @@ export class OnlineAlbumArtworkGetter {
         }
 
         for (const artist of artists) {
-            let lastfmAlbum: LastfmAlbum | undefined = undefined;
+            let lastfmAlbum: LastfmAlbum;
 
             try {
                 lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
@@ -54,12 +53,12 @@ export class OnlineAlbumArtworkGetter {
                 );
             }
 
-            if (Guards.isDefined(lastfmAlbum)) {
-                if (!Strings.isNullOrWhiteSpace(lastfmAlbum!.largestImage())) {
+            if (lastfmAlbum != undefined) {
+                if (!Strings.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
                     let artworkData: Buffer;
 
                     try {
-                        artworkData = await this.imageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum!.largestImage());
+                        artworkData = await this.imageProcessor.convertOnlineImageToBufferAsync(lastfmAlbum.largestImage());
 
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
@@ -70,7 +69,7 @@ export class OnlineAlbumArtworkGetter {
                         return artworkData;
                     } catch (e) {
                         this.logger.error(
-                            `Could not convert file '${lastfmAlbum!.largestImage()}' to data. Error: ${e.message}`,
+                            `Could not convert file '${lastfmAlbum.largestImage()}' to data. Error: ${e.message}`,
                             'OnlineAlbumArtworkGetter',
                             'getOnlineArtworkAsync'
                         );
