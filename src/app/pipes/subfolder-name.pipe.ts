@@ -7,7 +7,7 @@ import { SubfolderModel } from '../services/folder/subfolder-model';
 export class SubfolderNamePipe implements PipeTransform {
     public constructor(private fileAccess: BaseFileAccess) {}
 
-    public transform(subfolder: SubfolderModel): string {
+    public transform(subfolder: SubfolderModel | undefined): string {
         if (subfolder == undefined) {
             return '';
         }

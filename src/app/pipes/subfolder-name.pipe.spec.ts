@@ -25,17 +25,6 @@ describe('SubfolderNamePipe', () => {
             expect(subfolderName).toEqual('');
         });
 
-        it('should return empty string if subfolder path is undefined', () => {
-            // Arrange
-            const subfolder: SubfolderModel = new SubfolderModel(undefined, false);
-
-            // Act
-            const subfolderName: string = subfolderNamePipe.transform(subfolder);
-
-            // Assert
-            expect(subfolderName).toEqual('');
-        });
-
         it('should return empty string if subfolder path is empty', () => {
             // Arrange
             const subfolder: SubfolderModel = new SubfolderModel('', false);

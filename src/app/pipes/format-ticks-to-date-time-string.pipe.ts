@@ -5,7 +5,7 @@ import { DateTime } from '../common/date-time';
 export class FormatTicksToDateTimeStringPipe implements PipeTransform {
     public constructor(private dateTime: DateTime) {}
 
-    public transform(ticks: number): string {
+    public transform(ticks: number | undefined): string {
         if (ticks == undefined || ticks <= 0) {
             return '';
         }

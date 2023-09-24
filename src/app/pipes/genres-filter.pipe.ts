@@ -7,7 +7,7 @@ import { BaseSearchService } from '../services/search/base-search.service';
 export class GenresFilterPipe implements PipeTransform {
     public constructor(private searchService: BaseSearchService) {}
 
-    public transform(genres: GenreModel[], textToContain: string): GenreModel[] {
+    public transform(genres: GenreModel[], textToContain: string | undefined): GenreModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
             return genres;
         }
@@ -15,7 +15,7 @@ export class GenresFilterPipe implements PipeTransform {
         const filteredGenres: GenreModel[] = [];
 
         for (const genre of genres) {
-            if (this.searchService.matchesSearchText(genre.displayName, textToContain)) {
+            if (this.searchService.matchesSearchText(genre.displayName, textToContain!)) {
                 filteredGenres.push(genre);
             }
         }

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'zeroToBlank' })
 export class ZeroToBlankPipe implements PipeTransform {
-    public transform(number: number): string {
+    public transform(number: number | undefined): string {
         if (number == undefined) {
             return '';
         }

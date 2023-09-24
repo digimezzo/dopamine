@@ -7,7 +7,7 @@ import { BaseSearchService } from '../services/search/base-search.service';
 export class AlbumsFilterPipe implements PipeTransform {
     public constructor(private searchService: BaseSearchService) {}
 
-    public transform(albums: AlbumModel[], textToContain: string): AlbumModel[] {
+    public transform(albums: AlbumModel[], textToContain: string | undefined): AlbumModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
             return albums;
         }
@@ -15,11 +15,11 @@ export class AlbumsFilterPipe implements PipeTransform {
         const filteredAlbums: AlbumModel[] = [];
 
         for (const album of albums) {
-            if (this.searchService.matchesSearchText(album.albumTitle, textToContain)) {
+            if (this.searchService.matchesSearchText(album.albumTitle, textToContain!)) {
                 filteredAlbums.push(album);
-            } else if (this.searchService.matchesSearchText(album.albumArtist, textToContain)) {
+            } else if (this.searchService.matchesSearchText(album.albumArtist, textToContain!)) {
                 filteredAlbums.push(album);
-            } else if (this.searchService.matchesSearchText(album.year.toString(), textToContain)) {
+            } else if (this.searchService.matchesSearchText(album.year.toString(), textToContain!)) {
                 filteredAlbums.push(album);
             }
         }

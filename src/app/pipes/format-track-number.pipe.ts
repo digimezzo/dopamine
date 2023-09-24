@@ -2,9 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'formatTrackNumber' })
 export class FormatTrackNumberPipe implements PipeTransform {
-
-
-    public transform(trackNumber: number): string {
+    public transform(trackNumber: number | undefined): string {
         if (trackNumber == undefined) {
             return '-';
         }

@@ -5,7 +5,7 @@ import { BaseTranslatorService } from '../services/translator/base-translator.se
 export class FormatTotalDurationPipe implements PipeTransform {
     public constructor(private translatorService: BaseTranslatorService) {}
 
-    public transform(totalMilliseconds: number): string {
+    public transform(totalMilliseconds: number | undefined): string {
         if (totalMilliseconds == undefined || totalMilliseconds <= 0) {
             return '';
         }

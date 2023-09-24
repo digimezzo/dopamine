@@ -5,7 +5,7 @@ import { BaseTranslatorService } from '../services/translator/base-translator.se
 export class FormatTotalFileSizePipe implements PipeTransform {
     public constructor(private translatorService: BaseTranslatorService) {}
 
-    public transform(totalFileSizeInBytes: number): string {
+    public transform(totalFileSizeInBytes: number | undefined): string {
         if (totalFileSizeInBytes == undefined || totalFileSizeInBytes <= 0) {
             return '';
         }
