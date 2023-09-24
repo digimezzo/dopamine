@@ -1,9 +1,9 @@
 import { TrackModel } from '../track/track-model';
 
 export class PlaybackInformation {
-    public constructor(private _track: TrackModel | undefined, private _imageUrl: string) {}
+    public constructor(private _track: TrackModel, private _imageUrl: string) {}
 
-    public get track(): TrackModel | undefined {
+    public get track(): TrackModel {
         return this._track;
     }
 

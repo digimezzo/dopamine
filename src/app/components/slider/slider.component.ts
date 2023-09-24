@@ -9,7 +9,6 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { MouseWheelInputEvent } from 'electron';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { NativeElementProxy } from '../../common/native-element-proxy';
@@ -88,12 +87,12 @@ export class SliderComponent implements AfterViewInit {
         }
     }
 
-    public onSliderContainerMouseDown(e: MouseEvent): void {
+    public onSliderContainerMouseDown(e: any): void {
         this.applyPosition(this.getMouseXPositionRelativeToSlider(e.clientX));
     }
 
     @HostListener('document:mousedown', ['$event'])
-    public onDocumentMouseDown(e: MouseEvent): void {
+    public onDocumentMouseDown(e: any): void {
         // Checking this.mouseIsOverSlider prevents cancelling mousedown when clicking on other elements (e.g. search box)
         if (this.mouseIsOverSlider) {
             // HACK: prevents document:mouseup from not being fired sometimes.
@@ -102,44 +101,35 @@ export class SliderComponent implements AfterViewInit {
         }
     }
 
-    @HostListener('document:mouseup')
-    public onDocumentMouseUp(): void {
+    @HostListener('document:mouseup', ['$event'])
+    public onDocumentMouseUp(e: any): void {
         this.isSliderThumbDown = false;
     }
 
-    @HostListener('document:touchend')
-    public onDocumentTouchEnd(): void {
+    @HostListener('document:touchend', ['$event'])
+    public onDocumentTouchEnd(e: any): void {
         this.isSliderThumbDown = false;
     }
 
     @HostListener('document:mousemove', ['$event'])
-    public onDocumentMouseMove(e: MouseEvent): void {
+    public onDocumentMouseMove(e: any): void {
         if (this.isSliderThumbDown) {
             this.applyPosition(this.getMouseXPositionRelativeToSlider(e.clientX));
         }
     }
 
     @HostListener('document:touchmove', ['$event'])
-    public onDocumentTouchMove(e: TouchEvent): void {
+    public onDocumentTouchMove(e: any): void {
         if (this.isSliderThumbDown) {
-            let touch: Touch | undefined = undefined;
-
-            if (e.touches.length > 0 && e.touches[0] !== undefined) {
-                touch = e.touches[0];
-            } else if (e.changedTouches.length > 0 && e.changedTouches[0] !== undefined) {
-                touch = e.changedTouches[0];
-            }
-
-            if (touch !== undefined) {
-                this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
-            }
+            const touch: any = e.touches[0] || e.changedTouches[0];
+            this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
         }
     }
 
-    public onSliderContainerMouseWheel(event: MouseWheelInputEvent): void {
+    public onSliderContainerMouseWheel(event: any): void {
         const mouseStepConvertedToSliderScale: number = this.getMouseStepConvertedToSliderScale();
         let newPosition: number = this.sliderBarPosition + mouseStepConvertedToSliderScale;
-        if (event.deltaY !== undefined && event.deltaY > 0) {
+        if (event.deltaY > 0) {
             newPosition = this.sliderBarPosition - mouseStepConvertedToSliderScale;
         }
         this.applyPosition(newPosition);
@@ -171,8 +161,8 @@ export class SliderComponent implements AfterViewInit {
     }
 
     private getMouseXPositionRelativeToSlider(clientX: number): number {
-        const element: HTMLElement = this.sliderTrack.nativeElement;
-        const rect: DOMRect = element.getBoundingClientRect();
+        const element: any = this.sliderTrack.nativeElement;
+        const rect: any = element.getBoundingClientRect();
 
         return clientX - rect.left;
     }
@@ -182,7 +172,7 @@ export class SliderComponent implements AfterViewInit {
 
         const valueFraction: number = this.sliderBarPosition / sliderWidth;
         const totalSteps: number = this.maximum / this.stepSize;
-        const newValue: number = Math.round(valueFraction * totalSteps) * this.stepSize;
+        let newValue: number = Math.round(valueFraction * totalSteps) * this.stepSize;
 
         this._value = this.mathExtensions.clamp(newValue, 0, this.maximum);
         this.valueChange.emit(this._value);

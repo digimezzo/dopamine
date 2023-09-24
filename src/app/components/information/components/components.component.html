@@ -6,7 +6,7 @@
         {{ externalComponent.description }}<br />
         <a href="{{ externalComponent.url }}">{{ 'website' | translate }}</a>
         <a
-            *ngIf="externalComponent.hasLicenseUrl"
+            *ngIf="externalComponent.licenseUrl != undefined && externalComponent.licenseUrl != ''"
             class="ml-2"
             href="{{ externalComponent.licenseUrl }}"
             >{{ 'license' | translate }}</a

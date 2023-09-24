@@ -1,5 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -302,12 +303,22 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
     touchendHideDelay: 0,
 };
 
-// See: https://mcvendrell.medium.com/configuring-ngx-translate-to-load-at-startup-in-angular-1995e7dd6fcc
-export function appInitializerFactory(translate: TranslateService) {
-    return () => {
-        translate.setDefaultLang('en');
-        return translate.use('en').toPromise();
-    };
+export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
+    return () =>
+        new Promise<any>((resolve: any) => {
+            const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(undefined));
+            locationInitialized.then(() => {
+                const languageToSet: string = 'en';
+                translate.setDefaultLang(languageToSet);
+                translate.use(languageToSet).subscribe(
+                    () => {},
+                    (err) => {},
+                    () => {
+                        resolve(undefined);
+                    }
+                );
+            });
+        });
 }
 
 @NgModule({

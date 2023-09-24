@@ -20,14 +20,14 @@
             <app-rating
                 class="rating-position"
                 [track]="this.topContentTrack"
-                *ngIf="this.settings.showRating && this.hasTopContentTrack "
+                *ngIf="this.settings.showRating && this.topContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-rating>
             <app-love
                 class="ml-2"
                 [track]="this.topContentTrack"
-                *ngIf="this.settings.showLove && this.hasTopContentTrack"
+                *ngIf="this.settings.showLove && this.topContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-love>
@@ -53,14 +53,14 @@
         <div class="d-flex flex-row align-items-center">
             <app-rating
                 [track]="this.bottomContentTrack"
-                *ngIf="this.settings.showRating && this.hasBottomContentTrack"
+                *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-rating>
             <app-love
                 class="ml-2"
                 [track]="this.bottomContentTrack"
-                *ngIf="this.settings.showLove && this.hasBottomContentTrack"
+                *ngIf="this.settings.showLove && this.bottomContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-love>

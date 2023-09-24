@@ -17,8 +17,8 @@ export class NowPlayingShowcaseComponent implements OnInit {
     public playbackInformationLargeFontSize: number = 0;
     public playbackInformationSmallFontSize: number = 0;
 
-    @HostListener('window:resize')
-    public onResize(): void {
+    @HostListener('window:resize', ['$event'])
+    public onResize(event: any): void {
         this.setSizes();
     }
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { Guards } from '../../common/guards';
 import { BaseMetadataService } from '../metadata/base-metadata.service';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -44,8 +43,8 @@ export class PlaybackInformationService implements BasePlaybackInformationServic
         return await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
     }
 
-    private async createPlaybackInformationAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
-        if (Guards.isDefined(track)) {
+    private async createPlaybackInformationAsync(track: TrackModel): Promise<PlaybackInformation> {
+        if (track != undefined) {
             const newImage: string = await this.metadataService.createImageUrlAsync(track);
 
             return new PlaybackInformation(track, newImage);

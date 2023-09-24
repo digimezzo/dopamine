@@ -266,7 +266,7 @@ describe('PlaybackInformationComponent', () => {
             metadataService_ratingSaved.next(trackModel2);
 
             // Assert
-            expect(component.topContentTrack?.rating).toEqual(4);
+            expect(component.topContentTrack.rating).toEqual(4);
         });
 
         it('should not update the rating of the current track when the rating is saved of a track with a different path', async () => {
@@ -284,7 +284,7 @@ describe('PlaybackInformationComponent', () => {
             metadataService_ratingSaved.next(trackModel2);
 
             // Assert
-            expect(component.topContentTrack?.rating).toEqual(2);
+            expect(component.topContentTrack.rating).toEqual(2);
         });
 
         it('should update the love of the current track when the love is saved of a track with the same path', async () => {
@@ -302,7 +302,7 @@ describe('PlaybackInformationComponent', () => {
             metadataService_loveSaved.next(trackModel2);
 
             // Assert
-            expect(component.topContentTrack?.love).toEqual(1);
+            expect(component.topContentTrack.love).toEqual(1);
         });
 
         it('should not update the love of the current track when the love is saved of a track with a different path', async () => {
@@ -320,7 +320,7 @@ describe('PlaybackInformationComponent', () => {
             metadataService_loveSaved.next(trackModel2);
 
             // Assert
-            expect(component.topContentTrack?.love).toEqual(-1);
+            expect(component.topContentTrack.love).toEqual(-1);
         });
     });
 });

@@ -1,8 +1,6 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { Guards } from '../../common/guards';
 import { BaseDesktop } from '../../common/io/base-desktop';
-import { Strings } from '../../common/strings';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 
 @Component({
@@ -25,9 +23,5 @@ export class SnackBarComponent {
 
     public async dismissAsync(): Promise<void> {
         this.snackBarService.dismissAsync();
-    }
-
-    public get hasDataUrl(): boolean {
-        return Guards.isDefined(this.data) && !Strings.isNullOrWhiteSpace(this.data.url);
     }
 }

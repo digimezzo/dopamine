@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Guards } from '../../guards';
 import { Strings } from '../../strings';
 
 @Injectable()
@@ -14,12 +13,12 @@ export class GitHubApi {
         let latestRelease: any = releasesResponse.find((x) => x.prerelease);
 
         if (includePrereleases) {
-            latestRelease = releasesResponse.find((x) => <boolean>x.prerelease);
+            latestRelease = releasesResponse.find((x) => x.prerelease);
         } else {
-            latestRelease = releasesResponse.find((x) => !(<boolean>x.prerelease));
+            latestRelease = releasesResponse.find((x) => !x.prerelease);
         }
 
-        if (Guards.isDefined(latestRelease) && Guards.isDefined(latestRelease.tag_name)) {
+        if (latestRelease != undefined && latestRelease.tag_name != undefined) {
             return Strings.replaceFirst(latestRelease.tag_name, 'v', '');
         }
 

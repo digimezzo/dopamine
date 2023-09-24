@@ -20,7 +20,7 @@ export class PresenceUpdater {
         startTime: number,
         endTime: number
     ): void {
-        if (this.discordClient == undefined || !(<boolean>this.discordClient.discordClientIsReady)) {
+        if (this.discordClient == undefined || !this.discordClient.discordClientIsReady) {
             const clientId: string = SensitiveInformation.discordClientId;
             this.discordClient = new Client({ transport: 'ipc' });
             this.discordClient.login({ clientId }).catch(console.error);
@@ -105,7 +105,7 @@ export class PresenceUpdater {
 
     public clearPresence(): void {
         try {
-            if (this.discordClient != undefined && <boolean>this.discordClient.discordClientIsReady) {
+            if (this.discordClient != undefined && this.discordClient.discordClientIsReady) {
                 this.discordClient.clearActivity();
             }
         } catch (e) {

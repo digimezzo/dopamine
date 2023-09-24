@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Guards } from '../../common/guards';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -70,18 +69,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topContentTrack: TrackModel | undefined = undefined;
-    public bottomContentTrack: TrackModel | undefined = undefined;
+    public topContentTrack: TrackModel = undefined;
+    public bottomContentTrack: TrackModel = undefined;
 
-    private currentTrack: TrackModel | undefined = undefined;
-
-    public get hasTopContentTrack(): boolean {
-        return Guards.isDefined(this.topContentTrack);
-    }
-
-    public get hasBottomContentTrack(): boolean {
-        return Guards.isDefined(this.bottomContentTrack);
-    }
+    private currentTrack: TrackModel = undefined;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -134,10 +125,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
     }
 
-    private async switchUp(track: TrackModel | undefined): Promise<void> {
-        let newTrack: TrackModel | undefined;
+    private async switchUp(track: TrackModel): Promise<void> {
+        let newTrack: TrackModel;
 
-        if (Guards.isDefined(track)) {
+        if (track != undefined) {
             newTrack = track;
         }
 
@@ -155,10 +146,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(350);
     }
 
-    private async switchDown(track: TrackModel | undefined, performAnimation: boolean): Promise<void> {
-        let newTrack: TrackModel | undefined;
+    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
+        let newTrack: TrackModel;
 
-        if (Guards.isDefined(track)) {
+        if (track != undefined) {
             newTrack = track;
         }
 

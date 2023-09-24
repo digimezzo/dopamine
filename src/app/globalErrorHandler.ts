@@ -25,7 +25,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                 data: { isGlobalError: true },
             });
 
-            dialogRef.afterClosed().subscribe(() => {
+            dialogRef.afterClosed().subscribe((result) => {
                 // Quit the application
                 this.logger.info('Closing application', 'GlobalErrorHandler', 'showGlobalErrorDialog');
                 const win: BrowserWindow = this.application.getCurrentWindow();

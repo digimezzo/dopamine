@@ -83,7 +83,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.playlistsPersister.selectedPlaylistsChanged$.subscribe(async () => {
+            this.playlistsPersister.selectedPlaylistsChanged$.subscribe(async (playlistNames: string[]) => {
                 await this.getTracksAsync();
             })
         );

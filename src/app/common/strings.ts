@@ -21,12 +21,8 @@ export class Strings {
         return string1.toLowerCase() === string2.toLowerCase();
     }
 
-    public static isNullOrWhiteSpace(stringToCheck: string | undefined): boolean {
-        if (stringToCheck === undefined) {
-            return true;
-        }
-
-        if (stringToCheck === null) {
+    public static isNullOrWhiteSpace(stringToCheck: string): boolean {
+        if (stringToCheck == undefined) {
             return true;
         }
 

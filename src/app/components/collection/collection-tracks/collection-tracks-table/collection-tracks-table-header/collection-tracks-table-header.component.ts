@@ -1,5 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { Strings } from '../../../../../common/strings';
 
 @Component({
     selector: 'app-collection-tracks-table-header',
@@ -13,8 +12,4 @@ export class CollectionTracksTableHeaderComponent {
     @Input() public icon: string;
     @Input() public isOrderedBy: boolean;
     @Input() public isOrderedAscending: boolean;
-
-    public get hasIcon(): boolean {
-        return Strings.isNullOrWhiteSpace(this.icon);
-    }
 }
