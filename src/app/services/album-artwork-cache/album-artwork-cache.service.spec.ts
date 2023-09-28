@@ -57,7 +57,7 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(undefined);
+            const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(undefined);
 
             // Assert
             expect(albumArtworkCacheId).toBeUndefined();
@@ -67,7 +67,7 @@ describe('AlbumArtworkCacheService', () => {
             const imageBuffer = Buffer.alloc(0);
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
+            const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
             expect(albumArtworkCacheId).toBeUndefined();
@@ -82,10 +82,10 @@ describe('AlbumArtworkCacheService', () => {
             const imageBuffer = Buffer.from([1, 2, 3]);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
-            expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn.id);
+            expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn!.id);
         });
 
         it('should save thumbnail to file when the data is not empty', async () => {

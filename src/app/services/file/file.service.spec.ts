@@ -185,18 +185,6 @@ describe('FileService', () => {
             );
         });
 
-        it('should not enqueue anything if parameters are undefined', async () => {
-            // Arrange
-            applicationMock.setup((x) => x.getParameters()).returns(() => undefined);
-            const service: BaseFileService = createService();
-
-            // Act
-            await service.enqueueParameterFilesAsync();
-
-            // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
-        });
-
         it('should not enqueue anything if parameters are empty', async () => {
             // Arrange
             applicationMock.setup((x) => x.getParameters()).returns(() => []);

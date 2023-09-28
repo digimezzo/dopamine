@@ -15,10 +15,6 @@ export class AlbumArtworkGetter {
     ) {}
 
     public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer | undefined> {
-        if (fileMetadata == undefined) {
-            return undefined;
-        }
-
         const embeddedArtwork: Buffer | undefined = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata);
 
         if (embeddedArtwork != undefined) {

@@ -113,7 +113,7 @@ export class AlbumArtworkRemover {
 
     public async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(): Promise<void> {
         try {
-            const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork();
+            const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork() ?? [];
 
             this.logger.info(
                 `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,

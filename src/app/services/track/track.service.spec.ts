@@ -74,6 +74,8 @@ describe('TrackService', () => {
                     new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), dateTimeMock.object, translatorServiceMock.object)
             );
 
+        dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
+
         service = new TrackService(trackModelFactoryMock.object, trackRepositoryMock.object, fileAccessMock.object);
     });
 
@@ -89,16 +91,6 @@ describe('TrackService', () => {
     });
 
     describe('getTracksInSubfolderAsync', () => {
-        it('should return an empty TrackModels when the subfolder path is undefined', async () => {
-            // Arrange, Act
-            const tracksModels: TrackModels = await service.getTracksInSubfolderAsync(undefined);
-
-            // Assert
-            expect(tracksModels.tracks.length).toEqual(0);
-            expect(tracksModels.totalDurationInMilliseconds).toEqual(0);
-            expect(tracksModels.totalFileSizeInBytes).toEqual(0);
-        });
-
         it('should return an empty TrackModels when the subfolder path is empty', async () => {
             // Arrange, Act
             const tracksModels: TrackModels = await service.getTracksInSubfolderAsync('');
@@ -107,14 +99,6 @@ describe('TrackService', () => {
             expect(tracksModels.tracks.length).toEqual(0);
             expect(tracksModels.totalDurationInMilliseconds).toEqual(0);
             expect(tracksModels.totalFileSizeInBytes).toEqual(0);
-        });
-
-        it('should not check if an undefined path exists', async () => {
-            // Arrange, Act
-            await service.getTracksInSubfolderAsync(undefined);
-
-            // Assert
-            fileAccessMock.verify((x) => x.pathExists(It.isAny()), Times.never());
         });
 
         it('should not check if an empty path exists', async () => {
@@ -206,18 +190,6 @@ describe('TrackService', () => {
     });
 
     describe('getAlbumTracks', () => {
-        it('should return a TrackModels containing no tracks if albumKeys is undefined', () => {
-            // Arrange
-            const albumKeys: string[] = undefined;
-
-            // Act
-            const tracksModels: TrackModels = service.getTracksForAlbums(albumKeys);
-
-            // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForAlbums(albumKeys), Times.never());
-            expect(tracksModels.tracks.length).toEqual(0);
-        });
-
         it('should return a TrackModels containing no tracks if albumKeys empty', () => {
             // Arrange
             const albumKeys: string[] = [];
@@ -258,38 +230,10 @@ describe('TrackService', () => {
     });
 
     describe('getTracksForArtists', () => {
-        it('should return a TrackModels containing no tracks if artists is undefined', () => {
-            // Arrange
-            const artists: string[] = undefined;
-            const artistType: ArtistType = ArtistType.albumArtists;
-
-            // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
-
-            // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
-            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
-            expect(tracksModels.tracks.length).toEqual(0);
-        });
-
         it('should return a TrackModels containing no tracks if artists is empty', () => {
             // Arrange
             const artists: string[] = [];
             const artistType: ArtistType = ArtistType.albumArtists;
-
-            // Act
-            const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
-
-            // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForTrackArtists(artists), Times.never());
-            trackRepositoryMock.verify((x) => x.getTracksForAlbumArtists(artists), Times.never());
-            expect(tracksModels.tracks.length).toEqual(0);
-        });
-
-        it('should return a TrackModels containing no tracks if artistType is undefined', () => {
-            // Arrange
-            const artists: string[] = ['artist1'];
-            const artistType: ArtistType = undefined;
 
             // Act
             const tracksModels: TrackModels = service.getTracksForArtists(artists, artistType);
@@ -336,18 +280,6 @@ describe('TrackService', () => {
     });
 
     describe('getTracksForGenres', () => {
-        it('should return a TrackModels containing no tracks if genres is undefined', () => {
-            // Arrange
-            const genres: string[] = undefined;
-
-            // Act
-            const tracksModels: TrackModels = service.getTracksForGenres(genres);
-
-            // Assert
-            trackRepositoryMock.verify((x) => x.getTracksForGenres(genres), Times.never());
-            expect(tracksModels.tracks.length).toEqual(0);
-        });
-
         it('should return a TrackModels containing no tracks if genres empty', () => {
             // Arrange
             const genres: string[] = [];
@@ -392,7 +324,6 @@ describe('TrackService', () => {
             // Arrange
             const track: Track = new Track('path');
             track.trackId = 9;
-
             const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             trackModel.increasePlayCountAndDateLastPlayed();
 
@@ -400,7 +331,7 @@ describe('TrackService', () => {
             service.savePlayCountAndDateLastPlayed(trackModel);
 
             // Assert
-            trackRepositoryMock.verify((x) => x.updatePlayCountAndDateLastPlayed(9, track.playCount, track.dateLastPlayed), Times.once());
+            trackRepositoryMock.verify((x) => x.updatePlayCountAndDateLastPlayed(9, track.playCount!, track.dateLastPlayed!), Times.once());
         });
     });
 

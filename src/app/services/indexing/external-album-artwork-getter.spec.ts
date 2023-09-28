@@ -28,23 +28,7 @@ describe('ExternalAlbumArtworkGetter', () => {
             // Arrange
 
             // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(undefined);
-
-            // Assert
-            expect(actualArtwork).toBeUndefined();
-        });
-
-        it('should return undefined if fileMetaData is not undefined and external artwork path is undefined', async () => {
-            // Arrange
-            const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
-            metaDataMock.setup((x) => x.path).returns(() => '/home/MyUser/Music/track.mp3');
-
-            externalArtworkPathGetterMock
-                .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
-                .returns(async () => undefined);
-
-            // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
+            const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(undefined);
 
             // Assert
             expect(actualArtwork).toBeUndefined();
@@ -60,7 +44,7 @@ describe('ExternalAlbumArtworkGetter', () => {
                 .returns(async () => '');
 
             // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
+            const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
 
             // Assert
             expect(actualArtwork).toBeUndefined();
@@ -76,7 +60,7 @@ describe('ExternalAlbumArtworkGetter', () => {
                 .returns(async () => '  ');
 
             // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
+            const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
 
             // Assert
             expect(actualArtwork).toBeUndefined();
@@ -97,7 +81,7 @@ describe('ExternalAlbumArtworkGetter', () => {
                 .returns(async () => expectedArtwork);
 
             // Act
-            const actualArtwork: Buffer = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
+            const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
 
             // Assert
             expect(actualArtwork).toBe(expectedArtwork);

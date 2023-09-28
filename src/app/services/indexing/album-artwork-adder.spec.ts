@@ -166,24 +166,6 @@ describe('AlbumArtworkAdder', () => {
             fileMetadataFactoryMock.verify((x) => x.createAsync('/home/user/Music/track1.mp3'), Times.exactly(1));
         });
 
-        it('should not get album artwork if a read-only file metadata was not created', async () => {
-            // Arrange
-            const albumData1: AlbumData = new AlbumData();
-            albumData1.albumKey = 'AlbumKey1';
-
-            const track1: Track = new Track('/home/user/Music/track1.mp3');
-
-            trackRepositoryMock.setup((x) => x.getAlbumDataThatNeedsIndexing()).returns(() => [albumData1]);
-            trackRepositoryMock.setup((x) => x.getLastModifiedTrackForAlbumKeyAsync('AlbumKey1')).returns(() => track1);
-            fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/track1.mp3')).returns(async () => undefined);
-
-            // Act
-            await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-
-            // Assert
-            albumArtworkGetterMock.verify((x) => x.getAlbumArtworkAsync(It.isAny(), true), Times.never());
-        });
-
         it('should get album artwork if a read-only file metadata was created', async () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();

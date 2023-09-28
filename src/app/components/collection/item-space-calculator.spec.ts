@@ -21,7 +21,7 @@ describe('ItemSpaceCalculator', () => {
     describe('calculateNumberOfItemsPerRow', () => {
         it('should return 0 when itemWidth is undefined', () => {
             // Arrange
-            const itemWidth: number = undefined;
+            const itemWidth: number | undefined = undefined;
             const availableWidth: number = 800;
 
             // Act
@@ -46,7 +46,7 @@ describe('ItemSpaceCalculator', () => {
         it('should return 0 when availableWidth is undefined', () => {
             // Arrange
             const itemWidth: number = 120;
-            const availableWidth: number = undefined;
+            const availableWidth: number | undefined = undefined;
 
             // Act
             const numberOfItemsPerRow: number = itemSpaceCalculator.calculateNumberOfItemsPerRow(itemWidth, availableWidth);
@@ -69,7 +69,7 @@ describe('ItemSpaceCalculator', () => {
 
         it('should return 0 when itemWidth is undefined and availableWidth is 0', () => {
             // Arrange
-            const itemWidth: number = undefined;
+            const itemWidth: number | undefined = undefined;
             const availableWidth: number = 0;
 
             // Act
@@ -82,7 +82,7 @@ describe('ItemSpaceCalculator', () => {
         it('should return 0 when itemWidth is 0 and availableWidth is undefined', () => {
             // Arrange
             const itemWidth: number = 0;
-            const availableWidth: number = undefined;
+            const availableWidth: number | undefined = undefined;
 
             // Act
             const numberOfItemsPerRow: number = itemSpaceCalculator.calculateNumberOfItemsPerRow(itemWidth, availableWidth);
@@ -93,8 +93,8 @@ describe('ItemSpaceCalculator', () => {
 
         it('should return 0 when itemWidth and availableWidth are both undefined', () => {
             // Arrange
-            const itemWidth: number = undefined;
-            const availableWidth: number = undefined;
+            const itemWidth: number | undefined = undefined;
+            const availableWidth: number | undefined = undefined;
 
             // Act
             const numberOfItemsPerRow: number = itemSpaceCalculator.calculateNumberOfItemsPerRow(itemWidth, availableWidth);

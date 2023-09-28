@@ -16,7 +16,7 @@ export class AlbumService implements BaseAlbumService {
     ) {}
 
     public getAllAlbums(): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData();
+        const albumDatas: AlbumData[] = this.trackRepository.getAllAlbumData() ?? [];
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }
@@ -25,7 +25,7 @@ export class AlbumService implements BaseAlbumService {
         const albumDatas: AlbumData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(artists);
+            const trackArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForTrackArtists(artists) ?? [];
 
             for (const albumData of trackArtistsAlbumDatas) {
                 albumDatas.push(albumData);
@@ -33,7 +33,7 @@ export class AlbumService implements BaseAlbumService {
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(artists);
+            const albumArtistsAlbumDatas: AlbumData[] = this.trackRepository.getAlbumDataForAlbumArtists(artists) ?? [];
 
             for (const albumData of albumArtistsAlbumDatas) {
                 // Avoid adding a track twice
@@ -48,7 +48,7 @@ export class AlbumService implements BaseAlbumService {
     }
 
     public getAlbumsForGenres(genres: string[]): AlbumModel[] {
-        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(genres);
+        const albumDatas: AlbumData[] = this.trackRepository.getAlbumDataForGenres(genres) ?? [];
 
         return this.createAlbumsFromAlbumData(albumDatas);
     }

@@ -49,7 +49,7 @@ export class Queue {
         this.logger.info(`Added '${tracksToAdd?.length}' tracks`, 'Queue', 'addTracks');
     }
 
-    public removeTracks(tracksToRemove: TrackModel[]): void {
+    public removeTracks(tracksToRemove: TrackModel[] | undefined): void {
         if (tracksToRemove == undefined) {
             return;
         }

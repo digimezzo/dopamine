@@ -23,12 +23,12 @@ export class RemovedTrackRepository implements BaseRemovedTrackRepository {
         statement.run(trackId);
     }
 
-    public getRemovedTracks(): RemovedTrack[] {
+    public getRemovedTracks(): RemovedTrack[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`SELECT TrackID as trackId, Path as path, DateRemoved as dateRemoved FROM RemovedTrack;`);
 
-        const removedTracks: RemovedTrack[] = statement.all();
+        const removedTracks: RemovedTrack[] | undefined = statement.all();
 
         return removedTracks;
     }

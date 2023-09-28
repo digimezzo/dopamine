@@ -40,7 +40,7 @@ export class TrackAdder {
                     await this.trackFiller.addFileMetadataToTrackAsync(newTrack);
 
                     this.trackRepository.addTrack(newTrack);
-                    const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path);
+                    const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path)!;
 
                     this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
 
@@ -80,8 +80,8 @@ export class TrackAdder {
         const indexablePaths: IndexablePath[] = [];
 
         const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = this.trackRepository.getAllTracks().map((x) => x.path);
-        const removedTrackPaths: string[] = this.removedTrackRepository.getRemovedTracks().map((x) => x.path);
+        const trackPaths: string[] = (this.trackRepository.getAllTracks() ?? []).map((x) => x.path);
+        const removedTrackPaths: string[] = (this.removedTrackRepository.getRemovedTracks() ?? []).map((x) => x.path);
 
         for (const indexablePath of allIndexablePaths) {
             const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);

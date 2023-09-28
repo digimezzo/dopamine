@@ -60,18 +60,6 @@ describe('ArtistsPersister', () => {
     });
 
     describe('getSelectedArtists', () => {
-        it('should return an empty collection if availableArtists is undefined', () => {
-            // Arrange
-            settingsStub.artistsTabSelectedArtistOrder = 'byArtistDescending';
-            persister = new ArtistsPersister(settingsStub, loggerMock.object);
-
-            // Act
-            const selectedArtists: ArtistModel[] = persister.getSelectedArtists(undefined);
-
-            // Assert
-            expect(selectedArtists).toEqual([]);
-        });
-
         it('should return an empty collection if availableArtists is empty', () => {
             // Arrange
             settingsStub.artistsTabSelectedArtistOrder = 'byArtistDescending';
@@ -112,17 +100,6 @@ describe('ArtistsPersister', () => {
     });
 
     describe('setSelectedArtists', () => {
-        it('should clear the selected artists if selectedArtists is undefined', () => {
-            // Arrange
-            persister.setSelectedArtists([artist1, artist2]);
-
-            // Act
-            persister.setSelectedArtists(undefined);
-
-            // Assert
-            expect(persister.getSelectedArtists([artist1, artist2])).toEqual([]);
-        });
-
         it('should clear the selected artists if selectedArtists is empty', () => {
             // Arrange
             persister.setSelectedArtists([artist1, artist2]);

@@ -113,10 +113,6 @@ export class PlaybackService implements BasePlaybackService {
     public playbackSkipped$: Observable<void> = this.playbackSkipped.asObservable();
 
     public enqueueAndPlayTracks(tracksToEnqueue: TrackModel[]): void {
-        if (tracksToEnqueue == undefined) {
-            return;
-        }
-
         if (tracksToEnqueue.length === 0) {
             return;
         }
@@ -132,10 +128,6 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public enqueueAndPlayTracksStartingFromGivenTrack(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void {
-        if (tracksToEnqueue == undefined) {
-            return;
-        }
-
         if (tracksToEnqueue.length === 0) {
             return;
         }
@@ -149,53 +141,29 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {
-        if (artistToPlay == undefined) {
-            return;
-        }
-
-        if (artistType == undefined) {
-            return;
-        }
-
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToPlay.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
     public enqueueAndPlayGenre(genreToPlay: GenreModel): void {
-        if (genreToPlay == undefined) {
-            return;
-        }
-
         const tracksForGenre: TrackModels = this.trackService.getTracksForGenres([genreToPlay.displayName]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForGenre.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
     public enqueueAndPlayAlbum(albumToPlay: AlbumModel): void {
-        if (albumToPlay == undefined) {
-            return;
-        }
-
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToPlay.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.enqueueAndPlayTracks(orderedTracks);
     }
 
     public async enqueueAndPlayPlaylistAsync(playlistToPlay: PlaylistModel): Promise<void> {
-        if (playlistToPlay == undefined) {
-            return;
-        }
-
         const tracksForPlaylist: TrackModels = await this.playlistService.getTracksAsync([playlistToPlay]);
         this.enqueueAndPlayTracks(tracksForPlaylist.tracks);
     }
 
     public async addTracksToQueueAsync(tracksToAdd: TrackModel[]): Promise<void> {
-        if (tracksToAdd == undefined) {
-            return;
-        }
-
         if (tracksToAdd.length === 0) {
             return;
         }
@@ -205,14 +173,6 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public async addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void> {
-        if (artistToAdd == undefined) {
-            return;
-        }
-
-        if (artistType == undefined) {
-            return;
-        }
-
         const tracksForArtists: TrackModels = this.trackService.getTracksForArtists([artistToAdd.displayName], artistType);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForArtists.tracks);
         this.queue.addTracks(orderedTracks);
@@ -231,10 +191,6 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
-        if (albumToAdd == undefined) {
-            return;
-        }
-
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.queue.addTracks(orderedTracks);
@@ -252,10 +208,6 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public removeFromQueue(tracksToRemove: TrackModel[]): void {
-        if (tracksToRemove == undefined) {
-            return;
-        }
-
         if (tracksToRemove.length === 0) {
             return;
         }
@@ -397,13 +349,13 @@ export class PlaybackService implements BasePlaybackService {
         this._canPause = false;
         this._canResume = true;
         this.progressUpdater.stopUpdatingProgress();
-        this.playbackStopped.next();
 
         if (this.currentTrack != undefined) {
             this.logger.info(`Stopping '${this.currentTrack.path}'`, 'PlaybackService', 'stop');
         }
 
         this.currentTrack = undefined;
+        this.playbackStopped.next();
     }
 
     private playbackFinishedHandler(): void {

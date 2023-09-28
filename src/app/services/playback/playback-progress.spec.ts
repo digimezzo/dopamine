@@ -34,28 +34,6 @@ describe('PlaybackProgress', () => {
     });
 
     describe('timeRemainingInMilliSeconds', () => {
-        it('should return 0 when progressSeconds is undefined', () => {
-            // Arrange
-            const playbackProgress = new PlaybackProgress(undefined, 120);
-
-            // Act
-            const timeRemainingInMilliSeconds = playbackProgress.timeRemainingInMilliSeconds;
-
-            // Assert
-            expect(timeRemainingInMilliSeconds).toEqual(0);
-        });
-
-        it('should return 0 when totalSeconds is undefined', () => {
-            // Arrange
-            const playbackProgress = new PlaybackProgress(20, undefined);
-
-            // Act
-            const timeRemainingInMilliSeconds = playbackProgress.timeRemainingInMilliSeconds;
-
-            // Assert
-            expect(timeRemainingInMilliSeconds).toEqual(0);
-        });
-
         it('should return 0 when totalSeconds is 0', () => {
             // Arrange
             const playbackProgress = new PlaybackProgress(20, 0);
@@ -80,28 +58,6 @@ describe('PlaybackProgress', () => {
     });
 
     describe('progressPercent', () => {
-        it('should return 0 when progressSeconds is undefined', () => {
-            // Arrange
-            const playbackProgress = new PlaybackProgress(undefined, 120);
-
-            // Act
-            const progressPercent = playbackProgress.progressPercent;
-
-            // Assert
-            expect(progressPercent).toEqual(0);
-        });
-
-        it('should return 0 when totalSeconds is undefined', () => {
-            // Arrange
-            const playbackProgress = new PlaybackProgress(20, undefined);
-
-            // Act
-            const progressPercent = playbackProgress.progressPercent;
-
-            // Assert
-            expect(progressPercent).toEqual(0);
-        });
-
         it('should return 0 when totalSeconds is 0', () => {
             // Arrange
             const playbackProgress = new PlaybackProgress(20, 0);

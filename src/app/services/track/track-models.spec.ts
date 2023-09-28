@@ -93,7 +93,7 @@ describe('TrackModel', () => {
     describe('addTrack', () => {
         it('should not add an undefined track', () => {
             // Arrange
-            const trackToAdd: TrackModel = undefined;
+            const trackToAdd: TrackModel | undefined = undefined;
             trackModels.tracks = [];
 
             // Act
@@ -105,7 +105,7 @@ describe('TrackModel', () => {
 
         it('should not change totalDurationInMilliseconds for an undefined track', () => {
             // Arrange
-            const trackToAdd: TrackModel = undefined;
+            const trackToAdd: TrackModel | undefined = undefined;
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -116,7 +116,7 @@ describe('TrackModel', () => {
 
         it('should not change totalFileSizeInBytes for an undefined track', () => {
             // Arrange
-            const trackToAdd: TrackModel = undefined;
+            const trackToAdd: TrackModel | undefined = undefined;
 
             // Act
             trackModels.addTrack(trackToAdd);
@@ -127,7 +127,7 @@ describe('TrackModel', () => {
 
         it('should not change numberOfTracks for an undefined track', () => {
             // Arrange
-            const trackToAdd: TrackModel = undefined;
+            const trackToAdd: TrackModel | undefined = undefined;
 
             // Act
             trackModels.addTrack(trackToAdd);

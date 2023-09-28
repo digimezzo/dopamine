@@ -71,7 +71,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public folders: FolderModel[] = [];
     public openedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
-    public selectedSubfolder: SubfolderModel;
+    public selectedSubfolder: SubfolderModel | undefined;
     public subfolderBreadCrumbs: SubfolderModel[] = [];
     public tracks: TrackModels = new TrackModels();
 

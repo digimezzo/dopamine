@@ -22,7 +22,7 @@ export class AlbumModel implements ISelectable {
             return Constants.emptyImage;
         }
 
-        return 'file:///' + this.fileAccess.coverArtFullPath(this.albumData.artworkId);
+        return 'file:///' + this.fileAccess.coverArtFullPath(this.albumData.artworkId!);
     }
 
     public get albumArtist(): string {
@@ -46,26 +46,26 @@ export class AlbumModel implements ISelectable {
             return this.translatorService.get('unknown-title');
         }
 
-        return this.albumData.albumTitle;
+        return this.albumData.albumTitle!;
     }
 
     public get year(): number {
-        return this.albumData.year;
+        return this.albumData.year ?? 0;
     }
 
     public get albumKey(): string {
-        return this.albumData.albumKey;
+        return this.albumData.albumKey ?? '';
     }
 
     public get dateAddedInTicks(): number {
-        return this.albumData.dateAdded;
+        return this.albumData.dateAdded ?? 0;
     }
 
     public get dateFileCreatedInTicks(): number {
-        return this.albumData.dateFileCreated;
+        return this.albumData.dateFileCreated ?? 0;
     }
 
     public get dateLastPlayedInTicks(): number {
-        return this.albumData.dateLastPlayed;
+        return this.albumData.dateLastPlayed ?? 0;
     }
 }

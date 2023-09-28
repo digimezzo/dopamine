@@ -14,17 +14,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         statement.run(albumArtwork.albumKey, albumArtwork.artworkId);
     }
 
-    public getArtworkId(albumKey: string): string {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare('SELECT ArtworkID AS artworkId FROM AlbumArtwork WHERE AlbumKey=?;');
-
-        const result: any = statement.get(albumKey);
-
-        return result?.artworkId;
-    }
-
-    public getAllAlbumArtwork(): AlbumArtwork[] {
+    public getAllAlbumArtwork(): AlbumArtwork[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -32,7 +22,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
             FROM AlbumArtwork;`
         );
 
-        const albumArtwork: AlbumArtwork[] = statement.all();
+        const albumArtwork: AlbumArtwork[] | undefined = statement.all();
 
         return albumArtwork;
     }

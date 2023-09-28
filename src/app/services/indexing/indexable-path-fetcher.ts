@@ -22,7 +22,7 @@ export class IndexablePathFetcher {
         let folders: Folder[] = [];
 
         try {
-            folders = this.folderRepository.getFolders();
+            folders = this.folderRepository.getFolders() ?? [];
         } catch (e) {
             this.logger.error(
                 `An error occurred while getting folders. Error ${e.message}`,

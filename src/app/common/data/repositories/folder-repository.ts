@@ -14,7 +14,7 @@ export class FolderRepository implements BaseFolderRepository {
         statement.run(folder.path, folder.path.toLowerCase());
     }
 
-    public getFolders(): Folder[] {
+    public getFolders(): Folder[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -22,12 +22,12 @@ export class FolderRepository implements BaseFolderRepository {
             FROM Folder;`
         );
 
-        const folders: Folder[] = statement.all();
+        const folders: Folder[] | undefined = statement.all();
 
         return folders;
     }
 
-    public getFolderByPath(folderPath: string): Folder {
+    public getFolderByPath(folderPath: string): Folder | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -36,7 +36,7 @@ export class FolderRepository implements BaseFolderRepository {
             WHERE Path=?;`
         );
 
-        const folder: Folder = statement.get(folderPath);
+        const folder: Folder | undefined = statement.get(folderPath);
 
         return folder;
     }

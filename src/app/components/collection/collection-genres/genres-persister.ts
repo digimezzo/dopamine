@@ -18,7 +18,7 @@ export class GenresPersister {
 
     public selectedGenresChanged$: Observable<string[]> = this.selectedGenresChanged.asObservable();
 
-    public getSelectedGenres(availableGenres: GenreModel[]): GenreModel[] {
+    public getSelectedGenres(availableGenres: GenreModel[] | undefined): GenreModel[] {
         if (availableGenres == undefined) {
             return [];
         }
@@ -36,7 +36,7 @@ export class GenresPersister {
         return [];
     }
 
-    public setSelectedGenres(selectedGenres: GenreModel[]): void {
+    public setSelectedGenres(selectedGenres: GenreModel[] | undefined): void {
         try {
             if (selectedGenres != undefined && selectedGenres.length > 0) {
                 this.selectedGenreNames = selectedGenres.map((x) => x.displayName);

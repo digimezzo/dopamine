@@ -20,7 +20,7 @@ export class ArtistInformationService implements BaseArtistInformationService {
         private logger: Logger
     ) {}
 
-    public async getArtistInformationAsync(track: TrackModel): Promise<ArtistInformation> {
+    public async getArtistInformationAsync(track: TrackModel | undefined): Promise<ArtistInformation> {
         let artistInformation: ArtistInformation = ArtistInformation.empty();
 
         if (track == undefined) {

@@ -5,7 +5,7 @@ export class Strings {
         return '';
     }
 
-    public static equalsIgnoreCase(string1: string, string2: string): boolean {
+    public static equalsIgnoreCase(string1: string | undefined, string2: string | undefined): boolean {
         if (string1 == undefined && string2 == undefined) {
             return true;
         }
@@ -49,13 +49,13 @@ export class Strings {
         return stringWithAccents.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
-    public static getSortableString(originalString: string, removePrefixes: boolean): string {
+    public static getSortableString(originalString: string | undefined, removePrefixes: boolean): string {
         if (this.isNullOrWhiteSpace(originalString)) {
             return '';
         }
 
         try {
-            const trimmedAndLowerCasedOriginalString: string = originalString.trim().toLowerCase();
+            const trimmedAndLowerCasedOriginalString: string = originalString!.trim().toLowerCase();
 
             if (!removePrefixes) {
                 return trimmedAndLowerCasedOriginalString;
@@ -72,6 +72,6 @@ export class Strings {
             // Ignore this error
         }
 
-        return originalString.toLowerCase();
+        return originalString!.toLowerCase();
     }
 }

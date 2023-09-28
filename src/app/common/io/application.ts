@@ -30,6 +30,10 @@ export class Application implements BaseApplication {
     }
 
     public getParameters(): string[] {
-        return remote.process.argv;
+        if (remote?.process?.argv != undefined) {
+            return remote.process.argv;
+        }
+
+        return [];
     }
 }

@@ -26,7 +26,7 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         }
     }
 
-    public clearPlayingSubfolder(subfolders: SubfolderModel[]): void {
+    public clearPlayingSubfolder(subfolders: SubfolderModel[] | undefined): void {
         if (subfolders == undefined) {
             return;
         }
@@ -54,7 +54,7 @@ export class PlaybackIndicationService implements BasePlaybackIndicationService 
         }
     }
 
-    public clearPlayingTrack(tracks: TrackModel[]): void {
+    public clearPlayingTrack(tracks: TrackModel[] | undefined): void {
         if (tracks == undefined) {
             return;
         }

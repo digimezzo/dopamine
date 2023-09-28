@@ -10,7 +10,7 @@ import { Strings } from '../../common/strings';
 export class OnlineAlbumArtworkGetter {
     public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
-    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
+    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata | undefined): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }

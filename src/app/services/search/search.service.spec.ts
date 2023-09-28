@@ -56,16 +56,6 @@ describe('SearchService', () => {
     });
 
     describe('hasSearchText', () => {
-        it('should return false if searchText is undefined', () => {
-            // Arrange
-            service.searchText = undefined;
-
-            // Act
-
-            // Assert
-            expect(service.hasSearchText).toBeFalsy();
-        });
-
         it('should return false if searchText is empty', () => {
             // Arrange
             service.searchText = '';
@@ -148,16 +138,6 @@ describe('SearchService', () => {
     });
 
     describe('matchesSearchText', () => {
-        it('should return false if the original text is undefined', () => {
-            // Arrange
-
-            // Act
-            const matchesSearchText: boolean = service.matchesSearchText(undefined, 'test');
-
-            // Assert
-            expect(matchesSearchText).toBeFalsy();
-        });
-
         it('should return false if the original text is empty', () => {
             // Arrange
 

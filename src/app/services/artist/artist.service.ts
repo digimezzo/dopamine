@@ -15,12 +15,12 @@ export class ArtistService implements BaseArtistService {
         const artistDatas: ArtistData[] = [];
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistDatas: ArtistData[] = this.trackRepository.getTrackArtistData();
+            const trackArtistDatas: ArtistData[] = this.trackRepository.getTrackArtistData() ?? [];
             artistDatas.push(...trackArtistDatas);
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistDatas: ArtistData[] = this.trackRepository.getAlbumArtistData();
+            const albumArtistDatas: ArtistData[] = this.trackRepository.getAlbumArtistData() ?? [];
             artistDatas.push(...albumArtistDatas);
         }
 

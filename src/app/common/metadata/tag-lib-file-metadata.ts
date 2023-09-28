@@ -10,22 +10,22 @@ export class TagLibFileMetadata implements IFileMetadata {
 
     public constructor(public path: string) {}
 
-    public bitRate: number;
-    public sampleRate: number;
-    public durationInMilliseconds: number;
-    public title: string;
-    public album: string;
-    public albumArtists: string[];
-    public artists: string[];
-    public genres: string[];
-    public comment: string;
-    public grouping: string;
-    public year: number;
-    public trackNumber: number;
-    public trackCount: number;
-    public discNumber: number;
-    public discCount: number;
-    public lyrics: string;
+    public bitRate: number = 0;
+    public sampleRate: number = 0;
+    public durationInMilliseconds: number = 0;
+    public title: string = '';
+    public album: string = '';
+    public albumArtists: string[] = [];
+    public artists: string[] = [];
+    public genres: string[] = [];
+    public comment: string = '';
+    public grouping: string = '';
+    public year: number = 0;
+    public trackNumber: number = 0;
+    public trackCount: number = 0;
+    public discNumber: number = 0;
+    public discCount: number = 0;
+    public lyrics: string = '';
     public picture: Buffer | undefined;
 
     public get rating(): number {
@@ -53,55 +53,55 @@ export class TagLibFileMetadata implements IFileMetadata {
 
         if (tagLibFile.tag != undefined) {
             if (tagLibFile.tag.performers != undefined) {
-                this.artists = tagLibFile.tag.performers;
+                this.artists = tagLibFile.tag.performers ?? [];
             }
 
             if (tagLibFile.tag.title != undefined) {
-                this.title = tagLibFile.tag.title;
+                this.title = tagLibFile.tag.title ?? '';
             }
 
             if (tagLibFile.tag.album != undefined) {
-                this.album = tagLibFile.tag.album;
+                this.album = tagLibFile.tag.album ?? '';
             }
 
             if (tagLibFile.tag.albumArtists != undefined) {
-                this.albumArtists = tagLibFile.tag.albumArtists;
+                this.albumArtists = tagLibFile.tag.albumArtists ?? [];
             }
 
             if (tagLibFile.tag.genres != undefined) {
-                this.genres = tagLibFile.tag.genres;
+                this.genres = tagLibFile.tag.genres ?? [];
             }
 
             if (tagLibFile.tag.year != undefined && !Number.isNaN(tagLibFile.tag.year)) {
-                this.year = tagLibFile.tag.year;
+                this.year = tagLibFile.tag.year ?? 0;
             }
 
             if (tagLibFile.tag.comment != undefined) {
-                this.comment = tagLibFile.tag.comment;
+                this.comment = tagLibFile.tag.comment ?? '';
             }
 
             if (tagLibFile.tag.grouping != undefined) {
-                this.grouping = tagLibFile.tag.grouping;
+                this.grouping = tagLibFile.tag.grouping ?? '';
             }
 
             if (tagLibFile.tag.track != undefined && !Number.isNaN(tagLibFile.tag.track)) {
-                this.trackNumber = tagLibFile.tag.track;
+                this.trackNumber = tagLibFile.tag.track ?? 0;
             }
 
             if (tagLibFile.tag.trackCount != undefined && !Number.isNaN(tagLibFile.tag.trackCount)) {
-                this.trackCount = tagLibFile.tag.trackCount;
+                this.trackCount = tagLibFile.tag.trackCount ?? 0;
             }
 
             if (tagLibFile.tag.disc != undefined && !Number.isNaN(tagLibFile.tag.disc)) {
-                this.discNumber = tagLibFile.tag.disc;
+                this.discNumber = tagLibFile.tag.disc ?? 0;
             }
 
             if (tagLibFile.tag.discCount != undefined && !Number.isNaN(tagLibFile.tag.discCount)) {
-                this.discCount = tagLibFile.tag.discCount;
+                this.discCount = tagLibFile.tag.discCount ?? 0;
             }
 
             if (tagLibFile.tag.lyrics != undefined) {
-                this.lyrics = tagLibFile.tag.lyrics;
+                this.lyrics = tagLibFile.tag.lyrics ?? '';
             }
 
             if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {
@@ -122,20 +122,20 @@ export class TagLibFileMetadata implements IFileMetadata {
 
         if (tagLibFile.properties != undefined) {
             if (tagLibFile.properties.durationMilliseconds != undefined && !Number.isNaN(tagLibFile.properties.durationMilliseconds)) {
-                this.durationInMilliseconds = tagLibFile.properties.durationMilliseconds;
+                this.durationInMilliseconds = tagLibFile.properties.durationMilliseconds ?? 0;
             }
 
             if (tagLibFile.properties.audioBitrate != undefined && !Number.isNaN(tagLibFile.properties.audioBitrate)) {
-                this.bitRate = tagLibFile.properties.audioBitrate;
+                this.bitRate = tagLibFile.properties.audioBitrate ?? 0;
             }
 
             if (tagLibFile.properties.audioSampleRate != undefined && !Number.isNaN(tagLibFile.properties.audioSampleRate)) {
-                this.sampleRate = tagLibFile.properties.audioSampleRate;
+                this.sampleRate = tagLibFile.properties.audioSampleRate ?? 0;
             }
         }
 
         try {
-            this._rating = this.readRatingFromFile(tagLibFile);
+            this._rating = this.readRatingFromFile(tagLibFile) ?? 0;
         } catch (error) {
             // Intended suppression
         }

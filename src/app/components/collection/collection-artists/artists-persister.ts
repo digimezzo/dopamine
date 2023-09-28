@@ -42,7 +42,7 @@ export class ArtistsPersister {
 
     public setSelectedArtists(selectedArtists: ArtistModel[]): void {
         try {
-            if (selectedArtists != undefined && selectedArtists.length > 0) {
+            if (selectedArtists.length > 0) {
                 this.selectedArtistNames = selectedArtists.map((x) => x.displayName);
             } else {
                 this.selectedArtistNames = [];

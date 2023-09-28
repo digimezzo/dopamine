@@ -6,7 +6,7 @@ import { MetadataPatcher } from '../../common/metadata/metadata-patcher';
 export class TrackFieldCreator {
     public constructor(private metadataPatcher: MetadataPatcher) {}
 
-    public createNumberField(value: number): number {
+    public createNumberField(value: number | undefined): number {
         if (value == undefined || Number.isNaN(value)) {
             return 0;
         }
@@ -14,7 +14,7 @@ export class TrackFieldCreator {
         return value;
     }
 
-    public createTextField(value: string): string {
+    public createTextField(value: string | undefined): string {
         if (value == undefined) {
             return '';
         }
@@ -22,7 +22,7 @@ export class TrackFieldCreator {
         return value.trim();
     }
 
-    public createMultiTextField(valueArray: string[]): string {
+    public createMultiTextField(valueArray: string[] | undefined): string {
         if (valueArray == undefined) {
             return '';
         }

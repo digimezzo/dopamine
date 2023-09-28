@@ -12,7 +12,7 @@ export class GenreService implements BaseGenreService {
 
     public getGenres(): GenreModel[] {
         const addedGenres: string[] = [];
-        const genreDatas: GenreData[] = this.trackRepository.getGenreData();
+        const genreDatas: GenreData[] = this.trackRepository.getGenreData() ?? [];
         const genreModels: GenreModel[] = [];
 
         for (const genreData of genreDatas) {

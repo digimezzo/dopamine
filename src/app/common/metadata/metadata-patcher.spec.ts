@@ -5,7 +5,7 @@ describe('MetadataPatcher', () => {
         it('should return and empty collection if the metadata collection is undefined', () => {
             // Arrange
             const metadataPatcher: MetadataPatcher = new MetadataPatcher();
-            const possiblySplittedMetadata: string[] = undefined;
+            const possiblySplittedMetadata: string[] | undefined = undefined;
 
             // Act
             const joinedMetadata: string[] = metadataPatcher.joinUnsplittableMetadata(possiblySplittedMetadata);

@@ -403,23 +403,7 @@ describe('TrackFiller', () => {
             expect(track.year).toEqual(2020);
         });
 
-        it('should fill in track hasLyrics with 0 if the audio file lyrics are undefined', async () => {
-            // Arrange
-            const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataStub.lyrics = undefined;
-
-            fileMetadataFactoryMock.setup((x) => x.createAsync('/home/user/Music/Track 1.mp3')).returns(async () => fileMetadataStub);
-            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync('/home/user/Music/Track 1.mp3')).returns(async () => 789);
-
-            const trackFiller: TrackFiller = createTrackFiller();
-            const track: Track = new Track('/home/user/Music/Track 1.mp3');
-
-            // Act
-            await trackFiller.addFileMetadataToTrackAsync(track);
-
-            // Assert
-            expect(track.hasLyrics).toEqual(0);
-        });
+       
 
         it('should fill in track hasLyrics with 0 if the audio file lyrics are empty', async () => {
             // Arrange

@@ -24,10 +24,6 @@ export abstract class BaseAlbumsPersister {
     public abstract saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void;
 
     public getSelectedAlbums(availableAlbums: AlbumModel[]): AlbumModel[] {
-        if (availableAlbums == undefined) {
-            return [];
-        }
-
         if (availableAlbums.length === 0) {
             return [];
         }
@@ -43,7 +39,7 @@ export abstract class BaseAlbumsPersister {
 
     public setSelectedAlbums(selectedAlbums: AlbumModel[]): void {
         try {
-            if (selectedAlbums != undefined && selectedAlbums.length > 0) {
+            if (selectedAlbums.length > 0) {
                 this.selectedAlbumKeys = selectedAlbums.map((x) => x.albumKey);
             } else {
                 this.selectedAlbumKeys = [];

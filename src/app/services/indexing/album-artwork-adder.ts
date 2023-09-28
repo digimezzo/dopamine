@@ -26,7 +26,7 @@ export class AlbumArtworkAdder {
 
     public async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
         try {
-            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing();
+            const albumDataThatNeedsIndexing: AlbumData[] = this.trackRepository.getAlbumDataThatNeedsIndexing() ?? [];
 
             if (albumDataThatNeedsIndexing.length === 0) {
                 this.logger.info(
@@ -73,16 +73,17 @@ export class AlbumArtworkAdder {
     }
 
     private async addAlbumArtworkAsync(albumKey: string): Promise<void> {
-        const track: Track = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
+        const track: Track | undefined = this.trackRepository.getLastModifiedTrackForAlbumKeyAsync(albumKey);
 
         if (track == undefined) {
             return;
         }
 
-        let fileMetadata: IFileMetadata | undefined;
+        let albumArtwork: Buffer | undefined;
 
         try {
-            fileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+            const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
+            albumArtwork = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
         } catch (e) {
             this.logger.info(
                 `Could not create file metadata for path='${track.path}'. Error: ${e.message}`,
@@ -90,12 +91,6 @@ export class AlbumArtworkAdder {
                 'addAlbumArtworkAsync'
             );
         }
-
-        if (fileMetadata == undefined) {
-            return;
-        }
-
-        const albumArtwork: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true);
 
         if (albumArtwork == undefined) {
             return;

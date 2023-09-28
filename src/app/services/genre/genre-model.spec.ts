@@ -70,18 +70,6 @@ describe('GenreModel', () => {
     });
 
     describe('name', () => {
-        it('should return "Unknown genre" if genre is undefined', () => {
-            // Arrange
-            const genre: string = undefined;
-            genreModel = new GenreModel(genre, translatorServiceMock.object);
-
-            // Act
-            const name: string = genreModel.displayName;
-
-            // Assert
-            expect(name).toEqual('Unknown genre');
-        });
-
         it('should return "Unknown genre" if genre is empty', () => {
             // Arrange
             const genre: string = '';

@@ -47,7 +47,7 @@ export class TrackService implements BaseTrackService {
     }
 
     public getVisibleTracks(): TrackModels {
-        const tracks: Track[] = this.trackRepository.getVisibleTracks();
+        const tracks: Track[] = this.trackRepository.getVisibleTracks() ?? [];
         const trackModels: TrackModels = new TrackModels();
 
         for (const track of tracks) {
@@ -61,15 +61,11 @@ export class TrackService implements BaseTrackService {
     public getTracksForAlbums(albumKeys: string[]): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
-        if (albumKeys == undefined) {
-            return trackModels;
-        }
-
         if (albumKeys.length === 0) {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForAlbums(albumKeys);
+        const tracks: Track[] = this.trackRepository.getTracksForAlbums(albumKeys) ?? [];
 
         for (const track of tracks) {
             const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
@@ -82,16 +78,12 @@ export class TrackService implements BaseTrackService {
     public getTracksForArtists(artists: string[], artistType: ArtistType): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
-        if (artists == undefined) {
-            return trackModels;
-        }
-
         if (artists.length === 0) {
             return trackModels;
         }
 
         if (artistType === ArtistType.trackArtists || artistType === ArtistType.allArtists) {
-            const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists);
+            const trackArtistTracks: Track[] = this.trackRepository.getTracksForTrackArtists(artists) ?? [];
 
             for (const track of trackArtistTracks) {
                 const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
@@ -100,7 +92,7 @@ export class TrackService implements BaseTrackService {
         }
 
         if (artistType === ArtistType.albumArtists || artistType === ArtistType.allArtists) {
-            const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists);
+            const albumArtistTracks: Track[] = this.trackRepository.getTracksForAlbumArtists(artists) ?? [];
 
             for (const track of albumArtistTracks) {
                 const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);
@@ -119,15 +111,11 @@ export class TrackService implements BaseTrackService {
     public getTracksForGenres(genres: string[]): TrackModels {
         const trackModels: TrackModels = new TrackModels();
 
-        if (genres == undefined) {
-            return trackModels;
-        }
-
         if (genres.length === 0) {
             return trackModels;
         }
 
-        const tracks: Track[] = this.trackRepository.getTracksForGenres(genres);
+        const tracks: Track[] = this.trackRepository.getTracksForGenres(genres) ?? [];
 
         for (const track of tracks) {
             const trackModel: TrackModel = this.trackModelFactory.createFromTrack(track);

@@ -18,7 +18,7 @@ export class TrackModels {
         return this.tracks.length;
     }
 
-    public addTrack(track: TrackModel): void {
+    public addTrack(track: TrackModel | undefined): void {
         if (track == undefined) {
             return;
         }

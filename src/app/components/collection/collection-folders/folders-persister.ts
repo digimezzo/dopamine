@@ -34,12 +34,7 @@ export class FoldersPersister {
 
     public setOpenedFolder(openedFolder: FolderModel): void {
         try {
-            if (openedFolder == undefined) {
-                this.saveOpenedFolder('');
-                this.saveOpenedSubfolder('');
-            } else {
-                this.saveOpenedFolder(openedFolder.path);
-            }
+            this.saveOpenedFolder(openedFolder.path);
         } catch (e) {
             this.logger.error(`Could not set opened folder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedFolder');
         }

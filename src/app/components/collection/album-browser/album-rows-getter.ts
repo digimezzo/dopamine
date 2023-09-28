@@ -13,10 +13,6 @@ export class AlbumRowsGetter {
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
 
-        if (albums == undefined) {
-            return albumRows;
-        }
-
         if (albums.length === 0) {
             return albumRows;
         }

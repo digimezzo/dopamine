@@ -1,11 +1,11 @@
 export class AlbumData {
-    public albumTitle: string;
-    public albumArtists: string;
-    public artists: string;
+    public albumTitle: string | undefined;
+    public albumArtists: string | undefined;
+    public artists: string | undefined;
     public albumKey: string;
-    public artworkId: string;
-    public year: number;
-    public dateFileCreated: number;
-    public dateAdded: number;
-    public dateLastPlayed: number;
+    public artworkId: string | undefined;
+    public year: number | undefined;
+    public dateFileCreated: number | undefined;
+    public dateAdded: number | undefined;
+    public dateLastPlayed: number | undefined;
 }

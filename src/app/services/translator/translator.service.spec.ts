@@ -77,7 +77,7 @@ describe('TranslatorService', () => {
     describe('selectedLanguage', () => {
         it('should return the language that corresponds to language code in settings', () => {
             // Arrange
-            const expectedLanguage: Language = Constants.languages.find((x) => x.code === 'fr');
+            const expectedLanguage: Language = Constants.languages.find((x) => x.code === 'fr')!;
             const service: TranslatorService = createService();
 
             // Act

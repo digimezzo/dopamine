@@ -117,7 +117,8 @@ describe('MetadataService', () => {
             // Arrange
             const service: BaseMetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => fileMetaDataMock);
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
@@ -131,7 +132,8 @@ describe('MetadataService', () => {
             // Arrange
             const service: BaseMetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => fileMetaDataMock);
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
             fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 

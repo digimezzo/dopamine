@@ -61,7 +61,7 @@ export class TrackRemover {
         timer.start();
 
         try {
-            const tracks: Track[] = this.trackRepository.getAllTracks();
+            const tracks: Track[] = this.trackRepository.getAllTracks() ?? [];
 
             this.logger.info(`Found ${tracks.length} tracks.`, 'TrackRemover', 'removeTracksThatAreNotFoundOnDisk');
 

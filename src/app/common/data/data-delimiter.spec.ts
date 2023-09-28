@@ -4,7 +4,7 @@ describe('DataDelimiter', () => {
     describe('toDelimitedString', () => {
         it('should return an empty string if the array is undefined', () => {
             // Arrange
-            const stringArray: string[] = undefined;
+            const stringArray: string[] | undefined = undefined;
 
             // Act
             const delimitedString: string = DataDelimiter.toDelimitedString(stringArray);
@@ -83,7 +83,7 @@ describe('DataDelimiter', () => {
     describe('fromDelimitedString', () => {
         it('should return an empty collection if the delimited string is undefined', () => {
             // Arrange
-            const delimitedString: string = undefined;
+            const delimitedString: string | undefined = undefined;
 
             // Act
             const collection: string[] = DataDelimiter.fromDelimitedString(delimitedString);

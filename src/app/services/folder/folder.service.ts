@@ -39,7 +39,7 @@ export class FolderService implements BaseFolderService {
     }
 
     public async addFolderAsync(path: string): Promise<void> {
-        const existingFolder: Folder = this.folderRepository.getFolderByPath(path);
+        const existingFolder: Folder | undefined = this.folderRepository.getFolderByPath(path);
 
         if (existingFolder == undefined) {
             const newFolder: Folder = new Folder(path);
@@ -53,9 +53,9 @@ export class FolderService implements BaseFolderService {
     }
 
     public getFolders(): FolderModel[] {
-        const folders: Folder[] = this.folderRepository.getFolders();
+        const folders: Folder[] = this.folderRepository.getFolders() ?? [];
 
-        if (folders != undefined && folders.length > 0) {
+        if (folders.length > 0) {
             return folders.map((x) => new FolderModel(x));
         }
 

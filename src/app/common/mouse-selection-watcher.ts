@@ -10,7 +10,7 @@ export class MouseSelectionWatcher {
         return this.items.filter((x) => x.isSelected);
     }
 
-    public initialize(items: ISelectable[], selectFirstItem: boolean = false): void {
+    public initialize(items: ISelectable[] | undefined, selectFirstItem: boolean = false): void {
         if (items == undefined) {
             return;
         }
@@ -26,7 +26,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    public setSelectedItems(event: any, item: ISelectable): void {
+    public setSelectedItems(event: MouseEvent | undefined, item: ISelectable | undefined): void {
         if (event == undefined) {
             return;
         }
@@ -35,10 +35,10 @@ export class MouseSelectionWatcher {
             return;
         }
 
-        if (event && event.ctrlKey) {
+        if (event != undefined && event.ctrlKey) {
             // CTRL is pressed: add item to, or remove item from selection
             this.toggleItemSelection(item);
-        } else if (event && event.shiftKey) {
+        } else if (event != undefined && event.shiftKey) {
             // SHIFT is pressed: select a range of items
             this.selectItemsRange(item);
         } else {

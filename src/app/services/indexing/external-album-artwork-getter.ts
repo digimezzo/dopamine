@@ -13,7 +13,7 @@ export class ExternalAlbumArtworkGetter {
         private logger: Logger
     ) {}
 
-    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer | undefined> {
+    public async getExternalArtworkAsync(fileMetadata: IFileMetadata | undefined): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
