@@ -86,7 +86,7 @@ export class SnackBarService implements BaseSnackBarService {
         this.showSelfClosingSnackBar('las la-frown', message);
     }
 
-    public async dismissAsync(): Promise<void> {
+    public dismiss(): void {
         if (this.currentDismissibleSnackBar != undefined) {
             this.isDismissRequested = true;
             this.currentDismissibleSnackBar.dismiss();
@@ -96,7 +96,7 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async dismissDelayedAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
-        await this.dismissAsync();
+        this.dismiss();
     }
 
     private checkIfDismissWasRequested(): void {

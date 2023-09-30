@@ -17,6 +17,6 @@ export class CollectionPlaybackPaneComponent {
     }
 
     public showNowPlaying(): void {
-        this.navigationService.navigateToNowPlaying();
+        this.navigationService.navigateToNowPlayingAsync();
     }
 }

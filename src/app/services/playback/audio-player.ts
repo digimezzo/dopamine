@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseAudioPlayer } from './base-audio-player';
 
 @Injectable()
@@ -14,10 +15,11 @@ export class AudioPlayer implements BaseAudioPlayer {
             // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             this.audio.setSinkId('default');
-        } catch (e) {
+        } catch (e: unknown) {
             // Suppress this error, but log it, in case it happens in production.
-            this.logger.error(`Could not perform setSinkId(). Error: ${e.message}`, 'AudioPlayer', 'constructor');
+            this.logger.error(e, 'Could not perform setSinkId()', 'AudioPlayer', 'constructor');
         }
 
         this.audio.defaultPlaybackRate = 1;
@@ -51,7 +53,7 @@ export class AudioPlayer implements BaseAudioPlayer {
         // HTMLAudioElement doesn't play paths which contain a #, so we escape it by replacing it with %23.
         const playableAudioFilePath: string = audioFilePath.replace('#', '%23');
         this.audio.src = 'file:///' + playableAudioFilePath;
-        this.audio.play();
+        PromiseUtils.noAwait(this.audio.play());
     }
 
     public stop(): void {
@@ -63,7 +65,7 @@ export class AudioPlayer implements BaseAudioPlayer {
     }
 
     public resume(): void {
-        this.audio.play();
+        PromiseUtils.noAwait(this.audio.play());
     }
 
     public setVolume(volume: number): void {

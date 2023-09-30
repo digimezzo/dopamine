@@ -43,7 +43,7 @@ export class FolderService implements BaseFolderService {
 
         if (existingFolder == undefined) {
             const newFolder: Folder = new Folder(path);
-            await this.folderRepository.addFolder(newFolder);
+            this.folderRepository.addFolder(newFolder);
             this.logger.info(`Added folder with path '${path}'`, 'FolderService', 'addNewFolderAsync');
             this.onFoldersChanged();
         } else {
@@ -77,12 +77,8 @@ export class FolderService implements BaseFolderService {
                 if (this.fileAccess.pathExists(rootFolder.path)) {
                     subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(rootFolder.path);
                 }
-            } catch (e) {
-                this.logger.error(
-                    `Could not get subfolderPaths for root folder. Error: ${e.message}`,
-                    'FolderService',
-                    'getSubfoldersAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not get subfolderPaths for root folder', 'FolderService', 'getSubfoldersAsync');
             }
         } else {
             // If a subfolder is provided, return the subfolders of the subfolder.
@@ -103,8 +99,8 @@ export class FolderService implements BaseFolderService {
                     // Return the subfolders of the provided subfolder
                     subfolderPaths = await this.fileAccess.getDirectoriesInDirectoryAsync(subfolderPathToBrowse);
                 }
-            } catch (e) {
-                this.logger.error(`Could not get subfolderPaths for subfolder. Error: ${e.message}`, 'FolderService', 'getSubfoldersAsync');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not get subfolderPaths for subfolder', 'FolderService', 'getSubfoldersAsync');
             }
         }
 
@@ -136,7 +132,7 @@ export class FolderService implements BaseFolderService {
         this.logger.info('Set all folders visible', 'FolderService', 'setAllFoldersVisible');
     }
 
-    public async getSubfolderBreadCrumbsAsync(rootFolder: FolderModel, subfolderPath: string): Promise<SubfolderModel[]> {
+    public getSubfolderBreadCrumbs(rootFolder: FolderModel, subfolderPath: string): SubfolderModel[] {
         let parentFolderPath: string = subfolderPath;
         const subfolderBreadCrumbs: SubfolderModel[] = [];
 
@@ -145,7 +141,7 @@ export class FolderService implements BaseFolderService {
             this.logger.info(
                 `parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
                 'FolderService',
-                'getSubfolderBreadCrumbsAsync'
+                'getSubfolderBreadCrumbs'
             );
             subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
             parentFolderPath = this.fileAccess.getDirectoryPath(parentFolderPath);

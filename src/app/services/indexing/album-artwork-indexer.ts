@@ -20,8 +20,8 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
-        this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+        await this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
         await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
         this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 

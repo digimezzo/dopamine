@@ -17,7 +17,7 @@ describe('NavigationService', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
+        it('should create', () => {
             // Arrange
 
             // Act
@@ -28,11 +28,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToLoading', () => {
-        it('should navigate to loading', async () => {
+        it('should navigate to loading', () => {
             // Arrange
 
             // Act
-            service.navigateToLoading();
+            service.navigateToLoadingAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/loading']), Times.exactly(1));
@@ -40,7 +40,7 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToCollection', () => {
-        it('should navigate to collection', async () => {
+        it('should navigate to collection', () => {
             // Arrange
 
             // Act
@@ -50,7 +50,7 @@ describe('NavigationService', () => {
             routerMock.verify((x) => x.navigate(['/collection']), Times.exactly(1));
         });
 
-        it('should apply margins with search box', async () => {
+        it('should apply margins with search box', () => {
             // Arrange
 
             // Act
@@ -62,7 +62,7 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToSettings', () => {
-        it('should navigate to settings', async () => {
+        it('should navigate to settings', () => {
             // Arrange
 
             // Act
@@ -72,7 +72,7 @@ describe('NavigationService', () => {
             routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
         });
 
-        it('should apply margins without search box', async () => {
+        it('should apply margins without search box', () => {
             // Arrange
 
             // Act
@@ -84,7 +84,7 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToInformation', () => {
-        it('should navigate to information', async () => {
+        it('should navigate to information', () => {
             // Arrange
 
             // Act
@@ -94,7 +94,7 @@ describe('NavigationService', () => {
             routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
         });
 
-        it('should apply margins without search box', async () => {
+        it('should apply margins without search box', () => {
             // Arrange
 
             // Act
@@ -106,7 +106,7 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToWelcome', () => {
-        it('should navigate to welcome', async () => {
+        it('should navigate to welcome', () => {
             // Arrange
 
             // Act
@@ -118,11 +118,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToManageCollection', () => {
-        it('should navigate to manage collection', async () => {
+        it('should navigate to manage collection', () => {
             // Arrange
 
             // Act
-            service.navigateToManageCollection();
+            service.navigateToManageCollectionAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/managecollection']), Times.exactly(1));
@@ -130,11 +130,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToNowPlaying', () => {
-        it('should navigate to now playing', async () => {
+        it('should navigate to now playing', () => {
             // Arrange
 
             // Act
-            service.navigateToNowPlaying();
+            service.navigateToNowPlayingAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/nowplaying']), Times.exactly(1));

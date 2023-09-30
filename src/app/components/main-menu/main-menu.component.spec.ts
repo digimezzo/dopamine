@@ -55,7 +55,7 @@ describe('MainMenuComponent', () => {
             component.goToManageCollection();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToManageCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToManageCollectionAsync(), Times.exactly(1));
         });
     });
 
@@ -67,7 +67,7 @@ describe('MainMenuComponent', () => {
             component.goToSettings();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToSettings(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToSettingsAsync(), Times.exactly(1));
         });
     });
 
@@ -79,7 +79,7 @@ describe('MainMenuComponent', () => {
             component.goToInformation();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToInformation(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToInformationAsync(), Times.exactly(1));
         });
     });
 
@@ -91,7 +91,7 @@ describe('MainMenuComponent', () => {
             component.downloadLatestRelease();
 
             // Assert
-            updateServiceMock.verify((x) => x.downloadLatestRelease(), Times.exactly(1));
+            updateServiceMock.verify((x) => x.downloadLatestReleaseAsync(), Times.exactly(1));
         });
     });
 });

@@ -30,7 +30,7 @@ export abstract class BaseTrackRepository {
     public abstract getAlbumArtistData(): ArtistData[] | undefined;
     public abstract getGenreData(): GenreData[] | undefined;
     public abstract getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track | undefined;
-    public abstract disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void;
+    public abstract disableNeedsAlbumArtworkIndexing(albumKey: string): void;
     public abstract enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover: boolean): void;
     public abstract updatePlayCountAndDateLastPlayed(trackId: number, playCount: number, dateLastPlayedInTicks: number): void;
     public abstract updateSkipCount(trackId: number, skipCount: number): void;

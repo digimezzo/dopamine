@@ -40,10 +40,10 @@ describe('TrackBrowserBase', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         desktopMock = Mock.ofType<BaseDesktop>();
 
-        translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(async () => 'delete-song');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(async () => 'confirm-delete-song');
-        translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(async () => 'delete-songs');
-        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-songs')).returns(async () => 'confirm-delete-songs');
+        translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(() => Promise.resolve('delete-song'));
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(() => Promise.resolve('confirm-delete-song'));
+        translatorServiceMock.setup((x) => x.getAsync('delete-songs')).returns(() => Promise.resolve('delete-songs'));
+        translatorServiceMock.setup((x) => x.getAsync('confirm-delete-songs')).returns(() => Promise.resolve('confirm-delete-songs'));
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';
@@ -186,7 +186,7 @@ describe('TrackBrowserBase', () => {
             const event: any = {};
 
             // Act
-            trackBrowserBase.onTrackContextMenuAsync(event, trackModel2);
+            await trackBrowserBase.onTrackContextMenuAsync(event, trackModel2);
 
             // Assert
             contextMenuOpenerMock.verify((x) => x.open(trackBrowserBase.trackContextMenu, event, trackModel2), Times.once());
@@ -223,7 +223,7 @@ describe('TrackBrowserBase', () => {
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
-                .returns(async () => false);
+                .returns(() => Promise.resolve(false));
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -236,7 +236,9 @@ describe('TrackBrowserBase', () => {
         it('should delete tracks if the user has confirmed', async () => {
             // Arrange
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
-            dialogServiceMock.setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs')).returns(async () => true);
+            dialogServiceMock
+                .setup((x) => x.showConfirmationDialogAsync('delete-songs', 'confirm-delete-songs'))
+                .returns(() => Promise.resolve(true));
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
@@ -248,25 +250,25 @@ describe('TrackBrowserBase', () => {
     });
 
     describe('onShowInFolder', () => {
-        it('should not show in folder if there are no tracks selected', async () => {
+        it('should not show in folder if there are no tracks selected', () => {
             // Arrange
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => []);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
-            await trackBrowserBase.onShowInFolder();
+            trackBrowserBase.onShowInFolder();
 
             // Assert
             desktopMock.verify((x) => x.showFileInDirectory(It.isAny()), Times.never());
         });
 
-        it('should show the first selected track in folder if there are tracks selected', async () => {
+        it('should show the first selected track in folder if there are tracks selected', () => {
             // Arrange
             mouseSelectionWatcherMock.setup((x) => x.selectedItems).returns(() => [trackModel1, trackModel2]);
             const trackBrowserBase: TrackBrowserBase = create();
 
             // Act
-            await trackBrowserBase.onShowInFolder();
+            trackBrowserBase.onShowInFolder();
 
             // Assert
             desktopMock.verify((x) => x.showFileInDirectory(trackModel1.path), Times.once());

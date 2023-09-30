@@ -142,7 +142,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToNowPlaying(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToNowPlayingAsync(), Times.exactly(1));
         });
 
         it('should enqueue parameter files if welcome should not be shown and there are playable files as parameters', async () => {

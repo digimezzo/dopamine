@@ -12,35 +12,35 @@ export class NavigationService implements BaseNavigationService {
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 
-    public navigateToLoading(): void {
-        this.router.navigate(['/loading']);
+    public async navigateToLoadingAsync(): Promise<void> {
+        await this.router.navigate(['/loading']);
     }
 
-    public navigateToCollection(): void {
-        this.router.navigate(['/collection']);
+    public async navigateToCollectionAsync(): Promise<void> {
+        await this.router.navigate(['/collection']);
         this.appearanceService.applyMargins(true);
     }
 
-    public navigateToSettings(): void {
-        this.router.navigate(['/settings']);
+    public async navigateToSettingsAsync(): Promise<void> {
+        await this.router.navigate(['/settings']);
         this.appearanceService.applyMargins(false);
     }
 
-    public navigateToInformation(): void {
-        this.router.navigate(['/information']);
+    public async navigateToInformationAsync(): Promise<void> {
+        await this.router.navigate(['/information']);
         this.appearanceService.applyMargins(false);
     }
 
-    public navigateToWelcome(): void {
-        this.router.navigate(['/welcome']);
+    public async navigateToWelcomeAsync(): Promise<void> {
+        await this.router.navigate(['/welcome']);
     }
 
-    public navigateToManageCollection(): void {
-        this.router.navigate(['/managecollection']);
+    public async navigateToManageCollectionAsync(): Promise<void> {
+        await this.router.navigate(['/managecollection']);
     }
 
-    public navigateToNowPlaying(): void {
-        this.router.navigate(['/nowplaying']);
+    public async navigateToNowPlayingAsync(): Promise<void> {
+        await this.router.navigate(['/nowplaying']);
     }
 
     public showPlaybackQueue(): void {

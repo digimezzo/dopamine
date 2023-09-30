@@ -27,8 +27,8 @@ export abstract class BaseTracksPersister {
         try {
             this.selectedTrackOrder = selectedTrackOrder;
             this.saveSelectedTrackOrderToSettings(TrackOrder[selectedTrackOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected track order. Error: ${e.message}`, 'BaseTracksPersister', 'setSelectedTrackOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected track order', 'BaseTracksPersister', 'setSelectedTrackOrder');
         }
     }
 

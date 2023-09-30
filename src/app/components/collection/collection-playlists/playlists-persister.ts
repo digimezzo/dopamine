@@ -45,8 +45,8 @@ export class PlaylistsPersister {
 
         try {
             return availablePlaylists.filter((x) => this.selectedPlaylistNames.includes(x.name));
-        } catch (e) {
-            this.logger.error(`Could not get selected playlists. Error: ${e.message}`, 'PlaylistsPersister', 'getSelectedPlaylists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected playlists', 'PlaylistsPersister', 'getSelectedPlaylists');
         }
 
         return [];
@@ -67,8 +67,8 @@ export class PlaylistsPersister {
             }
 
             this.selectedPlaylistsChanged.next(this.selectedPlaylistNames);
-        } catch (e) {
-            this.logger.error(`Could not set selected playlists. Error: ${e.message}`, 'PlaylistsPersister', 'setSelectedPlaylists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected playlists', 'PlaylistsPersister', 'setSelectedPlaylists');
         }
     }
 
@@ -89,12 +89,8 @@ export class PlaylistsPersister {
         try {
             this.selectedPlaylistOrder = selectedPlaylistOrder;
             this.saveSelectedPlaylistOrderToSettings(PlaylistOrder[selectedPlaylistOrder]);
-        } catch (e) {
-            this.logger.error(
-                `Could not set selected playlist order. Error: ${e.message}`,
-                'PlaylistsPersister',
-                'setSelectedPlaylistOrder'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected playlist order', 'PlaylistsPersister', 'setSelectedPlaylistOrder');
         }
     }
 

@@ -105,7 +105,7 @@ describe('AlbumArtworkCacheService', () => {
                         Constants.cachedCoverArtJpegQuality
                     )
                 )
-                .returns(async () => resizedImageBuffer);
+                .returns(() => Promise.resolve(resizedImageBuffer));
 
             // Act
             await service.addArtworkDataToCacheAsync(imageBuffer);

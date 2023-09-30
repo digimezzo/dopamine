@@ -15,8 +15,9 @@ export class EmbeddedAlbumArtworkGetter {
 
         try {
             artworkData = fileMetadata.picture;
-        } catch (error) {
+        } catch (e: unknown) {
             this.logger.error(
+                e,
                 `Could not get embedded artwork for track with path='${fileMetadata.path}'`,
                 'EmbeddedAlbumArtworkGetter',
                 'getEmbeddedArtwork'

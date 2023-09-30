@@ -54,7 +54,7 @@ describe('CollectionPlaybackPaneComponent', () => {
             component.showNowPlaying();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToNowPlaying(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToNowPlayingAsync(), Times.exactly(1));
         });
     });
 });

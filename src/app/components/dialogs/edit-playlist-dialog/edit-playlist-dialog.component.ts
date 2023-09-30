@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../common/application/constants';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Strings } from '../../../common/strings';
@@ -12,7 +12,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
     styleUrls: ['./edit-playlist-dialog.component.scss'],
 })
 export class EditPlaylistDialogComponent implements OnInit {
-    constructor(
+    public constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
         private playlistService: BasePlaylistService,
@@ -73,7 +73,7 @@ export class EditPlaylistDialogComponent implements OnInit {
     private async updatePlaylistAsync(): Promise<void> {
         try {
             await this.playlistService.updatePlaylistDetailsAsync(this.data.playlist, this.playlistName, this.playlistImagePath);
-        } catch (e) {
+        } catch (e: unknown) {
             // TODO
         }
     }

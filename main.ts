@@ -306,6 +306,7 @@ try {
         });
     }
 } catch (e) {
-    log.info(`[Main] [] Could not start. Error: ${e.message}`);
+    log.error(`[Main] [] Could not start. Error: ${e.message}`);
+
     throw e;
 }

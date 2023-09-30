@@ -7,8 +7,8 @@ export abstract class BaseDesktop {
     public abstract showSelectFolderDialogAsync(dialogTitle: string): Promise<string>;
     public abstract showSelectFileDialogAsync(dialogTitle: string): Promise<string>;
 
-    public abstract openLink(url: string): void;
-    public abstract openPath(path: string): void;
+    public abstract openLinkAsync(url: string): Promise<void>;
+    public abstract openPathAsync(path: string): Promise<void>;
     public abstract showFileInDirectory(filePath: string): void;
     public abstract shouldUseDarkColors(): boolean;
     public abstract getAccentColor(): string;

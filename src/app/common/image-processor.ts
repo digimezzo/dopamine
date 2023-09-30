@@ -30,8 +30,8 @@ export class ImageProcessor {
         return 'data:image/png;base64,' + imageBuffer.toString('base64');
     }
 
-    public async resizeImageAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
-        let image: NativeImage = await nativeImage.createFromBuffer(imageBuffer);
+    public resizeImage(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Buffer {
+        let image: NativeImage = nativeImage.createFromBuffer(imageBuffer);
         const imageSize: Size = image.getSize();
 
         if (imageSize.width > maxWidth || imageSize.height > maxHeight) {

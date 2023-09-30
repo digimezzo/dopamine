@@ -146,7 +146,7 @@ export class NowPlayingComponent implements OnInit {
     }
 
     public goBackToCollection(): void {
-        this.navigationService.navigateToCollection();
+        this.navigationService.navigateToCollectionAsync();
     }
 
     private resetTimer(): void {

@@ -185,8 +185,8 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
                     break;
                 }
             }
-        } catch (e) {
-            this.logger.error(`Could not order tracks. Error: ${e.message}`, 'TrackBrowserComponent', 'orderTracks');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order tracks', 'TrackBrowserComponent', 'orderTracks');
         }
 
         this.orderedTracks = [...orderedTracks];

@@ -10,7 +10,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     public constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
 
     public handleError(e: Error): void {
-        this.logger.error(`Handling global error. Error: ${e.message}.`, 'GlobalErrorHandler', 'handleError');
+        this.logger.error(e, 'Handling global error', 'GlobalErrorHandler', 'handleError');
         this.showGlobalErrorDialog();
     }
 

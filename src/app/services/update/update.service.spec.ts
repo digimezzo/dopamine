@@ -96,7 +96,7 @@ describe('UpdateService', () => {
 
         it('should indicate that an update is available if the latest release is newer than the current release', async () => {
             // Arrange
-            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(async () => '1000.0.0.0');
+            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(() => Promise.resolve('1000.0.0.0'));
             settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
@@ -112,7 +112,7 @@ describe('UpdateService', () => {
             // Arrange
             gitHubMock
                 .setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false))
-                .returns(async () => ProductInformation.applicationVersion);
+                .returns(() => Promise.resolve(ProductInformation.applicationVersion));
             settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
@@ -126,7 +126,7 @@ describe('UpdateService', () => {
 
         it('should not indicate that an update is available if the latest release is older than the current release', async () => {
             // Arrange
-            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(async () => '1.0.0');
+            gitHubMock.setup((x) => x.getLatestReleaseAsync('digimezzo', 'dopamine', false)).returns(() => Promise.resolve('1.0.0'));
             settingsMock.setup((x) => x.checkForUpdatesIncludesPreReleases).returns(() => false);
             service = new UpdateService(settingsMock.object, loggerMock.object, gitHubMock.object, desktopMock.object);
 
@@ -139,15 +139,15 @@ describe('UpdateService', () => {
         });
     });
 
-    describe('downloadLatestRelease', () => {
+    describe('downloadLatestReleaseAsync', async () => {
         it('should download the latest release', () => {
             // Arrange
 
             // Act
-            service.downloadLatestRelease();
+            await service.downloadLatestReleaseAsync();
 
             // Assert
-            desktopMock.verify((x) => x.openLink(It.isAny()), Times.exactly(1));
+            desktopMock.verify((x) => x.openLinkAsync(It.isAny()), Times.exactly(1));
         });
     });
 });

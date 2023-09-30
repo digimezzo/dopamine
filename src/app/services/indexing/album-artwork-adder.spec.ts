@@ -245,7 +245,7 @@ describe('AlbumArtworkAdder', () => {
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            trackRepositoryMock.verify((x) => x.disableNeedsAlbumArtworkIndexingAsync('AlbumKey1'), Times.never());
+            trackRepositoryMock.verify((x) => x.disableNeedsAlbumArtworkIndexing('AlbumKey1'), Times.never());
         });
 
         it('should disable album artwork indexing for the given album key if the artwork was added to the cache', async () => {
@@ -270,7 +270,7 @@ describe('AlbumArtworkAdder', () => {
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            trackRepositoryMock.verify((x) => x.disableNeedsAlbumArtworkIndexingAsync('AlbumKey1'), Times.exactly(1));
+            trackRepositoryMock.verify((x) => x.disableNeedsAlbumArtworkIndexing('AlbumKey1'), Times.exactly(1));
         });
 
         it('should not add album artwork to the database if the artwork was not added to the cache', async () => {

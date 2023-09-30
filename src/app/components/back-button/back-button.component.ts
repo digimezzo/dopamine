@@ -13,7 +13,7 @@ export class BackButtonComponent {
     public constructor(public navigationService: BaseNavigationService, private indexingService: BaseIndexingService) {}
 
     public goBackToCollection(): void {
-        this.navigationService.navigateToCollection();
+        this.navigationService.navigateToCollectionAsync();
         this.indexingService.indexCollectionIfFoldersHaveChangedAsync();
     }
 }

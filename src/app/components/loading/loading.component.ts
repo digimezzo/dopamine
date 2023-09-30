@@ -28,17 +28,17 @@ export class LoadingComponent implements OnInit {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        await this.databaseMigrator.migrateAsync();
+        this.databaseMigrator.migrate();
 
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;
-            this.navigationService.navigateToWelcome();
+            this.navigationService.navigateToWelcomeAsync();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
                 await this.fileService.enqueueParameterFilesAsync();
-                this.navigationService.navigateToNowPlaying();
+                this.navigationService.navigateToNowPlayingAsync();
             } else {
-                this.navigationService.navigateToCollection();
+                this.navigationService.navigateToCollectionAsync();
                 this.initializeAsync();
             }
         }

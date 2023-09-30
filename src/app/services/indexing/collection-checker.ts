@@ -29,13 +29,14 @@ export class CollectionChecker {
             collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
 
             this.logger.info(
-                `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
+                `collectionIsOutdated=${collectionIsOutdated.toString()}, tracksNeedIndexing=${tracksNeedIndexing.toString()}, numberOfTracksHasChanged=${numberOfTracksHasChanged.toString()}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged.toString()}`,
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
-                `An error occurred while checking if collection is outdated. Error ${e.message}`,
+                e,
+                'An error occurred while checking if collection is outdated',
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );

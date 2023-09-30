@@ -10,15 +10,15 @@ export class TranslateServiceProxy implements BaseTranslateServiceProxy {
         this.translateService.setDefaultLang(lang);
     }
 
-    public async use(lang: string): Promise<any> {
-        return await this.translateService.use(lang).toPromise();
+    public async use(lang: string): Promise<void> {
+        await this.translateService.use(lang).toPromise();
     }
 
-    public async get(key: string | string[], interpolateParams?: object): Promise<any> {
-        return await this.translateService.get(key, interpolateParams).toPromise();
+    public async get(key: string | string[], interpolateParams?: object): Promise<string> {
+        return (await this.translateService.get(key, interpolateParams).toPromise()) as string;
     }
 
-    public instant(key: string | string[], interpolateParams?: object): string | any {
-        return this.translateService.instant(key, interpolateParams);
+    public instant(key: string | string[], interpolateParams?: object): string {
+        return this.translateService.instant(key, interpolateParams) as string;
     }
 }

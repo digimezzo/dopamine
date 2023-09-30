@@ -26,8 +26,9 @@ export class ExternalAlbumArtworkGetter {
             if (!Strings.isNullOrWhiteSpace(externalArtworkPath)) {
                 artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath);
             }
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
+                e,
                 `Could not get external artwork for track with path='${fileMetadata.path}'`,
                 'ExternalAlbumArtworkGetter',
                 'getExternalArtwork'

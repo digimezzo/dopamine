@@ -75,6 +75,6 @@ export class AppComponent implements OnInit {
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
 
-        this.navigationService.navigateToLoading();
+        this.navigationService.navigateToLoadingAsync();
     }
 }

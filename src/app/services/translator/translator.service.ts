@@ -4,6 +4,7 @@ import { Constants } from '../../common/application/constants';
 import { Language } from '../../common/application/language';
 import { BaseTranslateServiceProxy } from '../../common/io/base-translate-service-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseTranslatorService } from './base-translator.service';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class TranslatorService implements BaseTranslatorService {
 
     public set selectedLanguage(v: Language) {
         this.settings.language = v.code;
-        this.applyLanguageAsync();
+        PromiseUtils.noAwait(this.applyLanguageAsync());
     }
 
     public async applyLanguageAsync(): Promise<void> {

@@ -48,7 +48,7 @@ describe('PlaybackInformationComponent', () => {
         return trackModel;
     }
 
-    beforeEach(async () => {
+    beforeEach(() => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
         settingsMock = Mock.ofType<BaseSettings>();
@@ -167,7 +167,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -187,7 +187,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -211,7 +211,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -235,7 +235,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -258,7 +258,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -276,7 +276,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -294,7 +294,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act
@@ -312,7 +312,7 @@ describe('PlaybackInformationComponent', () => {
 
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             const component: PlaybackInformationComponent = createComponent();
 
             // Act

@@ -185,7 +185,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -212,7 +214,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -237,7 +241,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -262,7 +268,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -287,7 +295,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -314,7 +324,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -344,7 +356,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -372,7 +386,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -400,7 +416,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -428,7 +446,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -458,7 +478,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => true);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -488,7 +510,9 @@ describe('NowPlayingComponent', () => {
             appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -516,7 +540,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -544,7 +570,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
@@ -572,7 +600,7 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(async () => 'dummy-background');
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 

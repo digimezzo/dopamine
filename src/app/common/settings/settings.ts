@@ -17,7 +17,7 @@ export class Settings implements BaseSettings {
 
     // language
     public get language(): string {
-        return this.settings.get('language');
+        return <string>this.settings.get('language');
     }
 
     public set language(v: string) {
@@ -26,7 +26,7 @@ export class Settings implements BaseSettings {
 
     // checkForUpdates
     public get checkForUpdates(): boolean {
-        return this.settings.get('checkForUpdates');
+        return <boolean>this.settings.get('checkForUpdates');
     }
 
     public set checkForUpdates(v: boolean) {
@@ -35,7 +35,7 @@ export class Settings implements BaseSettings {
 
     // checkForUpdatesIncludesPreReleases
     public get checkForUpdatesIncludesPreReleases(): boolean {
-        return this.settings.get('checkForUpdatesIncludesPreReleases');
+        return <boolean>this.settings.get('checkForUpdatesIncludesPreReleases');
     }
 
     public set checkForUpdatesIncludesPreReleases(v: boolean) {
@@ -44,7 +44,7 @@ export class Settings implements BaseSettings {
 
     // useSystemTitleBar
     public get useSystemTitleBar(): boolean {
-        return this.settings.get('useSystemTitleBar');
+        return <boolean>this.settings.get('useSystemTitleBar');
     }
 
     public set useSystemTitleBar(v: boolean) {
@@ -53,7 +53,7 @@ export class Settings implements BaseSettings {
 
     // fontSize
     public get fontSize(): number {
-        return this.settings.get('fontSize');
+        return <number>this.settings.get('fontSize');
     }
 
     public set fontSize(v: number) {
@@ -62,7 +62,7 @@ export class Settings implements BaseSettings {
 
     // theme
     public get theme(): string {
-        return this.settings.get('theme');
+        return <string>this.settings.get('theme');
     }
 
     public set theme(v: string) {
@@ -71,7 +71,7 @@ export class Settings implements BaseSettings {
 
     // showWelcome
     public get showWelcome(): boolean {
-        return this.settings.get('showWelcome');
+        return <boolean>this.settings.get('showWelcome');
     }
 
     public set showWelcome(v: boolean) {
@@ -80,7 +80,7 @@ export class Settings implements BaseSettings {
 
     // followSystemTheme
     public get followSystemTheme(): boolean {
-        return this.settings.get('followSystemTheme');
+        return <boolean>this.settings.get('followSystemTheme');
     }
 
     public set followSystemTheme(v: boolean) {
@@ -89,7 +89,7 @@ export class Settings implements BaseSettings {
 
     // useLightBackgroundTheme
     public get useLightBackgroundTheme(): boolean {
-        return this.settings.get('useLightBackgroundTheme');
+        return <boolean>this.settings.get('useLightBackgroundTheme');
     }
 
     public set useLightBackgroundTheme(v: boolean) {
@@ -98,7 +98,7 @@ export class Settings implements BaseSettings {
 
     // followSystemColor
     public get followSystemColor(): boolean {
-        return this.settings.get('followSystemColor');
+        return <boolean>this.settings.get('followSystemColor');
     }
 
     public set followSystemColor(v: boolean) {
@@ -107,7 +107,7 @@ export class Settings implements BaseSettings {
 
     // skipRemovedFilesDuringRefresh
     public get skipRemovedFilesDuringRefresh(): boolean {
-        return this.settings.get('skipRemovedFilesDuringRefresh');
+        return <boolean>this.settings.get('skipRemovedFilesDuringRefresh');
     }
 
     public set skipRemovedFilesDuringRefresh(v: boolean) {
@@ -116,7 +116,7 @@ export class Settings implements BaseSettings {
 
     // downloadMissingAlbumCovers
     public get downloadMissingAlbumCovers(): boolean {
-        return this.settings.get('downloadMissingAlbumCovers');
+        return <boolean>this.settings.get('downloadMissingAlbumCovers');
     }
 
     public set downloadMissingAlbumCovers(v: boolean) {
@@ -125,7 +125,7 @@ export class Settings implements BaseSettings {
 
     // showAllFoldersInCollection
     public get showAllFoldersInCollection(): boolean {
-        return this.settings.get('showAllFoldersInCollection');
+        return <boolean>this.settings.get('showAllFoldersInCollection');
     }
 
     public set showAllFoldersInCollection(v: boolean) {
@@ -134,7 +134,7 @@ export class Settings implements BaseSettings {
 
     // refreshCollectionAutomatically
     public get refreshCollectionAutomatically(): boolean {
-        return this.settings.get('refreshCollectionAutomatically');
+        return <boolean>this.settings.get('refreshCollectionAutomatically');
     }
 
     public set refreshCollectionAutomatically(v: boolean) {
@@ -143,7 +143,7 @@ export class Settings implements BaseSettings {
 
     // albumsRightPaneWidthPercent
     public get albumsRightPaneWidthPercent(): number {
-        return this.settings.get('albumsRightPaneWidthPercent');
+        return <number>this.settings.get('albumsRightPaneWidthPercent');
     }
 
     public set albumsRightPaneWidthPercent(v: number) {
@@ -152,7 +152,7 @@ export class Settings implements BaseSettings {
 
     // foldersLeftPaneWidthPercent
     public get foldersLeftPaneWidthPercent(): number {
-        return this.settings.get('foldersLeftPaneWidthPercent');
+        return <number>this.settings.get('foldersLeftPaneWidthPercent');
     }
 
     public set foldersLeftPaneWidthPercent(v: number) {
@@ -161,7 +161,7 @@ export class Settings implements BaseSettings {
 
     // artistsLeftPaneWidthPercent
     public get artistsLeftPaneWidthPercent(): number {
-        return this.settings.get('artistsLeftPaneWidthPercent');
+        return <number>this.settings.get('artistsLeftPaneWidthPercent');
     }
 
     public set artistsLeftPaneWidthPercent(v: number) {
@@ -170,7 +170,7 @@ export class Settings implements BaseSettings {
 
     // artistsRightPaneWidthPercent
     public get artistsRightPaneWidthPercent(): number {
-        return this.settings.get('artistsRightPaneWidthPercent');
+        return <number>this.settings.get('artistsRightPaneWidthPercent');
     }
 
     public set artistsRightPaneWidthPercent(v: number) {
@@ -179,7 +179,7 @@ export class Settings implements BaseSettings {
 
     // genresLeftPaneWidthPercent
     public get genresLeftPaneWidthPercent(): number {
-        return this.settings.get('genresLeftPaneWidthPercent');
+        return <number>this.settings.get('genresLeftPaneWidthPercent');
     }
 
     public set genresLeftPaneWidthPercent(v: number) {
@@ -188,7 +188,7 @@ export class Settings implements BaseSettings {
 
     // genresRightPaneWidthPercent
     public get genresRightPaneWidthPercent(): number {
-        return this.settings.get('genresRightPaneWidthPercent');
+        return <number>this.settings.get('genresRightPaneWidthPercent');
     }
 
     public set genresRightPaneWidthPercent(v: number) {
@@ -197,7 +197,7 @@ export class Settings implements BaseSettings {
 
     // playlistsLeftPaneWidthPercent
     public get playlistsLeftPaneWidthPercent(): number {
-        return this.settings.get('playlistsLeftPaneWidthPercent');
+        return <number>this.settings.get('playlistsLeftPaneWidthPercent');
     }
 
     public set playlistsLeftPaneWidthPercent(v: number) {
@@ -206,7 +206,7 @@ export class Settings implements BaseSettings {
 
     // playlistsRightPaneWidthPercent
     public get playlistsRightPaneWidthPercent(): number {
-        return this.settings.get('playlistsRightPaneWidthPercent');
+        return <number>this.settings.get('playlistsRightPaneWidthPercent');
     }
 
     public set playlistsRightPaneWidthPercent(v: number) {
@@ -215,7 +215,7 @@ export class Settings implements BaseSettings {
 
     // volume
     public get volume(): number {
-        return this.settings.get('volume');
+        return <number>this.settings.get('volume');
     }
 
     public set volume(v: number) {
@@ -224,7 +224,7 @@ export class Settings implements BaseSettings {
 
     // selectedCollectionTab
     public get selectedCollectionTab(): string {
-        return this.settings.get('selectedCollectionTab');
+        return <string>this.settings.get('selectedCollectionTab');
     }
 
     public set selectedCollectionTab(v: string) {
@@ -233,7 +233,7 @@ export class Settings implements BaseSettings {
 
     // foldersTabOpenedFolder
     public get foldersTabOpenedFolder(): string {
-        return this.settings.get('foldersTabOpenedFolder');
+        return <string>this.settings.get('foldersTabOpenedFolder');
     }
 
     public set foldersTabOpenedFolder(v: string) {
@@ -242,7 +242,7 @@ export class Settings implements BaseSettings {
 
     // foldersTabOpenedSubfolder
     public get foldersTabOpenedSubfolder(): string {
-        return this.settings.get('foldersTabOpenedSubfolder');
+        return <string>this.settings.get('foldersTabOpenedSubfolder');
     }
 
     public set foldersTabOpenedSubfolder(v: string) {
@@ -251,7 +251,7 @@ export class Settings implements BaseSettings {
 
     // albumsTabSelectedAlbum
     public get albumsTabSelectedAlbum(): string {
-        return this.settings.get('albumsTabSelectedAlbum');
+        return <string>this.settings.get('albumsTabSelectedAlbum');
     }
 
     public set albumsTabSelectedAlbum(v: string) {
@@ -260,7 +260,7 @@ export class Settings implements BaseSettings {
 
     // albumsTabSelectedAlbumOrder
     public get albumsTabSelectedAlbumOrder(): string {
-        return this.settings.get('albumsTabSelectedAlbumOrder');
+        return <string>this.settings.get('albumsTabSelectedAlbumOrder');
     }
 
     public set albumsTabSelectedAlbumOrder(v: string) {
@@ -269,7 +269,7 @@ export class Settings implements BaseSettings {
 
     // albumsTabSelectedTrackOrder
     public get albumsTabSelectedTrackOrder(): string {
-        return this.settings.get('albumsTabSelectedTrackOrder');
+        return <string>this.settings.get('albumsTabSelectedTrackOrder');
     }
 
     public set albumsTabSelectedTrackOrder(v: string) {
@@ -278,7 +278,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedArtistType
     public get artistsTabSelectedArtistType(): string {
-        return this.settings.get('artistsTabSelectedArtistType');
+        return <string>this.settings.get('artistsTabSelectedArtistType');
     }
 
     public set artistsTabSelectedArtistType(v: string) {
@@ -287,7 +287,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedArtist
     public get artistsTabSelectedArtist(): string {
-        return this.settings.get('artistsTabSelectedArtist');
+        return <string>this.settings.get('artistsTabSelectedArtist');
     }
 
     public set artistsTabSelectedArtist(v: string) {
@@ -296,7 +296,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedArtistOrder
     public get artistsTabSelectedArtistOrder(): string {
-        return this.settings.get('artistsTabSelectedArtistOrder');
+        return <string>this.settings.get('artistsTabSelectedArtistOrder');
     }
 
     public set artistsTabSelectedArtistOrder(v: string) {
@@ -305,7 +305,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedAlbum
     public get artistsTabSelectedAlbum(): string {
-        return this.settings.get('artistsTabSelectedAlbum');
+        return <string>this.settings.get('artistsTabSelectedAlbum');
     }
 
     public set artistsTabSelectedAlbum(v: string) {
@@ -314,7 +314,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedAlbumOrder
     public get artistsTabSelectedAlbumOrder(): string {
-        return this.settings.get('artistsTabSelectedAlbumOrder');
+        return <string>this.settings.get('artistsTabSelectedAlbumOrder');
     }
 
     public set artistsTabSelectedAlbumOrder(v: string) {
@@ -323,7 +323,7 @@ export class Settings implements BaseSettings {
 
     // artistsTabSelectedTrackOrder
     public get artistsTabSelectedTrackOrder(): string {
-        return this.settings.get('artistsTabSelectedTrackOrder');
+        return <string>this.settings.get('artistsTabSelectedTrackOrder');
     }
 
     public set artistsTabSelectedTrackOrder(v: string) {
@@ -332,7 +332,7 @@ export class Settings implements BaseSettings {
 
     // genresTabSelectedGenre
     public get genresTabSelectedGenre(): string {
-        return this.settings.get('genresTabSelectedGenre');
+        return <string>this.settings.get('genresTabSelectedGenre');
     }
 
     public set genresTabSelectedGenre(v: string) {
@@ -341,7 +341,7 @@ export class Settings implements BaseSettings {
 
     // genresTabSelectedAlbum
     public get genresTabSelectedAlbum(): string {
-        return this.settings.get('genresTabSelectedAlbum');
+        return <string>this.settings.get('genresTabSelectedAlbum');
     }
 
     public set genresTabSelectedAlbum(v: string) {
@@ -350,7 +350,7 @@ export class Settings implements BaseSettings {
 
     // genresTabSelectedGenreOrder
     public get genresTabSelectedGenreOrder(): string {
-        return this.settings.get('genresTabSelectedGenreOrder');
+        return <string>this.settings.get('genresTabSelectedGenreOrder');
     }
 
     public set genresTabSelectedGenreOrder(v: string) {
@@ -359,7 +359,7 @@ export class Settings implements BaseSettings {
 
     // genresTabSelectedAlbumOrder
     public get genresTabSelectedAlbumOrder(): string {
-        return this.settings.get('genresTabSelectedAlbumOrder');
+        return <string>this.settings.get('genresTabSelectedAlbumOrder');
     }
 
     public set genresTabSelectedAlbumOrder(v: string) {
@@ -368,7 +368,7 @@ export class Settings implements BaseSettings {
 
     // genresTabSelectedTrackOrder
     public get genresTabSelectedTrackOrder(): string {
-        return this.settings.get('genresTabSelectedTrackOrder');
+        return <string>this.settings.get('genresTabSelectedTrackOrder');
     }
 
     public set genresTabSelectedTrackOrder(v: string) {
@@ -377,7 +377,7 @@ export class Settings implements BaseSettings {
 
     // playlistsTabSelectedPlaylistFolder
     public get playlistsTabSelectedPlaylistFolder(): string {
-        return this.settings.get('playlistsTabSelectedPlaylistFolder');
+        return <string>this.settings.get('playlistsTabSelectedPlaylistFolder');
     }
 
     public set playlistsTabSelectedPlaylistFolder(v: string) {
@@ -386,7 +386,7 @@ export class Settings implements BaseSettings {
 
     // playlistsTabSelectedPlaylist
     public get playlistsTabSelectedPlaylist(): string {
-        return this.settings.get('playlistsTabSelectedPlaylist');
+        return <string>this.settings.get('playlistsTabSelectedPlaylist');
     }
 
     public set playlistsTabSelectedPlaylist(v: string) {
@@ -395,7 +395,7 @@ export class Settings implements BaseSettings {
 
     // playlistsTabSelectedPlaylistOrder
     public get playlistsTabSelectedPlaylistOrder(): string {
-        return this.settings.get('playlistsTabSelectedPlaylistOrder');
+        return <string>this.settings.get('playlistsTabSelectedPlaylistOrder');
     }
 
     public set playlistsTabSelectedPlaylistOrder(v: string) {
@@ -404,7 +404,7 @@ export class Settings implements BaseSettings {
 
     // playlistsTabSelectedTrackOrder
     public get playlistsTabSelectedTrackOrder(): string {
-        return this.settings.get('playlistsTabSelectedTrackOrder');
+        return <string>this.settings.get('playlistsTabSelectedTrackOrder');
     }
 
     public set playlistsTabSelectedTrackOrder(v: string) {
@@ -413,7 +413,7 @@ export class Settings implements BaseSettings {
 
     // enableDiscordRichPresence
     public get enableDiscordRichPresence(): boolean {
-        return this.settings.get('enableDiscordRichPresence');
+        return <boolean>this.settings.get('enableDiscordRichPresence');
     }
 
     public set enableDiscordRichPresence(v: boolean) {
@@ -422,7 +422,7 @@ export class Settings implements BaseSettings {
 
     // enableLastFmScrobbling
     public get enableLastFmScrobbling(): boolean {
-        return this.settings.get('enableLastFmScrobbling');
+        return <boolean>this.settings.get('enableLastFmScrobbling');
     }
 
     public set enableLastFmScrobbling(v: boolean) {
@@ -431,7 +431,7 @@ export class Settings implements BaseSettings {
 
     // showIconInNotificationArea
     public get showIconInNotificationArea(): boolean {
-        return this.settings.get('showIconInNotificationArea');
+        return <boolean>this.settings.get('showIconInNotificationArea');
     }
 
     public set showIconInNotificationArea(v: boolean) {
@@ -440,7 +440,7 @@ export class Settings implements BaseSettings {
 
     // minimizeToNotificationArea
     public get minimizeToNotificationArea(): boolean {
-        return this.settings.get('minimizeToNotificationArea');
+        return <boolean>this.settings.get('minimizeToNotificationArea');
     }
 
     public set minimizeToNotificationArea(v: boolean) {
@@ -449,7 +449,7 @@ export class Settings implements BaseSettings {
 
     // closeToNotificationArea
     public get closeToNotificationArea(): boolean {
-        return this.settings.get('closeToNotificationArea');
+        return <boolean>this.settings.get('closeToNotificationArea');
     }
 
     public set closeToNotificationArea(v: boolean) {
@@ -458,7 +458,7 @@ export class Settings implements BaseSettings {
 
     // invertNotificationAreaIconColor
     public get invertNotificationAreaIconColor(): boolean {
-        return this.settings.get('invertNotificationAreaIconColor');
+        return <boolean>this.settings.get('invertNotificationAreaIconColor');
     }
 
     public set invertNotificationAreaIconColor(v: boolean) {
@@ -467,7 +467,7 @@ export class Settings implements BaseSettings {
 
     // showArtistsPage
     public get showArtistsPage(): boolean {
-        return this.settings.get('showArtistsPage');
+        return <boolean>this.settings.get('showArtistsPage');
     }
 
     public set showArtistsPage(v: boolean) {
@@ -476,7 +476,7 @@ export class Settings implements BaseSettings {
 
     // showGenresPage
     public get showGenresPage(): boolean {
-        return this.settings.get('showGenresPage');
+        return <boolean>this.settings.get('showGenresPage');
     }
 
     public set showGenresPage(v: boolean) {
@@ -485,7 +485,7 @@ export class Settings implements BaseSettings {
 
     // showAlbumsPage
     public get showAlbumsPage(): boolean {
-        return this.settings.get('showAlbumsPage');
+        return <boolean>this.settings.get('showAlbumsPage');
     }
 
     public set showAlbumsPage(v: boolean) {
@@ -494,7 +494,7 @@ export class Settings implements BaseSettings {
 
     // showTracksPage
     public get showTracksPage(): boolean {
-        return this.settings.get('showTracksPage');
+        return <boolean>this.settings.get('showTracksPage');
     }
 
     public set showTracksPage(v: boolean) {
@@ -503,7 +503,7 @@ export class Settings implements BaseSettings {
 
     // showPlaylistsPage
     public get showPlaylistsPage(): boolean {
-        return this.settings.get('showPlaylistsPage');
+        return <boolean>this.settings.get('showPlaylistsPage');
     }
 
     public set showPlaylistsPage(v: boolean) {
@@ -512,7 +512,7 @@ export class Settings implements BaseSettings {
 
     // showFoldersPage
     public get showFoldersPage(): boolean {
-        return this.settings.get('showFoldersPage');
+        return <boolean>this.settings.get('showFoldersPage');
     }
 
     public set showFoldersPage(v: boolean) {
@@ -521,7 +521,7 @@ export class Settings implements BaseSettings {
 
     // saveRatingToAudioFiles
     public get saveRatingToAudioFiles(): boolean {
-        return this.settings.get('saveRatingToAudioFiles');
+        return <boolean>this.settings.get('saveRatingToAudioFiles');
     }
 
     public set saveRatingToAudioFiles(v: boolean) {
@@ -530,7 +530,7 @@ export class Settings implements BaseSettings {
 
     // showRating
     public get showRating(): boolean {
-        return this.settings.get('showRating');
+        return <boolean>this.settings.get('showRating');
     }
 
     public set showRating(v: boolean) {
@@ -539,7 +539,7 @@ export class Settings implements BaseSettings {
 
     // tracksPageVisibleColumns
     public get tracksPageVisibleColumns(): string {
-        return this.settings.get('tracksPageVisibleColumns');
+        return <string>this.settings.get('tracksPageVisibleColumns');
     }
 
     public set tracksPageVisibleColumns(v: string) {
@@ -548,7 +548,7 @@ export class Settings implements BaseSettings {
 
     // tracksPageColumnsOrder
     public get tracksPageColumnsOrder(): string {
-        return this.settings.get('tracksPageColumnsOrder');
+        return <string>this.settings.get('tracksPageColumnsOrder');
     }
 
     public set tracksPageColumnsOrder(v: string) {
@@ -557,7 +557,7 @@ export class Settings implements BaseSettings {
 
     // lastFmUsername
     public get lastFmUsername(): string {
-        return this.settings.get('lastFmUsername');
+        return <string>this.settings.get('lastFmUsername');
     }
 
     public set lastFmUsername(v: string) {
@@ -566,7 +566,7 @@ export class Settings implements BaseSettings {
 
     // lastFmPassword
     public get lastFmPassword(): string {
-        return this.settings.get('lastFmPassword');
+        return <string>this.settings.get('lastFmPassword');
     }
 
     public set lastFmPassword(v: string) {
@@ -575,7 +575,7 @@ export class Settings implements BaseSettings {
 
     // lastFmSessionKey
     public get lastFmSessionKey(): string {
-        return this.settings.get('lastFmSessionKey');
+        return <string>this.settings.get('lastFmSessionKey');
     }
 
     public set lastFmSessionKey(v: string) {
@@ -584,7 +584,7 @@ export class Settings implements BaseSettings {
 
     // showLove
     public get showLove(): boolean {
-        return this.settings.get('showLove');
+        return <boolean>this.settings.get('showLove');
     }
 
     public set showLove(v: boolean) {
@@ -593,7 +593,7 @@ export class Settings implements BaseSettings {
 
     // enableMultimediaKeys
     public get enableMultimediaKeys(): boolean {
-        return this.settings.get('enableMultimediaKeys');
+        return <boolean>this.settings.get('enableMultimediaKeys');
     }
 
     public set enableMultimediaKeys(v: boolean) {
@@ -602,7 +602,7 @@ export class Settings implements BaseSettings {
 
     // downloadArtistInformationFromLastFm
     public get downloadArtistInformationFromLastFm(): boolean {
-        return this.settings.get('downloadArtistInformationFromLastFm');
+        return <boolean>this.settings.get('downloadArtistInformationFromLastFm');
     }
 
     public set downloadArtistInformationFromLastFm(v: boolean) {

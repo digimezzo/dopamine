@@ -36,7 +36,7 @@ describe('LoveComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
 
-        translatorServiceMock.setup((x) => x.getAsync('save-love-error')).returns(async () => 'save-love-error');
+        translatorServiceMock.setup((x) => x.getAsync('save-love-error')).returns(() => Promise.resolve('save-love-error'));
     });
 
     describe('constructor', () => {
@@ -178,7 +178,7 @@ describe('LoveComponent', () => {
             await loveComponent.toggleLoveAsync();
 
             // Assert
-            metadataServiceMock.verify((x) => x.saveTrackLoveAsync(trackModel), Times.once());
+            metadataServiceMock.verify((x) => x.saveTrackLove(trackModel), Times.once());
         });
 
         it('should show an error message if saving track love fails', async () => {
@@ -186,7 +186,7 @@ describe('LoveComponent', () => {
             const track: Track = new Track('Path');
             track.love = 0;
             const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-            metadataServiceMock.setup((x) => x.saveTrackLoveAsync(It.isAny())).throws(new Error('The error text'));
+            metadataServiceMock.setup((x) => x.saveTrackLove(It.isAny())).throws(new Error('The error text'));
             const loveComponent: LoveComponent = createComponent();
             loveComponent.track = trackModel;
 
@@ -194,7 +194,7 @@ describe('LoveComponent', () => {
             await loveComponent.toggleLoveAsync();
 
             // Assert
-            metadataServiceMock.verify((x) => x.saveTrackLoveAsync(trackModel), Times.once());
+            metadataServiceMock.verify((x) => x.saveTrackLove(trackModel), Times.once());
             dialogServiceMock.verify((x) => x.showErrorDialog('save-love-error'), Times.once());
         });
 

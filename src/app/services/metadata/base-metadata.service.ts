@@ -6,5 +6,5 @@ export abstract class BaseMetadataService {
     public abstract loveSaved$: Observable<TrackModel>;
     public abstract createImageUrlAsync(track: TrackModel | undefined): Promise<string>;
     public abstract saveTrackRatingAsync(track: TrackModel): Promise<void>;
-    public abstract saveTrackLoveAsync(track: TrackModel): Promise<void>;
+    public abstract saveTrackLove(track: TrackModel): void;
 }

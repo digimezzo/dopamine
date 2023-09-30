@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
@@ -83,20 +84,20 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.switchDown(currentPlaybackInformation.track, false);
 
         this.subscription.add(
-            this.playbackInformationService.playingNextTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.track);
+            this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.track));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingPreviousTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchDown(playbackInformation.track, true);
+            this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchDown(playbackInformation.track, true));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingNoTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.track);
+            this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.track));
             })
         );
 

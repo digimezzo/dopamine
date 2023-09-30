@@ -51,7 +51,7 @@ export class WelcomeComponent {
         }
     }
 
-    public finish(): void {
-        this.navigationServiceMock.navigateToLoading();
+    public async finishAsync(): Promise<void> {
+        await this.navigationServiceMock.navigateToLoadingAsync();
     }
 }

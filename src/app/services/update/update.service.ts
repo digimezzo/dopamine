@@ -51,16 +51,16 @@ export class UpdateService implements BaseUpdateService {
                         'checkForUpdatesAsync'
                     );
                 }
-            } catch (e) {
-                this.logger.error(`Could not check for updates. Error: ${e.message}`, 'UpdateService', 'checkForUpdatesAsync');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not check for updates', 'UpdateService', 'checkForUpdatesAsync');
             }
         } else {
             this.logger.info('Not checking for updates', 'UpdateService', 'checkForUpdatesAsync');
         }
     }
 
-    public downloadLatestRelease(): void {
-        this.desktop.openLink(
+    public async downloadLatestReleaseAsync(): Promise<void> {
+        await this.desktop.openLinkAsync(
             `https://github.com/digimezzo/${ProductInformation.applicationName.toLowerCase()}/releases/tag/v${this.latestRelease}`
         );
     }

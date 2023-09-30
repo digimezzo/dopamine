@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
 
@@ -66,20 +67,20 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         await this.switchDown(currentPlaybackInformation.imageUrl, false);
 
         this.subscription.add(
-            this.playbackInformationService.playingNextTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.imageUrl);
+            this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingPreviousTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchDown(playbackInformation.imageUrl, true);
+            this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchDown(playbackInformation.imageUrl, true));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingNoTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.imageUrl);
+            this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
             })
         );
     }

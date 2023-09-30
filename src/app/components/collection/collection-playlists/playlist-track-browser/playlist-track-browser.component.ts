@@ -104,12 +104,14 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         if (userHasConfirmed) {
             try {
                 await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
-            } catch (e) {
+            } catch (e: unknown) {
                 this.logger.error(
-                    `Could not remove tracks from playlists. Error: ${e.message}`,
+                    e,
+                    'Could not remove tracks from playlists',
                     'PlaylistTrackBrowserComponent',
                     'onRemoveFromPlaylistAsync'
                 );
+
                 const errorText: string = await this.translatorService.getAsync('remove-from-playlist-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -133,8 +135,8 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
         try {
             orderedTracks = this.tracks.tracks;
-        } catch (e) {
-            this.logger.error(`Could not order tracks. Error: ${e.message}`, 'PlaylistTrackBrowserComponent', 'orderTracks');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order tracks', 'PlaylistTrackBrowserComponent', 'orderTracks');
         }
 
         this.orderedTracks = [...orderedTracks];

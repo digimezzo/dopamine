@@ -156,8 +156,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         try {
             this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
             this.applySelectedAlbums();
-        } catch (e) {
-            this.logger.error(`Could not order albums. Error: ${e.message}`, 'AlbumBrowserComponent', 'orderAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order albums', 'AlbumBrowserComponent', 'orderAlbums');
         }
     }
 

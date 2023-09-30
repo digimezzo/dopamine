@@ -3,6 +3,7 @@ import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { FolderModel } from '../../services/folder/folder-model';
@@ -42,13 +43,9 @@ export class AddFolderComponent implements OnInit {
         if (v) {
             try {
                 this.folderService.setAllFoldersVisible();
-                this.getFoldersAsync();
-            } catch (e) {
-                this.logger.error(
-                    `Could not set all folders visible. Error: ${e.message}`,
-                    'AddFolderComponent',
-                    'showAllFoldersInCollection'
-                );
+                PromiseUtils.noAwait(this.getFoldersAsync());
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not set all folders visible', 'AddFolderComponent', 'showAllFoldersInCollection');
             }
         }
     }
@@ -62,16 +59,17 @@ export class AddFolderComponent implements OnInit {
 
         try {
             this.folderService.setFolderVisibility(folder);
-        } catch (e) {
-            this.logger.error(`Could not set folder visibility. Error: ${e.message}`, 'AddFolderComponent', 'setFolderVisibility');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set folder visibility', 'AddFolderComponent', 'setFolderVisibility');
         }
     }
 
     public async getFoldersAsync(): Promise<void> {
         try {
             this.folders = this.folderService.getFolders();
-        } catch (e) {
-            this.logger.error(`Could not get folders. Error: ${e.message}`, 'AddFolderComponent', 'getFolders');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get folders', 'AddFolderComponent', 'getFolders');
+
             const errorText: string = await this.translatorService.getAsync('get-folders-error');
             this.dialogService.showErrorDialog(errorText);
         }
@@ -90,12 +88,9 @@ export class AddFolderComponent implements OnInit {
             try {
                 await this.folderService.addFolderAsync(selectedFolderPath);
                 await this.getFoldersAsync();
-            } catch (e) {
-                this.logger.error(
-                    `Could not add folder with path='${selectedFolderPath}'. Error: ${e.message}`,
-                    'AddFolderComponent',
-                    'addFolderAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, `Could not add folder with path='${selectedFolderPath}'`, 'AddFolderComponent', 'addFolderAsync');
+
                 const errorText: string = await this.translatorService.getAsync('add-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -112,8 +107,9 @@ export class AddFolderComponent implements OnInit {
             try {
                 this.folderService.deleteFolder(folder);
                 await this.getFoldersAsync();
-            } catch (e) {
-                this.logger.error(`Could not delete folder. Error: ${e.message}`, 'AddFolderComponent', 'deleteFolderAsync');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete folder', 'AddFolderComponent', 'deleteFolderAsync');
+
                 const errorText: string = await this.translatorService.getAsync('delete-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }

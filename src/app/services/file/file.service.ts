@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { FileValidator } from '../../common/file-validator';
 import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
@@ -22,7 +23,7 @@ export class FileService implements BaseFileService {
         this.subscription.add(
             this.application.argumentsReceived$.subscribe((argv: string[]) => {
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
-                    this.enqueueGivenParameterFilesAsync(argv);
+                    PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(argv));
                 }
             })
         );
@@ -77,12 +78,8 @@ export class FileService implements BaseFileService {
             if (trackModels.length > 0) {
                 this.playbackService.enqueueAndPlayTracks(trackModels);
             }
-        } catch (e) {
-            this.logger.error(
-                `Could not enqueue given parameter files. Error: ${e.message}`,
-                'FileService',
-                'enqueueGivenParameterFilesAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not enqueue given parameter files', 'FileService', 'enqueueGivenParameterFilesAsync');
         }
     }
 }

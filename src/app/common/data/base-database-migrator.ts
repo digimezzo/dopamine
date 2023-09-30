@@ -1,3 +1,3 @@
 export abstract class BaseDatabaseMigrator {
-    public abstract migrateAsync(): Promise<void>;
+    public abstract migrate(): void;
 }

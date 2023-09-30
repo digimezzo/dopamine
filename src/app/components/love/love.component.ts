@@ -62,7 +62,7 @@ export class LoveComponent {
         await this.scrobblingService.sendTrackLoveAsync(this._track, this._track.love === 1);
 
         try {
-            await this.metadataService.saveTrackLoveAsync(this._track);
+            this.metadataService.saveTrackLove(this._track);
         } catch (error) {
             this.dialogService.showErrorDialog(await this.translatorService.getAsync('save-love-error'));
         }

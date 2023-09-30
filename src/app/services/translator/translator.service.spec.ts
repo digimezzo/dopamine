@@ -12,7 +12,9 @@ describe('TranslatorService', () => {
 
     beforeEach(() => {
         translateServiceProxyMock = Mock.ofType<BaseTranslateServiceProxy>();
-        translateServiceProxyMock.setup((x) => x.get('welcome-to-dopamine', undefined)).returns(async () => 'Welcome to Dopamine');
+        translateServiceProxyMock
+            .setup((x) => x.get('welcome-to-dopamine', undefined))
+            .returns(() => Promise.resolve('Welcome to Dopamine'));
         translateServiceProxyMock.setup((x) => x.instant('welcome-to-dopamine', undefined)).returns(() => 'Welcome to Dopamine');
         translateServiceProxyMock
             .setup((x) =>
@@ -20,7 +22,7 @@ describe('TranslatorService', () => {
                     numberOfAddedTracks: 3,
                 })
             )
-            .returns(async () => '3 tracks added');
+            .returns(() => Promise.resolve('3 tracks added'));
         translateServiceProxyMock
             .setup((x) =>
                 x.instant('tracks-added', {

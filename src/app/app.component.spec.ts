@@ -147,7 +147,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.once());
+            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.once());
         });
 
         it('should initialize Discord', async () => {

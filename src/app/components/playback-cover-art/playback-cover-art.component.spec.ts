@@ -26,7 +26,7 @@ describe('PlaybackInformationComponent', () => {
 
     let trackModel1: TrackModel;
 
-    beforeEach(async () => {
+    beforeEach(() => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         schedulerMock = Mock.ofType<Scheduler>();
 
@@ -107,7 +107,7 @@ describe('PlaybackInformationComponent', () => {
             // Arrange
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act
@@ -123,7 +123,7 @@ describe('PlaybackInformationComponent', () => {
             const scheduler: Scheduler = new Scheduler();
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act
@@ -145,7 +145,7 @@ describe('PlaybackInformationComponent', () => {
             const scheduler: Scheduler = new Scheduler();
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act
@@ -167,7 +167,7 @@ describe('PlaybackInformationComponent', () => {
             const scheduler: Scheduler = new Scheduler();
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
-                .returns(async () => new PlaybackInformation(trackModel1, 'image-url-mock'));
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
             component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
 
             // Act

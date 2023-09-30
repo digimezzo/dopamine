@@ -86,7 +86,7 @@
                         *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
                         matRipple
                         (mousedown)="setSelectedTrack($event, track)"
-                        (contextmenu)="onTrackContextMenuAsync($event, track)"
+                        (contextmenu)="onTrackContextMenu($event, track)"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>
                     </div>

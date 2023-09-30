@@ -27,12 +27,8 @@ export class PlaylistFoldersPersister {
 
         try {
             return availablePlaylistFolders.filter((x) => this.selectedPlaylistFolderNames.includes(x.name));
-        } catch (e) {
-            this.logger.error(
-                `Could not get selected playlist folders. Error: ${e.message}`,
-                'PlaylistFoldersPersister',
-                'getSelectedPlaylistFolders'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected playlist folders', 'PlaylistFoldersPersister', 'getSelectedPlaylistFolders');
         }
 
         return [];
@@ -53,12 +49,8 @@ export class PlaylistFoldersPersister {
             }
 
             this.selectedPlaylistFoldersChanged.next(selectedPlaylistFolders);
-        } catch (e) {
-            this.logger.error(
-                `Could not set selected playlist folders. Error: ${e.message}`,
-                'PlaylistFoldersPersister',
-                'setSelectedPlaylistFolders'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected playlist folders', 'PlaylistFoldersPersister', 'setSelectedPlaylistFolders');
         }
     }
 

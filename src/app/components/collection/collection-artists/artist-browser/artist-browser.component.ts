@@ -181,8 +181,8 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
             this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists);
             this.applySelectedArtists();
-        } catch (e) {
-            this.logger.error(`Could not order artists. Error: ${e.message}`, 'ArtistBrowserComponent', 'orderArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order artists', 'ArtistBrowserComponent', 'orderArtists');
         }
 
         this.orderedArtists = [...orderedArtists];

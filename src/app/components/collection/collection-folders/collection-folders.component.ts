@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
@@ -9,6 +10,7 @@ import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseFolderService } from '../../../services/folder/base-folder.service';
@@ -97,19 +99,19 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                this.processListsAsync();
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                this.processListsAsync();
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                this.processListsAsync();
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
@@ -130,15 +132,15 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         }
     }
 
-    public splitDragEnd(event: any): void {
-        this.settings.foldersLeftPaneWidthPercent = event.sizes[0];
+    public splitDragEnd(event: IOutputData): void {
+        this.settings.foldersLeftPaneWidthPercent = <number>event.sizes[0];
     }
 
     public getFolders(): void {
         try {
             this.folders = this.folderService.getFolders();
-        } catch (e) {
-            this.logger.error(`Could not get folders. Error: ${e.message}`, 'CollectionFoldersComponent', 'getFolders');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get folders', 'CollectionFoldersComponent', 'getFolders');
         }
     }
 
@@ -153,7 +155,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
             this.foldersPersister.setOpenedSubfolder(new SubfolderModel(openedSubfolderPath, false));
 
-            this.subfolderBreadCrumbs = await this.folderService.getSubfolderBreadCrumbsAsync(this.openedFolder, openedSubfolderPath);
+            this.subfolderBreadCrumbs = this.folderService.getSubfolderBreadCrumbs(this.openedFolder, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
             this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
 
@@ -163,12 +165,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
             this.playbackIndicationService.setPlayingSubfolder(this.subfolders, this.playbackService.currentTrack);
             this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, this.playbackService.currentTrack);
-        } catch (e) {
-            this.logger.error(
-                `Could not set the opened subfolder. Error: ${e.message}`,
-                'CollectionFoldersComponent',
-                'setOpenedSubfolderAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set the opened subfolder', 'CollectionFoldersComponent', 'setOpenedSubfolderAsync');
         }
     }
 
@@ -186,7 +184,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     }
 
     public goToManageCollection(): void {
-        this.navigationService.navigateToManageCollection();
+        this.navigationService.navigateToManageCollectionAsync();
     }
 
     private async processListsAsync(): Promise<void> {
@@ -222,11 +220,11 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             : this.openedFolder.path;
     }
 
-    public setSelectedTrack(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTrack(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
-    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
+    public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
         this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 

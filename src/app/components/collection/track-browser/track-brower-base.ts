@@ -62,8 +62,9 @@ export class TrackBrowserBase {
                 if (!(await this.collectionService.deleteTracksAsync(tracks))) {
                     throw new Error('deleteTracksAsync returned false');
                 }
-            } catch (e) {
-                this.logger.error(`Could not delete all files. Error: ${e.message}`, 'TrackBrowserBase', 'onDelete');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete all files', 'TrackBrowserBase', 'onDelete');
+
                 const errorText: string = await this.translatorService.getAsync('delete-songs-error');
                 this.dialogService.showErrorDialog(errorText);
             }

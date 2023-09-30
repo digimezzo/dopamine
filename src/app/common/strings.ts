@@ -30,7 +30,7 @@ export class Strings {
             if (stringToCheck.trim() === '') {
                 return true;
             }
-        } catch (e) {
+        } catch (e: unknown) {
             return true;
         }
 
@@ -68,7 +68,7 @@ export class Strings {
                     return trimmedAndLowerCasedOriginalString.replace(prefixFollowedBySpace, '').trim();
                 }
             }
-        } catch (e) {
+        } catch (e: unknown) {
             // Ignore this error
         }
 

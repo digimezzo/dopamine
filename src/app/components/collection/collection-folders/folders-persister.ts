@@ -24,8 +24,8 @@ export class FoldersPersister {
                 if (availableFolders.map((x) => x.path).includes(this.openedFolderPath)) {
                     return availableFolders.filter((x) => x.path === this.openedFolderPath)[0];
                 }
-            } catch (e) {
-                this.logger.error(`Could not get opened folder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedFolder');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not get opened folder', 'FoldersPersister', 'getOpenedFolder');
             }
         }
 
@@ -35,8 +35,8 @@ export class FoldersPersister {
     public setOpenedFolder(openedFolder: FolderModel): void {
         try {
             this.saveOpenedFolder(openedFolder.path);
-        } catch (e) {
-            this.logger.error(`Could not set opened folder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedFolder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set opened folder', 'FoldersPersister', 'setOpenedFolder');
         }
     }
 
@@ -53,8 +53,8 @@ export class FoldersPersister {
             if (this.openedSubfolderPath.includes(this.openedFolderPath)) {
                 return new SubfolderModel(this.openedSubfolderPath, false);
             }
-        } catch (e) {
-            this.logger.error(`Could not get opened subfolder. Error: ${e.message}`, 'FoldersPersister', 'getOpenedSubfolder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get opened subfolder', 'FoldersPersister', 'getOpenedSubfolder');
         }
 
         return undefined;
@@ -67,8 +67,8 @@ export class FoldersPersister {
             } else {
                 this.saveOpenedSubfolder(openedSubfolder.path);
             }
-        } catch (e) {
-            this.logger.error(`Could not set opened subfolder. Error: ${e.message}`, 'FoldersPersister', 'setOpenedSubfolder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set opened subfolder', 'FoldersPersister', 'setOpenedSubfolder');
         }
     }
 

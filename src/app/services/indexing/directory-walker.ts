@@ -22,16 +22,20 @@ export class DirectoryWalker {
 
             try {
                 filePathsInDirectory = await this.fileAccess.getFilesInDirectoryAsync(directoryPath, true, errors);
-            } catch (e) {
-                errors.push(e);
+            } catch (e: unknown) {
+                if (e instanceof Error) {
+                    errors.push(e);
+                }
             }
 
             if (filePathsInDirectory.length > 0) {
                 for (const filePath of filePathsInDirectory) {
                     try {
                         filePaths.push(filePath);
-                    } catch (e) {
-                        errors.push(e);
+                    } catch (e: unknown) {
+                        if (e instanceof Error) {
+                            errors.push(e);
+                        }
                     }
                 }
             }
@@ -41,21 +45,27 @@ export class DirectoryWalker {
 
             try {
                 subdirectoryPathsInDirectory = await this.fileAccess.getDirectoriesInDirectoryAsync(directoryPath, true, errors);
-            } catch (e) {
-                errors.push(e);
+            } catch (e: unknown) {
+                if (e instanceof Error) {
+                    errors.push(e);
+                }
             }
 
             if (subdirectoryPathsInDirectory.length > 0) {
                 for (const subdirectoryPath of subdirectoryPathsInDirectory) {
                     try {
                         await this.recursivelyGetFilesInDirectoryAsync(subdirectoryPath, filePaths, errors);
-                    } catch (e) {
-                        errors.push(e);
+                    } catch (e: unknown) {
+                        if (e instanceof Error) {
+                            errors.push(e);
+                        }
                     }
                 }
             }
-        } catch (e) {
-            errors.push(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                errors.push(e);
+            }
         }
     }
 }

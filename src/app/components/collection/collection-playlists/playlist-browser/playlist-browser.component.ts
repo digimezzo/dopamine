@@ -102,7 +102,7 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setSelectedPlaylists(event: any, playlistToSelect: PlaylistModel): void {
+    public setSelectedPlaylists(event: MouseEvent, playlistToSelect: PlaylistModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistToSelect);
         this.playlistsPersister.setSelectedPlaylists(this.mouseSelectionWatcher.selectedItems as PlaylistModel[]);
     }
@@ -152,8 +152,9 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
         if (userHasConfirmed) {
             try {
                 await this.playlistService.deletePlaylistAsync(playlist);
-            } catch (e) {
-                this.logger.error(`Could not delete playlist. Error: ${e.message}`, 'PlaylistBrowserComponent', 'onDeletePlaylistAsync');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete playlist', 'PlaylistBrowserComponent', 'onDeletePlaylistAsync');
+
                 const errorText: string = await this.translatorService.getAsync('delete-playlist-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -180,8 +181,8 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
                 this.selectedPlaylistOrder
             );
             this.applySelectedPlaylists();
-        } catch (e) {
-            this.logger.error(`Could not order playlists. Error: ${e.message}`, 'PlaylistBrowserComponent', 'orderPlaylists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order playlists', 'PlaylistBrowserComponent', 'orderPlaylists');
         }
     }
 

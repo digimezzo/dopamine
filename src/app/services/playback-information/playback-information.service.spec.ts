@@ -41,7 +41,7 @@ describe('PlaybackInformationService', () => {
         track = new Track('Path');
         trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
-        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns(async () => 'imageUrl');
+        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns( () => Promise.resolve('imageUrl'));
     });
 
     describe('constructor', () => {

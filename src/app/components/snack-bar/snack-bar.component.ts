@@ -17,11 +17,11 @@ export class SnackBarComponent {
         @Inject(MAT_SNACK_BAR_DATA) public data: any
     ) {}
 
-    public openDataUrl(): void {
-        this.desktop.openLink(this.data.url);
+    public async openDataUrlAsync(): Promise<void> {
+        await this.desktop.openLinkAsync(this.data.url);
     }
 
-    public async dismissAsync(): Promise<void> {
-        this.snackBarService.dismissAsync();
+    public dismiss(): void {
+        this.snackBarService.dismiss();
     }
 }

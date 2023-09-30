@@ -22,12 +22,8 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         try {
             const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(artworkId);
             await this.fileAccess.deleteFileIfExistsAsync(cachedArtworkFilePath);
-        } catch (e) {
-            this.logger.error(
-                `Could not remove artwork data from cache. Error: ${e.message}`,
-                'AlbumArtworkCacheService',
-                'removeArtworkDataFromCacheAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not remove artwork data from cache', 'AlbumArtworkCacheService', 'removeArtworkDataFromCacheAsync');
         }
     }
 
@@ -43,7 +39,7 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
         try {
             const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create();
             const cachedArtworkFilePath: string = this.fileAccess.coverArtFullPath(albumArtworkCacheId.id);
-            const resizedImageBuffer: Buffer = await this.imageProcessor.resizeImageAsync(
+            const resizedImageBuffer: Buffer = this.imageProcessor.resizeImage(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,
@@ -52,12 +48,8 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
             await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 
             return albumArtworkCacheId;
-        } catch (e) {
-            this.logger.error(
-                `Could not add artwork data to cache. Error: ${e.message}`,
-                'AlbumArtworkCacheService',
-                'addArtworkDataToCacheAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not add artwork data to cache', 'AlbumArtworkCacheService', 'addArtworkDataToCacheAsync');
         }
 
         return undefined;
@@ -66,12 +58,8 @@ export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
     private createCoverArtCacheOnDisk(): void {
         try {
             this.fileAccess.createFullDirectoryPathIfDoesNotExist(this.fileAccess.coverArtCacheFullPath());
-        } catch (e) {
-            this.logger.error(
-                `Could not create artwork cache directory. Error: ${e.message}`,
-                'AlbumArtworkCacheService',
-                'createDirectories'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not create artwork cache directory', 'AlbumArtworkCacheService', 'createDirectories');
 
             // We cannot proceed if the above fails
             throw e;

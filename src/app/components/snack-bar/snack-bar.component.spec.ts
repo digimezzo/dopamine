@@ -41,7 +41,7 @@ describe('SnackBarComponent', () => {
             component.openDataUrl();
 
             // Assert
-            desktopMock.verify((x) => x.openLink('My url'), Times.exactly(1));
+            desktopMock.verify((x) => x.openLinkAsync('My url'), Times.exactly(1));
         });
     });
 

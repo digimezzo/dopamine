@@ -24,7 +24,7 @@ export class AboutComponent {
         this.dialogService.showLicenseDialog();
     }
 
-    public browseToDonateLink(): void {
-        this.desktop.openLink(ContactInformation.donateUrl);
+    public async browseToDonateLinkAsync(): Promise<void> {
+        await this.desktop.openLinkAsync(ContactInformation.donateUrl);
     }
 }

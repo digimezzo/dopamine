@@ -88,14 +88,14 @@ describe('WelcomeComponent', () => {
     });
 
     describe('finish', () => {
-        it('should navigate to loading component', async () => {
+        it('should navigate to loading component', () => {
             // Arrange
 
             // Act
             component.finish();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.exactly(1));
         });
     });
 });

@@ -23,11 +23,11 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
         this.appearanceService.stopWatchingThemesDirectory();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.appearanceService.startWatchingThemesDirectory();
     }
 
-    public openThemesDirectory(): void {
-        this.desktop.openPath(this.appearanceService.themesDirectoryPath);
+    public async openThemesDirectoryAsync(): Promise<void> {
+        await this.desktop.openPathAsync(this.appearanceService.themesDirectoryPath);
     }
 }

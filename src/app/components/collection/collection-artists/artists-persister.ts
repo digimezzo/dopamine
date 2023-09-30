@@ -33,8 +33,8 @@ export class ArtistsPersister {
 
         try {
             return availableArtists.filter((x) => this.selectedArtistNames.includes(x.displayName));
-        } catch (e) {
-            this.logger.error(`Could not get selected artists. Error: ${e.message}`, 'ArtistsPersister', 'getSelectedArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected artists', 'ArtistsPersister', 'getSelectedArtists');
         }
 
         return [];
@@ -55,8 +55,8 @@ export class ArtistsPersister {
             }
 
             this.selectedArtistsChanged.next(this.selectedArtistNames);
-        } catch (e) {
-            this.logger.error(`Could not set selected artists. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artists', 'ArtistsPersister', 'setSelectedArtists');
         }
     }
 
@@ -74,8 +74,8 @@ export class ArtistsPersister {
             this.saveSelectedArtistTypeToSettings(ArtistType[selectedArtistType]);
             this.resetSelectedArtists();
             this.selectedArtistTypeChanged.next(selectedArtistType);
-        } catch (e) {
-            this.logger.error(`Could not set selected artist type. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtistType');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artist type', 'ArtistsPersister', 'setSelectedArtistType');
         }
     }
 
@@ -91,8 +91,8 @@ export class ArtistsPersister {
         try {
             this.selectedArtistOrder = selectedArtistOrder;
             this.saveSelectedArtistOrderToSettings(ArtistOrder[selectedArtistOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected artist order. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtistOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artist order', 'ArtistsPersister', 'setSelectedArtistOrder');
         }
     }
 

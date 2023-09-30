@@ -44,12 +44,8 @@ export class ArtistInformationService implements BaseArtistInformationService {
                 // In case there is no localized Biography, get the English one.
                 lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, 'EN');
             }
-        } catch (error) {
-            this.logger.error(
-                `Could not get lastfmArtist. Error: ${error.message}`,
-                'ArtistInformationService',
-                'getArtistInformationAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get lastfmArtist', 'ArtistInformationService', 'getArtistInformationAsync');
         }
 
         if (lastfmArtist == undefined) {
@@ -61,12 +57,8 @@ export class ArtistInformationService implements BaseArtistInformationService {
         try {
             // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.
             artistImageUrl = await this.fanartApi.getArtistThumbnailAsync(lastfmArtist.musicBrainzId);
-        } catch (error) {
-            this.logger.error(
-                `Could not get artistImageUrl. Error: ${error.message}`,
-                'ArtistInformationService',
-                'getArtistInformationAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get artistImageUrl', 'ArtistInformationService', 'getArtistInformationAsync');
         }
 
         let biography: string = '';
@@ -86,9 +78,10 @@ export class ArtistInformationService implements BaseArtistInformationService {
                     // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.
                     const artistImageUrl: string = await this.fanartApi.getArtistThumbnailAsync(lastfmArtist.musicBrainzId);
                     artistInformation.addSimilarArtist(lastfmArtist.name, lastfmArtist.url, artistImageUrl);
-                } catch (error) {
+                } catch (e: unknown) {
                     this.logger.error(
-                        `Could not get info for similar artist '${similarArtist.name}'. Error: ${error.message}`,
+                        e,
+                        `Could not get info for similar artist '${similarArtist.name}'`,
                         'ArtistInformationService',
                         'getArtistInformationAsync'
                     );

@@ -22,7 +22,7 @@ export class FolderServiceMock implements BaseFolderService {
         return [];
     }
 
-    public async getSubfolderBreadCrumbsAsync(rootFolder: FolderModel, openedSubfolderPath: string): Promise<SubfolderModel[]> {
+    public getSubfolderBreadCrumbs(rootFolder: FolderModel, openedSubfolderPath: string): SubfolderModel[] {
         return [];
     }
 

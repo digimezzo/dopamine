@@ -2022,31 +2022,31 @@ describe('PlaybackService', () => {
     });
 
     describe('addAlbumToQueueAsync', () => {
-        it('should get tracks for the given album', () => {
+        it('should get tracks for the given album', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueueAsync(album1);
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey]), Times.exactly(1));
         });
 
-        it('should order tracks for the album byAlbum', () => {
+        it('should order tracks for the album byAlbum', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueueAsync(album1);
 
             // Assert
             trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
         });
 
-        it('should add tracks to the queue ordered by album', () => {
+        it('should add tracks to the queue ordered by album', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueueAsync(album1);
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
@@ -2122,7 +2122,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.stop(), Times.once());
         });
 
-        it('should play the next track if the given track is playing and it not the only track in the queue', async () => {
+        it('should play the next track if the given track is playing and it not the only track in the queue', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -2131,7 +2131,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), It.isAny())).returns(() => trackModel2);
 
             // Act
-            await service.stopIfPlaying(trackModel1);
+            service.stopIfPlaying(trackModel1);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(trackModel1, It.isAny()), Times.once());

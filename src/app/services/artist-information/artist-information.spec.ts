@@ -111,7 +111,7 @@ describe('ArtistInformation', () => {
             artist.browseToUrl();
 
             // Assert
-            desktopMock.verify((x) => x.openLink('url'), Times.once());
+            desktopMock.verify((x) => x.openLinkAsync('url'), Times.once());
         });
 
         it('should not browse to url when empty', () => {
@@ -122,7 +122,7 @@ describe('ArtistInformation', () => {
             artist.browseToUrl();
 
             // Assert
-            desktopMock.verify((x) => x.openLink(It.isAny()), Times.never());
+            desktopMock.verify((x) => x.openLinkAsync(It.isAny()), Times.never());
         });
     });
 });

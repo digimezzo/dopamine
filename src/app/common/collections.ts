@@ -16,8 +16,8 @@ export class Collections {
         return map;
     }
 
-    public static getPreviousItem(items: any[], currentIndex: number): any {
-        let previousItem: any;
+    public static getPreviousItem<T>(items: T[], currentIndex: number): T | undefined {
+        let previousItem: T | undefined;
 
         if (currentIndex > 0) {
             previousItem = items[currentIndex - 1];
@@ -26,8 +26,8 @@ export class Collections {
         return previousItem;
     }
 
-    public static getNextItem(items: any[], currentIndex: number): any {
-        let nextItem: any;
+    public static getNextItem<T>(items: T[], currentIndex: number): T | undefined {
+        let nextItem: T | undefined;
 
         if (currentIndex < items.length - 1) {
             nextItem = items[currentIndex + 1];

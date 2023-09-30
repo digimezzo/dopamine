@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { BasePlaylistFolderService } from '../../../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../../../services/playlist-folder/playlist-folder-model';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
@@ -51,49 +53,48 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistFoldersPersister.selectedPlaylistFoldersChanged$.subscribe(async (playlistFolders: PlaylistFolderModel[]) => {
+            this.playlistFoldersPersister.selectedPlaylistFoldersChanged$.subscribe((playlistFolders: PlaylistFolderModel[]) => {
                 this.playlistsPersister.resetSelectedPlaylists();
-                await this.getPlaylistsForPlaylistFoldersAsync(playlistFolders);
-                await this.getTracksAsync();
+                PromiseUtils.noAwait(this.getPlaylistsForPlaylistFoldersAndGetTracksAsync(playlistFolders));
             })
         );
 
         this.subscription.add(
-            this.playlistFolderService.playlistFoldersChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.playlistFolderService.playlistFoldersChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistService.playlistsChanged$.subscribe(async () => {
-                await this.getPlaylistsAsync();
+            this.playlistService.playlistsChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.getPlaylistsAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistService.playlistTracksChanged$.subscribe(async () => {
-                await this.getTracksAsync();
+            this.playlistService.playlistTracksChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.getTracksAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistsPersister.selectedPlaylistsChanged$.subscribe(async (playlistNames: string[]) => {
-                await this.getTracksAsync();
+            this.playlistsPersister.selectedPlaylistsChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.getTracksAsync());
             })
         );
 
         await this.processListsAsync();
     }
 
-    public splitDragEnd(event: any): void {
-        this.settings.playlistsLeftPaneWidthPercent = event.sizes[0];
-        this.settings.playlistsRightPaneWidthPercent = event.sizes[2];
+    public splitDragEnd(event: IOutputData): void {
+        this.settings.playlistsLeftPaneWidthPercent = <number>event.sizes[0];
+        this.settings.playlistsRightPaneWidthPercent = <number>event.sizes[2];
     }
 
     private async processListsAsync(): Promise<void> {
@@ -114,7 +115,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.longListLoadDelayMilliseconds);
 
         try {
-            this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
+            await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             await this.getPlaylistFoldersAsync();
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
@@ -122,8 +123,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             await this.getTracksAsync();
-        } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionPlaylistsComponent', 'fillListsAsync');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not fill lists', 'CollectionPlaylistsComponent', 'fillListsAsync');
         }
     }
 
@@ -151,5 +152,10 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         } else {
             this.tracks = new TrackModels();
         }
+    }
+
+    private async getPlaylistsForPlaylistFoldersAndGetTracksAsync(playlistFolders: PlaylistFolderModel[]): Promise<void> {
+        await this.getPlaylistsForPlaylistFoldersAsync(playlistFolders);
+        await this.getTracksAsync();
     }
 }

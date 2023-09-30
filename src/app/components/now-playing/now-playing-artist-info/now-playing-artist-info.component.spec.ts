@@ -96,7 +96,9 @@ describe('NowPlayingArtistInfoComponent', () => {
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
             const artistInformation: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
 
-            artistInformationServiceMock.setup((x) => x.getArtistInformationAsync(trackModel)).returns(async () => artistInformation);
+            artistInformationServiceMock
+                .setup((x) => x.getArtistInformationAsync(trackModel))
+                .returns(() => Promise.resolve(artistInformation));
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
 
             // Act
@@ -114,11 +116,15 @@ describe('NowPlayingArtistInfoComponent', () => {
 
             const trackModel1: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
             const artistInformation1: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
-            artistInformationServiceMock.setup((x) => x.getArtistInformationAsync(trackModel1)).returns(async () => artistInformation1);
+            artistInformationServiceMock
+                .setup((x) => x.getArtistInformationAsync(trackModel1))
+                .returns(() => Promise.resolve(artistInformation1));
 
             const trackModel2: TrackModel = MockCreator.createTrackModel('path2', ';artist2;');
             const artistInformation2: ArtistInformation = MockCreator.createArtistInformation('artist2', '', '', '');
-            artistInformationServiceMock.setup((x) => x.getArtistInformationAsync(trackModel2)).returns(async () => artistInformation2);
+            artistInformationServiceMock
+                .setup((x) => x.getArtistInformationAsync(trackModel2))
+                .returns(() => Promise.resolve(artistInformation2));
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 
@@ -148,11 +154,15 @@ describe('NowPlayingArtistInfoComponent', () => {
 
             const trackModel1: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
             const artistInformation1: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
-            artistInformationServiceMock.setup((x) => x.getArtistInformationAsync(trackModel1)).returns(async () => artistInformation1);
+            artistInformationServiceMock
+                .setup((x) => x.getArtistInformationAsync(trackModel1))
+                .returns(() => Promise.resolve(artistInformation1));
 
             const trackModel2: TrackModel = MockCreator.createTrackModel('path2', ';artist1;');
             const artistInformation2: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
-            artistInformationServiceMock.setup((x) => x.getArtistInformationAsync(trackModel2)).returns(async () => artistInformation2);
+            artistInformationServiceMock
+                .setup((x) => x.getArtistInformationAsync(trackModel2))
+                .returns(() => Promise.resolve(artistInformation2));
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
 

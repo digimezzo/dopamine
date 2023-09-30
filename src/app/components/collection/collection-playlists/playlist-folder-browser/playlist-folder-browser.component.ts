@@ -81,12 +81,8 @@ export class PlaylistFolderBrowserComponent {
         if (userHasConfirmed) {
             try {
                 this.playlistFolderService.deletePlaylistFolder(playlistFolder);
-            } catch (e) {
-                this.logger.error(
-                    `Could not delete playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onDeletePlaylistFolderAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete playlist folder', 'CollectionPlaylistsComponent', 'onDeletePlaylistFolderAsync');
 
                 const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
@@ -107,12 +103,9 @@ export class PlaylistFolderBrowserComponent {
         if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
             try {
                 this.playlistFolderService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
-            } catch (e) {
-                this.logger.error(
-                    `Could not rename playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onRenamePlaylistFolderAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not rename playlist folder', 'CollectionPlaylistsComponent', 'onRenamePlaylistFolderAsync');
+
                 const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -130,19 +123,15 @@ export class PlaylistFolderBrowserComponent {
             if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
                 this.playlistFolderService.createPlaylistFolder(playlistFolderName);
             }
-        } catch (e) {
-            this.logger.error(
-                `Could not create playlist folder. Error: ${e.message}`,
-                'CollectionPlaylistsComponent',
-                'createPlaylistFolderAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not create playlist folder', 'CollectionPlaylistsComponent', 'createPlaylistFolderAsync');
 
             const dialogText: string = await this.translatorService.getAsync('create-playlist-folder-error');
             this.dialogService.showErrorDialog(dialogText);
         }
     }
 
-    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
+    public async setSelectedPlaylistFoldersAsync(event: MouseEvent, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
         this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
         this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);

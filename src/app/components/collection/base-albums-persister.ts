@@ -30,8 +30,8 @@ export abstract class BaseAlbumsPersister {
 
         try {
             return availableAlbums.filter((x) => this.selectedAlbumKeys.includes(x.albumKey));
-        } catch (e) {
-            this.logger.error(`Could not get selected albums. Error: ${e.message}`, 'BaseAlbumsPersister', 'getSelectedAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected albums', 'BaseAlbumsPersister', 'getSelectedAlbums');
         }
 
         return [];
@@ -52,8 +52,8 @@ export abstract class BaseAlbumsPersister {
             }
 
             this.selectedAlbumsChanged.next(this.selectedAlbumKeys);
-        } catch (e) {
-            this.logger.error(`Could not set selected albums. Error: ${e.message}`, 'BaseAlbumsPersister', 'setSelectedAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected albums', 'BaseAlbumsPersister', 'setSelectedAlbums');
         }
     }
 
@@ -74,8 +74,8 @@ export abstract class BaseAlbumsPersister {
         try {
             this.selectedAlbumOrder = selectedAlbumOrder;
             this.saveSelectedAlbumOrderToSettings(AlbumOrder[selectedAlbumOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected album order. Error: ${e.message}`, 'BaseAlbumsPersister', 'setSelectedAlbumOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected album order', 'BaseAlbumsPersister', 'setSelectedAlbumOrder');
         }
     }
 

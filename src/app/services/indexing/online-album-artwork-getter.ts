@@ -45,9 +45,10 @@ export class OnlineAlbumArtworkGetter {
 
             try {
                 lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
-            } catch (e) {
+            } catch (e: unknown) {
                 this.logger.error(
-                    `Could not get album info for artist='${artist}' and title='${title}'. Error: ${e.message}`,
+                    e,
+                    `Could not get album info for artist='${artist}' and title='${title}'`,
                     'OnlineAlbumArtworkGetter',
                     'getOnlineArtworkAsync'
                 );
@@ -67,9 +68,10 @@ export class OnlineAlbumArtworkGetter {
                         );
 
                         return artworkData;
-                    } catch (e) {
+                    } catch (e: unknown) {
                         this.logger.error(
-                            `Could not convert file '${lastfmAlbum.largestImage()}' to data. Error: ${e.message}`,
+                            e,
+                            `Could not convert file '${lastfmAlbum.largestImage()}' to data`,
                             'OnlineAlbumArtworkGetter',
                             'getOnlineArtworkAsync'
                         );

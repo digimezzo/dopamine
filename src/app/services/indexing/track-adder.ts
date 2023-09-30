@@ -49,9 +49,10 @@ export class TrackAdder {
                     const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
 
                     await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
-                } catch (e) {
+                } catch (e: unknown) {
                     this.logger.error(
-                        `A problem occurred while adding track with path='${indexablePath.path}'. Error: ${e.message}`,
+                        e,
+                        `A problem occurred while adding track with path='${indexablePath.path}'`,
                         'TrackAdder',
                         'addTracksThatAreNotInTheDatabaseAsync'
                     );
@@ -65,14 +66,10 @@ export class TrackAdder {
                 'TrackAdder',
                 'addTracksThatAreNotInTheDatabaseAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             timer.stop();
 
-            this.logger.error(
-                `A problem occurred while adding tracks. Error: ${e.message}`,
-                'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync'
-            );
+            this.logger.error(e, 'A problem occurred while adding tracks', 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
         }
     }
 

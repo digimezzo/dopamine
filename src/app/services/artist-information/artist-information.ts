@@ -50,7 +50,7 @@ export class ArtistInformation {
         }
 
         if (this.desktop != undefined) {
-            this.desktop.openLink(this.url);
+            this.desktop.openLinkAsync(this.url);
         }
     }
 

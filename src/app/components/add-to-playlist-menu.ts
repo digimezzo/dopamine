@@ -78,8 +78,8 @@ export class AddToPlaylistMenu {
     public async addTracksToPlaylistAsync(playlistName: string, playlistPath: string, tracks: TrackModel[]): Promise<void> {
         try {
             await this.playlistService.addTracksToPlaylistAsync(playlistName, playlistPath, tracks);
-        } catch (e) {
-            this.logger.error(`Could not add tracks to playlist. Error: ${e.message}`, 'AddToPlaylistMenu', 'addTracksToPlaylist');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not add tracks to playlist', 'AddToPlaylistMenu', 'addTracksToPlaylist');
         }
     }
 }

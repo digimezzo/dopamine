@@ -28,51 +28,51 @@ describe('AboutComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should set application version', async () => {
+        it('should set application version', () => {
             // Arrange
 
             // Act
-            const applicationVersion: string = await component.applicationVersion;
+            const applicationVersion: string = component.applicationVersion;
 
             // Assert
             expect(applicationVersion).toEqual(ProductInformation.applicationVersion);
         });
 
-        it('should set application Copyright', async () => {
+        it('should set application Copyright', () => {
             // Arrange
 
             // Act
-            const applicationCopyright: string = await component.applicationCopyright;
+            const applicationCopyright: string = component.applicationCopyright;
 
             // Assert
             expect(applicationCopyright).toEqual(ProductInformation.applicationCopyright);
         });
 
-        it('should set website URL', async () => {
+        it('should set website URL', () => {
             // Arrange
 
             // Act
-            const websiteUrl: string = await component.websiteUrl;
+            const websiteUrl: string = component.websiteUrl;
 
             // Assert
             expect(websiteUrl).toEqual(ContactInformation.websiteUrl);
         });
 
-        it('should set Twitter URL', async () => {
+        it('should set Twitter URL', () => {
             // Arrange
 
             // Act
-            const twitterUrl: string = await component.twitterUrl;
+            const twitterUrl: string = component.twitterUrl;
 
             // Assert
             expect(twitterUrl).toEqual(ContactInformation.twitterUrl);
         });
 
-        it('should set GitHub URL', async () => {
+        it('should set GitHub URL', () => {
             // Arrange
 
             // Act
-            const githubUrl: string = await component.githubUrl;
+            const githubUrl: string = component.githubUrl;
 
             // Assert
             expect(githubUrl).toEqual(ContactInformation.githubUrl);
@@ -98,7 +98,7 @@ describe('AboutComponent', () => {
             component.browseToDonateLink();
 
             // Assert
-            desktopMock.verify((x) => x.openLink(ContactInformation.donateUrl), Times.exactly(1));
+            desktopMock.verify((x) => x.openLinkAsync(ContactInformation.donateUrl), Times.exactly(1));
         });
     });
 });

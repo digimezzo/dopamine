@@ -223,7 +223,9 @@ describe('ScrobblingService', () => {
     describe('PlaybackService.playbackStarted', () => {
         it('should update Last.fm now playing when signed in to Last.fm and artist and title are known', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -241,7 +243,9 @@ describe('ScrobblingService', () => {
 
         it('should not update Last.fm now playing when not signed in to Last.fm', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -259,7 +263,9 @@ describe('ScrobblingService', () => {
 
         it('should not update Last.fm now playing when artist is unknown', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -277,7 +283,9 @@ describe('ScrobblingService', () => {
 
         it('should not update Last.fm now playing when title is unknown', async () => {
             // Arrange
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -299,7 +307,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -324,7 +334,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -349,7 +361,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -374,7 +388,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -400,7 +416,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -425,7 +443,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -447,7 +467,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -472,7 +494,9 @@ describe('ScrobblingService', () => {
             // Arrange
             const currentTrackUTCStartTime: Date = new Date(2022, 11, 28, 9, 47, 0);
             dateTimeMock.setup((x) => x.getUTCDate(It.isAny())).returns(() => currentTrackUTCStartTime);
-            lastfmApiMock.setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1')).returns(async () => true);
+            lastfmApiMock
+                .setup((x) => x.updateTrackNowPlayingAsync('key', 'artist1', 'title1', 'albumTitle1'))
+                .returns(() => Promise.resolve(true));
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
             service.initialize();
@@ -495,7 +519,7 @@ describe('ScrobblingService', () => {
     });
 
     describe('sendTrackLoveAsync', () => {
-        it('should not send track love/unlove when not signed in', () => {
+        it('should not send track love/unlove when not signed in', async () => {
             // Arrange
             createSettingsMock(false, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
@@ -504,14 +528,14 @@ describe('ScrobblingService', () => {
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
-            service.sendTrackLoveAsync(trackModel1, true);
+            await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
             lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
             lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
-        it('should not send track love/unlove for an unknown track title', () => {
+        it('should not send track love/unlove for an unknown track title', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
@@ -520,14 +544,14 @@ describe('ScrobblingService', () => {
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', '', 'albumTitle1', 300000);
 
             // Act
-            service.sendTrackLoveAsync(trackModel1, true);
+            await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
             lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
             lastfmApiMock.verify((x) => x.unloveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
         });
 
-        it('should not send track love/unlove for unknown artists', () => {
+        it('should not send track love/unlove for unknown artists', async () => {
             // Arrange
             createSettingsMock(true, 'user', 'password', 'key');
             const service: BaseScrobblingService = createService();
@@ -536,7 +560,7 @@ describe('ScrobblingService', () => {
             const trackModel1: TrackModel = createTrackModel('path1', '', 'title1', 'albumTitle1', 300000);
 
             // Act
-            service.sendTrackLoveAsync(trackModel1, true);
+            await service.sendTrackLoveAsync(trackModel1, true);
 
             // Assert
             lastfmApiMock.verify((x) => x.loveTrackAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
@@ -552,7 +576,7 @@ describe('ScrobblingService', () => {
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
-            service.sendTrackLoveAsync(trackModel1, true);
+            await service.sendTrackLoveAsync(trackModel1, true);
             await flushPromises();
 
             // Assert
@@ -569,7 +593,7 @@ describe('ScrobblingService', () => {
             const trackModel1: TrackModel = createTrackModel('path1', ';artist1a;;artist1b;', 'title1', 'albumTitle1', 300000);
 
             // Act
-            service.sendTrackLoveAsync(trackModel1, false);
+            await service.sendTrackLoveAsync(trackModel1, false);
             await flushPromises();
 
             // Assert

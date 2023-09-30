@@ -37,7 +37,7 @@ describe('TrackService', () => {
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Subfolder1/track1.png')).returns(() => '.png');
         fileAccessMock
             .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Subfolder1'))
-            .returns(async () => ['/home/user/Music/Subfolder1/track1.mp3', '/home/user/Music/Subfolder1/track1.png']);
+            .returns(() => Promise.resolve(['/home/user/Music/Subfolder1/track1.mp3', '/home/user/Music/Subfolder1/track1.png']));
 
         track1 = new Track('path1');
         track2 = new Track('path2');
@@ -69,9 +69,10 @@ describe('TrackService', () => {
             .returns(() => new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object));
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('/home/user/Music/Subfolder1/track1.mp3'))
-            .returns(
-                async () =>
+            .returns(() =>
+                Promise.resolve(
                     new TrackModel(new Track('/home/user/Music/Subfolder1/track1.mp3'), dateTimeMock.object, translatorServiceMock.object)
+                )
             );
 
         dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);

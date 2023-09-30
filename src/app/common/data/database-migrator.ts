@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Logger } from '../logger';
 import { BaseDatabaseMigrator } from './base-database-migrator';
@@ -13,7 +17,7 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
 
     public constructor(private databaseFactory: DatabaseFactory, private logger: Logger) {}
 
-    public async migrateAsync(): Promise<void> {
+    public migrate(): void {
         const databaseVersion: number = this.getDatabaseVersion();
         const mostRecentMigration: number = this.getMostRecentMigration();
         let migrationsToApply: Migration[] = [];
@@ -65,12 +69,8 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
                 database.prepare('COMMIT;').run();
 
                 this.logger.info(`Migration ${migration.name} success`, 'DatabaseMigrator', 'migrateAsync');
-            } catch (e) {
-                this.logger.error(
-                    `Could not perform migration: ${migration.name}. Error: ${e.message}`,
-                    'DatabaseMigrator',
-                    'migrateAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, `Could not perform migration: ${migration.name}`, 'DatabaseMigrator', 'migrateAsync');
 
                 database.prepare('ROLLBACK;').run();
             }

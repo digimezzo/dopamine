@@ -26,16 +26,13 @@ export class CollectionService implements BaseCollectionService {
         this.trackRepository.deleteTracks(tracks.map((x) => x.id));
 
         for (const track of tracks) {
-            await this.playbackService.stopIfPlaying(track);
+            this.playbackService.stopIfPlaying(track);
 
             try {
                 await this.desktop.moveFileToTrashAsync(track.path);
-            } catch (e) {
-                this.logger.error(
-                    `Could not move file '${track.path}' to the trash. Error: ${e.message}`,
-                    'CollectionService',
-                    'deleteTracksAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, `Could not move file '${track.path}' to the trash`, 'CollectionService', 'deleteTracksAsync');
+
                 couldDeleteAllTracks = false;
             }
         }

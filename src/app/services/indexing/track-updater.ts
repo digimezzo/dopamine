@@ -38,9 +38,10 @@ export class TrackUpdater {
                             await this.snackBarService.updatingTracksAsync();
                         }
                     }
-                } catch (e) {
+                } catch (e: unknown) {
                     this.logger.error(
-                        `A problem occurred while updating track with path='${track.path}'. Error: ${e.message}`,
+                        e,
+                        `A problem occurred while updating track with path='${track.path}'`,
                         'TrackUpdater',
                         'updateTracksThatAreOutOfDateAsync'
                     );
@@ -54,14 +55,10 @@ export class TrackUpdater {
                 'TrackUpdater',
                 'updateTracksThatAreOutOfDateAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             timer.stop();
 
-            this.logger.error(
-                `A problem occurred while updating tracks. Error: ${e.message}`,
-                'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync'
-            );
+            this.logger.error(e, 'A problem occurred while updating tracks', 'TrackUpdater', 'updateTracksThatAreOutOfDateAsync');
         }
     }
 }
