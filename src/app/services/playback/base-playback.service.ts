@@ -38,7 +38,7 @@ export abstract class BasePlaybackService {
     public abstract addTracksToQueueAsync(tracksToAdd: TrackModel[]): Promise<void>;
     public abstract addArtistToQueueAsync(artistToAdd: ArtistModel, artistType: ArtistType): Promise<void>;
     public abstract addGenreToQueueAsync(genreToAdd: GenreModel): Promise<void>;
-    public abstract addAlbumToQueueAsync(albumToAdd: AlbumModel): void;
+    public abstract addAlbumToQueue(albumToAdd: AlbumModel): void;
     public abstract addPlaylistToQueueAsync(playlistToAdd: PlaylistModel): Promise<void>;
     public abstract removeFromQueue(tracksToRemove: TrackModel[]): void;
     public abstract playQueuedTrack(trackToPlay: TrackModel): void;

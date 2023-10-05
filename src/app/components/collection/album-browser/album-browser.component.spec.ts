@@ -722,7 +722,7 @@ describe('AlbumBrowserComponent', () => {
             await component.onAddToQueueAsync(album1);
 
             // Assert
-            playbackServiceMock.verify((x) => x.addAlbumToQueueAsync(album1), Times.once());
+            playbackServiceMock.verify((x) => x.addAlbumToQueue(album1), Times.once());
         });
     });
 });

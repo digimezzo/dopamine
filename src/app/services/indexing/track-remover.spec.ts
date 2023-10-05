@@ -31,55 +31,55 @@ describe('Trackremover', () => {
     });
 
     describe('removeTracksThatDoNoNotBelongToFolders', () => {
-        it('should get the number of tracks that do not belong to folders', () => {
+        it('should get the number of tracks that do not belong to folders', async () => {
             // Arrange
 
             // Act
-            trackRemover.removeTracksThatDoNoNotBelongToFolders();
+            await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
             trackRepositoryMock.verify((x) => x.getNumberOfTracksThatDoNotBelongFolders(), Times.exactly(1));
         });
 
-        it('should notify that track are being removed, if there are tracks that do not belong to folders.', () => {
+        it('should notify that track are being removed, if there are tracks that do not belong to folders.', async () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getNumberOfTracksThatDoNotBelongFolders()).returns(() => 2);
 
             // Act
-            trackRemover.removeTracksThatDoNoNotBelongToFolders();
+            await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
             snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
         });
 
-        it('should not notify that track are being removed, if there are no tracks that do not belong to folders.', () => {
+        it('should not notify that track are being removed, if there are no tracks that do not belong to folders.', async () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getNumberOfTracksThatDoNotBelongFolders()).returns(() => 0);
 
             // Act
-            trackRemover.removeTracksThatDoNoNotBelongToFolders();
+            await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
             snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
         });
 
-        it('should delete tracks that do not belong to folders from the database, if there are tracks that do not belong to folders.', () => {
+        it('should delete tracks that do not belong to folders from the database, if there are tracks that do not belong to folders.', async () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getNumberOfTracksThatDoNotBelongFolders()).returns(() => 2);
 
             // Act
-            trackRemover.removeTracksThatDoNoNotBelongToFolders();
+            await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
             trackRepositoryMock.verify((x) => x.deleteTracksThatDoNotBelongFolders(), Times.exactly(1));
         });
 
-        it('should not delete tracks that do not belong to folders from the database, if there are no tracks that do not belong to folders.', () => {
+        it('should not delete tracks that do not belong to folders from the database, if there are no tracks that do not belong to folders.', async () => {
             // Arrange
             trackRepositoryMock.setup((x) => x.getNumberOfTracksThatDoNotBelongFolders()).returns(() => 0);
 
             // Act
-            trackRemover.removeTracksThatDoNoNotBelongToFolders();
+            await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
             trackRepositoryMock.verify((x) => x.deleteTracksThatDoNotBelongFolders(), Times.never());
@@ -91,7 +91,7 @@ describe('Trackremover', () => {
             // Arrange
 
             // Act
-            trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
+            await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAllTracks(), Times.exactly(1));
@@ -186,55 +186,55 @@ describe('Trackremover', () => {
     });
 
     describe('removeFolderTracksForInexistingTracks', () => {
-        it('should get the number of folder tracks for inexisting tracks', () => {
+        it('should get the number of folder tracks for inexisting tracks', async () => {
             // Arrange
 
             // Act
-            trackRemover.removeFolderTracksForInexistingTracks();
+            await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
             folderTrackRepositoryMock.verify((x) => x.getNumberOfFolderTracksForInexistingTracks(), Times.exactly(1));
         });
 
-        it('should notify that track are being removed, if there are folder tracks for indexisting tracks.', () => {
+        it('should notify that track are being removed, if there are folder tracks for indexisting tracks.', async () => {
             // Arrange
             folderTrackRepositoryMock.setup((x) => x.getNumberOfFolderTracksForInexistingTracks()).returns(() => 2);
 
             // Act
-            trackRemover.removeFolderTracksForInexistingTracks();
+            await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
             snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
         });
 
-        it('should not notify that track are being removed, if there are no folder tracks for inexisting tracks.', () => {
+        it('should not notify that track are being removed, if there are no folder tracks for inexisting tracks.', async () => {
             // Arrange
             folderTrackRepositoryMock.setup((x) => x.getNumberOfFolderTracksForInexistingTracks()).returns(() => 0);
 
             // Act
-            trackRemover.removeFolderTracksForInexistingTracks();
+            await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
             snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
         });
 
-        it('should delete folder tracks from the database, if there are folder tracks for indexisting tracks.', () => {
+        it('should delete folder tracks from the database, if there are folder tracks for indexisting tracks.', async () => {
             // Arrange
             folderTrackRepositoryMock.setup((x) => x.getNumberOfFolderTracksForInexistingTracks()).returns(() => 2);
 
             // Act
-            trackRemover.removeFolderTracksForInexistingTracks();
+            await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
             folderTrackRepositoryMock.verify((x) => x.deleteFolderTracksForInexistingTracks(), Times.exactly(1));
         });
 
-        it('should not delete folder tracks from the database, if there are no folder tracks for indexisting tracks.', () => {
+        it('should not delete folder tracks from the database, if there are no folder tracks for indexisting tracks.', async () => {
             // Arrange
             folderTrackRepositoryMock.setup((x) => x.getNumberOfFolderTracksForInexistingTracks()).returns(() => 0);
 
             // Act
-            trackRemover.removeFolderTracksForInexistingTracks();
+            await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
             folderTrackRepositoryMock.verify((x) => x.deleteFolderTracksForInexistingTracks(), Times.never());

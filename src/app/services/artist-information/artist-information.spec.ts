@@ -102,24 +102,24 @@ describe('ArtistInformation', () => {
         });
     });
 
-    describe('browseToUrl', () => {
-        it('should browse to url when not empty', () => {
+    describe('browseToUrlAsync', () => {
+        it('should browse to url when not empty', async () => {
             // Arrange
             const artist: ArtistInformation = new ArtistInformation(desktopMock.object, 'name', 'url', 'imageUrl', 'biography');
 
             // Act
-            artist.browseToUrl();
+            await artist.browseToUrlAsync();
 
             // Assert
             desktopMock.verify((x) => x.openLinkAsync('url'), Times.once());
         });
 
-        it('should not browse to url when empty', () => {
+        it('should not browse to url when empty', async () => {
             // Arrange
             const artist: ArtistInformation = ArtistInformation.empty();
 
             // Act
-            artist.browseToUrl();
+            await artist.browseToUrlAsync();
 
             // Assert
             desktopMock.verify((x) => x.openLinkAsync(It.isAny()), Times.never());

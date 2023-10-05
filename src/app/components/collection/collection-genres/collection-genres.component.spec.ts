@@ -1,3 +1,4 @@
+import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
@@ -234,7 +235,7 @@ describe('CollectionGenresComponent', () => {
     });
 
     describe('selectedAlbumOrder', () => {
-        it('should return the selected album order', async () => {
+        it('should return the selected album order', () => {
             // Arrange
             const component: CollectionGenresComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
@@ -246,7 +247,7 @@ describe('CollectionGenresComponent', () => {
             expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should set the selected album order', async () => {
+        it('should set the selected album order', () => {
             // Arrange
             const component: CollectionGenresComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -313,23 +314,23 @@ describe('CollectionGenresComponent', () => {
     });
 
     describe('splitDragEnd', () => {
-        it('should save the left pane width to the settings', async () => {
+        it('should save the left pane width to the settings', () => {
             // Arrange
             const component: CollectionGenresComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [30, 55, 15] });
+            component.splitDragEnd({ sizes: [30, 55, 15] } as IOutputData);
 
             // Assert
             expect(settingsStub.genresLeftPaneWidthPercent).toEqual(30);
         });
 
-        it('should save the right pane width to the settings', async () => {
+        it('should save the right pane width to the settings', () => {
             // Arrange
             const component: CollectionGenresComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [30, 55, 15] });
+            component.splitDragEnd({ sizes: [30, 55, 15] } as IOutputData);
 
             // Assert
             expect(settingsStub.genresRightPaneWidthPercent).toEqual(15);

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, 
 import { Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
+import { NativeElementProxy } from '../../common/native-element-proxy';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 
@@ -19,7 +20,12 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     public progressTrack: ElementRef;
     private progressMargin: number = 6;
 
-    public constructor(private playbackService: BasePlaybackService, private mathExtensions: MathExtensions, private logger: Logger) {}
+    public constructor(
+        private playbackService: BasePlaybackService,
+        private mathExtensions: MathExtensions,
+        private nativeElementProxy: NativeElementProxy,
+        private logger: Logger
+    ) {}
 
     public showProgressThumb: boolean = false;
     public isProgressThumbDown: boolean = false;
@@ -88,7 +94,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             this.isProgressDragged = false;
             this.isProgressContainerDown = false;
             try {
-                const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+                const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
                 this.playbackService.skipByFractionOfTotalSeconds(this.progressBarPosition / progressTrackWidth);
             } catch (e: unknown) {
                 this.logger.error(e, 'Could not skip by fraction of total seconds', 'PlaybackProgressComponent', 'onMouseUp');
@@ -110,7 +116,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     private applyPlaybackProgress(playbackProgress: PlaybackProgress): void {
         try {
-            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+            const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
 
             if (playbackProgress.totalSeconds <= 0) {
                 this.progressBarPosition = 0;
@@ -132,7 +138,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     private applyMouseProgress(mouseXPosition: number): void {
         try {
-            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+            const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
 
             this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
             this.progressThumbPosition = this.mathExtensions.clamp(

@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { ArtistInformation } from '../../../services/artist-information/artist-information';
 import { BaseArtistInformationService } from '../../../services/artist-information/base-artist-information.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -44,9 +45,9 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
         return this._contentAnimation;
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.initializeSubscriptions();
-        this.showArtistInfoAsync(this.playbackService.currentTrack);
+        await this.showArtistInfoAsync(this.playbackService.currentTrack);
     }
 
     public ngOnDestroy(): void {
@@ -55,8 +56,8 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
 
     private initializeSubscriptions(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(
-                async (playbackStarted: PlaybackStarted) => await this.showArtistInfoAsync(playbackStarted.currentTrack)
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) =>
+                PromiseUtils.noAwait(this.showArtistInfoAsync(playbackStarted.currentTrack))
             )
         );
     }

@@ -4,7 +4,7 @@ import { BaseIpcProxy } from './base-ipc-proxy';
 
 @Injectable()
 export class IpcProxy implements BaseIpcProxy {
-    public sendToMainProcess(channel: string, arg: any): void {
+    public sendToMainProcess(channel: string, arg: unknown): void {
         ipcRenderer.send(channel, arg);
     }
 }

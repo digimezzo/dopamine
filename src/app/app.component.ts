@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { BaseDesktop } from './common/io/base-desktop';
 import { Logger } from './common/logger';
+import { PromiseUtils } from './common/utils/promise-utils';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -62,19 +63,19 @@ export class AppComponent implements OnInit {
         this.subscription.add(
             this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
                 if (this.playbackQueueDrawer != undefined) {
-                    this.playbackQueueDrawer.toggle();
+                    PromiseUtils.noAwait(this.playbackQueueDrawer.toggle());
                 }
             })
         );
 
-        this.addToPlaylistMenu.initializeAsync();
+        await this.addToPlaylistMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
         this.appearanceService.applyAppearance();
-        await this.translatorService.applyLanguageAsync();
+        this.translatorService.applyLanguage();
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
 
-        this.navigationService.navigateToLoadingAsync();
+        await this.navigationService.navigateToLoadingAsync();
     }
 }

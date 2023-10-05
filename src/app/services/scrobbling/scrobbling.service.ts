@@ -5,6 +5,7 @@ import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -136,14 +137,14 @@ export class ScrobblingService implements BaseScrobblingService {
         }
 
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(
-                async (playbackStarted: PlaybackStarted) => await this.handlePlaybackStartedAsync(playbackStarted)
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) =>
+                PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted))
             )
         );
 
         this.subscription.add(
-            this.playbackService.progressChanged$.subscribe(
-                async (playbackProgress: PlaybackProgress) => await this.handlePlaybackProgressChangedAsync(playbackProgress)
+            this.playbackService.progressChanged$.subscribe((playbackProgress: PlaybackProgress) =>
+                PromiseUtils.noAwait(this.handlePlaybackProgressChangedAsync(playbackProgress))
             )
         );
 
@@ -245,7 +246,8 @@ export class ScrobblingService implements BaseScrobblingService {
                         );
                     }
                 } catch (e: unknown) {
-                    this.logger.error(e,
+                    this.logger.error(
+                        e,
                         `Could not Scrobble track '${artist} - ${trackTitle}'`,
                         'ScrobblingService',
                         'handlePlaybackProgressChangedAsync'

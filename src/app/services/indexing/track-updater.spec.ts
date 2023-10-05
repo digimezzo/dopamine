@@ -35,7 +35,7 @@ describe('TrackUpdater', () => {
             // Arrange
 
             // Act
-            trackUpdater.updateTracksThatAreOutOfDateAsync();
+            await trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
             trackRepositoryMock.verify((x) => x.getAllTracks(), Times.exactly(1));
@@ -46,7 +46,7 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
 
             // Act
-            trackUpdater.updateTracksThatAreOutOfDateAsync();
+            await trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
             trackVerifierMock.verify((x) => x.isTrackOutOfDateAsync(It.isAny()), Times.never());
@@ -57,7 +57,7 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => []);
 
             // Act
-            trackUpdater.updateTracksThatAreOutOfDateAsync();
+            await trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
             trackVerifierMock.verify((x) => x.doesTrackNeedIndexing(It.isAny()), Times.never());
@@ -70,7 +70,7 @@ describe('TrackUpdater', () => {
 
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => true);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(() => Promise.resolve(true));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -87,7 +87,7 @@ describe('TrackUpdater', () => {
 
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => true);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(() => Promise.resolve(true));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -104,7 +104,7 @@ describe('TrackUpdater', () => {
 
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(It.isAny())).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(It.isAny())).returns(() => Promise.resolve(true));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -122,10 +122,10 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(true));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => true);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -143,10 +143,10 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(false));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -164,18 +164,18 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(true));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => true);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             const filledTrack1: Track = new Track('/home/user/Music/Track 1.mp3');
             const filledTrack2: Track = new Track('/home/user/Music/Track 2.mp3');
             filledTrack1.trackTitle = 'Title 1';
             filledTrack2.trackTitle = 'Title 2';
 
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(async () => filledTrack1);
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(async () => filledTrack2);
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(() => Promise.resolve(filledTrack1));
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(() => Promise.resolve(filledTrack2));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -195,10 +195,10 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(false));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -215,18 +215,18 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => true);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(true));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => true);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             const filledTrack1: Track = new Track('/home/user/Music/Track 1.mp3');
             const filledTrack2: Track = new Track('/home/user/Music/Track 2.mp3');
             filledTrack1.trackTitle = 'Title 1';
             filledTrack2.trackTitle = 'Title 2';
 
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(async () => filledTrack1);
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(async () => filledTrack2);
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(() => Promise.resolve(filledTrack1));
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(() => Promise.resolve(filledTrack2));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
@@ -243,18 +243,18 @@ describe('TrackUpdater', () => {
             trackRepositoryMock.setup((x) => x.getAllTracks()).returns(() => [track1, track2]);
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track1)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track1)).returns(() => Promise.resolve(false));
 
             trackVerifierMock.setup((x) => x.doesTrackNeedIndexing(track2)).returns(() => false);
-            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(async () => false);
+            trackVerifierMock.setup((x) => x.isTrackOutOfDateAsync(track2)).returns(() => Promise.resolve(false));
 
             const filledTrack1: Track = new Track('/home/user/Music/Track 1.mp3');
             const filledTrack2: Track = new Track('/home/user/Music/Track 2.mp3');
             filledTrack1.trackTitle = 'Title 1';
             filledTrack2.trackTitle = 'Title 2';
 
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(async () => filledTrack1);
-            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(async () => filledTrack2);
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track1)).returns(() => Promise.resolve(filledTrack1));
+            trackFillerMock.setup((x) => x.addFileMetadataToTrackAsync(track2)).returns(() => Promise.resolve(filledTrack2));
 
             // Act
             await trackUpdater.updateTracksThatAreOutOfDateAsync();

@@ -46,7 +46,9 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+            externalAlbumArtworkGetterMock
+                .setup((x) => x.getExternalArtworkAsync(It.isAny()))
+                .returns(() => Promise.resolve(expectedAlbumArtwork));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, true);
@@ -61,8 +63,10 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
-            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
+            onlineAlbumArtworkGetterMock
+                .setup((x) => x.getOnlineArtworkAsync(It.isAny()))
+                .returns(() => Promise.resolve(expectedAlbumArtwork));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, true);
@@ -77,8 +81,10 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
-            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
+            onlineAlbumArtworkGetterMock
+                .setup((x) => x.getOnlineArtworkAsync(It.isAny()))
+                .returns(() => Promise.resolve(expectedAlbumArtwork));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, false);
@@ -95,8 +101,10 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
-            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
+            onlineAlbumArtworkGetterMock
+                .setup((x) => x.getOnlineArtworkAsync(It.isAny()))
+                .returns(() => Promise.resolve(expectedAlbumArtwork));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, true);
@@ -111,8 +119,10 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
-            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => expectedAlbumArtwork);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
+            onlineAlbumArtworkGetterMock
+                .setup((x) => x.getOnlineArtworkAsync(It.isAny()))
+                .returns(() => Promise.resolve(expectedAlbumArtwork));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, false);
@@ -126,8 +136,8 @@ describe('AlbumArtworkGetter', () => {
             const metaDataMock: IMock<IFileMetadata> = Mock.ofType<IFileMetadata>();
 
             embeddedAlbumArtworkGetterMock.setup((x) => x.getEmbeddedArtwork(It.isAny())).returns(() => undefined);
-            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(async () => undefined);
-            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(async () => undefined);
+            externalAlbumArtworkGetterMock.setup((x) => x.getExternalArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
+            onlineAlbumArtworkGetterMock.setup((x) => x.getOnlineArtworkAsync(It.isAny())).returns(() => Promise.resolve(undefined));
 
             // Act
             const actualAlbumArtwork: Buffer | undefined = await albumArtworkGetter.getAlbumArtworkAsync(metaDataMock.object, true);

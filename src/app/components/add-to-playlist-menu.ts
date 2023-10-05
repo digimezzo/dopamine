@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../common/logger';
+import { PromiseUtils } from '../common/utils/promise-utils';
 import { AlbumModel } from '../services/album/album-model';
 import { ArtistModel } from '../services/artist/artist-model';
 import { GenreModel } from '../services/genre/genre-model';
@@ -28,18 +35,18 @@ export class AddToPlaylistMenu {
 
     public async initializeAsync(): Promise<void> {
         this.subscription.add(
-            this.playlistFolderService.playlistFoldersChanged$.subscribe(async () => {
-                await this.fillPlaylistsAsync();
+            this.playlistFolderService.playlistFoldersChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.fillPlaylistsAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistService.playlistsChanged$.subscribe(async () => {
-                await this.fillPlaylistsAsync();
+            this.playlistService.playlistsChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.fillPlaylistsAsync());
             })
         );
 
-        this.fillPlaylistsAsync();
+        await this.fillPlaylistsAsync();
     }
 
     private async fillPlaylistsAsync(): Promise<void> {

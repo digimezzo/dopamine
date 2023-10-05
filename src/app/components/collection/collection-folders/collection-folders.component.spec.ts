@@ -1287,14 +1287,14 @@ describe('CollectionFoldersComponent', () => {
         });
     });
 
-    describe('onTrackContextMenuAsync', () => {
-        it('should open the track context menu', async () => {
+    describe('onTrackContextMenu', () => {
+        it('should open the track context menu', () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
             const event: any = {};
 
             // Act
-            await component.onTrackContextMenuAsync(event, trackModel1);
+            component.onTrackContextMenu(event, trackModel1);
 
             // Assert
             contextMenuOpenerMock.verify((x) => x.open(component.trackContextMenu, event, trackModel1), Times.once());

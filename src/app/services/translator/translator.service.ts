@@ -25,10 +25,10 @@ export class TranslatorService implements BaseTranslatorService {
 
     public set selectedLanguage(v: Language) {
         this.settings.language = v.code;
-        PromiseUtils.noAwait(this.applyLanguageAsync());
+        PromiseUtils.noAwait(this.applyLanguage());
     }
 
-    public async applyLanguageAsync(): Promise<void> {
+    public async applyLanguage(): Promise<void> {
         await this.translateServiceProxy.use(this.settings.language);
         this.languageChanged.next();
     }

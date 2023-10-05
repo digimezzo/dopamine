@@ -41,7 +41,7 @@ describe('ExternalAlbumArtworkGetter', () => {
 
             externalArtworkPathGetterMock
                 .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
-                .returns(async () => '');
+                .returns(() => Promise.resolve(''));
 
             // Act
             const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
@@ -57,7 +57,7 @@ describe('ExternalAlbumArtworkGetter', () => {
 
             externalArtworkPathGetterMock
                 .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
-                .returns(async () => '  ');
+                .returns(() => Promise.resolve('  '));
 
             // Act
             const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);
@@ -74,11 +74,11 @@ describe('ExternalAlbumArtworkGetter', () => {
 
             externalArtworkPathGetterMock
                 .setup((x) => x.getExternalArtworkPathAsync('/home/MyUser/Music/track.mp3'))
-                .returns(async () => '/home/MyUser/Music/front.png');
+                .returns(() => Promise.resolve('/home/MyUser/Music/front.png'));
 
             imageProcessorMock
                 .setup((x) => x.convertLocalImageToBufferAsync('/home/MyUser/Music/front.png'))
-                .returns(async () => expectedArtwork);
+                .returns(() => Promise.resolve(expectedArtwork));
 
             // Act
             const actualArtwork: Buffer | undefined = await externalAlbumArtworkGetter.getExternalArtworkAsync(metaDataMock.object);

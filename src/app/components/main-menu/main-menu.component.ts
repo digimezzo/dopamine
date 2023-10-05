@@ -15,16 +15,16 @@ export class MainMenuComponent {
 
     public applicationName: string = ProductInformation.applicationName;
 
-    public goToManageCollection(): void {
-        this.navigationService.navigateToManageCollectionAsync();
+    public async goToManageCollectionAsync(): Promise<void> {
+        await this.navigationService.navigateToManageCollectionAsync();
     }
 
-    public goToSettings(): void {
-        this.navigationService.navigateToSettingsAsync();
+    public async goToSettingsAsync(): Promise<void> {
+        await this.navigationService.navigateToSettingsAsync();
     }
 
-    public goToInformation(): void {
-        this.navigationService.navigateToInformationAsync();
+    public async goToInformationAsync(): Promise<void> {
+        await this.navigationService.navigateToInformationAsync();
     }
 
     public async downloadLatestReleaseAsync(): Promise<void> {

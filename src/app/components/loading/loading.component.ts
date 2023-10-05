@@ -32,14 +32,14 @@ export class LoadingComponent implements OnInit {
 
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;
-            this.navigationService.navigateToWelcomeAsync();
+            await this.navigationService.navigateToWelcomeAsync();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
                 await this.fileService.enqueueParameterFilesAsync();
-                this.navigationService.navigateToNowPlayingAsync();
+                await this.navigationService.navigateToNowPlayingAsync();
             } else {
-                this.navigationService.navigateToCollectionAsync();
-                this.initializeAsync();
+                await this.navigationService.navigateToCollectionAsync();
+                await this.initializeAsync();
             }
         }
     }

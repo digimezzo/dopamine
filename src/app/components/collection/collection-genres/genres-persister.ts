@@ -79,7 +79,7 @@ export class GenresPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreOrderFromSettings())) {
-            this.selectedGenreOrder = (GenreOrder as any)[this.getSelectedGenreOrderFromSettings()];
+            this.selectedGenreOrder = GenreOrder[this.getSelectedGenreOrderFromSettings()] as GenreOrder;
         }
     }
 

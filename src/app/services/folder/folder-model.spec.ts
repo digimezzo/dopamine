@@ -14,14 +14,14 @@ describe('FolderModel', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
+        it('should create', () => {
             // Arrange, Act, Assert
             expect(folderModel).toBeDefined();
         });
     });
 
     describe('path', () => {
-        it('should return folder path', async () => {
+        it('should return folder path', () => {
             // Arrange, Act
             const folderPath: string = folderModel.path;
 
@@ -29,7 +29,7 @@ describe('FolderModel', () => {
             expect(folderPath).toEqual(folder.path);
         });
 
-        it('should return folderId', async () => {
+        it('should return folderId', () => {
             // Arrange, Act
             const folderId: number = folderModel.folderId;
 
@@ -38,7 +38,7 @@ describe('FolderModel', () => {
         });
 
         describe('showInCollection', () => {
-            it('should return true when folder showInCollection is 1', async () => {
+            it('should return true when folder showInCollection is 1', () => {
                 // Arrange, Act
                 const showInCollection: boolean = folderModel.showInCollection;
 
@@ -46,7 +46,7 @@ describe('FolderModel', () => {
                 expect(showInCollection).toBeTruthy();
             });
 
-            it('should return false when folder showInCollection is 0', async () => {
+            it('should return false when folder showInCollection is 0', () => {
                 // Arrange
                 folder.showInCollection = 0;
 
@@ -57,7 +57,7 @@ describe('FolderModel', () => {
                 expect(showInCollection).toBeFalsy();
             });
 
-            it('should return false when folder showInCollection is undefined', async () => {
+            it('should return false when folder showInCollection is undefined', () => {
                 // Arrange
                 folder.showInCollection = undefined;
 

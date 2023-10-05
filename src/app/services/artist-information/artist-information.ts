@@ -44,13 +44,13 @@ export class ArtistInformation {
         this._similarArtists.push(new ArtistInformation(this.desktop, name, url, imageUrl, ''));
     }
 
-    public browseToUrl(): void {
+    public async browseToUrlAsync(): Promise<void> {
         if (this.isEmpty) {
             return;
         }
 
         if (this.desktop != undefined) {
-            this.desktop.openLinkAsync(this.url);
+            await this.desktop.openLinkAsync(this.url);
         }
     }
 

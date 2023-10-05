@@ -2,13 +2,13 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { Subscription } from 'rxjs';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
 import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
 import { BaseSearchService } from '../../services/search/base-search.service';
 
 @Component({
@@ -114,14 +114,14 @@ export class NowPlayingComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                await this.setBackgroundsAsync();
+            this.playbackService.playbackStarted$.subscribe(() => {
+                PromiseUtils.noAwait(this.setBackgroundsAsync());
             })
         );
 
         this.subscription.add(
-            this.playbackService.playbackStopped$.subscribe(async () => {
-                await this.setBackgroundsAsync();
+            this.playbackService.playbackStopped$.subscribe(() => {
+                PromiseUtils.noAwait(this.setBackgroundsAsync());
             })
         );
 
@@ -145,8 +145,8 @@ export class NowPlayingComponent implements OnInit {
         this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
     }
 
-    public goBackToCollection(): void {
-        this.navigationService.navigateToCollectionAsync();
+    public async goBackToCollectionAsync(): Promise<void> {
+        await this.navigationService.navigateToCollectionAsync();
     }
 
     private resetTimer(): void {

@@ -16,7 +16,7 @@
             *cdkVirtualFor="let playlistFolder of playlistFolders"
             matRipple
             (contextmenu)="onPlaylistFolderContextMenu($event, playlistFolder)"
-            (mousedown)="setSelectedPlaylistFoldersAsync($event, playlistFolder)"
+            (mousedown)="setSelectedPlaylistFolders($event, playlistFolder)"
         >
             <div
                 class="playlist-folder__name no-select ellipsis px-1"

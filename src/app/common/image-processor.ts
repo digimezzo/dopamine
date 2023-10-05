@@ -19,7 +19,8 @@ export class ImageProcessor {
     }
 
     public async convertOnlineImageToBufferAsync(imageUrl: string): Promise<Buffer> {
-        const response: Response = await fetch(imageUrl);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const response: Response = (await fetch(imageUrl)) as Response;
         const imageArrayBuffer: ArrayBuffer = await response.arrayBuffer();
         const imageBuffer: Buffer = Buffer.from(imageArrayBuffer);
 

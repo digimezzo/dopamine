@@ -133,7 +133,7 @@ export class PlaylistService implements BasePlaylistService {
             const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = Collections.groupBy(
                 tracksToRemove,
                 (track: TrackModel) => track.playlistPath
-            ) as Map<string, TrackModel[]>;
+            );
 
             for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
                 const tracksToRemoveForSinglePlaylist: TrackModel[] = tracksToRemoveGroupedByPlaylistPath.get(playlistPath) ?? [];

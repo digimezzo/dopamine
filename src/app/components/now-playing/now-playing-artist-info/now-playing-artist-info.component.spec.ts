@@ -76,14 +76,14 @@ describe('NowPlayingArtistInfoComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should show empty artist information if current track is undefined', () => {
+        it('should show empty artist information if current track is undefined', async () => {
             // Arrange
             const component: NowPlayingArtistInfoComponent = createComponent();
 
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
 
             // Assert
             expect(component.artist.isEmpty).toBeTruthy();
@@ -102,7 +102,7 @@ describe('NowPlayingArtistInfoComponent', () => {
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
             await flushPromises();
 
             // Assert
@@ -131,7 +131,7 @@ describe('NowPlayingArtistInfoComponent', () => {
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel2, false);
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
             await flushPromises();
 
             const artistIsEmptyBeforePlaybackStarted: boolean = component.artist.isEmpty;
@@ -169,7 +169,7 @@ describe('NowPlayingArtistInfoComponent', () => {
             const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel2, false);
 
             // Act
-            component.ngOnInit();
+            await component.ngOnInit();
             await flushPromises();
 
             const artistIsEmptyBeforePlaybackStarted: boolean = component.artist.isEmpty;

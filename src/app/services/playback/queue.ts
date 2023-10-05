@@ -156,7 +156,7 @@ export class Queue {
     }
 
     private shufflePlaybackOrder(): void {
-        this.playbackOrder = this.shuffler.shuffle(this.playbackOrder);
+        this.playbackOrder = this.shuffler.shuffle<number>(this.playbackOrder);
     }
 
     private findPlaybackOrderIndex(track: TrackModel): number {

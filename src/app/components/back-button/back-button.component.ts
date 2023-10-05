@@ -12,8 +12,8 @@ import { BaseNavigationService } from '../../services/navigation/base-navigation
 export class BackButtonComponent {
     public constructor(public navigationService: BaseNavigationService, private indexingService: BaseIndexingService) {}
 
-    public goBackToCollection(): void {
-        this.navigationService.navigateToCollectionAsync();
-        this.indexingService.indexCollectionIfFoldersHaveChangedAsync();
+    public async goBackToCollectionAsync(): Promise<void> {
+        await this.navigationService.navigateToCollectionAsync();
+        await this.indexingService.indexCollectionIfFoldersHaveChangedAsync();
     }
 }

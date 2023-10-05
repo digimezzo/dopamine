@@ -1,6 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LogViewer } from '../../../common/io/log-viewer';
+import { ErrorData } from '../../../services/dialog/error-data';
 
 @Component({
     selector: 'app-error-dialog',
@@ -10,7 +11,7 @@ import { LogViewer } from '../../../common/io/log-viewer';
 })
 export class ErrorDialogComponent {
     public constructor(
-        @Inject(MAT_DIALOG_DATA) public data: any,
+        @Inject(MAT_DIALOG_DATA) public data: ErrorData,
         private dialogRef: MatDialogRef<ErrorDialogComponent>,
         private logViewer: LogViewer
     ) {

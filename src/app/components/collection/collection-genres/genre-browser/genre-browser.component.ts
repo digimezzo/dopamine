@@ -130,7 +130,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.orderGenres();
     }
 
-    public async onGenreContextMenuAsync(event: MouseEvent, genre: GenreModel): Promise<void> {
+    public onGenreContextMenu(event: MouseEvent, genre: GenreModel): void {
         this.contextMenuOpener.open(this.genreContextMenu, event, genre);
     }
 

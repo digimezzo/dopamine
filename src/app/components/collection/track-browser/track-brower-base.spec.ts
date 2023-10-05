@@ -179,14 +179,14 @@ describe('TrackBrowserBase', () => {
         });
     });
 
-    describe('onTrackContextMenuAsync', () => {
-        it('should open the track context menu', async () => {
+    describe('onTrackContextMenu', () => {
+        it('should open the track context menu', () => {
             // Arrange
             const trackBrowserBase: TrackBrowserBase = create();
             const event: any = {};
 
             // Act
-            await trackBrowserBase.onTrackContextMenuAsync(event, trackModel2);
+            trackBrowserBase.onTrackContextMenu(event, trackModel2);
 
             // Assert
             contextMenuOpenerMock.verify((x) => x.open(trackBrowserBase.trackContextMenu, event, trackModel2), Times.once());

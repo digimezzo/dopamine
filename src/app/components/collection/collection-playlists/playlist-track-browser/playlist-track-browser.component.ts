@@ -144,7 +144,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
     }
 
-    public async dropTrackAsync(event: CdkDragDrop<TrackModel[]>): Promise<void> {
+    public dropTrack(event: CdkDragDrop<TrackModel[]>): void {
         moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
 
         // HACK: required so that the dragged item does not snap back to its original place

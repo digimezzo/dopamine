@@ -28,7 +28,7 @@ export class TrackBrowserBase {
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
-    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
+    public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
         this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 

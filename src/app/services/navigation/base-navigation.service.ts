@@ -7,7 +7,7 @@ export abstract class BaseNavigationService {
     public abstract navigateToSettingsAsync(): Promise<void>;
     public abstract navigateToInformationAsync(): Promise<void>;
     public abstract navigateToWelcomeAsync(): Promise<void>;
-    public abstract navigateToManageCollectionAsync(): void;
-    public abstract navigateToNowPlayingAsync(): void;
+    public abstract navigateToManageCollectionAsync(): Promise<void>;
+    public abstract navigateToNowPlayingAsync(): Promise<void>;
     public abstract showPlaybackQueue(): void;
 }

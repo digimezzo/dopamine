@@ -102,11 +102,11 @@ export class ArtistsPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
-            this.selectedArtistType = (ArtistType as any)[this.getSelectedArtistTypeFromSettings()];
+            this.selectedArtistType = ArtistType[this.getSelectedArtistTypeFromSettings()] as ArtistType;
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistOrderFromSettings())) {
-            this.selectedArtistOrder = (ArtistOrder as any)[this.getSelectedArtistOrderFromSettings()];
+            this.selectedArtistOrder = ArtistOrder[this.getSelectedArtistOrderFromSettings()] as ArtistOrder;
         }
     }
 

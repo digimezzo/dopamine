@@ -55,11 +55,11 @@ describe('FileService', () => {
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 1.mp3'))
-            .returns(async () => new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object)));
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 2.ogg'))
-            .returns(async () => new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object)));
 
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();

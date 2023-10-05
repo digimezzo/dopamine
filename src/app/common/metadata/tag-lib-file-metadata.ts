@@ -48,6 +48,7 @@ export class TagLibFileMetadata implements IFileMetadata {
         tagLibFile.dispose();
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async loadAsync(): Promise<void> {
         const tagLibFile = File.createFromPath(this.path);
 

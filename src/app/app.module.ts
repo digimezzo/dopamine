@@ -51,6 +51,7 @@ import { RemovedTrackRepository } from './common/data/repositories/removed-track
 import { TrackRepository } from './common/data/repositories/track-repository';
 import { DateTime } from './common/date-time';
 import { FileValidator } from './common/file-validator';
+import { GuidFactory } from './common/guid.factory';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
@@ -303,17 +304,23 @@ export const CustomTooltipDefaults: MatTooltipDefaultOptions = {
     touchendHideDelay: 0,
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
     return () =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         new Promise<any>((resolve: any) => {
             const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(undefined));
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             locationInitialized.then(() => {
                 const languageToSet: string = 'en';
                 translate.setDefaultLang(languageToSet);
                 translate.use(languageToSet).subscribe(
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
                     () => {},
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
                     (err) => {},
                     () => {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                         resolve(undefined);
                     }
                 );
@@ -536,6 +543,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TabSelectionGetter,
         LogViewer,
         ArtistInformationFactory,
+        GuidFactory,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

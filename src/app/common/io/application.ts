@@ -10,14 +10,14 @@ export class Application implements BaseApplication {
     private argumentsReceived: Subject<string[]> = new Subject();
 
     public constructor() {
-        ipcRenderer.on('arguments-received', (event, argv) => {
+        ipcRenderer.on('arguments-received', (event, argv: string[] | undefined) => {
             this.argumentsReceived.next(argv);
         });
     }
 
     public argumentsReceived$: Observable<string[]> = this.argumentsReceived.asObservable();
 
-    public getGlobal(name: string): any {
+    public getGlobal(name: string): unknown {
         return remote.getGlobal(name);
     }
 

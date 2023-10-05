@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../common/application/constants';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Strings } from '../../../common/strings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
+import { PlaylistData } from '../../../services/dialog/playlist-data';
 import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 
@@ -13,8 +15,8 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 })
 export class EditPlaylistDialogComponent implements OnInit {
     public constructor(
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: PlaylistData,
+        private dialogRef: MatDialogRef<EditPlaylistDialogComponent, boolean>,
         private playlistService: BasePlaylistService,
         private translatorService: BaseTranslatorService,
         private desktop: BaseDesktop
@@ -42,9 +44,9 @@ export class EditPlaylistDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.dialogRef.afterClosed().subscribe(async (result: any) => {
-            if (result) {
-                await this.updatePlaylistAsync();
+        this.dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
+            if (result != undefined && result) {
+                PromiseUtils.noAwait(this.updatePlaylistAsync());
             }
         });
 

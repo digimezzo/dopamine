@@ -2,6 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
+import { SnackBarData } from '../../services/snack-bar/snack-bar-data';
 
 @Component({
     selector: 'app-snack-bar',
@@ -14,7 +15,7 @@ export class SnackBarComponent {
     public constructor(
         private snackBarService: BaseSnackBarService,
         private desktop: BaseDesktop,
-        @Inject(MAT_SNACK_BAR_DATA) public data: any
+        @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData
     ) {}
 
     public async openDataUrlAsync(): Promise<void> {

@@ -8,11 +8,11 @@ export class ApplicationService implements BaseApplicationService {
     private mouseButtonReleased: Subject<void> = new Subject();
 
     public constructor() {
-        fromEvent(window, 'resize').subscribe((event: any) => {
+        fromEvent(window, 'resize').subscribe(() => {
             this.windowSizeChanged.next();
         });
 
-        fromEvent(document, 'mouseup').subscribe((event: any) => {
+        fromEvent(document, 'mouseup').subscribe(() => {
             this.mouseButtonReleased.next();
         });
     }

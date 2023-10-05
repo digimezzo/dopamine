@@ -139,7 +139,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private initialize(): void {
-        this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame');
+        this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame') as boolean;
 
         this._themesDirectoryPath = this.getThemesDirectoryPath();
         this.ensureThemesDirectoryExists();
@@ -419,7 +419,7 @@ export class AppearanceService implements BaseAppearanceService {
             const themeFileContent: string = this.fileAccess.getFileContentAsString(themeFile);
 
             try {
-                const theme: Theme = JSON.parse(themeFileContent);
+                const theme: Theme = JSON.parse(themeFileContent) as Theme;
                 themes.push(theme);
             } catch (e: unknown) {
                 this.logger.error(e, 'Could not parse theme file', 'AppearanceService', 'getThemesFromThemesDirectory');

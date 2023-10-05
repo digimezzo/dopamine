@@ -23,7 +23,7 @@
                 [track]="track"
                 canShowHeader="true"
                 (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrack(this.orderedTracks, track)"
-                (contextmenu)="onTrackContextMenuAsync($event, track)"
+                (contextmenu)="onTrackContextMenu($event, track)"
             ></app-track>
         </div>
     </cdk-virtual-scroll-viewport>

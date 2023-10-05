@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SensitiveInformation } from '../../application/sensitive-information';

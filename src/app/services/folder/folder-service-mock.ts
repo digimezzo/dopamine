@@ -19,7 +19,7 @@ export class FolderServiceMock implements BaseFolderService {
     }
 
     public async getSubfoldersAsync(rootFolder: FolderModel, subfolder: SubfolderModel): Promise<SubfolderModel[]> {
-        return [];
+        return Promise.resolve([]);
     }
 
     public getSubfolderBreadCrumbs(rootFolder: FolderModel, openedSubfolderPath: string): SubfolderModel[] {

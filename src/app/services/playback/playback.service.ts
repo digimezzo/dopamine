@@ -190,7 +190,7 @@ export class PlaybackService implements BasePlaybackService {
         await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
     }
 
-    public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
+    public async addAlbumToQueue(albumToAdd: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.queue.addTracks(orderedTracks);
@@ -254,7 +254,9 @@ export class PlaybackService implements BasePlaybackService {
         this.progressUpdater.pauseUpdatingProgress();
         this.playbackPaused.next();
 
-        this.logger.info(`Pausing '${this.currentTrack?.path}'`, 'PlaybackService', 'pause');
+        if (this.currentTrack != undefined) {
+            this.logger.info(`Pausing '${this.currentTrack.path}'`, 'PlaybackService', 'pause');
+        }
     }
 
     public resume(): void {
@@ -268,7 +270,9 @@ export class PlaybackService implements BasePlaybackService {
         this.progressUpdater.startUpdatingProgress();
         this.playbackResumed.next();
 
-        this.logger.info(`Resuming '${this.currentTrack?.path}'`, 'PlaybackService', 'resume');
+        if (this.currentTrack != undefined) {
+            this.logger.info(`Resuming '${this.currentTrack.path}'`, 'PlaybackService', 'resume');
+        }
     }
 
     public playPrevious(): void {

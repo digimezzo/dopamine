@@ -85,7 +85,7 @@ export abstract class BaseAlbumsPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
-            this.selectedAlbumOrder = (AlbumOrder as any)[this.getSelectedAlbumOrderFromSettings()];
+            this.selectedAlbumOrder = AlbumOrder[this.getSelectedAlbumOrderFromSettings()] as AlbumOrder;
         }
     }
 }

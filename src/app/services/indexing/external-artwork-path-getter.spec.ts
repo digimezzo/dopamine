@@ -34,7 +34,7 @@ describe('ExternalArtworkPathGetter', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
-                .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3']);
+                .returns(() => Promise.resolve(['/home/MyUser/Music/MyMusicFile.mp3']));
 
             // Act
             const externalArtworkPath: string = await externalArtworkPathGetter.getExternalArtworkPathAsync(audioFilePath);
@@ -64,7 +64,7 @@ describe('ExternalArtworkPathGetter', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
-                .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]);
+                .returns(() => Promise.resolve(['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]));
 
             fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/' + artworkFileName)).returns(() => artworkFileName);
 

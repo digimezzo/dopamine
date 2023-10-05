@@ -1,10 +1,10 @@
 export class Collections {
-    public static groupBy(list: any, keyGetter: any): Map<any, any> {
-        const map: Map<any, any> = new Map();
+    public static groupBy<S, T>(list: T[], keyGetter: (T) => S): Map<S, T[]> {
+        const map: Map<S, T[]> = new Map();
 
-        list.forEach((item: any) => {
-            const key: any = keyGetter(item);
-            const collection: any = map.get(key);
+        list.forEach((item: T) => {
+            const key: S = keyGetter(item);
+            const collection: T[] | undefined = map.get(key);
 
             if (collection == undefined) {
                 map.set(key, [item]);

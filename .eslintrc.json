@@ -11,10 +11,21 @@
                 "eslint:recommended",
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates"
-                // "plugin:@typescript-eslint/recommended-requiring-type-checking"
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking"
             ],
             "rules": {
+                "@typescript-eslint/restrict-template-expressions": [
+                    "error",
+                    {
+                        "allowAny": false,
+                        "allowBoolean": true,
+                        "allowNever": false,
+                        "allowNullish": false,
+                        "allowNumber": true,
+                        "allowRegExp": false
+                    }
+                ],
                 "@typescript-eslint/no-non-null-assertion": "off",
                 "@angular-eslint/no-host-metadata-property": "off",
                 "@typescript-eslint/no-inferrable-types": "off",
@@ -40,16 +51,11 @@
             "rules": {}
         },
         {
-            "files": ["*.spec.ts", "*-mock.ts", "*-api.ts"],
+            "files": ["*.spec.ts", "*-mock.ts"],
             "rules": {
                 "@typescript-eslint/no-empty-function": "off",
                 "@typescript-eslint/no-unused-vars": "off",
-                "@typescript-eslint/no-explicit-any": "off"
-            }
-        },
-        {
-            "files": ["*.spec.ts"],
-            "rules": {
+                "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/no-unsafe-return": "off",
                 "@typescript-eslint/no-unsafe-call": "off",
                 "@typescript-eslint/no-unsafe-argument": "off",
@@ -59,17 +65,9 @@
             }
         },
         {
-            "files": ["*-repository.ts"],
+            "files": ["*.html"],
             "rules": {
-                "@typescript-eslint/no-explicit-any": "off"
-            }
-        },
-        {
-            "files": ["main.ts"],
-            "rules": {
-                "@typescript-eslint/no-var-requires": "off",
-                "@typescript-eslint/no-explicit-any": "off",
-                "@typescript-eslint/no-unused-vars": "off"
+                "@angular-eslint/template/eqeqeq": "off"
             }
         }
     ]

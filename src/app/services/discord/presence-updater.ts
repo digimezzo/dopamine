@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Client } from 'discord-rpc';
 import { SensitiveInformation } from '../../common/application/sensitive-information';
@@ -105,7 +109,7 @@ export class PresenceUpdater {
 
     public clearPresence(): void {
         try {
-            if (this.discordClient != undefined && this.discordClient.discordClientIsReady) {
+            if (this.discordClient != undefined && (this.discordClient.discordClientIsReady as boolean)) {
                 this.discordClient.clearActivity();
             }
         } catch (e: unknown) {

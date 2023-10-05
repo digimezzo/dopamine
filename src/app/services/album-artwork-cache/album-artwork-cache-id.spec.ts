@@ -1,10 +1,15 @@
+import { IMock, Mock } from 'typemoq';
+import { GuidFactory } from '../../common/guid.factory';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 
 describe('AlbumArtworkCacheId', () => {
     let albumArtworkCacheId: AlbumArtworkCacheId;
+    let guidFactoryMock: IMock<GuidFactory>;
 
     beforeEach(() => {
-        albumArtworkCacheId = new AlbumArtworkCacheId();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
+
+        albumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
     });
 
     describe('constructor', () => {
@@ -48,7 +53,7 @@ describe('AlbumArtworkCacheId', () => {
             // Arrange
 
             // Act
-            const albumArtworkCacheId2: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const albumArtworkCacheId2: AlbumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
 
             // Assert
             expect(albumArtworkCacheId.id).not.toEqual(albumArtworkCacheId2.id);

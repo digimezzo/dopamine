@@ -3,6 +3,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { Track } from '../../../common/data/entities/track';
 import { DateTime } from '../../../common/date-time';
+import { GuidFactory } from '../../../common/guid.factory';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
@@ -36,6 +37,7 @@ describe('TrackBrowserComponent', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let dateTimeMock: IMock<DateTime>;
+    let guidFactoryMock: IMock<GuidFactory>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
     let playbackStartedMock$: Observable<PlaybackStarted>;
@@ -72,6 +74,7 @@ describe('TrackBrowserComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
         dateTimeMock = Mock.ofType<DateTime>();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
 
         playbackStartedMock = new Subject();
         playbackStartedMock$ = playbackStartedMock.asObservable();
@@ -155,6 +158,7 @@ describe('TrackBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             metadataServiceMock.object,
             playbackIndicationServiceMock.object,
+            guidFactoryMock.object,
             trackOrderingMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,

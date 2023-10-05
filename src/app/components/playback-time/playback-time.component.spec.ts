@@ -6,7 +6,7 @@ describe('PlaybackTimeComponent', () => {
     let component: PlaybackTimeComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
 
-    beforeEach(async () => {
+    beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
 
         component = new PlaybackTimeComponent(playbackServiceMock.object);

@@ -139,8 +139,8 @@ describe('UpdateService', () => {
         });
     });
 
-    describe('downloadLatestReleaseAsync', async () => {
-        it('should download the latest release', () => {
+    describe('downloadLatestReleaseAsync', () => {
+        it('should download the latest release', async () => {
             // Arrange
 
             // Act

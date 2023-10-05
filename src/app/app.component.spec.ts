@@ -125,7 +125,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.once());
+            translatorServiceMock.verify((x) => x.applyLanguage(), Times.once());
         });
 
         it('should update tray context menu', async () => {

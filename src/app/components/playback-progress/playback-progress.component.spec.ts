@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
+import { NativeElementProxy } from '../../common/native-element-proxy';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 import { PlaybackProgressComponent } from './playback-progress.component';
@@ -11,6 +12,7 @@ describe('PlaybackProgressComponent', () => {
     let component: PlaybackProgressComponent;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let mathExtensionsMock: IMock<MathExtensions>;
+    let nativeElementProxyMock: IMock<NativeElementProxy>;
     let loggerMock: IMock<Logger>;
 
     const progressTrackNativeElement: any = { offsetWidth: 500 };
@@ -21,9 +23,15 @@ describe('PlaybackProgressComponent', () => {
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
+        nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         loggerMock = Mock.ofType<Logger>();
         progressTrackElementRef = new ElementRef(progressTrackNativeElement);
-        component = new PlaybackProgressComponent(playbackServiceMock.object, mathExtensionsMock.object, loggerMock.object);
+        component = new PlaybackProgressComponent(
+            playbackServiceMock.object,
+            mathExtensionsMock.object,
+            nativeElementProxyMock.object,
+            loggerMock.object
+        );
 
         component.progressTrack = progressTrackElementRef;
 
@@ -391,11 +399,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.isProgressThumbDown).toBeFalsy();
@@ -407,11 +414,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.showProgressThumb).toBeFalsy();
@@ -423,11 +429,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = true;
             component.isProgressContainerDown = false;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.isProgressDragged).toBeFalsy();
@@ -439,11 +444,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.isProgressDragged).toBeFalsy();
@@ -455,11 +459,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = true;
             component.isProgressContainerDown = true;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.isProgressContainerDown).toBeFalsy();
@@ -471,11 +474,10 @@ describe('PlaybackProgressComponent', () => {
             component.showProgressThumb = true;
             component.isProgressDragged = false;
             component.isProgressContainerDown = true;
-            const mouseEvent: any = { pageX: 0 };
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             expect(component.isProgressContainerDown).toBeFalsy();
@@ -485,11 +487,11 @@ describe('PlaybackProgressComponent', () => {
             // Arrange
             component.isProgressDragged = false;
             component.isProgressContainerDown = false;
-            const mouseEvent: any = { pageX: 0 };
+
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
@@ -508,7 +510,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
@@ -527,7 +529,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
@@ -546,7 +548,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => true);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(40 / 500), Times.exactly(1));
@@ -565,7 +567,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
@@ -584,7 +586,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());
@@ -603,7 +605,7 @@ describe('PlaybackProgressComponent', () => {
             playbackServiceMock.setup((x) => x.isPlaying).returns(() => false);
 
             // Act
-            component.onMouseUp(mouseEvent);
+            component.onMouseUp();
 
             // Assert
             playbackServiceMock.verify((x) => x.skipByFractionOfTotalSeconds(It.isAny()), Times.never());

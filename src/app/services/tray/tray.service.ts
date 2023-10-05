@@ -33,7 +33,10 @@ export class TrayService implements BaseTrayService {
     }
 
     public updateTrayContextMenu(): void {
-        const arg: any = { showDopamineLabel: this.translatorService.get('show-dopamine'), exitLabel: this.translatorService.get('exit') };
+        const arg = {
+            showDopamineLabel: this.translatorService.get('show-dopamine'),
+            exitLabel: this.translatorService.get('exit'),
+        };
         this.ipcProxy.sendToMainProcess('update-tray-context-menu', arg);
     }
 

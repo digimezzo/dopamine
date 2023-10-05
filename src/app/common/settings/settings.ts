@@ -4,6 +4,7 @@ import { BaseSettings } from './base-settings';
 
 @Injectable()
 export class Settings implements BaseSettings {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private settings: Store<any> = new Store();
 
     public constructor() {

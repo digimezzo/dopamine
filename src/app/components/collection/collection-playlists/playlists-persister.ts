@@ -100,7 +100,7 @@ export class PlaylistsPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedPlaylistOrderFromSettings())) {
-            this.selectedPlaylistOrder = (PlaylistOrder as any)[this.getSelectedPlaylistOrderFromSettings()];
+            this.selectedPlaylistOrder = PlaylistOrder[this.getSelectedPlaylistOrderFromSettings()] as PlaylistOrder;
         }
     }
 }

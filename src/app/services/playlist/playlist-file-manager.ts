@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
+import { GuidFactory } from '../../common/guid.factory';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
@@ -17,6 +17,7 @@ export class PlaylistFileManager {
 
     public constructor(
         private playlistModelFactory: PlaylistModelFactory,
+        private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
         private fileAccess: BaseFileAccess,
         private logger: Logger
@@ -116,7 +117,7 @@ export class PlaylistFileManager {
     private createPlaylistImage(playlistPath: string, selectedImagePath: string): void {
         const playlistImageExtension: string = this.fileAccess.getFileExtension(selectedImagePath).toLowerCase();
         const playlistPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(playlistPath);
-        const newPlaylistImagePath: string = `${playlistPathWithoutExtension}-${uuidv4()}-${playlistImageExtension}`;
+        const newPlaylistImagePath: string = `${playlistPathWithoutExtension}-${this.guidFactory.create()}-${playlistImageExtension}`;
         this.fileAccess.copyFile(selectedImagePath, newPlaylistImagePath);
     }
 }

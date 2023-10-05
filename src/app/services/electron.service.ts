@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Injectable } from '@angular/core';
 import * as childProcess from 'child_process';
 // If you import a module but never use any of the imported values other than as TypeScript types,

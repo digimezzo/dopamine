@@ -28,11 +28,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToLoading', () => {
-        it('should navigate to loading', () => {
+        it('should navigate to loading', async () => {
             // Arrange
 
             // Act
-            service.navigateToLoadingAsync();
+            await service.navigateToLoadingAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/loading']), Times.exactly(1));
@@ -40,21 +40,21 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToCollection', () => {
-        it('should navigate to collection', () => {
+        it('should navigate to collection', async () => {
             // Arrange
 
             // Act
-            service.navigateToCollection();
+            await service.navigateToCollectionAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/collection']), Times.exactly(1));
         });
 
-        it('should apply margins with search box', () => {
+        it('should apply margins with search box', async () => {
             // Arrange
 
             // Act
-            service.navigateToCollection();
+            await service.navigateToCollectionAsync();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyMargins(true), Times.exactly(1));
@@ -62,21 +62,21 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToSettings', () => {
-        it('should navigate to settings', () => {
+        it('should navigate to settings', async () => {
             // Arrange
 
             // Act
-            service.navigateToSettings();
+            await service.navigateToSettingsAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/settings']), Times.exactly(1));
         });
 
-        it('should apply margins without search box', () => {
+        it('should apply margins without search box', async () => {
             // Arrange
 
             // Act
-            service.navigateToSettings();
+            await service.navigateToSettingsAsync();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyMargins(false), Times.exactly(1));
@@ -84,21 +84,21 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToInformation', () => {
-        it('should navigate to information', () => {
+        it('should navigate to information', async () => {
             // Arrange
 
             // Act
-            service.navigateToInformation();
+            await service.navigateToInformationAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/information']), Times.exactly(1));
         });
 
-        it('should apply margins without search box', () => {
+        it('should apply margins without search box', async () => {
             // Arrange
 
             // Act
-            service.navigateToInformation();
+            await service.navigateToInformationAsync();
 
             // Assert
             appearanceServiceMock.verify((x) => x.applyMargins(false), Times.exactly(1));
@@ -106,11 +106,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToWelcome', () => {
-        it('should navigate to welcome', () => {
+        it('should navigate to welcome', async () => {
             // Arrange
 
             // Act
-            service.navigateToWelcome();
+            await service.navigateToWelcomeAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/welcome']), Times.exactly(1));
@@ -118,11 +118,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToManageCollection', () => {
-        it('should navigate to manage collection', () => {
+        it('should navigate to manage collection', async () => {
             // Arrange
 
             // Act
-            service.navigateToManageCollectionAsync();
+            await service.navigateToManageCollectionAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/managecollection']), Times.exactly(1));

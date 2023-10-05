@@ -161,11 +161,11 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
-                .returns(async () => createArtistWithGermanBiography());
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
@@ -186,11 +186,11 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
-                .returns(async () => createArtistWithGermanBiography());
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
@@ -211,14 +211,14 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
-                .returns(async () => createArtistWithoutBiography());
+                .returns(() => Promise.resolve(createArtistWithoutBiography()));
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
-                .returns(async () => createArtistWithEnglishBiography());
+                .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
@@ -239,11 +239,11 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'EN');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
-                .returns(async () => createArtistWithEnglishBiography());
+                .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
@@ -264,7 +264,7 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'EN');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
-                .returns(async () => createArtistWithEnglishBiography());
+                .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
@@ -289,14 +289,18 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'EN');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
-                .returns(async () => createArtistWithEnglishBiography());
+                .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
-            lastfmApiMock.setup((x) => x.getArtistInfoAsync('Olivia Rodrigo', true, 'EN')).returns(async () => createOliviaRodrigoArtist());
-            lastfmApiMock.setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN')).returns(async () => createGracieAbramsArtist());
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Olivia Rodrigo', true, 'EN'))
+                .returns(() => Promise.resolve(createOliviaRodrigoArtist()));
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN'))
+                .returns(() => Promise.resolve(createGracieAbramsArtist()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
@@ -319,14 +323,16 @@ describe('ArtistInformationService', () => {
             translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'EN');
             lastfmApiMock
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
-                .returns(async () => createArtistWithEnglishBiography());
+                .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
             lastfmApiMock.setup((x) => x.getArtistInfoAsync('Olivia Rodrigo', true, 'EN')).throws(new Error('An error occurred'));
-            lastfmApiMock.setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN')).returns(async () => createGracieAbramsArtist());
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN'))
+                .returns(() => Promise.resolve(createGracieAbramsArtist()));
 
             fanartApiMock
                 .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
-                .returns(async () => 'TaylorSwiftImageUrl');
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))

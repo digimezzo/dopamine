@@ -183,8 +183,8 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.selectedSubfolder = subfolder;
     }
 
-    public goToManageCollection(): void {
-        this.navigationService.navigateToManageCollectionAsync();
+    public async goToManageCollectionAsync(): Promise<void> {
+        await this.navigationService.navigateToManageCollectionAsync();
     }
 
     private async processListsAsync(): Promise<void> {

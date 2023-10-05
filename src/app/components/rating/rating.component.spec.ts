@@ -32,7 +32,7 @@ describe('RatingComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
 
-        translatorServiceMock.setup((x) => x.getAsync('save-rating-error')).returns(async () => 'save-rating-error');
+        translatorServiceMock.setup((x) => x.getAsync('save-rating-error')).returns(() => Promise.resolve('save-rating-error'));
     });
 
     describe('constructor', () => {

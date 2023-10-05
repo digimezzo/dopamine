@@ -162,11 +162,11 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     }
 
     public async onEditPlaylistAsync(playlist: PlaylistModel): Promise<void> {
-        this.dialogService.showEditPlaylistDialogAsync(playlist);
+        await this.dialogService.showEditPlaylistDialogAsync(playlist);
     }
 
     public async createPlaylistAsync(): Promise<void> {
-        this.dialogService.showCreatePlaylistDialogAsync();
+        await this.dialogService.showCreatePlaylistDialogAsync();
     }
 
     public async onAddToQueueAsync(playlist: PlaylistModel): Promise<void> {

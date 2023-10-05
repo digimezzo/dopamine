@@ -2026,7 +2026,7 @@ describe('PlaybackService', () => {
             // Arrange
 
             // Act
-            await service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey]), Times.exactly(1));
@@ -2036,7 +2036,7 @@ describe('PlaybackService', () => {
             // Arrange
 
             // Act
-            await service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
@@ -2046,7 +2046,7 @@ describe('PlaybackService', () => {
             // Arrange
 
             // Act
-            await service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));

@@ -29,7 +29,7 @@ export class CollectionChecker {
             collectionIsOutdated = tracksNeedIndexing || numberOfTracksHasChanged || lastDateModifiedHasChanged;
 
             this.logger.info(
-                `collectionIsOutdated=${collectionIsOutdated.toString()}, tracksNeedIndexing=${tracksNeedIndexing.toString()}, numberOfTracksHasChanged=${numberOfTracksHasChanged.toString()}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged.toString()}`,
+                `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );
