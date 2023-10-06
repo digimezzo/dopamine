@@ -91,11 +91,11 @@ describe('AboutComponent', () => {
     });
 
     describe('browseToDonateLink', () => {
-        it('should open the donate link in the default browser', () => {
+        it('should open the donate link in the default browser', async () => {
             // Arrange
 
             // Act
-            component.browseToDonateLink();
+            await component.browseToDonateLinkAsync();
 
             // Assert
             desktopMock.verify((x) => x.openLinkAsync(ContactInformation.donateUrl), Times.exactly(1));

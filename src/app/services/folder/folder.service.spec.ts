@@ -241,7 +241,7 @@ describe('FolderService', () => {
             // Arrange
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(undefined, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(undefined, undefined);
 
             // Assert
             expect(subfolders.length).toEqual(0);
@@ -254,7 +254,7 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.pathExists(rootFolderPath)).returns(() => false);
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
 
             // Assert
             expect(subfolders.length).toEqual(0);
@@ -271,7 +271,7 @@ describe('FolderService', () => {
                 .returns(() => Promise.resolve(rootFolderDirectories));
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, undefined);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, undefined);
 
             // Assert
             expect(subfolders.length).toEqual(3);
@@ -289,7 +289,7 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.pathExists(subfolderPath)).returns(() => false);
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             expect(subfolders.length).toEqual(0);
@@ -306,7 +306,7 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(() => Promise.resolve(subDirectories));
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             expect(subfolders.length).toEqual(3);
@@ -326,7 +326,7 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.getDirectoriesInDirectoryAsync(subfolderPath)).returns(() => Promise.resolve(subDirectories));
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             expect(subfolders.length).toEqual(4);
@@ -351,7 +351,7 @@ describe('FolderService', () => {
                 .returns(() => Promise.resolve(subDirectories));
 
             // Act
-            const subfolders: SubfolderModel[] = await service.getSubfolders(rootFolder, subfolder);
+            const subfolders: SubfolderModel[] = await service.getSubfoldersAsync(rootFolder, subfolder);
 
             // Assert
             expect(subfolders.length).toEqual(4);

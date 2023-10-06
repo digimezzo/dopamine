@@ -48,11 +48,11 @@ describe('MainMenuComponent', () => {
     });
 
     describe('goToManageCollection', () => {
-        it('should navigate to manage collection', () => {
+        it('should navigate to manage collection', async () => {
             // Arrange
 
             // Act
-            component.goToManageCollection();
+            await component.goToManageCollectionAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToManageCollectionAsync(), Times.exactly(1));
@@ -60,11 +60,11 @@ describe('MainMenuComponent', () => {
     });
 
     describe('goToSettings', () => {
-        it('should navigate to settings', () => {
+        it('should navigate to settings', async () => {
             // Arrange
 
             // Act
-            component.goToSettings();
+            await component.goToSettingsAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToSettingsAsync(), Times.exactly(1));
@@ -72,11 +72,11 @@ describe('MainMenuComponent', () => {
     });
 
     describe('goToInformation', () => {
-        it('should navigate to information', () => {
+        it('should navigate to information', async () => {
             // Arrange
 
             // Act
-            component.goToInformation();
+            await component.goToInformationAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToInformationAsync(), Times.exactly(1));
@@ -84,11 +84,11 @@ describe('MainMenuComponent', () => {
     });
 
     describe('downloadLatestRelease', () => {
-        it('should download the latest release', () => {
+        it('should download the latest release', async () => {
             // Arrange
 
             // Act
-            component.downloadLatestRelease();
+            await component.downloadLatestReleaseAsync();
 
             // Assert
             updateServiceMock.verify((x) => x.downloadLatestReleaseAsync(), Times.exactly(1));

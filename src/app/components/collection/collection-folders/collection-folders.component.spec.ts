@@ -1,3 +1,4 @@
+import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
@@ -346,7 +347,7 @@ describe('CollectionFoldersComponent', () => {
             const component: CollectionFoldersComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [40, 60] });
+            component.splitDragEnd({ sizes: [40, 60] } as IOutputData);
 
             // Assert
             expect(settingsStub.foldersLeftPaneWidthPercent).toEqual(40);
@@ -845,12 +846,12 @@ describe('CollectionFoldersComponent', () => {
     });
 
     describe('goToManageCollection', () => {
-        it('should navigate to manage collection', () => {
+        it('should navigate to manage collection', async () => {
             // Arrange
             const component: CollectionFoldersComponent = createComponent();
 
             // Act
-            component.goToManageCollection();
+            await component.goToManageCollectionAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToManageCollectionAsync(), Times.exactly(1));

@@ -16,7 +16,7 @@ export class CollectionPlaybackPaneComponent {
         this.navigationService.showPlaybackQueue();
     }
 
-    public showNowPlaying(): void {
-        this.navigationService.navigateToNowPlayingAsync();
+    public async showNowPlayingAsync(): Promise<void> {
+        await this.navigationService.navigateToNowPlayingAsync();
     }
 }

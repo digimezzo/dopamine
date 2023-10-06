@@ -162,7 +162,7 @@ export class AppearanceService implements BaseAppearanceService {
     private applyFontSize(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
         element.style.setProperty('--fontsize-normal', `${this._selectedFontSize.normalSize}px`);
-        element.style.setProperty('--fontsize-medium', `${this._selectedFontSize.mediumSize}'px`);
+        element.style.setProperty('--fontsize-medium', `${this._selectedFontSize.mediumSize}px`);
         element.style.setProperty('--fontsize-large', `${this._selectedFontSize.largeSize}px`);
         element.style.setProperty('--fontsize-extra-large', `${this._selectedFontSize.extraLargeSize}px`);
         element.style.setProperty('--fontsize-mega', `${this._selectedFontSize.megaSize}px`);

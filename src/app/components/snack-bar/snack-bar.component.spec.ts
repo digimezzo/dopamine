@@ -34,11 +34,11 @@ describe('SnackBarComponent', () => {
     });
 
     describe('openDataUrl', () => {
-        it('should open data url link', () => {
+        it('should open data url link', async () => {
             // Arrange
 
             // Act
-            component.openDataUrl();
+            await component.openDataUrlAsync();
 
             // Assert
             desktopMock.verify((x) => x.openLinkAsync('My url'), Times.exactly(1));
@@ -46,14 +46,14 @@ describe('SnackBarComponent', () => {
     });
 
     describe('dismissAsync', () => {
-        it('should dismiss snack bar', async () => {
+        it('should dismiss snack bar', () => {
             // Arrange
 
             // Act
-            await component.dismissAsync();
+            component.dismiss();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.dismissAsync(), Times.exactly(1));
+            snackBarServiceMock.verify((x) => x.dismiss(), Times.exactly(1));
         });
     });
 });

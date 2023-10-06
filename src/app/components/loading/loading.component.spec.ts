@@ -67,7 +67,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            databaseMigratorMock.verify((x) => x.migrateAsync(), Times.exactly(1));
+            databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
         });
 
         it('should perform database migrations if welcome should not be shown', async () => {
@@ -82,7 +82,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            databaseMigratorMock.verify((x) => x.migrateAsync(), Times.exactly(1));
+            databaseMigratorMock.verify((x) => x.migrate(), Times.exactly(1));
         });
 
         it('should navigate to welcome if welcome should be shown', async () => {
@@ -97,7 +97,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToWelcome(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToWelcomeAsync(), Times.exactly(1));
         });
 
         it('should prevent showing the welcome screen on a next start if welcome should be shown', async () => {
@@ -127,7 +127,7 @@ describe('LoadingComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
 
         it('should navigate to now playing if welcome should not be shown and there are playable files as parameters', async () => {

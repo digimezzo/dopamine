@@ -28,21 +28,21 @@ describe('BackButtonComponent', () => {
     });
 
     describe('goBackToCollection', () => {
-        it('should navigate to collection', () => {
+        it('should navigate to collection', async () => {
             // Arrange
 
             // Act
-            component.goBackToCollection();
+            await component.goBackToCollectionAsync();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
 
-        it('should index collection if folders have changed', () => {
+        it('should index collection if folders have changed', async () => {
             // Arrange
 
             // Act
-            component.goBackToCollection();
+            await component.goBackToCollectionAsync();
 
             // Assert
             indexingServiceMock.verify((x) => x.indexCollectionIfFoldersHaveChangedAsync(), Times.exactly(1));

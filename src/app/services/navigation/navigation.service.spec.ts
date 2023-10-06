@@ -130,11 +130,11 @@ describe('NavigationService', () => {
     });
 
     describe('navigateToNowPlaying', () => {
-        it('should navigate to now playing', () => {
+        it('should navigate to now playing', async () => {
             // Arrange
 
             // Act
-            service.navigateToNowPlayingAsync();
+            await service.navigateToNowPlayingAsync();
 
             // Assert
             routerMock.verify((x) => x.navigate(['/nowplaying']), Times.exactly(1));

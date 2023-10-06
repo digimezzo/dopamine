@@ -88,11 +88,11 @@ describe('WelcomeComponent', () => {
     });
 
     describe('finish', () => {
-        it('should navigate to loading component', () => {
+        it('should navigate to loading component', async () => {
             // Arrange
 
             // Act
-            component.finish();
+            await component.finishAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.exactly(1));

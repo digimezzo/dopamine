@@ -47,11 +47,11 @@ describe('CollectionPlaybackPaneComponent', () => {
     });
 
     describe('showNowPlaying', () => {
-        it('should request to show now playing', () => {
+        it('should request to show now playing', async () => {
             // Arrange
 
             // Act
-            component.showNowPlaying();
+            await component.showNowPlayingAsync();
 
             // Assert
             navigationServiceMock.verify((x) => x.navigateToNowPlayingAsync(), Times.exactly(1));

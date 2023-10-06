@@ -2,7 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable()
 export class NativeElementProxy {
-    public getElementWidth(element: ElementRef | undefined): number {
+    public getElementWidth(element: ElementRef<HTMLElement> | undefined): number {
         if (element == undefined) {
             return 0;
         }
@@ -11,9 +11,9 @@ export class NativeElementProxy {
             return 0;
         }
 
-        if (!(element.nativeElement instanceof HTMLElement)) {
-            return 0;
-        }
+        // if (!(element.nativeElement instanceof HTMLElement)) {
+        //     return 0;
+        // }
 
         const htmlElement: HTMLElement = element.nativeElement;
 

@@ -166,15 +166,15 @@ describe('NowPlayingComponent', () => {
     });
 
     describe('goBackToCollection', () => {
-        it('should request to go back to the collection', () => {
+        it('should request to go back to the collection', async () => {
             // Arrange
             const component: NowPlayingComponent = createComponent();
 
             // Act
-            component.goBackToCollection();
+            await component.goBackToCollectionAsync();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToCollection(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToCollectionAsync(), Times.exactly(1));
         });
     });
 

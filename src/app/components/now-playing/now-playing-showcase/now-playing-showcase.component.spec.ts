@@ -73,11 +73,10 @@ describe('NowPlayingShowcaseComponent', () => {
     describe('onResize', () => {
         it('should set the now playing sizes in relation to window height', () => {
             // Arrange
-            const event: any = {};
             const component: NowPlayingShowcaseComponent = createComponent();
 
             // Act
-            component.onResize(event);
+            component.onResize();
 
             // Assert
             expect(component.coverArtSize).toEqual(242);
@@ -91,10 +90,9 @@ describe('NowPlayingShowcaseComponent', () => {
             applicationMock.reset();
             applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(550, 600));
             const component: NowPlayingShowcaseComponent = createComponent();
-            const event: any = {};
 
             // Act
-            component.onResize(event);
+            component.onResize();
 
             // Assert
             expect(component.coverArtSize).toEqual(150);
