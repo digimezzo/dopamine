@@ -25,16 +25,6 @@ describe('InputDialogComponent', () => {
     });
 
     describe('hasInputText', () => {
-        it('should return false if inputText is undefined', () => {
-            // Arrange
-            component.data.inputText = undefined;
-
-            // Act
-
-            // Assert
-            expect(component.hasInputText).toBeFalsy();
-        });
-
         it('should return false if inputText is empty', () => {
             // Arrange
             component.data.inputText = '';
@@ -67,17 +57,6 @@ describe('InputDialogComponent', () => {
     });
 
     describe('closeDialog', () => {
-        it('should not close the dialog if inputText is undefined', () => {
-            // Arrange
-            component.data.inputText = undefined;
-
-            // Act
-            component.closeDialog();
-
-            // Assert
-            dialogRefMock.verify((x) => x.close(true), Times.never());
-        });
-
         it('should not close the dialog if inputText is empty', () => {
             // Arrange
             component.data.inputText = '';

@@ -13,7 +13,7 @@ import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 
 @Directive()
 export class TrackBrowserBase {
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public dialogService: BaseDialogService,
         public addToPlaylistMenu: AddToPlaylistMenu,
@@ -28,16 +28,16 @@ export class TrackBrowserBase {
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
-    public async onTrackContextMenuAsync(event: MouseEvent, track: TrackModel): Promise<void> {
+    public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
         this.contextMenuOpener.open(this.trackContextMenu, event, track);
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
@@ -45,7 +45,7 @@ export class TrackBrowserBase {
     }
 
     public async onDeleteAsync(): Promise<void> {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
 
         let dialogTitle: string = await this.translatorService.getAsync('delete-song');
         let dialogText: string = await this.translatorService.getAsync('confirm-delete-song');
@@ -59,11 +59,12 @@ export class TrackBrowserBase {
 
         if (userHasConfirmed) {
             try {
-                if (!this.collectionService.deleteTracksAsync(tracks)) {
+                if (!(await this.collectionService.deleteTracksAsync(tracks))) {
                     throw new Error('deleteTracksAsync returned false');
                 }
-            } catch (e) {
-                this.logger.error(`Could not delete all files. Error: ${e.message}`, 'TrackBrowserBase', 'onDelete');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete all files', 'TrackBrowserBase', 'onDelete');
+
                 const errorText: string = await this.translatorService.getAsync('delete-songs-error');
                 this.dialogService.showErrorDialog(errorText);
             }

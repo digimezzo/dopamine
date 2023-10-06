@@ -4,7 +4,7 @@ describe('PathValidator', () => {
     describe('isParentPath', () => {
         it('should return false if parentPath is undefined', () => {
             // Arrange
-            const parentPath: string = undefined;
+            const parentPath: string | undefined = undefined;
             const childPath: string = '/home/user/Music/track1.mp3';
 
             const pathValidator: PathValidator = new PathValidator();
@@ -19,7 +19,7 @@ describe('PathValidator', () => {
         it('should return false if childPath is undefined', () => {
             // Arrange
             const parentPath: string = '/home/user/Music';
-            const childPath: string = undefined;
+            const childPath: string | undefined = undefined;
 
             const pathValidator: PathValidator = new PathValidator();
 
@@ -32,8 +32,8 @@ describe('PathValidator', () => {
 
         it('should return false if parentPath and childPath are undefined', () => {
             // Arrange
-            const parentPath: string = undefined;
-            const childPath: string = undefined;
+            const parentPath: string | undefined = undefined;
+            const childPath: string | undefined = undefined;
 
             const pathValidator: PathValidator = new PathValidator();
 

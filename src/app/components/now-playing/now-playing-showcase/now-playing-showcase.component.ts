@@ -10,15 +10,15 @@ import { WindowSize } from '../../../common/io/window-size';
     encapsulation: ViewEncapsulation.None,
 })
 export class NowPlayingShowcaseComponent implements OnInit {
-    constructor(private application: BaseApplication) {}
+    public constructor(private application: BaseApplication) {}
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;
     public playbackInformationLargeFontSize: number = 0;
     public playbackInformationSmallFontSize: number = 0;
 
-    @HostListener('window:resize', ['$event'])
-    public onResize(event: any): void {
+    @HostListener('window:resize')
+    public onResize(): void {
         this.setSizes();
     }
 

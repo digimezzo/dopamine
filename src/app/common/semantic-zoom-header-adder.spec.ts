@@ -1,3 +1,5 @@
+import { IMock, Mock } from 'typemoq';
+import { GuidFactory } from './guid.factory';
 import { SemanticZoomHeaderAdder } from './semantic-zoom-header-adder';
 import { SemanticZoomable } from './semantic-zoomable';
 
@@ -7,6 +9,7 @@ export class SemanticZoomableImplementation extends SemanticZoomable {
 }
 
 describe('SemanticZoomHeaderAdder', () => {
+    let guidFactoryMock: IMock<GuidFactory>;
     let semanticZoomHeaderAdder: SemanticZoomHeaderAdder;
 
     const semanticZoomable1: SemanticZoomable = new SemanticZoomableImplementation();
@@ -19,7 +22,8 @@ describe('SemanticZoomHeaderAdder', () => {
     semanticZoomable4.name = 'Another zoomable 2';
 
     beforeEach(() => {
-        semanticZoomHeaderAdder = new SemanticZoomHeaderAdder();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
+        semanticZoomHeaderAdder = new SemanticZoomHeaderAdder(guidFactoryMock.object);
     });
 
     describe('addZoomHeaders', () => {

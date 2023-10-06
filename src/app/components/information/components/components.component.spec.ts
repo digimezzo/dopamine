@@ -20,7 +20,7 @@ describe('ComponentsComponent', () => {
     });
 
     describe('externalComponents', () => {
-        it('should return a list of external components', async () => {
+        it('should return a list of external components', () => {
             // Arrange
 
             // Act

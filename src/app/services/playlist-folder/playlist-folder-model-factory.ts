@@ -5,7 +5,7 @@ import { PlaylistFolderModel } from './playlist-folder-model';
 
 @Injectable()
 export class PlaylistFolderModelFactory {
-    constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
+    public constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
 
     public create(path: string): PlaylistFolderModel {
         return new PlaylistFolderModel(this.fileAccess.getDirectoryOrFileName(path), path, true);

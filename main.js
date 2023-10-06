@@ -1,5 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 const electron_1 = require("electron");
 const electron_log_1 = require("electron-log");
 const Store = require("electron-store");
@@ -81,7 +91,7 @@ function getTrayIcon() {
 }
 function createMainWindow() {
     // Suppress the default menu
-    electron_1.Menu.setApplicationMenu(undefined);
+    electron_1.Menu.setApplicationMenu(null);
     // Load the previous state with fallback to defaults
     const windowState = windowStateKeeper({
         defaultWidth: 1000,
@@ -260,7 +270,7 @@ try {
     }
 }
 catch (e) {
-    electron_log_1.default.info(`[Main] [] Could not start. Error: ${e.message}`);
+    electron_log_1.default.error(`[Main] [] Could not start. Error: ${e.message}`);
     throw e;
 }
 //# sourceMappingURL=main.js.map

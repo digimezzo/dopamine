@@ -5,19 +5,19 @@
     </div>
 </div>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="goToManageCollection()">
+    <button mat-menu-item (click)="goToManageCollectionAsync()">
         {{ 'manage-collection' | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="goToSettings()">
+    <button mat-menu-item (click)="goToSettingsAsync()">
         {{ 'settings' | translate }}
     </button>
-    <button mat-menu-item (click)="goToInformation()">
+    <button mat-menu-item (click)="goToInformationAsync()">
         {{ 'information' | translate }}
     </button>
     <div *ngIf="this.updateService.isUpdateAvailable">
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="downloadLatestRelease()">
+        <button mat-menu-item (click)="downloadLatestReleaseAsync()">
             <div class="accent-color">{{ 'download' | translate }} {{ this.applicationName }} {{ this.updateService.latestRelease }}</div>
         </button>
     </div>

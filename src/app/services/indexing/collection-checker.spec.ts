@@ -21,7 +21,7 @@ describe('CollectionChecker', () => {
 
         indexablePathFetcherMock
             .setup((x) => x.getIndexablePathsForAllFoldersAsync())
-            .returns(async () => [indexablePath1, indexablePath2]);
+            .returns(() => Promise.resolve([indexablePath1, indexablePath2]));
 
         collectionChecker = new CollectionChecker(indexablePathFetcherMock.object, trackRepositoryMock.object, loggerMock.object);
     });

@@ -41,7 +41,7 @@ describe('PlaybackInformationService', () => {
         track = new Track('Path');
         trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
-        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns(async () => 'imageUrl');
+        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns( () => Promise.resolve('imageUrl'));
     });
 
     describe('constructor', () => {
@@ -78,7 +78,7 @@ describe('PlaybackInformationService', () => {
                 metadataServiceMock.object
             );
 
-            let receivedPlaybackInformation: PlaybackInformation;
+            let receivedPlaybackInformation: PlaybackInformation | undefined;
             const subscription: Subscription = new Subscription();
 
             subscription.add(
@@ -93,8 +93,8 @@ describe('PlaybackInformationService', () => {
 
             // Assert
             expect(receivedPlaybackInformation).toBeDefined();
-            expect(receivedPlaybackInformation.track).toBe(trackModel);
-            expect(receivedPlaybackInformation.imageUrl).toEqual('imageUrl');
+            expect(receivedPlaybackInformation!.track).toBe(trackModel);
+            expect(receivedPlaybackInformation!.imageUrl).toEqual('imageUrl');
         });
 
         it('should subscribe to playbackService.playbackStarted and raise playingNextTrack containing defined playback information when playing a next track', async () => {
@@ -104,7 +104,7 @@ describe('PlaybackInformationService', () => {
                 metadataServiceMock.object
             );
 
-            let receivedPlaybackInformation: PlaybackInformation;
+            let receivedPlaybackInformation: PlaybackInformation | undefined;
             const subscription: Subscription = new Subscription();
 
             subscription.add(
@@ -119,8 +119,8 @@ describe('PlaybackInformationService', () => {
 
             // Assert
             expect(receivedPlaybackInformation).toBeDefined();
-            expect(receivedPlaybackInformation.track).toBe(trackModel);
-            expect(receivedPlaybackInformation.imageUrl).toEqual('imageUrl');
+            expect(receivedPlaybackInformation!.track).toBe(trackModel);
+            expect(receivedPlaybackInformation!.imageUrl).toEqual('imageUrl');
         });
 
         it('should subscribe to playbackService.playbackStopped and raise playingNoTrack containing undefined playback information when playing a no track', async () => {
@@ -130,7 +130,7 @@ describe('PlaybackInformationService', () => {
                 metadataServiceMock.object
             );
 
-            let receivedPlaybackInformation: PlaybackInformation;
+            let receivedPlaybackInformation: PlaybackInformation | undefined;
             const subscription: Subscription = new Subscription();
 
             subscription.add(
@@ -145,8 +145,8 @@ describe('PlaybackInformationService', () => {
 
             // Assert
             expect(receivedPlaybackInformation).toBeDefined();
-            expect(receivedPlaybackInformation.track).toBeUndefined();
-            expect(receivedPlaybackInformation.imageUrl).toEqual('');
+            expect(receivedPlaybackInformation!.track).toBeUndefined();
+            expect(receivedPlaybackInformation!.imageUrl).toEqual('');
         });
     });
 

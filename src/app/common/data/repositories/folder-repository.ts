@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { Folder } from '../entities/folder';
@@ -5,7 +10,7 @@ import { BaseFolderRepository } from './base-folder-repository';
 
 @Injectable()
 export class FolderRepository implements BaseFolderRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolder(folder: Folder): void {
         const database: any = this.databaseFactory.create();
@@ -14,7 +19,7 @@ export class FolderRepository implements BaseFolderRepository {
         statement.run(folder.path, folder.path.toLowerCase());
     }
 
-    public getFolders(): Folder[] {
+    public getFolders(): Folder[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -22,12 +27,12 @@ export class FolderRepository implements BaseFolderRepository {
             FROM Folder;`
         );
 
-        const folders: Folder[] = statement.all();
+        const folders: Folder[] | undefined = statement.all();
 
         return folders;
     }
 
-    public getFolderByPath(folderPath: string): Folder {
+    public getFolderByPath(folderPath: string): Folder | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -36,7 +41,7 @@ export class FolderRepository implements BaseFolderRepository {
             WHERE Path=?;`
         );
 
-        const folder: Folder = statement.get(folderPath);
+        const folder: Folder | undefined = statement.get(folderPath);
 
         return folder;
     }

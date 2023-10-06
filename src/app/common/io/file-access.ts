@@ -15,7 +15,7 @@ export class FileAccess implements BaseFileAccess {
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
-    constructor(private desktop: BaseDesktop, private dateTime: DateTime) {
+    public constructor(private desktop: BaseDesktop, private dateTime: DateTime) {
         this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
         this._musicDirectory = this.desktop.getMusicDirectory();
         this._pathSeparator = path.sep;
@@ -62,13 +62,15 @@ export class FileAccess implements BaseFileAccess {
                 if (fs.lstatSync(possibleFilePath).isFile()) {
                     confirmedFilePaths.push(possibleFilePath);
                 }
-            } catch (e) {
+            } catch (e: unknown) {
                 if (continueOnError == undefined || !continueOnError) {
                     throw e;
                 }
 
                 if (errors != undefined) {
-                    errors.push(e);
+                    if (e instanceof Error) {
+                        errors.push(e);
+                    }
                 }
             }
         }
@@ -87,13 +89,15 @@ export class FileAccess implements BaseFileAccess {
                 if (fs.lstatSync(possibleFilePath).isFile()) {
                     confirmedFilePaths.push(possibleFilePath);
                 }
-            } catch (e) {
+            } catch (e: unknown) {
                 if (continueOnError == undefined || !continueOnError) {
                     throw e;
                 }
 
                 if (errors != undefined) {
-                    errors.push(e);
+                    if (e instanceof Error) {
+                        errors.push(e);
+                    }
                 }
             }
         }
@@ -112,13 +116,15 @@ export class FileAccess implements BaseFileAccess {
                 if (fs.lstatSync(possibleDirectoryPath).isDirectory()) {
                     confirmedDirectoryPaths.push(possibleDirectoryPath);
                 }
-            } catch (e) {
+            } catch (e: unknown) {
                 if (continueOnError == undefined || !continueOnError) {
                     throw e;
                 }
 
                 if (errors != undefined) {
-                    errors.push(e);
+                    if (e instanceof Error) {
+                        errors.push(e);
+                    }
                 }
             }
         }

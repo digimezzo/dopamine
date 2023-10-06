@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { FolderTrack } from '../entities/folder-track';
@@ -5,7 +10,7 @@ import { BaseFolderTrackRepository } from './base-folder-track-repository';
 
 @Injectable()
 export class FolderTrackRepository implements BaseFolderTrackRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolderTrack(folderTrack: FolderTrack): void {
         const database: any = this.databaseFactory.create();

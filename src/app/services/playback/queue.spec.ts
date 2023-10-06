@@ -128,7 +128,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(undefined, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(undefined, false);
 
             // Assert
             expect(previousTrack).toBe(track1);
@@ -144,7 +144,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], true);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(undefined, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(undefined, false);
 
             // Assert
             expect(previousTrack).toBe(track2);
@@ -172,7 +172,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track3, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track3, false);
 
             // Assert
             expect(previousTrack).toBe(track1);
@@ -189,7 +189,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], true);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track3, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track3, false);
 
             // Assert
             expect(previousTrack).toBe(track2);
@@ -205,7 +205,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track2, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track2, false);
 
             // Assert
             expect(previousTrack).toBe(track1);
@@ -222,7 +222,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], true);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track3, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track3, false);
 
             // Assert
             expect(previousTrack).toBe(track2);
@@ -238,7 +238,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track1, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track1, false);
 
             // Assert
             expect(previousTrack).toBeUndefined();
@@ -255,7 +255,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], true);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track2, false);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track2, false);
 
             // Assert
             expect(previousTrack).toBeUndefined();
@@ -271,7 +271,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track1, true);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track1, true);
 
             // Assert
             expect(previousTrack).toBe(track3);
@@ -288,7 +288,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const previousTrack: TrackModel = queue.getPreviousTrack(track2, true);
+            const previousTrack: TrackModel | undefined = queue.getPreviousTrack(track2, true);
 
             // Assert
             expect(previousTrack).toBe(track1);
@@ -312,13 +312,12 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
-            const firstTrack: TrackModel = queue.getFirstTrack();
+            const firstTrack: TrackModel | undefined = queue.getFirstTrack();
 
             // Assert
             expect(firstTrack).toBe(track1);
@@ -328,7 +327,6 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             shufflerMock.setup((x) => x.shuffle([0, 1])).returns(() => [1, 0]);
 
@@ -336,7 +334,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], true);
 
             // Act
-            const firstTrack: TrackModel = queue.getFirstTrack();
+            const firstTrack: TrackModel | undefined = queue.getFirstTrack();
 
             // Assert
             expect(firstTrack).toBe(track2);
@@ -360,13 +358,12 @@ describe('Queue', () => {
             // Arrange
             const track1: TrackModel = createTrackModel('/home/user/Music/Track1.mp3');
             const track2: TrackModel = createTrackModel('/home/user/Music/Track2.mp3');
-            const track3: TrackModel = createTrackModel('/home/user/Music/Track3.mp3');
 
             const queue: Queue = createQueue();
             queue.setTracks([track1, track2], false);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(undefined, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(undefined, false);
 
             // Assert
             expect(nextTrack).toBe(track1);
@@ -382,7 +379,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], true);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(undefined, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(undefined, false);
 
             // Assert
             expect(nextTrack).toBe(track2);
@@ -398,7 +395,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], false);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track3, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track3, false);
 
             // Assert
             expect(nextTrack).toBe(track1);
@@ -415,7 +412,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2], true);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track3, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track3, false);
 
             // Assert
             expect(nextTrack).toBe(track2);
@@ -431,7 +428,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track2, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track2, false);
 
             // Assert
             expect(nextTrack).toBe(track3);
@@ -448,7 +445,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], true);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track3, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track3, false);
 
             // Assert
             expect(nextTrack).toBe(track1);
@@ -464,7 +461,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track3, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track3, false);
 
             // Assert
             expect(nextTrack).toBeUndefined();
@@ -481,7 +478,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], true);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track1, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track1, false);
 
             // Assert
             expect(nextTrack).toBeUndefined();
@@ -497,7 +494,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], false);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track3, true);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track3, true);
 
             // Assert
             expect(nextTrack).toBe(track1);
@@ -514,7 +511,7 @@ describe('Queue', () => {
             queue.setTracks([track1, track2, track3], true);
 
             // Act
-            const nextTrack: TrackModel = queue.getNextTrack(track1, true);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track1, true);
 
             // Assert
             expect(nextTrack).toBe(track2);
@@ -533,7 +530,7 @@ describe('Queue', () => {
 
             // Act
             queue.unShuffle();
-            const nextTrack: TrackModel = queue.getNextTrack(track2, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track2, false);
 
             // Assert
             expect(nextTrack).toBe(track3);
@@ -551,7 +548,7 @@ describe('Queue', () => {
 
             // Act
             queue.unShuffle();
-            const nextTrack: TrackModel = queue.getNextTrack(track2, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track2, false);
             // Assert
             expect(nextTrack).toBe(track3);
         });
@@ -570,7 +567,7 @@ describe('Queue', () => {
 
             // Act
             queue.shuffle();
-            const nextTrack: TrackModel = queue.getNextTrack(track2, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track2, false);
 
             // Assert
             expect(nextTrack).toBe(track1);
@@ -588,7 +585,7 @@ describe('Queue', () => {
 
             // Act
             queue.shuffle();
-            const nextTrack: TrackModel = queue.getNextTrack(track2, false);
+            const nextTrack: TrackModel | undefined = queue.getNextTrack(track2, false);
             // Assert
             expect(nextTrack).toBe(track1);
         });

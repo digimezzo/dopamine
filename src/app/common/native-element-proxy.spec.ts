@@ -6,7 +6,7 @@ describe('NativeElementProxy', () => {
         it('should return 0 if element is undefined', () => {
             // Arrange
             const nativeElementProxy: NativeElementProxy = new NativeElementProxy();
-            const element: ElementRef = undefined;
+            const element: ElementRef | undefined = undefined;
 
             // Act
             const elementWidth: number = nativeElementProxy.getElementWidth(element);

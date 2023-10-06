@@ -5,7 +5,7 @@ export class DataDelimiter {
     private static delimiter: string = Constants.columnValueDelimiter;
     private static doubleDelimiter: string = `${DataDelimiter.delimiter}${DataDelimiter.delimiter}`;
 
-    public static toDelimitedString(stringArray: string[]): string {
+    public static toDelimitedString(stringArray: string[] | undefined): string {
         if (stringArray == undefined) {
             return '';
         }
@@ -22,12 +22,12 @@ export class DataDelimiter {
         return delimitedString;
     }
 
-    public static fromDelimitedString(delimitedString: string): string[] {
+    public static fromDelimitedString(delimitedString: string | undefined): string[] {
         if (Strings.isNullOrWhiteSpace(delimitedString)) {
             return [];
         }
 
-        const delimitedStrings: string[] = delimitedString.split(DataDelimiter.delimiter);
+        const delimitedStrings: string[] = delimitedString!.split(DataDelimiter.delimiter);
 
         return delimitedStrings.filter((x) => x !== '').map((x) => this.removeDelimiters(x));
     }

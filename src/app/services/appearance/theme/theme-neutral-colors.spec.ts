@@ -34,8 +34,6 @@ describe('ThemeNeutralColors', () => {
         );
     }
 
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

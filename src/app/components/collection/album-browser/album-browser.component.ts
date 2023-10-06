@@ -27,7 +27,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private _albumsPersister: BaseAlbumsPersister;
     private availableWidthInPixels: number = 0;
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private applicationService: BaseApplicationService,
         private albumRowsGetter: AlbumRowsGetter,
@@ -96,9 +96,9 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public setSelectedAlbums(event: any, albumToSelect: AlbumModel): void {
+    public setSelectedAlbums(event: MouseEvent, albumToSelect: AlbumModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, albumToSelect);
-        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems);
+        this.albumsPersister.setSelectedAlbums(this.mouseSelectionWatcher.selectedItems as AlbumModel[]);
     }
 
     public toggleAlbumOrder(): void {
@@ -156,8 +156,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         try {
             this.albumRows = this.albumRowsGetter.getAlbumRows(this.availableWidthInPixels, this.albums, this.selectedAlbumOrder);
             this.applySelectedAlbums();
-        } catch (e) {
-            this.logger.error(`Could not order albums. Error: ${e.message}`, 'AlbumBrowserComponent', 'orderAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order albums', 'AlbumBrowserComponent', 'orderAlbums');
         }
     }
 
@@ -177,11 +177,11 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         return true;
     }
 
-    public async onAlbumContextMenuAsync(event: MouseEvent, album: AlbumModel): Promise<void> {
+    public onAlbumContextMenu(event: MouseEvent, album: AlbumModel): void {
         this.contextMenuOpener.open(this.albumContextMenu, event, album);
     }
 
-    public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
-        await this.playbackService.addAlbumToQueueAsync(album);
+    public onAddToQueue(album: AlbumModel): void {
+        this.playbackService.addAlbumToQueue(album);
     }
 }

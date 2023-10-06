@@ -5,9 +5,9 @@ import { TrackModels } from '../services/track/track-models';
 
 @Pipe({ name: 'tracksFilter' })
 export class TracksFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
-    public transform(tracks: TrackModels, textToContain: string): TrackModels {
+    public transform(tracks: TrackModels, textToContain: string | undefined): TrackModels {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
             return tracks;
         }
@@ -15,15 +15,15 @@ export class TracksFilterPipe implements PipeTransform {
         const filteredTracks: TrackModels = new TrackModels();
 
         for (const track of tracks.tracks) {
-            if (this.searchService.matchesSearchText(track.title, textToContain)) {
+            if (this.searchService.matchesSearchText(track.title, textToContain!)) {
                 filteredTracks.addTrack(track);
-            } else if (this.searchService.matchesSearchText(track.albumArtists, textToContain)) {
+            } else if (this.searchService.matchesSearchText(track.albumArtists, textToContain!)) {
                 filteredTracks.addTrack(track);
-            } else if (this.searchService.matchesSearchText(track.artists, textToContain)) {
+            } else if (this.searchService.matchesSearchText(track.artists, textToContain!)) {
                 filteredTracks.addTrack(track);
-            } else if (this.searchService.matchesSearchText(track.fileName, textToContain)) {
+            } else if (this.searchService.matchesSearchText(track.fileName, textToContain!)) {
                 filteredTracks.addTrack(track);
-            } else if (this.searchService.matchesSearchText(track.year.toString(), textToContain)) {
+            } else if (this.searchService.matchesSearchText(track.year.toString(), textToContain!)) {
                 filteredTracks.addTrack(track);
             }
         }

@@ -1,4 +1,3 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../../common/application/constants';
@@ -20,17 +19,17 @@ import { GenreOrder } from './genre-order';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
-    private _scrollToIndexBehavior: ScrollBehavior = undefined;
+    private _scrollToIndexBehavior: ScrollBehavior | undefined;
 
-    public get scrollToIndexIndex() : number {
+    public get scrollToIndexIndex(): number {
         return this._scrollToIndexIndex;
     }
 
-    public get scrollToIndexbehavior() : string {
+    public get scrollToIndexbehavior(): ScrollBehavior | undefined {
         return this._scrollToIndexBehavior;
     }
 
-    public scrollToIndex(index: number, behavior?: ScrollBehavior): void{
+    public scrollToIndex(index: number, behavior?: ScrollBehavior): void {
         this._scrollToIndexIndex = index;
         this._scrollToIndexBehavior = behavior;
     }
@@ -239,7 +238,7 @@ describe('GenreBrowserComponent', () => {
             expect(component.shouldZoomOut).toBeTruthy();
         });
 
-        it('should scroll to zoom header when zoom in is requested', async() => {
+        it('should scroll to zoom header when zoom in is requested', async () => {
             // Arrange
             const component: GenreBrowserComponent = createComponent();
             genre1.isZoomHeader = true;
@@ -257,7 +256,7 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
-            schedulerMock.verify(x => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
+            schedulerMock.verify((x) => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
 
             expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
@@ -274,7 +273,7 @@ describe('GenreBrowserComponent', () => {
 
             // Assert
             expect(component.shouldZoomOut).toBeFalsy();
-       });
+        });
     });
 
     describe('genres', () => {

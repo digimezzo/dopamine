@@ -32,8 +32,8 @@ describe('AddFolderComponent', () => {
         settingsStub = { showAllFoldersInCollection: false };
         settingsMock = Mock.ofType<BaseSettings>();
 
-        translatorServiceMock.setup((x) => x.getAsync('select-folder')).returns(async () => 'Select a folder');
-        translatorServiceMock.setup((x) => x.getAsync('delete-folder-error')).returns(async () => 'Error while deleting folder');
+        translatorServiceMock.setup((x) => x.getAsync('select-folder')).returns(() => Promise.resolve('Select a folder'));
+        translatorServiceMock.setup((x) => x.getAsync('delete-folder-error')).returns(() => Promise.resolve('Error while deleting folder'));
 
         component = new AddFolderComponent(
             desktopMock.object,
@@ -118,7 +118,7 @@ describe('AddFolderComponent', () => {
 
         it('should add a folder with the selected path to the database if the path is not empty', async () => {
             // Arrange
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/me/Music');
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve('/home/me/Music'));
 
             // Act
             await component.addFolderAsync();
@@ -129,7 +129,7 @@ describe('AddFolderComponent', () => {
 
         it('should not add a folder with the selected path to the database if the path is empty', async () => {
             // Arrange
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '');
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve(''));
 
             // Act
             await component.addFolderAsync();
@@ -140,7 +140,7 @@ describe('AddFolderComponent', () => {
 
         it('should get all folders from the database if adding a folder succeeds', async () => {
             // Arrange
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve('/home/user/music'));
 
             // Act
             await component.addFolderAsync();
@@ -151,7 +151,7 @@ describe('AddFolderComponent', () => {
 
         it('should not get all folders from the database if adding a folder fails', async () => {
             // Arrange
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve('/home/user/music'));
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
@@ -163,7 +163,7 @@ describe('AddFolderComponent', () => {
 
         it('should get the translation for the error dialog if adding a folder fails', async () => {
             // Arrange
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve('/home/user/music'));
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
@@ -175,8 +175,8 @@ describe('AddFolderComponent', () => {
 
         it('should show an error dialog if adding a folder fails', async () => {
             // Arrange
-            translatorServiceMock.setup((x) => x.getAsync('add-folder-error')).returns(async () => 'Error while adding folder');
-            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(async () => '/home/user/music');
+            translatorServiceMock.setup((x) => x.getAsync('add-folder-error')).returns(() => Promise.resolve('Error while adding folder'));
+            desktopMock.setup((x) => x.showSelectFolderDialogAsync('Select a folder')).returns(() => Promise.resolve('/home/user/music'));
             folderServiceMock.setup((x) => x.addFolderAsync('/home/user/music')).throws(new Error('An error occurred'));
 
             // Act
@@ -215,10 +215,10 @@ describe('AddFolderComponent', () => {
         it('should get translated text for the delete folder confirmation dialog title', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -230,10 +230,10 @@ describe('AddFolderComponent', () => {
         it('should get translated text for the delete folder confirmation dialog text', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -251,10 +251,10 @@ describe('AddFolderComponent', () => {
         it('should show a confirmation dialog', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -269,14 +269,14 @@ describe('AddFolderComponent', () => {
         it('should delete the folder if the user has confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => true);
+                .returns(() => Promise.resolve(true));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -288,14 +288,14 @@ describe('AddFolderComponent', () => {
         it('should not delete the folder if the user has not confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => false);
+                .returns(() => Promise.resolve(false));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -307,14 +307,14 @@ describe('AddFolderComponent', () => {
         it('should get all folders if the user has confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => true);
+                .returns(() => Promise.resolve(true));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -326,14 +326,14 @@ describe('AddFolderComponent', () => {
         it('should not get all the folders if the user has not confirmed deletion', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => false);
+                .returns(() => Promise.resolve(false));
 
             // Act
             await component.deleteFolderAsync(folderToDelete);
@@ -345,14 +345,14 @@ describe('AddFolderComponent', () => {
         it('should get the translation for the error dialog if deleting a folder fails', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => true);
+                .returns(() => Promise.resolve(true));
 
             folderServiceMock.setup((x) => x.deleteFolder(folderToDelete)).throws(new Error('An error occurred'));
 
@@ -366,14 +366,14 @@ describe('AddFolderComponent', () => {
         it('should show an error dialog if deleting a folder fails', async () => {
             // Arrange
             const folderToDelete: FolderModel = new FolderModel(new Folder('/home/user/Music'));
-            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(async () => 'Delete folder?');
+            translatorServiceMock.setup((x) => x.getAsync('confirm-delete-folder')).returns(() => Promise.resolve('Delete folder?'));
             translatorServiceMock
                 .setup((x) => x.getAsync('confirm-delete-folder-long', { folderPath: folderToDelete.path }))
-                .returns(async () => 'Are you sure you want to delete this folder?');
+                .returns(() => Promise.resolve('Are you sure you want to delete this folder?'));
 
             dialogServiceMock
                 .setup((x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'))
-                .returns(async () => true);
+                .returns(() => Promise.resolve(true));
 
             folderServiceMock.setup((x) => x.deleteFolder(folderToDelete)).throws(new Error('An error occurred'));
 

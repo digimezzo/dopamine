@@ -15,7 +15,7 @@ describe('ExternalArtworkPathGetter', () => {
     });
 
     describe('getExternalArtworkPath', () => {
-        it('should return undefined if audio file path is undefined', async () => {
+        it('should return empty if audio file path is undefined', async () => {
             // Arrange
             fileAccessMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
             fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
@@ -24,23 +24,23 @@ describe('ExternalArtworkPathGetter', () => {
             const externalArtworkPath: string = await externalArtworkPathGetter.getExternalArtworkPathAsync(undefined);
 
             // Assert
-            expect(externalArtworkPath).toBeUndefined();
+            expect(externalArtworkPath).toEqual('');
         });
 
-        it('should return undefined if there is no file that matches an external artwork pattern in the same directory', async () => {
+        it('should return empty if there is no file that matches an external artwork pattern in the same directory', async () => {
             // Arrange
             fileAccessMock.setup((x) => x.getDirectoryPath(audioFilePath)).returns(() => '/home/MyUser/Music');
             fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/MyMusicFile.mp3')).returns(() => 'MyMusicFile.mp3');
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
-                .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3']);
+                .returns(() => Promise.resolve(['/home/MyUser/Music/MyMusicFile.mp3']));
 
             // Act
             const externalArtworkPath: string = await externalArtworkPathGetter.getExternalArtworkPathAsync(audioFilePath);
 
             // Assert
-            expect(externalArtworkPath).toBeUndefined();
+            expect(externalArtworkPath).toEqual('');
         });
 
         async function getExternalArtworkPathAsync(artworkFileName: string): Promise<string> {
@@ -64,7 +64,7 @@ describe('ExternalArtworkPathGetter', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/MyUser/Music'))
-                .returns(async () => ['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]);
+                .returns(() => Promise.resolve(['/home/MyUser/Music/MyMusicFile.mp3', '/home/MyUser/Music/' + artworkFileName]));
 
             fileAccessMock.setup((x) => x.getFileName('/home/MyUser/Music/' + artworkFileName)).returns(() => artworkFileName);
 

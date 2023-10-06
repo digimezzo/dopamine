@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import tinycolor from 'tinycolor2';
 
 /**
  * Palette generation based on: https://github.com/mbitson/mcg
  */
 export class Palette {
-    constructor(private baseHexColor: string) {}
+    public constructor(private baseHexColor: string) {}
 
     public get color50(): string {
         return tinycolor(this.baseHexColor).lighten(52).toHexString().toLowerCase();

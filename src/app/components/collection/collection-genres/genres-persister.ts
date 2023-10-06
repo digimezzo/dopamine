@@ -12,13 +12,13 @@ export class GenresPersister {
     private selectedGenreOrder: GenreOrder;
     private selectedGenresChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
     public selectedGenresChanged$: Observable<string[]> = this.selectedGenresChanged.asObservable();
 
-    public getSelectedGenres(availableGenres: GenreModel[]): GenreModel[] {
+    public getSelectedGenres(availableGenres: GenreModel[] | undefined): GenreModel[] {
         if (availableGenres == undefined) {
             return [];
         }
@@ -29,14 +29,14 @@ export class GenresPersister {
 
         try {
             return availableGenres.filter((x) => this.selectedGenreNames.includes(x.displayName));
-        } catch (e) {
-            this.logger.error(`Could not get selected genres. Error: ${e.message}`, 'GenresPersister', 'getSelectedGenres');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected genres', 'GenresPersister', 'getSelectedGenres');
         }
 
         return [];
     }
 
-    public setSelectedGenres(selectedGenres: GenreModel[]): void {
+    public setSelectedGenres(selectedGenres: GenreModel[] | undefined): void {
         try {
             if (selectedGenres != undefined && selectedGenres.length > 0) {
                 this.selectedGenreNames = selectedGenres.map((x) => x.displayName);
@@ -51,8 +51,8 @@ export class GenresPersister {
             }
 
             this.selectedGenresChanged.next(this.selectedGenreNames);
-        } catch (e) {
-            this.logger.error(`Could not set selected genres. Error: ${e.message}`, 'GenresPersister', 'setSelectedGenres');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected genres', 'GenresPersister', 'setSelectedGenres');
         }
     }
 
@@ -68,8 +68,8 @@ export class GenresPersister {
         try {
             this.selectedGenreOrder = selectedGenreOrder;
             this.saveSelectedGenreOrderToSettings(GenreOrder[selectedGenreOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected genre order. Error: ${e.message}`, 'GenresPersister', 'setSelectedGenreOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected genre order', 'GenresPersister', 'setSelectedGenreOrder');
         }
     }
 
@@ -79,7 +79,7 @@ export class GenresPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreOrderFromSettings())) {
-            this.selectedGenreOrder = (GenreOrder as any)[this.getSelectedGenreOrderFromSettings()];
+            this.selectedGenreOrder = GenreOrder[this.getSelectedGenreOrderFromSettings()] as GenreOrder;
         }
     }
 

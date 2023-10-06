@@ -1,8 +1,6 @@
 import { PlaylistFolderModel } from './playlist-folder-model';
 
 describe('PlaylistFolderModel', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
@@ -76,20 +74,6 @@ describe('PlaylistFolderModel', () => {
     });
 
     describe('isDefault', () => {
-        it('should return true if name is undefined', () => {
-            // Arrange
-            const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel(
-                undefined,
-                '/home/user/Music/Dopamine/Playlists/Folder 1',
-                true
-            );
-
-            // Act
-
-            // Assert
-            expect(playlistFolder.isDefault).toBeTruthy();
-        });
-
         it('should return true if name is empty', () => {
             // Arrange
             const playlistFolder: PlaylistFolderModel = new PlaylistFolderModel('', '/home/user/Music/Dopamine/Playlists/Folder 1', true);

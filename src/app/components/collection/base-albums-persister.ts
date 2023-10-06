@@ -12,7 +12,7 @@ export abstract class BaseAlbumsPersister {
     private selectedAlbumOrder: AlbumOrder;
     private selectedAlbumsChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
@@ -24,18 +24,14 @@ export abstract class BaseAlbumsPersister {
     public abstract saveSelectedAlbumOrderToSettings(selectedAlbumOrderName: string): void;
 
     public getSelectedAlbums(availableAlbums: AlbumModel[]): AlbumModel[] {
-        if (availableAlbums == undefined) {
-            return [];
-        }
-
         if (availableAlbums.length === 0) {
             return [];
         }
 
         try {
             return availableAlbums.filter((x) => this.selectedAlbumKeys.includes(x.albumKey));
-        } catch (e) {
-            this.logger.error(`Could not get selected albums. Error: ${e.message}`, 'BaseAlbumsPersister', 'getSelectedAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected albums', 'BaseAlbumsPersister', 'getSelectedAlbums');
         }
 
         return [];
@@ -43,7 +39,7 @@ export abstract class BaseAlbumsPersister {
 
     public setSelectedAlbums(selectedAlbums: AlbumModel[]): void {
         try {
-            if (selectedAlbums != undefined && selectedAlbums.length > 0) {
+            if (selectedAlbums.length > 0) {
                 this.selectedAlbumKeys = selectedAlbums.map((x) => x.albumKey);
             } else {
                 this.selectedAlbumKeys = [];
@@ -56,8 +52,8 @@ export abstract class BaseAlbumsPersister {
             }
 
             this.selectedAlbumsChanged.next(this.selectedAlbumKeys);
-        } catch (e) {
-            this.logger.error(`Could not set selected albums. Error: ${e.message}`, 'BaseAlbumsPersister', 'setSelectedAlbums');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected albums', 'BaseAlbumsPersister', 'setSelectedAlbums');
         }
     }
 
@@ -78,8 +74,8 @@ export abstract class BaseAlbumsPersister {
         try {
             this.selectedAlbumOrder = selectedAlbumOrder;
             this.saveSelectedAlbumOrderToSettings(AlbumOrder[selectedAlbumOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected album order. Error: ${e.message}`, 'BaseAlbumsPersister', 'setSelectedAlbumOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected album order', 'BaseAlbumsPersister', 'setSelectedAlbumOrder');
         }
     }
 
@@ -89,7 +85,7 @@ export abstract class BaseAlbumsPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
-            this.selectedAlbumOrder = (AlbumOrder as any)[this.getSelectedAlbumOrderFromSettings()];
+            this.selectedAlbumOrder = AlbumOrder[this.getSelectedAlbumOrderFromSettings()] as AlbumOrder;
         }
     }
 }

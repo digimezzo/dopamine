@@ -50,6 +50,9 @@ describe('SemanticZoomService', () => {
 
             // Assert
             expect(zoomOutRequested).toBeTruthy();
+
+            // Cleanup
+            subscription.unsubscribe();
         });
     });
 
@@ -66,6 +69,9 @@ describe('SemanticZoomService', () => {
 
             // Assert
             expect(receivedText).toEqual('l');
+
+            // Cleanup
+            subscription.unsubscribe();
         });
     });
 });

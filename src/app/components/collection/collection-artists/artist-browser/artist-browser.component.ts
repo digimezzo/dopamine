@@ -9,6 +9,7 @@ import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watche
 import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
 import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
@@ -32,7 +33,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
     private _artistsPersister: ArtistsPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private semanticZoomService: BaseSemanticZoomService,
         private applicationService: BaseApplicationService,
@@ -98,7 +99,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.semanticZoomService.zoomInRequested$.subscribe((text: string) => {
-                this.scrollToZoomHeaderAsync(text);
+                PromiseUtils.noAwait(this.scrollToZoomHeaderAsync(text));
             })
         );
 
@@ -109,10 +110,10 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         );
     }
 
-    public setSelectedArtists(event: any, artistToSelect: ArtistModel): void {
+    public setSelectedArtists(event: MouseEvent, artistToSelect: ArtistModel): void {
         if (!artistToSelect.isZoomHeader) {
             this.mouseSelectionWatcher.setSelectedItems(event, artistToSelect);
-            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems);
+            this.artistsPersister.setSelectedArtists(this.mouseSelectionWatcher.selectedItems as ArtistModel[]);
         }
     }
 
@@ -154,7 +155,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         this.orderArtists();
     }
 
-    public async onArtistContextMenuAsync(event: MouseEvent, artist: ArtistModel): Promise<void> {
+    public onArtistContextMenu(event: MouseEvent, artist: ArtistModel): void {
         this.contextMenuOpener.open(this.artistContextMenu, event, artist);
     }
 
@@ -181,8 +182,8 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
 
             this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists);
             this.applySelectedArtists();
-        } catch (e) {
-            this.logger.error(`Could not order artists. Error: ${e.message}`, 'ArtistBrowserComponent', 'orderArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order artists', 'ArtistBrowserComponent', 'orderArtists');
         }
 
         this.orderedArtists = [...orderedArtists];

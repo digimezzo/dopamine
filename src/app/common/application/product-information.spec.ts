@@ -2,7 +2,7 @@ import { ProductInformation } from './product-information';
 
 describe('ProductInformation', () => {
     describe('name', () => {
-        it('should provide application name', async () => {
+        it('should provide application name', () => {
             // Arrange
 
             // Act
@@ -14,7 +14,7 @@ describe('ProductInformation', () => {
     });
 
     describe('version', () => {
-        it('should provide application version', async () => {
+        it('should provide application version', () => {
             // Arrange
 
             // Act
@@ -26,7 +26,7 @@ describe('ProductInformation', () => {
     });
 
     describe('copyright', () => {
-        it('should provide application copyright', async () => {
+        it('should provide application copyright', () => {
             // Arrange
 
             // Act

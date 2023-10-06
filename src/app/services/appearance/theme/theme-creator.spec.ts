@@ -1,8 +1,6 @@
 import { ThemeCreator } from './theme-creator';
 
 describe('ThemeCreator', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { AlbumArtwork } from '../entities/album-artwork';
@@ -5,7 +10,7 @@ import { BaseAlbumArtworkRepository } from './base-album-artwork-repository';
 
 @Injectable()
 export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addAlbumArtwork(albumArtwork: AlbumArtwork): void {
         const database: any = this.databaseFactory.create();
@@ -14,17 +19,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
         statement.run(albumArtwork.albumKey, albumArtwork.artworkId);
     }
 
-    public getArtworkId(albumKey: string): string {
-        const database: any = this.databaseFactory.create();
-
-        const statement = database.prepare('SELECT ArtworkID AS artworkId FROM AlbumArtwork WHERE AlbumKey=?;');
-
-        const result: any = statement.get(albumKey);
-
-        return result?.artworkId;
-    }
-
-    public getAllAlbumArtwork(): AlbumArtwork[] {
+    public getAllAlbumArtwork(): AlbumArtwork[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -32,7 +27,7 @@ export class AlbumArtworkRepository implements BaseAlbumArtworkRepository {
             FROM AlbumArtwork;`
         );
 
-        const albumArtwork: AlbumArtwork[] = statement.all();
+        const albumArtwork: AlbumArtwork[] | undefined = statement.all();
 
         return albumArtwork;
     }

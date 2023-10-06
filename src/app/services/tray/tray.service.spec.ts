@@ -25,8 +25,6 @@ describe('TrayService', () => {
         translatorServiceMock.setup((x) => x.languageChanged$).returns(() => translateServiceProxyLanguageChanged$);
     });
 
-    const flushPromises = () => new Promise(process.nextTick);
-
     function createService(): TrayService {
         return new TrayService(translatorServiceMock.object, settingsMock.object, ipcProxyMock.object);
     }
@@ -50,7 +48,7 @@ describe('TrayService', () => {
             };
 
             // Act
-            const service: TrayService = createService();
+            createService();
 
             // Assert
             ipcProxyMock.verify((x) => x.sendToMainProcess('update-tray-context-menu', arg), Times.once());

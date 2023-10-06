@@ -6,7 +6,11 @@ import { IndexablePathFetcher } from './indexable-path-fetcher';
 
 @Injectable()
 export class CollectionChecker {
-    constructor(private indexablePathFetcher: IndexablePathFetcher, private trackRepository: BaseTrackRepository, private logger: Logger) {}
+    public constructor(
+        private indexablePathFetcher: IndexablePathFetcher,
+        private trackRepository: BaseTrackRepository,
+        private logger: Logger
+    ) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
         let collectionIsOutdated: boolean = false;
@@ -29,9 +33,10 @@ export class CollectionChecker {
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
-                `An error occurred while checking if collection is outdated. Error ${e.message}`,
+                e,
+                'An error occurred while checking if collection is outdated',
                 'CollectionChecker',
                 'isCollectionOutdatedAsync'
             );

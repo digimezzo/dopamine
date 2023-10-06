@@ -4,6 +4,7 @@ import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
@@ -19,7 +20,7 @@ import { CollectionPersister } from '../collection-persister';
 export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         private trackService: BaseTrackService,
         private collectionService: BaseCollectionService,
@@ -37,14 +38,14 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
-            this.collectionService.collectionChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.collectionService.collectionChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
@@ -65,8 +66,8 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         try {
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
-        } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionTracksComponent', 'fillListsAsync');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not fill lists', 'CollectionTracksComponent', 'fillListsAsync');
         }
     }
 

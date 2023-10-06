@@ -12,7 +12,7 @@ import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
 export class PlaylistFolderService implements BasePlaylistFolderService {
     private playlistFoldersChanged: Subject<void> = new Subject();
 
-    constructor(
+    public constructor(
         private playlistService: BasePlaylistService,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private fileAccess: BaseFileAccess,

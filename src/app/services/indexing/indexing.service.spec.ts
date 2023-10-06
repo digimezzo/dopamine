@@ -57,7 +57,7 @@ describe('IndexingService', () => {
     describe('indexCollectionIfOutdatedAsync', () => {
         it('should check if the collection is out of date', async () => {
             // Arrange
-            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
+            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(() => Promise.resolve(true));
 
             // Act
             await service.indexCollectionIfOutdatedAsync();
@@ -68,7 +68,7 @@ describe('IndexingService', () => {
 
         it('should index the tracks if the collection is out of date', async () => {
             // Arrange
-            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
+            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(() => Promise.resolve(true));
 
             // Act
             await service.indexCollectionIfOutdatedAsync();
@@ -79,7 +79,7 @@ describe('IndexingService', () => {
 
         it('should not index the tracks if the collection is not out of date', async () => {
             // Arrange
-            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
+            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(() => Promise.resolve(false));
 
             // Act
             await service.indexCollectionIfOutdatedAsync();
@@ -90,7 +90,7 @@ describe('IndexingService', () => {
 
         it('should index album artwork if the collection is out of date', async () => {
             // Arrange
-            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => true);
+            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(() => Promise.resolve(true));
 
             // Act
             await service.indexCollectionIfOutdatedAsync();
@@ -101,7 +101,7 @@ describe('IndexingService', () => {
 
         it('should index album artwork if the collection is not out of date', async () => {
             // Arrange
-            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(async () => false);
+            collectionCheckerMock.setup((x) => x.isCollectionOutdatedAsync()).returns(() => Promise.resolve(false));
 
             // Act
             await service.indexCollectionIfOutdatedAsync();

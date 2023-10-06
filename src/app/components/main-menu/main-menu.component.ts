@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ProductInformation } from '../../common/application/product-information';
 import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BaseUpdateService } from '../../services/update/base-update.service';
@@ -10,26 +10,24 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     styleUrls: ['./main-menu.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class MainMenuComponent implements OnInit {
-    constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
+export class MainMenuComponent {
+    public constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
 
     public applicationName: string = ProductInformation.applicationName;
 
-    public ngOnInit(): void {}
-
-    public goToManageCollection(): void {
-        this.navigationService.navigateToManageCollection();
+    public async goToManageCollectionAsync(): Promise<void> {
+        await this.navigationService.navigateToManageCollectionAsync();
     }
 
-    public goToSettings(): void {
-        this.navigationService.navigateToSettings();
+    public async goToSettingsAsync(): Promise<void> {
+        await this.navigationService.navigateToSettingsAsync();
     }
 
-    public goToInformation(): void {
-        this.navigationService.navigateToInformation();
+    public async goToInformationAsync(): Promise<void> {
+        await this.navigationService.navigateToInformationAsync();
     }
 
-    public downloadLatestRelease(): void {
-        this.updateService.downloadLatestRelease();
+    public async downloadLatestReleaseAsync(): Promise<void> {
+        await this.updateService.downloadLatestReleaseAsync();
     }
 }

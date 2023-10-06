@@ -1,3 +1,4 @@
+import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
@@ -217,7 +218,7 @@ describe('CollectionAlbumsComponent', () => {
             const component: CollectionAlbumsComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [60, 40] });
+            component.splitDragEnd({ sizes: [60, 40] } as IOutputData);
 
             // Assert
             expect(settingsStub.albumsRightPaneWidthPercent).toEqual(40);
@@ -225,7 +226,7 @@ describe('CollectionAlbumsComponent', () => {
     });
 
     describe('selectedAlbumOrder', () => {
-        it('should return the selected album order', async () => {
+        it('should return the selected album order', () => {
             // Arrange
             const component: CollectionAlbumsComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
@@ -237,7 +238,7 @@ describe('CollectionAlbumsComponent', () => {
             expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should set the selected album order', async () => {
+        it('should set the selected album order', () => {
             // Arrange
             const component: CollectionAlbumsComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -249,7 +250,7 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should persist the selected album order', async () => {
+        it('should persist the selected album order', () => {
             // Arrange
             const component: CollectionAlbumsComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;

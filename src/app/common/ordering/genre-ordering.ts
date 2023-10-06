@@ -3,7 +3,7 @@ import { GenreModel } from '../../services/genre/genre-model';
 
 @Injectable()
 export class GenreOrdering {
-    public getGenresOrderedAscending(genresToOrder: GenreModel[]): GenreModel[] {
+    public getGenresOrderedAscending(genresToOrder: GenreModel[] | undefined): GenreModel[] {
         if (genresToOrder == undefined) {
             return [];
         }
@@ -11,7 +11,7 @@ export class GenreOrdering {
         return genresToOrder.sort((a, b) => (a.sortableName > b.sortableName ? 1 : -1));
     }
 
-    public getGenresOrderedDescending(genresToOrder: GenreModel[]): GenreModel[] {
+    public getGenresOrderedDescending(genresToOrder: GenreModel[] | undefined): GenreModel[] {
         if (genresToOrder == undefined) {
             return [];
         }

@@ -58,7 +58,7 @@
                         *ngIf="!this.folderService.collectionHasFolders"
                     >
                         {{ 'no-folders-in-collection' | translate }}
-                        <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollection()">
+                        <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollectionAsync()">
                             {{ 'add-folder' | translate }}
                         </button>
                     </div>
@@ -86,7 +86,7 @@
                         *cdkVirtualFor="let track of (tracks | tracksFilter: this.searchService.delayedSearchText).tracks"
                         matRipple
                         (mousedown)="setSelectedTrack($event, track)"
-                        (contextmenu)="onTrackContextMenuAsync($event, track)"
+                        (contextmenu)="onTrackContextMenu($event, track)"
                     >
                         <app-track [track]="track" (dblclick)="playbackService.enqueueAndPlayTracks(tracks.tracks, track)"></app-track>
                     </div>

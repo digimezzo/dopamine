@@ -46,7 +46,7 @@ describe('CollectionComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define appearanceService', async () => {
+        it('should define appearanceService', () => {
             // Arrange
 
             // Act
@@ -56,7 +56,7 @@ describe('CollectionComponent', () => {
             expect(component.appearanceService).toBeDefined();
         });
 
-        it('should define settings', async () => {
+        it('should define settings', () => {
             // Arrange
 
             // Act
@@ -68,7 +68,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('artistsTablabel', () => {
-        it('should return Constants.artistsTablabel', async () => {
+        it('should return Constants.artistsTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -80,7 +80,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('genresTablabel', () => {
-        it('should return Constants.genresTablabel', async () => {
+        it('should return Constants.genresTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -92,7 +92,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('albumsTablabel', () => {
-        it('should return Constants.albumsTablabel', async () => {
+        it('should return Constants.albumsTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -104,7 +104,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('tracksTablabel', () => {
-        it('should return Constants.tracksTablabel', async () => {
+        it('should return Constants.tracksTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -116,7 +116,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('playlistsTablabel', () => {
-        it('should return Constants.playlistsTablabel', async () => {
+        it('should return Constants.playlistsTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -128,7 +128,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('foldersTablabel', () => {
-        it('should return Constants.foldersTablabel', async () => {
+        it('should return Constants.foldersTablabel', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -140,7 +140,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('selectedIndex', () => {
-        it('should set selected index and get tab label for selected index and set it as selected tab in collectionPersister', async () => {
+        it('should set selected index and get tab label for selected index and set it as selected tab in collectionPersister', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
 
@@ -154,7 +154,7 @@ describe('CollectionComponent', () => {
     });
 
     describe('ngAfterViewInit', () => {
-        it('should get tab index for tab label and set selected index', async () => {
+        it('should get tab index for tab label and set selected index', () => {
             // Arrange
             const component: CollectionComponent = createComponent();
             tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel('playlists')).returns(() => 4);

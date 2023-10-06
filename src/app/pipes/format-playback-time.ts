@@ -5,9 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Inspired by: https://dev.to/alexparra/js-seconds-to-hh-mm-ss-22o6
  */
 export class FormatPlaybackTimePipe implements PipeTransform {
-    constructor() {}
-
-    public transform(progressSeconds: number): string {
+    public transform(progressSeconds: number | undefined): string {
         if (progressSeconds == undefined || progressSeconds < 0) {
             return '00:00';
         }

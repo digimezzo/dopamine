@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Client } from 'discord-rpc';
 import { SensitiveInformation } from '../../common/application/sensitive-information';
@@ -7,7 +11,7 @@ import { Logger } from '../../common/logger';
 export class PresenceUpdater {
     private discordClient: any;
 
-    constructor(private logger: Logger) {}
+    public constructor(private logger: Logger) {}
 
     public updatePresence(
         details: string,
@@ -20,7 +24,7 @@ export class PresenceUpdater {
         startTime: number,
         endTime: number
     ): void {
-        if (this.discordClient == undefined || !this.discordClient.discordClientIsReady) {
+        if (this.discordClient == undefined || !(<boolean>this.discordClient.discordClientIsReady)) {
             const clientId: string = SensitiveInformation.discordClientId;
             this.discordClient = new Client({ transport: 'ipc' });
             this.discordClient.login({ clientId }).catch(console.error);
@@ -98,18 +102,18 @@ export class PresenceUpdater {
             }
 
             this.logger.info(`Set Discord Rich Presence`, 'DiscordService', 'setPresence');
-        } catch (e) {
-            this.logger.error(`Could not set Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'setPresence');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set Discord Rich Presence', 'DiscordService', 'setPresence');
         }
     }
 
     public clearPresence(): void {
         try {
-            if (this.discordClient != undefined && this.discordClient.discordClientIsReady) {
+            if (this.discordClient != undefined && (this.discordClient.discordClientIsReady as boolean)) {
                 this.discordClient.clearActivity();
             }
-        } catch (e) {
-            this.logger.error(`Could not clear Discord Rich Presence. Error: ${e.message}`, 'DiscordService', 'clearPresence');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not clear Discord Rich Presence', 'DiscordService', 'clearPresence');
         }
     }
 }

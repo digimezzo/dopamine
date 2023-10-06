@@ -117,7 +117,7 @@ describe('AppearanceService', () => {
         );
     }
 
-    function createTheme(name: string, selectedItemText: string): Theme {
+    function createTheme(name: string): Theme {
         const creator: ThemeCreator = new ThemeCreator('My creator', 'my@email.com');
         const coreColors: ThemeCoreColors = new ThemeCoreColors('#fff', '#000', '#ccc');
         const darkColors: ThemeNeutralColors = createDarkColors();
@@ -291,8 +291,8 @@ describe('AppearanceService', () => {
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
 
-        theme1 = createTheme('Theme 1', '');
-        theme2 = createTheme('Theme 2', '#ffffff');
+        theme1 = createTheme('Theme 1');
+        theme2 = createTheme('Theme 2');
 
         resetDefaultThemesCreatorMock();
         resetFileAccessMock();
@@ -351,9 +351,7 @@ describe('AppearanceService', () => {
         });
 
         it('should set the themes directory path', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: BaseAppearanceService = createService();
 
             // Assert
@@ -361,20 +359,16 @@ describe('AppearanceService', () => {
         });
 
         it('should ensure that the themes directory exists', () => {
-            // Arrange
-
-            // Act
-            const service: BaseAppearanceService = createService();
+            // Arrange, Act
+            createService();
 
             // Assert
             fileAccessMock.verify((x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Themes'), Times.once());
         });
 
         it('should ensure that the default themes exist', () => {
-            // Arrange
-
-            // Act
-            const service: BaseAppearanceService = createService();
+            // Arrange, Act
+            createService();
 
             // Assert
             defaultThemesCreatorMock.verify((x) => x.createAllThemes(), Times.once());
@@ -395,10 +389,8 @@ describe('AppearanceService', () => {
         });
 
         it('should get themes from the themes directory', () => {
-            // Arrange
-
-            // Act
-            const service: BaseAppearanceService = createService();
+            // Arrange, Act
+            createService();
 
             // Assert
             fileAccessMock.verify((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'), Times.once());
@@ -435,7 +427,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { theme: 'Theme 2' };
 
             // Act
-            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            createServiceWithSettingsStub(settingsStub);
             desktopAccentColorChangedMock.next();
 
             // Assert
@@ -447,7 +439,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { theme: 'Theme 2' };
 
             // Act
-            const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
+            createServiceWithSettingsStub(settingsStub);
             desktopNativeThemeUpdatedMock.next();
 
             // Assert
@@ -573,7 +565,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.followSystemTheme = true;
@@ -587,7 +579,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -605,7 +597,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -651,7 +643,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.useLightBackgroundTheme = true;
@@ -665,7 +657,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -683,7 +675,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -729,7 +721,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemColor: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
 
             // Act
             service.followSystemColor = true;
@@ -743,7 +735,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -761,7 +753,7 @@ describe('AppearanceService', () => {
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -810,7 +802,7 @@ describe('AppearanceService', () => {
     describe('selectedTheme', () => {
         it('should return the selected theme', () => {
             // Arrange
-            const theme: Theme = createTheme('My theme', '');
+            const theme: Theme = createTheme('My theme');
             const settingsStub: any = { theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
@@ -826,7 +818,7 @@ describe('AppearanceService', () => {
 
         it('should save the theme in the settings', () => {
             // Arrange
-            const theme: Theme = createTheme('My theme', '');
+            const theme: Theme = createTheme('My theme');
             const settingsStub: any = { theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
@@ -840,11 +832,11 @@ describe('AppearanceService', () => {
 
         it('should apply the light theme if using the light theme', () => {
             // Arrange
-            const theme: Theme = createTheme('My theme', '');
+            const theme: Theme = createTheme('My theme');
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: true, theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act
@@ -859,11 +851,11 @@ describe('AppearanceService', () => {
 
         it('should apply the dark theme if using the dark theme', () => {
             // Arrange
-            const theme: Theme = createTheme('My theme', '');
+            const theme: Theme = createTheme('My theme');
             const settingsStub: any = { followSystemTheme: false, useLightBackgroundTheme: false, theme: '' };
 
             const service: BaseAppearanceService = createServiceWithSettingsStub(settingsStub);
-            service.selectedTheme = createTheme('My theme', '');
+            service.selectedTheme = createTheme('My theme');
             resetElements();
 
             // Act

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-logo-small',
@@ -7,8 +7,4 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./logo-small.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class LogoSmallComponent implements OnInit {
-    constructor() {}
-
-    public ngOnInit(): void {}
-}
+export class LogoSmallComponent {}

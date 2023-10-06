@@ -8,7 +8,7 @@ import { TracksColumnsVisibility } from '../../../services/track-columns/tracks-
     styleUrls: ['./edit-columns-dialog.component.scss'],
 })
 export class EditColumnsDialogComponent implements OnInit {
-    constructor(private tracksColumnsService: BaseTracksColumnsService) {}
+    public constructor(private tracksColumnsService: BaseTracksColumnsService) {}
 
     public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 

@@ -8,8 +8,6 @@ export class NowPlayingNavigationService implements BaseNowPlayingNavigationServ
     private navigated: Subject<NowPlayingPage> = new Subject();
     private _currentNowPlayingPage: NowPlayingPage = NowPlayingPage.showcase;
 
-    public constructor() {}
-
     public get currentNowPlayingPage(): NowPlayingPage {
         return this._currentNowPlayingPage;
     }

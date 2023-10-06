@@ -8,7 +8,7 @@ import { TrackUpdater } from './track-updater';
 
 @Injectable()
 export class TrackIndexer {
-    constructor(
+    public constructor(
         private trackRemover: TrackRemover,
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,
@@ -25,9 +25,9 @@ export class TrackIndexer {
         await this.snackBarService.refreshing();
 
         // Remove tracks
-        this.trackRemover.removeTracksThatDoNoNotBelongToFolders();
+        await this.trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
         await this.trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
-        this.trackRemover.removeFolderTracksForInexistingTracks();
+        await this.trackRemover.removeFolderTracksForInexistingTracksAsync();
 
         // Update tracks
         await this.trackUpdater.updateTracksThatAreOutOfDateAsync();

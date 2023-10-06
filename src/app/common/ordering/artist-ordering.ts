@@ -3,7 +3,7 @@ import { ArtistModel } from '../../services/artist/artist-model';
 
 @Injectable()
 export class ArtistOrdering {
-    public getArtistsOrderedAscending(artistsToOrder: ArtistModel[]): ArtistModel[] {
+    public getArtistsOrderedAscending(artistsToOrder: ArtistModel[] | undefined): ArtistModel[] {
         if (artistsToOrder == undefined) {
             return [];
         }
@@ -11,7 +11,7 @@ export class ArtistOrdering {
         return artistsToOrder.sort((a, b) => (a.sortableName > b.sortableName ? 1 : -1));
     }
 
-    public getArtistsOrderedDescending(artistsToOrder: ArtistModel[]): ArtistModel[] {
+    public getArtistsOrderedDescending(artistsToOrder: ArtistModel[] | undefined): ArtistModel[] {
         if (artistsToOrder == undefined) {
             return [];
         }

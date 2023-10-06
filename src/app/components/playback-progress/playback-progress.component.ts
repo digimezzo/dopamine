@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, 
 import { Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
+import { NativeElementProxy } from '../../common/native-element-proxy';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackProgress } from '../../services/playback/playback-progress';
 
@@ -19,7 +20,12 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
     public progressTrack: ElementRef;
     private progressMargin: number = 6;
 
-    constructor(private playbackService: BasePlaybackService, private mathExtensions: MathExtensions, private logger: Logger) {}
+    public constructor(
+        private playbackService: BasePlaybackService,
+        private mathExtensions: MathExtensions,
+        private nativeElementProxy: NativeElementProxy,
+        private logger: Logger
+    ) {}
 
     public showProgressThumb: boolean = false;
     public isProgressThumbDown: boolean = false;
@@ -65,7 +71,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         }
     }
 
-    public progressContainerMouseDown(e: any): void {
+    public progressContainerMouseDown(e: MouseEvent): void {
         this.isProgressContainerDown = true;
 
         if (!this.playbackService.isPlaying) {
@@ -75,8 +81,8 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
         this.applyMouseProgress(e.pageX);
     }
 
-    @HostListener('document:mouseup', ['$event'])
-    public onMouseUp(e: any): void {
+    @HostListener('document:mouseup')
+    public onMouseUp(): void {
         this.isProgressThumbDown = false;
         this.showProgressThumb = false;
 
@@ -88,20 +94,16 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
             this.isProgressDragged = false;
             this.isProgressContainerDown = false;
             try {
-                const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+                const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
                 this.playbackService.skipByFractionOfTotalSeconds(this.progressBarPosition / progressTrackWidth);
-            } catch (e) {
-                this.logger.error(
-                    `Could not skip by fraction of total seconds. Error: ${e.message}`,
-                    'PlaybackProgressComponent',
-                    'onMouseUp'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not skip by fraction of total seconds', 'PlaybackProgressComponent', 'onMouseUp');
             }
         }
     }
 
     @HostListener('document:mousemove', ['$event'])
-    public onMouseMove(e: any): void {
+    public onMouseMove(e: MouseEvent): void {
         if (!this.playbackService.isPlaying) {
             return;
         }
@@ -114,7 +116,7 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
 
     private applyPlaybackProgress(playbackProgress: PlaybackProgress): void {
         try {
-            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+            const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
 
             if (playbackProgress.totalSeconds <= 0) {
                 this.progressBarPosition = 0;
@@ -129,18 +131,14 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
                 0,
                 progressTrackWidth - 2 * this.progressMargin
             );
-        } catch (e) {
-            this.logger.error(
-                `Could not apply playback progress. Error: ${e.message}`,
-                'PlaybackProgressComponent',
-                'applyPlaybackProgress'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not apply playback progress', 'PlaybackProgressComponent', 'applyPlaybackProgress');
         }
     }
 
     private applyMouseProgress(mouseXPosition: number): void {
         try {
-            const progressTrackWidth: number = this.progressTrack.nativeElement.offsetWidth;
+            const progressTrackWidth: number = this.nativeElementProxy.getElementWidth(this.progressTrack);
 
             this.progressBarPosition = this.mathExtensions.clamp(mouseXPosition, 0, progressTrackWidth);
             this.progressThumbPosition = this.mathExtensions.clamp(
@@ -148,8 +146,8 @@ export class PlaybackProgressComponent implements OnInit, OnDestroy, AfterViewIn
                 0,
                 progressTrackWidth - 2 * this.progressMargin
             );
-        } catch (e) {
-            this.logger.error(`Could not apply mouse progress. Error: ${e.message}`, 'PlaybackProgressComponent', 'applyMouseProgress');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not apply mouse progress', 'PlaybackProgressComponent', 'applyMouseProgress');
         }
     }
 }

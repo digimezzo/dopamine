@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
+import { ISelectable } from '../interfaces/i-selectable';
 
 @Injectable()
 export class MouseSelectionWatcher {
-    constructor() {}
+    private items: ISelectable[] = [];
+    private lastSelectedItem: ISelectable;
 
-    private items: any[] = [];
-    private lastSelectedItem: any;
-
-    public get selectedItems(): any[] {
+    public get selectedItems(): ISelectable[] {
         return this.items.filter((x) => x.isSelected);
     }
 
-    public initialize(items: any[], selectFirstItem: boolean = false): void {
+    public initialize(items: ISelectable[] | undefined, selectFirstItem: boolean = false): void {
         if (items == undefined) {
             return;
         }
@@ -27,7 +26,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    public setSelectedItems(event: any, item: any): void {
+    public setSelectedItems(event: MouseEvent | undefined, item: ISelectable | undefined): void {
         if (event == undefined) {
             return;
         }
@@ -36,10 +35,10 @@ export class MouseSelectionWatcher {
             return;
         }
 
-        if (event && event.ctrlKey) {
+        if (event != undefined && event.ctrlKey) {
             // CTRL is pressed: add item to, or remove item from selection
             this.toggleItemSelection(item);
-        } else if (event && event.shiftKey) {
+        } else if (event != undefined && event.shiftKey) {
             // SHIFT is pressed: select a range of items
             this.selectItemsRange(item);
         } else {
@@ -51,7 +50,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private toggleItemSelection(item: any): void {
+    private toggleItemSelection(item: ISelectable): void {
         item.isSelected = !item.isSelected;
 
         if (item.isSelected) {
@@ -59,11 +58,11 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private selectItemsRange(item: any): void {
+    private selectItemsRange(item: ISelectable): void {
         const currentItemIndex: number = this.items.indexOf(item);
         let lastSelectedItemIndex: number = this.items.indexOf(item);
 
-        if (this.lastSelectedItem) {
+        if (this.lastSelectedItem != undefined) {
             lastSelectedItemIndex = this.items.indexOf(this.lastSelectedItem);
         }
 
@@ -83,7 +82,7 @@ export class MouseSelectionWatcher {
         }
     }
 
-    private selectSingleItem(item: any): void {
+    private selectSingleItem(item: ISelectable): void {
         const currentItemIndex: number = this.items.indexOf(item);
 
         for (let i = 0; i < this.items.length; i++) {

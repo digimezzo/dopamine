@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseMetadataService } from '../metadata/base-metadata.service';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -14,23 +15,16 @@ export class PlaybackInformationService implements BasePlaybackInformationServic
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
 
-    constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService) {
+    public constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService) {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
-                const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(playbackStarted.currentTrack);
-
-                if (playbackStarted.isPlayingPreviousTrack) {
-                    this.playingPreviousTrack.next(playbackInformation);
-                } else {
-                    this.playingNextTrack.next(playbackInformation);
-                }
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
+                PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted));
             })
         );
 
         this.subscription.add(
-            this.playbackService.playbackStopped$.subscribe(async () => {
-                const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(undefined);
-                this.playingNoTrack.next(playbackInformation);
+            this.playbackService.playbackStopped$.subscribe(() => {
+                PromiseUtils.noAwait(this.handlePlaybackStoppedAsync());
             })
         );
     }
@@ -43,7 +37,22 @@ export class PlaybackInformationService implements BasePlaybackInformationServic
         return await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
     }
 
-    private async createPlaybackInformationAsync(track: TrackModel): Promise<PlaybackInformation> {
+    private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {
+        const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(playbackStarted.currentTrack);
+
+        if (playbackStarted.isPlayingPreviousTrack) {
+            this.playingPreviousTrack.next(playbackInformation);
+        } else {
+            this.playingNextTrack.next(playbackInformation);
+        }
+    }
+
+    private async handlePlaybackStoppedAsync(): Promise<void> {
+        const playbackInformation: PlaybackInformation = await this.createPlaybackInformationAsync(undefined);
+        this.playingNoTrack.next(playbackInformation);
+    }
+
+    private async createPlaybackInformationAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
         if (track != undefined) {
             const newImage: string = await this.metadataService.createImageUrlAsync(track);
 

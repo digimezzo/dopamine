@@ -73,11 +73,43 @@ describe('NowPlayingShowcaseComponent', () => {
     describe('onResize', () => {
         it('should set the now playing sizes in relation to window height', () => {
             // Arrange
+            const component: NowPlayingShowcaseComponent = createComponent();
+
+            // Act
+            component.onResize();
+
+            // Assert
+            expect(component.coverArtSize).toEqual(242);
+            expect(component.playbackInformationHeight).toEqual(242);
+            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
+            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
+        });
+
+        it('should set the now playing sizes in relation to window width if width is too small', () => {
+            // Arrange
+            applicationMock.reset();
+            applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(550, 600));
+            const component: NowPlayingShowcaseComponent = createComponent();
+
+            // Act
+            component.onResize();
+
+            // Assert
+            expect(component.coverArtSize).toEqual(150);
+            expect(component.playbackInformationHeight).toEqual(150);
+            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
+            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
+        });
+    });
+
+    describe('ngOnInit', () => {
+        it('should set the now playing sizes', () => {
+            // Arrange
             const event: any = {};
             const component: NowPlayingShowcaseComponent = createComponent();
 
             // Act
-            component.onResize(event);
+            component.ngOnInit();
 
             // Assert
             expect(component.coverArtSize).toEqual(242);
@@ -94,41 +126,7 @@ describe('NowPlayingShowcaseComponent', () => {
             const event: any = {};
 
             // Act
-            component.onResize(event);
-
-            // Assert
-            expect(component.coverArtSize).toEqual(150);
-            expect(component.playbackInformationHeight).toEqual(150);
-            expect(component.playbackInformationLargeFontSize).toEqual(26.78571428571429);
-            expect(component.playbackInformationSmallFontSize).toEqual(13.392857142857144);
-        });
-    });
-
-    describe('ngOnInit', () => {
-        it('should set the now playing sizes', async () => {
-            // Arrange
-            const event: any = {};
-            const component: NowPlayingShowcaseComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.coverArtSize).toEqual(242);
-            expect(component.playbackInformationHeight).toEqual(242);
-            expect(component.playbackInformationLargeFontSize).toEqual(43.214285714285715);
-            expect(component.playbackInformationSmallFontSize).toEqual(21.607142857142858);
-        });
-
-        it('should set the now playing sizes in relation to window width if width is too small', async () => {
-            // Arrange
-            applicationMock.reset();
-            applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(550, 600));
-            const component: NowPlayingShowcaseComponent = createComponent();
-            const event: any = {};
-
-            // Act
-            await component.ngOnInit();
+            component.ngOnInit();
 
             // Assert
             expect(component.coverArtSize).toEqual(150);

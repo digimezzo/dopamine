@@ -29,7 +29,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public playlistService: BasePlaylistService,
         public contextMenuOpener: ContextMenuOpener,
@@ -87,7 +87,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         );
     }
 
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
@@ -103,13 +103,15 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
         if (userHasConfirmed) {
             try {
-                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems);
-            } catch (e) {
+                await this.playlistService.removeTracksFromPlaylistsAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
+            } catch (e: unknown) {
                 this.logger.error(
-                    `Could not remove tracks from playlists. Error: ${e.message}`,
+                    e,
+                    'Could not remove tracks from playlists',
                     'PlaylistTrackBrowserComponent',
                     'onRemoveFromPlaylistAsync'
                 );
+
                 const errorText: string = await this.translatorService.getAsync('remove-from-playlist-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -117,11 +119,11 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     }
 
     public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems);
+        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 
     public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems;
+        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as TrackModel[];
 
         if (tracks.length > 0) {
             this.desktop.showFileInDirectory(tracks[0].path);
@@ -133,8 +135,8 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
 
         try {
             orderedTracks = this.tracks.tracks;
-        } catch (e) {
-            this.logger.error(`Could not order tracks. Error: ${e.message}`, 'PlaylistTrackBrowserComponent', 'orderTracks');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order tracks', 'PlaylistTrackBrowserComponent', 'orderTracks');
         }
 
         this.orderedTracks = [...orderedTracks];
@@ -142,7 +144,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this.playbackIndicationService.setPlayingTrack(this.orderedTracks, this.playbackService.currentTrack);
     }
 
-    public async dropTrackAsync(event: CdkDragDrop<TrackModel[]>): Promise<void> {
+    public dropTrack(event: CdkDragDrop<TrackModel[]>): void {
         moveItemInArray(this.orderedTracks, event.previousIndex, event.currentIndex);
 
         // HACK: required so that the dragged item does not snap back to its original place

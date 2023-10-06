@@ -70,18 +70,6 @@ describe('ArtistModel', () => {
     });
 
     describe('name', () => {
-        it('should return "Unknown artist" if artist is undefined', () => {
-            // Arrange
-            const artist: string = undefined;
-            artistModel = new ArtistModel(artist, translatorServiceMock.object);
-
-            // Act
-            const name: string = artistModel.displayName;
-
-            // Assert
-            expect(name).toEqual('Unknown artist');
-        });
-
         it('should return "Unknown artist" if artist is empty', () => {
             // Arrange
             const artist: string = '';

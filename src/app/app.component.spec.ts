@@ -125,7 +125,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            translatorServiceMock.verify((x) => x.applyLanguageAsync(), Times.once());
+            translatorServiceMock.verify((x) => x.applyLanguage(), Times.once());
         });
 
         it('should update tray context menu', async () => {
@@ -147,7 +147,7 @@ describe('AppComponent', () => {
             await app.ngOnInit();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.once());
+            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.once());
         });
 
         it('should initialize Discord', async () => {

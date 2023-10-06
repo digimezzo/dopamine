@@ -183,7 +183,7 @@ describe('CollectionTracksTableComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define tracksColumnsVisibility', async () => {
+        it('should define tracksColumnsVisibility', () => {
             // Arrange
 
             // Act
@@ -195,7 +195,7 @@ describe('CollectionTracksTableComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should get tracksColumnsVisibility', async () => {
+        it('should get tracksColumnsVisibility', () => {
             // Arrange
             const component: CollectionTracksTableComponent = createComponent();
 

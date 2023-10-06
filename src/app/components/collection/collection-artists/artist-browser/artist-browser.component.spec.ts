@@ -20,17 +20,17 @@ import { ArtistOrder } from './artist-order';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
-    private _scrollToIndexBehavior: ScrollBehavior = undefined;
+    private _scrollToIndexBehavior: ScrollBehavior | undefined;
 
-    public get scrollToIndexIndex() : number {
+    public get scrollToIndexIndex(): number {
         return this._scrollToIndexIndex;
     }
 
-    public get scrollToIndexbehavior() : string {
+    public get scrollToIndexbehavior(): ScrollBehavior | undefined {
         return this._scrollToIndexBehavior;
     }
 
-    public scrollToIndex(index: number, behavior?: ScrollBehavior): void{
+    public scrollToIndex(index: number, behavior?: ScrollBehavior): void {
         this._scrollToIndexIndex = index;
         this._scrollToIndexBehavior = behavior;
     }
@@ -260,40 +260,40 @@ describe('ArtistBrowserComponent', () => {
         });
 
         it('should scroll to zoom header when zoom in is requested', async () => {
-             // Arrange
-             const component: ArtistBrowserComponent = createComponent();
-             artist1.isZoomHeader = true;
-             artist2.isZoomHeader = true;
-             component.artists = [artist1, artist2];
-             component.shouldZoomOut = true;
- 
-             const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
-             component.viewPort = viewportMockAny;
- 
-             // Act
-             component.ngOnInit();
-             semanticZoomService_zoomInRequested.next('t');
-             await flushPromises();
- 
-             // Assert
-             expect(component.shouldZoomOut).toBeFalsy();
-             schedulerMock.verify(x => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
- 
-             expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
-             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            artist1.isZoomHeader = true;
+            artist2.isZoomHeader = true;
+            component.artists = [artist1, artist2];
+            component.shouldZoomOut = true;
+
+            const viewportMockAny: any = new CdkVirtualScrollViewportMock() as any;
+            component.viewPort = viewportMockAny;
+
+            // Act
+            component.ngOnInit();
+            semanticZoomService_zoomInRequested.next('t');
+            await flushPromises();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
+            schedulerMock.verify((x) => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
+
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
+            expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
         });
 
         it('should set shouldZoomOut to false when mouse button is released', () => {
-             // Arrange
-             const component: ArtistBrowserComponent = createComponent();
-             component.shouldZoomOut = true;
- 
-             // Act
-             component.ngOnInit();
-             applicationService_mouseButtonReleased.next();
- 
-             // Assert
-             expect(component.shouldZoomOut).toBeFalsy();
+            // Arrange
+            const component: ArtistBrowserComponent = createComponent();
+            component.shouldZoomOut = true;
+
+            // Act
+            component.ngOnInit();
+            applicationService_mouseButtonReleased.next();
+
+            // Assert
+            expect(component.shouldZoomOut).toBeFalsy();
         });
     });
 

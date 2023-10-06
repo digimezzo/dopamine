@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Logger } from '../common/logger';
+import { PromiseUtils } from '../common/utils/promise-utils';
 import { AlbumModel } from '../services/album/album-model';
 import { ArtistModel } from '../services/artist/artist-model';
 import { GenreModel } from '../services/genre/genre-model';
@@ -14,7 +21,7 @@ import { TrackModel } from '../services/track/track-model';
 export class AddToPlaylistMenu {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playlistFolderService: BasePlaylistFolderService,
         private playlistService: BasePlaylistService,
         private logger: Logger
@@ -28,18 +35,18 @@ export class AddToPlaylistMenu {
 
     public async initializeAsync(): Promise<void> {
         this.subscription.add(
-            this.playlistFolderService.playlistFoldersChanged$.subscribe(async () => {
-                await this.fillPlaylistsAsync();
+            this.playlistFolderService.playlistFoldersChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.fillPlaylistsAsync());
             })
         );
 
         this.subscription.add(
-            this.playlistService.playlistsChanged$.subscribe(async () => {
-                await this.fillPlaylistsAsync();
+            this.playlistService.playlistsChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.fillPlaylistsAsync());
             })
         );
 
-        this.fillPlaylistsAsync();
+        await this.fillPlaylistsAsync();
     }
 
     private async fillPlaylistsAsync(): Promise<void> {
@@ -78,8 +85,8 @@ export class AddToPlaylistMenu {
     public async addTracksToPlaylistAsync(playlistName: string, playlistPath: string, tracks: TrackModel[]): Promise<void> {
         try {
             await this.playlistService.addTracksToPlaylistAsync(playlistName, playlistPath, tracks);
-        } catch (e) {
-            this.logger.error(`Could not add tracks to playlist. Error: ${e.message}`, 'AddToPlaylistMenu', 'addTracksToPlaylist');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not add tracks to playlist', 'AddToPlaylistMenu', 'addTracksToPlaylist');
         }
     }
 }

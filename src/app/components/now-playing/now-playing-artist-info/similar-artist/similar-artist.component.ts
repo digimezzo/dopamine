@@ -9,8 +9,6 @@ import { ArtistInformation } from '../../../../services/artist-information/artis
     encapsulation: ViewEncapsulation.None,
 })
 export class SimilarArtistComponent {
-    public constructor() {}
-
     @Input()
     public similarArtist: ArtistInformation = ArtistInformation.empty();
 }

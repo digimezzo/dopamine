@@ -8,14 +8,14 @@ import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 
 @Injectable()
 export class AlbumArtworkRemover {
-    constructor(
+    public constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private fileAccess: BaseFileAccess,
         private snackBarService: BaseSnackBarService,
         private logger: Logger
     ) {}
 
-    public removeAlbumArtworkThatHasNoTrack(): void {
+    public async removeAlbumArtworkThatHasNoTrackAsync(): Promise<void> {
         const timer: Timer = new Timer();
         timer.start();
 
@@ -28,7 +28,7 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkThatHasNoTrack'
+                    'removeAlbumArtworkThatHasNoTrackAsync'
                 );
 
                 return;
@@ -37,10 +37,10 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatHasNoTrack'
+                'removeAlbumArtworkThatHasNoTrackAsync'
             );
 
-            this.snackBarService.updatingAlbumArtworkAsync();
+            await this.snackBarService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
@@ -49,20 +49,16 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.elapsedMilliseconds} ms.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatHasNoTrack'
+                'removeAlbumArtworkThatHasNoTrackAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             timer.stop();
 
-            this.logger.error(
-                `Could not remove album artwork. Error: ${e.message}`,
-                'AlbumArtworkRemover',
-                'removeAlbumArtworkThatHasNoTrack'
-            );
+            this.logger.error(e, 'Could not remove album artwork', 'AlbumArtworkRemover', 'removeAlbumArtworkThatHasNoTrackAsync');
         }
     }
 
-    public removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(): void {
+    public async removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
         const timer: Timer = new Timer();
         timer.start();
 
@@ -76,7 +72,7 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
                 );
 
                 return;
@@ -85,10 +81,10 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
             );
 
-            this.snackBarService.updatingAlbumArtworkAsync();
+            await this.snackBarService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number =
                 this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
@@ -98,22 +94,23 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.elapsedMilliseconds} ms.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
             );
-        } catch (e) {
+        } catch (e: unknown) {
             timer.stop();
 
             this.logger.error(
-                `Could not remove album artwork. Error: ${e.message}`,
+                e,
+                'Could not remove album artwork',
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
             );
         }
     }
 
     public async removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync(): Promise<void> {
         try {
-            const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork();
+            const allAlbumArtworkInDatabase: AlbumArtwork[] = this.albumArtworkRepository.getAllAlbumArtwork() ?? [];
 
             this.logger.info(
                 `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,
@@ -153,9 +150,10 @@ export class AlbumArtworkRemover {
                     await this.snackBarService.updatingAlbumArtworkAsync();
                 }
             }
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
-                `Could not remove album artwork from disk. Error: ${e.message}`,
+                e,
+                'Could not remove album artwork from disk',
                 'AlbumArtworkRemover',
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
             );

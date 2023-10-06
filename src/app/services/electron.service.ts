@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Injectable } from '@angular/core';
 import * as childProcess from 'child_process';
 // If you import a module but never use any of the imported values other than as TypeScript types,
@@ -12,7 +14,7 @@ export class ElectronService {
     public childProcess: typeof childProcess;
     public fs: typeof fs;
 
-    constructor() {
+    public constructor() {
         // Conditional imports
         if (this.isElectron()) {
             this.ipcRenderer = window.require('electron').ipcRenderer;

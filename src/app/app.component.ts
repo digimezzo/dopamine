@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import log from 'electron-log';
 import * as path from 'path';
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { BaseDesktop } from './common/io/base-desktop';
 import { Logger } from './common/logger';
+import { PromiseUtils } from './common/utils/promise-utils';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
@@ -21,10 +22,10 @@ import { BaseTrayService } from './services/tray/base-tray.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private navigationService: BaseNavigationService,
         private appearanceService: BaseAppearanceService,
         private translatorService: BaseTranslatorService,
@@ -52,8 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    public ngOnDestroy(): void {}
-
     public async ngOnInit(): Promise<void> {
         this.logger.info(
             `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
@@ -64,19 +63,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
                 if (this.playbackQueueDrawer != undefined) {
-                    this.playbackQueueDrawer.toggle();
+                    PromiseUtils.noAwait(this.playbackQueueDrawer.toggle());
                 }
             })
         );
 
-        this.addToPlaylistMenu.initializeAsync();
+        await this.addToPlaylistMenu.initializeAsync();
         this.discordService.setRichPresenceFromSettings();
         this.appearanceService.applyAppearance();
-        await this.translatorService.applyLanguageAsync();
+        this.translatorService.applyLanguage();
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
 
-        this.navigationService.navigateToLoading();
+        await this.navigationService.navigateToLoadingAsync();
     }
 }

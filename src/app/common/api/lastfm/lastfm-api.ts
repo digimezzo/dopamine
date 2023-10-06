@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
@@ -228,7 +235,7 @@ export class LastfmApi {
         return isLoveTrackSuccessful;
     }
 
-    private async getMethodUrl(method: String, isSecure: boolean): Promise<string> {
+    private async getMethodUrl(method: string, isSecure: boolean): Promise<string> {
         return `${isSecure ? 'https' : 'http'}://ws.audioscrobbler.com/2.0/?method=${method}`;
     }
 

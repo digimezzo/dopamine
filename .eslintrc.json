@@ -1,0 +1,74 @@
+{
+    "root": true,
+    "ignorePatterns": ["projects/**/*"],
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parserOptions": {
+                "project": ["tsconfig.json"]
+            },
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking"
+            ],
+            "rules": {
+                "@typescript-eslint/restrict-template-expressions": [
+                    "error",
+                    {
+                        "allowAny": false,
+                        "allowBoolean": true,
+                        "allowNever": false,
+                        "allowNullish": false,
+                        "allowNumber": true,
+                        "allowRegExp": false
+                    }
+                ],
+                "@typescript-eslint/no-non-null-assertion": "off",
+                "@angular-eslint/no-host-metadata-property": "off",
+                "@typescript-eslint/no-inferrable-types": "off",
+                "@typescript-eslint/explicit-member-accessibility": "error",
+                "semi": [2, "always"],
+                "@typescript-eslint/strict-boolean-expressions": [
+                    "error",
+                    {
+                        "allowString": false,
+                        "allowNumber": false,
+                        "allowNullableObject": true,
+                        "allowNullableBoolean": false,
+                        "allowNullableString": false,
+                        "allowNullableNumber": false,
+                        "allowAny": false
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["*.html"],
+            "extends": ["plugin:@angular-eslint/template/recommended"],
+            "rules": {}
+        },
+        {
+            "files": ["*.spec.ts", "*-mock.ts"],
+            "rules": {
+                "@typescript-eslint/no-empty-function": "off",
+                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/no-unsafe-return": "off",
+                "@typescript-eslint/no-unsafe-call": "off",
+                "@typescript-eslint/no-unsafe-argument": "off",
+                "@typescript-eslint/unbound-method": "off",
+                "@typescript-eslint/no-unsafe-member-access": "off",
+                "@typescript-eslint/no-unsafe-assignment": "off"
+            }
+        },
+        {
+            "files": ["*.html"],
+            "rules": {
+                "@angular-eslint/template/eqeqeq": "off"
+            }
+        }
+    ]
+}

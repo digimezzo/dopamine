@@ -2,10 +2,11 @@ import { DataDelimiter } from '../../common/data/data-delimiter';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
+import { ISelectable } from '../../interfaces/i-selectable';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 
-export class TrackModel {
-    constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
+export class TrackModel implements ISelectable {
+    public constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;
@@ -22,28 +23,28 @@ export class TrackModel {
     }
 
     public get fileName(): string {
-        return this.track.fileName;
+        return this.track.fileName ?? '';
     }
 
     public get number(): number {
-        return this.track.trackNumber;
+        return this.track.trackNumber ?? 0;
     }
 
     public get discNumber(): number {
-        return this.track.discNumber;
+        return this.track.discNumber ?? 0;
     }
 
     public get discCount(): number {
-        return this.track.discCount;
+        return this.track.discCount ?? 0;
     }
 
     public get year(): number {
-        return this.track.year;
+        return this.track.year ?? 0;
     }
 
     public get title(): string {
         if (!Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
-            return this.track.trackTitle;
+            return this.track.trackTitle!;
         }
 
         return this.track.fileName;
@@ -54,7 +55,7 @@ export class TrackModel {
             return '';
         }
 
-        return this.track.trackTitle;
+        return this.track.trackTitle!;
     }
 
     public get sortableTitle(): string {
@@ -124,7 +125,7 @@ export class TrackModel {
     }
 
     public get albumKey(): string {
-        return this.track.albumKey;
+        return this.track.albumKey ?? '';
     }
 
     public get albumTitle(): string {
@@ -132,7 +133,7 @@ export class TrackModel {
             return this.translatorService.get('unknown-album');
         }
 
-        return this.track.albumTitle;
+        return this.track.albumTitle!;
     }
 
     public get rawAlbumTitle(): string {
@@ -140,7 +141,7 @@ export class TrackModel {
             return '';
         }
 
-        return this.track.albumTitle;
+        return this.track.albumTitle!;
     }
 
     public get albumArtists(): string {
@@ -168,49 +169,57 @@ export class TrackModel {
     }
 
     public get durationInMilliseconds(): number {
-        return this.track.duration;
+        return this.track.duration ?? 0;
     }
 
     public get fileSizeInBytes(): number {
-        return this.track.fileSize;
+        return this.track.fileSize ?? 0;
     }
 
     public get playCount(): number {
-        return this.track.playCount;
+        return this.track.playCount ?? 0;
     }
 
     public get skipCount(): number {
-        return this.track.skipCount;
+        return this.track.skipCount ?? 0;
     }
 
     public get rating(): number {
-        return this.track.rating;
+        return this.track.rating ?? 0;
     }
     public set rating(v: number) {
         this.track.rating = v;
     }
 
     public get love(): number {
-        return this.track.love;
+        return this.track.love ?? 0;
     }
     public set love(v: number) {
         this.track.love = v;
     }
 
     public get dateLastPlayed(): number {
-        return this.track.dateLastPlayed;
+        return this.track.dateLastPlayed ?? 0;
     }
 
     public get dateAdded(): number {
-        return this.track.dateAdded;
+        return this.track.dateAdded ?? 0;
     }
 
     public increasePlayCountAndDateLastPlayed(): void {
+        if (this.track.playCount == undefined) {
+            this.track.playCount = 0;
+        }
+
         this.track.playCount++;
         this.track.dateLastPlayed = this.dateTime.convertDateToTicks(new Date());
     }
 
     public increaseSkipCount(): void {
+        if (this.track.skipCount == undefined) {
+            this.track.skipCount = 0;
+        }
+
         this.track.skipCount++;
     }
 }

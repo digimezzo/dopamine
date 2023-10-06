@@ -5,9 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Inspired by: https://dev.to/alexparra/js-seconds-to-hh-mm-ss-22o6
  */
 export class FormatTrackDurationPipe implements PipeTransform {
-    constructor() {}
-
-    public transform(durationInMilliseconds: number): string {
+    public transform(durationInMilliseconds: number | undefined): string {
         if (durationInMilliseconds == undefined || durationInMilliseconds < 0) {
             return '00:00';
         }

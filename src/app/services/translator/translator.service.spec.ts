@@ -12,7 +12,9 @@ describe('TranslatorService', () => {
 
     beforeEach(() => {
         translateServiceProxyMock = Mock.ofType<BaseTranslateServiceProxy>();
-        translateServiceProxyMock.setup((x) => x.get('welcome-to-dopamine', undefined)).returns(async () => 'Welcome to Dopamine');
+        translateServiceProxyMock
+            .setup((x) => x.get('welcome-to-dopamine', undefined))
+            .returns(() => Promise.resolve('Welcome to Dopamine'));
         translateServiceProxyMock.setup((x) => x.instant('welcome-to-dopamine', undefined)).returns(() => 'Welcome to Dopamine');
         translateServiceProxyMock
             .setup((x) =>
@@ -20,7 +22,7 @@ describe('TranslatorService', () => {
                     numberOfAddedTracks: 3,
                 })
             )
-            .returns(async () => '3 tracks added');
+            .returns(() => Promise.resolve('3 tracks added'));
         translateServiceProxyMock
             .setup((x) =>
                 x.instant('tracks-added', {
@@ -42,9 +44,7 @@ describe('TranslatorService', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert
@@ -52,9 +52,7 @@ describe('TranslatorService', () => {
         });
 
         it('should define languageChanged$', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert
@@ -62,19 +60,15 @@ describe('TranslatorService', () => {
         });
 
         it('should set the default language', () => {
-            // Arrange
-
-            // Act
-            const service: TranslatorService = createService();
+            // Arrange, Act
+            createService();
 
             // Assert
             translateServiceProxyMock.verify((x) => x.setDefaultLang('en'), Times.once());
         });
 
         it('should set languages from constants', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const service: TranslatorService = createService();
 
             // Assert
@@ -85,7 +79,7 @@ describe('TranslatorService', () => {
     describe('selectedLanguage', () => {
         it('should return the language that corresponds to language code in settings', () => {
             // Arrange
-            const expectedLanguage: Language = Constants.languages.find((x) => x.code === 'fr');
+            const expectedLanguage: Language = Constants.languages.find((x) => x.code === 'fr')!;
             const service: TranslatorService = createService();
 
             // Act

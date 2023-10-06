@@ -4,14 +4,15 @@ import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { BaseTranslatorService } from '../translator/base-translator.service';
 import { BaseSnackBarService } from './base-snack-bar.service';
+import { SnackBarData } from './snack-bar-data';
 
 @Injectable()
 export class SnackBarService implements BaseSnackBarService {
-    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
-    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> = undefined;
+    private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
+    private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private isDismissRequested: boolean = false;
 
-    constructor(
+    public constructor(
         private zone: NgZone,
         private matSnackBar: MatSnackBar,
         private translatorService: BaseTranslatorService,
@@ -86,7 +87,7 @@ export class SnackBarService implements BaseSnackBarService {
         this.showSelfClosingSnackBar('las la-frown', message);
     }
 
-    public async dismissAsync(): Promise<void> {
+    public dismiss(): void {
         if (this.currentDismissibleSnackBar != undefined) {
             this.isDismissRequested = true;
             this.currentDismissibleSnackBar.dismiss();
@@ -96,7 +97,7 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async dismissDelayedAsync(): Promise<void> {
         await this.scheduler.sleepAsync(1000);
-        await this.dismissAsync();
+        this.dismiss();
     }
 
     private checkIfDismissWasRequested(): void {
@@ -110,13 +111,7 @@ export class SnackBarService implements BaseSnackBarService {
         } else {
             if (this.currentDismissibleSnackBar != undefined) {
                 this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
-                    data: {
-                        icon: this.currentDismissibleSnackBar.instance.data.icon,
-                        animateIcon: this.currentDismissibleSnackBar.instance.data.animateIcon,
-                        message: this.currentDismissibleSnackBar.instance.data.message,
-                        showCloseButton: this.currentDismissibleSnackBar.instance.data.showCloseButton,
-                        url: this.currentDismissibleSnackBar.instance.data.url,
-                    },
+                    data: this.currentDismissibleSnackBar.instance.data,
                     panelClass: ['accent-snack-bar'],
                     verticalPosition: 'top',
                 });
@@ -133,7 +128,7 @@ export class SnackBarService implements BaseSnackBarService {
                 duration: this.calculateDuration(message),
             });
 
-            this.currentSelfClosingSnackBar.afterDismissed().subscribe((info) => {
+            this.currentSelfClosingSnackBar.afterDismissed().subscribe(() => {
                 this.checkIfDismissWasRequested();
             });
         });
@@ -148,11 +143,7 @@ export class SnackBarService implements BaseSnackBarService {
                     verticalPosition: 'top',
                 });
             } else {
-                this.currentDismissibleSnackBar.instance.data.icon = icon;
-                this.currentDismissibleSnackBar.instance.data.animateIcon = animateIcon;
-                this.currentDismissibleSnackBar.instance.data.message = message;
-                this.currentDismissibleSnackBar.instance.data.showCloseButton = showCloseButton;
-                this.currentDismissibleSnackBar.instance.data.url = url;
+                this.currentDismissibleSnackBar.instance.data = new SnackBarData(icon, message, url, animateIcon, showCloseButton);
             }
         });
     }

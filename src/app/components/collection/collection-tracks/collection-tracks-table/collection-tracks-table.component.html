@@ -112,7 +112,7 @@
                 [ngClass]="{ 'selected-item-background-important': track.isSelected }"
                 (mousedown)="setSelectedTracks($event, track)"
                 (dblclick)="playbackService.enqueueAndPlayTracksStartingFromGivenTrack(this.orderedTracks, track)"
-                (contextmenu)="onTrackContextMenuAsync($event, track)"
+                (contextmenu)="onTrackContextMenu($event, track)"
             >
                 <td>
                     <div class="ellipsis" [ngClass]="{ 'accent-color': track.isPlaying }">

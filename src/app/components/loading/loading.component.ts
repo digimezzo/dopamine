@@ -16,7 +16,7 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class LoadingComponent implements OnInit {
-    constructor(
+    public constructor(
         public navigationService: BaseNavigationService,
         private databaseMigrator: BaseDatabaseMigrator,
         public appearanceService: BaseAppearanceService,
@@ -28,18 +28,18 @@ export class LoadingComponent implements OnInit {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        await this.databaseMigrator.migrateAsync();
+        this.databaseMigrator.migrate();
 
         if (this.settings.showWelcome) {
             this.settings.showWelcome = false;
-            this.navigationService.navigateToWelcome();
+            await this.navigationService.navigateToWelcomeAsync();
         } else {
             if (this.fileService.hasPlayableFilesAsParameters()) {
                 await this.fileService.enqueueParameterFilesAsync();
-                this.navigationService.navigateToNowPlaying();
+                await this.navigationService.navigateToNowPlayingAsync();
             } else {
-                this.navigationService.navigateToCollection();
-                this.initializeAsync();
+                await this.navigationService.navigateToCollectionAsync();
+                await this.initializeAsync();
             }
         }
     }

@@ -64,7 +64,7 @@ describe('TrackAdder', () => {
 
             indexablePathFetcherMock
                 .setup((x) => x.getIndexablePathsForAllFoldersAsync())
-                .returns(async () => [indexablePath1, indexablePath2, indexablePath3]);
+                .returns(() => Promise.resolve([indexablePath1, indexablePath2, indexablePath3]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -94,7 +94,7 @@ describe('TrackAdder', () => {
 
             indexablePathFetcherMock
                 .setup((x) => x.getIndexablePathsForAllFoldersAsync())
-                .returns(async () => [indexablePath1, indexablePath2, indexablePath3]);
+                .returns(() => Promise.resolve([indexablePath1, indexablePath2, indexablePath3]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -114,7 +114,7 @@ describe('TrackAdder', () => {
 
             const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/Track 1.mp3', 123, 1);
 
-            indexablePathFetcherMock.setup((x) => x.getIndexablePathsForAllFoldersAsync()).returns(async () => [indexablePath1]);
+            indexablePathFetcherMock.setup((x) => x.getIndexablePathsForAllFoldersAsync()).returns(() => Promise.resolve([indexablePath1]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -137,7 +137,7 @@ describe('TrackAdder', () => {
 
             const indexablePath1: IndexablePath = new IndexablePath('/home/user/Music/Track 1.mp3', 123, 1);
 
-            indexablePathFetcherMock.setup((x) => x.getIndexablePathsForAllFoldersAsync()).returns(async () => [indexablePath1]);
+            indexablePathFetcherMock.setup((x) => x.getIndexablePathsForAllFoldersAsync()).returns(() => Promise.resolve([indexablePath1]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -171,7 +171,7 @@ describe('TrackAdder', () => {
 
             indexablePathFetcherMock
                 .setup((x) => x.getIndexablePathsForAllFoldersAsync())
-                .returns(async () => [indexablePath1, indexablePath2, indexablePath3]);
+                .returns(() => Promise.resolve([indexablePath1, indexablePath2, indexablePath3]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();
@@ -205,7 +205,7 @@ describe('TrackAdder', () => {
 
             indexablePathFetcherMock
                 .setup((x) => x.getIndexablePathsForAllFoldersAsync())
-                .returns(async () => [indexablePath1, indexablePath2, indexablePath3]);
+                .returns(() => Promise.resolve([indexablePath1, indexablePath2, indexablePath3]));
 
             // Act
             await trackAdder.addTracksThatAreNotInTheDatabaseAsync();

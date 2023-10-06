@@ -40,7 +40,7 @@ describe('AlbumArtworkIndexer', () => {
             await albumArtworkIndexer.indexAlbumArtworkAsync();
 
             // Assert
-            albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkThatHasNoTrack(), Times.exactly(1));
+            albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkThatHasNoTrackAsync(), Times.exactly(1));
         });
 
         it('should remove artwork for tracks that need album artwork indexing', async () => {
@@ -51,7 +51,7 @@ describe('AlbumArtworkIndexer', () => {
             await albumArtworkIndexer.indexAlbumArtworkAsync();
 
             // Assert
-            albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing(), Times.exactly(1));
+            albumArtworkRemoverMock.verify((x) => x.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(), Times.exactly(1));
         });
 
         it('should add artwork for tracks that need album artwork indexing', async () => {

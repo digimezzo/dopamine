@@ -5,9 +5,9 @@ import { BaseSearchService } from '../services/search/base-search.service';
 
 @Pipe({ name: 'subfoldersFilter' })
 export class SubfoldersFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
-    public transform(subfolders: SubfolderModel[], textToContain: string): SubfolderModel[] {
+    public transform(subfolders: SubfolderModel[], textToContain: string | undefined): SubfolderModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
             return subfolders;
         }
@@ -15,7 +15,7 @@ export class SubfoldersFilterPipe implements PipeTransform {
         const filteredSubfolders: SubfolderModel[] = [];
 
         for (const subfolder of subfolders) {
-            if (this.searchService.matchesSearchText(subfolder.path, textToContain)) {
+            if (this.searchService.matchesSearchText(subfolder.path, textToContain!)) {
                 filteredSubfolders.push(subfolder);
             }
         }

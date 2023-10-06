@@ -6,7 +6,7 @@ describe('SearchBoxComponent', () => {
     let searchServiceMock: IMock<BaseSearchService>;
     let component: SearchBoxComponent;
 
-    beforeEach(async () => {
+    beforeEach(() => {
         searchServiceMock = Mock.ofType<BaseSearchService>();
         component = new SearchBoxComponent(searchServiceMock.object);
     });

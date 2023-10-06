@@ -5,8 +5,6 @@ describe('NowPlayingArtistInfoComponent', () => {
         return new SimilarArtistComponent();
     }
 
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

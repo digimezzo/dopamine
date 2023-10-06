@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { Constants } from '../../application/constants';
 import { ClauseCreator } from '../clause-creator';
@@ -11,7 +16,7 @@ import { BaseTrackRepository } from './base-track-repository';
 
 @Injectable()
 export class TrackRepository implements BaseTrackRepository {
-    constructor(private databaseFactory: DatabaseFactory) {}
+    public constructor(private databaseFactory: DatabaseFactory) {}
 
     public getNumberOfTracksThatNeedIndexing(): number {
         const database: any = this.databaseFactory.create();
@@ -85,39 +90,39 @@ export class TrackRepository implements BaseTrackRepository {
         database.prepare(`DELETE FROM Track WHERE ${ClauseCreator.createNumericInClause('TrackID', trackIds)};`).run();
     }
 
-    public getVisibleTracks(): Track[] {
+    public getVisibleTracks(): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectTracksQueryPart(true));
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
 
-    public getAllTracks(): Track[] {
+    public getAllTracks(): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectTracksQueryPart(false));
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
 
-    public getTracksForAlbums(albumKeys: string[]): Track[] {
+    public getTracksForAlbums(albumKeys: string[]): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
             `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createTextInClause('t.AlbumKey', albumKeys)}`
         );
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
 
-    public getTracksForTrackArtists(trackArtists: string[]): Track[] {
+    public getTracksForTrackArtists(trackArtists: string[]): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -128,12 +133,12 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
 
-    public getTracksForAlbumArtists(albumArtists: string[]): Track[] {
+    public getTracksForAlbumArtists(albumArtists: string[]): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -144,12 +149,12 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
 
-    public getTracksForGenres(genres: string[]): Track[] {
+    public getTracksForGenres(genres: string[]): Track[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -160,7 +165,7 @@ export class TrackRepository implements BaseTrackRepository {
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(true)} ${filterQuery};`);
 
-        const tracks: Track[] = statement.all();
+        const tracks: Track[] | undefined = statement.all();
 
         return tracks;
     }
@@ -356,32 +361,32 @@ export class TrackRepository implements BaseTrackRepository {
         });
     }
 
-    public getTrackByPath(path: string): Track {
+    public getTrackByPath(path: string): Track | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.Path=?;`);
 
-        const track: Track = statement.get(path);
+        const track: Track | undefined = statement.get(path);
 
         return track;
     }
 
-    public getAlbumDataThatNeedsIndexing(): AlbumData[] {
+    public getAlbumDataThatNeedsIndexing(): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(false)}
-                WHERE t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
                 AND (t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
                 GROUP BY t.AlbumKey;`
         );
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getAlbumDataForAlbumKey(albumKey: string): AlbumData[] {
+    public getAlbumDataForAlbumKey(albumKey: string): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
@@ -390,22 +395,26 @@ export class TrackRepository implements BaseTrackRepository {
                 GROUP BY t.AlbumKey;`
         );
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getAllAlbumData(): AlbumData[] {
+    public getAllAlbumData(): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} GROUP BY t.AlbumKey;`);
+        const statement = database.prepare(
+            `${QueryParts.selectAlbumDataQueryPart(true)}
+                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
+                GROUP BY t.AlbumKey;`
+        );
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getAlbumDataForTrackArtists(trackArtists: string[]): AlbumData[] {
+    public getAlbumDataForTrackArtists(trackArtists: string[]): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -414,14 +423,16 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Artists', trackArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery}
+                                                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                                                GROUP BY t.AlbumKey;`);
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getAlbumDataForAlbumArtists(albumArtists: string[]): AlbumData[] {
+    public getAlbumDataForAlbumArtists(albumArtists: string[]): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -430,14 +441,16 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.AlbumArtists', albumArtists, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery}
+                                                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                                                GROUP BY t.AlbumKey;`);
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getAlbumDataForGenres(genres: string[]): AlbumData[] {
+    public getAlbumDataForGenres(genres: string[]): AlbumData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         let filterQuery: string = '';
@@ -446,54 +459,56 @@ export class TrackRepository implements BaseTrackRepository {
             filterQuery = ` AND ${ClauseCreator.createOrLikeClause('t.Genres', genres, Constants.columnValueDelimiter)}`;
         }
 
-        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery} GROUP BY t.AlbumKey;`);
+        const statement = database.prepare(`${QueryParts.selectAlbumDataQueryPart(true)} ${filterQuery}
+                                                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
+                                                GROUP BY t.AlbumKey;`);
 
-        const albumData: AlbumData[] = statement.all();
+        const albumData: AlbumData[] | undefined = statement.all();
 
         return albumData;
     }
 
-    public getTrackArtistData(): ArtistData[] {
+    public getTrackArtistData(): ArtistData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectTrackArtistsQueryPart(true));
 
-        const trackArtistData: ArtistData[] = statement.all();
+        const trackArtistData: ArtistData[] | undefined = statement.all();
 
         return trackArtistData;
     }
 
-    public getAlbumArtistData(): ArtistData[] {
+    public getAlbumArtistData(): ArtistData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectAlbumArtistsQueryPart(true));
 
-        const albumArtistsData: ArtistData[] = statement.all();
+        const albumArtistsData: ArtistData[] | undefined = statement.all();
 
         return albumArtistsData;
     }
 
-    public getGenreData(): GenreData[] {
+    public getGenreData(): GenreData[] | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(QueryParts.selectGenresQueryPart(true));
 
-        const genres: GenreData[] = statement.all();
+        const genres: GenreData[] | undefined = statement.all();
 
         return genres;
     }
 
-    public getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track {
+    public getLastModifiedTrackForAlbumKeyAsync(albumKey: string): Track | undefined {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
 
-        const track: Track = statement.get(albumKey);
+        const track: Track | undefined = statement.get(albumKey);
 
         return track;
     }
 
-    public disableNeedsAlbumArtworkIndexingAsync(albumKey: string): void {
+    public disableNeedsAlbumArtworkIndexing(albumKey: string): void {
         const database: any = this.databaseFactory.create();
         const statement: any = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
 

@@ -55,11 +55,11 @@ describe('FileService', () => {
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 1.mp3'))
-            .returns(async () => new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => Promise.resolve(new TrackModel(new Track('file 1.mp3'), dateTimeMock.object, translatorServiceMock.object)));
 
         trackModelFactoryMock
             .setup((x) => x.createFromFileAsync('file 2.ogg'))
-            .returns(async () => new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object));
+            .returns(() => Promise.resolve(new TrackModel(new Track('file 2.ogg'), dateTimeMock.object, translatorServiceMock.object)));
 
         argumentsReceivedMock = new Subject();
         argumentsReceivedMock$ = argumentsReceivedMock.asObservable();
@@ -80,7 +80,7 @@ describe('FileService', () => {
 
         it('should enqueue all playable tracks that are found as parameters', async () => {
             // Arrange
-            const service: BaseFileService = createService();
+            createService();
 
             // Act
             argumentsReceivedMock.next(['file 1.mp3', 'file 2.ogg', 'file 3.bmp']);
@@ -101,7 +101,7 @@ describe('FileService', () => {
 
         it('should not enqueue anything if parameters are undefined when arguments are received', async () => {
             // Arrange
-            const service: BaseFileService = createService();
+            createService();
 
             // Act
             argumentsReceivedMock.next(undefined);
@@ -113,7 +113,7 @@ describe('FileService', () => {
 
         it('should not enqueue anything if parameters are empty when arguments are received', async () => {
             // Arrange
-            const service: BaseFileService = createService();
+            createService();
 
             // Act
             argumentsReceivedMock.next([]);
@@ -125,7 +125,7 @@ describe('FileService', () => {
 
         it('should not enqueue anything if there are no playable tracks found as parameters when arguments are received', async () => {
             // Arrange
-            const service: BaseFileService = createService();
+            createService();
 
             // Act
             argumentsReceivedMock.next(['file 1.png', 'file 2.mkv', 'file 3.bmp']);
@@ -183,18 +183,6 @@ describe('FileService', () => {
                     ),
                 Times.once()
             );
-        });
-
-        it('should not enqueue anything if parameters are undefined', async () => {
-            // Arrange
-            applicationMock.setup((x) => x.getParameters()).returns(() => undefined);
-            const service: BaseFileService = createService();
-
-            // Act
-            await service.enqueueParameterFilesAsync();
-
-            // Assert
-            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
         });
 
         it('should not enqueue anything if parameters are empty', async () => {

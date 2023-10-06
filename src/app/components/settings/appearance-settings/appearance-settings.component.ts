@@ -12,7 +12,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
     encapsulation: ViewEncapsulation.None,
 })
 export class AppearanceSettingsComponent implements OnInit, OnDestroy {
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         public translatorService: BaseTranslatorService,
         public settings: BaseSettings,
@@ -23,11 +23,11 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
         this.appearanceService.stopWatchingThemesDirectory();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.appearanceService.startWatchingThemesDirectory();
     }
 
-    public openThemesDirectory(): void {
-        this.desktop.openPath(this.appearanceService.themesDirectoryPath);
+    public async openThemesDirectoryAsync(): Promise<void> {
+        await this.desktop.openPathAsync(this.appearanceService.themesDirectoryPath);
     }
 }

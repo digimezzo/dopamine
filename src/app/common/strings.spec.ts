@@ -16,38 +16,38 @@ describe('Strings', () => {
     describe('equalsIgnoreCase', () => {
         it('should return true if both strings are undefined', () => {
             // Arrange
-            const string1: string = undefined;
-            const string2: string = undefined;
+            const string1: string | undefined = undefined;
+            const string2: string | undefined = undefined;
 
             // Act
-            const sringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
-            expect(sringsAreEqual).toBeTruthy();
+            expect(stringsAreEqual).toBeTruthy();
         });
 
         it('should return false if string1 is undefined and string2 is not undefined', () => {
             // Arrange
-            const string1: string = undefined;
+            const string1: string | undefined = undefined;
             const string2: string = 'string 2';
 
             // Act
-            const sringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
-            expect(sringsAreEqual).toBeFalsy();
+            expect(stringsAreEqual).toBeFalsy();
         });
 
         it('should return false if string1 is not undefined and string2 is undefined', () => {
             // Arrange
             const string1: string = 'string 1';
-            const string2: string = undefined;
+            const string2: string | undefined = undefined;
 
             // Act
-            const sringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
-            expect(sringsAreEqual).toBeFalsy();
+            expect(stringsAreEqual).toBeFalsy();
         });
 
         it('should return true if string1 and string2 are the same and their casing matches', () => {
@@ -56,10 +56,10 @@ describe('Strings', () => {
             const string2: string = 'thisisastring';
 
             // Act
-            const sringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
-            expect(sringsAreEqual).toBeTruthy();
+            expect(stringsAreEqual).toBeTruthy();
         });
 
         it('should return true if string1 and string2 are the same but their casing does not match', () => {
@@ -68,17 +68,17 @@ describe('Strings', () => {
             const string2: string = 'THISISASTRING';
 
             // Act
-            const sringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
 
             // Assert
-            expect(sringsAreEqual).toBeTruthy();
+            expect(stringsAreEqual).toBeTruthy();
         });
     });
 
     describe('isNullOrWhiteSpace', () => {
         it('should return true if the string to check is undefined', () => {
             // Arrange
-            const stringToCheck: string = undefined;
+            const stringToCheck: string | undefined = undefined;
 
             // Act
             const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);

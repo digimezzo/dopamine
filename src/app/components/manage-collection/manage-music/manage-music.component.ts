@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-manage-music',
@@ -6,8 +6,4 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./manage-music.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class ManageMusicComponent implements OnInit {
-    constructor() {}
-
-    public ngOnInit(): void {}
-}
+export class ManageMusicComponent {}

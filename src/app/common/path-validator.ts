@@ -7,7 +7,7 @@ export class PathValidator {
      * Determines if parentPath is a parent path childPath
      * Based on: https://stackoverflow.com/questions/37521893/determine-if-a-path-is-subdirectory-of-another-in-node-js
      */
-    public isParentPath(parentPath: string, childPath: string): boolean {
+    public isParentPath(parentPath: string | undefined, childPath: string | undefined): boolean {
         if (Strings.isNullOrWhiteSpace(parentPath)) {
             return false;
         }
@@ -21,12 +21,12 @@ export class PathValidator {
         // With path.sep, only the tests for the platform on which they run, would pass.
         let pathSeparator: string = '/';
 
-        if (childPath.includes('\\')) {
+        if (childPath!.includes('\\')) {
             pathSeparator = '\\';
         }
 
-        const parentParts = parentPath.split(pathSeparator);
-        const childParts = childPath.split(pathSeparator);
+        const parentParts = parentPath!.split(pathSeparator);
+        const childParts = childPath!.split(pathSeparator);
 
         return parentParts.every((parentPartValue, parentPartIndex) => childParts[parentPartIndex] === parentPartValue);
     }

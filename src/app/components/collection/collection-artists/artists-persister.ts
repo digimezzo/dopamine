@@ -15,7 +15,7 @@ export class ArtistsPersister {
     private selectedArtistTypeChanged: Subject<ArtistType> = new Subject();
     private selectedArtistsChanged: Subject<string[]> = new Subject();
 
-    constructor(public settings: BaseSettings, public logger: Logger) {
+    public constructor(public settings: BaseSettings, public logger: Logger) {
         this.initializeFromSettings();
     }
 
@@ -33,8 +33,8 @@ export class ArtistsPersister {
 
         try {
             return availableArtists.filter((x) => this.selectedArtistNames.includes(x.displayName));
-        } catch (e) {
-            this.logger.error(`Could not get selected artists. Error: ${e.message}`, 'ArtistsPersister', 'getSelectedArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get selected artists', 'ArtistsPersister', 'getSelectedArtists');
         }
 
         return [];
@@ -42,7 +42,7 @@ export class ArtistsPersister {
 
     public setSelectedArtists(selectedArtists: ArtistModel[]): void {
         try {
-            if (selectedArtists != undefined && selectedArtists.length > 0) {
+            if (selectedArtists.length > 0) {
                 this.selectedArtistNames = selectedArtists.map((x) => x.displayName);
             } else {
                 this.selectedArtistNames = [];
@@ -55,8 +55,8 @@ export class ArtistsPersister {
             }
 
             this.selectedArtistsChanged.next(this.selectedArtistNames);
-        } catch (e) {
-            this.logger.error(`Could not set selected artists. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtists');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artists', 'ArtistsPersister', 'setSelectedArtists');
         }
     }
 
@@ -74,8 +74,8 @@ export class ArtistsPersister {
             this.saveSelectedArtistTypeToSettings(ArtistType[selectedArtistType]);
             this.resetSelectedArtists();
             this.selectedArtistTypeChanged.next(selectedArtistType);
-        } catch (e) {
-            this.logger.error(`Could not set selected artist type. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtistType');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artist type', 'ArtistsPersister', 'setSelectedArtistType');
         }
     }
 
@@ -91,8 +91,8 @@ export class ArtistsPersister {
         try {
             this.selectedArtistOrder = selectedArtistOrder;
             this.saveSelectedArtistOrderToSettings(ArtistOrder[selectedArtistOrder]);
-        } catch (e) {
-            this.logger.error(`Could not set selected artist order. Error: ${e.message}`, 'ArtistsPersister', 'setSelectedArtistOrder');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not set selected artist order', 'ArtistsPersister', 'setSelectedArtistOrder');
         }
     }
 
@@ -102,11 +102,11 @@ export class ArtistsPersister {
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
-            this.selectedArtistType = (ArtistType as any)[this.getSelectedArtistTypeFromSettings()];
+            this.selectedArtistType = ArtistType[this.getSelectedArtistTypeFromSettings()] as ArtistType;
         }
 
         if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistOrderFromSettings())) {
-            this.selectedArtistOrder = (ArtistOrder as any)[this.getSelectedArtistOrderFromSettings()];
+            this.selectedArtistOrder = ArtistOrder[this.getSelectedArtistOrderFromSettings()] as ArtistOrder;
         }
     }
 

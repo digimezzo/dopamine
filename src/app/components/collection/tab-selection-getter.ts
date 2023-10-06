@@ -7,7 +7,7 @@ import { Strings } from '../../common/strings';
 export class TabSelectionGetter {
     private tabLabels: string[] = [];
 
-    constructor(private settings: BaseSettings) {
+    public constructor(private settings: BaseSettings) {
         this.getTabLabels();
     }
 
@@ -23,14 +23,14 @@ export class TabSelectionGetter {
         return '';
     }
 
-    public getTabIndexForLabel(tabLabel: string): number {
+    public getTabIndexForLabel(tabLabel: string | undefined): number {
         if (Strings.isNullOrWhiteSpace(tabLabel)) {
             return 0;
         }
 
         this.getTabLabels();
 
-        const selectedTabIndex: number = this.tabLabels.indexOf(tabLabel);
+        const selectedTabIndex: number = this.tabLabels.indexOf(tabLabel!);
 
         if (selectedTabIndex > -1) {
             return selectedTabIndex;

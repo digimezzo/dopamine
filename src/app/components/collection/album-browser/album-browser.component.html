@@ -46,7 +46,7 @@
                     [isSelected]="album.isSelected"
                     (mousedown)="setSelectedAlbums($event, album)"
                     (dblclick)="this.playbackService.enqueueAndPlayAlbum(album)"
-                    (contextmenu)="onAlbumContextMenuAsync($event, album)"
+                    (contextmenu)="onAlbumContextMenu($event, album)"
                 ></app-album>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <span>{{ 'add-to-playlist' | translate }}</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onAddToQueueAsync(album)">
+        <button mat-menu-item (click)="onAddToQueue(album)">
             <span>{{ 'add-to-playback-queue' | translate }}</span>
         </button>
     </ng-template>

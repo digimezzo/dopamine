@@ -6,7 +6,7 @@ import { PlaylistEntry } from './playlist-entry';
 
 @Injectable()
 export class PlaylistDecoder {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
     public async decodePlaylistAsync(playlistPath: string): Promise<PlaylistEntry[]> {
         let playlistEntries: PlaylistEntry[] = [];

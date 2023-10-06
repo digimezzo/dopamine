@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
@@ -48,7 +49,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private playbackInformationService: BasePlaybackInformationService,
         private metadataService: BaseMetadataService,
         public settings: BaseSettings,
@@ -69,10 +70,10 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public contentAnimation: string = 'down';
 
-    public topContentTrack: TrackModel = undefined;
-    public bottomContentTrack: TrackModel = undefined;
+    public topContentTrack: TrackModel | undefined;
+    public bottomContentTrack: TrackModel | undefined;
 
-    private currentTrack: TrackModel = undefined;
+    private currentTrack: TrackModel | undefined;
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -83,20 +84,20 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.switchDown(currentPlaybackInformation.track, false);
 
         this.subscription.add(
-            this.playbackInformationService.playingNextTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.track);
+            this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.track));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingPreviousTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchDown(playbackInformation.track, true);
+            this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchDown(playbackInformation.track, true));
             })
         );
 
         this.subscription.add(
-            this.playbackInformationService.playingNoTrack$.subscribe(async (playbackInformation: PlaybackInformation) => {
-                await this.switchUp(playbackInformation.track);
+            this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.switchUp(playbackInformation.track));
             })
         );
 
@@ -125,8 +126,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
     }
 
-    private async switchUp(track: TrackModel): Promise<void> {
-        let newTrack: TrackModel;
+    private async switchUp(track: TrackModel | undefined): Promise<void> {
+        let newTrack: TrackModel | undefined;
 
         if (track != undefined) {
             newTrack = track;
@@ -146,8 +147,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(350);
     }
 
-    private async switchDown(track: TrackModel, performAnimation: boolean): Promise<void> {
-        let newTrack: TrackModel;
+    private async switchDown(track: TrackModel | undefined, performAnimation: boolean): Promise<void> {
+        let newTrack: TrackModel | undefined;
 
         if (track != undefined) {
             newTrack = track;

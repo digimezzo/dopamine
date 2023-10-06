@@ -35,7 +35,7 @@ describe('PlaybackQueueComponent', () => {
         );
     }
 
-    beforeEach(async () => {
+    beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();

@@ -11,7 +11,7 @@ export class LastfmArtist {
     public imageExtraLarge: string;
     public imageMega: string;
     public similarArtists: LastfmArtist[] = [];
-    public biography: LastfmBiography;
+    public biography: LastfmBiography | undefined;
 
     public largestImage(): string {
         if (!Strings.isNullOrWhiteSpace(this.imageMega)) {

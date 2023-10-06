@@ -5,9 +5,9 @@ import { BaseSearchService } from '../services/search/base-search.service';
 
 @Pipe({ name: 'playlistsFilter' })
 export class PlaylistsFilterPipe implements PipeTransform {
-    constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: BaseSearchService) {}
 
-    public transform(playlists: PlaylistModel[], textToContain: string): PlaylistModel[] {
+    public transform(playlists: PlaylistModel[], textToContain: string | undefined): PlaylistModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {
             return playlists;
         }
@@ -15,7 +15,7 @@ export class PlaylistsFilterPipe implements PipeTransform {
         const filteredPlaylists: PlaylistModel[] = [];
 
         for (const playlist of playlists) {
-            if (this.searchService.matchesSearchText(playlist.name, textToContain)) {
+            if (this.searchService.matchesSearchText(playlist.name, textToContain!)) {
                 filteredPlaylists.push(playlist);
             }
         }

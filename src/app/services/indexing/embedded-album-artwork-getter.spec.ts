@@ -11,7 +11,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             const embeddedAlbumArtworkGetter: EmbeddedAlbumArtworkGetter = new EmbeddedAlbumArtworkGetter(loggerMock.object);
 
             // Act
-            const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(undefined);
+            const actualArtwork: Buffer | undefined = embeddedAlbumArtworkGetter.getEmbeddedArtwork(undefined);
 
             // Assert
             expect(actualArtwork).toBeUndefined();
@@ -27,7 +27,7 @@ describe('EmbeddedAlbumArtworkGetter', () => {
             metaDataMock.setup((x) => x.picture).returns(() => expectedArtwork);
 
             // Act
-            const actualArtwork: Buffer = embeddedAlbumArtworkGetter.getEmbeddedArtwork(metaDataMock.object);
+            const actualArtwork: Buffer | undefined = embeddedAlbumArtworkGetter.getEmbeddedArtwork(metaDataMock.object);
 
             // Assert
             expect(actualArtwork).toEqual(expectedArtwork);

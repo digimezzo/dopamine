@@ -2,8 +2,6 @@ import { DefaultThemesCreator } from './default-themes-creator';
 import { Theme } from './theme/theme';
 
 describe('DefaultThemesCreator', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

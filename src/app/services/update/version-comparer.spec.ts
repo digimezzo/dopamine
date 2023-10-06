@@ -2,7 +2,7 @@ import { VersionComparer } from './version-comparer';
 
 describe('VersionComparer', () => {
     describe('isNewerVersion', () => {
-        it('should report newer version when old version is release and is older than new version which is release', async () => {
+        it('should report newer version when old version is release and is older than new version which is release', () => {
             // Arrange
 
             // Act
@@ -12,7 +12,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should not report newer version when old version is release and is same as new version which is release', async () => {
+        it('should not report newer version when old version is release and is same as new version which is release', () => {
             // Arrange
 
             // Act
@@ -22,7 +22,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should  not report newer version when old version is release and is newer than new version which is release', async () => {
+        it('should  not report newer version when old version is release and is newer than new version which is release', () => {
             // Arrange
 
             // Act
@@ -32,7 +32,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should not report newer version if old version is the same as new version but new version has "preview" suffix', async () => {
+        it('should not report newer version if old version is the same as new version but new version has "preview" suffix', () => {
             // Arrange
 
             // Act
@@ -42,7 +42,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should not report newer version if old version is the same as new version but new version has "rc" suffix', async () => {
+        it('should not report newer version if old version is the same as new version but new version has "rc" suffix', () => {
             // Arrange
 
             // Act
@@ -52,7 +52,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should not report newer version if old version is newer than new version and old version has "preview" suffix', async () => {
+        it('should not report newer version if old version is newer than new version and old version has "preview" suffix', () => {
             // Arrange
 
             // Act
@@ -62,7 +62,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should not report newer version if old version is newer than new version and old version has "rc" suffix', async () => {
+        it('should not report newer version if old version is newer than new version and old version has "rc" suffix', () => {
             // Arrange
 
             // Act
@@ -72,7 +72,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report newer version if old version is older than new version and old version has "preview" suffix', async () => {
+        it('should report newer version if old version is older than new version and old version has "preview" suffix', () => {
             // Arrange
 
             // Act
@@ -82,7 +82,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report newer version if old version is older than new version and old version has "rc" suffix', async () => {
+        it('should report newer version if old version is older than new version and old version has "rc" suffix', () => {
             // Arrange
 
             // Act
@@ -92,7 +92,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should not report newer version if old version is newer than new version and new version has "preview" suffix', async () => {
+        it('should not report newer version if old version is newer than new version and new version has "preview" suffix', () => {
             // Arrange
 
             // Act
@@ -102,7 +102,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should not report newer version if old version is newer than new version and new version has "rc" suffix', async () => {
+        it('should not report newer version if old version is newer than new version and new version has "rc" suffix', () => {
             // Arrange
 
             // Act
@@ -112,7 +112,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report newer version if old version is older than new version and new version has "preview" suffix', async () => {
+        it('should report newer version if old version is older than new version and new version has "preview" suffix', () => {
             // Arrange
 
             // Act
@@ -122,7 +122,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report newer version if old version is older than new version and new version has "rc" suffix', async () => {
+        it('should report newer version if old version is older than new version and new version has "rc" suffix', () => {
             // Arrange
 
             // Act
@@ -132,7 +132,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report newer version if both old and new version are "preview" versions with same version number but new version has higher iteration', async () => {
+        it('should report newer version if both old and new version are "preview" versions with same version number but new version has higher iteration', () => {
             // Arrange
 
             // Act
@@ -142,7 +142,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report newer version if both old and new version are "rc" versions with same version number but new version has higher iteration', async () => {
+        it('should report newer version if both old and new version are "rc" versions with same version number but new version has higher iteration', () => {
             // Arrange
 
             // Act
@@ -152,7 +152,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report not newer version if both old and new version are "preview" versions with same version number but new version has lower iteration', async () => {
+        it('should report not newer version if both old and new version are "preview" versions with same version number but new version has lower iteration', () => {
             // Arrange
 
             // Act
@@ -162,7 +162,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report not newer version if both old and new version are "rc" versions with same version number but new version has lower iteration', async () => {
+        it('should report not newer version if both old and new version are "rc" versions with same version number but new version has lower iteration', () => {
             // Arrange
 
             // Act
@@ -172,7 +172,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report newer version if old version is "preview" version and new version is "rc" version and both have the same version number and iteration', async () => {
+        it('should report newer version if old version is "preview" version and new version is "rc" version and both have the same version number and iteration', () => {
             // Arrange
 
             // Act
@@ -182,7 +182,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeTruthy();
         });
 
-        it('should report not newer version if old version is "rc" version and new version is "preview" version and both have the same version number and iteration', async () => {
+        it('should report not newer version if old version is "rc" version and new version is "preview" version and both have the same version number and iteration', () => {
             // Arrange
 
             // Act
@@ -192,7 +192,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report not newer version if old version is "rc" version and new version is "preview" version and iteration of new version is higher', async () => {
+        it('should report not newer version if old version is "rc" version and new version is "preview" version and iteration of new version is higher', () => {
             // Arrange
 
             // Act
@@ -202,7 +202,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report not newer version if old version is "rc" version and new version is "preview" version and iteration of new version is lower', async () => {
+        it('should report not newer version if old version is "rc" version and new version is "preview" version and iteration of new version is lower', () => {
             // Arrange
 
             // Act
@@ -212,7 +212,7 @@ describe('VersionComparer', () => {
             expect(isNewerVersion).toBeFalsy();
         });
 
-        it('should report newer version if old version is "preview" version and new version is "rc" version and iteration of new version is lower', async () => {
+        it('should report newer version if old version is "preview" version and new version is "rc" version and iteration of new version is lower', () => {
             // Arrange
 
             // Act

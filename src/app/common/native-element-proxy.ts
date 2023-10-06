@@ -2,9 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable()
 export class NativeElementProxy {
-    constructor() {}
-
-    public getElementWidth(element: ElementRef): number {
+    public getElementWidth(element: ElementRef<HTMLElement> | undefined): number {
         if (element == undefined) {
             return 0;
         }
@@ -12,10 +10,35 @@ export class NativeElementProxy {
         if (element.nativeElement == undefined) {
             return 0;
         }
-        if (element.nativeElement.offsetWidth == undefined) {
+
+        // if (!(element.nativeElement instanceof HTMLElement)) {
+        //     return 0;
+        // }
+
+        const htmlElement: HTMLElement = element.nativeElement;
+
+        if (htmlElement.offsetWidth == undefined) {
             return 0;
         }
 
-        return element.nativeElement.offsetWidth;
+        return htmlElement.offsetWidth;
+    }
+
+    public getBoundingRectangle(element: ElementRef | undefined): DOMRect | undefined {
+        if (element == undefined) {
+            return undefined;
+        }
+
+        if (element.nativeElement == undefined) {
+            return undefined;
+        }
+
+        if (!(element.nativeElement instanceof HTMLElement)) {
+            return undefined;
+        }
+
+        const htmlElement: HTMLElement = element.nativeElement;
+
+        return htmlElement.getBoundingClientRect();
     }
 }

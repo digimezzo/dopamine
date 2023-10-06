@@ -232,7 +232,7 @@ describe('MediaSessionService', () => {
                 mediaSessionProxyMock.verify((x) => x.setActionHandler('nexttrack', It.isAny()), Times.once());
             });
 
-            it('should enable subscriptions so that metadata is set on playing next track', async () => {
+            it('should enable subscriptions so that metadata is set on playing next track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = true;
                 const service: BaseMediaSessionService = createService();
@@ -260,7 +260,7 @@ describe('MediaSessionService', () => {
         });
 
         describe('settings.enableMultimediaKeys is false', () => {
-            it('should not enable subscriptions so that metadata is set on playing next track', async () => {
+            it('should not enable subscriptions so that metadata is set on playing next track', () => {
                 // Arrange
                 settingsMock.enableMultimediaKeys = false;
                 const service: BaseMediaSessionService = createService();

@@ -5,6 +5,7 @@ import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -23,7 +24,7 @@ export class ScrobblingService implements BaseScrobblingService {
     private currentTrack: TrackModel;
     private currentTrackUTCStartTime: Date;
 
-    constructor(
+    public constructor(
         private playbackService: BasePlaybackService,
         private lastfmApi: LastfmApi,
         private dateTime: DateTime,
@@ -58,11 +59,12 @@ export class ScrobblingService implements BaseScrobblingService {
 
                 this._signInState = SignInState.SignedIn;
             } else {
-                this.logger.error(`User '${this.username}' could not sign in to Last.fm.`, 'ScrobblingService', 'signIn');
+                this.logger.warn(`User '${this.username}' could not sign in to Last.fm.`, 'ScrobblingService', 'signIn');
                 this._signInState = SignInState.Error;
             }
-        } catch (e) {
-            this.logger.error(`User '${this.username}' could not sign in to last.fm. Error: ${e.message}`, 'ScrobblingService', 'signIn');
+        } catch (e: unknown) {
+            this.logger.error(e, `User '${this.username}' could not sign in to last.fm`, 'ScrobblingService', 'signIn');
+
             this._signInState = SignInState.Error;
         }
 
@@ -94,22 +96,14 @@ export class ScrobblingService implements BaseScrobblingService {
             if (love) {
                 try {
                     await this.lastfmApi.loveTrackAsync(this.sessionKey, artist, track.rawTitle);
-                } catch (e) {
-                    this.logger.error(
-                        `Could not send track.love to Last.fm. Error: ${e.message}`,
-                        'ScrobblingService',
-                        'sendTrackLoveAsync'
-                    );
+                } catch (e: unknown) {
+                    this.logger.error(e, 'Could not send track.love to Last.fm', 'ScrobblingService', 'sendTrackLoveAsync');
                 }
             } else {
                 try {
                     await this.lastfmApi.unloveTrackAsync(this.sessionKey, artist, track.rawTitle);
-                } catch (e) {
-                    this.logger.error(
-                        'Could not send track.unlove to Last.fm. Error: ${e.message}',
-                        'ScrobblingService',
-                        'sendTrackLoveAsync'
-                    );
+                } catch (e: unknown) {
+                    this.logger.error(e, 'Could not send track.unlove to Last.fm', 'ScrobblingService', 'sendTrackLoveAsync');
                 }
             }
         }
@@ -143,14 +137,14 @@ export class ScrobblingService implements BaseScrobblingService {
         }
 
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(
-                async (playbackStarted: PlaybackStarted) => await this.handlePlaybackStartedAsync(playbackStarted)
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) =>
+                PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted))
             )
         );
 
         this.subscription.add(
-            this.playbackService.progressChanged$.subscribe(
-                async (playbackProgress: PlaybackProgress) => await this.handlePlaybackProgressChangedAsync(playbackProgress)
+            this.playbackService.progressChanged$.subscribe((playbackProgress: PlaybackProgress) =>
+                PromiseUtils.noAwait(this.handlePlaybackProgressChangedAsync(playbackProgress))
             )
         );
 
@@ -185,15 +179,16 @@ export class ScrobblingService implements BaseScrobblingService {
                     'handlePlaybackStartedAsync'
                 );
             } else {
-                this.logger.error(
+                this.logger.warn(
                     `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
                     'ScrobblingService',
                     'handlePlaybackStartedAsync'
                 );
             }
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
-                `Could not update Now Playing for track '${artist} - ${trackTitle}'. Exception: ${e.message}`,
+                e,
+                `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
                 'ScrobblingService',
                 'handlePlaybackStartedAsync'
             );
@@ -244,15 +239,16 @@ export class ScrobblingService implements BaseScrobblingService {
                             'handlePlaybackProgressChangedAsync'
                         );
                     } else {
-                        this.logger.error(
+                        this.logger.warn(
                             `Could not Scrobble track '${artist} - ${trackTitle}'`,
                             'ScrobblingService',
                             'handlePlaybackProgressChangedAsync'
                         );
                     }
-                } catch (e) {
+                } catch (e: unknown) {
                     this.logger.error(
-                        `Could not Scrobble track '${artist} - ${trackTitle}'. Exception: ${e.message}`,
+                        e,
+                        `Could not Scrobble track '${artist} - ${trackTitle}'`,
                         'ScrobblingService',
                         'handlePlaybackProgressChangedAsync'
                     );

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
@@ -20,11 +20,11 @@ import { PlaylistFoldersPersister } from '../playlist-folders-persister';
     styleUrls: ['./playlist-folder-browser.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class PlaylistFolderBrowserComponent implements OnInit {
+export class PlaylistFolderBrowserComponent {
     private _playlistFolders: PlaylistFolderModel[] = [];
     private _playlistFoldersPersister: PlaylistFoldersPersister;
 
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         public playlistFolderService: BasePlaylistFolderService,
         public playlistService: BasePlaylistService,
@@ -64,8 +64,6 @@ export class PlaylistFolderBrowserComponent implements OnInit {
     @ViewChild('playlistFolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public playlistFolderContextMenu: MatMenuTrigger;
 
-    public ngOnInit(): void {}
-
     public onPlaylistFolderContextMenu(event: MouseEvent, playlistFolder: PlaylistFolderModel): void {
         if (playlistFolder.isModifiable) {
             this.contextMenuOpener.open(this.playlistFolderContextMenu, event, playlistFolder);
@@ -83,12 +81,8 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         if (userHasConfirmed) {
             try {
                 this.playlistFolderService.deletePlaylistFolder(playlistFolder);
-            } catch (e) {
-                this.logger.error(
-                    `Could not delete playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onDeletePlaylistFolderAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not delete playlist folder', 'CollectionPlaylistsComponent', 'onDeletePlaylistFolderAsync');
 
                 const errorText: string = await this.translatorService.getAsync('delete-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
@@ -109,12 +103,9 @@ export class PlaylistFolderBrowserComponent implements OnInit {
         if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
             try {
                 this.playlistFolderService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
-            } catch (e) {
-                this.logger.error(
-                    `Could not rename playlist folder. Error: ${e.message}`,
-                    'CollectionPlaylistsComponent',
-                    'onRenamePlaylistFolderAsync'
-                );
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not rename playlist folder', 'CollectionPlaylistsComponent', 'onRenamePlaylistFolderAsync');
+
                 const errorText: string = await this.translatorService.getAsync('rename-playlist-folder-error');
                 this.dialogService.showErrorDialog(errorText);
             }
@@ -132,22 +123,18 @@ export class PlaylistFolderBrowserComponent implements OnInit {
             if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
                 this.playlistFolderService.createPlaylistFolder(playlistFolderName);
             }
-        } catch (e) {
-            this.logger.error(
-                `Could not create playlist folder. Error: ${e.message}`,
-                'CollectionPlaylistsComponent',
-                'createPlaylistFolderAsync'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not create playlist folder', 'CollectionPlaylistsComponent', 'createPlaylistFolderAsync');
 
             const dialogText: string = await this.translatorService.getAsync('create-playlist-folder-error');
             this.dialogService.showErrorDialog(dialogText);
         }
     }
 
-    public async setSelectedPlaylistFoldersAsync(event: any, playlistFolderToSelect: PlaylistFolderModel): Promise<void> {
+    public setSelectedPlaylistFolders(event: MouseEvent, playlistFolderToSelect: PlaylistFolderModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, playlistFolderToSelect);
-        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems);
-        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems);
+        this.playlistFoldersPersister.setSelectedPlaylistFolders(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
+        this.playlistService.setActivePlaylistFolder(this.mouseSelectionWatcher.selectedItems as PlaylistFolderModel[]);
     }
 
     private applySelectedPlaylistFolders(): void {

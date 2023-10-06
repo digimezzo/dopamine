@@ -16,7 +16,7 @@ describe('VolumeControlComponent', () => {
             // Arrange
 
             // Act
-            let component: VolumeControlComponent = createVolumeControl();
+            const component: VolumeControlComponent = createVolumeControl();
 
             // Assert
             expect(component).toBeDefined();
@@ -27,7 +27,7 @@ describe('VolumeControlComponent', () => {
         it('should set playbackService.volume', () => {
             // Arrange
             playbackServiceMock.volume = 50;
-            let component: VolumeControlComponent = createVolumeControl();
+            const component: VolumeControlComponent = createVolumeControl();
 
             // Act
             component.volume = 20;
@@ -39,7 +39,7 @@ describe('VolumeControlComponent', () => {
         it('should get playbackService.volume', () => {
             // Arrange
             playbackServiceMock.volume = 40;
-            let component: VolumeControlComponent = createVolumeControl();
+            const component: VolumeControlComponent = createVolumeControl();
 
             // Act & Assert
             expect(component.volume).toEqual(40);

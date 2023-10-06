@@ -125,16 +125,6 @@ describe('GenresPersister', () => {
     });
 
     describe('getSelectedAlbums', () => {
-        it('should return an empty collection given that availableAlbums is undefined', () => {
-            // Arrange
-
-            // Act
-            const selectedAlbums: AlbumModel[] = persister.getSelectedAlbums(undefined);
-
-            // Assert
-            expect(selectedAlbums.length).toEqual(0);
-        });
-
         it('should return an empty collection given that availableAlbums is empty', () => {
             // Arrange
 
@@ -160,16 +150,6 @@ describe('GenresPersister', () => {
     });
 
     describe('setSelectedAlbums', () => {
-        it('should empty the selected albums if selectedAlbums is undefined', () => {
-            // Arrange
-
-            // Act
-            persister.setSelectedAlbums(undefined);
-
-            // Assert
-            expect(persister.getSelectedAlbums(availableAlbums)).toEqual([]);
-        });
-
         it('should empty the selected albums if selectedAlbums is empty', () => {
             // Arrange
 
@@ -188,17 +168,6 @@ describe('GenresPersister', () => {
 
             // Assert
             expect(persister.getSelectedAlbums(availableAlbums)).toEqual([album2, album3]);
-        });
-
-        it('should save an empty selected album to the settings if selectedAlbums is undefined', () => {
-            // Arrange
-            settingsStub.genresTabSelectedAlbum = 'someAlbum';
-
-            // Act
-            persister.setSelectedAlbums(undefined);
-
-            // Assert
-            expect(settingsStub.genresTabSelectedAlbum).toEqual('');
         });
 
         it('should save an empty selected album to the settings if selectedAlbums is empty', () => {

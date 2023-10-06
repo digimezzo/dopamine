@@ -59,8 +59,8 @@ describe('IndexablePathFetcher', () => {
 
         const directoryWalkResult2: DirectoryWalkResult = new DirectoryWalkResult(filePaths2, errors2);
 
-        directoryWalkerMock.setup((x) => x.getFilesInDirectoryAsync(folder1.path)).returns(async () => directoryWalkResult1);
-        directoryWalkerMock.setup((x) => x.getFilesInDirectoryAsync(folder2.path)).returns(async () => directoryWalkResult2);
+        directoryWalkerMock.setup((x) => x.getFilesInDirectoryAsync(folder1.path)).returns(() => Promise.resolve(directoryWalkResult1));
+        directoryWalkerMock.setup((x) => x.getFilesInDirectoryAsync(folder2.path)).returns(() => Promise.resolve(directoryWalkResult2));
 
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Track 1.mp3')).returns(() => '.mp3');
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Music/Track 2.mp3')).returns(() => '.mp3');
@@ -72,7 +72,7 @@ describe('IndexablePathFetcher', () => {
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Downloads/Image 2')).returns(() => '');
         fileAccessMock.setup((x) => x.pathExists('/home/user/Music')).returns(() => true);
         fileAccessMock.setup((x) => x.pathExists('/home/user/Downloads')).returns(() => true);
-        fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(It.isAny())).returns(async () => 100);
+        fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(It.isAny())).returns(() => Promise.resolve(100));
     });
 
     describe('getIndexablePathsForAllFoldersAsync', () => {

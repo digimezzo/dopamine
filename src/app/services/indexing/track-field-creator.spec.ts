@@ -101,7 +101,7 @@ describe('TrackFieldCreator', () => {
             metadataPatcherMock.setup((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2'])).returns(() => ['Item 1', 'Item 2']);
 
             // Act
-            const field: string = trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
+            trackFieldCreator.createMultiTextField(['Item 1', 'Item 2']);
 
             // Assert
             metadataPatcherMock.verify((x) => x.joinUnsplittableMetadata(['Item 1', 'Item 2']), Times.exactly(1));

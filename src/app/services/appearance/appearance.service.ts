@@ -30,7 +30,7 @@ export class AppearanceService implements BaseAppearanceService {
 
     private _themesDirectoryPath: string;
 
-    constructor(
+    public constructor(
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer,
@@ -139,7 +139,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private initialize(): void {
-        this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame');
+        this._windowHasNativeTitleBar = this.application.getGlobal('windowHasFrame') as boolean;
 
         this._themesDirectoryPath = this.getThemesDirectoryPath();
         this.ensureThemesDirectoryExists();
@@ -161,11 +161,11 @@ export class AppearanceService implements BaseAppearanceService {
 
     private applyFontSize(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
-        element.style.setProperty('--fontsize-normal', this._selectedFontSize.normalSize + 'px');
-        element.style.setProperty('--fontsize-medium', this._selectedFontSize.mediumSize + 'px');
-        element.style.setProperty('--fontsize-large', this._selectedFontSize.largeSize + 'px');
-        element.style.setProperty('--fontsize-extra-large', this._selectedFontSize.extraLargeSize + 'px');
-        element.style.setProperty('--fontsize-mega', this._selectedFontSize.megaSize + 'px');
+        element.style.setProperty('--fontsize-normal', `${this._selectedFontSize.normalSize}px`);
+        element.style.setProperty('--fontsize-medium', `${this._selectedFontSize.mediumSize}px`);
+        element.style.setProperty('--fontsize-large', `${this._selectedFontSize.largeSize}px`);
+        element.style.setProperty('--fontsize-extra-large', `${this._selectedFontSize.extraLargeSize}px`);
+        element.style.setProperty('--fontsize-mega', `${this._selectedFontSize.megaSize}px`);
     }
 
     public applyMargins(isSearchVisible: boolean): void {
@@ -185,7 +185,7 @@ export class AppearanceService implements BaseAppearanceService {
             totalMargin = totalMargin + searchBoxWidth;
         }
 
-        element.style.setProperty('--mat-tab-header-margin-right', totalMargin + 4 + 'px');
+        element.style.setProperty('--mat-tab-header-margin-right', `${totalMargin + 4}px`);
     }
 
     private addSubscriptions(): void {
@@ -206,7 +206,7 @@ export class AppearanceService implements BaseAppearanceService {
 
         try {
             this.applyTheme();
-        } catch (e) {
+        } catch (e: unknown) {
             this.selectedTheme.isBroken = true;
             this.settings.theme = 'Dopamine';
             this.setSelectedThemeFromSettings();
@@ -334,7 +334,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private setSelectedThemeFromSettings(): void {
-        let themeFromSettings: Theme = this.themes.find((x) => x.name === this.settings.theme);
+        let themeFromSettings: Theme | undefined = this.themes.find((x) => x.name === this.settings.theme);
 
         if (themeFromSettings == undefined) {
             themeFromSettings = this.themes.find((x) => x.name === 'Dopamine');
@@ -354,7 +354,7 @@ export class AppearanceService implements BaseAppearanceService {
     }
 
     private setSelectedFontSizeFromSettings(): void {
-        this._selectedFontSize = this.fontSizes.find((x) => x.normalSize === this.settings.fontSize);
+        this._selectedFontSize = this.fontSizes.find((x) => x.normalSize === this.settings.fontSize)!;
     }
 
     private isSystemUsingDarkTheme(): boolean {
@@ -363,8 +363,8 @@ export class AppearanceService implements BaseAppearanceService {
         if (this.settings.followSystemTheme) {
             try {
                 systemIsUsingDarkTheme = this.desktop.shouldUseDarkColors();
-            } catch (e) {
-                this.logger.error(`Could not get system dark mode. Error: ${e.message}`, 'AppearanceService', 'isSystemUsingDarkTheme');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not get system dark mode', 'AppearanceService', 'isSystemUsingDarkTheme');
             }
         }
 
@@ -387,8 +387,8 @@ export class AppearanceService implements BaseAppearanceService {
         try {
             const systemAccentColorWithTransparency: string = this.desktop.getAccentColor();
             systemAccentColor = '#' + systemAccentColorWithTransparency.substr(0, 6);
-        } catch (e) {
-            this.logger.error(`Could not get system accent color. Error: ${e.message}`, 'AppearanceService', 'getSystemAccentColor');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get system accent color', 'AppearanceService', 'getSystemAccentColor');
         }
 
         return systemAccentColor;
@@ -419,10 +419,10 @@ export class AppearanceService implements BaseAppearanceService {
             const themeFileContent: string = this.fileAccess.getFileContentAsString(themeFile);
 
             try {
-                const theme: Theme = JSON.parse(themeFileContent);
+                const theme: Theme = JSON.parse(themeFileContent) as Theme;
                 themes.push(theme);
-            } catch (e) {
-                this.logger.error(`Could not parse theme file. Error: ${e.message}`, 'AppearanceService', 'getThemesFromThemesDirectory');
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not parse theme file', 'AppearanceService', 'getThemesFromThemesDirectory');
             }
         }
 

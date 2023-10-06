@@ -20,7 +20,7 @@ import { TrackModel } from '../../services/track/track-model';
 export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
@@ -37,7 +37,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe(async (playbackStarted: PlaybackStarted) => {
+            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.playbackService.playbackQueue.tracks, playbackStarted.currentTrack);
             })
         );
@@ -49,7 +49,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         );
     }
 
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
@@ -58,6 +58,6 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     }
 
     public onRemoveFromQueue(): void {
-        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems);
+        this.playbackService.removeFromQueue(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
     }
 }

@@ -1,5 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
+import { GuidFactory } from '../../common/guid.factory';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
@@ -13,12 +14,15 @@ describe('AlbumArtworkCacheService', () => {
     let fileAccessMock: IMock<BaseFileAccess>;
     let loggerMock: IMock<Logger>;
     let service: AlbumArtworkCacheService;
+    let guidFactoryMock: IMock<GuidFactory>;
 
     beforeEach(() => {
         albumArtworkCacheIdFactoryMock = Mock.ofType<AlbumArtworkCacheIdFactory>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         fileAccessMock = Mock.ofType<BaseFileAccess>();
         loggerMock = Mock.ofType<Logger>();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
+
         service = new AlbumArtworkCacheService(
             albumArtworkCacheIdFactoryMock.object,
             imageProcessorMock.object,
@@ -57,7 +61,7 @@ describe('AlbumArtworkCacheService', () => {
             // Arrange
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(undefined);
+            const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(undefined);
 
             // Assert
             expect(albumArtworkCacheId).toBeUndefined();
@@ -67,7 +71,7 @@ describe('AlbumArtworkCacheService', () => {
             const imageBuffer = Buffer.alloc(0);
 
             // Act
-            const albumArtworkCacheId: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
+            const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
             expect(albumArtworkCacheId).toBeUndefined();
@@ -75,37 +79,37 @@ describe('AlbumArtworkCacheService', () => {
 
         it('should return a valid AlbumArtworkCacheId when the data is not empty', async () => {
             // Arrange
-            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
             fileAccessMock.setup((x) => x.coverArtCacheFullPath()).returns(() => '/home/user/Dopamine/Cache/CoverArt');
 
             const imageBuffer = Buffer.from([1, 2, 3]);
 
             // Act
-            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId = await service.addArtworkDataToCacheAsync(imageBuffer);
+            const albumArtworkCacheIdToReturn: AlbumArtworkCacheId | undefined = await service.addArtworkDataToCacheAsync(imageBuffer);
 
             // Assert
-            expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn.id);
+            expect(albumArtworkCacheIdToCreate.id).toEqual(albumArtworkCacheIdToReturn!.id);
         });
 
         it('should save thumbnail to file when the data is not empty', async () => {
             // Arrange
             const imageBuffer = Buffer.from([1, 2, 3]);
             const resizedImageBuffer = Buffer.from([4, 5, 6]);
-            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
             const cachedArtworkFilePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
             fileAccessMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => cachedArtworkFilePath);
             imageProcessorMock
                 .setup((x) =>
-                    x.resizeImageAsync(
+                    x.resizeImage(
                         imageBuffer,
                         Constants.cachedCoverArtMaximumSize,
                         Constants.cachedCoverArtMaximumSize,
                         Constants.cachedCoverArtJpegQuality
                     )
                 )
-                .returns(async () => resizedImageBuffer);
+                .returns(() => resizedImageBuffer);
 
             // Act
             await service.addArtworkDataToCacheAsync(imageBuffer);
@@ -118,7 +122,7 @@ describe('AlbumArtworkCacheService', () => {
     describe('removeArtworkDataFromCache', () => {
         it('should delete cached artwork file if it exists', async () => {
             // Arrange
-            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId();
+            const albumArtworkCacheIdToCreate: AlbumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
             const cachedArtworkFilePath: string = '/home/user/Dopamine/Cache/CoverArt/Dummy.jpg';
             albumArtworkCacheIdFactoryMock.setup((x) => x.create()).returns(() => albumArtworkCacheIdToCreate);
             fileAccessMock.setup((x) => x.coverArtFullPath(albumArtworkCacheIdToCreate.id)).returns(() => cachedArtworkFilePath);

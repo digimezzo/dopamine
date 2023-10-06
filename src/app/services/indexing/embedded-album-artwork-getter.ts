@@ -4,19 +4,20 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 
 @Injectable()
 export class EmbeddedAlbumArtworkGetter {
-    constructor(private logger: Logger) {}
+    public constructor(private logger: Logger) {}
 
-    public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer {
+    public getEmbeddedArtwork(fileMetadata: IFileMetadata | undefined): Buffer | undefined {
         if (fileMetadata == undefined) {
             return undefined;
         }
 
-        let artworkData: Buffer;
+        let artworkData: Buffer | undefined;
 
         try {
             artworkData = fileMetadata.picture;
-        } catch (error) {
+        } catch (e: unknown) {
             this.logger.error(
+                e,
                 `Could not get embedded artwork for track with path='${fileMetadata.path}'`,
                 'EmbeddedAlbumArtworkGetter',
                 'getEmbeddedArtwork'

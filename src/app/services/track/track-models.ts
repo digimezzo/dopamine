@@ -4,8 +4,6 @@ export class TrackModels {
     private _totalDurationInMilliseconds: number = 0;
     private _totalFileSizeInBytes: number = 0;
 
-    constructor() {}
-
     public tracks: TrackModel[] = [];
 
     public get totalDurationInMilliseconds(): number {
@@ -20,7 +18,7 @@ export class TrackModels {
         return this.tracks.length;
     }
 
-    public addTrack(track: TrackModel): void {
+    public addTrack(track: TrackModel | undefined): void {
         if (track == undefined) {
             return;
         }

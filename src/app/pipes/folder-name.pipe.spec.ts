@@ -19,20 +19,6 @@ describe('FolderNamePipe', () => {
             expect(folderName).toEqual('');
         });
 
-        it('should return empty string if folder path is undefined', () => {
-            // Arrange
-            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
-            fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
-            const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
-            const folder: FolderModel = new FolderModel(new Folder(undefined));
-
-            // Act
-            const folderName: string = directoryNamePipe.transform(folder);
-
-            // Assert
-            expect(folderName).toEqual('');
-        });
-
         it('should return empty string if folder path is empty', () => {
             // Arrange
             const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();

@@ -20,7 +20,7 @@
             <app-genre
                 [genre]="genre"
                 (dblclick)="this.playbackService.enqueueAndPlayGenre(genre)"
-                (contextmenu)="onGenreContextMenuAsync($event, genre)"
+                (contextmenu)="onGenreContextMenu($event, genre)"
             ></app-genre>
         </div>
     </cdk-virtual-scroll-viewport>

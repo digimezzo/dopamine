@@ -1,3 +1,4 @@
+import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../../common/application/constants';
@@ -243,7 +244,7 @@ describe('CollectionArtistsComponent', () => {
     });
 
     describe('selectedAlbumOrder', () => {
-        it('should return the selected album order', async () => {
+        it('should return the selected album order', () => {
             // Arrange
             const component: CollectionArtistsComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byYearAscending;
@@ -255,7 +256,7 @@ describe('CollectionArtistsComponent', () => {
             expect(selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should set the selected album order', async () => {
+        it('should set the selected album order', () => {
             // Arrange
             const component: CollectionArtistsComponent = createComponent();
             component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
@@ -322,23 +323,23 @@ describe('CollectionArtistsComponent', () => {
     });
 
     describe('splitDragEnd', () => {
-        it('should save the left pane width to the settings', async () => {
+        it('should save the left pane width to the settings', () => {
             // Arrange
             const component: CollectionArtistsComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [30, 55, 15] });
+            component.splitDragEnd({ sizes: [30, 55, 15] } as IOutputData);
 
             // Assert
             expect(settingsStub.artistsLeftPaneWidthPercent).toEqual(30);
         });
 
-        it('should save the right pane width to the settings', async () => {
+        it('should save the right pane width to the settings', () => {
             // Arrange
             const component: CollectionArtistsComponent = createComponent();
 
             // Act
-            component.splitDragEnd({ sizes: [30, 55, 15] });
+            component.splitDragEnd({ sizes: [30, 55, 15] } as IOutputData);
 
             // Assert
             expect(settingsStub.artistsRightPaneWidthPercent).toEqual(15);
@@ -385,7 +386,6 @@ describe('CollectionArtistsComponent', () => {
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
-            const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.trackArtists)).returns(() => [artist1]);
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.trackArtists);
 
@@ -403,10 +403,8 @@ describe('CollectionArtistsComponent', () => {
         it('should get all album artists if artists type is albumArtists and the selected tab is artists', async () => {
             // Arrange
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            const artist1: ArtistModel = createArtistModel('artist1');
-            const artist2: ArtistModel = createArtistModel('artist2');
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.albumArtists)).returns(() => [artist2]);
+            const artist1: ArtistModel = createArtistModel('artist2');
+            artistServiceMock.setup((x) => x.getArtists(ArtistType.albumArtists)).returns(() => [artist1]);
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.albumArtists);
 
             const component: CollectionArtistsComponent = createComponent();
@@ -417,7 +415,7 @@ describe('CollectionArtistsComponent', () => {
             // Assert
             artistServiceMock.verify((x) => x.getArtists(ArtistType.albumArtists), Times.once());
             expect(component.artists.length).toEqual(1);
-            expect(component.artists[0]).toEqual(artist2);
+            expect(component.artists[0]).toEqual(artist1);
         });
 
         it('should not get artists if the selected tab is not artists', async () => {
@@ -501,7 +499,6 @@ describe('CollectionArtistsComponent', () => {
             artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist1, artist2]);
 
             const album1: AlbumModel = createAlbumModel('albumKey1');
-            const album2: AlbumModel = createAlbumModel('albumKey2');
             albumServiceMock
                 .setup((x) => x.getAlbumsForArtists([artist1.name, artist2.name], ArtistType.trackArtists))
                 .returns(() => [album1]);
@@ -529,10 +526,9 @@ describe('CollectionArtistsComponent', () => {
             artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist1, artist2]);
 
             const album1: AlbumModel = createAlbumModel('albumKey1');
-            const album2: AlbumModel = createAlbumModel('albumKey2');
             albumServiceMock
                 .setup((x) => x.getAlbumsForArtists([artist1.name, artist2.name], ArtistType.albumArtists))
-                .returns(() => [album2]);
+                .returns(() => [album1]);
 
             const component: CollectionArtistsComponent = createComponent();
 
@@ -543,7 +539,7 @@ describe('CollectionArtistsComponent', () => {
             albumServiceMock.verify((x) => x.getAlbumsForArtists([artist1.name, artist2.name], ArtistType.albumArtists), Times.once());
             albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
             expect(component.albums.length).toEqual(1);
-            expect(component.albums[0]).toEqual(album2);
+            expect(component.albums[0]).toEqual(album1);
         });
 
         it('should not get albums if the selected tab is not artists', async () => {
@@ -557,10 +553,9 @@ describe('CollectionArtistsComponent', () => {
             artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist1, artist2]);
 
             const album1: AlbumModel = createAlbumModel('albumKey1');
-            const album2: AlbumModel = createAlbumModel('albumKey2');
             albumServiceMock
                 .setup((x) => x.getAlbumsForArtists([artist1.name, artist2.name], ArtistType.albumArtists))
-                .returns(() => [album2]);
+                .returns(() => [album1]);
 
             const component: CollectionArtistsComponent = createComponent();
 

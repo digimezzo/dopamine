@@ -1,8 +1,6 @@
 import { PlaylistModel } from './playlist-model';
 
 describe('PlaylistModel', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange
@@ -96,21 +94,6 @@ describe('PlaylistModel', () => {
     });
 
     describe('isDefault', () => {
-        it('should return true if name is undefined', () => {
-            // Arrange
-            const playlist: PlaylistModel = new PlaylistModel(
-                undefined,
-                'Playlist 1 folder',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.m3u',
-                '/home/user/Music/Dopamine/Playlists/Folder 1/Playlist1.png'
-            );
-
-            // Act
-
-            // Assert
-            expect(playlist.isDefault).toBeTruthy();
-        });
-
         it('should return true if name is empty', () => {
             // Arrange
             const playlist: PlaylistModel = new PlaylistModel(

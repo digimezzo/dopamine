@@ -7,10 +7,10 @@ import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-di
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
+    public constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
 
     public handleError(e: Error): void {
-        this.logger.error(`Handling global error. Error: ${e.message}.`, 'GlobalErrorHandler', 'handleError');
+        this.logger.error(e, 'Handling global error', 'GlobalErrorHandler', 'handleError');
         this.showGlobalErrorDialog();
     }
 
@@ -25,7 +25,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                 data: { isGlobalError: true },
             });
 
-            dialogRef.afterClosed().subscribe((result) => {
+            dialogRef.afterClosed().subscribe(() => {
                 // Quit the application
                 this.logger.info('Closing application', 'GlobalErrorHandler', 'showGlobalErrorDialog');
                 const win: BrowserWindow = this.application.getCurrentWindow();

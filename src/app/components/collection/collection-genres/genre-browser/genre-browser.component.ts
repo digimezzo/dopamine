@@ -9,6 +9,7 @@ import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watche
 import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
 import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
+import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
@@ -31,7 +32,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private _genresPersister: GenresPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         private semanticZoomService: BaseSemanticZoomService,
         private applicationService: BaseApplicationService,
@@ -93,7 +94,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.semanticZoomService.zoomInRequested$.subscribe((text: string) => {
-                this.scrollToZoomHeaderAsync(text);
+                PromiseUtils.noAwait(this.scrollToZoomHeaderAsync(text));
             })
         );
 
@@ -104,10 +105,10 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         );
     }
 
-    public setSelectedGenres(event: any, genreToSelect: GenreModel): void {
+    public setSelectedGenres(event: MouseEvent, genreToSelect: GenreModel): void {
         if (!genreToSelect.isZoomHeader) {
             this.mouseSelectionWatcher.setSelectedItems(event, genreToSelect);
-            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems);
+            this.genresPersister.setSelectedGenres(this.mouseSelectionWatcher.selectedItems as GenreModel[]);
         }
     }
 
@@ -129,7 +130,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.orderGenres();
     }
 
-    public async onGenreContextMenuAsync(event: MouseEvent, genre: GenreModel): Promise<void> {
+    public onGenreContextMenu(event: MouseEvent, genre: GenreModel): void {
         this.contextMenuOpener.open(this.genreContextMenu, event, genre);
     }
 
@@ -156,8 +157,8 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
 
             this.semanticZoomHeaderAdder.addZoomHeaders(orderedGenres);
             this.applySelectedGenres();
-        } catch (e) {
-            this.logger.error(`Could not order genres. Error: ${e.message}`, 'GenreBrowserComponent', 'orderGenres');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order genres', 'GenreBrowserComponent', 'orderGenres');
         }
 
         this.orderedGenres = [...orderedGenres];

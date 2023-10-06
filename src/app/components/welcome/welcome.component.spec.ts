@@ -92,10 +92,10 @@ describe('WelcomeComponent', () => {
             // Arrange
 
             // Act
-            component.finish();
+            await component.finishAsync();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoading(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.exactly(1));
         });
     });
 });

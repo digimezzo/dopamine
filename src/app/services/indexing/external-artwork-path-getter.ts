@@ -5,14 +5,14 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: BaseFileAccess) {}
 
-    public async getExternalArtworkPathAsync(audioFilePath: string): Promise<string> {
+    public async getExternalArtworkPathAsync(audioFilePath: string | undefined): Promise<string> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {
-            return undefined;
+            return '';
         }
 
-        const directory: string = this.fileAccess.getDirectoryPath(audioFilePath);
+        const directory: string = this.fileAccess.getDirectoryPath(audioFilePath!);
         const filesInDirectory: string[] = await this.fileAccess.getFilesInDirectoryAsync(directory);
 
         for (const filePath of filesInDirectory) {
@@ -37,6 +37,6 @@ export class ExternalArtworkPathGetter {
             }
         }
 
-        return undefined;
+        return '';
     }
 }

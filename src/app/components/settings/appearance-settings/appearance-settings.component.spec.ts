@@ -92,14 +92,14 @@ describe('AppearanceSettingsComponent', () => {
     });
 
     describe('openThemesDirectory', () => {
-        it('should open the themes directory', () => {
+        it('should open the themes directory', async () => {
             // Arrange
 
             // Act
-            component.openThemesDirectory();
+            await component.openThemesDirectoryAsync();
 
             // Assert
-            desktopMock.verify((x) => x.openPath('/my/path'), Times.once());
+            desktopMock.verify((x) => x.openPathAsync('/my/path'), Times.once());
         });
     });
 });

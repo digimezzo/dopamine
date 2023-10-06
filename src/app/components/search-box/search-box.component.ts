@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseSearchService } from '../../services/search/base-search.service';
 
 @Component({
@@ -8,10 +8,8 @@ import { BaseSearchService } from '../../services/search/base-search.service';
     styleUrls: ['./search-box.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class SearchBoxComponent implements OnInit {
-    constructor(public searchService: BaseSearchService) {}
-
-    public ngOnInit(): void {}
+export class SearchBoxComponent {
+    public constructor(public searchService: BaseSearchService) {}
 
     public onBlur(): void {
         this.searchService.stopSearching();

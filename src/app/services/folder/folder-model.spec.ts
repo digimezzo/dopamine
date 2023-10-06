@@ -14,32 +14,23 @@ describe('FolderModel', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
-            // Arrange
-
-            // Act
-            const folderPath: string = folderModel.path;
-
-            // Assert
+        it('should create', () => {
+            // Arrange, Act, Assert
             expect(folderModel).toBeDefined();
         });
     });
 
     describe('path', () => {
-        it('should return folder path', async () => {
-            // Arrange
-
-            // Act
+        it('should return folder path', () => {
+            // Arrange, Act
             const folderPath: string = folderModel.path;
 
             // Assert
             expect(folderPath).toEqual(folder.path);
         });
 
-        it('should return folderId', async () => {
-            // Arrange
-
-            // Act
+        it('should return folderId', () => {
+            // Arrange, Act
             const folderId: number = folderModel.folderId;
 
             // Assert
@@ -47,17 +38,15 @@ describe('FolderModel', () => {
         });
 
         describe('showInCollection', () => {
-            it('should return true when folder showInCollection is 1', async () => {
-                // Arrange
-
-                // Act
+            it('should return true when folder showInCollection is 1', () => {
+                // Arrange, Act
                 const showInCollection: boolean = folderModel.showInCollection;
 
                 // Assert
                 expect(showInCollection).toBeTruthy();
             });
 
-            it('should return false when folder showInCollection is 0', async () => {
+            it('should return false when folder showInCollection is 0', () => {
                 // Arrange
                 folder.showInCollection = 0;
 
@@ -68,7 +57,7 @@ describe('FolderModel', () => {
                 expect(showInCollection).toBeFalsy();
             });
 
-            it('should return false when folder showInCollection is undefined', async () => {
+            it('should return false when folder showInCollection is undefined', () => {
                 // Arrange
                 folder.showInCollection = undefined;
 

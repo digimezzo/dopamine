@@ -8,9 +8,9 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
+    public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
 
-    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+    public async getOnlineArtworkAsync(fileMetadata: IFileMetadata | undefined): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
@@ -41,13 +41,14 @@ export class OnlineAlbumArtworkGetter {
         }
 
         for (const artist of artists) {
-            let lastfmAlbum: LastfmAlbum;
+            let lastfmAlbum: LastfmAlbum | undefined;
 
             try {
                 lastfmAlbum = await this.lastfmApi.getAlbumInfoAsync(artist, title, false, 'EN');
-            } catch (e) {
+            } catch (e: unknown) {
                 this.logger.error(
-                    `Could not get album info for artist='${artist}' and title='${title}'. Error: ${e.message}`,
+                    e,
+                    `Could not get album info for artist='${artist}' and title='${title}'`,
                     'OnlineAlbumArtworkGetter',
                     'getOnlineArtworkAsync'
                 );
@@ -67,9 +68,10 @@ export class OnlineAlbumArtworkGetter {
                         );
 
                         return artworkData;
-                    } catch (e) {
+                    } catch (e: unknown) {
                         this.logger.error(
-                            `Could not convert file '${lastfmAlbum.largestImage()}' to data. Error: ${e.message}`,
+                            e,
+                            `Could not convert file '${lastfmAlbum.largestImage()}' to data`,
                             'OnlineAlbumArtworkGetter',
                             'getOnlineArtworkAsync'
                         );

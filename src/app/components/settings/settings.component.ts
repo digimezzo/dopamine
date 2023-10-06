@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     styleUrls: ['./settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class SettingsComponent implements OnInit {
-    constructor(public appearanceService: BaseAppearanceService) {}
-
-    public ngOnInit(): void {}
+export class SettingsComponent {
+    public constructor(public appearanceService: BaseAppearanceService) {}
 }

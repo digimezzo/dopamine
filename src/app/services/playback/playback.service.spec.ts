@@ -53,12 +53,11 @@ describe('PlaybackService', () => {
     let track2: Track;
     let track3: Track;
     let track4: Track;
-    let track5: Track;
+
     let trackModel1: TrackModel;
     let trackModel2: TrackModel;
     let trackModel3: TrackModel;
     let trackModel4: TrackModel;
-    let trackModel5: TrackModel;
 
     let trackModels: TrackModel[];
     let orderedTrackModels: TrackModel[];
@@ -119,18 +118,10 @@ describe('PlaybackService', () => {
         track4.trackNumber = 2;
         track4.discNumber = 1;
 
-        track5 = new Track('Path 5');
-        track5.trackTitle = 'Title 5';
-        track5.albumArtists = ';Album artist 3;';
-        track5.albumTitle = 'Album title 3';
-        track5.trackNumber = 3;
-        track5.discNumber = 1;
-
         trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
         trackModel2 = new TrackModel(track2, dateTimeMock.object, translatorServiceMock.object);
         trackModel3 = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
         trackModel4 = new TrackModel(track4, dateTimeMock.object, translatorServiceMock.object);
-        trackModel5 = new TrackModel(track5, dateTimeMock.object, translatorServiceMock.object);
 
         trackModels = [trackModel1, trackModel2, trackModel3, trackModel4];
         orderedTrackModels = [trackModel2, trackModel1, trackModel3, trackModel4];
@@ -338,13 +329,13 @@ describe('PlaybackService', () => {
             expect(playbackIsStopped).toBeTruthy();
         });
 
-        it('should set the current track to undefined before raising a playback finished event', () => {
+        it('should set the current track to undefined before raising a playback stopped event', () => {
             // Arrange
             queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             service.enqueueAndPlayTracks(trackModels);
-            let currentTrack: TrackModel;
+            let currentTrack: TrackModel | undefined;
 
             subscription.add(
                 service.playbackStopped$.subscribe(() => {
@@ -514,8 +505,8 @@ describe('PlaybackService', () => {
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
 
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
 
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
@@ -533,7 +524,7 @@ describe('PlaybackService', () => {
         });
 
         it('should listen to progress changes, set the progress in the service and publish progress changed.', () => {
-            let subscribedProgress: PlaybackProgress;
+            let subscribedProgress: PlaybackProgress | undefined;
 
             subscription.add(
                 service.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
@@ -549,8 +540,8 @@ describe('PlaybackService', () => {
             expect(service.progress.progressSeconds).toEqual(40);
             expect(service.progress.totalSeconds).toEqual(300);
             expect(subscribedProgress).toBeDefined();
-            expect(subscribedProgress.progressSeconds).toEqual(40);
-            expect(subscribedProgress.totalSeconds).toEqual(300);
+            expect(subscribedProgress!.progressSeconds).toEqual(40);
+            expect(subscribedProgress!.totalSeconds).toEqual(300);
         });
     });
 
@@ -676,41 +667,15 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayTracks', () => {
-        it('should not add tracks to the queue if tracks is undefined', () => {
-            // Arrange
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-
-            // Act
-            service.enqueueAndPlayTracks(undefined);
-
-            // Assert
-            queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
-        });
-
         it('should not add tracks to the queue if tracks is empty', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
-            service.enqueueAndPlayTracks(undefined);
+            service.enqueueAndPlayTracks([]);
 
             // Assert
             queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should not start playback if tracks is undefined', () => {
-            // Arrange
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-
-            // Act
-            service.enqueueAndPlayTracks(undefined);
-
-            // Assert
-            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
-            expect(service.isPlaying).toEqual(false);
-            expect(service.canPause).toEqual(false);
-            expect(service.canResume).toEqual(true);
         });
 
         it('should not start playback if tracks is empty', () => {
@@ -718,7 +683,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
             // Act
-            service.enqueueAndPlayTracks(undefined);
+            service.enqueueAndPlayTracks([]);
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
@@ -772,8 +737,8 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -793,45 +758,21 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayTracksStartingFromGivenTrack', () => {
-        it('should not add tracks to the queue if tracks is undefined', () => {
-            // Arrange
-
-            // Act
-            service.enqueueAndPlayTracksStartingFromGivenTrack(undefined, trackModel1);
-
-            // Assert
-            queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
-        });
-
         it('should not add tracks to the queue if tracks is empty', () => {
             // Arrange
 
             // Act
-            service.enqueueAndPlayTracksStartingFromGivenTrack(undefined, trackModel1);
+            service.enqueueAndPlayTracksStartingFromGivenTrack([], trackModel1);
 
             // Assert
             queueMock.verify((x) => x.setTracks(It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should not start playback if tracks is undefined', () => {
-            // Arrange
-
-            // Act
-            service.enqueueAndPlayTracksStartingFromGivenTrack(undefined, trackModel1);
-
-            // Assert
-            audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
-            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
-            expect(service.isPlaying).toEqual(false);
-            expect(service.canPause).toEqual(false);
-            expect(service.canResume).toEqual(true);
         });
 
         it('should not start playback if tracks is empty', () => {
             // Arrange
 
             // Act
-            service.enqueueAndPlayTracksStartingFromGivenTrack(undefined, trackModel1);
+            service.enqueueAndPlayTracksStartingFromGivenTrack([], trackModel1);
 
             // Assert
             audioPlayerMock.verify((x) => x.play(It.isAny()), Times.never());
@@ -882,8 +823,8 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -901,28 +842,7 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayArtist', () => {
-        it('should not get tracks for the artist if artistToPlay is undefined', () => {
-            // Arrange
-
-            // Act
-            service.enqueueAndPlayArtist(undefined, It.isAny());
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should not get tracks for the artist if artistType is undefined', () => {
-            // Arrange
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
-
-            // Act
-            service.enqueueAndPlayArtist(artistToPlay, undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the artist if artistToPlay and artistType are not undefined', () => {
+        it('should get tracks for the given artist', () => {
             // Arrange
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -981,8 +901,8 @@ describe('PlaybackService', () => {
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
             const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -1002,18 +922,7 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayGenre', () => {
-        it('should not get tracks for the genre if genreToPlay is undefined', () => {
-            // Arrange
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-
-            // Act
-            service.enqueueAndPlayGenre(undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the genre if genreToPlay is not undefined', () => {
+        it('should get tracks for the given genre', () => {
             // Arrange
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
@@ -1074,9 +983,8 @@ describe('PlaybackService', () => {
             // Arrange
             const genreToPlay: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
             audioPlayerMock.reset();
-            const artistToPlay: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -1095,18 +1003,7 @@ describe('PlaybackService', () => {
     });
 
     describe('enqueueAndPlayAlbum', () => {
-        it('should not get tracks for the album if albumToPlay is undefined', () => {
-            // Arrange
-            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
-
-            // Act
-            service.enqueueAndPlayAlbum(undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the album if albumToPlay is not undefined', () => {
+        it('should get tracks for the given album', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
 
@@ -1160,8 +1057,8 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -1426,7 +1323,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isAny(), false)).returns(() => undefined);
-            let currentTrack: TrackModel;
+            let currentTrack: TrackModel | undefined;
 
             subscription.add(
                 service.playbackStopped$.subscribe(() => {
@@ -1485,8 +1382,8 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getPreviousTrack(trackModel1, false)).returns(() => trackModel2);
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = false;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -1552,7 +1449,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => undefined);
             progressUpdaterMock.reset();
             audioPlayerMock.reset();
-            let currentTrack: TrackModel;
+            let currentTrack: TrackModel | undefined;
 
             subscription.add(
                 service.playbackStopped$.subscribe(() => {
@@ -1630,8 +1527,8 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), false)).returns(() => trackModel2);
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -1954,8 +1851,8 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
-            let receivedTrack: TrackModel;
-            let isPlayingPreviousTrack: boolean;
+            let receivedTrack: TrackModel | undefined;
+            let isPlayingPreviousTrack: boolean = true;
             subscription.add(
                 service.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                     receivedTrack = playbackStarted.currentTrack;
@@ -2006,16 +1903,6 @@ describe('PlaybackService', () => {
     });
 
     describe('removeFromQueue', () => {
-        it('should not remove tracks when tracksToRemove is undefined', () => {
-            // Arrange
-
-            // Act
-            service.removeFromQueue(undefined);
-
-            // Assert
-            queueMock.verify((x) => x.removeTracks(It.isAny()), Times.never());
-        });
-
         it('should not remove tracks when tracksToRemove is empty', () => {
             // Arrange
 
@@ -2038,18 +1925,6 @@ describe('PlaybackService', () => {
     });
 
     describe('addTracksToQueueAsync', () => {
-        it('should not add tracks to the queue if tracksToAdd is undefined', async () => {
-            // Arrange
-
-            // Act
-            await service.addTracksToQueueAsync(undefined);
-
-            // Assert
-            queueMock.verify((x) => x.addTracks(It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
-        });
-
         it('should not add tracks to the queue if tracksToAdd is empty', async () => {
             // Arrange
 
@@ -2075,32 +1950,7 @@ describe('PlaybackService', () => {
     });
 
     describe('addArtistToQueueAsync', () => {
-        it('should not get tracks for the artist if artistToAdd is undefined', async () => {
-            // Arrange
-
-            // Act
-            await service.addArtistToQueueAsync(undefined, It.isAny());
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
-        });
-
-        it('should not get tracks for the artist if artistType is undefined', async () => {
-            // Arrange
-            const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
-
-            // Act
-            await service.addArtistToQueueAsync(artistToAdd, undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the artist if artistToAdd and artistType are not undefined', async () => {
+        it('should get tracks for the given artist and artistType', async () => {
             // Arrange
             const artistToAdd: ArtistModel = new ArtistModel('artist1', translatorServiceMock.object);
 
@@ -2136,19 +1986,7 @@ describe('PlaybackService', () => {
     });
 
     describe('addGenreToQueueAsync', () => {
-        it('should not get tracks for the genre if genreToAdd is undefined', async () => {
-            // Arrange
-
-            // Act
-            await service.addGenreToQueueAsync(undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForArtists(It.isAny(), It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the genre if genreToAdd is not undefined', async () => {
+        it('should get tracks for the given genre', async () => {
             // Arrange
             const genreToAdd: GenreModel = new GenreModel('genre1', translatorServiceMock.object);
 
@@ -2184,43 +2022,31 @@ describe('PlaybackService', () => {
     });
 
     describe('addAlbumToQueueAsync', () => {
-        it('should not get tracks for the album if albumToAdd is undefined', () => {
+        it('should get tracks for the given album', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(undefined);
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            snackBarServiceMock.verify((x) => x.singleTrackAddedToPlaybackQueueAsync(), Times.never());
-            snackBarServiceMock.verify((x) => x.multipleTracksAddedToPlaybackQueueAsync(It.isAny()), Times.never());
-        });
-
-        it('should get tracks for the album if albumToAdd is not undefined', () => {
-            // Arrange
-
-            // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             trackServiceMock.verify((x) => x.getTracksForAlbums([album1.albumKey]), Times.exactly(1));
         });
 
-        it('should order tracks for the album byAlbum', () => {
+        it('should order tracks for the album byAlbum', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             trackOrderingMock.verify((x) => x.getTracksOrderedByAlbum(tracks.tracks), Times.exactly(1));
         });
 
-        it('should add tracks to the queue ordered by album', () => {
+        it('should add tracks to the queue ordered by album', async () => {
             // Arrange
 
             // Act
-            service.addAlbumToQueueAsync(album1);
+            await service.addAlbumToQueue(album1);
 
             // Assert
             queueMock.verify((x) => x.addTracks(orderedTrackModels), Times.exactly(1));
@@ -2296,7 +2122,7 @@ describe('PlaybackService', () => {
             audioPlayerMock.verify((x) => x.stop(), Times.once());
         });
 
-        it('should play the next track if the given track is playing and it not the only track in the queue', async () => {
+        it('should play the next track if the given track is playing and it not the only track in the queue', () => {
             // Arrange
             queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
             service.enqueueAndPlayTracks(trackModels);
@@ -2305,7 +2131,7 @@ describe('PlaybackService', () => {
             queueMock.setup((x) => x.getNextTrack(It.isObjectWith<TrackModel>({ path: 'Path 1' }), It.isAny())).returns(() => trackModel2);
 
             // Act
-            await service.stopIfPlaying(trackModel1);
+            service.stopIfPlaying(trackModel1);
 
             // Assert
             queueMock.verify((x) => x.getNextTrack(trackModel1, It.isAny()), Times.once());

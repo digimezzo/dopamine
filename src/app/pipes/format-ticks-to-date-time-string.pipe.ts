@@ -3,9 +3,9 @@ import { DateTime } from '../common/date-time';
 
 @Pipe({ name: 'formatTicksToDateTimeString' })
 export class FormatTicksToDateTimeStringPipe implements PipeTransform {
-    constructor(private dateTime: DateTime) {}
+    public constructor(private dateTime: DateTime) {}
 
-    public transform(ticks: number): string {
+    public transform(ticks: number | undefined): string {
         if (ticks == undefined || ticks <= 0) {
             return '';
         }
@@ -13,10 +13,10 @@ export class FormatTicksToDateTimeStringPipe implements PipeTransform {
         const date: Date = this.dateTime.convertTicksToDate(ticks);
 
         const year: number = date.getFullYear();
-        const month: string = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day: string = ('0' + date.getDate()).slice(-2);
+        const month: string = `0${date.getMonth() + 1}`.slice(-2);
+        const day: string = `0${date.getDate()}`.slice(-2);
         const hours: number = date.getHours();
-        const minutes: string = ('0' + date.getMinutes()).slice(-2);
+        const minutes: string = `0${date.getMinutes()}`.slice(-2);
 
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     }

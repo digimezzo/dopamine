@@ -3,9 +3,7 @@ import { Constants } from '../../common/application/constants';
 
 @Injectable()
 export class ItemSpaceCalculator {
-    constructor() {}
-
-    public calculateNumberOfItemsPerRow(itemWidth: number, availableWidth: number): number {
+    public calculateNumberOfItemsPerRow(itemWidth: number | undefined, availableWidth: number | undefined): number {
         if (itemWidth == undefined) {
             return 0;
         }

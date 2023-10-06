@@ -8,14 +8,10 @@ import { AlbumRow } from './album-row';
 
 @Injectable()
 export class AlbumRowsGetter {
-    constructor(private albumSpaceCalculator: ItemSpaceCalculator, private shuffler: Shuffler) {}
+    public constructor(private albumSpaceCalculator: ItemSpaceCalculator, private shuffler: Shuffler) {}
 
     public getAlbumRows(availableWidthInPixels: number, albums: AlbumModel[], albumOrder: AlbumOrder): AlbumRow[] {
         const albumRows: AlbumRow[] = [];
-
-        if (albums == undefined) {
-            return albumRows;
-        }
 
         if (albums.length === 0) {
             return albumRows;

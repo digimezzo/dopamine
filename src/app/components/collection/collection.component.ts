@@ -17,7 +17,7 @@ import { TabSelectionGetter } from './tab-selection-getter';
 export class CollectionComponent implements OnInit {
     private _selectedIndex: number;
 
-    constructor(
+    public constructor(
         public appearanceService: BaseAppearanceService,
         public settings: BaseSettings,
         private playbackService: BasePlaybackService,

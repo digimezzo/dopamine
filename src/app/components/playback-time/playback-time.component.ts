@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     styleUrls: ['./playback-time.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class PlaybackTimeComponent implements OnInit {
-    constructor(public playbackService: BasePlaybackService) {}
-
-    public ngOnInit(): void {}
+export class PlaybackTimeComponent {
+    public constructor(public playbackService: BasePlaybackService) {}
 }

@@ -1,7 +1,8 @@
 import { Strings } from '../../common/strings';
+import { ISelectable } from '../../interfaces/i-selectable';
 
-export class PlaylistModel {
-    constructor(public name: string, public folderName: string, public path: string, public imagePath: string) {}
+export class PlaylistModel implements ISelectable {
+    public constructor(public name: string, public folderName: string, public path: string, public imagePath: string) {}
 
     public isSelected: boolean = false;
 

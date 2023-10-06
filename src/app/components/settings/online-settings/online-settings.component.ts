@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { BaseDiscordService } from '../../../services/discord/base-discord.service';
 import { BaseScrobblingService } from '../../../services/scrobbling/base-scrobbling.service';
 import { SignInState } from '../../../services/scrobbling/sign-in-state';
@@ -17,7 +18,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
     private _signInState: SignInState = SignInState.SignedOut;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         private discordService: BaseDiscordService,
         private scrobblingService: BaseScrobblingService,
         private snackBarService: BaseSnackBarService,
@@ -50,12 +51,12 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.subscription.add(
-            this.scrobblingService.signInStateChanged$.subscribe(async (signInState: SignInState) => {
-                if (signInState === SignInState.Error) {
-                    await this.snackBarService.lastFmLoginFailedAsync();
-                }
-
+            this.scrobblingService.signInStateChanged$.subscribe((signInState: SignInState) => {
                 this._signInState = signInState;
+
+                if (signInState === SignInState.Error) {
+                    PromiseUtils.noAwait(this.snackBarService.lastFmLoginFailedAsync());
+                }
             })
         );
 

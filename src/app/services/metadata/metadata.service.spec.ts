@@ -90,7 +90,7 @@ describe('MetadataService', () => {
     });
 
     describe('constructor', () => {
-        it('should create', async () => {
+        it('should create', () => {
             // Arrange
 
             // Act
@@ -117,7 +117,8 @@ describe('MetadataService', () => {
             // Arrange
             const service: BaseMetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
@@ -131,7 +132,8 @@ describe('MetadataService', () => {
             // Arrange
             const service: BaseMetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => undefined);
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
             fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 
@@ -147,9 +149,9 @@ describe('MetadataService', () => {
             const service: BaseMetadataService = createService();
             const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
             const fileMetaDataMock: any = {};
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(async () => fileMetaDataMock);
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
             const coverArt: Buffer = Buffer.from([1, 2, 3]);
-            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(async () => coverArt);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
@@ -179,7 +181,7 @@ describe('MetadataService', () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
@@ -195,7 +197,7 @@ describe('MetadataService', () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
             const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(async () => fileMetadataStub);
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path2.ogg')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path2.ogg'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
@@ -211,7 +213,7 @@ describe('MetadataService', () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => true);
             const fileMetadataStub = new FileMetadataImplementation();
-            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(async () => fileMetadataStub);
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1.mp3')).returns(() => Promise.resolve(fileMetadataStub));
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
 
             const service: BaseMetadataService = createService();
@@ -247,8 +249,8 @@ describe('MetadataService', () => {
         });
     });
 
-    describe('saveTrackLoveAsync', () => {
-        it('should update the track love in the database', async () => {
+    describe('saveTrackLove', () => {
+        it('should update the track love in the database', () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
@@ -256,13 +258,13 @@ describe('MetadataService', () => {
             const service: BaseMetadataService = createService();
 
             // Act
-            await service.saveTrackLoveAsync(track);
+            service.saveTrackLove(track);
 
             // Assert
             trackRepositoryMock.verify((x) => x.updateLove(track.id, track.love), Times.once());
         });
 
-        it('should notify that love is saved', async () => {
+        it('should notify that love is saved', () => {
             // Arrange
             settingsMock.setup((x) => x.saveRatingToAudioFiles).returns(() => false);
             const track: TrackModel = new TrackModel(new Track('path1.mp3'), dateTimeMock.object, translatorServiceMock.object);
@@ -279,7 +281,7 @@ describe('MetadataService', () => {
             );
 
             // Act
-            await service.saveTrackLoveAsync(track);
+            service.saveTrackLove(track);
 
             // Assert
             expect(loveSaved).toBeTruthy();

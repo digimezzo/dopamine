@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-dialog-header',
@@ -6,11 +6,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./dialog-header.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class DialogHeaderComponent implements OnInit {
-    constructor() {}
-
+export class DialogHeaderComponent {
     @Input() public icon: string;
     @Input() public title: string;
-
-    public ngOnInit(): void {}
 }

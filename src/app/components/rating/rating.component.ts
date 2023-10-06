@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
@@ -12,10 +12,10 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
     styleUrls: ['./rating.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent {
     private _track: TrackModel;
 
-    constructor(
+    public constructor(
         private metadataService: BaseMetadataService,
         private dialogService: BaseDialogService,
         private translatorService: BaseTranslatorService,
@@ -36,8 +36,6 @@ export class RatingComponent implements OnInit {
     public get track(): TrackModel {
         return this._track;
     }
-
-    public ngOnInit(): void {}
 
     public async setRatingAsync(rating: number): Promise<void> {
         if (this._track == undefined) {

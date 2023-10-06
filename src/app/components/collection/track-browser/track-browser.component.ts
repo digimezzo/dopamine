@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 import { ContextMenuOpener } from '../../../common/context-menu-opener';
+import { GuidFactory } from '../../../common/guid.factory';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
@@ -34,13 +34,14 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     private _tracksPersister: BaseTracksPersister;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public playbackService: BasePlaybackService,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private metadataService: BaseMetadataService,
         private playbackIndicationService: BasePlaybackIndicationService,
+        private guidFactory: GuidFactory,
         private trackOrdering: TrackOrdering,
         collectionService: BaseCollectionService,
         translatorService: BaseTranslatorService,
@@ -137,7 +138,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         }
     }
 
-    public setSelectedTracks(event: any, trackToSelect: TrackModel): void {
+    public setSelectedTracks(event: MouseEvent, trackToSelect: TrackModel): void {
         this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
     }
 
@@ -185,8 +186,8 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
                     break;
                 }
             }
-        } catch (e) {
-            this.logger.error(`Could not order tracks. Error: ${e.message}`, 'TrackBrowserComponent', 'orderTracks');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not order tracks', 'TrackBrowserComponent', 'orderTracks');
         }
 
         this.orderedTracks = [...orderedTracks];
@@ -201,7 +202,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     }
 
     private showAlbumHeaders(orderedTracks: TrackModel[]): void {
-        let previousAlbumKey: string = uuidv4();
+        let previousAlbumKey: string = this.guidFactory.create();
         let previousDiscNumber: number = -1;
 
         for (const track of orderedTracks) {

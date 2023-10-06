@@ -5,7 +5,7 @@ export class ArtistInformation {
     private _similarArtists: ArtistInformation[] = [];
 
     public constructor(
-        private desktop: BaseDesktop,
+        private desktop: BaseDesktop | undefined,
         private _name: string,
         private _url: string,
         private _imageUrl: string,
@@ -44,12 +44,14 @@ export class ArtistInformation {
         this._similarArtists.push(new ArtistInformation(this.desktop, name, url, imageUrl, ''));
     }
 
-    public browseToUrl(): void {
+    public async browseToUrlAsync(): Promise<void> {
         if (this.isEmpty) {
             return;
         }
 
-        this.desktop.openLink(this.url);
+        if (this.desktop != undefined) {
+            await this.desktop.openLinkAsync(this.url);
+        }
     }
 
     public static empty(): ArtistInformation {

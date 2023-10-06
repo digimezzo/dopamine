@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseAppearanceService } from '../../../../../services/appearance/base-appearance.service';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 
@@ -8,11 +8,9 @@ import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
     templateUrl: './playlist.component.html',
     styleUrls: ['./playlist.component.scss'],
 })
-export class PlaylistComponent implements OnInit {
-    constructor(public appearanceService: BaseAppearanceService) {}
+export class PlaylistComponent {
+    public constructor(public appearanceService: BaseAppearanceService) {}
 
     @Input() public playlist: PlaylistModel;
     @Input() public isSelected: boolean = false;
-
-    public ngOnInit(): void {}
 }

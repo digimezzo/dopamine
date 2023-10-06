@@ -1,6 +1,6 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Directive, Inject, OnDestroy, OnInit, Self } from '@angular/core';
-import { fromEvent, Subject } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 /**
@@ -13,7 +13,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy {
     protected readonly destroy$: Subject<void> = new Subject<void>();
 
-    constructor(@Self() @Inject(CdkVirtualScrollViewport) private readonly viewportComponent: CdkVirtualScrollViewport) {}
+    public constructor(@Self() @Inject(CdkVirtualScrollViewport) private readonly viewportComponent: CdkVirtualScrollViewport) {}
 
     public ngOnInit(): void {
         fromEvent(window, 'resize')

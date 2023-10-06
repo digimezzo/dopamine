@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
+import { GuidFactory } from './guid.factory';
 import { SemanticZoomable } from './semantic-zoomable';
 import { SemanticZoomableModel } from './semantic-zoomable-model';
 
 @Injectable()
 export class SemanticZoomHeaderAdder {
-    constructor() {}
+    public constructor(private guidFactory: GuidFactory) {}
 
     public addZoomHeaders(semanticZoomables: SemanticZoomable[]): void {
-        let previousZoomHeader: string = uuidv4();
+        let previousZoomHeader: string = this.guidFactory.create();
 
         for (const semanticZoomable of semanticZoomables) {
             semanticZoomable.isZoomHeader = false;

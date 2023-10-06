@@ -7,7 +7,7 @@ import { AlbumArtworkRemover } from './album-artwork-remover';
 
 @Injectable()
 export class AlbumArtworkIndexer {
-    constructor(
+    public constructor(
         private albumArtworkRemover: AlbumArtworkRemover,
         private albumArtworkAdder: AlbumArtworkAdder,
         private snackBarService: BaseSnackBarService,
@@ -20,10 +20,10 @@ export class AlbumArtworkIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrack();
-        this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
+        await this.albumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
         await this.albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
-        this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
+        await this.albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
         timer.stop();
 

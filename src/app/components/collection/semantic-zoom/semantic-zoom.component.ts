@@ -27,14 +27,14 @@ import { SemanticZoomable } from '../../../common/semantic-zoomable';
     ],
 })
 export class SemanticZoomComponent implements OnInit {
-    constructor(private scheduler: BaseScheduler) {}
+    public constructor(private scheduler: BaseScheduler) {}
 
     public fadeIn: string = 'hidden';
 
     @Input()
     public SemanticZoomables: SemanticZoomable[] = [];
 
-    public buttonTexts: any = [
+    public buttonTexts: string[][] = [
         ['#', 'a', 'b', 'c'],
         ['d', 'e', 'f', 'g'],
         ['h', 'i', 'j', 'k'],

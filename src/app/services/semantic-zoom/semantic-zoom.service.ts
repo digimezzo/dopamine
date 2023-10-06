@@ -7,8 +7,6 @@ export class SemanticZoomService implements BaseSemanticZoomService {
     private zoomOutRequested: Subject<void> = new Subject();
     private zoomInRequested: Subject<string> = new Subject();
 
-    constructor() {}
-
     public zoomOutRequested$: Observable<void> = this.zoomOutRequested.asObservable();
     public zoomInRequested$: Observable<string> = this.zoomInRequested.asObservable();
 

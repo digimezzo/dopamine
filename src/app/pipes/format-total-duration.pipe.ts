@@ -3,9 +3,9 @@ import { BaseTranslatorService } from '../services/translator/base-translator.se
 
 @Pipe({ name: 'formatTotalDuration' })
 export class FormatTotalDurationPipe implements PipeTransform {
-    constructor(private translatorService: BaseTranslatorService) {}
+    public constructor(private translatorService: BaseTranslatorService) {}
 
-    public transform(totalMilliseconds: number): string {
+    public transform(totalMilliseconds: number | undefined): string {
         if (totalMilliseconds == undefined || totalMilliseconds <= 0) {
             return '';
         }

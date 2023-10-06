@@ -9,15 +9,15 @@ import { WindowSize } from './window-size';
 export class Application implements BaseApplication {
     private argumentsReceived: Subject<string[]> = new Subject();
 
-    constructor() {
-        ipcRenderer.on('arguments-received', (event, argv) => {
+    public constructor() {
+        ipcRenderer.on('arguments-received', (event, argv: string[] | undefined) => {
             this.argumentsReceived.next(argv);
         });
     }
 
     public argumentsReceived$: Observable<string[]> = this.argumentsReceived.asObservable();
 
-    public getGlobal(name: string): any {
+    public getGlobal(name: string): unknown {
         return remote.getGlobal(name);
     }
 
@@ -30,6 +30,10 @@ export class Application implements BaseApplication {
     }
 
     public getParameters(): string[] {
-        return remote.process.argv;
+        if (remote?.process?.argv != undefined) {
+            return remote.process.argv;
+        }
+
+        return [];
     }
 }

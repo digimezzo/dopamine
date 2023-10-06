@@ -12,51 +12,57 @@ describe('DirectoryWalker', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
+                .returns(() => Promise.resolve(['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1', '/home/user/Music/Images']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Artist 1.png']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
+                .returns(() =>
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
@@ -83,51 +89,57 @@ describe('DirectoryWalker', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
+                .returns(() => Promise.resolve(['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1', '/home/user/Music/Images']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Artist 1.png']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
+                .returns(() =>
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
@@ -148,51 +160,57 @@ describe('DirectoryWalker', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
+                .returns(() => Promise.resolve(['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1', '/home/user/Music/Images']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Artist 1.png']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
+                .returns(() =>
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 
@@ -209,39 +227,43 @@ describe('DirectoryWalker', () => {
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']);
+                .returns(() => Promise.resolve(['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1', '/home/user/Music/Images']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1', '/home/user/Music/Images']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Artist 1.png']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Artist 1.png']));
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']);
+                .returns(() =>
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1', true, It.isAny()))
-                .returns(async () => ['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']);
+                .returns(() => Promise.resolve(['/home/user/Music/Artist 1/Album 1', '/home/user/Music/Artist 1/Album 2']));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => [
-                    '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
-                    '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                ]);
+                .returns(() =>
+                    Promise.resolve([
+                        '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
+                        '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
+                    ])
+                );
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 1', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
@@ -249,7 +271,7 @@ describe('DirectoryWalker', () => {
 
             fileAccessMock
                 .setup((x) => x.getDirectoriesInDirectoryAsync('/home/user/Music/Artist 1/Album 2', true, It.isAny()))
-                .returns(async () => []);
+                .returns(() => Promise.resolve([]));
 
             const directoryWalker: DirectoryWalker = new DirectoryWalker(fileAccessMock.object);
 

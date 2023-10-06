@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
 import { Logger } from '../../../common/logger';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
+import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { AlbumModel } from '../../../services/album/album-model';
 import { BaseAlbumService } from '../../../services/album/base-album-service';
 import { BaseCollectionService } from '../../../services/collection/base-collection.service';
@@ -25,7 +27,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
-    constructor(
+    public constructor(
         public searchService: BaseSearchService,
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
@@ -66,20 +68,20 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         );
 
         this.subscription.add(
-            this.indexingService.indexingFinished$.subscribe(async () => {
-                await this.processListsAsync();
+            this.indexingService.indexingFinished$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
-            this.collectionService.collectionChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.collectionService.collectionChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(async () => {
-                await this.processListsAsync();
+            this.collectionPersister.selectedTabChanged$.subscribe(() => {
+                PromiseUtils.noAwait(this.processListsAsync());
             })
         );
 
@@ -87,8 +89,8 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         await this.processListsAsync();
     }
 
-    public splitDragEnd(event: any): void {
-        this.settings.albumsRightPaneWidthPercent = event.sizes[1];
+    public splitDragEnd(event: IOutputData): void {
+        this.settings.albumsRightPaneWidthPercent = <number>event.sizes[1];
     }
 
     private async processListsAsync(): Promise<void> {
@@ -108,8 +110,8 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
             await this.scheduler.sleepAsync(Constants.shortListLoadDelayMilliseconds);
             this.getTracks();
-        } catch (e) {
-            this.logger.error(`Could not fill lists. Error: ${e.message}`, 'CollectionAlbumsComponent', 'fillListsAsync');
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not fill lists', 'CollectionAlbumsComponent', 'fillListsAsync');
         }
     }
 

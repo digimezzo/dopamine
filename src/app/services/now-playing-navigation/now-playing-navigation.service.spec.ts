@@ -4,8 +4,6 @@ import { NowPlayingNavigationService } from './now-playing-navigation.service';
 import { NowPlayingPage } from './now-playing-page';
 
 describe('NowPlayingNavigationService', () => {
-    beforeEach(() => {});
-
     describe('constructor', () => {
         it('should create', () => {
             // Arrange

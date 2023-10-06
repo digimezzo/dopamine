@@ -8,8 +8,6 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionTracksTableHeaderComponent {
-    public constructor() {}
-
     @Input() public text: string;
     @Input() public icon: string;
     @Input() public isOrderedBy: boolean;

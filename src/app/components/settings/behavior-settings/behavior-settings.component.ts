@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseMediaSessionService } from '../../../services/media-session/base-media-session.service';
 import { BaseTrayService } from '../../../services/tray/base-tray.service';
@@ -10,8 +10,10 @@ import { BaseTrayService } from '../../../services/tray/base-tray.service';
     styleUrls: ['./behavior-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class BehaviorSettingsComponent implements OnInit {
-    constructor(public trayService: BaseTrayService, public mediaSessionService: BaseMediaSessionService, public settings: BaseSettings) {}
-
-    public ngOnInit(): void {}
+export class BehaviorSettingsComponent {
+    public constructor(
+        public trayService: BaseTrayService,
+        public mediaSessionService: BaseMediaSessionService,
+        public settings: BaseSettings
+    ) {}
 }

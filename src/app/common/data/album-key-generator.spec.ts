@@ -1,6 +1,4 @@
-import { IMock, Mock } from 'typemoq';
 import { AlbumKeyGenerator } from './album-key-generator';
-import { DataDelimiter } from './data-delimiter';
 
 describe('AlbumKeyGenerator', () => {
     let albumkeyGenerator: AlbumKeyGenerator;
@@ -11,9 +9,7 @@ describe('AlbumKeyGenerator', () => {
 
     describe('generateAlbumKey', () => {
         it('should generate an empty album key if album title is undefined', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey(undefined, ['Artist 1', 'Artist 2']);
 
             // Assert
@@ -21,9 +17,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an empty album key if album title is empty', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('', ['Artist 1', 'Artist 2']);
 
             // Assert
@@ -31,9 +25,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an empty album key if album title is a space', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey(' ', ['Artist 1', 'Artist 2']);
 
             // Assert
@@ -41,9 +33,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an empty album key if album title is a multiple spaces', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('    ', ['Artist 1', 'Artist 2']);
 
             // Assert
@@ -51,9 +41,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an album key using only the album title if album artists is undefined', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', undefined);
 
             // Assert
@@ -61,9 +49,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an album key using only the album title if album artists is empty', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', []);
 
             // Assert
@@ -71,10 +57,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an album key using album title and album artist given an album title and 1 album artist', () => {
-            // Arrange
-            const dataDelimiterMock: IMock<DataDelimiter> = Mock.ofType<DataDelimiter>();
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1']);
 
             // Assert
@@ -82,9 +65,7 @@ describe('AlbumKeyGenerator', () => {
         });
 
         it('should generate an album key using album title and multiple album artists given an album title and multiple album artists', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             const albumKey: string = albumkeyGenerator.generateAlbumKey('The album title', ['Album artist 1', 'Album artist 2']);
 
             // Assert

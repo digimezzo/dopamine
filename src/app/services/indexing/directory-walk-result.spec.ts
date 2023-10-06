@@ -2,7 +2,7 @@ import { DirectoryWalkResult } from './directory-walk-result';
 
 describe('DirectoryWalkResult', () => {
     describe('constructor', () => {
-        it('should set file paths', async () => {
+        it('should set file paths', () => {
             // Arrange
             const filePaths: string[] = ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3'];
 
@@ -20,7 +20,7 @@ describe('DirectoryWalkResult', () => {
             expect(directoryWalkResult.filePaths.includes('/home/user/Music/Track 2.mp3')).toBeTruthy();
         });
 
-        it('should set errors', async () => {
+        it('should set errors', () => {
             // Arrange
             const filePaths: string[] = ['/home/user/Music/Track 1.mp3', '/home/user/Music/Track 2.mp3'];
 

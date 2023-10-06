@@ -57,7 +57,7 @@ describe('TrackIndexer', () => {
             await trackIndexer.indexTracksAsync();
 
             // Assert
-            trackRemoverMock.verify((x) => x.removeTracksThatDoNoNotBelongToFolders(), Times.exactly(1));
+            trackRemoverMock.verify((x) => x.removeTracksThatDoNoNotBelongToFoldersAsync(), Times.exactly(1));
         });
 
         it('should remove tracks that are not found on disk', async () => {
@@ -77,7 +77,7 @@ describe('TrackIndexer', () => {
             await trackIndexer.indexTracksAsync();
 
             // Assert
-            trackRemoverMock.verify((x) => x.removeFolderTracksForInexistingTracks(), Times.exactly(1));
+            trackRemoverMock.verify((x) => x.removeFolderTracksForInexistingTracksAsync(), Times.exactly(1));
         });
 
         it('should update tracks that are out of date', async () => {

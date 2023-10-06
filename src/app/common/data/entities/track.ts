@@ -1,5 +1,5 @@
 export class Track {
-    constructor(public path: string) {
+    public constructor(public path: string) {
         this.trackId = 0;
         this.artists = '';
         this.genres = '';
@@ -35,35 +35,35 @@ export class Track {
     }
 
     public trackId: number;
-    public artists: string;
-    public genres: string;
-    public albumTitle: string;
-    public albumArtists: string;
-    public albumKey: string;
+    public artists: string | undefined;
+    public genres: string | undefined;
+    public albumTitle: string | undefined;
+    public albumArtists: string | undefined;
+    public albumKey: string | undefined;
     public fileName: string;
-    public mimeType: string;
-    public fileSize: number;
-    public bitRate: number;
-    public sampleRate: number;
-    public trackTitle: string;
-    public trackNumber: number;
-    public trackCount: number;
-    public discNumber: number;
-    public discCount: number;
-    public duration: number;
-    public year: number;
-    public hasLyrics: number;
-    public dateAdded: number;
-    public dateFileCreated: number;
-    public dateLastSynced: number;
-    public dateFileModified: number;
-    public needsIndexing: number;
-    public needsAlbumArtworkIndexing: number;
-    public indexingSuccess: number;
-    public indexingFailureReason: string;
-    public rating: number;
-    public love: number;
-    public playCount: number;
-    public skipCount: number;
-    public dateLastPlayed: number;
+    public mimeType: string | undefined;
+    public fileSize: number | undefined;
+    public bitRate: number | undefined;
+    public sampleRate: number | undefined;
+    public trackTitle: string | undefined;
+    public trackNumber: number | undefined;
+    public trackCount: number | undefined;
+    public discNumber: number | undefined;
+    public discCount: number | undefined;
+    public duration: number | undefined;
+    public year: number | undefined;
+    public hasLyrics: number | undefined;
+    public dateAdded: number | undefined;
+    public dateFileCreated: number | undefined;
+    public dateLastSynced: number | undefined;
+    public dateFileModified: number | undefined;
+    public needsIndexing: number | undefined;
+    public needsAlbumArtworkIndexing: number | undefined;
+    public indexingSuccess: number | undefined;
+    public indexingFailureReason: string | undefined;
+    public rating: number | undefined;
+    public love: number | undefined;
+    public playCount: number | undefined;
+    public skipCount: number | undefined;
+    public dateLastPlayed: number | undefined;
 }

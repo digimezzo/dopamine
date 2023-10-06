@@ -12,7 +12,7 @@ import { TrackFieldCreator } from './track-field-creator';
 
 @Injectable()
 export class TrackFiller {
-    constructor(
+    public constructor(
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
@@ -55,12 +55,14 @@ export class TrackFiller {
 
             track.indexingSuccess = 1;
             track.indexingFailureReason = '';
-        } catch (e) {
+        } catch (e: unknown) {
             track.indexingSuccess = 0;
-            track.indexingFailureReason = e.message;
+
+            track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
             this.logger.error(
-                `Error while retrieving tag information for file ${track.path}. Error: ${e}`,
+                e,
+                'Error while retrieving tag information for file ${track.path}',
                 'TrackFiller',
                 'addFileMetadataToTrackAsync'
             );

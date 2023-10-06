@@ -27,7 +27,7 @@
             <app-artist
                 [artist]="artist"
                 (dblclick)="this.playbackService.enqueueAndPlayArtist(artist, this.selectedArtistType)"
-                (contextmenu)="onArtistContextMenuAsync($event, artist)"
+                (contextmenu)="onArtistContextMenu($event, artist)"
             ></app-artist>
         </div>
     </cdk-virtual-scroll-viewport>

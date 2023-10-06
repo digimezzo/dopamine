@@ -7,18 +7,18 @@ import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
 
 @Injectable()
 export class ExternalAlbumArtworkGetter {
-    constructor(
+    public constructor(
         private externalArtworkPathGetter: ExternalArtworkPathGetter,
         private imageProcessor: ImageProcessor,
         private logger: Logger
     ) {}
 
-    public async getExternalArtworkAsync(fileMetadata: IFileMetadata): Promise<Buffer> {
+    public async getExternalArtworkAsync(fileMetadata: IFileMetadata | undefined): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
             return undefined;
         }
 
-        let artworkData: Buffer;
+        let artworkData: Buffer | undefined;
 
         try {
             const externalArtworkPath: string = await this.externalArtworkPathGetter.getExternalArtworkPathAsync(fileMetadata.path);
@@ -26,8 +26,9 @@ export class ExternalAlbumArtworkGetter {
             if (!Strings.isNullOrWhiteSpace(externalArtworkPath)) {
                 artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath);
             }
-        } catch (e) {
+        } catch (e: unknown) {
             this.logger.error(
+                e,
                 `Could not get external artwork for track with path='${fileMetadata.path}'`,
                 'ExternalAlbumArtworkGetter',
                 'getExternalArtwork'

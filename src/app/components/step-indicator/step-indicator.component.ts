@@ -8,8 +8,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class StepIndicatorComponent implements OnInit {
-    constructor() {}
-
     public totalStepsCollection: number[];
 
     @Input()

@@ -69,27 +69,6 @@ describe('PlaylistModelFactory', () => {
             );
         });
 
-        it('should create a PlaylistFolderModel without an image if the image is undefined', () => {
-            // Arrange
-            const playlistModelFactory: PlaylistModelFactory = createFactory();
-            fileAccessMock
-                .setup((x) => x.pathExists('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.png'))
-                .returns(() => true);
-
-            // Act
-            const playlistModel: PlaylistModel = playlistModelFactory.create(
-                '/home/username/Music/Dopamine/Playlists',
-                '/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u',
-                undefined
-            );
-
-            // Assert
-            expect(playlistModel.name).toEqual('Playlist 1');
-            expect(playlistModel.folderName).toEqual('Folder 1');
-            expect(playlistModel.path).toEqual('/home/username/Music/Dopamine/Playlists/Folder 1/Playlist 1.m3u');
-            expect(playlistModel.imagePath).toEqual(Constants.emptyImage);
-        });
-
         it('should create a PlaylistFolderModel without an image if the image is empty', () => {
             // Arrange
             const playlistModelFactory: PlaylistModelFactory = createFactory();

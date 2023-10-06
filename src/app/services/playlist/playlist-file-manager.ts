@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
+import { GuidFactory } from '../../common/guid.factory';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
@@ -15,8 +15,9 @@ import { PlaylistModelFactory } from './playlist-model-factory';
 export class PlaylistFileManager {
     private _playlistsParentFolderPath: string = '';
 
-    constructor(
+    public constructor(
         private playlistModelFactory: PlaylistModelFactory,
+        private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
         private fileAccess: BaseFileAccess,
         private logger: Logger
@@ -31,12 +32,8 @@ export class PlaylistFileManager {
     public ensurePlaylistsParentFolderExists(playlistsParentFolder: string): void {
         try {
             this.fileAccess.createFullDirectoryPathIfDoesNotExist(playlistsParentFolder);
-        } catch (e) {
-            this.logger.error(
-                `Could not create playlists directory. Error: ${e.message}`,
-                'PlaylistFileManager',
-                'ensurePlaylistsParentFolderExists'
-            );
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not create playlists directory', 'PlaylistFileManager', 'ensurePlaylistsParentFolderExists');
         }
     }
 
@@ -55,14 +52,14 @@ export class PlaylistFileManager {
 
             if (this.fileValidator.isSupportedPlaylistFile(currentPath)) {
                 const playlistPath: string = currentPath;
-                const previousPath: string = Collections.getPreviousItem(sortedFilePathsInPath, index);
-                const nextPath: string = Collections.getNextItem(sortedFilePathsInPath, index);
+                const previousPath: string | undefined = Collections.getPreviousItem<string>(sortedFilePathsInPath, index);
+                const nextPath: string | undefined = Collections.getNextItem<string>(sortedFilePathsInPath, index);
 
                 let playlistImagePath: string = '';
 
-                if (this.isProposedPlaylistImagePathValid(playlistPath, previousPath)) {
+                if (previousPath != undefined && this.isProposedPlaylistImagePathValid(playlistPath, previousPath)) {
                     playlistImagePath = previousPath;
-                } else if (this.isProposedPlaylistImagePathValid(playlistPath, nextPath)) {
+                } else if (nextPath != undefined && this.isProposedPlaylistImagePathValid(playlistPath, nextPath)) {
                     playlistImagePath = nextPath;
                 }
 
@@ -106,7 +103,7 @@ export class PlaylistFileManager {
         await this.fileAccess.deleteFileIfExistsAsync(playlist.imagePath);
 
         if (newImagePath !== Constants.emptyImage) {
-            await this.createPlaylistImageAsync(playlistPath, newImagePath);
+            this.createPlaylistImage(playlistPath, newImagePath);
         }
     }
 
@@ -117,10 +114,10 @@ export class PlaylistFileManager {
         return newPlaylistPath;
     }
 
-    private async createPlaylistImageAsync(playlistPath: string, selectedImagePath: string): Promise<void> {
+    private createPlaylistImage(playlistPath: string, selectedImagePath: string): void {
         const playlistImageExtension: string = this.fileAccess.getFileExtension(selectedImagePath).toLowerCase();
         const playlistPathWithoutExtension: string = this.fileAccess.getPathWithoutExtension(playlistPath);
-        const newPlaylistImagePath: string = `${playlistPathWithoutExtension}-${uuidv4()}-${playlistImageExtension}`;
+        const newPlaylistImagePath: string = `${playlistPathWithoutExtension}-${this.guidFactory.create()}-${playlistImageExtension}`;
         this.fileAccess.copyFile(selectedImagePath, newPlaylistImagePath);
     }
 }
