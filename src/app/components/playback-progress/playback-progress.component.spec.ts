@@ -14,9 +14,7 @@ describe('PlaybackProgressComponent', () => {
     let mathExtensionsMock: IMock<MathExtensions>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
     let loggerMock: IMock<Logger>;
-
-    const progressTrackNativeElement: any = { offsetWidth: 500 };
-    let progressTrackElementRef: ElementRef = new ElementRef(progressTrackNativeElement);
+    let progressTrackElementRef: ElementRef;
 
     let playbackServiceProgressChanged: Subject<PlaybackProgress>;
 
@@ -25,13 +23,15 @@ describe('PlaybackProgressComponent', () => {
         mathExtensionsMock = Mock.ofType<MathExtensions>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
         loggerMock = Mock.ofType<Logger>();
-        progressTrackElementRef = new ElementRef(progressTrackNativeElement);
+        progressTrackElementRef = new ElementRef({});
         component = new PlaybackProgressComponent(
             playbackServiceMock.object,
             mathExtensionsMock.object,
             nativeElementProxyMock.object,
             loggerMock.object
         );
+
+        nativeElementProxyMock.setup((x) => x.getElementWidth(progressTrackElementRef)).returns(() => 500);
 
         component.progressTrack = progressTrackElementRef;
 
