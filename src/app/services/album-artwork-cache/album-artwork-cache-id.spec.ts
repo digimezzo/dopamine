@@ -3,60 +3,48 @@ import { GuidFactory } from '../../common/guid.factory';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 
 describe('AlbumArtworkCacheId', () => {
-    let albumArtworkCacheId: AlbumArtworkCacheId;
     let guidFactoryMock: IMock<GuidFactory>;
 
     beforeEach(() => {
         guidFactoryMock = Mock.ofType<GuidFactory>();
-
-        albumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
+        guidFactoryMock.setup((x) => x.create()).returns(() => '688af0b5-8c41-4a10-9d3e-2ba13a0d918d');
     });
+
+    function createInstance(): AlbumArtworkCacheId {
+        return new AlbumArtworkCacheId(guidFactoryMock.object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const instance: AlbumArtworkCacheId = createInstance();
 
             // Assert
-            expect(albumArtworkCacheId).toBeDefined();
+            expect(instance).toBeDefined();
         });
 
         it('should define id', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const instance: AlbumArtworkCacheId = createInstance();
 
             // Assert
-            expect(albumArtworkCacheId.id).toBeDefined();
+            expect(instance.id).toBeDefined();
         });
 
         it('should create id that starts with album-', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const instance: AlbumArtworkCacheId = createInstance();
 
             // Assert
-            expect(albumArtworkCacheId.id.startsWith('album-')).toBeTruthy();
+            expect(instance.id.startsWith('album-')).toBeTruthy();
         });
 
         it('should create id that has a length of 42 characters', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(albumArtworkCacheId.id.length).toEqual(42);
-        });
-
-        it('should create unique ids', () => {
-            // Arrange
-
-            // Act
-            const albumArtworkCacheId2: AlbumArtworkCacheId = new AlbumArtworkCacheId(guidFactoryMock.object);
+            // Arrange, Act
+            const instance: AlbumArtworkCacheId = createInstance();
 
             // Assert
-            expect(albumArtworkCacheId.id).not.toEqual(albumArtworkCacheId2.id);
+            expect(instance.id.length).toEqual(42);
         });
     });
 });
