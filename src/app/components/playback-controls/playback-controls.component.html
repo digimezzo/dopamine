@@ -20,7 +20,7 @@
     </button>
     <button
         *ngIf="playbackService.loopMode === loopModeEnum.One"
-        class="app-playback-controls__button pointermx-1"
+        class="app-playback-controls__button pointer mx-1"
         matRipple
         (click)="playbackService.toggleLoopMode()"
         matTooltip="{{ 'loop' | translate }}"
