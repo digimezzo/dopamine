@@ -46,6 +46,7 @@ export class SliderComponent implements AfterViewInit {
     @Input()
     public set value(v: number) {
         this._value = v;
+        this.applyPositionFromValue(v);
     }
 
     @Output()
@@ -88,7 +89,7 @@ export class SliderComponent implements AfterViewInit {
     }
 
     public onSliderContainerMouseDown(e: MouseEvent): void {
-        this.applyPosition(this.getMouseXPositionRelativeToSlider(e.clientX));
+        this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.clientX));
     }
 
     @HostListener('document:mousedown', ['$event'])
@@ -114,7 +115,7 @@ export class SliderComponent implements AfterViewInit {
     @HostListener('document:mousemove', ['$event'])
     public onDocumentMouseMove(e: MouseEvent): void {
         if (this.isSliderThumbDown) {
-            this.applyPosition(this.getMouseXPositionRelativeToSlider(e.clientX));
+            this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(e.clientX));
         }
     }
 
@@ -122,7 +123,7 @@ export class SliderComponent implements AfterViewInit {
     public onDocumentTouchMove(e: TouchEvent): void {
         if (this.isSliderThumbDown) {
             const touch: Touch = e.touches[0] != undefined ? e.touches[0] : e.changedTouches[0];
-            this.applyPosition(this.getMouseXPositionRelativeToSlider(touch.pageX));
+            this.applyPositionAndValue(this.getMouseXPositionRelativeToSlider(touch.pageX));
         }
     }
 
@@ -132,7 +133,7 @@ export class SliderComponent implements AfterViewInit {
         if (event.deltaY > 0) {
             newPosition = this.sliderBarPosition - mouseStepConvertedToSliderScale;
         }
-        this.applyPosition(newPosition);
+        this.applyPositionAndValue(newPosition);
     }
 
     private getMouseStepConvertedToSliderScale(): number {
@@ -140,24 +141,6 @@ export class SliderComponent implements AfterViewInit {
         const mouseStepUsingSliderScale: number = (this.mouseStepSize / this.maximum) * sliderWidth;
 
         return mouseStepUsingSliderScale;
-    }
-
-    private applyPosition(position: number): void {
-        try {
-            const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
-
-            this.sliderBarPosition = this.mathExtensions.clamp(position, 0, sliderWidth);
-
-            this.sliderThumbPosition = this.mathExtensions.clamp(
-                position - this.sliderThumbWidth / 2,
-                this.sliderThumbMargin - this.sliderThumbWidth / 2,
-                sliderWidth - this.sliderThumbMargin - this.sliderThumbWidth / 2
-            );
-
-            this.calculateValue();
-        } catch (e: unknown) {
-            this.logger.error(e, 'Could not apply position', 'SliderComponent', 'applyPosition');
-        }
     }
 
     private getMouseXPositionRelativeToSlider(clientX: number): number {
@@ -170,7 +153,19 @@ export class SliderComponent implements AfterViewInit {
         return clientX - rect.left;
     }
 
-    private calculateValue(): void {
+    private applyPosition(position: number): void {
+        const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
+
+        this.sliderBarPosition = this.mathExtensions.clamp(position, 0, sliderWidth);
+
+        this.sliderThumbPosition = this.mathExtensions.clamp(
+            position - this.sliderThumbWidth / 2,
+            this.sliderThumbMargin - this.sliderThumbWidth / 2,
+            sliderWidth - this.sliderThumbMargin - this.sliderThumbWidth / 2
+        );
+    }
+
+    private applyValue(): void {
         const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
 
         const valueFraction: number = this.sliderBarPosition / sliderWidth;
@@ -181,14 +176,27 @@ export class SliderComponent implements AfterViewInit {
         this.valueChange.emit(this._value);
     }
 
-    private applyPositionFromValue(value: number): void {
-        const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
-        let position: number = 0;
-
-        if (this.maximum > 0) {
-            position = (value / this.maximum) * sliderWidth;
+    private applyPositionAndValue(position: number): void {
+        try {
+            this.applyPosition(position);
+            this.applyValue();
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not apply position', 'SliderComponent', 'applyPosition');
         }
+    }
 
-        this.applyPosition(position);
+    private applyPositionFromValue(value: number): void {
+        try {
+            const sliderWidth: number = this.nativeElementProxy.getElementWidth(this.sliderTrack);
+            let position: number = 0;
+
+            if (this.maximum > 0) {
+                position = (value / this.maximum) * sliderWidth;
+            }
+
+            this.applyPosition(position);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not apply position from value', 'SliderComponent', 'applyPositionFromValue');
+        }
     }
 }

@@ -37,6 +37,8 @@ export class PlaybackService implements BasePlaybackService {
     private _isPlaying: boolean = false;
     private _canPause: boolean = false;
     private _canResume: boolean = true;
+    private _isMuted: boolean = false;
+    private _volumeBeforeMute: number = 0;
     private subscription: Subscription = new Subscription();
 
     public constructor(
@@ -73,10 +75,7 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     public set volume(v: number) {
-        const volumeToSet: number = this.mathExtensions.clamp(v, 0, 1);
-        this._volume = volumeToSet;
-        this.settings.volume = volumeToSet;
-        this.audioPlayer.setVolume(volumeToSet);
+        this.applyVolume(v);
     }
 
     public get progress(): PlaybackProgress {
@@ -190,7 +189,7 @@ export class PlaybackService implements BasePlaybackService {
         await this.notifyOfTracksAddedToPlaybackQueueAsync(orderedTracks.length);
     }
 
-    public async addAlbumToQueue(albumToAdd: AlbumModel): Promise<void> {
+    public async addAlbumToQueueAsync(albumToAdd: AlbumModel): Promise<void> {
         const tracksForAlbum: TrackModels = this.trackService.getTracksForAlbums([albumToAdd.albumKey]);
         const orderedTracks: TrackModel[] = this.trackOrdering.getTracksOrderedByAlbum(tracksForAlbum.tracks);
         this.queue.addTracks(orderedTracks);
@@ -334,6 +333,18 @@ export class PlaybackService implements BasePlaybackService {
         }
     }
 
+    public toggleMute(): void {
+        if (this._isMuted) {
+            this.applyVolume(this._volumeBeforeMute > 0 ? this._volumeBeforeMute : 0.5);
+        } else {
+            this._volumeBeforeMute = this._volume;
+            this.applyVolume(0);
+        }
+
+        this._isMuted = !this._isMuted;
+        this.settings.isMuted = this._isMuted;
+    }
+
     private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
         this.audioPlayer.stop();
         this.audioPlayer.play(trackToPlay.path);
@@ -441,8 +452,16 @@ export class PlaybackService implements BasePlaybackService {
     }
 
     private applyVolumeFromSettings(): void {
-        this._volume = this.settings.volume;
+        this._isMuted = this.settings.isMuted;
+        this._volume = this._isMuted ? 0 : this.settings.volume;
         this.audioPlayer.setVolume(this._volume);
+    }
+
+    private applyVolume(volume: number): void {
+        const volumeToSet: number = this.mathExtensions.clamp(volume, 0, 1);
+        this._volume = volumeToSet;
+        this.settings.volume = volumeToSet;
+        this.audioPlayer.setVolume(volumeToSet);
     }
 
     private async notifyOfTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {

@@ -610,6 +610,15 @@ export class Settings implements BaseSettings {
         this.settings.set('downloadArtistInformationFromLastFm', v);
     }
 
+    // isMuted
+    public get isMuted(): boolean {
+        return <boolean>this.settings.get('isMuted');
+    }
+
+    public set isMuted(v: boolean) {
+        this.settings.set('isMuted', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -870,6 +879,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('downloadArtistInformationFromLastFm')) {
             this.settings.set('downloadArtistInformationFromLastFm', true);
+        }
+
+        if (!this.settings.has('isMuted')) {
+            this.settings.set('isMuted', false);
         }
     }
 }

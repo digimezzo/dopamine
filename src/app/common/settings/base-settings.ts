@@ -66,4 +66,5 @@ export abstract class BaseSettings {
     public abstract showLove: boolean;
     public abstract enableMultimediaKeys: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
+    public abstract isMuted: boolean;
 }

@@ -16,4 +16,8 @@ export class VolumeControlComponent {
     public set volume(v: number) {
         this.playbackService.volume = v;
     }
+
+    public toggleMute(): void {
+        this.playbackService.toggleMute();
+    }
 }
