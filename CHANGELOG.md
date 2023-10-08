@@ -1,9 +1,17 @@
 # Dopamine change log
 
-All notable changes to this project will be documented in this file.
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.0.0-preview.21] - 2023-10-08
+
+### Added
+
+-   Clicking the volume icon now (un)mutes
+
+### Fixed
+
+-   Loop one icon has no margin
 
 ## [3.0.0-preview.20] - 2023-09-17
 
@@ -25,8 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Updated Simplified Chinese translation (Thank you 5zhou, Guanran928, sherlockholmestech)
 -   Updated Vietnamese translation (Thank you mastoduy)
 
-### Removed
-
 ### Fixed
 
 -   Fixed the tray icon on MacOS (Thank you ghsantos)
@@ -40,22 +46,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added Last.fm support
 
-### Changed
-
-### Removed
-
 ### Fixed
 
 -   Fixed a bug where albums weren't all displayed just after startup
 -   Fixed "error: local database is inconsistent: name mismatch on package Dopamine-3.0.0" error on Arch based systems
 
 ## [3.0.0-preview.18] - 2022-11-13
-
-### Added
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -75,8 +71,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Updated Simplified Chinese translation
 -   Updated Traditional Chinese translation
 
-### Removed
-
 ### Fixed
 
 -   Fixed a crash that happens when rating a song that isn't currently playing
@@ -84,12 +78,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed tabs which are displayed above the notifications not being clickable
 
 ## [3.0.0-preview.16] - 2022-10-06
-
-### Added
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -111,8 +99,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Artist name is displayed on 2 lines on now playing screen when too long
 -   Updated Russian translation
 
-### Removed
-
 ### Fixed
 
 -   Fixed a problem uninstalling
@@ -127,8 +113,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Updated Russian translation
-
-### Removed
 
 ### Fixed
 
@@ -149,8 +133,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Updated Russian translation
 -   Album lists are more responsive
 
-### Removed
-
 ### Fixed
 
 -   Fixed an issue where image and text would not change simultaneously when the playing song changes
@@ -162,10 +144,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Added option to show and hide the Artists, Albums, ... pages
 -   Added Croatian translation
 -   Added Czech translation
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -187,8 +165,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Updated the Simplified Chinese translation
 
-### Removed
-
 ### Fixed
 
 -   Disks containing an inaccessible "System Volume Information" folder cannot be indexed
@@ -200,10 +176,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Updated Bulgarian translation
 -   Songs can now be added to and removed from the playback queue
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -223,8 +195,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Downloading missing album covers is now disabled by default
 -   Discord Rich Presence is now disabled by default
 
-### Removed
-
 ### Fixed
 
 -   Fixed playlist image not updating when changing it a second time
@@ -242,31 +212,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Improved macOS icon
 
-### Removed
-
 ### Fixed
 
 -   Scroll bars do not follow the system colors anymore
 
 ## [3.0.0-preview.7] - 2021-09-20
 
-### Added
-
-### Changed
-
-### Removed
-
 ### Fixed
 
 -   Buttons on playback pane (under the progress bar) are not clickable
 
 ## [3.0.0-preview.6] - 2021-09-19
-
-### Added
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -287,8 +243,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Theme files have changed. Custom themes will have to be re-created from one of the default themes.
 
-### Removed
-
 ### Fixed
 
 -   Fixed blurry bold fonts in Windows
@@ -303,10 +257,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   It is now possible to create custom themes
 -   Added Manjaro light and dark theme
 -   Added Ubuntu light and dark theme
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -325,10 +275,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Smoother transitions between screens
 -   Lower memory usage
 
-### Changed
-
-### Removed
-
 ### Fixed
 
 -   Fixed misalignment of menu selector after startup
@@ -338,10 +284,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Added a "Now playing" screen
-
-### Changed
-
-### Removed
 
 ### Fixed
 
@@ -359,9 +301,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   First preview, which adds Linux support.
-
-### Changed
-
-### Removed
-
-### Fixed
