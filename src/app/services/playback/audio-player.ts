@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
+import { MathExtensions } from '../../common/math-extensions';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseAudioPlayer } from './base-audio-player';
 
@@ -8,7 +9,7 @@ import { BaseAudioPlayer } from './base-audio-player';
 export class AudioPlayer implements BaseAudioPlayer {
     private audio: HTMLAudioElement;
 
-    public constructor(private logger: Logger) {
+    public constructor(private mathExtensions: MathExtensions, private logger: Logger) {
         this.audio = new Audio();
 
         try {
@@ -68,8 +69,10 @@ export class AudioPlayer implements BaseAudioPlayer {
         PromiseUtils.noAwait(this.audio.play());
     }
 
-    public setVolume(volume: number): void {
-        this.audio.volume = volume;
+    public setVolume(linearVolume: number): void {
+        // log(0) is undefined. So we provide a minimum of 0.01.
+        const logarithmicVolume: number = linearVolume > 0 ? this.mathExtensions.linearToLogarithmic(linearVolume, 0.01, 1) : 0;
+        this.audio.volume = logarithmicVolume;
     }
 
     public mute(): void {
