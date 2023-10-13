@@ -103,6 +103,7 @@ import { ArtistsPersister } from './components/collection/collection-artists/art
 import { ArtistsTracksPersister } from './components/collection/collection-artists/artists-tracks-persister';
 import { CollectionArtistsComponent } from './components/collection/collection-artists/collection-artists.component';
 import { CollectionFoldersComponent } from './components/collection/collection-folders/collection-folders.component';
+import { FolderTracksPersister } from './components/collection/collection-folders/folder-tracks-persister';
 import { FoldersPersister } from './components/collection/collection-folders/folders-persister';
 import { CollectionGenresComponent } from './components/collection/collection-genres/collection-genres.component';
 import { GenreBrowserComponent } from './components/collection/collection-genres/genre-browser/genre-browser.component';
@@ -524,6 +525,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AlbumsTracksPersister,
         FoldersPersister,
         PlaylistFoldersPersister,
+        FolderTracksPersister,
         CollectionChecker,
         IndexablePathFetcher,
         TextSanitizer,

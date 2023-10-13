@@ -35,6 +35,8 @@ export abstract class BaseTracksPersister {
     private initializeFromSettings(): void {
         if (!Strings.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
             this.selectedTrackOrder = TrackOrder[this.getSelectedTrackOrderFromSettings()] as TrackOrder;
+        } else {
+            this.selectedTrackOrder = TrackOrder.none;
         }
     }
 }

@@ -3,4 +3,5 @@ export enum TrackOrder {
     byTrackTitleDescending = 2,
     byAlbum = 3,
     byRating = 4,
+    none = 5,
 }

@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../common/application/constants';
@@ -17,17 +16,16 @@ import { BaseFolderService } from '../../../services/folder/base-folder.service'
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
-import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { BaseSearchService } from '../../../services/search/base-search.service';
 import { BaseTrackService } from '../../../services/track/base-track.service';
-import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
+import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
 
 @Component({
@@ -44,10 +42,10 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public appearanceService: BaseAppearanceService,
         public folderService: BaseFolderService,
         public playbackService: BasePlaybackService,
+        public tracksPersister: FolderTracksPersister,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
-        private metadataService: BaseMetadataService,
         private indexingService: BaseIndexingService,
         private collectionService: BaseCollectionService,
         private collectionPersister: CollectionPersister,
@@ -63,9 +61,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     ) {}
 
     private subscription: Subscription = new Subscription();
-
-    @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
-    public trackContextMenu: MatMenuTrigger;
 
     public leftPaneSize: number = this.settings.foldersLeftPaneWidthPercent;
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
@@ -86,14 +81,12 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
-                this.playbackIndicationService.setPlayingTrack(this.tracks.tracks, playbackStarted.currentTrack);
             })
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.playbackIndicationService.clearPlayingSubfolder(this.subfolders);
-                this.playbackIndicationService.clearPlayingTrack(this.tracks.tracks);
             })
         );
 
@@ -115,21 +108,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.subscription.add(
-            this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
-                this.updateTrackRating(track);
-            })
-        );
-
         await this.processListsAsync();
-    }
-
-    private updateTrackRating(trackWithUpToDateRating: TrackModel): void {
-        for (const track of this.tracks.tracks) {
-            if (track.path === trackWithUpToDateRating.path) {
-                track.rating = trackWithUpToDateRating.rating;
-            }
-        }
     }
 
     public splitDragEnd(event: IOutputData): void {
@@ -218,25 +197,5 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         return this.subfolders.length > 0 && this.subfolders.some((x) => x.isGoToParent)
             ? this.subfolders.filter((x) => x.isGoToParent)[0].path
             : this.openedFolder.path;
-    }
-
-    public setSelectedTrack(event: MouseEvent, trackToSelect: TrackModel): void {
-        this.mouseSelectionWatcher.setSelectedItems(event, trackToSelect);
-    }
-
-    public onTrackContextMenu(event: MouseEvent, track: TrackModel): void {
-        this.contextMenuOpener.open(this.trackContextMenu, event, track);
-    }
-
-    public async onAddToQueueAsync(): Promise<void> {
-        await this.playbackService.addTracksToQueueAsync(this.mouseSelectionWatcher.selectedItems as TrackModel[]);
-    }
-
-    public onShowInFolder(): void {
-        const tracks: TrackModel[] = this.mouseSelectionWatcher.selectedItems as [];
-
-        if (tracks.length > 0) {
-            this.desktop.showFileInDirectory(tracks[0].path);
-        }
     }
 }

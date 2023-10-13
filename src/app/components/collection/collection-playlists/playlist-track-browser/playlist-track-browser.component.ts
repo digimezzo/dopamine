@@ -15,7 +15,6 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { BaseTracksPersister } from '../../base-tracks-persister';
-import { TrackOrder } from '../../track-order';
 
 @Component({
     selector: 'app-playlist-track-browser',
@@ -45,8 +44,6 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     public playlistTrackContextMenu: MatMenuTrigger;
 
     public orderedTracks: TrackModel[] = [];
-
-    public trackOrderEnum: typeof TrackOrder = TrackOrder;
 
     public get tracksPersister(): BaseTracksPersister {
         return this._tracksPersister;

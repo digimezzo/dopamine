@@ -1,3 +1,3 @@
-describe('CollectionPlaylistsComponent', () => {
+describe('PlaylistTrackBrowserComponent', () => {
     test.todo('should write tests');
 });
