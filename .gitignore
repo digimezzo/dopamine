@@ -6,5 +6,4 @@ node_modules/
 dist/
 release/
 coverage/
-package-lock.json
 .DS_Store
