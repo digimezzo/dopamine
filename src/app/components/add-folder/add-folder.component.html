@@ -12,7 +12,7 @@
             [ngClass]="{ 'selected-item-background-important': folder === selectedFolder }"
             (mousedown)="setSelectedFolder(folder)"
         >
-            <div class="folder no-select d-flex flex-grow align-items-center">
+            <div class="folder d-flex flex-grow align-items-center">
                 <mat-checkbox
                     class="folder__checkbox"
                     [(ngModel)]="folder.showInCollection"

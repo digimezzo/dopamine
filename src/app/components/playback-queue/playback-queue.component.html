@@ -1,6 +1,6 @@
 <div class="playback-queue p-4">
     <h2>{{ 'playback-queue' | translate }}</h2>
-    <div class="playback-queue__header m-1 no-select">
+    <div class="playback-queue__header m-1">
         <div class="playback-queue__trackscount mr-2">{{ this.playbackService.playbackQueue.numberOfTracks }}</div>
         <div *ngIf="this.playbackService.playbackQueue.numberOfTracks === 1">{{ 'track' | translate }}</div>
         <div *ngIf="this.playbackService.playbackQueue.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>

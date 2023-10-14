@@ -1,5 +1,5 @@
 <div class="playlist-folder-browser">
-    <div class="playlist-folder-browser__header m-1 no-select">
+    <div class="playlist-folder-browser__header m-1">
         <div class="playlist-folder-browser__count">
             <div class="playlist-folder-browser__number mr-2">{{ this.playlistFolders.length }}</div>
             <div *ngIf="this.playlistFolders.length === 1">{{ 'playlist-folder' | translate }}</div>
@@ -19,7 +19,7 @@
             (mousedown)="setSelectedPlaylistFolders($event, playlistFolder)"
         >
             <div
-                class="playlist-folder__name no-select ellipsis px-1"
+                class="playlist-folder__name ellipsis px-1"
                 [ngClass]="{
                     'selected-item-background-important': playlistFolder.isSelected
                 }"

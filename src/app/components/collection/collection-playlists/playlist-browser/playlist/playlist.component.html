@@ -1,4 +1,4 @@
-<div class="app-playlist no-select">
+<div class="app-playlist">
     <div class="app-playlist-content">
         <div class="app-playlist-border" [ngClass]="{ 'selected-item-background-important': this.isSelected }">
             <div class="app-playlist__cover">
@@ -13,10 +13,7 @@
                     <img [attr.src]="this.playlist.imagePath | imageToFilePath" width="120" height="120" loading="lazy" draggable="false" />
                 </div>
             </div>
-            <div
-                class="app-playlist__information ellipsis"
-                matTooltip="{{ playlist.name }}"
-            >
+            <div class="app-playlist__information ellipsis" matTooltip="{{ playlist.name }}">
                 {{ playlist.name }}
             </div>
         </div>
