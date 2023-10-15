@@ -144,7 +144,7 @@ describe('TrackAdder', () => {
 
             // Assert
             trackFillerMock.verify(
-                (x) => x.addFileMetadataToTrackAsync(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' })),
+                (x) => x.addFileMetadataToTrackAsync(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' }), false),
                 Times.exactly(1)
             );
         });

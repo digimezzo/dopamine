@@ -41,7 +41,7 @@ describe('FolderTracksPersister', () => {
             const selectedTrackOrderFromSettings: string = persister.getSelectedTrackOrderFromSettings();
 
             // Assert
-            expect(selectedTrackOrderFromSettings).toEqual('');
+            expect(selectedTrackOrderFromSettings).toEqual('none');
         });
     });
 

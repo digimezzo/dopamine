@@ -13,7 +13,7 @@ describe('TrackVerifier', () => {
     });
 
     describe('isTrackOutOfDateAsync', () => {
-        it('should report a track as out of date if its file size is 0', async () => {
+        it('should report a track as out of date if its file size is 0', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/Track.mp3');
             track.trackId = 1;
@@ -22,13 +22,13 @@ describe('TrackVerifier', () => {
             track.needsIndexing = 0;
 
             // Act
-            const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
+            const trackIsOutOfDate: boolean = trackVerifier.isTrackOutOfDate(track);
 
             // Assert
             expect(trackIsOutOfDate).toBeTruthy();
         });
 
-        it('should report a track as out of date if its file size is different than the file size on disk', async () => {
+        it('should report a track as out of date if its file size is different than the file size on disk', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/Track.mp3');
             track.trackId = 1;
@@ -36,11 +36,11 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(() => Promise.resolve(12));
-            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(() => Promise.resolve(100));
+            fileAccessMock.setup((x) => x.getFileSizeInBytes(track.path)).returns(() => 12);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks(track.path)).returns(() => 100);
 
             // Act
-            const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
+            const trackIsOutOfDate: boolean = trackVerifier.isTrackOutOfDate(track);
 
             // Assert
             expect(trackIsOutOfDate).toBeTruthy();
@@ -54,11 +54,11 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(() => Promise.resolve(10));
-            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(() => Promise.resolve(110));
+            fileAccessMock.setup((x) => x.getFileSizeInBytes(track.path)).returns(() => 10);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks(track.path)).returns(() => 110);
 
             // Act
-            const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
+            const trackIsOutOfDate: boolean = trackVerifier.isTrackOutOfDate(track);
 
             // Assert
             expect(trackIsOutOfDate).toBeTruthy();
@@ -72,11 +72,11 @@ describe('TrackVerifier', () => {
             track.fileSize = 10;
             track.needsIndexing = 0;
 
-            fileAccessMock.setup((x) => x.getFileSizeInBytesAsync(track.path)).returns(() => Promise.resolve(10));
-            fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(track.path)).returns(() => Promise.resolve(100));
+            fileAccessMock.setup((x) => x.getFileSizeInBytes(track.path)).returns(() => 10);
+            fileAccessMock.setup((x) => x.getDateModifiedInTicks(track.path)).returns(() => 100);
 
             // Act
-            const trackIsOutOfDate: boolean = await trackVerifier.isTrackOutOfDateAsync(track);
+            const trackIsOutOfDate: boolean = trackVerifier.isTrackOutOfDate(track);
 
             // Assert
             expect(trackIsOutOfDate).toBeFalsy();

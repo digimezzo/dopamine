@@ -6,16 +6,16 @@ import { BaseFileAccess } from '../../common/io/base-file-access';
 export class TrackVerifier {
     public constructor(private fileAccess: BaseFileAccess) {}
 
-    public async isTrackOutOfDateAsync(track: Track): Promise<boolean> {
+    public isTrackOutOfDate(track: Track): boolean {
         if (track.fileSize === 0) {
             return true;
         }
 
-        if (track.fileSize !== (await this.fileAccess.getFileSizeInBytesAsync(track.path))) {
+        if (track.fileSize !== this.fileAccess.getFileSizeInBytes(track.path)) {
             return true;
         }
 
-        if (track.dateFileModified !== (await this.fileAccess.getDateModifiedInTicksAsync(track.path))) {
+        if (track.dateFileModified !== this.fileAccess.getDateModifiedInTicks(track.path)) {
             return true;
         }
 

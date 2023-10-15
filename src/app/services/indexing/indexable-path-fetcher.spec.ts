@@ -72,7 +72,7 @@ describe('IndexablePathFetcher', () => {
         fileAccessMock.setup((x) => x.getFileExtension('/home/user/Downloads/Image 2')).returns(() => '');
         fileAccessMock.setup((x) => x.pathExists('/home/user/Music')).returns(() => true);
         fileAccessMock.setup((x) => x.pathExists('/home/user/Downloads')).returns(() => true);
-        fileAccessMock.setup((x) => x.getDateModifiedInTicksAsync(It.isAny())).returns(() => Promise.resolve(100));
+        fileAccessMock.setup((x) => x.getDateModifiedInTicks(It.isAny())).returns(() => 100);
     });
 
     describe('getIndexablePathsForAllFoldersAsync', () => {

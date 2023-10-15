@@ -37,7 +37,7 @@ export class TrackAdder {
             for (const indexablePath of indexablePaths) {
                 try {
                     const newTrack: Track = new Track(indexablePath.path);
-                    await this.trackFiller.addFileMetadataToTrackAsync(newTrack);
+                    await this.trackFiller.addFileMetadataToTrackAsync(newTrack, false);
 
                     this.trackRepository.addTrack(newTrack);
                     const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path)!;

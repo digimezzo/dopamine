@@ -28,8 +28,8 @@ export class TrackUpdater {
 
             for (const track of tracks) {
                 try {
-                    if (this.trackVerifier.doesTrackNeedIndexing(track) || (await this.trackVerifier.isTrackOutOfDateAsync(track))) {
-                        const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
+                    if (this.trackVerifier.doesTrackNeedIndexing(track) || this.trackVerifier.isTrackOutOfDate(track)) {
+                        const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track, false);
                         this.trackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
 

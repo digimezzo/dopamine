@@ -70,7 +70,7 @@ export class IndexablePathFetcher {
                     const fileExtension: string = this.fileAccess.getFileExtension(filePath);
 
                     if (validFileExtensions.includes(fileExtension.toLowerCase())) {
-                        const dateModifiedInTicks: number = await this.fileAccess.getDateModifiedInTicksAsync(filePath);
+                        const dateModifiedInTicks: number = this.fileAccess.getDateModifiedInTicks(filePath);
                         indexablePaths.push(new IndexablePath(filePath, dateModifiedInTicks, folder.folderId));
                     }
                 } catch (e: unknown) {

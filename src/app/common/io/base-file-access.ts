@@ -11,10 +11,10 @@ export abstract class BaseFileAccess {
     public abstract getFileName(fileNameOrPath: string): string;
     public abstract getFileNameWithoutExtension(fileNameOrPath: string): string;
     public abstract getPathWithoutExtension(filePath: string): string;
-    public abstract getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number>;
-    public abstract getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number>;
+    public abstract getDateModifiedInTicks(fileOrDirectory: string): number;
+    public abstract getDateCreatedInTicks(fileOrDirectory: string): number;
     public abstract pathExists(pathToCheck: string): boolean;
-    public abstract getFileSizeInBytesAsync(filePath: string): Promise<number>;
+    public abstract getFileSizeInBytes(filePath: string): number;
     public abstract createFullDirectoryPathIfDoesNotExist(directoryPath: string): void;
     public abstract createFile(filePath: string): void;
     public abstract getDirectoryPath(directoryOrFilePath: string): string;

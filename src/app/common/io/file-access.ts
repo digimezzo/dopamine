@@ -153,15 +153,15 @@ export class FileAccess implements BaseFileAccess {
         return pathWithNewFileExtension;
     }
 
-    public async getDateModifiedInTicksAsync(fileOrDirectory: string): Promise<number> {
-        const stat = await fs.stat(fileOrDirectory);
+    public getDateModifiedInTicks(fileOrDirectory: string): number {
+        const stat = fs.statSync(fileOrDirectory);
         const dateModified: Date = stat.mtime;
 
         return this.dateTime.convertDateToTicks(dateModified);
     }
 
-    public async getDateCreatedInTicksAsync(fileOrDirectory: string): Promise<number> {
-        const stat = await fs.stat(fileOrDirectory);
+    public getDateCreatedInTicks(fileOrDirectory: string): number {
+        const stat = fs.statSync(fileOrDirectory);
         const dateCreated: Date = stat.birthtime;
 
         return this.dateTime.convertDateToTicks(dateCreated);
@@ -171,8 +171,8 @@ export class FileAccess implements BaseFileAccess {
         return fs.existsSync(pathToCheck);
     }
 
-    public async getFileSizeInBytesAsync(filePath: string): Promise<number> {
-        const stats = await fs.stat(filePath);
+    public getFileSizeInBytes(filePath: string): number {
+        const stats = fs.statSync(filePath);
         const fileSizeInBytes = stats.size;
 
         return fileSizeInBytes;

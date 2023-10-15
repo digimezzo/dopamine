@@ -30,6 +30,7 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionFoldersComponent } from './collection-folders.component';
+import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
 
 describe('CollectionFoldersComponent', () => {
@@ -55,6 +56,8 @@ describe('CollectionFoldersComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let dateTimeMock: IMock<DateTime>;
+    let folderTracksPersisterMock: IMock<FolderTracksPersister>;
+
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
     let indexingServiceIndexingFinishedMock: Subject<void>;
@@ -91,10 +94,10 @@ describe('CollectionFoldersComponent', () => {
             appearanceServiceMock.object,
             folderServiceMock.object,
             playbackServiceMock.object,
+            folderTracksPersisterMock.object,
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             addToPlaylistMenuMock.object,
-            metadataServiceMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
             collectionPersisterMock.object,
@@ -135,6 +138,7 @@ describe('CollectionFoldersComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         dateTimeMock = Mock.ofType<DateTime>();
+        folderTracksPersisterMock = Mock.ofType<FolderTracksPersister>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -318,16 +322,6 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.mouseSelectionWatcher).toBeDefined();
-        });
-
-        it('should declare trackContextMenu', () => {
-            // Arrange
-
-            // Act
-            const component: CollectionFoldersComponent = createComponent();
-
-            // Assert
-            expect(component.trackContextMenu).toBeUndefined();
         });
 
         it('should define addToPlaylistMenu', () => {
@@ -600,21 +594,6 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.verify((x) => x.setPlayingSubfolder(subfolders, trackModel1), Times.exactly(1));
         });
 
-        it('should set the playing track on playback started', async () => {
-            // Arrange
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel1);
-            const component: CollectionFoldersComponent = createComponent();
-            await component.ngOnInit();
-
-            playbackIndicationServiceMock.reset();
-
-            // Act
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModel1, false));
-
-            // Assert
-            playbackIndicationServiceMock.verify((x) => x.setPlayingTrack(component.tracks.tracks, trackModel1), Times.exactly(1));
-        });
-
         it('should set the opened folder from the settings if the selected tab is folders', async () => {
             collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTabLabel);
 
@@ -823,26 +802,6 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             folderServiceMock.verify((x) => x.getFolders(), Times.never());
         });
-
-        it('should update the rating for a track that has the same path as the track for which rating was saved', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.foldersTabLabel);
-            const component: CollectionFoldersComponent = createComponent();
-            component.tracks = tracks;
-
-            const track3 = new Track('track1');
-            track3.rating = 3;
-
-            const trackModel3: TrackModel = new TrackModel(track3, dateTimeMock.object, translatorServiceMock.object);
-
-            // Act
-            await component.ngOnInit();
-            metadataService_ratingSaved.next(trackModel3);
-
-            // Assert
-            expect(trackModel1.rating).toEqual(3);
-            expect(trackModel2.rating).toEqual(2);
-        });
     });
 
     describe('goToManageCollection', () => {
@@ -919,21 +878,6 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.selectedSubfolder).toBe(subfolder1);
-        });
-    });
-
-    describe('setSelectedTrack', () => {
-        it('should set the selected item on mouseSelectionWatcher', () => {
-            // Arrange
-            const component: CollectionFoldersComponent = createComponent();
-            component.tracks = tracks;
-            const event: any = {};
-
-            // Act
-            component.setSelectedTrack(event, trackModel1);
-
-            // Assert
-            mouseSelectionWatcherMock.verify((x) => x.setSelectedItems(event, trackModel1), Times.exactly(1));
         });
     });
 

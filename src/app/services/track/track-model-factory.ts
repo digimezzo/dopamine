@@ -15,7 +15,7 @@ export class TrackModelFactory {
 
     public async createFromFileAsync(filePath: string): Promise<TrackModel> {
         const track: Track = new Track(filePath);
-        const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track);
+        const filledTrack: Track = await this.trackFiller.addFileMetadataToTrackAsync(track, true);
 
         return new TrackModel(filledTrack, this.dateTime, this.translatorService);
     }

@@ -10,7 +10,7 @@ export class FolderTracksPersister extends BaseTracksPersister {
     }
 
     public getSelectedTrackOrderFromSettings(): string {
-        return '';
+        return 'none';
     }
     public saveSelectedTrackOrderToSettings(): void {
         // Do nothing
