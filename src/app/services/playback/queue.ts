@@ -29,7 +29,7 @@ export class Queue {
     }
 
     public setTracks(tracksToSet: TrackModel[], shuffle: boolean): void {
-        this._tracks = tracksToSet;
+        this._tracks = tracksToSet.map((x) => x.clone());
 
         if (shuffle) {
             this.shuffle();
@@ -42,7 +42,7 @@ export class Queue {
 
     public addTracks(tracksToAdd: TrackModel[]): void {
         for (const trackToAdd of tracksToAdd) {
-            this._tracks.push(trackToAdd);
+            this._tracks.push(trackToAdd.clone());
             this.playbackOrder.push(this._tracks.length - 1);
         }
 
