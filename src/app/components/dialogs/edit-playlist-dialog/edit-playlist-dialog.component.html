@@ -21,9 +21,17 @@
                 <i class="las la-times"></i>
             </div>
         </div>
-        <mat-form-field>
-            <input matInput [(ngModel)]="this.playlistName" placeholder="{{ 'playlist-name' | translate }}" (keyup.enter)="closeDialog()" />
-        </mat-form-field>
+        <div class="d-flex flex-column">
+            <mat-form-field>
+                <input
+                    matInput
+                    [(ngModel)]="this.playlistName"
+                    placeholder="{{ 'playlist-name' | translate }}"
+                    (keyup.enter)="closeDialog()"
+                />
+            </mat-form-field>
+        </div>
+        <div class="fill"></div>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
