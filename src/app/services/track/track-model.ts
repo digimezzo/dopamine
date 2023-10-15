@@ -222,4 +222,8 @@ export class TrackModel implements ISelectable {
 
         this.track.skipCount++;
     }
+
+    public clone(): TrackModel {
+        return new TrackModel(this.track, this.dateTime, this.translatorService);
+    }
 }
