@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Loop one icon has no margin
 -   Searching does not update counters on Folders screen
+-   Loading of songs is slow on Playlists and Folders screens
 
 ## [3.0.0-preview.20] - 2023-09-17
 
