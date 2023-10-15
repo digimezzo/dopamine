@@ -13,12 +13,11 @@ describe('SnackBarComponent', () => {
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         desktopMock = Mock.ofType<Desktop>();
 
-        component = new SnackBarComponent(snackBarServiceMock.object, desktopMock.object, {
+        component = new SnackBarComponent(snackBarServiceMock.object, {
             icon: 'My icon',
             animateIcon: true,
             message: 'My message',
             showCloseButton: true,
-            url: 'My url',
         });
     });
 
@@ -30,18 +29,6 @@ describe('SnackBarComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
-        });
-    });
-
-    describe('openDataUrl', () => {
-        it('should open data url link', async () => {
-            // Arrange
-
-            // Act
-            await component.openDataUrlAsync();
-
-            // Assert
-            desktopMock.verify((x) => x.openLinkAsync('My url'), Times.exactly(1));
         });
     });
 

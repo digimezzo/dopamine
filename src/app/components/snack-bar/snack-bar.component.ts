@@ -1,6 +1,5 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarData } from '../../services/snack-bar/snack-bar-data';
 
@@ -12,15 +11,7 @@ import { SnackBarData } from '../../services/snack-bar/snack-bar-data';
     encapsulation: ViewEncapsulation.None,
 })
 export class SnackBarComponent {
-    public constructor(
-        private snackBarService: BaseSnackBarService,
-        private desktop: BaseDesktop,
-        @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData
-    ) {}
-
-    public async openDataUrlAsync(): Promise<void> {
-        await this.desktop.openLinkAsync(this.data.url);
-    }
+    public constructor(private snackBarService: BaseSnackBarService, @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {}
 
     public dismiss(): void {
         this.snackBarService.dismiss();

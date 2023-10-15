@@ -21,22 +21,22 @@ export class SnackBarService implements BaseSnackBarService {
 
     public async folderAlreadyAddedAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('folder-already-added');
-        this.showSelfClosingSnackBar('las la-folder', message);
+        this.showSelfClosingSnackBar('las la-folder', message, false);
     }
 
     public async refreshing(): Promise<void> {
         const message: string = await this.translatorService.getAsync('refreshing');
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+        this.showDismissibleSnackBar('las la-sync', message, true, false);
     }
 
     public async removingTracksAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('removing-tracks');
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+        this.showDismissibleSnackBar('las la-sync', message, true, false);
     }
 
     public async updatingTracksAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('updating-tracks');
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+        this.showDismissibleSnackBar('las la-sync', message, true, false);
     }
 
     public async addedTracksAsync(numberOfAddedTracks: number, percentageOfAddedTracks: number): Promise<void> {
@@ -45,12 +45,12 @@ export class SnackBarService implements BaseSnackBarService {
             percentageOfAddedTracks: percentageOfAddedTracks,
         });
 
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+        this.showDismissibleSnackBar('las la-sync', message, true, false);
     }
 
     public async updatingAlbumArtworkAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('updating-album-artwork');
-        this.showDismissibleSnackBar('las la-sync', true, message, false, '');
+        this.showDismissibleSnackBar('las la-sync', message, true, false);
     }
 
     public async singleTrackAddedToPlaylistAsync(playlistName: string): Promise<void> {
@@ -58,7 +58,7 @@ export class SnackBarService implements BaseSnackBarService {
             playlistName: playlistName,
         });
 
-        this.showSelfClosingSnackBar('las la-check', message);
+        this.showSelfClosingSnackBar('las la-check', message, false);
     }
 
     public async multipleTracksAddedToPlaylistAsync(playlistName: string, numberOfAddedTracks: number): Promise<void> {
@@ -67,24 +67,24 @@ export class SnackBarService implements BaseSnackBarService {
             numberOfAddedTracks: numberOfAddedTracks,
         });
 
-        this.showSelfClosingSnackBar('las la-check', message);
+        this.showSelfClosingSnackBar('las la-check', message, false);
     }
 
     public async singleTrackAddedToPlaybackQueueAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('single-track-added-to-playback-queue');
-        this.showSelfClosingSnackBar('las la-check', message);
+        this.showSelfClosingSnackBar('las la-check', message, false);
     }
 
     public async multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks: number): Promise<void> {
         const message: string = await this.translatorService.getAsync('multiple-tracks-added-to-playback-queue', {
             numberOfAddedTracks: numberOfAddedTracks,
         });
-        this.showSelfClosingSnackBar('las la-check', message);
+        this.showSelfClosingSnackBar('las la-check', message, false);
     }
 
     public async lastFmLoginFailedAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('last-fm-login-failed');
-        this.showSelfClosingSnackBar('las la-frown', message);
+        this.showSelfClosingSnackBar('las la-frown', message, false);
     }
 
     public dismiss(): void {
@@ -119,10 +119,10 @@ export class SnackBarService implements BaseSnackBarService {
         }
     }
 
-    private showSelfClosingSnackBar(icon: string, message: string): void {
+    private showSelfClosingSnackBar(icon: string, message: string, animateIcon: boolean): void {
         this.zone.run(() => {
             this.currentSelfClosingSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
-                data: { icon: icon, message: message, showCloseButton: false },
+                data: new SnackBarData(icon, message, animateIcon, false),
                 panelClass: ['accent-snack-bar'],
                 verticalPosition: 'top',
                 duration: this.calculateDuration(message),
@@ -134,16 +134,16 @@ export class SnackBarService implements BaseSnackBarService {
         });
     }
 
-    private showDismissibleSnackBar(icon: string, animateIcon: boolean, message: string, showCloseButton: boolean, url: string): void {
+    private showDismissibleSnackBar(icon: string, message: string, animateIcon: boolean, showCloseButton: boolean): void {
         this.zone.run(() => {
             if (this.currentDismissibleSnackBar == undefined) {
                 this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
-                    data: { icon: icon, animateIcon: animateIcon, message: message, showCloseButton: showCloseButton, url: url },
+                    data: new SnackBarData(icon, message, animateIcon, showCloseButton),
                     panelClass: ['accent-snack-bar'],
                     verticalPosition: 'top',
                 });
             } else {
-                this.currentDismissibleSnackBar.instance.data = new SnackBarData(icon, message, url, animateIcon, showCloseButton);
+                this.currentDismissibleSnackBar.instance.data = new SnackBarData(icon, message, animateIcon, showCloseButton);
             }
         });
     }
