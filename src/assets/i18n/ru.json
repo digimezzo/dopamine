@@ -244,5 +244,6 @@
     "download-artist-information-from-lastfm": "Загрузить сведения об исполнителе с Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Загрузка сведений об исполнителе с Last.fm сейчас отключена. Вы можете включить её здесь или в настройках.",
     "similar": "Похожие",
-    "read-more-on-lastfm": "Подробности в Last.fm"
+    "read-more-on-lastfm": "Подробности в Last.fm",
+    "lyrics": "Lyrics"
 }

@@ -154,6 +154,7 @@ import { ManageMusicComponent } from './components/manage-collection/manage-musi
 import { ManageRefreshComponent } from './components/manage-collection/manage-refresh/manage-refresh.component';
 import { NowPlayingArtistInfoComponent } from './components/now-playing/now-playing-artist-info/now-playing-artist-info.component';
 import { SimilarArtistComponent } from './components/now-playing/now-playing-artist-info/similar-artist/similar-artist.component';
+import { NowPlayingLyricsComponent } from './components/now-playing/now-playing-lyrics/now-playing-lyrics.component';
 import { NowPlayingPlaybackPaneComponent } from './components/now-playing/now-playing-playback-pane/now-playing-playback-pane.component';
 import { NowPlayingShowcaseComponent } from './components/now-playing/now-playing-showcase/now-playing-showcase.component';
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
@@ -421,6 +422,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         CollectionTracksTableHeaderComponent,
         NowPlayingShowcaseComponent,
         NowPlayingArtistInfoComponent,
+        NowPlayingLyricsComponent,
         SimilarArtistComponent,
     ],
     imports: [

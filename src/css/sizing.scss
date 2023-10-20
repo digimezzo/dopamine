@@ -38,9 +38,16 @@
     width: 100%;
 }
 
-.font-m {
-    font-weight: lighter !important;
+.font-medium {
     font-size: var(--fontsize-medium) !important;
+}
+
+.font-extra-large {
+    font-size: var(--fontsize-extra-large) !important;
+}
+
+.font-thin {
+    font-weight: lighter !important;
 }
 
 .rotate-90ccw {

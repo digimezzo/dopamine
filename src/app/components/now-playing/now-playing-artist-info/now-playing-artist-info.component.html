@@ -16,9 +16,9 @@
                     (load)="imageIsLoaded()"
                 />
             </div>
+            <div class="mt-4 font-extra-large" *ngIf="!this.artist.isEmpty">{{ this.artist.name }}</div>
         </div>
         <div class="app-now-playing-artist-info__text" *ngIf="!this.artist.isEmpty">
-            <h1>{{ this.artist.name }}</h1>
             <div [innerHTML]="this.artist.biography"></div>
 
             <div class="mt-3">

@@ -244,5 +244,6 @@
     "download-artist-information-from-lastfm": "Télécharger des informations sur l'artiste depuis Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Le téléchargement des informations sur les artistes depuis Last.fm est actuellement désactivé. Vous pouvez l'activer ici ou dans les paramètres.",
     "similar": "Similaire",
-    "read-more-on-lastfm": "En savoir plus sur Last.fm"
+    "read-more-on-lastfm": "En savoir plus sur Last.fm",
+    "lyrics": "Paroles"
 }
