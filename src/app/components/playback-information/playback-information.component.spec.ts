@@ -3,7 +3,6 @@ import { IMock, Mock } from 'typemoq';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Scheduler } from '../../common/scheduling/scheduler';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
@@ -14,7 +13,6 @@ import { PlaybackInformationComponent } from './playback-information.component';
 describe('PlaybackInformationComponent', () => {
     let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
     let metadataServiceMock: IMock<BaseMetadataService>;
-    let settingsMock: IMock<BaseSettings>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -29,12 +27,7 @@ describe('PlaybackInformationComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): PlaybackInformationComponent {
-        return new PlaybackInformationComponent(
-            playbackInformationServiceMock.object,
-            metadataServiceMock.object,
-            settingsMock.object,
-            schedulerMock.object
-        );
+        return new PlaybackInformationComponent(playbackInformationServiceMock.object, metadataServiceMock.object, schedulerMock.object);
     }
 
     function createTrackModel(path: string, artists: string, title: string, rating: number, love: number): TrackModel {
@@ -43,21 +36,19 @@ describe('PlaybackInformationComponent', () => {
         track.trackTitle = title;
         track.rating = rating;
         track.love = love;
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
-        return trackModel;
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     beforeEach(() => {
         playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        settingsMock = Mock.ofType<BaseSettings>();
         schedulerMock = Mock.ofType<Scheduler>();
 
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
-        const component: PlaybackInformationComponent = createComponent();
+        createComponent();
 
         playbackInformationService_PlayingNextTrack = new Subject();
         const playbackInformationService_PlayingNextTrack$: Observable<PlaybackInformation> =
@@ -94,6 +85,36 @@ describe('PlaybackInformationComponent', () => {
 
             // Assert
             expect(component).toBeDefined();
+        });
+
+        it('should initialize isCentered as false', () => {
+            // Arrange
+
+            // Act
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Assert
+            expect(component.isCentered).toBeFalsy();
+        });
+
+        it('should initialize showRating as false', () => {
+            // Arrange
+
+            // Act
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Assert
+            expect(component.showRating).toBeFalsy();
+        });
+
+        it('should initialize showLove as false', () => {
+            // Arrange
+
+            // Act
+            const component: PlaybackInformationComponent = createComponent();
+
+            // Assert
+            expect(component.showLove).toBeFalsy();
         });
 
         it('should initialize contentAnimation as "down"', () => {
@@ -136,7 +157,7 @@ describe('PlaybackInformationComponent', () => {
             expect(component.height).toEqual(0);
         });
 
-        it('should largeFontSize height as 0', () => {
+        it('should initialize largeFontSize height as 0', () => {
             // Arrange
 
             // Act
@@ -146,7 +167,7 @@ describe('PlaybackInformationComponent', () => {
             expect(component.largeFontSize).toEqual(0);
         });
 
-        it('should smallFontSize height as 0', () => {
+        it('should initialize smallFontSize height as 0', () => {
             // Arrange
 
             // Act

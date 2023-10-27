@@ -7,28 +7,41 @@ import { NowPlayingPlaybackPaneComponent } from './now-playing-playback-pane.com
 describe('NowPlayingPlaybackPaneComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
     let nowPlayingNavigationServiceMock: IMock<BaseNowPlayingNavigationService>;
-    let component: NowPlayingPlaybackPaneComponent;
 
     beforeEach(() => {
         navigationServiceMock = Mock.ofType<BaseNavigationService>();
         nowPlayingNavigationServiceMock = Mock.ofType<BaseNowPlayingNavigationService>();
-        component = new NowPlayingPlaybackPaneComponent(navigationServiceMock.object, nowPlayingNavigationServiceMock.object);
     });
+
+    function createComponent(): NowPlayingPlaybackPaneComponent {
+        return new NowPlayingPlaybackPaneComponent(navigationServiceMock.object, nowPlayingNavigationServiceMock.object);
+    }
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
 
             // Assert
             expect(component).toBeDefined();
         });
     });
 
+    describe('currentNowPlayingPage', () => {
+        it('should return the current now playing page', () => {
+            // Arrange
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
+            nowPlayingNavigationServiceMock.setup((x) => x.currentNowPlayingPage).returns(() => NowPlayingPage.lyrics);
+
+            // Act, Assert
+            expect(component.currentNowPlayingPage).toEqual(NowPlayingPage.lyrics);
+        });
+    });
+
     describe('showPlaybackQueue', () => {
         it('should request to show the playback queue', () => {
             // Arrange
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
 
             // Act
             component.showPlaybackQueue();
@@ -41,6 +54,7 @@ describe('NowPlayingPlaybackPaneComponent', () => {
     describe('navigateToShowcase', () => {
         it('should request to navigate to showcase', () => {
             // Arrange
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
 
             // Act
             component.navigateToShowcase();
@@ -48,15 +62,31 @@ describe('NowPlayingPlaybackPaneComponent', () => {
             // Assert
             nowPlayingNavigationServiceMock.verify((x) => x.navigate(NowPlayingPage.showcase), Times.once());
         });
+    });
 
+    describe('navigateToArtistInformation', () => {
         it('should request to navigate to artist information', () => {
             // Arrange
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
 
             // Act
             component.navigateToArtistInformation();
 
             // Assert
             nowPlayingNavigationServiceMock.verify((x) => x.navigate(NowPlayingPage.artistInformation), Times.once());
+        });
+    });
+
+    describe('navigateToLyrics', () => {
+        it('should request to navigate to lyrics', () => {
+            // Arrange
+            const component: NowPlayingPlaybackPaneComponent = createComponent();
+
+            // Act
+            component.navigateToLyrics();
+
+            // Assert
+            nowPlayingNavigationServiceMock.verify((x) => x.navigate(NowPlayingPage.lyrics), Times.once());
         });
     });
 });

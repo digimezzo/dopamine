@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseApplication } from '../../../common/io/base-application';
 import { WindowSize } from '../../../common/io/window-size';
+import { BaseSettings } from '../../../common/settings/base-settings';
 
 @Component({
     selector: 'app-now-playing-showcase',
@@ -10,7 +11,7 @@ import { WindowSize } from '../../../common/io/window-size';
     encapsulation: ViewEncapsulation.None,
 })
 export class NowPlayingShowcaseComponent implements OnInit {
-    public constructor(private application: BaseApplication) {}
+    public constructor(public settings: BaseSettings, private application: BaseApplication) {}
 
     public coverArtSize: number = 0;
     public playbackInformationHeight: number = 0;

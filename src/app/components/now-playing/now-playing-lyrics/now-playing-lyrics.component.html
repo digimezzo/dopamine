@@ -1,0 +1,14 @@
+<div class="app-now-playing-lyrics">
+    <div class="d-flex flex-column">
+        <app-playback-cover-art class="app-now-playing-lyrics__picture" [size]="300"></app-playback-cover-art>
+        <app-playback-information
+            class="mt-3"
+            [height]="60"
+            [largeFontSize]="this.appearanceService.selectedFontSize.extraLargeSize"
+            [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
+        ></app-playback-information>
+    </div>
+    <div class="app-now-playing-lyrics__text">
+        <div [@contentAnimationY]="contentAnimation">Some lyrics</div>
+    </div>
+</div>

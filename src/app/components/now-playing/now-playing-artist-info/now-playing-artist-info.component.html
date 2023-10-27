@@ -13,7 +13,7 @@
                     [width]="300"
                     [height]="300"
                     draggable="false"
-                    (load)="imageIsLoaded()"
+                    (load)="imageIsLoadedAsync()"
                 />
             </div>
             <div class="mt-4 font-extra-large" *ngIf="!this.artist.isEmpty">{{ this.artist.name }}</div>

@@ -51,7 +51,7 @@ export class PlaybackService implements BasePlaybackService {
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
         private settings: BaseSettings,
-        private logger: Logger
+        private logger: Logger,
     ) {
         this.initializeSubscriptions();
         this.applyVolumeFromSettings();
@@ -355,7 +355,7 @@ export class PlaybackService implements BasePlaybackService {
         this.progressUpdater.startUpdatingProgress();
         this.playbackStarted.next(new PlaybackStarted(trackToPlay, isPlayingPreviousTrack));
 
-        this.logger.info(`Playing '${this.currentTrack?.path}'`, 'PlaybackService', 'play');
+        this.logger.info(`Playing '${this.currentTrack.path}'`, 'PlaybackService', 'play');
     }
 
     private stop(): void {
@@ -440,14 +440,14 @@ export class PlaybackService implements BasePlaybackService {
         this.subscription.add(
             this.audioPlayer.playbackFinished$.subscribe(() => {
                 this.playbackFinishedHandler();
-            })
+            }),
         );
 
         this.subscription.add(
             this.progressUpdater.progressChanged$.subscribe((playbackProgress: PlaybackProgress) => {
                 this._progress = playbackProgress;
                 this.progressChanged.next(playbackProgress);
-            })
+            }),
         );
     }
 
