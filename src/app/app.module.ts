@@ -294,6 +294,12 @@ import { BaseTrayService } from './services/tray/base-tray.service';
 import { TrayService } from './services/tray/tray.service';
 import { BaseUpdateService } from './services/update/base-update.service';
 import { UpdateService } from './services/update/update.service';
+import { BaseLyricsService } from './services/lyrics/base-lyrics.service';
+import { LyricsService } from './services/lyrics/lyrics.service';
+import { EmbeddedLyricsGetter } from './services/lyrics/embedded-lyrics-getter';
+import { LrcLyricsGetter } from './services/lyrics/lrc-lyrics-getter';
+import { OnlineLyricsGetter } from './services/lyrics/online-lyrics-getter';
+import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics-api';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -324,7 +330,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
                     () => {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                         resolve(undefined);
-                    }
+                    },
                 );
             });
         });
@@ -509,6 +515,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         DocumentProxy,
         GitHubApi,
         FanartApi,
+        ChartLyricsApi,
         MetadataPatcher,
         ArtistOrdering,
         GenreOrdering,
@@ -548,6 +555,9 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         LogViewer,
         ArtistInformationFactory,
         GuidFactory,
+        EmbeddedLyricsGetter,
+        LrcLyricsGetter,
+        OnlineLyricsGetter,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
@@ -596,6 +606,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseScrobblingService, useClass: ScrobblingService },
         { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
         { provide: BaseArtistInformationService, useClass: ArtistInformationService },
+        { provide: BaseLyricsService, useClass: LyricsService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

@@ -7,6 +7,8 @@ import { BaseAppearanceService } from '../../../services/appearance/base-appeara
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
+import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service';
+import { LyricsModel } from '../../../services/lyrics/lyrics-model';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -27,10 +29,12 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private _title: string = '';
     private _artists: string = '';
+    private _lyrics: LyricsModel | undefined;
 
     public constructor(
         public appearanceService: BaseAppearanceService,
         private playbackService: BasePlaybackService,
+        private lyricsService: BaseLyricsService,
         private scheduler: Scheduler,
     ) {}
 
@@ -49,8 +53,8 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         return this._artists;
     }
 
-    public get lyrics(): string {
-        return 'TODO';
+    public get lyrics(): LyricsModel | undefined {
+        return this._lyrics;
     }
 
     public ngOnDestroy(): void {
@@ -83,6 +87,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
         this._title = track?.title ?? '';
         this._artists = track?.artists ?? '';
+        this._lyrics = track != undefined ? await this.lyricsService.getLyricsAsync(track) : undefined;
 
         this.previousTrackPath = track?.path ?? '';
 

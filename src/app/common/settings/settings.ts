@@ -619,6 +619,15 @@ export class Settings implements BaseSettings {
         this.settings.set('isMuted', v);
     }
 
+    // downloadLyricsOnline
+    public get downloadLyricsOnline(): boolean {
+        return <boolean>this.settings.get('downloadLyricsOnline');
+    }
+
+    public set downloadLyricsOnline(v: boolean) {
+        this.settings.set('downloadLyricsOnline', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -883,6 +892,10 @@ export class Settings implements BaseSettings {
 
         if (!this.settings.has('isMuted')) {
             this.settings.set('isMuted', false);
+        }
+
+        if (!this.settings.has('downloadLyricsOnline')) {
+            this.settings.set('downloadLyricsOnline', true);
         }
     }
 }

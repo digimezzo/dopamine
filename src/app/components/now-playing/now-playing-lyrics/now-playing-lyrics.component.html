@@ -9,6 +9,6 @@
         ></app-playback-information>
     </div>
     <div class="app-now-playing-lyrics__text">
-        <div [@contentAnimation]="contentAnimation">Some lyrics</div>
+        <div [@contentAnimation]="contentAnimation" class="break-on-newline">{{ this.lyrics?.text }}</div>
     </div>
 </div>
