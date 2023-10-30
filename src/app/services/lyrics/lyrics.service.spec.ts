@@ -8,18 +8,21 @@ import { BaseSettings } from '../../common/settings/base-settings';
 import { MockCreator } from '../../testing/mock-creator';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
+import { Logger } from '../../common/logger';
 
 describe('LyricsService', () => {
     let embeddedLyricsGetterMock: IMock<EmbeddedLyricsGetter>;
     let lrcLyricsGetterMock: IMock<LrcLyricsGetter>;
     let onlineLyricsGetterMock: IMock<OnlineLyricsGetter>;
     let settingsMock: IMock<BaseSettings>;
+    let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         embeddedLyricsGetterMock = Mock.ofType<EmbeddedLyricsGetter>();
         lrcLyricsGetterMock = Mock.ofType<LrcLyricsGetter>();
         onlineLyricsGetterMock = Mock.ofType<OnlineLyricsGetter>();
         settingsMock = Mock.ofType<BaseSettings>();
+        loggerMock = Mock.ofType<Logger>();
     });
 
     function createSut(): BaseLyricsService {
@@ -28,6 +31,7 @@ describe('LyricsService', () => {
             lrcLyricsGetterMock.object,
             onlineLyricsGetterMock.object,
             settingsMock.object,
+            loggerMock.object,
         );
     }
 

@@ -7,6 +7,7 @@ import { OnlineLyricsGetter } from './online-lyrics-getter';
 import { Strings } from '../../common/strings';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { LyricsModel } from './lyrics-model';
+import { Logger } from '../../common/logger';
 
 @Injectable()
 export class LyricsService implements BaseLyricsService {
@@ -15,23 +16,38 @@ export class LyricsService implements BaseLyricsService {
         private lrcLyricsGetter: LrcLyricsGetter,
         private onlineLyricsGetter: OnlineLyricsGetter,
         private settings: BaseSettings,
+        private logger: Logger,
     ) {}
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
-        let lyrics: LyricsModel = await this.embeddedLyricsGetter.getLyricsAsync(track);
+        let lyrics: LyricsModel = LyricsModel.default();
+
+        try {
+            lyrics = await this.embeddedLyricsGetter.getLyricsAsync(track);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get embedded lyrics', 'LyricsService', 'getLyricsAsync');
+        }
 
         if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
             return lyrics;
         }
 
-        lyrics = await this.lrcLyricsGetter.getLyricsAsync(track);
+        try {
+            lyrics = await this.lrcLyricsGetter.getLyricsAsync(track);
+        } catch (e: unknown) {
+            this.logger.error(e, 'Could not get LRC lyrics', 'LyricsService', 'getLyricsAsync');
+        }
 
         if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
             return lyrics;
         }
 
         if (this.settings.downloadLyricsOnline) {
-            lyrics = await this.onlineLyricsGetter.getLyricsAsync(track);
+            try {
+                lyrics = await this.onlineLyricsGetter.getLyricsAsync(track);
+            } catch (e: unknown) {
+                this.logger.error(e, 'Could not get online lyrics', 'LyricsService', 'getLyricsAsync');
+            }
         }
 
         if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
