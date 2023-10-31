@@ -558,6 +558,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         EmbeddedLyricsGetter,
         LrcLyricsGetter,
         OnlineLyricsGetter,
+        IntegrationTestRunner,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },

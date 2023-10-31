@@ -5,9 +5,9 @@ import { ChartLyricsApi } from '../../common/api/lyrics/chart-lyrics-api';
 import { LyricsModel } from './lyrics-model';
 import { Lyrics } from '../../common/api/lyrics/lyrics';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
-import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics';
 import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
+import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics-api';
 
 @Injectable()
 export class OnlineLyricsGetter implements ILyricsGetter {
