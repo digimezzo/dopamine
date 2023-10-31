@@ -60,6 +60,16 @@ describe('NowPlayingLyricsComponent', () => {
             expect(component.appearanceService).toBeDefined();
         });
 
+        it('should define lyricsSourceTypeEnum', () => {
+            // Arrange
+
+            // Act
+            const component: NowPlayingLyricsComponent = createComponent();
+
+            // Assert
+            expect(component.lyricsSourceTypeEnum).toBeDefined();
+        });
+
         it('should set contentAnimation to fade-in', () => {
             // Arrange
             const component: NowPlayingLyricsComponent = createComponent();

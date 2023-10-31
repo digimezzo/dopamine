@@ -245,5 +245,8 @@
     "downloading-of-artist-information-from-lastfm-disabled": "Việc tải thông tin nghệ sĩ từ Last.fm đang bị tắt. Hãy bật lại nó trong cài đặt.",
     "similar": "Tương tự",
     "read-more-on-lastfm": "Đọc thêm trên Last.fm",
-    "lyrics": "Lyrics"
+    "lyrics": "Lyrics",
+    "embedded-lyrics": "Embedded lyrics",
+    "lrc-lyrics": "LRC lyrics",
+    "online-lyrics": "Online lyrics"
 }

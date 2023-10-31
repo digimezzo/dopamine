@@ -9,6 +9,8 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service';
 import { LyricsModel } from '../../../services/lyrics/lyrics-model';
+import { AlbumOrder } from '../../collection/album-order';
+import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -30,6 +32,8 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private _title: string = '';
     private _artists: string = '';
     private _lyrics: LyricsModel | undefined;
+    private previousTrackPath: string = '';
+    private _contentAnimation: string = 'fade-in';
 
     public constructor(
         public appearanceService: BaseAppearanceService,
@@ -38,8 +42,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         private scheduler: Scheduler,
     ) {}
 
-    private previousTrackPath: string = '';
-    private _contentAnimation: string = 'fade-in';
+    public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
 
     public get contentAnimation(): string {
         return this._contentAnimation;

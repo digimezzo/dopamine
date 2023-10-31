@@ -1,8 +1,18 @@
 <div class="app-now-playing-lyrics">
     <div class="d-flex flex-column">
         <app-playback-cover-art class="app-now-playing-lyrics__picture" [size]="300"></app-playback-cover-art>
+        <div class="mt-3 mx-1" [@contentAnimation]="contentAnimation">
+            <div class="secondary-text" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.embedded">
+                {{ 'embedded-lyrics' | translate }}<i class="secondary-text las la-check ml-1"></i>
+            </div>
+            <div class="secondary-text" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.lrc">
+                {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file ml-1"></i>
+            </div>
+            <div class="secondary-text" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.online">
+                {{ 'online-lyrics' | translate }}<i class="secondary-text las la-globe ml-1"></i>
+            </div>
+        </div>
         <app-playback-information
-            class="mt-3"
             [height]="60"
             [largeFontSize]="this.appearanceService.selectedFontSize.extraLargeSize"
             [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"

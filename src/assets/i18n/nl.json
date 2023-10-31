@@ -245,5 +245,8 @@
     "downloading-of-artist-information-from-lastfm-disabled": "Het downloaden van artiestinformatie van Last.fm is momenteel uitgeschakeld. Je kunt het hier of in de instellingen inschakelen.",
     "similar": "Vergelijkbaar",
     "read-more-on-lastfm": "Lees meer op Last.fm",
-    "lyrics": "Songtekst"
+    "lyrics": "Songtekst",
+    "embedded-lyrics": "Ingebedde songteksten",
+    "lrc-lyrics": "LRC songteksten",
+    "online-lyrics": "Online songteksten"
 }
