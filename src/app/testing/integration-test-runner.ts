@@ -17,25 +17,22 @@ export class IntegrationTestRunner {
     public async executeTestsAsync(): Promise<void> {
         await this.getLyricsFromAZLyricsTestAsync();
         await this.getLyricsFromChartLyricsTestAsync();
-
-        await this.webSearchLyricsApiTestAsync();
+        await this.getLyricsFromWebSearchLyricsTestAsync();
     }
 
     private async getLyricsFromChartLyricsTestAsync(): Promise<void> {
         const lyrics: Lyrics = await this.chartLyricsApi.getLyricsAsync('Massive Attack', 'Teardrop');
-
         this.assertIsTrue('getLyricsFromChartLyricsTestAsync', lyrics.text.startsWith('Love, love is a verb'));
     }
 
     private async getLyricsFromAZLyricsTestAsync(): Promise<void> {
         const lyrics: Lyrics = await this.azLyricsApi.getLyricsAsync('Massive Attack', 'Teardrop');
-
         this.assertIsTrue('getLyricsFromAZLyricsTestAsync', lyrics.text.startsWith('Love, love is a verb'));
     }
 
-    private async webSearchLyricsApiTestAsync(): Promise<void> {
+    private async getLyricsFromWebSearchLyricsTestAsync(): Promise<void> {
         const lyrics: Lyrics = await this.webSearchLyricsApi.getLyricsAsync('Massive Attack', 'Teardrop');
-        console.log(lyrics.text);
+        this.assertIsTrue('getLyricsFromWebSearchLyricsTestAsync', lyrics.text.startsWith('Love, love is a verb'));
     }
 
     private assertIsTrue(testName: string, condition: boolean): void {
