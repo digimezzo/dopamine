@@ -17,7 +17,7 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ## Thank you JetBrains!
 
-![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
+ <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" width="150" height="150">
 
 Thank you [JetBrains](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support) for supporting this project!
 
