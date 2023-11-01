@@ -13,13 +13,13 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 <a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-![Dopaminescreenshot](Dopamine.screenshot.png=300x200)
+![Dopaminescreenshot](Dopamine.screenshot.png)
 
 ## Thank you JetBrains!
 
-[![JetBrains logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
+[![JetBrains logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png=300x200)
 
-Thank you [JetBrains]([https://duckduckgo.com](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support)) for supporting this project!
+Thank you [JetBrains](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support) for supporting this project!
 
 ## Build prerequisites
 
