@@ -300,6 +300,10 @@ import { EmbeddedLyricsGetter } from './services/lyrics/embedded-lyrics-getter';
 import { LrcLyricsGetter } from './services/lyrics/lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './services/lyrics/online-lyrics-getter';
 import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics-api';
+import { IntegrationTestRunner } from './testing/integration-test-runner';
+import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics-api';
+import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
+import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search-api';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -516,6 +520,9 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         GitHubApi,
         FanartApi,
         ChartLyricsApi,
+        AZLyricsApi,
+        WebSearchLyricsApi,
+        WebSearchApi,
         MetadataPatcher,
         ArtistOrdering,
         GenreOrdering,

@@ -8,12 +8,14 @@ import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
 import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics-api';
+import { WebSearchLyricsApi } from '../../common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
 
 @Injectable()
 export class OnlineLyricsGetter implements ILyricsGetter {
     public constructor(
         private chartLyricsApi: ChartLyricsApi,
         private azLyricsApi: AZLyricsApi,
+        private webSearchLyricsApi: WebSearchLyricsApi,
         private logger: Logger,
     ) {}
 
@@ -31,6 +33,14 @@ export class OnlineLyricsGetter implements ILyricsGetter {
                 lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
             } catch (e) {
                 this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
+            }
+        }
+
+        if (Strings.isNullOrWhiteSpace(lyrics.text)) {
+            try {
+                lyrics = await this.webSearchLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
+            } catch (e) {
+                this.logger.error(e, 'Could not get lyrics from WebSearchLyricsApi', 'OnlineLyricsGetter', 'getLyricsAsync');
             }
         }
 

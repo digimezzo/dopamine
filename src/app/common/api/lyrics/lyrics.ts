@@ -3,4 +3,8 @@ export class Lyrics {
         public sourceName: string,
         public text: string,
     ) {}
+
+    public static default(): Lyrics {
+        return new Lyrics('', '');
+    }
 }

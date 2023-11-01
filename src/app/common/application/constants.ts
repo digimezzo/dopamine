@@ -122,6 +122,12 @@ export class Constants {
             'https://github.com/JoshuaWise/better-sqlite3/blob/master/LICENSE',
         ),
         new ExternalComponent(
+            'cheerio',
+            'The fast, flexible, and elegant library for parsing and manipulating HTML and XML.',
+            'https://github.com/cheeriojs/cheerio',
+            'https://github.com/cheeriojs/cheerio/blob/main/LICENSE',
+        ),
+        new ExternalComponent(
             'Discord.js RPC Extension',
             'A simple RPC client for Discord.',
             'https://github.com/discordjs/RPC',
@@ -144,6 +150,12 @@ export class Constants {
             'A library to store and restore window sizes and positions for your Electron app.',
             'https://github.com/mawie81/electron-window-state',
             'https://github.com/mawie81/electron-window-state/blob/master/license',
+        ),
+        new ExternalComponent(
+            'Fast HTML Parser',
+            'A very fast HTML parser, generating a simplified DOM, with basic element query support. ',
+            'https://github.com/taoqf/node-html-parser',
+            'https://github.com/taoqf/node-html-parser/blob/main/LICENSE',
         ),
         new ExternalComponent(
             'fast-xml-parser',
