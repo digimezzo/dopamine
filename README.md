@@ -15,6 +15,82 @@ Dopamine icons created by <a href="https://www.itssharl.ee/">Sharlee</a>.
 
 ![Dopaminescreenshot](Dopamine.screenshot.png)
 
+## Thank you JetBrains!
+
+[![JetBrains logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
+
+The rendered output looks like this:
+An old rock in the desert
+Escaping Characters
+
+To display a literal character that would otherwise be used to format text in a Markdown document, add a backslash (\) in front of the character.
+
+\* Without the backslash, this would be a bullet in an unordered list.
+
+The rendered output looks like this:
+
+* Without the backslash, this would be a bullet in an unordered list.
+Characters You Can Escape
+
+You can use a backslash to escape the following characters.
+Character 	Name
+\ 	backslash
+` 	backtick (see also escaping backticks in code)
+* 	asterisk
+_ 	underscore
+{ } 	curly braces
+[ ] 	brackets
+< > 	angle brackets
+( ) 	parentheses
+# 	pound sign
++ 	plus sign
+- 	minus sign (hyphen)
+. 	dot
+! 	exclamation mark
+| 	pipe (see also escaping pipe in tables)
+HTML
+
+Many Markdown applications allow you to use HTML tags in Markdown-formatted text. This is helpful if you prefer certain HTML tags to Markdown syntax. For example, some people find it easier to use HTML tags for images. Using HTML is also helpful when you need to change the attributes of an element, like specifying the color of text or changing the width of an image.
+
+To use HTML, place the tags in the text of your Markdown-formatted file.
+
+This **word** is bold. This <em>word</em> is italic.
+
+The rendered output looks like this:
+
+This word is bold. This word is italic.
+HTML Best Practices
+
+For security reasons, not all Markdown applications support HTML in Markdown documents. When in doubt, check your Markdown application’s documentation. Some applications support only a subset of HTML tags.
+
+Use blank lines to separate block-level HTML elements like <div>, <table>, <pre>, and <p> from the surrounding content. Try not to indent the tags with tabs or spaces — that can interfere with the formatting.
+
+You can’t use Markdown syntax inside block-level HTML tags. For example, <p>italic and **bold**</p> won’t work.
+Markdown Guide book cover
+Take your Markdown skills to the next level.
+
+Learn Markdown in 60 pages. Designed for both novices and experts, The Markdown Guide book is a comprehensive reference that has everything you need to get started and master Markdown syntax.
+Want to learn more Markdown?
+
+Don't stop now! 🚀 Star the GitHub repository and then enter your email address below to receive new Markdown tutorials via email. No spam!
+
+    Overview
+    Headings
+    Paragraphs
+    Line Breaks
+    Emphasis
+    Blockquotes
+    Lists
+    Code
+    Horizontal Rules
+    Links
+    Images
+        Linking Images
+    Escaping Characters
+    HTML
+
+Thank you [JetBrains]([https://duckduckgo.com](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support)) for supporting this project!
+
 ## Build prerequisites
 
 -   rpm: required to build rpm package
