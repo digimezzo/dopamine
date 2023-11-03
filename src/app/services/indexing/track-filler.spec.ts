@@ -802,7 +802,7 @@ describe('TrackFiller', () => {
             expect(track.genres).toEqual('');
             expect(track.albumTitle).toEqual('');
             expect(track.albumArtists).toEqual('');
-            expect(track.albumKey).toEqual('');
+            expect(track.albumKey).toEqual(';Album title;;Album artist 1;;Album artist 2;');
             expect(track.mimeType).toEqual('');
             expect(track.bitRate).toEqual(0);
             expect(track.sampleRate).toEqual(0);

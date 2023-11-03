@@ -244,5 +244,10 @@
     "download-artist-information-from-lastfm": "Download artist information from Last.fm",
     "downloading-of-artist-information-from-lastfm-disabled": "Downloading of artist information from Last.fm is currently disabled. You can enable it here or in the settings.",
     "similar": "Similar",
-    "read-more-on-lastfm": "Read more on Last.fm"
+    "read-more-on-lastfm": "Read more on Last.fm",
+    "lyrics": "Lyrics",
+    "no-lyrics": "No lyrics",
+    "embedded-lyrics": "Embedded lyrics",
+    "lrc-lyrics": "LRC lyrics",
+    "online-lyrics": "Online lyrics"
 }

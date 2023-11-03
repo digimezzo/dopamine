@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Clicking the volume icon now (un)mutes
 -   Dopamine now has a logarithmic volume control, because your ears are worth it!
 
+### Changed
+
+-   Updated Russian translation (Thank you adem4ik)
+
 ### Fixed
 
 -   Loop one icon has no margin

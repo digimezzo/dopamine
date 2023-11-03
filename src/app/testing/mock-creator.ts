@@ -7,16 +7,15 @@ import { TrackModel } from '../services/track/track-model';
 import { BaseTranslatorService } from '../services/translator/base-translator.service';
 
 export class MockCreator {
-    public static createTrackModel(path: string, artists: string): TrackModel {
+    public static createTrackModel(path: string, trackTitle: string, artists: string): TrackModel {
         const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
         const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
 
         const track: Track = new Track(path);
+        track.trackTitle = trackTitle;
         track.artists = artists;
 
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-
-        return trackModel;
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     public static createTrackModelWithAlbumKey(path: string, albumKey: string): TrackModel {
@@ -26,16 +25,12 @@ export class MockCreator {
         const track: Track = new Track(path);
         track.albumKey = albumKey;
 
-        const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
-
-        return trackModel;
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
     }
 
     public static createArtistInformation(name: string, url: string, imageUrl: string, biography: string): ArtistInformation {
         const desktopMock: IMock<BaseDesktop> = Mock.ofType<BaseDesktop>();
 
-        const artistInformation: ArtistInformation = new ArtistInformation(desktopMock.object, name, url, imageUrl, biography);
-
-        return artistInformation;
+        return new ArtistInformation(desktopMock.object, name, url, imageUrl, biography);
     }
 }

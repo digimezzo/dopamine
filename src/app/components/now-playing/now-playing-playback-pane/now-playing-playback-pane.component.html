@@ -14,6 +14,12 @@
                 matTooltip="{{ 'showcase' | translate }}"
             ></i>
             <i
+                class="app-now-playing__button las la-microphone pointer mx-2"
+                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.lyrics }"
+                (click)="this.navigateToLyrics()"
+                matTooltip="{{ 'lyrics' | translate }}"
+            ></i>
+            <i
                 class="app-now-playing__button las la-user pointer mx-2"
                 [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
                 (click)="this.navigateToArtistInformation()"

@@ -14,6 +14,7 @@ import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.ser
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
+import { IntegrationTestRunner } from './testing/integration-test-runner';
 
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -31,6 +32,8 @@ describe('AppComponent', () => {
     let loggerMock: IMock<Logger>;
     let matDrawerMock: IMock<MatDrawer>;
 
+    let integrationTestRunnerMock: IMock<IntegrationTestRunner>;
+
     let showNowPlayingRequestedMock: Subject<void>;
     let showNowPlayingRequestedMock$: Observable<void>;
 
@@ -47,7 +50,8 @@ describe('AppComponent', () => {
             mediaSessionServiceMock.object,
             addToPlaylistMenuMock.object,
             desktopMock.object,
-            loggerMock.object
+            loggerMock.object,
+            integrationTestRunnerMock.object,
         );
     }
 
@@ -65,6 +69,7 @@ describe('AppComponent', () => {
         desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
+        integrationTestRunnerMock = Mock.ofType<IntegrationTestRunner>();
 
         showNowPlayingRequestedMock = new Subject();
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();

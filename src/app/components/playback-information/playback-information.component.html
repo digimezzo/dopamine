@@ -6,28 +6,28 @@
         [style.min-height.px]="height"
     >
         <div
-            class="secondary-text ml-1"
+            class="ml-1"
             [ngClass]="this.isCentered ? 'ellipsis' : 'ellipsis-two-lines'"
             [style.font-size.px]="largeFontSize"
             [style.line-height]="1.5"
         >
-            {{ this.topContentTrack?.artists }}
-        </div>
-        <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.title }}
+        </div>
+        <div class="secondary-text ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
+            {{ this.topContentTrack?.artists }}
         </div>
         <div class="d-flex flex-row align-items-center">
             <app-rating
                 class="rating-position"
                 [track]="this.topContentTrack"
-                *ngIf="this.settings.showRating && this.topContentTrack != undefined"
+                *ngIf="this.showRating && this.topContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-rating>
             <app-love
                 class="ml-2"
                 [track]="this.topContentTrack"
-                *ngIf="this.settings.showLove && this.topContentTrack != undefined"
+                *ngIf="this.showLove && this.topContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-love>
@@ -40,27 +40,27 @@
         [style.min-height.px]="height"
     >
         <div
-            class="secondary-text ml-1"
+            class="ml-1"
             [ngClass]="this.isCentered ? 'ellipsis' : 'ellipsis-two-lines'"
             [style.font-size.px]="largeFontSize"
             [style.line-height]="1.5"
         >
-            {{ this.bottomContentTrack?.artists }}
-        </div>
-        <div class="ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.title }}
+        </div>
+        <div class="secondary-text ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
+            {{ this.bottomContentTrack?.artists }}
         </div>
         <div class="d-flex flex-row align-items-center">
             <app-rating
                 [track]="this.bottomContentTrack"
-                *ngIf="this.settings.showRating && this.bottomContentTrack != undefined"
+                *ngIf="this.showRating && this.bottomContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-rating>
             <app-love
                 class="ml-2"
                 [track]="this.bottomContentTrack"
-                *ngIf="this.settings.showLove && this.bottomContentTrack != undefined"
+                *ngIf="this.showLove && this.bottomContentTrack != undefined"
                 [fontSize]="smallFontSize"
                 [lineHeight]="1.5"
             ></app-love>

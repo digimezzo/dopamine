@@ -4,13 +4,15 @@
             <app-playback-cover-art [size]="coverArtSize"></app-playback-cover-art>
         </div>
 
-        <div class="app-now-playing-showcase__songinfo" [style.width.px]="coverArtSize * 2" [style.height.px]="coverArtSize">
+        <div class="app-now-playing-showcase__songinfo" [style.height.px]="coverArtSize">
             <app-playback-information
                 class="ml-4"
                 [height]="playbackInformationHeight"
                 [largeFontSize]="playbackInformationLargeFontSize"
                 [smallFontSize]="playbackInformationSmallFontSize"
                 [isCentered]="false"
+                [showRating]="this.settings.showRating"
+                [showLove]="this.settings.showLove"
             >
             </app-playback-information>
         </div>

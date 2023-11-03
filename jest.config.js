@@ -9,10 +9,14 @@ module.exports = {
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
         prefix: '<rootDir>/',
     }),
-    globals: {
-        'ts-jest': {
-            tsConfig: '<rootDir>/tsconfig.spec.json',
-        },
+    transform: {
+        '^.+\\.{ts|tsx}?$': [
+            'ts-jest',
+            {
+                babel: true,
+                tsConfig: 'tsconfig.spec.json',
+            },
+        ],
     },
     setupFiles: ['<rootDir>/jest.crypto-setup.js'],
 };

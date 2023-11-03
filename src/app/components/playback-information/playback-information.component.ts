@@ -2,7 +2,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
@@ -52,12 +51,17 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     public constructor(
         private playbackInformationService: BasePlaybackInformationService,
         private metadataService: BaseMetadataService,
-        public settings: BaseSettings,
         private scheduler: Scheduler
     ) {}
 
     @Input()
     public isCentered: boolean = false;
+
+    @Input()
+    public showRating: boolean = false;
+
+    @Input()
+    public showLove: boolean = false;
 
     @Input()
     public height: number = 0;

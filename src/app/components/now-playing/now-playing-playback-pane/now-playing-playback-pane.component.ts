@@ -30,6 +30,10 @@ export class NowPlayingPlaybackPaneComponent {
         this.nowPlayingNavigationService.navigate(NowPlayingPage.showcase);
     }
 
+    public navigateToLyrics(): void {
+        this.nowPlayingNavigationService.navigate(NowPlayingPage.lyrics);
+    }
+
     public navigateToArtistInformation(): void {
         this.nowPlayingNavigationService.navigate(NowPlayingPage.artistInformation);
     }

@@ -8,23 +8,31 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { MockCreator } from '../../../testing/mock-creator';
 import { NowPlayingArtistInfoComponent } from './now-playing-artist-info.component';
+import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 
 describe('NowPlayingArtistInfoComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let artistInformationServiceMock: IMock<BaseArtistInformationService>;
     let settingsMock: IMock<BaseSettings>;
+    let schedulerMock: IMock<BaseScheduler>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): NowPlayingArtistInfoComponent {
-        return new NowPlayingArtistInfoComponent(playbackServiceMock.object, artistInformationServiceMock.object, settingsMock.object);
+        return new NowPlayingArtistInfoComponent(
+            playbackServiceMock.object,
+            artistInformationServiceMock.object,
+            schedulerMock.object,
+            settingsMock.object,
+        );
     }
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         artistInformationServiceMock = Mock.ofType<BaseArtistInformationService>();
+        schedulerMock = Mock.ofType<BaseScheduler>();
         settingsMock = Mock.ofType<BaseSettings>();
 
         playbackServicePlaybackStartedMock = new Subject();
@@ -63,12 +71,12 @@ describe('NowPlayingArtistInfoComponent', () => {
     });
 
     describe('imageIsLoaded', () => {
-        it('should set contentAnimation to fade-in', () => {
+        it('should set contentAnimation to fade-in', async () => {
             // Arrange
             const component: NowPlayingArtistInfoComponent = createComponent();
 
             // Act
-            component.imageIsLoaded();
+            await component.imageIsLoadedAsync();
 
             // Assert
             expect(component.contentAnimation).toEqual('fade-in');
@@ -93,7 +101,7 @@ describe('NowPlayingArtistInfoComponent', () => {
             // Arrange
             const component: NowPlayingArtistInfoComponent = createComponent();
 
-            const trackModel: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
+            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
             const artistInformation: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
 
             artistInformationServiceMock
@@ -114,13 +122,13 @@ describe('NowPlayingArtistInfoComponent', () => {
             // Arrange
             const component: NowPlayingArtistInfoComponent = createComponent();
 
-            const trackModel1: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
+            const trackModel1: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
             const artistInformation1: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
             artistInformationServiceMock
                 .setup((x) => x.getArtistInformationAsync(trackModel1))
                 .returns(() => Promise.resolve(artistInformation1));
 
-            const trackModel2: TrackModel = MockCreator.createTrackModel('path2', ';artist2;');
+            const trackModel2: TrackModel = MockCreator.createTrackModel('path2', 'title', ';artist2;');
             const artistInformation2: ArtistInformation = MockCreator.createArtistInformation('artist2', '', '', '');
             artistInformationServiceMock
                 .setup((x) => x.getArtistInformationAsync(trackModel2))
@@ -133,14 +141,10 @@ describe('NowPlayingArtistInfoComponent', () => {
             // Act
             await component.ngOnInit();
             await flushPromises();
-
-            const artistIsEmptyBeforePlaybackStarted: boolean = component.artist.isEmpty;
             const artistNameBeforePlaybackStarted: string = component.artist.name;
 
             playbackServicePlaybackStartedMock.next(playbackStarted);
             await flushPromises();
-
-            const artistIsEmptyAfterPlaybackStarted: boolean = component.artist.isEmpty;
             const artistNameAfterPlaybackStarted: string = component.artist.name;
 
             // Assert
@@ -152,13 +156,13 @@ describe('NowPlayingArtistInfoComponent', () => {
             // Arrange
             const component: NowPlayingArtistInfoComponent = createComponent();
 
-            const trackModel1: TrackModel = MockCreator.createTrackModel('path1', ';artist1;');
+            const trackModel1: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
             const artistInformation1: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
             artistInformationServiceMock
                 .setup((x) => x.getArtistInformationAsync(trackModel1))
                 .returns(() => Promise.resolve(artistInformation1));
 
-            const trackModel2: TrackModel = MockCreator.createTrackModel('path2', ';artist1;');
+            const trackModel2: TrackModel = MockCreator.createTrackModel('path2', 'title', ';artist1;');
             const artistInformation2: ArtistInformation = MockCreator.createArtistInformation('artist1', '', '', '');
             artistInformationServiceMock
                 .setup((x) => x.getArtistInformationAsync(trackModel2))
@@ -171,14 +175,10 @@ describe('NowPlayingArtistInfoComponent', () => {
             // Act
             await component.ngOnInit();
             await flushPromises();
-
-            const artistIsEmptyBeforePlaybackStarted: boolean = component.artist.isEmpty;
             const artistNameBeforePlaybackStarted: string = component.artist.name;
 
             playbackServicePlaybackStartedMock.next(playbackStarted);
             await flushPromises();
-
-            const artistIsEmptyAfterPlaybackStarted: boolean = component.artist.isEmpty;
             const artistNameAfterPlaybackStarted: string = component.artist.name;
 
             // Assert

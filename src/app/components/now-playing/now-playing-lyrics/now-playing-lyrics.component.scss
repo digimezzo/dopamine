@@ -1,0 +1,27 @@
+.app-now-playing-lyrics {
+    padding: 120px;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.app-now-playing-lyrics__picture {
+    margin-right: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.app-now-playing-lyrics__text {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.app-now-playing-lyrics__icon {
+    color: var(--theme-album-cover-logo);
+    font-size: 200px;
+    display: flex;
+    width: 300px;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+}

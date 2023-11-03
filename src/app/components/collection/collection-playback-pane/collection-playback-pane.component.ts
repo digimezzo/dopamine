@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { BaseSettings } from '../../../common/settings/base-settings';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 
@@ -10,7 +11,11 @@ import { BaseNavigationService } from '../../../services/navigation/base-navigat
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionPlaybackPaneComponent {
-    public constructor(public appearanceService: BaseAppearanceService, private navigationService: BaseNavigationService) {}
+    public constructor(
+        public appearanceService: BaseAppearanceService,
+        public settings: BaseSettings,
+        private navigationService: BaseNavigationService
+    ) {}
 
     public showPlaybackQueue(): void {
         this.navigationService.showPlaybackQueue();

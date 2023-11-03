@@ -17,6 +17,8 @@ import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.ser
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
+import { IntegrationTestRunner } from './testing/integration-test-runner';
+import { AppConfig } from '../environments/environment';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -37,7 +39,8 @@ export class AppComponent implements OnInit {
         private mediaSessionService: BaseMediaSessionService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
-        private logger: Logger
+        private logger: Logger,
+        private integrationTestRunner: IntegrationTestRunner,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
@@ -54,10 +57,15 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        if (!AppConfig.production) {
+            this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
+            await this.integrationTestRunner.executeTestsAsync();
+        }
+
         this.logger.info(
             `+++ Started ${ProductInformation.applicationName} ${ProductInformation.applicationVersion} +++`,
             'AppComponent',
-            'ngOnInit'
+            'ngOnInit',
         );
 
         this.subscription.add(
@@ -65,7 +73,7 @@ export class AppComponent implements OnInit {
                 if (this.playbackQueueDrawer != undefined) {
                     PromiseUtils.noAwait(this.playbackQueueDrawer.toggle());
                 }
-            })
+            }),
         );
 
         await this.addToPlaylistMenu.initializeAsync();

@@ -33,6 +33,7 @@ export class TrackFiller {
             track.trackTitle = this.trackFieldCreator.createTextField(fileMetadata.title);
             track.trackNumber = this.trackFieldCreator.createNumberField(fileMetadata.trackNumber);
             track.fileSize = this.fileAccess.getFileSizeInBytes(track.path);
+            track.albumKey = this.albumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
 
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks: number = this.dateTime.convertDateToTicks(new Date());
@@ -40,7 +41,6 @@ export class TrackFiller {
                 track.genres = this.trackFieldCreator.createMultiTextField(fileMetadata.genres);
                 track.albumTitle = this.trackFieldCreator.createTextField(fileMetadata.album);
                 track.albumArtists = this.trackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
-                track.albumKey = this.albumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
                 track.mimeType = this.getMimeType(track.path);
                 track.bitRate = this.trackFieldCreator.createNumberField(fileMetadata.bitRate);
                 track.sampleRate = this.trackFieldCreator.createNumberField(fileMetadata.sampleRate);

@@ -1,6 +1,6 @@
 export class PromiseUtils {
-    public static noAwait<T>(promises: Promise<T>): void {
-        promises.catch(() => {
+    public static noAwait<T>(promise: Promise<T>): void {
+        promise.catch(() => {
             // Do nothing
         });
     }
