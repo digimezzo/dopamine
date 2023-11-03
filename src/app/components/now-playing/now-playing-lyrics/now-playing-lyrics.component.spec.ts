@@ -10,32 +10,49 @@ import { MockCreator } from '../../../testing/mock-creator';
 import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service';
 import { LyricsModel } from '../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type';
+import { BasePlaybackInformationService } from '../../../services/playback-information/base-playback-information.service';
+import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
     let lyricsServiceMock: IMock<BaseLyricsService>;
     let schedulerMock: IMock<BaseScheduler>;
 
-    let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
+    let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
+    let playbackInformationService_playingPreviousTrack_Mock: Subject<PlaybackInformation>;
+    let playbackInformationService_playingNoTrack_Mock: Subject<PlaybackInformation>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
         lyricsServiceMock = Mock.ofType<BaseLyricsService>();
         schedulerMock = Mock.ofType<BaseScheduler>();
 
-        playbackServicePlaybackStartedMock = new Subject();
-        const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();
-        playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackServicePlaybackStartedMock$);
+        playbackInformationService_playingNextTrack_Mock = new Subject();
+        playbackInformationService_playingPreviousTrack_Mock = new Subject();
+        playbackInformationService_playingNoTrack_Mock = new Subject();
+
+        const playbackInformationService_playingNextTrack_Mock$: Observable<PlaybackInformation> =
+            playbackInformationService_playingNextTrack_Mock.asObservable();
+        const playbackInformationService_playingPreviousTrack_Mock$: Observable<PlaybackInformation> =
+            playbackInformationService_playingPreviousTrack_Mock.asObservable();
+        const playbackInformationService_playingNoTrack_Mock$: Observable<PlaybackInformation> =
+            playbackInformationService_playingNoTrack_Mock.asObservable();
+
+        playbackInformationServiceMock.setup((x) => x.playingNextTrack$).returns(() => playbackInformationService_playingNextTrack_Mock$);
+        playbackInformationServiceMock
+            .setup((x) => x.playingPreviousTrack$)
+            .returns(() => playbackInformationService_playingPreviousTrack_Mock$);
+        playbackInformationServiceMock.setup((x) => x.playingNoTrack$).returns(() => playbackInformationService_playingNoTrack_Mock$);
     });
 
     function createComponent(): NowPlayingLyricsComponent {
         return new NowPlayingLyricsComponent(
             appearanceServiceMock.object,
-            playbackServiceMock.object,
+            playbackInformationServiceMock.object,
             lyricsServiceMock.object,
             schedulerMock.object,
         );
@@ -80,60 +97,14 @@ describe('NowPlayingLyricsComponent', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should set an empty string as title if PlaybackService has no current track', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.title).toEqual('');
-        });
-
-        it('should set current track title as title if PlaybackService has a current track', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.title).toEqual('title');
-        });
-
-        it('should set an empty string as artists if PlaybackService has no current track', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.artists).toEqual('');
-        });
-
-        it('should set current track artists as artists if PlaybackService has a current track', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.artists).toEqual('artist1');
-        });
-
         it('should set undefined lyrics if PlaybackService has no current track', async () => {
             // Arrange
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(playbackInformation));
             const component: NowPlayingLyricsComponent = createComponent();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => undefined);
 
             // Act
             await component.ngOnInit();
@@ -144,11 +115,14 @@ describe('NowPlayingLyricsComponent', () => {
 
         it('should set defined lyrics if PlaybackService has a current track', async () => {
             // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel);
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(playbackInformation));
             const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
+            const component: NowPlayingLyricsComponent = createComponent();
 
             // Act
             await component.ngOnInit();
@@ -157,58 +131,6 @@ describe('NowPlayingLyricsComponent', () => {
             expect(component.lyrics!.sourceName).toEqual('online source');
             expect(component.lyrics!.sourceType).toEqual(LyricsSourceType.online);
             expect(component.lyrics!.text).toEqual('online text');
-        });
-    });
-
-    describe('title', () => {
-        it('should return empty string if no playback is started', () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-
-            // Act, Assert
-            expect(component.title).toEqual('');
-        });
-
-        it('should return track title if playback is started', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            await component.ngOnInit();
-            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel, false);
-            playbackServicePlaybackStartedMock.next(playbackStarted);
-            await flushPromises();
-
-            // Act
-            const title = component.title;
-
-            // Assert
-            expect(title).toEqual('title');
-        });
-    });
-
-    describe('artists', () => {
-        it('should return empty string if no playback is started', () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-
-            // Act, Assert
-            expect(component.artists).toEqual('');
-        });
-
-        it('should return track artists if playback is started', async () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            await component.ngOnInit();
-            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel, false);
-            playbackServicePlaybackStartedMock.next(playbackStarted);
-            await flushPromises();
-
-            // Act
-            const artists = component.artists;
-
-            // Assert
-            expect(artists).toEqual('artist1');
         });
     });
 
@@ -221,15 +143,22 @@ describe('NowPlayingLyricsComponent', () => {
             expect(component.lyrics).toBeUndefined();
         });
 
-        it('should return lyrics if playback is started', async () => {
+        it('should return lyrics if playing next track', async () => {
             // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-            await component.ngOnInit();
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const playbackStarted: PlaybackStarted = new PlaybackStarted(trackModel, false);
             const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
-            playbackServicePlaybackStartedMock.next(playbackStarted);
+
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            playbackInformationService_playingNextTrack_Mock.next(playbackInformation);
             await flushPromises();
 
             // Act
@@ -239,6 +168,55 @@ describe('NowPlayingLyricsComponent', () => {
             expect(lyrics!.sourceName).toEqual('online source');
             expect(lyrics!.sourceType).toEqual(LyricsSourceType.online);
             expect(lyrics!.text).toEqual('online text');
+        });
+
+        it('should return lyrics if playing previous track', async () => {
+            // Arrange
+            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
+            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
+
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            playbackInformationService_playingPreviousTrack_Mock.next(playbackInformation);
+            await flushPromises();
+
+            // Act
+            const lyrics: LyricsModel | undefined = component.lyrics;
+
+            // Assert
+            expect(lyrics!.sourceName).toEqual('online source');
+            expect(lyrics!.sourceType).toEqual(LyricsSourceType.online);
+            expect(lyrics!.text).toEqual('online text');
+        });
+
+        it('should return undefined lyrics if playing no track', async () => {
+            // Arrange
+            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationService_playingNoTrack_Mock.next(playbackInformation);
+            await flushPromises();
+
+            // Act
+            const lyrics: LyricsModel | undefined = component.lyrics;
+
+            // Assert
+            expect(lyrics).toBeUndefined();
         });
     });
 });

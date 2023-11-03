@@ -11,6 +11,8 @@ import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service'
 import { LyricsModel } from '../../../services/lyrics/lyrics-model';
 import { AlbumOrder } from '../../collection/album-order';
 import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type';
+import { PlaybackInformation } from '../../../services/playback-information/playback-information';
+import { BasePlaybackInformationService } from '../../../services/playback-information/base-playback-information.service';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -29,15 +31,13 @@ import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type'
 })
 export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
-    private _title: string = '';
-    private _artists: string = '';
     private _lyrics: LyricsModel | undefined;
     private previousTrackPath: string = '';
     private _contentAnimation: string = 'fade-in';
 
     public constructor(
         public appearanceService: BaseAppearanceService,
-        private playbackService: BasePlaybackService,
+        private playbackInformationService: BasePlaybackInformationService,
         private lyricsService: BaseLyricsService,
         private scheduler: Scheduler,
     ) {}
@@ -46,14 +46,6 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     public get contentAnimation(): string {
         return this._contentAnimation;
-    }
-
-    public get title(): string {
-        return this._title;
-    }
-
-    public get artists(): string {
-        return this._artists;
     }
 
     public get lyrics(): LyricsModel | undefined {
@@ -65,14 +57,27 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
     public async ngOnInit(): Promise<void> {
         this.initializeSubscriptions();
-        await this.showTrackInfoAsync(this.playbackService.currentTrack);
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.showTrackInfoAsync(currentPlaybackInformation.track);
     }
 
     private initializeSubscriptions(): void {
         this.subscription.add(
-            this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) =>
-                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackStarted.currentTrack)),
-            ),
+            this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+            }),
+        );
+
+        this.subscription.add(
+            this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+            }),
+        );
+
+        this.subscription.add(
+            this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
+                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+            }),
         );
     }
 
@@ -81,18 +86,23 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     }
 
     private async showTrackInfoAsync(track: TrackModel | undefined): Promise<void> {
-        if (this.previousTrackPath === track?.path ?? '') {
+        if (track == undefined) {
+            this._contentAnimation = 'fade-out';
+            await this.scheduler.sleepAsync(150);
+            this._lyrics = undefined;
+            return;
+        }
+
+        if (this.previousTrackPath === track.path) {
             return;
         }
 
         this._contentAnimation = 'fade-out';
         await this.scheduler.sleepAsync(150);
 
-        this._title = track?.title ?? '';
-        this._artists = track?.artists ?? '';
-        this._lyrics = track != undefined ? await this.lyricsService.getLyricsAsync(track) : undefined;
+        this._lyrics = await this.lyricsService.getLyricsAsync(track);
 
-        this.previousTrackPath = track?.path ?? '';
+        this.previousTrackPath = track.path;
 
         this._contentAnimation = 'fade-in';
         await this.scheduler.sleepAsync(250);
