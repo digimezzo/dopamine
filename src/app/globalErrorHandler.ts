@@ -4,10 +4,16 @@ import { BrowserWindow } from 'electron';
 import { BaseApplication } from './common/io/base-application';
 import { Logger } from './common/logger';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { ErrorData } from './services/dialog/error-data';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    public constructor(private application: BaseApplication, private logger: Logger, private dialog: MatDialog, private zone: NgZone) {}
+    public constructor(
+        private application: BaseApplication,
+        private logger: Logger,
+        private dialog: MatDialog,
+        private zone: NgZone,
+    ) {}
 
     public handleError(e: Error): void {
         this.logger.error(e, 'Handling global error', 'GlobalErrorHandler', 'handleError');
@@ -22,7 +28,7 @@ export class GlobalErrorHandler implements ErrorHandler {
                 // TranslationService is not able to provide the translation of texts in this class.
                 // So we use a workaround where the translation happens in the error dialog itself.
                 width: '450px',
-                data: { isGlobalError: true },
+                data: new ErrorData('', true),
             });
 
             dialogRef.afterClosed().subscribe(() => {

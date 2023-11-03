@@ -16,7 +16,10 @@ import { PlaylistData } from './playlist-data';
 
 @Injectable()
 export class DialogService implements BaseDialogService {
-    public constructor(private dialog: MatDialog, private playlistModelFactory: PlaylistModelFactory) {}
+    public constructor(
+        private dialog: MatDialog,
+        private playlistModelFactory: PlaylistModelFactory,
+    ) {}
 
     public isInputDialogOpened: boolean = false;
 
@@ -54,7 +57,7 @@ export class DialogService implements BaseDialogService {
     public showErrorDialog(errorText: string): void {
         this.dialog.open(ErrorDialogComponent, {
             width: '450px',
-            data: new ErrorData(errorText),
+            data: new ErrorData(errorText, false),
         });
     }
 
