@@ -19,6 +19,7 @@ import { BaseTranslatorService } from './services/translator/base-translator.ser
 import { BaseTrayService } from './services/tray/base-tray.service';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AppConfig } from '../environments/environment';
+import {BaseDragAndDropService} from "./services/drag-and-drop/base-drag-and-drop.service";
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private mediaSessionService: BaseMediaSessionService,
+        private dragAndDropService: BaseDragAndDropService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
         private logger: Logger,
@@ -83,6 +85,7 @@ export class AppComponent implements OnInit {
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
+        this.dragAndDropService.listenToOperatingSystemFileDrops();
 
         await this.navigationService.navigateToLoadingAsync();
     }

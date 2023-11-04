@@ -304,6 +304,8 @@ import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics-api';
 import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
 import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search-api';
+import {BaseDragAndDropService} from "./services/drag-and-drop/base-drag-and-drop.service";
+import {DragAndDropService} from "./services/drag-and-drop/drag-and-drop.service";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -615,6 +617,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
         { provide: BaseArtistInformationService, useClass: ArtistInformationService },
         { provide: BaseLyricsService, useClass: LyricsService },
+        { provide: BaseDragAndDropService, useClass: DragAndDropService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
