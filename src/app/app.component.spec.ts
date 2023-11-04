@@ -15,6 +15,7 @@ import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
+import { BaseEventListenerService } from './services/event-listener/base-event-listener.service';
 
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<BaseNavigationService>;
@@ -26,6 +27,7 @@ describe('AppComponent', () => {
     let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let mediaSessionServiceMock: IMock<BaseMediaSessionService>;
+    let eventListenerServiceMock: IMock<BaseEventListenerService>;
 
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let desktopMock: IMock<BaseDesktop>;
@@ -48,6 +50,7 @@ describe('AppComponent', () => {
             trayServiceMock.object,
             searchServiceMock.object,
             mediaSessionServiceMock.object,
+            eventListenerServiceMock.object,
             addToPlaylistMenuMock.object,
             desktopMock.object,
             loggerMock.object,
@@ -65,6 +68,7 @@ describe('AppComponent', () => {
         trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         mediaSessionServiceMock = Mock.ofType<BaseMediaSessionService>();
+        eventListenerServiceMock = Mock.ofType<BaseEventListenerService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
