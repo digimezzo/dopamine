@@ -8,6 +8,7 @@ import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { BaseFileService } from './base-file.service';
+import { BaseEventListenerService } from '../event-listener/base-event-listener.service';
 
 @Injectable()
 export class FileService implements BaseFileService {
@@ -15,16 +16,23 @@ export class FileService implements BaseFileService {
 
     public constructor(
         private playbackService: BasePlaybackService,
+        private eventListenerService: BaseEventListenerService,
         private trackModelFactory: TrackModelFactory,
         private application: BaseApplication,
         private fileValidator: FileValidator,
         private logger: Logger,
     ) {
         this.subscription.add(
-            this.application.argumentsReceived$.subscribe((argv: string[]) => {
+            this.eventListenerService.argumentsReceived$.subscribe((argv: string[]) => {
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
                     PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(argv));
                 }
+            }),
+        );
+
+        this.subscription.add(
+            this.eventListenerService.filesDropped$.subscribe((filePaths: string[]) => {
+                PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(filePaths));
             }),
         );
     }
@@ -61,7 +69,7 @@ export class FileService implements BaseFileService {
         return false;
     }
 
-    public async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
+    private async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
         const safeParameters: string[] = this.getSafeParameters(parameters);
         this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
 
