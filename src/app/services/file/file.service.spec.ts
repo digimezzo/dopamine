@@ -33,7 +33,7 @@ describe('FileService', () => {
             trackModelFactoryMock.object,
             applicationMock.object,
             fileValidatorMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
@@ -92,10 +92,10 @@ describe('FileService', () => {
                     x.enqueueAndPlayTracks(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
-                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
-                        )
+                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                        ),
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -178,10 +178,10 @@ describe('FileService', () => {
                     x.enqueueAndPlayTracks(
                         It.is<TrackModel[]>(
                             (trackModels: TrackModel[]) =>
-                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg'
-                        )
+                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                        ),
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -204,6 +204,53 @@ describe('FileService', () => {
 
             // Act
             await service.enqueueParameterFilesAsync();
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+        });
+    });
+
+    describe('enqueueGivenParameterFilesAsync', () => {
+        it('should enqueue all playable tracks found as parameters', async () => {
+            // Arrange
+            const parameterFiles: string[] = ['file 1.mp3', 'file 2.ogg', 'file 3.bmp'];
+            const service: BaseFileService = createService();
+
+            // Act
+            await service.enqueueGivenParameterFilesAsync(parameterFiles);
+
+            // Assert
+            playbackServiceMock.verify(
+                (x) =>
+                    x.enqueueAndPlayTracks(
+                        It.is<TrackModel[]>(
+                            (trackModels: TrackModel[]) =>
+                                trackModels.length === 2 && trackModels[0].path === 'file 1.mp3' && trackModels[1].path === 'file 2.ogg',
+                        ),
+                    ),
+                Times.once(),
+            );
+        });
+
+        it('should not enqueue anything if parameters are empty', async () => {
+            // Arrange
+            const parameterFiles: string[] = [];
+            const service: BaseFileService = createService();
+
+            // Act
+            await service.enqueueGivenParameterFilesAsync(parameterFiles);
+
+            // Assert
+            playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());
+        });
+
+        it('should not enqueue anything if there are no playable tracks found as parameters', async () => {
+            // Arrange
+            const parameterFiles: string[] = ['file 1.png', 'file 2.mkv', 'file 3.bmp'];
+            const service: BaseFileService = createService();
+
+            // Act
+            await service.enqueueGivenParameterFilesAsync(parameterFiles);
 
             // Assert
             playbackServiceMock.verify((x) => x.enqueueAndPlayTracks(It.isAny()), Times.never());

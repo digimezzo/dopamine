@@ -18,14 +18,14 @@ export class FileService implements BaseFileService {
         private trackModelFactory: TrackModelFactory,
         private application: BaseApplication,
         private fileValidator: FileValidator,
-        private logger: Logger
+        private logger: Logger,
     ) {
         this.subscription.add(
             this.application.argumentsReceived$.subscribe((argv: string[]) => {
                 if (this.hasPlayableFilesAsGivenParameters(argv)) {
                     PromiseUtils.noAwait(this.enqueueGivenParameterFilesAsync(argv));
                 }
-            })
+            }),
         );
     }
 
@@ -61,7 +61,7 @@ export class FileService implements BaseFileService {
         return false;
     }
 
-    private async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
+    public async enqueueGivenParameterFilesAsync(parameters: string[]): Promise<void> {
         const safeParameters: string[] = this.getSafeParameters(parameters);
         this.logger.info(`Found parameters: ${safeParameters.join(', ')}`, 'FileService', 'enqueueParameterFilesAsync');
 
