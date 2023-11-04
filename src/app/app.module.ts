@@ -56,13 +56,11 @@ import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
 import { BaseApplication } from './common/io/base-application';
-import { BaseDesktop } from './common/io/base-desktop';
 import { BaseFileAccess } from './common/io/base-file-access';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
 import { BaseMediaSessionProxy } from './common/io/base-media-session-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
-import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
@@ -304,8 +302,10 @@ import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics-api';
 import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
 import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search-api';
-import {BaseDragAndDropService} from "./services/drag-and-drop/base-drag-and-drop.service";
-import {DragAndDropService} from "./services/drag-and-drop/drag-and-drop.service";
+import { EventListenerService } from './services/event-listener/event-listener.service';
+import { BaseEventListenerService } from './services/event-listener/base-event-listener.service';
+import { BaseDesktop } from './common/io/base-desktop';
+import { Desktop } from './common/io/desktop';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -617,7 +617,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
         { provide: BaseArtistInformationService, useClass: ArtistInformationService },
         { provide: BaseLyricsService, useClass: LyricsService },
-        { provide: BaseDragAndDropService, useClass: DragAndDropService },
+        { provide: BaseEventListenerService, useClass: EventListenerService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

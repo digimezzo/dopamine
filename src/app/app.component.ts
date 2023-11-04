@@ -4,7 +4,6 @@ import log from 'electron-log';
 import * as path from 'path';
 import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
-import { BaseDesktop } from './common/io/base-desktop';
 import { Logger } from './common/logger';
 import { PromiseUtils } from './common/utils/promise-utils';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
@@ -19,7 +18,9 @@ import { BaseTranslatorService } from './services/translator/base-translator.ser
 import { BaseTrayService } from './services/tray/base-tray.service';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AppConfig } from '../environments/environment';
-import {BaseDragAndDropService} from "./services/drag-and-drop/base-drag-and-drop.service";
+import { BaseEventListenerService } from './services/event-listener/base-event-listener.service';
+import { BaseDesktop } from './common/io/base-desktop';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
         private trayService: BaseTrayService,
         private searchService: BaseSearchService,
         private mediaSessionService: BaseMediaSessionService,
-        private dragAndDropService: BaseDragAndDropService,
+        private eventListenerService: BaseEventListenerService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
         private logger: Logger,
@@ -85,8 +86,7 @@ export class AppComponent implements OnInit {
         this.trayService.updateTrayContextMenu();
         this.mediaSessionService.initialize();
         this.scrobblingService.initialize();
-        this.dragAndDropService.listenToOperatingSystemFileDrops();
-
+        this.eventListenerService.listenToEvents();
         await this.navigationService.navigateToLoadingAsync();
     }
 }
