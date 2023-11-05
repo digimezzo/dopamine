@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ISelectable } from '../interfaces/i-selectable';
+import { ISelectable } from '../ui/interfaces/i-selectable';
 
 @Injectable()
 export class MouseSelectionWatcher {

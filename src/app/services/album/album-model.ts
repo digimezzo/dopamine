@@ -3,8 +3,8 @@ import { DataDelimiter } from '../../data/data-delimiter';
 import { AlbumData } from '../../data/entities/album-data';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
-import { ISelectable } from '../../interfaces/i-selectable';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { ISelectable } from '../../ui/interfaces/i-selectable';
 
 export class AlbumModel implements ISelectable {
     public constructor(

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ISelectable } from '../interfaces/i-selectable';
+import { ISelectable } from '../ui/interfaces/i-selectable';
 
 @Injectable()
 export class ContextMenuOpener {

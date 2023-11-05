@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../components/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { EditColumnsDialogComponent } from '../../components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
-import { EditPlaylistDialogComponent } from '../../components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
-import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
-import { InputDialogComponent } from '../../components/dialogs/input-dialog/input-dialog.component';
-import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
+import { ConfirmationDialogComponent } from '../../ui/components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { EditColumnsDialogComponent } from '../../ui/components/dialogs/edit-columns-dialog/edit-columns-dialog.component';
+import { EditPlaylistDialogComponent } from '../../ui/components/dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
+import { ErrorDialogComponent } from '../../ui/components/dialogs/error-dialog/error-dialog.component';
+import { InputDialogComponent } from '../../ui/components/dialogs/input-dialog/input-dialog.component';
+import { LicenseDialogComponent } from '../../ui/components/dialogs/license-dialog/license-dialog.component';
 import { PlaylistModel } from '../playlist/playlist-model';
 import { PlaylistModelFactory } from '../playlist/playlist-model-factory';
 import { ConfirmationData } from './confirmation-data';

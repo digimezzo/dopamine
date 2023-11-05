@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BrowserWindow } from 'electron';
 import { BaseApplication } from './common/io/base-application';
 import { Logger } from './common/logger';
-import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from './ui/components/dialogs/error-dialog/error-dialog.component';
 import { ErrorData } from './services/dialog/error-data';
 
 @Injectable()

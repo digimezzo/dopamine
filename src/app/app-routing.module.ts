@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CollectionComponent } from './components/collection/collection.component';
-import { InformationComponent } from './components/information/information.component';
-import { LoadingComponent } from './components/loading/loading.component';
-import { ManageCollectionComponent } from './components/manage-collection/manage-collection.component';
-import { NowPlayingComponent } from './components/now-playing/now-playing.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
+import { CollectionComponent } from './ui/components/collection/collection.component';
+import { InformationComponent } from './ui/components/information/information.component';
+import { LoadingComponent } from './ui/components/loading/loading.component';
+import { ManageCollectionComponent } from './ui/components/manage-collection/manage-collection.component';
+import { NowPlayingComponent } from './ui/components/now-playing/now-playing.component';
+import { SettingsComponent } from './ui/components/settings/settings.component';
+import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 
 const routes: Routes = [
     {

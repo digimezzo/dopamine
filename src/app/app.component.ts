@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
 import { PromiseUtils } from './common/utils/promise-utils';
-import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AppConfig } from '../environments/environment';
 import { BaseDesktop } from './common/io/base-desktop';
@@ -20,6 +19,7 @@ import { TrayServiceBase } from './services/tray/tray.service.base';
 import { SearchServiceBase } from './services/search/search.service.base';
 import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
+import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 
 @Component({
     selector: 'app-root',

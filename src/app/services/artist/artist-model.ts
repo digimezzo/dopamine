@@ -1,6 +1,6 @@
 import { SemanticZoomable } from '../../common/semantic-zoomable';
 import { Strings } from '../../common/strings';
-import { ISelectable } from '../../interfaces/i-selectable';
+import { ISelectable } from '../../ui/interfaces/i-selectable';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 export class ArtistModel extends SemanticZoomable implements ISelectable {

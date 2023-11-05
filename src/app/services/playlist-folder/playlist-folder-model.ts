@@ -1,8 +1,12 @@
 import { Strings } from '../../common/strings';
-import { ISelectable } from '../../interfaces/i-selectable';
+import { ISelectable } from '../../ui/interfaces/i-selectable';
 
 export class PlaylistFolderModel implements ISelectable {
-    public constructor(public name: string, public path: string, public isModifiable: boolean) {}
+    public constructor(
+        public name: string,
+        public path: string,
+        public isModifiable: boolean,
+    ) {}
 
     public isSelected: boolean = false;
 
