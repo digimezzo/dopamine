@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { Track } from '../../common/data/entities/track';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Track } from '../../data/entities/track';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { ArtistType } from '../artist/artist-type';

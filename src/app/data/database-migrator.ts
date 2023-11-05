@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
-import { Logger } from '../logger';
+import { Logger } from '../common/logger';
 import { BaseDatabaseMigrator } from './base-database-migrator';
 import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';
@@ -16,7 +16,10 @@ import { Migration3 } from './migrations/migration3';
 export class DatabaseMigrator implements BaseDatabaseMigrator {
     private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3()];
 
-    public constructor(private databaseFactory: DatabaseFactory, private logger: Logger) {}
+    public constructor(
+        private databaseFactory: DatabaseFactory,
+        private logger: Logger,
+    ) {}
 
     public migrate(): void {
         const databaseVersion: number = this.getDatabaseVersion();
@@ -41,7 +44,7 @@ export class DatabaseMigrator implements BaseDatabaseMigrator {
             this.logger.info(
                 `Found migrations: ${migrationsToApply.map((x) => x.name).toString()}`,
                 'DatabaseMigrator',
-                'getMigrationsAsync'
+                'getMigrationsAsync',
             );
         }
 

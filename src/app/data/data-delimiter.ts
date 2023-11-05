@@ -1,5 +1,5 @@
-import { Constants } from '../application/constants';
-import { Strings } from '../strings';
+import { Constants } from '../common/application/constants';
+import { Strings } from '../common/strings';
 
 export class DataDelimiter {
     private static delimiter: string = Constants.columnValueDelimiter;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';

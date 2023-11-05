@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 

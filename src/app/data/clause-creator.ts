@@ -1,4 +1,4 @@
-import { Strings } from '../strings';
+import { Strings } from '../common/strings';
 
 export class ClauseCreator {
     public static escapeQuotes(sourceString: string): string {
@@ -30,7 +30,7 @@ export class ClauseCreator {
                 orClauses.push(`(${columnName} IS NULL OR ${columnName}='')`);
             } else {
                 orClauses.push(
-                    `(LOWER(${columnName}) LIKE LOWER('%${delimiter}${Strings.replaceAll(clauseItem, `'`, `''`)}${delimiter}%'))`
+                    `(LOWER(${columnName}) LIKE LOWER('%${delimiter}${Strings.replaceAll(clauseItem, `'`, `''`)}${delimiter}%'))`,
                 );
             }
         }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlbumData } from '../../common/data/entities/album-data';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { AlbumData } from '../../data/entities/album-data';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { ArtistType } from '../artist/artist-type';
 import { AlbumModel } from './album-model';

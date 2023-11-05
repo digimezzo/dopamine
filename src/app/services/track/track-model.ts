@@ -1,5 +1,5 @@
-import { DataDelimiter } from '../../common/data/data-delimiter';
-import { Track } from '../../common/data/entities/track';
+import { DataDelimiter } from '../../data/data-delimiter';
+import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
 import { ISelectable } from '../../interfaces/i-selectable';

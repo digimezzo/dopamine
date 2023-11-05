@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { Folder } from '../../common/data/entities/folder';
-import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { Folder } from '../../data/entities/folder';
+import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { DirectoryWalkResult } from './directory-walk-result';

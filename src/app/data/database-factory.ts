@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import Database from 'better-sqlite3';
-import { BaseFileAccess } from '../io/base-file-access';
+import { BaseFileAccess } from '../common/io/base-file-access';
 
 @Injectable()
 export class DatabaseFactory {

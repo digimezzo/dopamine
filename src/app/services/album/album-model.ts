@@ -1,16 +1,16 @@
 import { Constants } from '../../common/application/constants';
-import { DataDelimiter } from '../../common/data/data-delimiter';
-import { AlbumData } from '../../common/data/entities/album-data';
+import { DataDelimiter } from '../../data/data-delimiter';
+import { AlbumData } from '../../data/entities/album-data';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { ISelectable } from '../../interfaces/i-selectable';
-import {TranslatorServiceBase} from "../translator/translator.service.base";
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 export class AlbumModel implements ISelectable {
     public constructor(
         private albumData: AlbumData,
         private translatorService: TranslatorServiceBase,
-        private fileAccess: BaseFileAccess
+        private fileAccess: BaseFileAccess,
     ) {}
 
     public isSelected: boolean = false;

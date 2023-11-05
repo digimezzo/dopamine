@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Track } from '../../common/data/entities/track';
-import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Track } from '../../data/entities/track';
+import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class TrackRemover {
@@ -14,7 +14,7 @@ export class TrackRemover {
         private folderTrackRepository: BaseFolderTrackRepository,
         private snackBarService: SnackBarServiceBase,
         private fileAccess: BaseFileAccess,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public async removeTracksThatDoNoNotBelongToFoldersAsync(): Promise<void> {
@@ -30,7 +30,7 @@ export class TrackRemover {
                 this.logger.info(
                     `There are no tracks to remove. Time required: ${timer.elapsedMilliseconds} ms`,
                     'TrackRemover',
-                    'removeTracksThatDoNoNotBelongToFoldersAsync'
+                    'removeTracksThatDoNoNotBelongToFoldersAsync',
                 );
 
                 return;
@@ -39,7 +39,7 @@ export class TrackRemover {
             this.logger.info(
                 `Found ${numberOfTracksToRemove} tracks to remove.`,
                 'TrackRemover',
-                'removeTracksThatDoNoNotBelongToFoldersAsync'
+                'removeTracksThatDoNoNotBelongToFoldersAsync',
             );
 
             await this.snackBarService.removingTracksAsync();
@@ -51,7 +51,7 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedTracks} tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeTracksThatDoNoNotBelongToFoldersAsync'
+                'removeTracksThatDoNoNotBelongToFoldersAsync',
             );
         } catch (e: unknown) {
             timer.stop();
@@ -88,7 +88,7 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedTracks} tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeTracksThatAreNotFoundOnDiskAsync'
+                'removeTracksThatAreNotFoundOnDiskAsync',
             );
         } catch (e: unknown) {
             timer.stop();
@@ -110,7 +110,7 @@ export class TrackRemover {
                 this.logger.info(
                     `There are no folder tracks to remove. Time required: ${timer.elapsedMilliseconds} ms`,
                     'TrackRemover',
-                    'removeFolderTracksForInexistingTracksAsync'
+                    'removeFolderTracksForInexistingTracksAsync',
                 );
 
                 return;
@@ -119,7 +119,7 @@ export class TrackRemover {
             this.logger.info(
                 `Found ${numberOfFolderTracksToRemove} folder tracks to remove.`,
                 'TrackRemover',
-                'removeFolderTracksForInexistingTracksAsync'
+                'removeFolderTracksForInexistingTracksAsync',
             );
 
             await this.snackBarService.removingTracksAsync();
@@ -131,7 +131,7 @@ export class TrackRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedFolderTracks} folder tracks. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackRemover',
-                'removeFolderTracksForInexistingTracksAsync'
+                'removeFolderTracksForInexistingTracksAsync',
             );
         } catch (e: unknown) {
             timer.stop();

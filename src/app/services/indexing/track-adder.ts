@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FolderTrack } from '../../common/data/entities/folder-track';
-import { Track } from '../../common/data/entities/track';
-import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
-import { BaseRemovedTrackRepository } from '../../common/data/repositories/base-removed-track-repository';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { FolderTrack } from '../../data/entities/folder-track';
+import { Track } from '../../data/entities/track';
+import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
+import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { BaseSettings } from '../../common/settings/base-settings';

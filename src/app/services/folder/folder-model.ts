@@ -1,4 +1,4 @@
-import { Folder } from '../../common/data/entities/folder';
+import { Folder } from '../../data/entities/folder';
 
 export class FolderModel {
     public constructor(private folder: Folder) {}

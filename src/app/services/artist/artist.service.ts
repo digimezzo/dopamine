@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DataDelimiter } from '../../common/data/data-delimiter';
-import { ArtistData } from '../../common/data/entities/artist-data';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { DataDelimiter } from '../../data/data-delimiter';
+import { ArtistData } from '../../data/entities/artist-data';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
 import { ArtistServiceBase } from './artist.service.base';

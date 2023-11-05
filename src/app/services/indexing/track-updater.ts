@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Track } from '../../common/data/entities/track';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { Track } from '../../data/entities/track';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { TrackFiller } from './track-filler';

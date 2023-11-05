@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
@@ -9,7 +9,7 @@ export class CollectionChecker {
     public constructor(
         private indexablePathFetcher: IndexablePathFetcher,
         private trackRepository: BaseTrackRepository,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public async isCollectionOutdatedAsync(): Promise<boolean> {
@@ -31,14 +31,14 @@ export class CollectionChecker {
             this.logger.info(
                 `collectionIsOutdated=${collectionIsOutdated}, tracksNeedIndexing=${tracksNeedIndexing}, numberOfTracksHasChanged=${numberOfTracksHasChanged}, lastDateModifiedHasChanged=${lastDateModifiedHasChanged}`,
                 'CollectionChecker',
-                'isCollectionOutdatedAsync'
+                'isCollectionOutdatedAsync',
             );
         } catch (e: unknown) {
             this.logger.error(
                 e,
                 'An error occurred while checking if collection is outdated',
                 'CollectionChecker',
-                'isCollectionOutdatedAsync'
+                'isCollectionOutdatedAsync',
             );
         }
 
@@ -51,7 +51,7 @@ export class CollectionChecker {
         }
 
         const indexablePathsSortedByDateModifiedTicksDescending: IndexablePath[] = indexablePathsOnDisk.sort((a, b) =>
-            a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1
+            a.dateModifiedTicks > b.dateModifiedTicks ? -1 : 1,
         );
 
         return indexablePathsSortedByDateModifiedTicksDescending[0].dateModifiedTicks;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Track } from '../../common/data/entities/track';
+import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { TrackFiller } from '../indexing/track-filler';
 import { TrackModel } from './track-model';

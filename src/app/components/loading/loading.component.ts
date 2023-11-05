@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
+import { BaseDatabaseMigrator } from '../../data/base-database-migrator';
 import { BaseScheduler } from '../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
 import {NavigationServiceBase} from "../../services/navigation/navigation.service.base";

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Track } from '../../common/data/entities/track';
+import { Track } from '../../data/entities/track';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 
 @Injectable()

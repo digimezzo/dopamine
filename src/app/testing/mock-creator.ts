@@ -1,5 +1,5 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../common/data/entities/track';
+import { Track } from '../data/entities/track';
 import { DateTime } from '../common/date-time';
 import { BaseDesktop } from '../common/io/base-desktop';
 import { ArtistInformation } from '../services/artist-information/artist-information';

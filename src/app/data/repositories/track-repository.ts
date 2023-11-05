@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
-import { Constants } from '../../application/constants';
 import { ClauseCreator } from '../clause-creator';
 import { DatabaseFactory } from '../database-factory';
 import { AlbumData } from '../entities/album-data';
@@ -13,6 +12,7 @@ import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
 import { BaseTrackRepository } from './base-track-repository';
+import { Constants } from '../../common/application/constants';
 
 @Injectable()
 export class TrackRepository implements BaseTrackRepository {
@@ -24,7 +24,7 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `SELECT COUNT(*) AS numberOfTracks
              FROM Track
-             WHERE NeedsIndexing=?;`
+             WHERE NeedsIndexing=?;`,
         );
 
         const result: any = statement.get(1);
@@ -72,7 +72,7 @@ export class TrackRepository implements BaseTrackRepository {
             `DELETE FROM Track WHERE TrackID IN (
                 SELECT TrackID
                 FROM FolderTrack
-                WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`
+                WHERE FolderID NOT IN (SELECT FolderID FROM Folder));`,
         );
 
         const info = statement.run();
@@ -114,7 +114,7 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createTextInClause('t.AlbumKey', albumKeys)}`
+            `${QueryParts.selectTracksQueryPart(true)} AND ${ClauseCreator.createTextInClause('t.AlbumKey', albumKeys)}`,
         );
 
         const tracks: Track[] | undefined = statement.all();
@@ -208,7 +208,7 @@ export class TrackRepository implements BaseTrackRepository {
                 PlayCount=@playCount,
                 SkipCount=@skipCount,
                 DateLastPlayed=@dateLastPlayed
-                WHERE TrackID=@trackId;`
+                WHERE TrackID=@trackId;`,
         );
 
         statement.run({
@@ -321,7 +321,7 @@ export class TrackRepository implements BaseTrackRepository {
                     @playCount,
                     @skipCount,
                     @dateLastPlayed
-                );`
+                );`,
         );
 
         statement.run({
@@ -378,7 +378,7 @@ export class TrackRepository implements BaseTrackRepository {
             `${QueryParts.selectAlbumDataQueryPart(false)}
                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
                 AND (t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
-                GROUP BY t.AlbumKey;`
+                GROUP BY t.AlbumKey;`,
         );
 
         const albumData: AlbumData[] | undefined = statement.all();
@@ -392,7 +392,7 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(false)}
                 WHERE t.AlbumKey = '${albumKey}'
-                GROUP BY t.AlbumKey;`
+                GROUP BY t.AlbumKey;`,
         );
 
         const albumData: AlbumData[] | undefined = statement.all();
@@ -406,7 +406,7 @@ export class TrackRepository implements BaseTrackRepository {
         const statement = database.prepare(
             `${QueryParts.selectAlbumDataQueryPart(true)}
                 AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> '' 
-                GROUP BY t.AlbumKey;`
+                GROUP BY t.AlbumKey;`,
         );
 
         const albumData: AlbumData[] | undefined = statement.all();
@@ -521,7 +521,7 @@ export class TrackRepository implements BaseTrackRepository {
 
         if (onlyWhenHasNoCover) {
             statement = database.prepare(
-                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);`
+                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);`,
             );
         } else {
             statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=1;`);
@@ -534,7 +534,7 @@ export class TrackRepository implements BaseTrackRepository {
         const database: any = this.databaseFactory.create();
 
         const statement = database.prepare(
-            `UPDATE Track SET PlayCount=@playCount, DateLastPlayed=@dateLastPlayedInTicks WHERE TrackID=@trackId;`
+            `UPDATE Track SET PlayCount=@playCount, DateLastPlayed=@dateLastPlayedInTicks WHERE TrackID=@trackId;`,
         );
 
         statement.run({

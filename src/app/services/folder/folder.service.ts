@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Folder } from '../../common/data/entities/folder';
-import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
+import { Folder } from '../../data/entities/folder';
+import { BaseFolderRepository } from '../../data/repositories/base-folder-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { FolderModel } from './folder-model';
 import { SubfolderModel } from './subfolder-model';
-import {FolderServiceBase} from "./folder.service.base";
-import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
+import { FolderServiceBase } from './folder.service.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class FolderService implements FolderServiceBase {
@@ -19,7 +19,7 @@ export class FolderService implements FolderServiceBase {
         private folderRepository: BaseFolderRepository,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
-        private fileAccess: BaseFileAccess
+        private fileAccess: BaseFileAccess,
     ) {}
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();
@@ -123,7 +123,7 @@ export class FolderService implements FolderServiceBase {
         this.logger.info(
             `Set folder visibility: folderId=${folder.folderId}, path '${folder.path}', showInCollection=${showInCollection}`,
             'FolderService',
-            'setFolderVisibility'
+            'setFolderVisibility',
         );
     }
 
@@ -141,7 +141,7 @@ export class FolderService implements FolderServiceBase {
             this.logger.info(
                 `parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
                 'FolderService',
-                'getSubfolderBreadCrumbs'
+                'getSubfolderBreadCrumbs',
             );
             subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
             parentFolderPath = this.fileAccess.getDirectoryPath(parentFolderPath);

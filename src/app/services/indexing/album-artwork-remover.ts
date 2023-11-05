@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlbumArtwork } from '../../common/data/entities/album-artwork';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
+import { AlbumArtwork } from '../../data/entities/album-artwork';
+import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';

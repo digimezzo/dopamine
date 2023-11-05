@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { AlbumArtwork } from '../../common/data/entities/album-artwork';
-import { AlbumData } from '../../common/data/entities/album-data';
-import { Track } from '../../common/data/entities/track';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
+import { AlbumArtwork } from '../../data/entities/album-artwork';
+import { AlbumData } from '../../data/entities/album-data';
+import { Track } from '../../data/entities/track';
+import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
+import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { AlbumArtworkGetter } from './album-artwork-getter';
-import {AlbumArtworkCacheServiceBase} from "../album-artwork-cache/album-artwork-cache.service.base";
-import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
+import { AlbumArtworkCacheServiceBase } from '../album-artwork-cache/album-artwork-cache.service.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class AlbumArtworkAdder {
@@ -21,7 +21,7 @@ export class AlbumArtworkAdder {
         private fileMetadataFactory: BaseFileMetadataFactory,
         private snackbarService: SnackBarServiceBase,
         private logger: Logger,
-        private albumArtworkGetter: AlbumArtworkGetter
+        private albumArtworkGetter: AlbumArtworkGetter,
     ) {}
 
     public async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync(): Promise<void> {
@@ -32,7 +32,7 @@ export class AlbumArtworkAdder {
                 this.logger.info(
                     `Found no album data that needs indexing`,
                     'AlbumArtworkAdder',
-                    'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                    'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
                 );
 
                 return;
@@ -41,7 +41,7 @@ export class AlbumArtworkAdder {
             this.logger.info(
                 `Found ${albumDataThatNeedsIndexing.length} album data that needs indexing`,
                 'AlbumArtworkAdder',
-                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
             const numberOfAlbumArtwork: number = this.albumArtworkRepository.getNumberOfAlbumArtwork();
@@ -60,7 +60,7 @@ export class AlbumArtworkAdder {
                         e,
                         `Could not add album artwork for albumKey=${albumData.albumKey}`,
                         'AlbumArtworkAdder',
-                        'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                        'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
                     );
                 }
             }
@@ -69,7 +69,7 @@ export class AlbumArtworkAdder {
                 e,
                 'Could not add album artwork for tracks that need album artwork indexing',
                 'AlbumArtworkAdder',
-                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                'addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
         }
     }
@@ -94,9 +94,8 @@ export class AlbumArtworkAdder {
             return;
         }
 
-        const albumArtworkCacheId: AlbumArtworkCacheId | undefined = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(
-            albumArtwork
-        );
+        const albumArtworkCacheId: AlbumArtworkCacheId | undefined =
+            await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork);
 
         if (albumArtworkCacheId == undefined) {
             return;

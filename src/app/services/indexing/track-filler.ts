@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
-import { Track } from '../../common/data/entities/track';
+import { AlbumKeyGenerator } from '../../data/album-key-generator';
+import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
@@ -19,7 +19,7 @@ export class TrackFiller {
         private fileAccess: BaseFileAccess,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public async addFileMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
@@ -68,7 +68,7 @@ export class TrackFiller {
                 e,
                 'Error while retrieving tag information for file ${track.path}',
                 'TrackFiller',
-                'addFileMetadataToTrackAsync'
+                'addFileMetadataToTrackAsync',
             );
         }
 
