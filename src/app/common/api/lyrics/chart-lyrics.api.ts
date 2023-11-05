@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { ILyricsApi } from './i-lyrics-api';
+import { ILyricsApi } from './i-lyrics.api';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { XMLParser } from 'fast-xml-parser';

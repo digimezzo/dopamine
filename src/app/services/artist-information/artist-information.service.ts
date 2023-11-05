@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FanartApi } from '../../common/api/fanart/fanart-api';
-import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { FanartApi } from '../../common/api/fanart/fanart.api';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';

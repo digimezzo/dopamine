@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Injectable } from '@angular/core';
 import { Lyrics } from '../lyrics';
-import { ILyricsApi } from '../i-lyrics-api';
+import { ILyricsApi } from '../i-lyrics.api';
 import { WebSearchResult } from './web-search-result';
-import { WebSearchApi } from './web-search-api';
+import { WebSearchApi } from './web-search.api';
 import { IWebSearchLyricsSource } from './sources/i-web-search-lyrics-source';
 import { AZLyricsSource } from './sources/a-z-lyrics-source';
 import { Strings } from '../../../strings';

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { ILyricsApi } from './i-lyrics-api';
+import { ILyricsApi } from './i-lyrics.api';
 import { Injectable } from '@angular/core';
 import { Lyrics } from './lyrics';
 import { HttpClient } from '@angular/common/http';

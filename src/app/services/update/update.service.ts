@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
+import { GitHubApi } from '../../common/api/git-hub/git-hub.api';
 import { ProductInformation } from '../../common/application/product-information';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AZLyricsApi } from '../common/api/lyrics/a-z-lyrics-api';
+import { AZLyricsApi } from '../common/api/lyrics/a-z-lyrics.api';
 import { Lyrics } from '../common/api/lyrics/lyrics';
-import { ChartLyricsApi } from '../common/api/lyrics/chart-lyrics-api';
-import { WebSearchLyricsApi } from '../common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
+import { ChartLyricsApi } from '../common/api/lyrics/chart-lyrics.api';
+import { WebSearchLyricsApi } from '../common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 
 @Injectable()
 export class IntegrationTestRunner {

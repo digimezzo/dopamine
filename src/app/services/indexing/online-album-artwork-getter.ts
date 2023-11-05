@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
-import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -8,7 +8,11 @@ import { Strings } from '../../common/strings';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
-    public constructor(private imageProcessor: ImageProcessor, private lastfmApi: LastfmApi, private logger: Logger) {}
+    public constructor(
+        private imageProcessor: ImageProcessor,
+        private lastfmApi: LastfmApi,
+        private logger: Logger,
+    ) {}
 
     public async getOnlineArtworkAsync(fileMetadata: IFileMetadata | undefined): Promise<Buffer | undefined> {
         if (fileMetadata == undefined) {
@@ -50,7 +54,7 @@ export class OnlineAlbumArtworkGetter {
                     e,
                     `Could not get album info for artist='${artist}' and title='${title}'`,
                     'OnlineAlbumArtworkGetter',
-                    'getOnlineArtworkAsync'
+                    'getOnlineArtworkAsync',
                 );
             }
 
@@ -64,7 +68,7 @@ export class OnlineAlbumArtworkGetter {
                         this.logger.info(
                             `Downloaded online artwork for artist='${artist}' and title='${title}'`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync'
+                            'getOnlineArtworkAsync',
                         );
 
                         return artworkData;
@@ -73,7 +77,7 @@ export class OnlineAlbumArtworkGetter {
                             e,
                             `Could not convert file '${lastfmAlbum.largestImage()}' to data`,
                             'OnlineAlbumArtworkGetter',
-                            'getOnlineArtworkAsync'
+                            'getOnlineArtworkAsync',
                         );
                     }
                 }

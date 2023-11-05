@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
