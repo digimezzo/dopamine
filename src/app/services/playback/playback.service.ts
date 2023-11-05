@@ -8,22 +8,25 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
-import { BasePlaylistService } from '../playlist/base-playlist.service';
+
 import { PlaylistModel } from '../playlist/playlist-model';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
-import { BaseTrackService } from '../track/base-track.service';
+
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
-import { BaseAudioPlayer } from './base-audio-player';
-import { BasePlaybackService } from './base-playback.service';
+
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
 import { ProgressUpdater } from './progress-updater';
 import { Queue } from './queue';
+import { PlaybackServiceBase } from './playback.service.base';
+import { TrackServiceBase } from '../track/track.service.base';
+import { PlaylistServiceBase } from '../playlist/playlist.service.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
-export class PlaybackService implements BasePlaybackService {
+export class PlaybackService implements PlaybackServiceBase {
     private progressChanged: Subject<PlaybackProgress> = new Subject();
     private playbackStarted: Subject<PlaybackStarted> = new Subject();
     private playbackPaused: Subject<void> = new Subject();
@@ -42,10 +45,10 @@ export class PlaybackService implements BasePlaybackService {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private trackService: BaseTrackService,
-        private playlistService: BasePlaylistService,
-        private snackBarService: BaseSnackBarService,
-        private audioPlayer: BaseAudioPlayer,
+        private trackService: TrackServiceBase,
+        private playlistService: PlaylistServiceBase,
+        private snackBarService: SnackBarServiceBase,
+        private audioPlayer: AudioPlayerBase,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,

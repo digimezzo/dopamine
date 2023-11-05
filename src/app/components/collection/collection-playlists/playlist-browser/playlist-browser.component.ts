@@ -4,16 +4,16 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
-import { BaseApplicationService } from '../../../../services/application/base-application.service';
-import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { PlaylistModel } from '../../../../services/playlist/playlist-model';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-getter';
 import { PlaylistOrder } from '../playlist-order';
 import { PlaylistsPersister } from '../playlists-persister';
 import { PlaylistRow } from './playlist-row';
+import {PlaybackServiceBase} from "../../../../services/playback/playback.service.base";
+import {PlaylistServiceBase} from "../../../../services/playlist/playlist.service.base";
+import {ApplicationServiceBase} from "../../../../services/application/application.service.base";
+import {TranslatorServiceBase} from "../../../../services/translator/translator.service.base";
+import {DialogServiceBase} from "../../../../services/dialog/dialog.service.base";
 
 @Component({
     selector: 'app-playlist-browser',
@@ -28,16 +28,16 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
     private availableWidthInPixels: number = 0;
 
     public constructor(
-        public playbackService: BasePlaybackService,
-        public playlistService: BasePlaylistService,
-        private applicationService: BaseApplicationService,
-        private translatorService: BaseTranslatorService,
-        private dialogService: BaseDialogService,
+        public playbackService: PlaybackServiceBase,
+        public playlistService: PlaylistServiceBase,
+        private applicationService: ApplicationServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private dialogService: DialogServiceBase,
         private playlistRowsGetter: PlaylistRowsGetter,
         private nativeElementProxy: NativeElementProxy,
         private mouseSelectionWatcher: MouseSelectionWatcher,
         public contextMenuOpener: ContextMenuOpener,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public playlistOrderEnum: typeof PlaylistOrder = PlaylistOrder;
@@ -178,7 +178,7 @@ export class PlaylistBrowserComponent implements OnInit, AfterViewInit {
             this.playlistRows = this.playlistRowsGetter.getPlaylistRows(
                 this.availableWidthInPixels,
                 this.playlists,
-                this.selectedPlaylistOrder
+                this.selectedPlaylistOrder,
             );
             this.applySelectedPlaylists();
         } catch (e: unknown) {

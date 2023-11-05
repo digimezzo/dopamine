@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { BaseAppearanceService } from '../appearance/base-appearance.service';
-import { BaseNavigationService } from './base-navigation.service';
+import {NavigationServiceBase} from "./navigation.service.base";
+import {AppearanceServiceBase} from "../appearance/appearance.service.base";
 
 @Injectable()
-export class NavigationService implements BaseNavigationService {
+export class NavigationService implements NavigationServiceBase {
     private showPlaybackQueueRequested: Subject<void> = new Subject();
 
-    public constructor(private appearanceService: BaseAppearanceService, public router: Router) {}
+    public constructor(private appearanceService: AppearanceServiceBase, public router: Router) {}
 
     public showPlaybackQueueRequested$: Observable<void> = this.showPlaybackQueueRequested.asObservable();
 

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { BaseAppearanceService } from '../../../../../services/appearance/base-appearance.service';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
+import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-playlist',
@@ -9,7 +9,7 @@ import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
     styleUrls: ['./playlist.component.scss'],
 })
 export class PlaylistComponent {
-    public constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: AppearanceServiceBase) {}
 
     @Input() public playlist: PlaylistModel;
     @Input() public isSelected: boolean = false;

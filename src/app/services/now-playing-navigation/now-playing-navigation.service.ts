@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseNowPlayingNavigationService } from './base-now-playing-navigation.service';
 import { NowPlayingPage } from './now-playing-page';
+import {NowPlayingNavigationServiceBase} from "./now-playing-navigation.service.base";
 
 @Injectable()
-export class NowPlayingNavigationService implements BaseNowPlayingNavigationService {
+export class NowPlayingNavigationService implements NowPlayingNavigationServiceBase {
     private navigated: Subject<NowPlayingPage> = new Subject();
     private _currentNowPlayingPage: NowPlayingPage = NowPlayingPage.showcase;
 

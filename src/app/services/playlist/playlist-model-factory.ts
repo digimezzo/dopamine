@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistModel } from './playlist-model';
+import {TranslatorServiceBase} from "../translator/translator.service.base";
 
 @Injectable()
 export class PlaylistModelFactory {
-    public constructor(private translatorService: BaseTranslatorService, private fileAccess: BaseFileAccess) {}
+    public constructor(private translatorService: TranslatorServiceBase, private fileAccess: BaseFileAccess) {}
 
     public create(playlistsParentFolderPath: string, playlistPath: string, playlistImagePath: string): PlaylistModel {
         return new PlaylistModel(

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import {AppearanceServiceBase} from "../../services/appearance/appearance.service.base";
 
 @Component({
     selector: 'app-manage-collection',
@@ -8,5 +8,5 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     encapsulation: ViewEncapsulation.None,
 })
 export class ManageCollectionComponent {
-    public constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: AppearanceServiceBase) {}
 }

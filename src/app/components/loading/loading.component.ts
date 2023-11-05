@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
 import { BaseScheduler } from '../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseFileService } from '../../services/file/base-file.service';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseUpdateService } from '../../services/update/base-update.service';
+import {NavigationServiceBase} from "../../services/navigation/navigation.service.base";
+import {AppearanceServiceBase} from "../../services/appearance/appearance.service.base";
+import {UpdateServiceBase} from "../../services/update/update.service.base";
+import {IndexingServiceBase} from "../../services/indexing/indexing.service.base";
+import {FileServiceBase} from "../../services/file/file.service.base";
 
 @Component({
     selector: 'app-loading',
@@ -17,13 +17,13 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
 })
 export class LoadingComponent implements OnInit {
     public constructor(
-        public navigationService: BaseNavigationService,
+        public navigationService: NavigationServiceBase,
         private databaseMigrator: BaseDatabaseMigrator,
-        public appearanceService: BaseAppearanceService,
+        public appearanceService: AppearanceServiceBase,
         private settings: BaseSettings,
-        private updateService: BaseUpdateService,
-        private indexingService: BaseIndexingService,
-        private fileService: BaseFileService,
+        private updateService: UpdateServiceBase,
+        private indexingService: IndexingServiceBase,
+        private fileService: FileServiceBase,
         private scheduler: BaseScheduler
     ) {}
 

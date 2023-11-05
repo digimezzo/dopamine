@@ -11,19 +11,19 @@ import { PromiseUtils } from '../common/utils/promise-utils';
 import { AlbumModel } from '../services/album/album-model';
 import { ArtistModel } from '../services/artist/artist-model';
 import { GenreModel } from '../services/genre/genre-model';
-import { BasePlaylistFolderService } from '../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../services/playlist-folder/playlist-folder-model';
-import { BasePlaylistService } from '../services/playlist/base-playlist.service';
 import { PlaylistModel } from '../services/playlist/playlist-model';
 import { TrackModel } from '../services/track/track-model';
+import {PlaylistFolderServiceBase} from "../services/playlist-folder/playlist-folder.service.base";
+import {PlaylistServiceBase} from "../services/playlist/playlist.service.base";
 
 @Injectable()
 export class AddToPlaylistMenu {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playlistFolderService: BasePlaylistFolderService,
-        private playlistService: BasePlaylistService,
+        private playlistFolderService: PlaylistFolderServiceBase,
+        private playlistService: PlaylistServiceBase,
         private logger: Logger
     ) {}
 

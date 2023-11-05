@@ -5,10 +5,10 @@ import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
-import { BaseAlbumArtworkCacheService } from './base-album-artwork-cache.service';
+import {AlbumArtworkCacheServiceBase} from "./album-artwork-cache.service.base";
 
 @Injectable()
-export class AlbumArtworkCacheService implements BaseAlbumArtworkCacheService {
+export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
     public constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,

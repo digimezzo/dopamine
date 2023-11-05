@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BaseMetadataService } from '../metadata/base-metadata.service';
-import { BasePlaybackService } from '../playback/base-playback.service';
+
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
-import { BasePlaybackInformationService } from './base-playback-information.service';
+
 import { PlaybackInformation } from './playback-information';
+import {PlaybackInformationServiceBase} from "./playback-information.service.base";
+import {PlaybackServiceBase} from "../playback/playback.service.base";
+import {MetadataServiceBase} from "../metadata/metadata.service.base";
 
 @Injectable()
-export class PlaybackInformationService implements BasePlaybackInformationService {
+export class PlaybackInformationService implements PlaybackInformationServiceBase {
     private subscription: Subscription = new Subscription();
     private playingNextTrack: Subject<PlaybackInformation> = new Subject();
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
 
-    public constructor(private playbackService: BasePlaybackService, private metadataService: BaseMetadataService) {
+    public constructor(private playbackService: PlaybackServiceBase, private metadataService: MetadataServiceBase) {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted));

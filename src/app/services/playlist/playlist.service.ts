@@ -10,34 +10,36 @@ import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
-import { BaseTrackService } from '../track/base-track.service';
+
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { TrackModels } from '../track/track-models';
-import { BasePlaylistService } from './base-playlist.service';
+
 import { PlaylistDecoder } from './playlist-decoder';
 import { PlaylistEntry } from './playlist-entry';
 import { PlaylistFileManager } from './playlist-file-manager';
 import { PlaylistModel } from './playlist-model';
+import { PlaylistServiceBase } from './playlist.service.base';
+import { TrackServiceBase } from '../track/track.service.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
-export class PlaylistService implements BasePlaylistService {
+export class PlaylistService implements PlaylistServiceBase {
     private _playlistsParentFolderPath: string = '';
     private _activePlaylistFolder: PlaylistFolderModel = this.playlistFolderModelFactory.createDefault();
     private playlistsChanged: Subject<void> = new Subject();
     private playlistTracksChanged: Subject<void> = new Subject();
 
     public constructor(
-        private trackService: BaseTrackService,
-        private snackBarService: BaseSnackBarService,
+        private trackService: TrackServiceBase,
+        private snackBarService: SnackBarServiceBase,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private playlistFileManager: PlaylistFileManager,
         private playlistDecoder: PlaylistDecoder,
         private trackModelFactory: TrackModelFactory,
         private fileValidator: FileValidator,
         private fileAccess: BaseFileAccess,
-        private logger: Logger
+        private logger: Logger,
     ) {
         this.initialize();
     }
@@ -132,7 +134,7 @@ export class PlaylistService implements BasePlaylistService {
         try {
             const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = Collections.groupBy(
                 tracksToRemove,
-                (track: TrackModel) => track.playlistPath
+                (track: TrackModel) => track.playlistPath,
             );
 
             for (const playlistPath of Array.from(tracksToRemoveGroupedByPlaylistPath.keys())) {
@@ -179,7 +181,7 @@ export class PlaylistService implements BasePlaylistService {
                 e,
                 `Could not remove tracks from playlist '${playlistPath}'`,
                 'PlaylistService',
-                'removeTracksFromPlaylistAsync'
+                'removeTracksFromPlaylistAsync',
             );
             throw new Error(e instanceof Error ? e.message : 'Unknown error');
         }

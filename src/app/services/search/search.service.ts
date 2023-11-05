@@ -3,10 +3,10 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
 import { Strings } from '../../common/strings';
-import { BaseSearchService } from './base-search.service';
+import { SearchServiceBase } from './search.service.base';
 
 @Injectable()
-export class SearchService implements BaseSearchService {
+export class SearchService implements SearchServiceBase {
     private updateDelayedSearchText: Subject<string> = new Subject<string>();
     private _isSearching: boolean = false;
     private _searchText: string = '';

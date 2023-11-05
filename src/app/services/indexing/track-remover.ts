@@ -5,14 +5,14 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
+import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
 
 @Injectable()
 export class TrackRemover {
     public constructor(
         private trackRepository: BaseTrackRepository,
         private folderTrackRepository: BaseFolderTrackRepository,
-        private snackBarService: BaseSnackBarService,
+        private snackBarService: SnackBarServiceBase,
         private fileAccess: BaseFileAccess,
         private logger: Logger
     ) {}

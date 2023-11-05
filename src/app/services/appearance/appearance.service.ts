@@ -12,14 +12,14 @@ import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
-import { BaseAppearanceService } from './base-appearance.service';
 import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
 import { Theme } from './theme/theme';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
+import {AppearanceServiceBase} from "./appearance.service.base";
 
 @Injectable()
-export class AppearanceService implements BaseAppearanceService {
+export class AppearanceService implements AppearanceServiceBase {
     private interval: number;
     private _themes: Theme[] = [];
 

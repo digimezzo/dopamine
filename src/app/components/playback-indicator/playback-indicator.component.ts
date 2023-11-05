@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
+import { AppearanceServiceBase } from '../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-playback-indicator',
@@ -9,7 +9,7 @@ import { BaseAppearanceService } from '../../services/appearance/base-appearance
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackIndicatorComponent {
-    public constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: AppearanceServiceBase) {}
 
     @Input()
     public isSelected: boolean;

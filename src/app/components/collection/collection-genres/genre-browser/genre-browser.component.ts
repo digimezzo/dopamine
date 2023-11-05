@@ -10,13 +10,13 @@ import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
 import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
-import { BaseApplicationService } from '../../../../services/application/base-application.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreOrder } from './genre-order';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { SemanticZoomServiceBase } from '../../../../services/semantic-zoom/semantic-zoom.service.base';
+import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
 
 @Component({
     selector: 'app-genre-browser',
@@ -33,16 +33,16 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: BasePlaybackService,
-        private semanticZoomService: BaseSemanticZoomService,
-        private applicationService: BaseApplicationService,
+        public playbackService: PlaybackServiceBase,
+        private semanticZoomService: SemanticZoomServiceBase,
+        private applicationService: ApplicationServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
         private scheduler: BaseScheduler,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public shouldZoomOut: boolean = false;
@@ -89,19 +89,19 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.semanticZoomService.zoomOutRequested$.subscribe(() => {
                 this.shouldZoomOut = true;
-            })
+            }),
         );
 
         this.subscription.add(
             this.semanticZoomService.zoomInRequested$.subscribe((text: string) => {
                 PromiseUtils.noAwait(this.scrollToZoomHeaderAsync(text));
-            })
+            }),
         );
 
         this.subscription.add(
             this.applicationService.mouseButtonReleased$.subscribe(() => {
                 this.shouldZoomOut = false;
-            })
+            }),
         );
     }
 

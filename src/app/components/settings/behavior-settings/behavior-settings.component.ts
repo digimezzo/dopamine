@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { BaseMediaSessionService } from '../../../services/media-session/base-media-session.service';
-import { BaseTrayService } from '../../../services/tray/base-tray.service';
+import { TrayServiceBase } from '../../../services/tray/tray.service.base';
+import { MediaSessionServiceBase } from '../../../services/media-session/media-session.service.base';
 
 @Component({
     selector: 'app-behavior-settings',
@@ -12,8 +12,8 @@ import { BaseTrayService } from '../../../services/tray/base-tray.service';
 })
 export class BehaviorSettingsComponent {
     public constructor(
-        public trayService: BaseTrayService,
-        public mediaSessionService: BaseMediaSessionService,
-        public settings: BaseSettings
+        public trayService: TrayServiceBase,
+        public mediaSessionService: MediaSessionServiceBase,
+        public settings: BaseSettings,
     ) {}
 }

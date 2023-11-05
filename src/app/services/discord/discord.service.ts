@@ -3,22 +3,22 @@ import { Subscription } from 'rxjs';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BasePlaybackService } from '../playback/base-playback.service';
-import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseDiscordService } from './base-discord.service';
 import { PresenceUpdater } from './presence-updater';
+import { DiscordServiceBase } from './discord.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable()
-export class DiscordService implements BaseDiscordService {
+export class DiscordService implements DiscordServiceBase {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: BasePlaybackService,
-        private translatorService: BaseTranslatorService,
+        private playbackService: PlaybackServiceBase,
+        private translatorService: TranslatorServiceBase,
         private presenceUpdater: PresenceUpdater,
         private dateProxy: DateProxy,
         private settings: BaseSettings,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public setRichPresenceFromSettings(): void {
@@ -44,31 +44,31 @@ export class DiscordService implements BaseDiscordService {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(() => {
                 this.updatePresence();
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackPaused$.subscribe(() => {
                 this.updatePresence();
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackResumed$.subscribe(() => {
                 this.updatePresence();
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.presenceUpdater.clearPresence();
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackSkipped$.subscribe(() => {
                 this.updatePresence();
-            })
+            }),
         );
     }
 
@@ -120,7 +120,7 @@ export class DiscordService implements BaseDiscordService {
             largeImageText,
             shouldSendTimestamps,
             startTime,
-            endTime
+            endTime,
         );
     }
 }

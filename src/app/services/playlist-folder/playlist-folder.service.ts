@@ -3,17 +3,17 @@ import { Observable, Subject } from 'rxjs';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
-import { BasePlaylistService } from '../playlist/base-playlist.service';
-import { BasePlaylistFolderService } from './base-playlist-folder.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
+import {PlaylistFolderServiceBase} from "./playlist-folder.service.base";
+import {PlaylistServiceBase} from "../playlist/playlist.service.base";
 
 @Injectable()
-export class PlaylistFolderService implements BasePlaylistFolderService {
+export class PlaylistFolderService implements PlaylistFolderServiceBase {
     private playlistFoldersChanged: Subject<void> = new Subject();
 
     public constructor(
-        private playlistService: BasePlaylistService,
+        private playlistService: PlaylistServiceBase,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
         private fileAccess: BaseFileAccess,
         private textSanitizer: TextSanitizer

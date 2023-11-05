@@ -3,19 +3,20 @@ import { Observable, Subject } from 'rxjs';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
-import { BasePlaybackService } from '../playback/base-playback.service';
+
 import { TrackModel } from '../track/track-model';
-import { BaseCollectionService } from './base-collection.service';
+import { CollectionServiceBase } from './collection.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
 
 @Injectable()
-export class CollectionService implements BaseCollectionService {
+export class CollectionService implements CollectionServiceBase {
     private collectionChanged: Subject<void> = new Subject();
 
     public constructor(
-        private playbackService: BasePlaybackService,
+        private playbackService: PlaybackServiceBase,
         private trackRepository: BaseTrackRepository,
         private desktop: BaseDesktop,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public collectionChanged$: Observable<void> = this.collectionChanged.asObservable();

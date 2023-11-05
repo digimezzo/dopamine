@@ -2,12 +2,12 @@ import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
-import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseSnackBarService } from './base-snack-bar.service';
 import { SnackBarData } from './snack-bar-data';
+import { SnackBarServiceBase } from './snack-bar.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable()
-export class SnackBarService implements BaseSnackBarService {
+export class SnackBarService implements SnackBarServiceBase {
     private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private isDismissRequested: boolean = false;
@@ -15,8 +15,8 @@ export class SnackBarService implements BaseSnackBarService {
     public constructor(
         private zone: NgZone,
         private matSnackBar: MatSnackBar,
-        private translatorService: BaseTranslatorService,
-        private scheduler: Scheduler
+        private translatorService: TranslatorServiceBase,
+        private scheduler: Scheduler,
     ) {}
 
     public async folderAlreadyAddedAsync(): Promise<void> {

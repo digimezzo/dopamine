@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseTracksColumnsService } from '../../../services/track-columns/base-tracks-columns.service';
 import { TracksColumnsVisibility } from '../../../services/track-columns/tracks-columns-visibility';
+import { TracksColumnsServiceBase } from '../../../services/track-columns/tracks-columns.service.base';
 
 @Component({
     selector: 'app-edit-columns-dialog',
@@ -8,7 +8,7 @@ import { TracksColumnsVisibility } from '../../../services/track-columns/tracks-
     styleUrls: ['./edit-columns-dialog.component.scss'],
 })
 export class EditColumnsDialogComponent implements OnInit {
-    public constructor(private tracksColumnsService: BaseTracksColumnsService) {}
+    public constructor(private tracksColumnsService: TracksColumnsServiceBase) {}
 
     public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
 

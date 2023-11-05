@@ -6,16 +6,16 @@ import { Logger } from '../../../common/logger';
 import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
-import { BasePlaylistFolderService } from '../../../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../../../services/playlist-folder/playlist-folder-model';
-import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
 import { PlaylistModel } from '../../../services/playlist/playlist-model';
-import { BaseSearchService } from '../../../services/search/base-search.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
 import { PlaylistFoldersPersister } from './playlist-folders-persister';
 import { PlaylistsPersister } from './playlists-persister';
 import { PlaylistsTracksPersister } from './playlists-tracks-persister';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { PlaylistFolderServiceBase } from '../../../services/playlist-folder/playlist-folder.service.base';
+import { PlaylistServiceBase } from '../../../services/playlist/playlist.service.base';
 
 @Component({
     selector: 'app-collection-playlists',
@@ -26,16 +26,16 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public searchService: BaseSearchService,
+        public searchService: SearchServiceBase,
         public playlistFoldersPersister: PlaylistFoldersPersister,
         public playlistsPersister: PlaylistsPersister,
         public tracksPersister: PlaylistsTracksPersister,
-        private playlistFolderService: BasePlaylistFolderService,
-        private playlistService: BasePlaylistService,
+        private playlistFolderService: PlaylistFolderServiceBase,
+        private playlistService: PlaylistServiceBase,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
         private scheduler: BaseScheduler,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public leftPaneSize: number = this.settings.playlistsLeftPaneWidthPercent;
@@ -55,38 +55,38 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.playlistFoldersPersister.selectedPlaylistFoldersChanged$.subscribe((playlistFolders: PlaylistFolderModel[]) => {
                 this.playlistsPersister.resetSelectedPlaylists();
                 PromiseUtils.noAwait(this.getPlaylistsForPlaylistFoldersAndGetTracksAsync(playlistFolders));
-            })
+            }),
         );
 
         this.subscription.add(
             this.playlistFolderService.playlistFoldersChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.playlistService.playlistsChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.getPlaylistsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.playlistService.playlistTracksChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.getTracksAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.playlistsPersister.selectedPlaylistsChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.getTracksAsync());
-            })
+            }),
         );
 
         await this.processListsAsync();
@@ -134,7 +134,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
     private async getPlaylistsAsync(): Promise<void> {
         const selectedPlaylistFolders: PlaylistFolderModel[] = this.playlistFoldersPersister.getSelectedPlaylistFolders(
-            this.playlistFolders
+            this.playlistFolders,
         );
 
         this.playlists = await this.playlistService.getPlaylistsAsync(selectedPlaylistFolders);

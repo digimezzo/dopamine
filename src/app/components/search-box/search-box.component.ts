@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseSearchService } from '../../services/search/base-search.service';
+import {SearchServiceBase} from "../../services/search/search.service.base";
 
 @Component({
     selector: 'app-search-box',
@@ -9,7 +9,7 @@ import { BaseSearchService } from '../../services/search/base-search.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class SearchBoxComponent {
-    public constructor(public searchService: BaseSearchService) {}
+    public constructor(public searchService: SearchServiceBase) {}
 
     public onBlur(): void {
         this.searchService.stopSearching();

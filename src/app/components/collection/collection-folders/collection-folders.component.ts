@@ -10,23 +10,23 @@ import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseFolderService } from '../../../services/folder/base-folder.service';
 import { FolderModel } from '../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../services/folder/subfolder-model';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
-import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
-import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
 import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { FolderServiceBase } from '../../../services/folder/folder.service.base';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { CollectionServiceBase } from '../../../services/collection/collection.service.base';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { TrackServiceBase } from '../../../services/track/track.service.base';
+import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 
 @Component({
     selector: 'app-collection-folders',
@@ -38,26 +38,26 @@ import { FoldersPersister } from './folders-persister';
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public constructor(
-        public searchService: BaseSearchService,
-        public appearanceService: BaseAppearanceService,
-        public folderService: BaseFolderService,
-        public playbackService: BasePlaybackService,
+        public searchService: SearchServiceBase,
+        public appearanceService: AppearanceServiceBase,
+        public folderService: FolderServiceBase,
+        public playbackService: PlaybackServiceBase,
         public tracksPersister: FolderTracksPersister,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
-        private indexingService: BaseIndexingService,
-        private collectionService: BaseCollectionService,
+        private indexingService: IndexingServiceBase,
+        private collectionService: CollectionServiceBase,
         private collectionPersister: CollectionPersister,
         private settings: BaseSettings,
-        private navigationService: BaseNavigationService,
-        private trackService: BaseTrackService,
-        private playbackIndicationService: BasePlaybackIndicationService,
+        private navigationService: NavigationServiceBase,
+        private trackService: TrackServiceBase,
+        private playbackIndicationService: PlaybackIndicationServiceBase,
         private foldersPersister: FoldersPersister,
         private scheduler: Scheduler,
         private desktop: BaseDesktop,
         private logger: Logger,
-        private hacks: Hacks
+        private hacks: Hacks,
     ) {}
 
     private subscription: Subscription = new Subscription();
@@ -81,31 +81,31 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.playbackIndicationService.clearPlayingSubfolder(this.subfolders);
-            })
+            }),
         );
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         await this.processListsAsync();

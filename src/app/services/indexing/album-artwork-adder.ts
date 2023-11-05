@@ -8,18 +8,18 @@ import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
-import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkGetter } from './album-artwork-getter';
+import {AlbumArtworkCacheServiceBase} from "../album-artwork-cache/album-artwork-cache.service.base";
+import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
 
 @Injectable()
 export class AlbumArtworkAdder {
     public constructor(
-        private albumArtworkCacheService: BaseAlbumArtworkCacheService,
+        private albumArtworkCacheService: AlbumArtworkCacheServiceBase,
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private trackRepository: BaseTrackRepository,
         private fileMetadataFactory: BaseFileMetadataFactory,
-        private snackbarService: BaseSnackBarService,
+        private snackbarService: SnackBarServiceBase,
         private logger: Logger,
         private albumArtworkGetter: AlbumArtworkGetter
     ) {}

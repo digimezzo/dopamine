@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
+import { SemanticZoomServiceBase } from '../../../../services/semantic-zoom/semantic-zoom.service.base';
 
 @Component({
     selector: 'app-semantic-zoom-button',
@@ -8,7 +8,7 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     host: { style: 'display: block' },
 })
 export class SemanticZoomButtonComponent {
-    public constructor(public semanticZoomService: BaseSemanticZoomService) {}
+    public constructor(public semanticZoomService: SemanticZoomServiceBase) {}
 
     @Input() public text: string = '';
     @Input() public isZoomable: boolean = false;

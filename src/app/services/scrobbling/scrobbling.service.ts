@@ -6,15 +6,17 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BasePlaybackService } from '../playback/base-playback.service';
+
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
-import { BaseScrobblingService } from './base-scrobbling.service';
+
 import { SignInState } from './sign-in-state';
+import { ScrobblingServiceBase } from './scrobbling.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
 
 @Injectable()
-export class ScrobblingService implements BaseScrobblingService {
+export class ScrobblingService implements ScrobblingServiceBase {
     private _signInState: SignInState = SignInState.SignedOut;
 
     private sessionKey: string = '';
@@ -25,11 +27,11 @@ export class ScrobblingService implements BaseScrobblingService {
     private currentTrackUTCStartTime: Date;
 
     public constructor(
-        private playbackService: BasePlaybackService,
+        private playbackService: PlaybackServiceBase,
         private lastfmApi: LastfmApi,
         private dateTime: DateTime,
         private settings: BaseSettings,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public signInStateChanged$: Observable<SignInState> = this.signInStateChanged.asObservable();
@@ -138,14 +140,14 @@ export class ScrobblingService implements BaseScrobblingService {
 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) =>
-                PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted))
-            )
+                PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted)),
+            ),
         );
 
         this.subscription.add(
             this.playbackService.progressChanged$.subscribe((playbackProgress: PlaybackProgress) =>
-                PromiseUtils.noAwait(this.handlePlaybackProgressChangedAsync(playbackProgress))
-            )
+                PromiseUtils.noAwait(this.handlePlaybackProgressChangedAsync(playbackProgress)),
+            ),
         );
 
         this.subscription.add(this.playbackService.playbackSkipped$.subscribe(() => this.handlePlaybackSkipped()));
@@ -176,13 +178,13 @@ export class ScrobblingService implements BaseScrobblingService {
                 this.logger.info(
                     `Successfully updated Now Playing for track '${artist} - ${trackTitle}'`,
                     'ScrobblingService',
-                    'handlePlaybackStartedAsync'
+                    'handlePlaybackStartedAsync',
                 );
             } else {
                 this.logger.warn(
                     `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
                     'ScrobblingService',
-                    'handlePlaybackStartedAsync'
+                    'handlePlaybackStartedAsync',
                 );
             }
         } catch (e: unknown) {
@@ -190,7 +192,7 @@ export class ScrobblingService implements BaseScrobblingService {
                 e,
                 `Could not update Now Playing for track '${artist} - ${trackTitle}'`,
                 'ScrobblingService',
-                'handlePlaybackStartedAsync'
+                'handlePlaybackStartedAsync',
             );
         }
     }
@@ -229,20 +231,20 @@ export class ScrobblingService implements BaseScrobblingService {
                         artist,
                         trackTitle,
                         albumTitle,
-                        this.currentTrackUTCStartTime
+                        this.currentTrackUTCStartTime,
                     );
 
                     if (isSuccess) {
                         this.logger.info(
                             `Successfully Scrobbled track '${artist} - ${trackTitle}'`,
                             'ScrobblingService',
-                            'handlePlaybackProgressChangedAsync'
+                            'handlePlaybackProgressChangedAsync',
                         );
                     } else {
                         this.logger.warn(
                             `Could not Scrobble track '${artist} - ${trackTitle}'`,
                             'ScrobblingService',
-                            'handlePlaybackProgressChangedAsync'
+                            'handlePlaybackProgressChangedAsync',
                         );
                     }
                 } catch (e: unknown) {
@@ -250,7 +252,7 @@ export class ScrobblingService implements BaseScrobblingService {
                         e,
                         `Could not Scrobble track '${artist} - ${trackTitle}'`,
                         'ScrobblingService',
-                        'handlePlaybackProgressChangedAsync'
+                        'handlePlaybackProgressChangedAsync',
                     );
                 }
             }

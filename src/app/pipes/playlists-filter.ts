@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Strings } from '../common/strings';
 import { PlaylistModel } from '../services/playlist/playlist-model';
-import { BaseSearchService } from '../services/search/base-search.service';
+import { SearchServiceBase } from '../services/search/search.service.base';
 
 @Pipe({ name: 'playlistsFilter' })
 export class PlaylistsFilterPipe implements PipeTransform {
-    public constructor(private searchService: BaseSearchService) {}
+    public constructor(private searchService: SearchServiceBase) {}
 
     public transform(playlists: PlaylistModel[], textToContain: string | undefined): PlaylistModel[] {
         if (Strings.isNullOrWhiteSpace(textToContain)) {

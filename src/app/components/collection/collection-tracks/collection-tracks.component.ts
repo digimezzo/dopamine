@@ -5,11 +5,11 @@ import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { CollectionPersister } from '../collection-persister';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { TrackServiceBase } from '../../../services/track/track.service.base';
+import { CollectionServiceBase } from '../../../services/collection/collection.service.base';
 
 @Component({
     selector: 'app-collection-tracks',
@@ -21,12 +21,12 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public searchService: BaseSearchService,
-        private trackService: BaseTrackService,
-        private collectionService: BaseCollectionService,
+        public searchService: SearchServiceBase,
+        private trackService: TrackServiceBase,
+        private collectionService: CollectionServiceBase,
         private collectionPersister: CollectionPersister,
         private scheduler: Scheduler,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public tracks: TrackModels = new TrackModels();
@@ -40,13 +40,13 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         await this.processListsAsync();

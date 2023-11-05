@@ -3,9 +3,9 @@ import { Track } from '../../common/data/entities/track';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackFiller } from './track-filler';
 import { TrackVerifier } from './track-verifier';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class TrackUpdater {
@@ -13,8 +13,8 @@ export class TrackUpdater {
         private trackRepository: BaseTrackRepository,
         private trackFiller: TrackFiller,
         private trackVerifier: TrackVerifier,
-        private snackBarService: BaseSnackBarService,
-        private logger: Logger
+        private snackBarService: SnackBarServiceBase,
+        private logger: Logger,
     ) {}
 
     public async updateTracksThatAreOutOfDateAsync(): Promise<void> {
@@ -43,7 +43,7 @@ export class TrackUpdater {
                         e,
                         `A problem occurred while updating track with path='${track.path}'`,
                         'TrackUpdater',
-                        'updateTracksThatAreOutOfDateAsync'
+                        'updateTracksThatAreOutOfDateAsync',
                     );
                 }
             }
@@ -53,7 +53,7 @@ export class TrackUpdater {
             this.logger.info(
                 `Updated tracks: ${numberOfUpdatedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackUpdater',
-                'updateTracksThatAreOutOfDateAsync'
+                'updateTracksThatAreOutOfDateAsync',
             );
         } catch (e: unknown) {
             timer.stop();

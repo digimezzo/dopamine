@@ -4,19 +4,21 @@ import { FileValidator } from '../../common/file-validator';
 import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BasePlaybackService } from '../playback/base-playback.service';
+
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
-import { BaseFileService } from './base-file.service';
-import { BaseEventListenerService } from '../event-listener/base-event-listener.service';
+import {FileServiceBase} from "./file.service.base";
+import {PlaybackServiceBase} from "../playback/playback.service.base";
+import {EventListenerServiceBase} from "../event-listener/event-listener.service.base";
+
 
 @Injectable()
-export class FileService implements BaseFileService {
+export class FileService implements FileServiceBase {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: BasePlaybackService,
-        private eventListenerService: BaseEventListenerService,
+        private playbackService: PlaybackServiceBase,
+        private eventListenerService: EventListenerServiceBase,
         private trackModelFactory: TrackModelFactory,
         private application: BaseApplication,
         private fileValidator: FileValidator,

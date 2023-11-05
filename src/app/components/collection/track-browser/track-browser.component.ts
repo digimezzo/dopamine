@@ -7,19 +7,19 @@ import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../common/ordering/track-ordering';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
-import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
 import { TrackBrowserBase } from './track-brower-base';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
+import { CollectionServiceBase } from '../../../services/collection/collection.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 
 @Component({
     selector: 'app-track-browser',
@@ -35,19 +35,19 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: BasePlaybackService,
+        public playbackService: PlaybackServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
-        private metadataService: BaseMetadataService,
-        private playbackIndicationService: BasePlaybackIndicationService,
+        private metadataService: MetadataServiceBase,
+        private playbackIndicationService: PlaybackIndicationServiceBase,
         private guidFactory: GuidFactory,
         private trackOrdering: TrackOrdering,
-        collectionService: BaseCollectionService,
-        translatorService: BaseTranslatorService,
-        dialogService: BaseDialogService,
+        collectionService: CollectionServiceBase,
+        translatorService: TranslatorServiceBase,
+        dialogService: DialogServiceBase,
         desktop: BaseDesktop,
-        logger: Logger
+        logger: Logger,
     ) {
         super(
             playbackService,
@@ -58,7 +58,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
             logger,
             collectionService,
             translatorService,
-            desktop
+            desktop,
         );
     }
 
@@ -100,25 +100,25 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.playbackIndicationService.clearPlayingTrack(this.orderedTracks);
-            })
+            }),
         );
 
         this.subscription.add(
             this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
                 this.updateTrackRating(track);
-            })
+            }),
         );
 
         this.subscription.add(
             this.metadataService.loveSaved$.subscribe((track: TrackModel) => {
                 this.updateTrackLove(track);
-            })
+            }),
         );
     }
 

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
+import { PlaybackServiceBase } from '../../services/playback/playback.service.base';
 
 @Component({
     selector: 'app-playback-time',
@@ -9,5 +9,5 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     encapsulation: ViewEncapsulation.None,
 })
 export class PlaybackTimeComponent {
-    public constructor(public playbackService: BasePlaybackService) {}
+    public constructor(public playbackService: PlaybackServiceBase) {}
 }

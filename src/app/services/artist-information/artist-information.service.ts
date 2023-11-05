@@ -5,19 +5,19 @@ import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { Logger } from '../../common/logger';
 import { Strings } from '../../common/strings';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { ArtistInformation } from './artist-information';
 import { ArtistInformationFactory } from './artist-information-factory';
-import { BaseArtistInformationService } from './base-artist-information.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { ArtistInformationServiceBase } from './artist-information.service.base';
 
 @Injectable()
-export class ArtistInformationService implements BaseArtistInformationService {
+export class ArtistInformationService implements ArtistInformationServiceBase {
     public constructor(
-        private translatorService: BaseTranslatorService,
+        private translatorService: TranslatorServiceBase,
         private artistInformationFactory: ArtistInformationFactory,
         private lastfmApi: LastfmApi,
         private fanartApi: FanartApi,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public async getArtistInformationAsync(track: TrackModel | undefined): Promise<ArtistInformation> {
@@ -83,7 +83,7 @@ export class ArtistInformationService implements BaseArtistInformationService {
                         e,
                         `Could not get info for similar artist '${similarArtist.name}'`,
                         'ArtistInformationService',
-                        'getArtistInformationAsync'
+                        'getArtistInformationAsync',
                     );
                 }
             }

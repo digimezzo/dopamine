@@ -1,8 +1,8 @@
 import { ipcRenderer } from 'electron';
 import { Observable, Subject } from 'rxjs';
-import { BaseEventListenerService } from './base-event-listener.service';
+import {EventListenerServiceBase} from "./event-listener.service.base";
 
-export class EventListenerService implements BaseEventListenerService {
+export class EventListenerService implements EventListenerServiceBase {
     private argumentsReceived: Subject<string[]> = new Subject();
     private filesDropped: Subject<string[]> = new Subject();
 

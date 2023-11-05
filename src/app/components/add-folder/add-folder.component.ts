@@ -4,11 +4,12 @@ import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseFolderService } from '../../services/folder/base-folder.service';
+
 import { FolderModel } from '../../services/folder/folder-model';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { FolderServiceBase } from '../../services/folder/folder.service.base';
+import { IndexingServiceBase } from '../../services/indexing/indexing.service.base';
+import { DialogServiceBase } from '../../services/dialog/dialog.service.base';
 
 @Component({
     selector: 'app-add-folder',
@@ -20,12 +21,12 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 export class AddFolderComponent implements OnInit {
     public constructor(
         private desktop: BaseDesktop,
-        private translatorService: BaseTranslatorService,
-        private folderService: BaseFolderService,
-        private dialogService: BaseDialogService,
-        public indexingService: BaseIndexingService,
+        private translatorService: TranslatorServiceBase,
+        private folderService: FolderServiceBase,
+        private dialogService: DialogServiceBase,
+        public indexingService: IndexingServiceBase,
         private settings: BaseSettings,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     @Input() public showCheckBoxes: boolean = false;

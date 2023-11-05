@@ -1,10 +1,10 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BaseScrobblingService } from '../../services/scrobbling/base-scrobbling.service';
 import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { AppearanceServiceBase } from '../../services/appearance/appearance.service.base';
+import { ScrobblingServiceBase } from '../../services/scrobbling/scrobbling.service.base';
+import { MetadataServiceBase } from '../../services/metadata/metadata.service.base';
+import { DialogServiceBase } from '../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-love',
@@ -17,11 +17,11 @@ export class LoveComponent {
     private _track: TrackModel;
 
     public constructor(
-        private appearanceService: BaseAppearanceService,
-        private scrobblingService: BaseScrobblingService,
-        private metadataService: BaseMetadataService,
-        private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService
+        private appearanceService: AppearanceServiceBase,
+        private scrobblingService: ScrobblingServiceBase,
+        private metadataService: MetadataServiceBase,
+        private dialogService: DialogServiceBase,
+        private translatorService: TranslatorServiceBase,
     ) {}
 
     public get largerFontSize(): number {

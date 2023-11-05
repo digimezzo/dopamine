@@ -4,12 +4,12 @@ import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { ISelectable } from '../../interfaces/i-selectable';
-import { BaseTranslatorService } from '../translator/base-translator.service';
+import {TranslatorServiceBase} from "../translator/translator.service.base";
 
 export class AlbumModel implements ISelectable {
     public constructor(
         private albumData: AlbumData,
-        private translatorService: BaseTranslatorService,
+        private translatorService: TranslatorServiceBase,
         private fileAccess: BaseFileAccess
     ) {}
 

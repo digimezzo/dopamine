@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../common/application/contact-information';
 import { ProductInformation } from '../../../common/application/product-information';
 import { BaseDesktop } from '../../../common/io/base-desktop';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
+import {DialogServiceBase} from "../../../services/dialog/dialog.service.base";
 
 @Component({
     selector: 'app-about',
@@ -12,7 +12,7 @@ import { BaseDialogService } from '../../../services/dialog/base-dialog.service'
     encapsulation: ViewEncapsulation.None,
 })
 export class AboutComponent {
-    public constructor(private dialogService: BaseDialogService, private desktop: BaseDesktop) {}
+    public constructor(private dialogService: DialogServiceBase, private desktop: BaseDesktop) {}
 
     public applicationVersion: string = ProductInformation.applicationVersion;
     public applicationCopyright: string = ProductInformation.applicationCopyright;

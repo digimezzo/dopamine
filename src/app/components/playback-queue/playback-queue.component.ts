@@ -3,11 +3,11 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../common/context-menu-opener';
 import { MouseSelectionWatcher } from '../../common/mouse-selection-watcher';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BasePlaybackIndicationService } from '../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../services/playback/playback-started';
 import { TrackModel } from '../../services/track/track-model';
+import { PlaybackServiceBase } from '../../services/playback/playback.service.base';
+import { PlaybackIndicationServiceBase } from '../../services/playback-indication/playback-indication.service.base';
+import { NavigationServiceBase } from '../../services/navigation/navigation.service.base';
 
 @Component({
     selector: 'app-playback-queue',
@@ -21,11 +21,11 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: BasePlaybackService,
+        public playbackService: PlaybackServiceBase,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
-        private playbackIndicationService: BasePlaybackIndicationService,
-        private navigationService: BaseNavigationService
+        private playbackIndicationService: PlaybackIndicationServiceBase,
+        private navigationService: NavigationServiceBase,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
@@ -39,13 +39,13 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.playbackService.playbackQueue.tracks, playbackStarted.currentTrack);
-            })
+            }),
         );
 
         this.subscription.add(
             this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
                 this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
-            })
+            }),
         );
     }
 

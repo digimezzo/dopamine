@@ -6,15 +6,15 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
-import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
-import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
-import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { BaseTracksPersister } from '../../base-tracks-persister';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 
 @Component({
     selector: 'app-playlist-track-browser',
@@ -29,15 +29,15 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public playbackService: BasePlaybackService,
-        public playlistService: BasePlaylistService,
+        public playbackService: PlaybackServiceBase,
+        public playlistService: PlaylistServiceBase,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
-        private playbackIndicationService: BasePlaybackIndicationService,
-        private translatorService: BaseTranslatorService,
-        private dialogService: BaseDialogService,
+        private playbackIndicationService: PlaybackIndicationServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private dialogService: DialogServiceBase,
         private desktop: BaseDesktop,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     @ViewChild('playlistTrackContextMenuAnchor', { read: MatMenuTrigger, static: false })
@@ -74,13 +74,13 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.playbackIndicationService.clearPlayingTrack(this.orderedTracks);
-            })
+            }),
         );
     }
 
@@ -106,7 +106,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
                     e,
                     'Could not remove tracks from playlists',
                     'PlaylistTrackBrowserComponent',
-                    'onRemoveFromPlaylistAsync'
+                    'onRemoveFromPlaylistAsync',
                 );
 
                 const errorText: string = await this.translatorService.getAsync('remove-from-playlist-error');

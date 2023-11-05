@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarData } from '../../services/snack-bar/snack-bar-data';
+import { SnackBarServiceBase } from '../../services/snack-bar/snack-bar.service.base';
 
 @Component({
     selector: 'app-snack-bar',
@@ -11,7 +11,10 @@ import { SnackBarData } from '../../services/snack-bar/snack-bar-data';
     encapsulation: ViewEncapsulation.None,
 })
 export class SnackBarComponent {
-    public constructor(private snackBarService: BaseSnackBarService, @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {}
+    public constructor(
+        private snackBarService: SnackBarServiceBase,
+        @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData,
+    ) {}
 
     public dismiss(): void {
         this.snackBarService.dismiss();

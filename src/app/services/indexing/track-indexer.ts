@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
+import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
 
 @Injectable()
 export class TrackIndexer {
@@ -13,7 +13,7 @@ export class TrackIndexer {
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,
         private logger: Logger,
-        private snackBarService: BaseSnackBarService
+        private snackBarService: SnackBarServiceBase 
     ) {}
 
     public async indexTracksAsync(): Promise<void> {

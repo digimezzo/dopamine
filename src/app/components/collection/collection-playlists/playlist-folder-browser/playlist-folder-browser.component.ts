@@ -4,14 +4,14 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Strings } from '../../../../common/strings';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { BasePlaylistFolderService } from '../../../../services/playlist-folder/base-playlist-folder.service';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
-import { BasePlaylistService } from '../../../../services/playlist/base-playlist.service';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { PlaylistFoldersPersister } from '../playlist-folders-persister';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { PlaylistFolderServiceBase } from '../../../../services/playlist-folder/playlist-folder.service.base';
+import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-playlist-folder-browser',
@@ -25,15 +25,15 @@ export class PlaylistFolderBrowserComponent {
     private _playlistFoldersPersister: PlaylistFoldersPersister;
 
     public constructor(
-        public appearanceService: BaseAppearanceService,
-        public playlistFolderService: BasePlaylistFolderService,
-        public playlistService: BasePlaylistService,
-        public playbackService: BasePlaybackService,
-        private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService,
+        public appearanceService: AppearanceServiceBase,
+        public playlistFolderService: PlaylistFolderServiceBase,
+        public playlistService: PlaylistServiceBase,
+        public playbackService: PlaybackServiceBase,
+        private dialogService: DialogServiceBase,
+        private translatorService: TranslatorServiceBase,
         public contextMenuOpener: ContextMenuOpener,
         private mouseSelectionWatcher: MouseSelectionWatcher,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public get playlistFolders(): PlaylistFolderModel[] {
@@ -97,7 +97,7 @@ export class PlaylistFolderBrowserComponent {
         const newPlaylistFolderName: string = await this.dialogService.showInputDialogAsync(
             dialogTitle,
             placeholderText,
-            playlistFolder.name
+            playlistFolder.name,
         );
 
         if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
@@ -116,7 +116,7 @@ export class PlaylistFolderBrowserComponent {
         const playlistFolderName: string = await this.dialogService.showInputDialogAsync(
             this.translatorService.get('create-playlist-folder'),
             this.translatorService.get('playlist-folder-name'),
-            ''
+            '',
         );
 
         try {
@@ -139,7 +139,7 @@ export class PlaylistFolderBrowserComponent {
 
     private applySelectedPlaylistFolders(): void {
         const selectedPlaylistFolders: PlaylistFolderModel[] = this.playlistFoldersPersister.getSelectedPlaylistFolders(
-            this.playlistFolders
+            this.playlistFolders,
         );
 
         this.playlistService.setActivePlaylistFolder(selectedPlaylistFolders);

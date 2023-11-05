@@ -7,19 +7,19 @@ import { ProductInformation } from './common/application/product-information';
 import { Logger } from './common/logger';
 import { PromiseUtils } from './common/utils/promise-utils';
 import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
-import { BaseAppearanceService } from './services/appearance/base-appearance.service';
-import { BaseDialogService } from './services/dialog/base-dialog.service';
-import { BaseDiscordService } from './services/discord/base-discord.service';
-import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
-import { BaseNavigationService } from './services/navigation/base-navigation.service';
-import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
-import { BaseSearchService } from './services/search/base-search.service';
-import { BaseTranslatorService } from './services/translator/base-translator.service';
-import { BaseTrayService } from './services/tray/base-tray.service';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AppConfig } from '../environments/environment';
-import { BaseEventListenerService } from './services/event-listener/base-event-listener.service';
 import { BaseDesktop } from './common/io/base-desktop';
+import { NavigationServiceBase } from './services/navigation/navigation.service.base';
+import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
+import { TranslatorServiceBase } from './services/translator/translator.service.base';
+import { DialogServiceBase } from './services/dialog/dialog.service.base';
+import { DiscordServiceBase } from './services/discord/discord.service.base';
+import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
+import { TrayServiceBase } from './services/tray/tray.service.base';
+import { SearchServiceBase } from './services/search/search.service.base';
+import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
+import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 
 @Component({
     selector: 'app-root',
@@ -30,16 +30,16 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private navigationService: BaseNavigationService,
-        private appearanceService: BaseAppearanceService,
-        private translatorService: BaseTranslatorService,
-        private dialogService: BaseDialogService,
-        private discordService: BaseDiscordService,
-        private scrobblingService: BaseScrobblingService,
-        private trayService: BaseTrayService,
-        private searchService: BaseSearchService,
-        private mediaSessionService: BaseMediaSessionService,
-        private eventListenerService: BaseEventListenerService,
+        private navigationService: NavigationServiceBase,
+        private appearanceService: AppearanceServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private dialogService: DialogServiceBase,
+        private discordService: DiscordServiceBase,
+        private scrobblingService: ScrobblingServiceBase,
+        private trayService: TrayServiceBase,
+        private searchService: SearchServiceBase,
+        private mediaSessionService: MediaSessionServiceBase,
+        private eventListenerService: EventListenerServiceBase,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
         private logger: Logger,

@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { BaseSearchService } from '../../services/search/base-search.service';
 import { CollectionPersister } from './collection-persister';
 import { TabSelectionGetter } from './tab-selection-getter';
+import { AppearanceServiceBase } from '../../services/appearance/appearance.service.base';
+import { PlaybackServiceBase } from '../../services/playback/playback.service.base';
+import { SearchServiceBase } from '../../services/search/search.service.base';
 
 @Component({
     selector: 'app-collection',
@@ -18,12 +18,12 @@ export class CollectionComponent implements OnInit {
     private _selectedIndex: number;
 
     public constructor(
-        public appearanceService: BaseAppearanceService,
+        public appearanceService: AppearanceServiceBase,
         public settings: BaseSettings,
-        private playbackService: BasePlaybackService,
-        private searchService: BaseSearchService,
+        private playbackService: PlaybackServiceBase,
+        private searchService: SearchServiceBase,
         private collectionPersister: CollectionPersister,
-        private tabSelectionGetter: TabSelectionGetter
+        private tabSelectionGetter: TabSelectionGetter,
     ) {}
 
     public get artistsTabLabel(): string {

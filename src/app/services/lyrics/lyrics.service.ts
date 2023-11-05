@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BaseLyricsService } from './base-lyrics.service';
 import { TrackModel } from '../track/track-model';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
@@ -8,9 +7,10 @@ import { Strings } from '../../common/strings';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { LyricsModel } from './lyrics-model';
 import { Logger } from '../../common/logger';
+import {LyricsServiceBase} from "./lyrics.service.base";
 
 @Injectable()
-export class LyricsService implements BaseLyricsService {
+export class LyricsService implements LyricsServiceBase {
     public constructor(
         private embeddedLyricsGetter: EmbeddedLyricsGetter,
         private lrcLyricsGetter: LrcLyricsGetter,

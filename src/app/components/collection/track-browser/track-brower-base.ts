@@ -4,25 +4,25 @@ import { ContextMenuOpener } from '../../../common/context-menu-opener';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { TrackModel } from '../../../services/track/track-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
+import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { CollectionServiceBase } from '../../../services/collection/collection.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 
 @Directive()
 export class TrackBrowserBase {
     public constructor(
-        public playbackService: BasePlaybackService,
-        public dialogService: BaseDialogService,
+        public playbackService: PlaybackServiceBase,
+        public dialogService: DialogServiceBase,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public logger: Logger,
-        private collectionService: BaseCollectionService,
-        private translatorService: BaseTranslatorService,
-        private desktop: BaseDesktop
+        private collectionService: CollectionServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private desktop: BaseDesktop,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })

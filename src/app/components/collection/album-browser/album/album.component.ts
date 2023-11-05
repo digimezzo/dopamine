@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AlbumModel } from '../../../../services/album/album-model';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-album',
@@ -9,7 +9,7 @@ import { BaseAppearanceService } from '../../../../services/appearance/base-appe
     styleUrls: ['./album.component.scss'],
 })
 export class AlbumComponent {
-    public constructor(public appearanceService: BaseAppearanceService) {}
+    public constructor(public appearanceService: AppearanceServiceBase) {}
 
     @Input() public album: AlbumModel;
     @Input() public isSelected: boolean = false;

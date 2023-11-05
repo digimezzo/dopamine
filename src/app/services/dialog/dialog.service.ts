@@ -8,14 +8,14 @@ import { InputDialogComponent } from '../../components/dialogs/input-dialog/inpu
 import { LicenseDialogComponent } from '../../components/dialogs/license-dialog/license-dialog.component';
 import { PlaylistModel } from '../playlist/playlist-model';
 import { PlaylistModelFactory } from '../playlist/playlist-model-factory';
-import { BaseDialogService } from './base-dialog.service';
 import { ConfirmationData } from './confirmation-data';
 import { ErrorData } from './error-data';
 import { InputData } from './input-data';
 import { PlaylistData } from './playlist-data';
+import { DialogServiceBase } from './dialog.service.base';
 
 @Injectable()
-export class DialogService implements BaseDialogService {
+export class DialogService implements DialogServiceBase {
     public constructor(
         private dialog: MatDialog,
         private playlistModelFactory: PlaylistModelFactory,

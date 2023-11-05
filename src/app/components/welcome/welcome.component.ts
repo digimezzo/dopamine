@@ -2,9 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { ContactInformation } from '../../common/application/contact-information';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { NavigationServiceBase } from '../../services/navigation/navigation.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { AppearanceServiceBase } from '../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-welcome',
@@ -15,10 +15,10 @@ import { BaseTranslatorService } from '../../services/translator/base-translator
 })
 export class WelcomeComponent {
     public constructor(
-        private navigationServiceMock: BaseNavigationService,
-        public translatorService: BaseTranslatorService,
-        public appearanceService: BaseAppearanceService,
-        public settings: BaseSettings
+        private navigationServiceMock: NavigationServiceBase,
+        public translatorService: TranslatorServiceBase,
+        public appearanceService: AppearanceServiceBase,
+        public settings: BaseSettings,
     ) {}
 
     public currentStep: number = 0;

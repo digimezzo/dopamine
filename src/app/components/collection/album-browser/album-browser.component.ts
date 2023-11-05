@@ -7,13 +7,13 @@ import { Logger } from '../../../common/logger';
 import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../common/native-element-proxy';
 import { AlbumModel } from '../../../services/album/album-model';
-import { BaseApplicationService } from '../../../services/application/base-application.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
+import {PlaybackServiceBase} from "../../../services/playback/playback.service.base";
+import {ApplicationServiceBase} from "../../../services/application/application.service.base";
 
 @Component({
     selector: 'app-album-browser',
@@ -28,8 +28,8 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
     private availableWidthInPixels: number = 0;
 
     public constructor(
-        public playbackService: BasePlaybackService,
-        private applicationService: BaseApplicationService,
+        public playbackService: PlaybackServiceBase,
+        private applicationService: ApplicationServiceBase,
         private albumRowsGetter: AlbumRowsGetter,
         private nativeElementProxy: NativeElementProxy,
         public mouseSelectionWatcher: MouseSelectionWatcher,

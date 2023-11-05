@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
-import { BasePlaybackIndicationService } from './base-playback-indication.service';
+import {PlaybackIndicationServiceBase} from "./playback-indication.service.base";
 
 @Injectable()
-export class PlaybackIndicationService implements BasePlaybackIndicationService {
+export class PlaybackIndicationService implements PlaybackIndicationServiceBase {
     public constructor(private pathValidator: PathValidator) {}
 
     public setPlayingSubfolder(subfolders: SubfolderModel[] | undefined, playingTrack: TrackModel | undefined): void {

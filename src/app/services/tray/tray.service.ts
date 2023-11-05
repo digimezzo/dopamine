@@ -3,17 +3,22 @@ import * as os from 'os';
 import { Subscription } from 'rxjs';
 import { BaseIpcProxy } from '../../common/io/base-ipc-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseTrayService } from './base-tray.service';
+import { TrayServiceBase } from './tray.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+
 @Injectable()
-export class TrayService implements BaseTrayService {
+export class TrayService implements TrayServiceBase {
     private subscription: Subscription = new Subscription();
 
-    public constructor(private translatorService: BaseTranslatorService, private settings: BaseSettings, private ipcProxy: BaseIpcProxy) {
+    public constructor(
+        private translatorService: TranslatorServiceBase,
+        private settings: BaseSettings,
+        private ipcProxy: BaseIpcProxy,
+    ) {
         this.subscription.add(
             this.translatorService.languageChanged$.subscribe(() => {
                 this.updateTrayContextMenu();
-            })
+            }),
         );
 
         this.updateTrayContextMenu();

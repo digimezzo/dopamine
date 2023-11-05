@@ -3,10 +3,14 @@ import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Strings } from '../../common/strings';
 import { ISelectable } from '../../interfaces/i-selectable';
-import { BaseTranslatorService } from '../translator/base-translator.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 export class TrackModel implements ISelectable {
-    public constructor(private track: Track, private dateTime: DateTime, private translatorService: BaseTranslatorService) {}
+    public constructor(
+        private track: Track,
+        private dateTime: DateTime,
+        private translatorService: TranslatorServiceBase,
+    ) {}
 
     public isPlaying: boolean = false;
     public isSelected: boolean = false;

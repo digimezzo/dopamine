@@ -3,8 +3,8 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
+import {PlaybackInformationServiceBase} from "../../services/playback-information/playback-information.service.base";
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -46,7 +46,7 @@ import { PlaybackInformation } from '../../services/playback-information/playbac
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
-    public constructor(private playbackInformationService: BasePlaybackInformationService, private scheduler: Scheduler) {}
+    public constructor(private playbackInformationService: PlaybackInformationServiceBase, private scheduler: Scheduler) {}
 
     public contentAnimation: string = 'down';
 

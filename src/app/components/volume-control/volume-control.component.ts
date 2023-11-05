@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
+import { PlaybackServiceBase } from '../../services/playback/playback.service.base';
 
 @Component({
     selector: 'app-volume-control',
@@ -7,7 +7,7 @@ import { BasePlaybackService } from '../../services/playback/base-playback.servi
     styleUrls: ['./volume-control.component.scss'],
 })
 export class VolumeControlComponent {
-    public constructor(private playbackService: BasePlaybackService) {}
+    public constructor(private playbackService: PlaybackServiceBase) {}
 
     public get volume(): number {
         return this.playbackService.volume;

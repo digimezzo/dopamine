@@ -1,9 +1,9 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
 import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
+import { MetadataServiceBase } from '../../services/metadata/metadata.service.base';
+import { DialogServiceBase } from '../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { AppearanceServiceBase } from '../../services/appearance/appearance.service.base';
 
 @Component({
     selector: 'app-rating',
@@ -16,10 +16,10 @@ export class RatingComponent {
     private _track: TrackModel;
 
     public constructor(
-        private metadataService: BaseMetadataService,
-        private dialogService: BaseDialogService,
-        private translatorService: BaseTranslatorService,
-        private appearanceService: BaseAppearanceService
+        private metadataService: MetadataServiceBase,
+        private dialogService: DialogServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private appearanceService: AppearanceServiceBase,
     ) {}
 
     @Input()

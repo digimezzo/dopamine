@@ -4,13 +4,7 @@ import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
-import { BaseCollectionService } from '../../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
-import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
-import { BaseTracksColumnsService } from '../../../../services/track-columns/base-tracks-columns.service';
 import { TracksColumnsOrder } from '../../../../services/track-columns/tracks-columns-order';
 import { TracksColumnsOrderColumn } from '../../../../services/track-columns/tracks-columns-order-column';
 import { TracksColumnsOrderDirection } from '../../../../services/track-columns/tracks-columns-order-direction';
@@ -18,9 +12,15 @@ import { TracksColumnsOrdering } from '../../../../services/track-columns/tracks
 import { TracksColumnsVisibility } from '../../../../services/track-columns/tracks-columns-visibility';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { TrackBrowserBase } from '../../track-browser/track-brower-base';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
+import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
+import { TracksColumnsServiceBase } from '../../../../services/track-columns/tracks-columns.service.base';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -35,19 +35,19 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     private _tracks: TrackModels = new TrackModels();
 
     public constructor(
-        public playbackService: BasePlaybackService,
+        public playbackService: PlaybackServiceBase,
         public mouseSelectionWatcher: MouseSelectionWatcher,
         public addToPlaylistMenu: AddToPlaylistMenu,
         public contextMenuOpener: ContextMenuOpener,
-        private metadataService: BaseMetadataService,
-        private playbackIndicationService: BasePlaybackIndicationService,
-        private tracksColumnsService: BaseTracksColumnsService,
+        private metadataService: MetadataServiceBase,
+        private playbackIndicationService: PlaybackIndicationServiceBase,
+        private tracksColumnsService: TracksColumnsServiceBase,
         private tracksColumnsOrdering: TracksColumnsOrdering,
-        collectionService: BaseCollectionService,
-        dialogService: BaseDialogService,
-        translatorService: BaseTranslatorService,
+        collectionService: CollectionServiceBase,
+        dialogService: DialogServiceBase,
+        translatorService: TranslatorServiceBase,
         desktop: BaseDesktop,
-        logger: Logger
+        logger: Logger,
     ) {
         super(
             playbackService,
@@ -58,7 +58,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
             logger,
             collectionService,
             translatorService,
-            desktop
+            desktop,
         );
     }
 
@@ -66,7 +66,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
     public tracksColumnsVisibility: TracksColumnsVisibility = new TracksColumnsVisibility();
     public tracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
         TracksColumnsOrderColumn.trackTitle,
-        TracksColumnsOrderDirection.ascending
+        TracksColumnsOrderDirection.ascending,
     );
 
     public get isOrderedByTrackTitle(): boolean {
@@ -125,32 +125,32 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingTrack(this.orderedTracks, playbackStarted.currentTrack);
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 this.playbackIndicationService.clearPlayingTrack(this.orderedTracks);
-            })
+            }),
         );
 
         this.subscription.add(
             this.metadataService.ratingSaved$.subscribe((track: TrackModel) => {
                 this.updateTrackRating(track);
-            })
+            }),
         );
 
         this.subscription.add(
             this.tracksColumnsService.tracksColumnsVisibilityChanged$.subscribe((tracksColumnsVisibility) => {
                 this.tracksColumnsVisibility = tracksColumnsVisibility;
-            })
+            }),
         );
 
         this.subscription.add(
             this.tracksColumnsService.tracksColumnsOrderChanged$.subscribe((tracksColumnsOrder) => {
                 this.tracksColumnsOrder = tracksColumnsOrder;
                 this.orderTracks();
-            })
+            }),
         );
 
         this.tracksColumnsVisibility = this.tracksColumnsService.getTracksColumnsVisibility();
@@ -183,73 +183,73 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
             case TracksColumnsOrderColumn.trackTitle:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByTitle(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.rating:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByRating(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.artists:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByArtists(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.album:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByAlbum(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.genres:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByGenres(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.duration:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByDuration(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.trackNumber:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByTrackNumber(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.year:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByYear(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.playCount:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByPlayCount(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.skipCount:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedBySkipCount(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.dateLastPlayed:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByDateLastPlayed(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             case TracksColumnsOrderColumn.dateAdded:
                 orderedTracks = this.tracksColumnsOrdering.getTracksOrderedByDateAdded(
                     this.tracks.tracks,
-                    this.tracksColumnsOrder.tracksColumnsOrderDirection
+                    this.tracksColumnsOrder.tracksColumnsOrderDirection,
                 );
                 break;
             default:

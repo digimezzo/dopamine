@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import {TranslatorServiceBase} from "../services/translator/translator.service.base";
 
 @Pipe({ name: 'formatTotalDuration' })
 export class FormatTotalDurationPipe implements PipeTransform {
-    public constructor(private translatorService: BaseTranslatorService) {}
+    public constructor(private translatorService: TranslatorServiceBase) {}
 
     public transform(totalMilliseconds: number | undefined): string {
         if (totalMilliseconds == undefined || totalMilliseconds <= 0) {

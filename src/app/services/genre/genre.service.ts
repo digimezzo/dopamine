@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { GenreData } from '../../common/data/entities/genre-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseGenreService } from './base-genre.service';
 import { GenreModel } from './genre-model';
+import { GenreServiceBase } from './genre.service.base';
+import {TranslatorServiceBase} from "../translator/translator.service.base";
 
 @Injectable()
-export class GenreService implements BaseGenreService {
-    public constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
+export class GenreService implements GenreServiceBase {
+    public constructor(
+        private translatorService: TranslatorServiceBase,
+        private trackRepository: BaseTrackRepository,
+    ) {}
 
     public getGenres(): GenreModel[] {
         const addedGenres: string[] = [];

@@ -7,16 +7,16 @@ import { Scheduler } from '../../../common/scheduling/scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { AlbumModel } from '../../../services/album/album-model';
-import { BaseAlbumService } from '../../../services/album/base-album-service';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
 import { TrackModels } from '../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
 import { CollectionPersister } from '../collection-persister';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { TrackServiceBase } from '../../../services/track/track.service.base';
+import { AlbumServiceBase } from '../../../services/album/album-service.base';
+import { CollectionServiceBase } from '../../../services/collection/collection.service.base';
+import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 
 @Component({
     selector: 'app-collection-albums',
@@ -28,17 +28,17 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public searchService: BaseSearchService,
+        public searchService: SearchServiceBase,
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
         private collectionPersister: CollectionPersister,
-        private indexingService: BaseIndexingService,
-        private collectionService: BaseCollectionService,
-        private albumService: BaseAlbumService,
-        private trackService: BaseTrackService,
+        private indexingService: IndexingServiceBase,
+        private collectionService: CollectionServiceBase,
+        private albumService: AlbumServiceBase,
+        private trackService: TrackServiceBase,
         private settings: BaseSettings,
         private scheduler: Scheduler,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public leftPaneSize: number = 100 - this.settings.albumsRightPaneWidthPercent;
@@ -64,25 +64,25 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.subscription.add(
             this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
                 this.getTracksForAlbumKeys(albumKeys);
-            })
+            }),
         );
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
-            })
+            }),
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();

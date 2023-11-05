@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseSemanticZoomService } from './base-semantic-zoom.service';
+import { SemanticZoomServiceBase } from './semantic-zoom.service.base';
 
 @Injectable()
-export class SemanticZoomService implements BaseSemanticZoomService {
+export class SemanticZoomService implements SemanticZoomServiceBase {
     private zoomOutRequested: Subject<void> = new Subject();
     private zoomInRequested: Subject<string> = new Subject();
 

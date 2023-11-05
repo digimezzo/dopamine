@@ -6,10 +6,10 @@ import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { ArtistInformation } from '../../../services/artist-information/artist-information';
-import { BaseArtistInformationService } from '../../../services/artist-information/base-artist-information.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
+import {PlaybackServiceBase} from "../../../services/playback/playback.service.base";
+import {ArtistInformationServiceBase} from "../../../services/artist-information/artist-information.service.base";
 
 @Component({
     selector: 'app-now-playing-artist-info',
@@ -33,8 +33,8 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     private _contentAnimation: string = 'fade-in';
 
     public constructor(
-        private playbackService: BasePlaybackService,
-        private artistInformationService: BaseArtistInformationService,
+        private playbackService: PlaybackServiceBase,
+        private artistInformationService: ArtistInformationServiceBase,
         private scheduler: Scheduler,
         public settings: BaseSettings
     ) {}

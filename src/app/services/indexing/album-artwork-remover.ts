@@ -4,15 +4,15 @@ import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class AlbumArtworkRemover {
     public constructor(
         private albumArtworkRepository: BaseAlbumArtworkRepository,
         private fileAccess: BaseFileAccess,
-        private snackBarService: BaseSnackBarService,
-        private logger: Logger
+        private snackBarService: SnackBarServiceBase,
+        private logger: Logger,
     ) {}
 
     public async removeAlbumArtworkThatHasNoTrackAsync(): Promise<void> {
@@ -28,7 +28,7 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkThatHasNoTrackAsync'
+                    'removeAlbumArtworkThatHasNoTrackAsync',
                 );
 
                 return;
@@ -37,7 +37,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatHasNoTrackAsync'
+                'removeAlbumArtworkThatHasNoTrackAsync',
             );
 
             await this.snackBarService.updatingAlbumArtworkAsync();
@@ -49,7 +49,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.elapsedMilliseconds} ms.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatHasNoTrackAsync'
+                'removeAlbumArtworkThatHasNoTrackAsync',
             );
         } catch (e: unknown) {
             timer.stop();
@@ -72,7 +72,7 @@ export class AlbumArtworkRemover {
                 this.logger.info(
                     `There is no album artwork to remove. Time required: ${timer.elapsedMilliseconds} ms.`,
                     'AlbumArtworkRemover',
-                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                    'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
                 );
 
                 return;
@@ -81,7 +81,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${numberOfAlbumArtworkToRemove} album artwork.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
             await this.snackBarService.updatingAlbumArtworkAsync();
@@ -94,7 +94,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Removed ${numberOfRemovedAlbumArtwork} album artwork. Time required: ${timer.elapsedMilliseconds} ms.`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
         } catch (e: unknown) {
             timer.stop();
@@ -103,7 +103,7 @@ export class AlbumArtworkRemover {
                 e,
                 'Could not remove album artwork',
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync'
+                'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
         }
     }
@@ -115,7 +115,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${allAlbumArtworkInDatabase.length} album artwork in the database`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
 
             const allArtworkIdsInDatabase: string[] = allAlbumArtworkInDatabase.map((x) => x.artworkId);
@@ -123,7 +123,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${allArtworkIdsInDatabase.length} artworkIds in the database`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
 
             const coverArtCacheFullPath: string = this.fileAccess.coverArtCacheFullPath();
@@ -132,7 +132,7 @@ export class AlbumArtworkRemover {
             this.logger.info(
                 `Found ${allAlbumArtworkFilePaths.length} artwork files on disk`,
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
 
             let numberOfRemovedAlbumArtwork: number = 0;
@@ -155,7 +155,7 @@ export class AlbumArtworkRemover {
                 e,
                 'Could not remove album artwork from disk',
                 'AlbumArtworkRemover',
-                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync'
+                'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
         }
     }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseTracksColumnsService } from './base-tracks-columns.service';
 import { TracksColumnsOrder } from './tracks-columns-order';
 import { TracksColumnsOrderColumn } from './tracks-columns-order-column';
 import { TracksColumnsOrderDirection } from './tracks-columns-order-direction';
 import { TracksColumnsVisibility } from './tracks-columns-visibility';
+import { TracksColumnsServiceBase } from './tracks-columns.service.base';
 
 @Injectable()
-export class TracksColumnsService implements BaseTracksColumnsService {
+export class TracksColumnsService implements TracksColumnsServiceBase {
     private trackTitleSettingsString: string = 'trackTitle';
     private ratingSettingsString: string = 'rating';
     private artistsSettingsString: string = 'artists';
@@ -141,7 +141,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
 
         const tracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
             TracksColumnsOrderColumn.none,
-            TracksColumnsOrderDirection.ascending
+            TracksColumnsOrderDirection.ascending,
         );
 
         if (tracksColumnsOrderFromSettingsParts.length > 1) {
@@ -209,7 +209,7 @@ export class TracksColumnsService implements BaseTracksColumnsService {
         const currentTracksColumnsOrder: TracksColumnsOrder = this.getTracksColumnsOrder();
         const newTracksColumnsOrder: TracksColumnsOrder = new TracksColumnsOrder(
             tracksColumnsOrderColumn,
-            TracksColumnsOrderDirection.ascending
+            TracksColumnsOrderDirection.ascending,
         );
 
         if (currentTracksColumnsOrder.tracksColumnsOrderDirection === TracksColumnsOrderDirection.ascending) {

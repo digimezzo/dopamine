@@ -5,8 +5,8 @@ import { BaseDesktop } from '../../../common/io/base-desktop';
 import { Strings } from '../../../common/strings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaylistData } from '../../../services/dialog/playlist-data';
-import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { PlaylistServiceBase } from '../../../services/playlist/playlist.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-edit-playlist-dialog',
@@ -17,9 +17,9 @@ export class EditPlaylistDialogComponent implements OnInit {
     public constructor(
         @Inject(MAT_DIALOG_DATA) public data: PlaylistData,
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent, boolean>,
-        private playlistService: BasePlaylistService,
-        private translatorService: BaseTranslatorService,
-        private desktop: BaseDesktop
+        private playlistService: PlaylistServiceBase,
+        private translatorService: TranslatorServiceBase,
+        private desktop: BaseDesktop,
     ) {
         dialogRef.disableClose = true;
     }

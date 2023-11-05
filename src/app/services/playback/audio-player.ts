@@ -3,10 +3,10 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BaseAudioPlayer } from './base-audio-player';
+import {AudioPlayerBase} from "./audio-player.base";
 
 @Injectable()
-export class AudioPlayer implements BaseAudioPlayer {
+export class AudioPlayer implements AudioPlayerBase {
     private audio: HTMLAudioElement;
 
     public constructor(private mathExtensions: MathExtensions, private logger: Logger) {

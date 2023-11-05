@@ -198,38 +198,37 @@ import { TracksFilterPipe } from './pipes/tracks-filter.pipe';
 import { ZeroToBlankPipe } from './pipes/zero-to-blank.pipe';
 import { AlbumArtworkCacheIdFactory } from './services/album-artwork-cache/album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './services/album-artwork-cache/album-artwork-cache.service';
-import { BaseAlbumArtworkCacheService } from './services/album-artwork-cache/base-album-artwork-cache.service';
+
 import { AlbumService } from './services/album/album-service';
-import { BaseAlbumService } from './services/album/base-album-service';
+
 import { AppearanceService } from './services/appearance/appearance.service';
-import { BaseAppearanceService } from './services/appearance/base-appearance.service';
+
 import { DefaultThemesCreator } from './services/appearance/default-themes-creator';
 import { ApplicationService } from './services/application/application.service';
-import { BaseApplicationService } from './services/application/base-application.service';
+
 import { ArtistInformationFactory } from './services/artist-information/artist-information-factory';
 import { ArtistInformationService } from './services/artist-information/artist-information.service';
-import { BaseArtistInformationService } from './services/artist-information/base-artist-information.service';
+
 import { ArtistService } from './services/artist/artist.service';
-import { BaseArtistService } from './services/artist/base-artist.service';
-import { BaseCollectionService } from './services/collection/base-collection.service';
+
 import { CollectionService } from './services/collection/collection.service';
-import { BaseDialogService } from './services/dialog/base-dialog.service';
+
 import { DialogService } from './services/dialog/dialog.service';
-import { BaseDiscordService } from './services/discord/base-discord.service';
+
 import { DiscordService } from './services/discord/discord.service';
 import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
-import { BaseFileService } from './services/file/base-file.service';
+
 import { FileService } from './services/file/file.service';
-import { BaseFolderService } from './services/folder/base-folder.service';
+
 import { FolderService } from './services/folder/folder.service';
-import { BaseGenreService } from './services/genre/base-genre.service';
+
 import { GenreService } from './services/genre/genre.service';
 import { AlbumArtworkAdder } from './services/indexing/album-artwork-adder';
 import { AlbumArtworkGetter } from './services/indexing/album-artwork-getter';
 import { AlbumArtworkIndexer } from './services/indexing/album-artwork-indexer';
 import { AlbumArtworkRemover } from './services/indexing/album-artwork-remover';
-import { BaseIndexingService } from './services/indexing/base-indexing.service';
+
 import { CollectionChecker } from './services/indexing/collection-checker';
 import { DirectoryWalker } from './services/indexing/directory-walker';
 import { EmbeddedAlbumArtworkGetter } from './services/indexing/embedded-album-artwork-getter';
@@ -245,54 +244,53 @@ import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
-import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
+
 import { MediaSessionService } from './services/media-session/media-session.service';
-import { BaseMetadataService } from './services/metadata/base-metadata.service';
+
 import { CachedAlbumArtworkGetter } from './services/metadata/cached-album-artwork-getter';
 import { MetadataService } from './services/metadata/metadata.service';
-import { BaseNavigationService } from './services/navigation/base-navigation.service';
+
 import { NavigationService } from './services/navigation/navigation.service';
-import { BaseNowPlayingNavigationService } from './services/now-playing-navigation/base-now-playing-navigation.service';
+
 import { NowPlayingNavigationService } from './services/now-playing-navigation/now-playing-navigation.service';
-import { BasePlaybackIndicationService } from './services/playback-indication/base-playback-indication.service';
+
 import { PlaybackIndicationService } from './services/playback-indication/playback-indication.service';
-import { BasePlaybackInformationService } from './services/playback-information/base-playback-information.service';
+
 import { PlaybackInformationService } from './services/playback-information/playback-information.service';
 import { AudioPlayer } from './services/playback/audio-player';
-import { BaseAudioPlayer } from './services/playback/base-audio-player';
-import { BasePlaybackService } from './services/playback/base-playback.service';
+
 import { PlaybackService } from './services/playback/playback.service';
 import { ProgressUpdater } from './services/playback/progress-updater';
 import { Queue } from './services/playback/queue';
-import { BasePlaylistFolderService } from './services/playlist-folder/base-playlist-folder.service';
+
 import { PlaylistFolderModelFactory } from './services/playlist-folder/playlist-folder-model-factory';
 import { PlaylistFolderService } from './services/playlist-folder/playlist-folder.service';
-import { BasePlaylistService } from './services/playlist/base-playlist.service';
+
 import { PlaylistDecoder } from './services/playlist/playlist-decoder';
 import { PlaylistFileManager } from './services/playlist/playlist-file-manager';
 import { PlaylistModelFactory } from './services/playlist/playlist-model-factory';
 import { PlaylistService } from './services/playlist/playlist.service';
-import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
+
 import { ScrobblingService } from './services/scrobbling/scrobbling.service';
-import { BaseSearchService } from './services/search/base-search.service';
+
 import { SearchService } from './services/search/search.service';
-import { BaseSemanticZoomService } from './services/semantic-zoom/base-semantic-zoom.service';
+
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
-import { BaseSnackBarService } from './services/snack-bar/base-snack-bar.service';
+
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
-import { BaseTracksColumnsService } from './services/track-columns/base-tracks-columns.service';
+
 import { TracksColumnsOrdering } from './services/track-columns/tracks-columns-ordering';
 import { TracksColumnsService } from './services/track-columns/tracks-columns.service';
-import { BaseTrackService } from './services/track/base-track.service';
+
 import { TrackModelFactory } from './services/track/track-model-factory';
 import { TrackService } from './services/track/track.service';
-import { BaseTranslatorService } from './services/translator/base-translator.service';
+
 import { TranslatorService } from './services/translator/translator.service';
-import { BaseTrayService } from './services/tray/base-tray.service';
+
 import { TrayService } from './services/tray/tray.service';
-import { BaseUpdateService } from './services/update/base-update.service';
+
 import { UpdateService } from './services/update/update.service';
-import { BaseLyricsService } from './services/lyrics/base-lyrics.service';
+
 import { LyricsService } from './services/lyrics/lyrics.service';
 import { EmbeddedLyricsGetter } from './services/lyrics/embedded-lyrics-getter';
 import { LrcLyricsGetter } from './services/lyrics/lrc-lyrics-getter';
@@ -303,9 +301,43 @@ import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics-api';
 import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
 import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search-api';
 import { EventListenerService } from './services/event-listener/event-listener.service';
-import { BaseEventListenerService } from './services/event-listener/base-event-listener.service';
+
 import { BaseDesktop } from './common/io/base-desktop';
 import { Desktop } from './common/io/desktop';
+import { AudioPlayerBase } from './services/playback/audio-player.base';
+import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
+import { LyricsServiceBase } from './services/lyrics/lyrics.service.base';
+import { ArtistInformationServiceBase } from './services/artist-information/artist-information.service.base';
+import { NowPlayingNavigationServiceBase } from './services/now-playing-navigation/now-playing-navigation.service.base';
+import { ScrobblingServiceBase } from './services/scrobbling/scrobbling.service.base';
+import {TracksColumnsServiceBase} from "./services/track-columns/tracks-columns.service.base";
+import {SemanticZoomServiceBase} from "./services/semantic-zoom/semantic-zoom.service.base";
+import {TrayServiceBase} from "./services/tray/tray.service.base";
+import {FileServiceBase} from "./services/file/file.service.base";
+import {FolderServiceBase} from "./services/folder/folder.service.base";
+import {AppearanceServiceBase} from "./services/appearance/appearance.service.base";
+import {PlaylistFolderServiceBase} from "./services/playlist-folder/playlist-folder.service.base";
+import {PlaylistServiceBase} from "./services/playlist/playlist.service.base";
+import {SearchServiceBase} from "./services/search/search.service.base";
+import {MetadataServiceBase} from "./services/metadata/metadata.service.base";
+import {MediaSessionServiceBase} from "./services/media-session/media-session.service.base";
+import {PlaybackInformationServiceBase} from "./services/playback-information/playback-information.service.base";
+import {PlaybackIndicationServiceBase} from "./services/playback-indication/playback-indication.service.base";
+import {DiscordServiceBase} from "./services/discord/discord.service.base";
+import {CollectionServiceBase} from "./services/collection/collection.service.base";
+import {AlbumServiceBase} from "./services/album/album-service.base";
+import {TrackServiceBase} from "./services/track/track.service.base";
+import {GenreServiceBase} from "./services/genre/genre.service.base";
+import {ArtistServiceBase} from "./services/artist/artist.service.base";
+import {DialogServiceBase} from "./services/dialog/dialog.service.base";
+import {PlaybackServiceBase} from "./services/playback/playback.service.base";
+import {SnackBarServiceBase} from "./services/snack-bar/snack-bar.service.base";
+import {UpdateServiceBase} from "./services/update/update.service.base";
+import {TranslatorServiceBase} from "./services/translator/translator.service.base";
+import {IndexingServiceBase} from "./services/indexing/indexing.service.base";
+import {NavigationServiceBase} from "./services/navigation/navigation.service.base";
+import {AlbumArtworkCacheServiceBase} from "./services/album-artwork-cache/album-artwork-cache.service.base";
+import {ApplicationServiceBase} from "./services/application/application.service.base";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -575,33 +607,40 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
         { provide: BaseTrackRepository, useClass: TrackRepository },
         { provide: BaseFolderRepository, useClass: FolderRepository },
-        { provide: BaseApplicationService, useClass: ApplicationService },
-        { provide: BaseAlbumArtworkCacheService, useClass: AlbumArtworkCacheService },
-        { provide: BaseNavigationService, useClass: NavigationService },
-        { provide: BaseIndexingService, useClass: IndexingService },
-        { provide: BaseTranslatorService, useClass: TranslatorService },
-        { provide: BaseUpdateService, useClass: UpdateService },
-        { provide: BaseSnackBarService, useClass: SnackBarService },
-        { provide: BasePlaybackService, useClass: PlaybackService },
-        { provide: BaseDialogService, useClass: DialogService },
-        { provide: BaseArtistService, useClass: ArtistService },
-        { provide: BaseGenreService, useClass: GenreService },
-        { provide: BaseTrackService, useClass: TrackService },
-        { provide: BaseAlbumService, useClass: AlbumService },
-        { provide: BaseCollectionService, useClass: CollectionService },
-        { provide: BaseDiscordService, useClass: DiscordService },
-        { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
-        { provide: BasePlaybackInformationService, useClass: PlaybackInformationService },
-        { provide: BaseMediaSessionService, useClass: MediaSessionService },
-        { provide: BaseMetadataService, useClass: MetadataService },
-        { provide: BaseSearchService, useClass: SearchService },
-        { provide: BasePlaylistService, useClass: PlaylistService },
-        { provide: BasePlaylistFolderService, useClass: PlaylistFolderService },
-        { provide: BaseAppearanceService, useClass: AppearanceService },
-        { provide: BaseFolderService, useClass: FolderService },
-        { provide: BaseFileService, useClass: FileService },
-        { provide: BaseTrayService, useClass: TrayService },
-        { provide: BaseSemanticZoomService, useClass: SemanticZoomService },
+        { provide: ApplicationServiceBase, useClass: ApplicationService },
+        { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
+        { provide: NavigationServiceBase, useClass: NavigationService },
+        { provide: IndexingServiceBase, useClass: IndexingService },
+        { provide: TranslatorServiceBase, useClass: TranslatorService },
+        { provide: UpdateServiceBase, useClass: UpdateService },
+        { provide: SnackBarServiceBase, useClass: SnackBarService },
+        { provide: PlaybackServiceBase, useClass: PlaybackService },
+        { provide: DialogServiceBase, useClass: DialogService },
+        { provide: ArtistServiceBase, useClass: ArtistService },
+        { provide: GenreServiceBase, useClass: GenreService },
+        { provide: TrackServiceBase, useClass: TrackService },
+        { provide: AlbumServiceBase, useClass: AlbumService },
+        { provide: CollectionServiceBase, useClass: CollectionService },
+        { provide: DiscordServiceBase, useClass: DiscordService },
+        { provide: PlaybackIndicationServiceBase, useClass: PlaybackIndicationService },
+        { provide: PlaybackInformationServiceBase, useClass: PlaybackInformationService },
+        { provide: MediaSessionServiceBase, useClass: MediaSessionService },
+        { provide: MetadataServiceBase, useClass: MetadataService },
+        { provide: SearchServiceBase, useClass: SearchService },
+        { provide: PlaylistServiceBase, useClass: PlaylistService },
+        { provide: PlaylistFolderServiceBase, useClass: PlaylistFolderService },
+        { provide: AppearanceServiceBase, useClass: AppearanceService },
+        { provide: FolderServiceBase, useClass: FolderService },
+        { provide: FileServiceBase, useClass: FileService },
+        { provide: TrayServiceBase, useClass: TrayService },
+        { provide: SemanticZoomServiceBase, useClass: SemanticZoomService },
+        { provide: TracksColumnsServiceBase, useClass: TracksColumnsService },
+        { provide: ScrobblingServiceBase, useClass: ScrobblingService },
+        { provide: NowPlayingNavigationServiceBase, useClass: NowPlayingNavigationService },
+        { provide: ArtistInformationServiceBase, useClass: ArtistInformationService },
+        { provide: LyricsServiceBase, useClass: LyricsService },
+        { provide: EventListenerServiceBase, useClass: EventListenerService },
+        { provide: AudioPlayerBase, useClass: AudioPlayer },
         { provide: BaseSettings, useClass: Settings },
         { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
@@ -609,15 +648,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseIpcProxy, useClass: IpcProxy },
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
         { provide: BaseMediaSessionProxy, useClass: MediaSessionProxy },
-        { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
-        { provide: BaseTracksColumnsService, useClass: TracksColumnsService },
-        { provide: BaseScrobblingService, useClass: ScrobblingService },
-        { provide: BaseNowPlayingNavigationService, useClass: NowPlayingNavigationService },
-        { provide: BaseArtistInformationService, useClass: ArtistInformationService },
-        { provide: BaseLyricsService, useClass: LyricsService },
-        { provide: BaseEventListenerService, useClass: EventListenerService },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

@@ -7,10 +7,10 @@ import { BaseTrackRepository } from '../../common/data/repositories/base-track-r
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 @Injectable()
 export class TrackAdder {
@@ -22,7 +22,7 @@ export class TrackAdder {
         private trackFiller: TrackFiller,
         private settings: BaseSettings,
         private logger: Logger,
-        private snackBarService: BaseSnackBarService
+        private snackBarService: SnackBarServiceBase,
     ) {}
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
@@ -54,7 +54,7 @@ export class TrackAdder {
                         e,
                         `A problem occurred while adding track with path='${indexablePath.path}'`,
                         'TrackAdder',
-                        'addTracksThatAreNotInTheDatabaseAsync'
+                        'addTracksThatAreNotInTheDatabaseAsync',
                     );
                 }
             }
@@ -64,7 +64,7 @@ export class TrackAdder {
             this.logger.info(
                 `Added tracks: ${numberOfAddedTracks}. Time required: ${timer.elapsedMilliseconds} ms`,
                 'TrackAdder',
-                'addTracksThatAreNotInTheDatabaseAsync'
+                'addTracksThatAreNotInTheDatabaseAsync',
             );
         } catch (e: unknown) {
             timer.stop();

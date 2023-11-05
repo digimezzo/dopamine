@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseDesktop } from '../../../common/io/base-desktop';
 import { BaseSettings } from '../../../common/settings/base-settings';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 
 @Component({
     selector: 'app-appearance-settings',
@@ -13,10 +13,10 @@ import { BaseTranslatorService } from '../../../services/translator/base-transla
 })
 export class AppearanceSettingsComponent implements OnInit, OnDestroy {
     public constructor(
-        public appearanceService: BaseAppearanceService,
-        public translatorService: BaseTranslatorService,
+        public appearanceService: AppearanceServiceBase,
+        public translatorService: TranslatorServiceBase,
         public settings: BaseSettings,
-        private desktop: BaseDesktop
+        private desktop: BaseDesktop,
     ) {}
 
     public ngOnDestroy(): void {

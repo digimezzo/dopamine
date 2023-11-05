@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
-import { BaseApplicationService } from './base-application.service';
+import {ApplicationServiceBase} from "./application.service.base";
 
 @Injectable()
-export class ApplicationService implements BaseApplicationService {
+export class ApplicationService implements ApplicationServiceBase {
     private windowSizeChanged: Subject<void> = new Subject();
     private mouseButtonReleased: Subject<void> = new Subject();
 

@@ -4,12 +4,12 @@ import { DateTime } from '../common/date-time';
 import { BaseDesktop } from '../common/io/base-desktop';
 import { ArtistInformation } from '../services/artist-information/artist-information';
 import { TrackModel } from '../services/track/track-model';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
+import { TranslatorServiceBase } from '../services/translator/translator.service.base';
 
 export class MockCreator {
     public static createTrackModel(path: string, trackTitle: string, artists: string): TrackModel {
         const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
-        const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+        const translatorServiceMock: IMock<TranslatorServiceBase> = Mock.ofType<TranslatorServiceBase>();
 
         const track: Track = new Track(path);
         track.trackTitle = trackTitle;
@@ -20,7 +20,7 @@ export class MockCreator {
 
     public static createTrackModelWithAlbumKey(path: string, albumKey: string): TrackModel {
         const dateTimeMock: IMock<DateTime> = Mock.ofType<DateTime>();
-        const translatorServiceMock: IMock<BaseTranslatorService> = Mock.ofType<BaseTranslatorService>();
+        const translatorServiceMock: IMock<TranslatorServiceBase> = Mock.ofType<TranslatorServiceBase>();
 
         const track: Track = new Track(path);
         track.albumKey = albumKey;

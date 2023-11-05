@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { DataDelimiter } from '../../common/data/data-delimiter';
 import { ArtistData } from '../../common/data/entities/artist-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
-import { BaseArtistService } from './base-artist.service';
+import { ArtistServiceBase } from './artist.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 @Injectable()
-export class ArtistService implements BaseArtistService {
-    public constructor(private translatorService: BaseTranslatorService, private trackRepository: BaseTrackRepository) {}
+export class ArtistService implements ArtistServiceBase {
+    public constructor(
+        private translatorService: TranslatorServiceBase,
+        private trackRepository: BaseTrackRepository,
+    ) {}
 
     public getArtists(artistType: ArtistType): ArtistModel[] {
         const artistDatas: ArtistData[] = [];

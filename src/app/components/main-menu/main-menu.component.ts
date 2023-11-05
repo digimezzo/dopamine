@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ProductInformation } from '../../common/application/product-information';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseUpdateService } from '../../services/update/base-update.service';
+import {NavigationServiceBase} from "../../services/navigation/navigation.service.base";
+import {UpdateServiceBase} from "../../services/update/update.service.base";
 
 @Component({
     selector: 'app-main-menu',
@@ -11,7 +11,7 @@ import { BaseUpdateService } from '../../services/update/base-update.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class MainMenuComponent {
-    public constructor(private navigationService: BaseNavigationService, public updateService: BaseUpdateService) {}
+    public constructor(private navigationService: NavigationServiceBase, public updateService: UpdateServiceBase) {}
 
     public applicationName: string = ProductInformation.applicationName;
 

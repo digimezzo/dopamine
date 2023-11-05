@@ -3,16 +3,15 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
-import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service';
 import { LyricsModel } from '../../../services/lyrics/lyrics-model';
 import { AlbumOrder } from '../../collection/album-order';
 import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
-import { BasePlaybackInformationService } from '../../../services/playback-information/base-playback-information.service';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
+import { LyricsServiceBase } from '../../../services/lyrics/lyrics.service.base';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -36,9 +35,9 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private _contentAnimation: string = 'fade-in';
 
     public constructor(
-        public appearanceService: BaseAppearanceService,
-        private playbackInformationService: BasePlaybackInformationService,
-        private lyricsService: BaseLyricsService,
+        public appearanceService: AppearanceServiceBase,
+        private playbackInformationService: PlaybackInformationServiceBase,
+        private lyricsService: LyricsServiceBase,
         private scheduler: Scheduler,
     ) {}
 

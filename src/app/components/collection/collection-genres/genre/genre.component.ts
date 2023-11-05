@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
 import { GenreModel } from '../../../../services/genre/genre-model';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { SemanticZoomServiceBase } from '../../../../services/semantic-zoom/semantic-zoom.service.base';
 
 @Component({
     selector: 'app-genre',
@@ -10,7 +10,10 @@ import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base
     styleUrls: ['./genre.component.scss'],
 })
 export class GenreComponent {
-    public constructor(public appearanceService: BaseAppearanceService, public semanticZoomService: BaseSemanticZoomService) {}
+    public constructor(
+        public appearanceService: AppearanceServiceBase,
+        public semanticZoomService: SemanticZoomServiceBase,
+    ) {}
 
     @Input() public genre: GenreModel;
 

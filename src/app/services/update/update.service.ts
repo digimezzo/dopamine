@@ -4,14 +4,19 @@ import { ProductInformation } from '../../common/application/product-information
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
-import { BaseUpdateService } from './base-update.service';
 import { VersionComparer } from './version-comparer';
+import { UpdateServiceBase } from './update.service.base';
 @Injectable()
-export class UpdateService implements BaseUpdateService {
+export class UpdateService implements UpdateServiceBase {
     public _isUpdateAvailable: boolean = false;
     private _latestRelease: string = '';
 
-    public constructor(private settings: BaseSettings, private logger: Logger, private gitHub: GitHubApi, private desktop: BaseDesktop) {}
+    public constructor(
+        private settings: BaseSettings,
+        private logger: Logger,
+        private gitHub: GitHubApi,
+        private desktop: BaseDesktop,
+    ) {}
 
     public get isUpdateAvailable(): boolean {
         return this._isUpdateAvailable;
@@ -30,7 +35,7 @@ export class UpdateService implements BaseUpdateService {
                 const latestRelease: string = await this.gitHub.getLatestReleaseAsync(
                     'digimezzo',
                     ProductInformation.applicationName.toLowerCase(),
-                    this.settings.checkForUpdatesIncludesPreReleases
+                    this.settings.checkForUpdatesIncludesPreReleases,
                 );
 
                 this.logger.info(`Current=${currentRelease}, Latest=${latestRelease}`, 'UpdateService', 'checkForUpdatesAsync');
@@ -39,7 +44,7 @@ export class UpdateService implements BaseUpdateService {
                     this.logger.info(
                         `Latest (${latestRelease}) > Current (${currentRelease}). Notifying user.`,
                         'UpdateService',
-                        'checkForUpdatesAsync'
+                        'checkForUpdatesAsync',
                     );
 
                     this._isUpdateAvailable = true;
@@ -48,7 +53,7 @@ export class UpdateService implements BaseUpdateService {
                     this.logger.info(
                         `Latest (${latestRelease}) <= Current (${currentRelease}). Nothing to do.`,
                         'UpdateService',
-                        'checkForUpdatesAsync'
+                        'checkForUpdatesAsync',
                     );
                 }
             } catch (e: unknown) {
@@ -61,7 +66,7 @@ export class UpdateService implements BaseUpdateService {
 
     public async downloadLatestReleaseAsync(): Promise<void> {
         await this.desktop.openLinkAsync(
-            `https://github.com/digimezzo/${ProductInformation.applicationName.toLowerCase()}/releases/tag/v${this.latestRelease}`
+            `https://github.com/digimezzo/${ProductInformation.applicationName.toLowerCase()}/releases/tag/v${this.latestRelease}`,
         );
     }
 }

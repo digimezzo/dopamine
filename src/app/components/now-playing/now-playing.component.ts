@@ -3,13 +3,15 @@ import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@
 import { MatStepper } from '@angular/material/stepper';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
 import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { BaseSearchService } from '../../services/search/base-search.service';
+import {AppearanceServiceBase} from "../../services/appearance/appearance.service.base";
+import {NavigationServiceBase} from "../../services/navigation/navigation.service.base";
+import {MetadataServiceBase} from "../../services/metadata/metadata.service.base";
+import {PlaybackServiceBase} from "../../services/playback/playback.service.base";
+import {SearchServiceBase} from "../../services/search/search.service.base";
+import {
+    NowPlayingNavigationServiceBase
+} from "../../services/now-playing-navigation/now-playing-navigation.service.base";
 
 @Component({
     selector: 'app-now-playing',
@@ -23,13 +25,13 @@ import { BaseSearchService } from '../../services/search/base-search.service';
                 'visible',
                 style({
                     opacity: 1,
-                })
+                }),
             ),
             state(
                 'hidden',
                 style({
                     opacity: 0,
-                })
+                }),
             ),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
@@ -39,19 +41,19 @@ import { BaseSearchService } from '../../services/search/base-search.service';
                 'fade-out',
                 style({
                     opacity: 0,
-                })
+                }),
             ),
             state(
                 'fade-in-dark',
                 style({
                     opacity: 0.05,
-                })
+                }),
             ),
             state(
                 'fade-in-light',
                 style({
                     opacity: 0.15,
-                })
+                }),
             ),
             transition('fade-out => fade-in-dark', animate('1s')),
             transition('fade-out => fade-in-light', animate('1s')),
@@ -62,19 +64,19 @@ import { BaseSearchService } from '../../services/search/base-search.service';
                 'fade-out',
                 style({
                     opacity: 0,
-                })
+                }),
             ),
             state(
                 'fade-in-dark',
                 style({
                     opacity: 0.05,
-                })
+                }),
             ),
             state(
                 'fade-in-light',
                 style({
                     opacity: 0.15,
-                })
+                }),
             ),
             transition('fade-out => fade-in-dark', animate('1s')),
             transition('fade-out => fade-in-light', animate('1s')),
@@ -87,12 +89,12 @@ export class NowPlayingComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        public appearanceService: BaseAppearanceService,
-        private navigationService: BaseNavigationService,
-        private metadataService: BaseMetadataService,
-        private playbackService: BasePlaybackService,
-        private searchService: BaseSearchService,
-        private nowPlayingNavigationService: BaseNowPlayingNavigationService
+        public appearanceService: AppearanceServiceBase,
+        private navigationService: NavigationServiceBase,
+        private metadataService: MetadataServiceBase,
+        private playbackService: PlaybackServiceBase,
+        private searchService: SearchServiceBase,
+        private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
     ) {}
 
     @ViewChild('stepper') public stepper: MatStepper;
@@ -116,19 +118,19 @@ export class NowPlayingComponent implements OnInit {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(() => {
                 PromiseUtils.noAwait(this.setBackgroundsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 PromiseUtils.noAwait(this.setBackgroundsAsync());
-            })
+            }),
         );
 
         this.subscription.add(
             this.nowPlayingNavigationService.navigated$.subscribe((nowPlayingPage: NowPlayingPage) => {
                 this.setNowPlayingPage(nowPlayingPage);
-            })
+            }),
         );
 
         document.addEventListener('mousemove', () => {

@@ -12,11 +12,11 @@ import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
-import { BaseMetadataService } from './base-metadata.service';
 import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
+import {MetadataServiceBase} from "./metadata.service.base";
 
 @Injectable()
-export class MetadataService implements BaseMetadataService {
+export class MetadataService implements MetadataServiceBase {
     private ratingSaved: Subject<TrackModel> = new Subject();
     private loveSaved: Subject<TrackModel> = new Subject();
 

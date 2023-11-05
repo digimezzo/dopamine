@@ -3,10 +3,10 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
 import { PlaybackInformation } from '../../services/playback-information/playback-information';
 import { TrackModel } from '../../services/track/track-model';
+import {PlaybackInformationServiceBase} from "../../services/playback-information/playback-information.service.base";
+import {MetadataServiceBase} from "../../services/metadata/metadata.service.base";
 
 @Component({
     selector: 'app-playback-information',
@@ -49,8 +49,8 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackInformationService: BasePlaybackInformationService,
-        private metadataService: BaseMetadataService,
+        private playbackInformationService: PlaybackInformationServiceBase,
+        private metadataService: MetadataServiceBase,
         private scheduler: Scheduler
     ) {}
 

@@ -3,15 +3,15 @@ import { AlbumData } from '../../common/data/entities/album-data';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { ArtistType } from '../artist/artist-type';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
-import { BaseAlbumService } from './base-album-service';
+import {TranslatorServiceBase} from "../translator/translator.service.base";
+import {AlbumServiceBase} from "./album-service.base";
 
 @Injectable()
-export class AlbumService implements BaseAlbumService {
+export class AlbumService implements AlbumServiceBase {
     public constructor(
         private trackRepository: BaseTrackRepository,
-        private translatorService: BaseTranslatorService,
+        private translatorService: TranslatorServiceBase,
         private fileAccess: BaseFileAccess
     ) {}
 

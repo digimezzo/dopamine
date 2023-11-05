@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
-import { BaseNowPlayingNavigationService } from '../../../services/now-playing-navigation/base-now-playing-navigation.service';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 
 @Component({
     selector: 'app-now-playing-playback-pane',
@@ -12,8 +12,8 @@ import { NowPlayingPage } from '../../../services/now-playing-navigation/now-pla
 })
 export class NowPlayingPlaybackPaneComponent {
     public constructor(
-        private navigationService: BaseNavigationService,
-        private nowPlayingNavigationService: BaseNowPlayingNavigationService
+        private navigationService: NavigationServiceBase,
+        private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
     ) {}
 
     public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;

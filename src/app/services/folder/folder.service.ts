@@ -4,13 +4,13 @@ import { Folder } from '../../common/data/entities/folder';
 import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
-import { BaseFolderService } from './base-folder.service';
 import { FolderModel } from './folder-model';
 import { SubfolderModel } from './subfolder-model';
+import {FolderServiceBase} from "./folder.service.base";
+import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
 
 @Injectable()
-export class FolderService implements BaseFolderService {
+export class FolderService implements FolderServiceBase {
     private foldersChanged: Subject<void> = new Subject();
     private _collectionHasFolders: boolean = false;
     private shouldCheckIfCollectionHasFolders: boolean = true;
@@ -18,7 +18,7 @@ export class FolderService implements BaseFolderService {
     public constructor(
         private folderRepository: BaseFolderRepository,
         private logger: Logger,
-        private snackBarService: BaseSnackBarService,
+        private snackBarService: SnackBarServiceBase,
         private fileAccess: BaseFileAccess
     ) {}
 
