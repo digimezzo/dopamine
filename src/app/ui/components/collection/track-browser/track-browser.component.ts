@@ -3,7 +3,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { GuidFactory } from '../../../../common/guid.factory';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../../common/ordering/track-ordering';
@@ -20,6 +19,7 @@ import { PlaybackIndicationServiceBase } from '../../../../services/playback-ind
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import {DesktopBase} from "../../../../common/io/desktop.base";
 
 @Component({
     selector: 'app-track-browser',
@@ -46,7 +46,7 @@ export class TrackBrowserComponent extends TrackBrowserBase implements OnInit, O
         collectionService: CollectionServiceBase,
         translatorService: TranslatorServiceBase,
         dialogService: DialogServiceBase,
-        desktop: BaseDesktop,
+        desktop: DesktopBase,
         logger: Logger,
     ) {
         super(

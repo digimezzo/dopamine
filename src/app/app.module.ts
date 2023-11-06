@@ -49,11 +49,6 @@ import { GuidFactory } from './common/guid.factory';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
 import { Application } from './common/io/application';
-import { BaseApplication } from './common/io/base-application';
-import { BaseFileAccess } from './common/io/base-file-access';
-import { BaseIpcProxy } from './common/io/base-ipc-proxy';
-import { BaseMediaSessionProxy } from './common/io/base-media-session-proxy';
-import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
@@ -259,7 +254,6 @@ import { LrcLyricsGetter } from './services/lyrics/lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './services/lyrics/online-lyrics-getter';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { EventListenerService } from './services/event-listener/event-listener.service';
-import { BaseDesktop } from './common/io/base-desktop';
 import { Desktop } from './common/io/desktop';
 import { AudioPlayerBase } from './services/playback/audio-player.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
@@ -306,6 +300,12 @@ import { TrackRepositoryBase } from './data/repositories/track-repository.base';
 import { RemovedTrackRepositoryBase } from './data/repositories/removed-track-repository.base';
 import { FolderRepositoryBase } from './data/repositories/folder-repository.base';
 import { DatabaseMigratorBase } from './data/database-migrator.base';
+import { ApplicationBase } from './common/io/application.base';
+import { IpcProxyBase } from './common/io/ipc-proxy.base';
+import { TranslateServiceProxyBase } from './common/io/translate-service-proxy.base';
+import { MediaSessionProxyBase } from './common/io/media-session-proxy.base';
+import { DesktopBase } from './common/io/desktop.base';
+import { FileAccessBase } from './common/io/file-access.base';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -569,7 +569,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         OnlineLyricsGetter,
         IntegrationTestRunner,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
-        { provide: BaseFileAccess, useClass: FileAccess },
+        { provide: FileAccessBase, useClass: FileAccess },
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
         { provide: RemovedTrackRepositoryBase, useClass: RemovedTrackRepository },
         { provide: FolderTrackRepositoryBase, useClass: FolderTrackRepository },
@@ -612,11 +612,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseSettings, useClass: Settings },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
-        { provide: BaseApplication, useClass: Application },
-        { provide: BaseIpcProxy, useClass: IpcProxy },
-        { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
-        { provide: BaseMediaSessionProxy, useClass: MediaSessionProxy },
-        { provide: BaseDesktop, useClass: Desktop },
+        { provide: ApplicationBase, useClass: Application },
+        { provide: IpcProxyBase, useClass: IpcProxy },
+        { provide: TranslateServiceProxyBase, useClass: TranslateServiceProxy },
+        { provide: MediaSessionProxyBase, useClass: MediaSessionProxy },
+        { provide: DesktopBase, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
         {
             provide: ErrorHandler,

@@ -6,17 +6,17 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
-import { BaseDesktop } from './base-desktop';
-import { BaseFileAccess } from './base-file-access';
+import { FileAccessBase } from './file-access.base';
+import { DesktopBase } from './desktop.base';
 
 @Injectable()
-export class FileAccess implements BaseFileAccess {
+export class FileAccess implements FileAccessBase {
     private _applicationDataDirectory: string = '';
     private _musicDirectory: string = '';
     private _pathSeparator: string = '';
 
     public constructor(
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
         private dateTime: DateTime,
     ) {
         this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();

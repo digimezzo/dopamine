@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-export abstract class BaseDesktop {
+export abstract class DesktopBase {
     public abstract accentColorChanged$: Observable<void>;
     public abstract nativeThemeUpdated$: Observable<void>;
 

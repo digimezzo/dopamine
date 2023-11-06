@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Track } from '../../data/entities/track';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { ArtistType } from '../artist/artist-type';
 import { TrackModel } from './track-model';
@@ -9,13 +8,14 @@ import { TrackModelFactory } from './track-model-factory';
 import { TrackModels } from './track-models';
 import { TrackServiceBase } from './track.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class TrackService implements TrackServiceBase {
     public constructor(
         private trackModelFactory: TrackModelFactory,
         private trackRepository: TrackRepositoryBase,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {

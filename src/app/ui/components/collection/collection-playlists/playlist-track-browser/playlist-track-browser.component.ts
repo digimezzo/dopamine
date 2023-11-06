@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
-import { BaseDesktop } from '../../../../../common/io/base-desktop';
 import { Logger } from '../../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
@@ -15,6 +14,7 @@ import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.s
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-playlist-track-browser',
@@ -36,7 +36,7 @@ export class PlaylistTrackBrowserComponent implements OnInit, OnDestroy {
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private translatorService: TranslatorServiceBase,
         private dialogService: DialogServiceBase,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
         private logger: Logger,
     ) {}
 

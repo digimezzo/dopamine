@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { PlaylistEntry } from './playlist-entry';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class PlaylistDecoder {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public async decodePlaylistAsync(playlistPath: string): Promise<PlaylistEntry[]> {
         let playlistEntries: PlaylistEntry[] = [];

@@ -1,4 +1,4 @@
-export abstract class BaseFileAccess {
+export abstract class FileAccessBase {
     public abstract combinePath(pathPieces: string[]): string;
     public abstract applicationDataDirectory(): string;
     public abstract musicDirectory(): string;

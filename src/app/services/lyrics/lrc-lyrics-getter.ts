@@ -3,12 +3,12 @@ import { TrackModel } from '../track/track-model';
 import { ILyricsGetter } from './i-lyrics-getter';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class LrcLyricsGetter implements ILyricsGetter {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
         const lrcFilePath: string = this.getLrcFilePath(track);

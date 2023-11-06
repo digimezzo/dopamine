@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BrowserWindow } from 'electron';
-import {BaseApplication} from "../../../common/io/base-application";
+import { ApplicationBase } from '../../../common/io/application.base';
 
 @Component({
     selector: 'app-window-controls',
@@ -10,7 +10,7 @@ import {BaseApplication} from "../../../common/io/base-application";
     encapsulation: ViewEncapsulation.None,
 })
 export class WindowControlsComponent implements OnInit {
-    public constructor(private application: BaseApplication) {}
+    public constructor(private application: ApplicationBase) {}
 
     public canMaximize: boolean = false;
 

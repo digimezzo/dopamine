@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../../common/application/constants';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Strings } from '../../../../common/strings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { PlaylistData } from '../../../../services/dialog/playlist-data';
 import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-edit-playlist-dialog',
@@ -19,7 +19,7 @@ export class EditPlaylistDialogComponent implements OnInit {
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent, boolean>,
         private playlistService: PlaylistServiceBase,
         private translatorService: TranslatorServiceBase,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
     ) {
         dialogRef.disableClose = true;
     }

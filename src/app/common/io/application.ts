@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as remote from '@electron/remote';
-import { BaseApplication } from './base-application';
 import { WindowSize } from './window-size';
+import { ApplicationBase } from './application.base';
 
 @Injectable()
-export class Application implements BaseApplication {
+export class Application implements ApplicationBase {
     public getGlobal(name: string): unknown {
         return remote.getGlobal(name);
     }

@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { Language } from '../../common/application/language';
-import { BaseTranslateServiceProxy } from '../../common/io/base-translate-service-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { TranslatorServiceBase } from './translator.service.base';
+import { TranslateServiceProxyBase } from '../../common/io/translate-service-proxy.base';
 
 @Injectable()
 export class TranslatorService implements TranslatorServiceBase {
     private languageChanged: Subject<void> = new Subject();
 
     public constructor(
-        private translateServiceProxy: BaseTranslateServiceProxy,
+        private translateServiceProxy: TranslateServiceProxyBase,
         private settings: BaseSettings,
     ) {
         this.translateServiceProxy.setDefaultLang(this.settings.defaultLanguage);

@@ -8,7 +8,6 @@ import { Logger } from './common/logger';
 import { PromiseUtils } from './common/utils/promise-utils';
 import { IntegrationTestRunner } from './testing/integration-test-runner';
 import { AppConfig } from '../environments/environment';
-import { BaseDesktop } from './common/io/base-desktop';
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from './services/appearance/appearance.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
@@ -20,6 +19,7 @@ import { SearchServiceBase } from './services/search/search.service.base';
 import { MediaSessionServiceBase } from './services/media-session/media-session.service.base';
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
+import { DesktopBase } from './common/io/desktop.base';
 
 @Component({
     selector: 'app-root',
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         private mediaSessionService: MediaSessionServiceBase,
         private eventListenerService: EventListenerServiceBase,
         private addToPlaylistMenu: AddToPlaylistMenu,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
         private logger: Logger,
         private integrationTestRunner: IntegrationTestRunner,
     ) {

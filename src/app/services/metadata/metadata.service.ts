@@ -3,7 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -14,6 +13,7 @@ import { TrackModel } from '../track/track-model';
 import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
 import { MetadataServiceBase } from './metadata.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class MetadataService implements MetadataServiceBase {
@@ -26,7 +26,7 @@ export class MetadataService implements MetadataServiceBase {
         private albumArtworkGetter: AlbumArtworkGetter,
         private cachedAlbumArtworkGetter: CachedAlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
         private settings: BaseSettings,
         private logger: Logger,
     ) {}

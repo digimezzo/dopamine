@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../../data/entities/track';
-import { BaseFileAccess } from '../../common/io/base-file-access';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class TrackVerifier {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public isTrackOutOfDate(track: Track): boolean {
         if (track.fileSize === 0) {

@@ -1,10 +1,10 @@
 import { IMock, Mock } from 'typemoq';
 import { Track } from '../data/entities/track';
 import { DateTime } from '../common/date-time';
-import { BaseDesktop } from '../common/io/base-desktop';
 import { ArtistInformation } from '../services/artist-information/artist-information';
 import { TrackModel } from '../services/track/track-model';
 import { TranslatorServiceBase } from '../services/translator/translator.service.base';
+import { DesktopBase } from '../common/io/desktop.base';
 
 export class MockCreator {
     public static createTrackModel(path: string, trackTitle: string, artists: string): TrackModel {
@@ -29,7 +29,7 @@ export class MockCreator {
     }
 
     public static createArtistInformation(name: string, url: string, imageUrl: string, biography: string): ArtistInformation {
-        const desktopMock: IMock<BaseDesktop> = Mock.ofType<BaseDesktop>();
+        const desktopMock: IMock<DesktopBase> = Mock.ofType<DesktopBase>();
 
         return new ArtistInformation(desktopMock.object, name, url, imageUrl, biography);
     }

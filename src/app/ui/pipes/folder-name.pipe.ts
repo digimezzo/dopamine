@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { FolderModel } from '../../services/folder/folder-model';
 import { Strings } from '../../common/strings';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Pipe({ name: 'folderName' })
 export class FolderNamePipe implements PipeTransform {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public transform(folder: FolderModel | undefined): string {
         if (folder == undefined) {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from './application/file-formats';
-import { BaseFileAccess } from './io/base-file-access';
+import { FileAccessBase } from './io/file-access.base';
 
 @Injectable()
 export class FileValidator {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public isPlayableAudioFile(filePath: string): boolean {
         if (!this.fileAccess.pathExists(filePath)) {

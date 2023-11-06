@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ContactInformation } from '../../../../common/application/contact-information';
 import { ProductInformation } from '../../../../common/application/product-information';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-about',
@@ -14,7 +14,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 export class AboutComponent {
     public constructor(
         private dialogService: DialogServiceBase,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
     ) {}
 
     public applicationVersion: string = ProductInformation.applicationVersion;

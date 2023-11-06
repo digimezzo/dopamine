@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { Strings } from '../../common/strings';
 import { TrackFieldCreator } from './track-field-creator';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class TrackFiller {
@@ -16,7 +16,7 @@ export class TrackFiller {
         private fileMetadataFactory: BaseFileMetadataFactory,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
         private logger: Logger,

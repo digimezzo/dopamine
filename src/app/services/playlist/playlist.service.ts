@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
@@ -22,6 +21,7 @@ import { PlaylistModel } from './playlist-model';
 import { PlaylistServiceBase } from './playlist.service.base';
 import { TrackServiceBase } from '../track/track.service.base';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
@@ -38,7 +38,7 @@ export class PlaylistService implements PlaylistServiceBase {
         private playlistDecoder: PlaylistDecoder,
         private trackModelFactory: TrackModelFactory,
         private fileValidator: FileValidator,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {
         this.initialize();

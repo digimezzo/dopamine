@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BaseTranslateServiceProxy } from './base-translate-service-proxy';
+import { TranslateServiceProxyBase } from './translate-service-proxy.base';
 
 @Injectable()
-export class TranslateServiceProxy implements BaseTranslateServiceProxy {
+export class TranslateServiceProxy implements TranslateServiceProxyBase {
     public constructor(private translateService: TranslateService) {}
 
     public setDefaultLang(lang: string): void {

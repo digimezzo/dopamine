@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Strings} from "../../common/strings";
-import {BaseFileAccess} from "../../common/io/base-file-access";
-import {SubfolderModel} from "../../services/folder/subfolder-model";
+import { Strings } from '../../common/strings';
+import { SubfolderModel } from '../../services/folder/subfolder-model';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Pipe({ name: 'subfolderName' })
 export class SubfolderNamePipe implements PipeTransform {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public transform(subfolder: SubfolderModel | undefined): string {
         if (subfolder == undefined) {

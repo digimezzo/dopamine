@@ -1,7 +1,6 @@
 import { Directive, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { TrackModel } from '../../../../services/track/track-model';
@@ -10,6 +9,7 @@ import { DialogServiceBase } from '../../../../services/dialog/dialog.service.ba
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Directive()
 export class TrackBrowserBase {
@@ -22,7 +22,7 @@ export class TrackBrowserBase {
         public logger: Logger,
         private collectionService: CollectionServiceBase,
         private translatorService: TranslatorServiceBase,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
     ) {}
 
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })

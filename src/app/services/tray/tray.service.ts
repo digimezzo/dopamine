@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as os from 'os';
 import { Subscription } from 'rxjs';
-import { BaseIpcProxy } from '../../common/io/base-ipc-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
 import { TrayServiceBase } from './tray.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 @Injectable()
 export class TrayService implements TrayServiceBase {
@@ -13,7 +13,7 @@ export class TrayService implements TrayServiceBase {
     public constructor(
         private translatorService: TranslatorServiceBase,
         private settings: BaseSettings,
-        private ipcProxy: BaseIpcProxy,
+        private ipcProxy: IpcProxyBase,
     ) {
         this.subscription.add(
             this.translatorService.languageChanged$.subscribe(() => {

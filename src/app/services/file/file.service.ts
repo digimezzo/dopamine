@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileValidator } from '../../common/file-validator';
-import { BaseApplication } from '../../common/io/base-application';
 import { Logger } from '../../common/logger';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
-import {FileServiceBase} from "./file.service.base";
-import {PlaybackServiceBase} from "../playback/playback.service.base";
-import {EventListenerServiceBase} from "../event-listener/event-listener.service.base";
-
+import { FileServiceBase } from './file.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
+import { ApplicationBase } from '../../common/io/application.base';
 
 @Injectable()
 export class FileService implements FileServiceBase {
@@ -20,7 +18,7 @@ export class FileService implements FileServiceBase {
         private playbackService: PlaybackServiceBase,
         private eventListenerService: EventListenerServiceBase,
         private trackModelFactory: TrackModelFactory,
-        private application: BaseApplication,
+        private application: ApplicationBase,
         private fileValidator: FileValidator,
         private logger: Logger,
     ) {

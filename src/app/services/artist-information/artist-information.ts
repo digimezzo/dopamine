@@ -1,15 +1,15 @@
-import { BaseDesktop } from '../../common/io/base-desktop';
 import { Strings } from '../../common/strings';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 export class ArtistInformation {
     private _similarArtists: ArtistInformation[] = [];
 
     public constructor(
-        private desktop: BaseDesktop | undefined,
+        private desktop: DesktopBase | undefined,
         private _name: string,
         private _url: string,
         private _imageUrl: string,
-        private _biography: string
+        private _biography: string,
     ) {}
 
     public get name(): string {

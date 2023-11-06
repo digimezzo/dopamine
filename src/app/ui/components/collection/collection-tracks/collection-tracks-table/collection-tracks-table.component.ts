@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
-import { BaseDesktop } from '../../../../../common/io/base-desktop';
 import { Logger } from '../../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
@@ -21,6 +20,7 @@ import { TracksColumnsServiceBase } from '../../../../../services/track-columns/
 import { CollectionServiceBase } from '../../../../../services/collection/collection.service.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-collection-tracks-table',
@@ -46,7 +46,7 @@ export class CollectionTracksTableComponent extends TrackBrowserBase implements 
         collectionService: CollectionServiceBase,
         dialogService: DialogServiceBase,
         translatorService: TranslatorServiceBase,
-        desktop: BaseDesktop,
+        desktop: DesktopBase,
         logger: Logger,
     ) {
         super(

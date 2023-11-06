@@ -5,11 +5,11 @@ import { FileFormats } from '../../common/application/file-formats';
 import { Collections } from '../../common/collections';
 import { FileValidator } from '../../common/file-validator';
 import { GuidFactory } from '../../common/guid.factory';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
+import {FileAccessBase} from "../../common/io/file-access.base";
 
 @Injectable()
 export class PlaylistFileManager {
@@ -19,7 +19,7 @@ export class PlaylistFileManager {
         private playlistModelFactory: PlaylistModelFactory,
         private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
         private logger: Logger
     ) {
         this.initialize();

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class ExternalArtworkPathGetter {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public async getExternalArtworkPathAsync(audioFilePath: string | undefined): Promise<string> {
         if (Strings.isNullOrWhiteSpace(audioFilePath)) {
@@ -28,7 +28,7 @@ export class ExternalArtworkPathGetter {
                 const externalCoverArtPatternReplacedByFileName: string = Strings.replaceAll(
                     externalCoverArtPattern,
                     '%filename%',
-                    fileNameWithoutExtension
+                    fileNameWithoutExtension,
                 );
 
                 if (fileName.toLowerCase() === externalCoverArtPatternReplacedByFileName.toLowerCase()) {

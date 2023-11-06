@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Folder } from '../../data/entities/folder';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { FolderModel } from './folder-model';
 import { SubfolderModel } from './subfolder-model';
 import { FolderServiceBase } from './folder.service.base';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FolderRepositoryBase } from '../../data/repositories/folder-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class FolderService implements FolderServiceBase {
@@ -19,7 +19,7 @@ export class FolderService implements FolderServiceBase {
         private folderRepository: FolderRepositoryBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
     ) {}
 
     public foldersChanged$: Observable<void> = this.foldersChanged.asObservable();

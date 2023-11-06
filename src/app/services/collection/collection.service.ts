@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
-
 import { TrackModel } from '../track/track-model';
 import { CollectionServiceBase } from './collection.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 @Injectable()
 export class CollectionService implements CollectionServiceBase {
@@ -15,7 +14,7 @@ export class CollectionService implements CollectionServiceBase {
     public constructor(
         private playbackService: PlaybackServiceBase,
         private trackRepository: TrackRepositoryBase,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
         private logger: Logger,
     ) {}
 

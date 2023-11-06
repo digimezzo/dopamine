@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DirectoryWalkResult } from './directory-walk-result';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class DirectoryWalker {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public async getFilesInDirectoryAsync(directoryPath: string): Promise<DirectoryWalkResult> {
         const filePaths: string[] = [];

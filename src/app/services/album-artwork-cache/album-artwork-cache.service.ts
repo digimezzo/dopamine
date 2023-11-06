@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
-import {AlbumArtworkCacheServiceBase} from "./album-artwork-cache.service.base";
+import { AlbumArtworkCacheServiceBase } from './album-artwork-cache.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
     public constructor(
         private albumArtworkCacheIdFactory: AlbumArtworkCacheIdFactory,
         private imageProcessor: ImageProcessor,
-        private fileAccess: BaseFileAccess,
-        private logger: Logger
+        private fileAccess: FileAccessBase,
+        private logger: Logger,
     ) {
         this.createCoverArtCacheOnDisk();
     }
@@ -43,7 +43,7 @@ export class AlbumArtworkCacheService implements AlbumArtworkCacheServiceBase {
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,
-                Constants.cachedCoverArtJpegQuality
+                Constants.cachedCoverArtJpegQuality,
             );
             await this.imageProcessor.convertImageBufferToFileAsync(resizedImageBuffer, cachedArtworkFilePath);
 

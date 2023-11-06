@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Hacks } from '../../../../common/hacks';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
@@ -27,6 +26,7 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-collection-folders',
@@ -55,7 +55,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private foldersPersister: FoldersPersister,
         private scheduler: Scheduler,
-        private desktop: BaseDesktop,
+        private desktop: DesktopBase,
         private logger: Logger,
         private hacks: Hacks,
     ) {}

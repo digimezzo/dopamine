@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import Database from 'better-sqlite3';
-import { BaseFileAccess } from '../common/io/base-file-access';
+import { FileAccessBase } from '../common/io/file-access.base';
 
 @Injectable()
 export class DatabaseFactory {
-    public constructor(private fileAccess: BaseFileAccess) {}
+    public constructor(private fileAccess: FileAccessBase) {}
 
     public create(): any {
         const databaseFile: string = this.fileAccess.combinePath([this.fileAccess.applicationDataDirectory(), 'Dopamine.db']);

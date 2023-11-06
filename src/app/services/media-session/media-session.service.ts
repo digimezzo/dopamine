@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BaseMediaSessionProxy } from '../../common/io/base-media-session-proxy';
 import { BaseSettings } from '../../common/settings/base-settings';
-
 import { PlaybackInformation } from '../playback-information/playback-information';
-import {MediaSessionServiceBase} from "./media-session.service.base";
-import {PlaybackServiceBase} from "../playback/playback.service.base";
-import {PlaybackInformationServiceBase} from "../playback-information/playback-information.service.base";
-
-
+import { MediaSessionServiceBase } from './media-session.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
+import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
 @Injectable()
 export class MediaSessionService implements MediaSessionServiceBase {
     private subscription: Subscription = new Subscription();
@@ -16,8 +13,8 @@ export class MediaSessionService implements MediaSessionServiceBase {
     public constructor(
         private playbackService: PlaybackServiceBase,
         private playbackInformationService: PlaybackInformationServiceBase,
-        private mediaSessionProxy: BaseMediaSessionProxy,
-        private settings: BaseSettings
+        private mediaSessionProxy: MediaSessionProxyBase,
+        private settings: BaseSettings,
     ) {}
 
     public get enableMultimediaKeys(): boolean {
@@ -60,13 +57,13 @@ export class MediaSessionService implements MediaSessionServiceBase {
             this.subscription.add(
                 this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
                     this.setMetadata(playbackInformation);
-                })
+                }),
             );
 
             this.subscription.add(
                 this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
                     this.setMetadata(playbackInformation);
-                })
+                }),
             );
         }
     }
@@ -76,7 +73,7 @@ export class MediaSessionService implements MediaSessionServiceBase {
             playbackInformation.track?.title ?? '',
             playbackInformation.track?.artists ?? '',
             playbackInformation.track?.albumTitle ?? '',
-            playbackInformation.imageUrl
+            playbackInformation.imageUrl,
         );
     }
 }

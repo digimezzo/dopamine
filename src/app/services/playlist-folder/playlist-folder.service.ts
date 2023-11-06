@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
-import {PlaylistFolderServiceBase} from "./playlist-folder.service.base";
-import {PlaylistServiceBase} from "../playlist/playlist.service.base";
+import { PlaylistFolderServiceBase } from './playlist-folder.service.base';
+import { PlaylistServiceBase } from '../playlist/playlist.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class PlaylistFolderService implements PlaylistFolderServiceBase {
@@ -15,15 +15,15 @@ export class PlaylistFolderService implements PlaylistFolderServiceBase {
     public constructor(
         private playlistService: PlaylistServiceBase,
         private playlistFolderModelFactory: PlaylistFolderModelFactory,
-        private fileAccess: BaseFileAccess,
-        private textSanitizer: TextSanitizer
+        private fileAccess: FileAccessBase,
+        private textSanitizer: TextSanitizer,
     ) {}
 
     public playlistFoldersChanged$: Observable<void> = this.playlistFoldersChanged.asObservable();
 
     public async getPlaylistFoldersAsync(): Promise<PlaylistFolderModel[]> {
         const playlistFolderPaths: string[] = await this.fileAccess.getDirectoriesInDirectoryAsync(
-            this.playlistService.playlistsParentFolderPath
+            this.playlistService.playlistsParentFolderPath,
         );
         const playlistFolders: PlaylistFolderModel[] = [];
 

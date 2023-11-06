@@ -5,9 +5,6 @@ import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
-import { BaseApplication } from '../../common/io/base-application';
-import { BaseDesktop } from '../../common/io/base-desktop';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -16,7 +13,10 @@ import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
 import { Theme } from './theme/theme';
 import { ThemeNeutralColors } from './theme/theme-neutral-colors';
-import {AppearanceServiceBase} from "./appearance.service.base";
+import { AppearanceServiceBase } from './appearance.service.base';
+import { ApplicationBase } from '../../common/io/application.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 @Injectable()
 export class AppearanceService implements AppearanceServiceBase {
@@ -34,11 +34,11 @@ export class AppearanceService implements AppearanceServiceBase {
         private settings: BaseSettings,
         private logger: Logger,
         private overlayContainer: OverlayContainer,
-        private application: BaseApplication,
-        private fileAccess: BaseFileAccess,
-        private desktop: BaseDesktop,
+        private application: ApplicationBase,
+        private fileAccess: FileAccessBase,
+        private desktop: DesktopBase,
         private defaultThemesCreator: DefaultThemesCreator,
-        private documentProxy: DocumentProxy
+        private documentProxy: DocumentProxy,
     ) {
         this.initialize();
     }
@@ -192,12 +192,12 @@ export class AppearanceService implements AppearanceServiceBase {
         this.subscription.add(
             this.desktop.accentColorChanged$.subscribe(() => {
                 this.safeApplyTheme();
-            })
+            }),
         );
         this.subscription.add(
             this.desktop.nativeThemeUpdated$.subscribe(() => {
                 this.safeApplyTheme();
-            })
+            }),
         );
     }
 
@@ -216,7 +216,7 @@ export class AppearanceService implements AppearanceServiceBase {
             this.logger.warn(
                 `Could not apply theme '${selectedThemeName}'. Applying theme '${fallbackThemeName}' instead.`,
                 'AppearanceService',
-                'safeApplyTheme'
+                'safeApplyTheme',
             );
 
             return false;
@@ -295,7 +295,7 @@ export class AppearanceService implements AppearanceServiceBase {
         this.logger.info(
             `Applied theme name=${this.selectedTheme.name}' and theme classes='${themeName}'`,
             'AppearanceService',
-            'applyTheme'
+            'applyTheme',
         );
     }
 
@@ -346,7 +346,7 @@ export class AppearanceService implements AppearanceServiceBase {
             this.logger.info(
                 `Theme '${this.settings.theme}' from settings was not found. Applied theme '${themeFromSettings.name}' instead.`,
                 'AppearanceService',
-                'setSelectedThemeFromSettings'
+                'setSelectedThemeFromSettings',
             );
         }
 

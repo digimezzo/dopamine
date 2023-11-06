@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Folder } from '../../data/entities/folder';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
 import { IndexablePath } from './indexable-path';
 import { FolderRepositoryBase } from '../../data/repositories/folder-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class IndexablePathFetcher {
     public constructor(
-        private fileAccess: BaseFileAccess,
+        private fileAccess: FileAccessBase,
         private directoryWalker: DirectoryWalker,
         private logger: Logger,
         private folderRepository: FolderRepositoryBase,
