@@ -8,7 +8,7 @@ import { BaseDesktop } from '../../common/io/base-desktop';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { AppearanceService } from './appearance.service';
 import { BaseAppearanceService } from './base-appearance.service';
 import { DefaultThemesCreator } from './default-themes-creator';
@@ -19,7 +19,7 @@ import { ThemeNeutralColors } from './theme/theme-neutral-colors';
 import { ThemeOptions } from './theme/theme-options';
 
 describe('AppearanceService', () => {
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
     let overlayContainerMock: IMock<OverlayContainer>;
     let applicationMock: IMock<BaseApplication>;
@@ -47,7 +47,7 @@ describe('AppearanceService', () => {
             fileAccessMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
-            documentProxyMock.object
+            documentProxyMock.object,
         );
     }
 
@@ -80,7 +80,7 @@ describe('AppearanceService', () => {
             '#0fffff', // primaryButtonText
             '#0fffff', // secondaryButtonBackground
             '#0fffff', // secondaryButtonText
-            '#0fffff' // tooltipText
+            '#0fffff', // tooltipText
         );
     }
 
@@ -113,7 +113,7 @@ describe('AppearanceService', () => {
             '#1fffff', // primaryButtonText
             '#1fffff', // secondaryButtonBackground
             '#1fffff', // secondaryButtonText
-            '#1fffff' // tooltipText
+            '#1fffff', // tooltipText
         );
     }
 
@@ -138,7 +138,7 @@ describe('AppearanceService', () => {
             fileAccessMock.object,
             desktopMock.object,
             defaultThemesCreatorMock.object,
-            documentProxyMock.object
+            documentProxyMock.object,
         );
     }
 
@@ -282,7 +282,7 @@ describe('AppearanceService', () => {
     }
 
     beforeEach(() => {
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
         overlayContainerMock = Mock.ofType<OverlayContainer>();
         applicationMock = Mock.ofType<BaseApplication>();
@@ -379,12 +379,12 @@ describe('AppearanceService', () => {
             fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
-                Times.once()
+                Times.once(),
             );
             fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -957,12 +957,12 @@ describe('AppearanceService', () => {
             fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 1.theme', JSON.stringify(theme1WithoutIsBroken, undefined, 2)),
-                Times.once()
+                Times.once(),
             );
             fileAccessMock.verify(
                 (x) =>
                     x.writeToFile('/home/user/.config/Dopamine/Themes/Theme 2.theme', JSON.stringify(theme2WithoutIsBroken, undefined, 2)),
-                Times.once()
+                Times.once(),
             );
         });
 

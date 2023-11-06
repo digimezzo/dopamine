@@ -3,8 +3,6 @@ import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
-import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
 import { PlaylistModel } from '../../../../services/playlist/playlist-model';
@@ -16,6 +14,8 @@ import { PlaylistsTracksPersister } from './playlists-tracks-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { PlaylistFolderServiceBase } from '../../../../services/playlist-folder/playlist-folder.service.base';
 import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection-playlists',
@@ -33,8 +33,8 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         private playlistFolderService: PlaylistFolderServiceBase,
         private playlistService: PlaylistServiceBase,
         private collectionPersister: CollectionPersister,
-        private settings: BaseSettings,
-        private scheduler: BaseScheduler,
+        private settings: SettingsBase,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { TrackModels } from '../../../../services/track/track-models';
@@ -17,6 +16,7 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection-albums',
@@ -36,7 +36,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         private collectionService: CollectionServiceBase,
         private albumService: AlbumServiceBase,
         private trackService: TrackServiceBase,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private scheduler: Scheduler,
         private logger: Logger,
     ) {}

@@ -9,7 +9,7 @@ import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { MockCreator } from '../../testing/mock-creator';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
@@ -56,7 +56,7 @@ describe('MetadataService', () => {
     let imageProcessorMock: IMock<ImageProcessor>;
     let loggerMock: IMock<Logger>;
     let fileAccessMock: IMock<BaseFileAccess>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
 
@@ -69,7 +69,7 @@ describe('MetadataService', () => {
             imageProcessorMock.object,
             fileAccessMock.object,
             settingsMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
@@ -81,7 +81,7 @@ describe('MetadataService', () => {
         imageProcessorMock = Mock.ofType<ImageProcessor>();
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<BaseFileAccess>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
 
@@ -238,7 +238,7 @@ describe('MetadataService', () => {
             subscription.add(
                 service.ratingSaved$.subscribe(() => {
                     ratingSaved = true;
-                })
+                }),
             );
 
             // Act
@@ -277,7 +277,7 @@ describe('MetadataService', () => {
             subscription.add(
                 service.loveSaved$.subscribe(() => {
                     loveSaved = true;
-                })
+                }),
             );
 
             // Act

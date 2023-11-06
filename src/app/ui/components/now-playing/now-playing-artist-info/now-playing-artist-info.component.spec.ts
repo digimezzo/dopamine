@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { BaseSettings } from '../../../common/settings/base-settings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 import { ArtistInformation } from '../../../services/artist-information/artist-information';
 import { BaseArtistInformationService } from '../../../services/artist-information/base-artist-information.service';
 import { BasePlaybackService } from '../../../services/playback/base-playback.service';
@@ -13,7 +13,7 @@ import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 describe('NowPlayingArtistInfoComponent', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let artistInformationServiceMock: IMock<BaseArtistInformationService>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let schedulerMock: IMock<BaseScheduler>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
@@ -33,7 +33,7 @@ describe('NowPlayingArtistInfoComponent', () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         artistInformationServiceMock = Mock.ofType<BaseArtistInformationService>();
         schedulerMock = Mock.ofType<BaseScheduler>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
 
         playbackServicePlaybackStartedMock = new Subject();
         const playbackServicePlaybackStartedMock$: Observable<PlaybackStarted> = playbackServicePlaybackStartedMock.asObservable();

@@ -3,7 +3,7 @@ import { FolderTrack } from '../../data/entities/folder-track';
 import { Track } from '../../data/entities/track';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
@@ -20,7 +20,7 @@ export class TrackAdder {
         private removedTrackRepository: RemovedTrackRepositoryBase,
         private indexablePathFetcher: IndexablePathFetcher,
         private trackFiller: TrackFiller,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
     ) {}

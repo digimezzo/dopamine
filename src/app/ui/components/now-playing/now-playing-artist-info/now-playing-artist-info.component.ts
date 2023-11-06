@@ -2,7 +2,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Strings } from '../../../../common/strings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { ArtistInformation } from '../../../../services/artist-information/artist-information';
@@ -10,6 +9,7 @@ import { PlaybackStarted } from '../../../../services/playback/playback-started'
 import { TrackModel } from '../../../../services/track/track-model';
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-now-playing-artist-info',
@@ -36,7 +36,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
         private playbackService: PlaybackServiceBase,
         private artistInformationService: ArtistInformationServiceBase,
         private scheduler: Scheduler,
-        public settings: BaseSettings,
+        public settings: SettingsBase,
     ) {}
 
     public get artist(): ArtistInformation {

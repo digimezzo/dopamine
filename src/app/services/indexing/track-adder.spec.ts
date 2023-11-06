@@ -6,7 +6,7 @@ import { BaseFolderTrackRepository } from '../../common/data/repositories/base-f
 import { BaseRemovedTrackRepository } from '../../common/data/repositories/base-removed-track-repository';
 import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
@@ -19,7 +19,7 @@ describe('TrackAdder', () => {
     let removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository>;
     let indexablePathFetcherMock: IMock<IndexablePathFetcher>;
     let trackFillerMock: IMock<TrackFiller>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
     let snackBarServiceMock: IMock<BaseSnackBarService>;
     let trackAdder: TrackAdder;
@@ -30,7 +30,7 @@ describe('TrackAdder', () => {
         removedTrackRepositoryMock = Mock.ofType<BaseRemovedTrackRepository>();
         indexablePathFetcherMock = Mock.ofType<IndexablePathFetcher>();
         trackFillerMock = Mock.ofType<TrackFiller>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
         snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
         trackAdder = new TrackAdder(
@@ -41,7 +41,7 @@ describe('TrackAdder', () => {
             trackFillerMock.object,
             settingsMock.object,
             loggerMock.object,
-            snackBarServiceMock.object
+            snackBarServiceMock.object,
         );
     });
 
@@ -72,7 +72,7 @@ describe('TrackAdder', () => {
             // Assert
             trackRepositoryMock.verify(
                 (x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -122,7 +122,7 @@ describe('TrackAdder', () => {
             // Assert
             folderTrackRepositoryMock.verify(
                 (x) => x.addFolderTrack(It.isObjectWith<FolderTrack>({ folderId: 1, trackId: track1.trackId })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -145,7 +145,7 @@ describe('TrackAdder', () => {
             // Assert
             trackFillerMock.verify(
                 (x) => x.addFileMetadataToTrackAsync(It.isObjectWith<Track>({ path: '/home/user/Music/Track 1.mp3' }), false),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -179,7 +179,7 @@ describe('TrackAdder', () => {
             // Assert
             trackRepositoryMock.verify(
                 (x) => x.addTrack(It.isObjectWith<Track>({ path: '/home/user/Music/Track 3.mp3' })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 

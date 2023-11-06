@@ -1,4 +1,4 @@
-export abstract class BaseSettings {
+export abstract class SettingsBase {
     public abstract get defaultLanguage(): string;
     public abstract language: string;
     public abstract checkForUpdates: boolean;

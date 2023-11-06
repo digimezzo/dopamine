@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
 import { GenreModel } from '../../services/genre/genre-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { GenreOrdering } from './genre-ordering';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 
 describe('GenreOrdering', () => {
     let genreModel1: GenreModel;
@@ -9,13 +9,13 @@ describe('GenreOrdering', () => {
     let genreModel3: GenreModel;
     let genreModel4: GenreModel;
 
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let genreOrdering: GenreOrdering;
     let genres: GenreModel[];
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         genreModel1 = new GenreModel('Genre1', translatorServiceMock.object);
         genreModel2 = new GenreModel('Genre2', translatorServiceMock.object);

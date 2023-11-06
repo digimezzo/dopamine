@@ -7,7 +7,6 @@ import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { ArtistOrdering } from '../../../../../common/ordering/artist-ordering';
-import { BaseScheduler } from '../../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { ArtistModel } from '../../../../../services/artist/artist-model';
@@ -18,6 +17,7 @@ import { ArtistOrder } from './artist-order';
 import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
+import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-artist-browser',
@@ -42,7 +42,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         public contextMenuOpener: ContextMenuOpener,
         private artistOrdering: ArtistOrdering,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
-        private scheduler: BaseScheduler,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

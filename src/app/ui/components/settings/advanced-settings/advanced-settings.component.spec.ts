@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
 import { LogViewer } from '../../../common/io/log-viewer';
-import { BaseSettings } from '../../../common/settings/base-settings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 import { AdvancedSettingsComponent } from './advanced-settings.component';
 
 describe('AdvancedSettingsComponent', () => {
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let logViewerMock: IMock<LogViewer>;
 
     beforeEach(() => {
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         logViewerMock = Mock.ofType<LogViewer>();
     });
 

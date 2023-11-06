@@ -2,7 +2,7 @@ import { IMock, It, Mock, Times } from 'typemoq';
 import { Folder } from '../../common/data/entities/folder';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BaseDialogService } from '../../services/dialog/base-dialog.service';
 import { BaseFolderService } from '../../services/folder/base-folder.service';
 import { FolderModel } from '../../services/folder/folder-model';
@@ -18,7 +18,7 @@ describe('AddFolderComponent', () => {
     let indexingServiceMock: IMock<BaseIndexingService>;
     let loggerMock: IMock<Logger>;
     let settingsStub: any;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let component: AddFolderComponent;
     let componentWithStub: AddFolderComponent;
 
@@ -30,7 +30,7 @@ describe('AddFolderComponent', () => {
         indexingServiceMock = Mock.ofType<BaseIndexingService>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { showAllFoldersInCollection: false };
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
 
         translatorServiceMock.setup((x) => x.getAsync('select-folder')).returns(() => Promise.resolve('Select a folder'));
         translatorServiceMock.setup((x) => x.getAsync('delete-folder-error')).returns(() => Promise.resolve('Error while deleting folder'));
@@ -42,7 +42,7 @@ describe('AddFolderComponent', () => {
             dialogServiceMock.object,
             indexingServiceMock.object,
             settingsMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
 
         componentWithStub = new AddFolderComponent(
@@ -52,7 +52,7 @@ describe('AddFolderComponent', () => {
             dialogServiceMock.object,
             indexingServiceMock.object,
             settingsStub,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 
@@ -244,7 +244,7 @@ describe('AddFolderComponent', () => {
                     x.getAsync('confirm-delete-folder-long', {
                         folderPath: folderToDelete.path,
                     }),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -262,7 +262,7 @@ describe('AddFolderComponent', () => {
             // Assert
             dialogServiceMock.verify(
                 (x) => x.showConfirmationDialogAsync('Delete folder?', 'Are you sure you want to delete this folder?'),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 

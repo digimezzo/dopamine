@@ -58,8 +58,7 @@ import { MediaSessionProxy } from './common/io/media-session-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
-import { BaseFileMetadataFactory } from './common/metadata/base-file-metadata-factory';
-import { FileMetadataFactory } from './common/metadata/file-metadata-factory';
+import { FileMetadataFactory } from './common/metadata/file-metadata.factory';
 import { MetadataPatcher } from './common/metadata/metadata-patcher';
 import { MimeTypes } from './common/metadata/mime-types';
 import { NativeElementProxy } from './common/native-element-proxy';
@@ -67,10 +66,9 @@ import { ArtistOrdering } from './common/ordering/artist-ordering';
 import { GenreOrdering } from './common/ordering/genre-ordering';
 import { TrackOrdering } from './common/ordering/track-ordering';
 import { PathValidator } from './common/path-validator';
-import { BaseScheduler } from './common/scheduling/base-scheduler';
 import { Scheduler } from './common/scheduling/scheduler';
 import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
-import { BaseSettings } from './common/settings/base-settings';
+import { SettingsBase } from './common/settings/settings.base';
 import { Settings } from './common/settings/settings';
 import { Shuffler } from './common/shuffler';
 import { TextSanitizer } from './common/text-sanitizer';
@@ -306,6 +304,8 @@ import { TranslateServiceProxyBase } from './common/io/translate-service-proxy.b
 import { MediaSessionProxyBase } from './common/io/media-session-proxy.base';
 import { DesktopBase } from './common/io/desktop.base';
 import { FileAccessBase } from './common/io/file-access.base';
+import { FileMetadataFactoryBase } from './common/metadata/file-metadata.factory.base';
+import { SchedulerBase } from './common/scheduling/scheduler.base';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -609,15 +609,15 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: LyricsServiceBase, useClass: LyricsService },
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioPlayerBase, useClass: AudioPlayer },
-        { provide: BaseSettings, useClass: Settings },
+        { provide: SettingsBase, useClass: Settings },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
-        { provide: BaseScheduler, useClass: Scheduler },
+        { provide: SchedulerBase, useClass: Scheduler },
         { provide: ApplicationBase, useClass: Application },
         { provide: IpcProxyBase, useClass: IpcProxy },
         { provide: TranslateServiceProxyBase, useClass: TranslateServiceProxy },
         { provide: MediaSessionProxyBase, useClass: MediaSessionProxy },
         { provide: DesktopBase, useClass: Desktop },
-        { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
+        { provide: FileMetadataFactoryBase, useClass: FileMetadataFactory },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,

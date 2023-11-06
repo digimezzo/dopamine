@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { PresenceUpdater } from './presence-updater';
 import { DiscordServiceBase } from './discord.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
@@ -17,7 +17,7 @@ export class DiscordService implements DiscordServiceBase {
         private translatorService: TranslatorServiceBase,
         private presenceUpdater: PresenceUpdater,
         private dateProxy: DateProxy,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 

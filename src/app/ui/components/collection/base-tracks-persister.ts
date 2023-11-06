@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../../common/logger';
-import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { TrackOrder } from './track-order';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable()
 export abstract class BaseTracksPersister {
     private selectedTrackOrder: TrackOrder;
 
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         this.initializeFromSettings();

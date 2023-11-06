@@ -4,7 +4,7 @@ import { IMock, Mock } from 'typemoq';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { MockCreator } from '../../testing/mock-creator';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
@@ -14,14 +14,14 @@ describe('LyricsService', () => {
     let embeddedLyricsGetterMock: IMock<EmbeddedLyricsGetter>;
     let lrcLyricsGetterMock: IMock<LrcLyricsGetter>;
     let onlineLyricsGetterMock: IMock<OnlineLyricsGetter>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
 
     beforeEach(() => {
         embeddedLyricsGetterMock = Mock.ofType<EmbeddedLyricsGetter>();
         lrcLyricsGetterMock = Mock.ofType<LrcLyricsGetter>();
         onlineLyricsGetterMock = Mock.ofType<OnlineLyricsGetter>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
     });
 

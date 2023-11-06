@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as Store from 'electron-store';
-import { BaseSettings } from './base-settings';
+import { SettingsBase } from './settings.base';
 
 @Injectable()
-export class Settings implements BaseSettings {
+export class Settings implements SettingsBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private settings: Store<any> = new Store();
 

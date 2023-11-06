@@ -3,8 +3,8 @@ import { MatStepper } from '@angular/material/stepper';
 import {NavigationServiceBase} from "../../../services/navigation/navigation.service.base";
 import {TranslatorServiceBase} from "../../../services/translator/translator.service.base";
 import {AppearanceServiceBase} from "../../../services/appearance/appearance.service.base";
-import {BaseSettings} from "../../../common/settings/base-settings";
 import {ContactInformation} from "../../../common/application/contact-information";
+import {SettingsBase} from "../../../common/settings/settings.base";
 
 @Component({
     selector: 'app-welcome',
@@ -18,7 +18,7 @@ export class WelcomeComponent {
         private navigationServiceMock: NavigationServiceBase,
         public translatorService: TranslatorServiceBase,
         public appearanceService: AppearanceServiceBase,
-        public settings: BaseSettings,
+        public settings: SettingsBase,
     ) {}
 
     public currentStep: number = 0;

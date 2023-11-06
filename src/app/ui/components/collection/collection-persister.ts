@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseSettings } from '../../../common/settings/base-settings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable()
 export class CollectionPersister {
@@ -8,7 +8,7 @@ export class CollectionPersister {
 
     private selectedTabChanged: Subject<void> = new Subject();
 
-    public constructor(private settings: BaseSettings) {
+    public constructor(private settings: SettingsBase) {
         this.initializeFromSettings();
     }
 

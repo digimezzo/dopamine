@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { Language } from '../../common/application/language';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { TranslatorServiceBase } from './translator.service.base';
 import { TranslateServiceProxyBase } from '../../common/io/translate-service-proxy.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class TranslatorService implements TranslatorServiceBase {
@@ -13,7 +13,7 @@ export class TranslatorService implements TranslatorServiceBase {
 
     public constructor(
         private translateServiceProxy: TranslateServiceProxyBase,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
     ) {
         this.translateServiceProxy.setDefaultLang(this.settings.defaultLanguage);
     }

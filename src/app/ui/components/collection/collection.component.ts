@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
-import { BaseSettings } from '../../../common/settings/base-settings';
 import { CollectionPersister } from './collection-persister';
 import { TabSelectionGetter } from './tab-selection-getter';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection',
@@ -19,7 +19,7 @@ export class CollectionComponent implements OnInit {
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         private playbackService: PlaybackServiceBase,
         private searchService: SearchServiceBase,
         private collectionPersister: CollectionPersister,

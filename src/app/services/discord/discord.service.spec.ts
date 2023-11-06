@@ -4,7 +4,7 @@ import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -19,7 +19,7 @@ describe('DiscordService', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let presenceUpdaterMock: IMock<PresenceUpdater>;
     let dateProxyMock: IMock<DateProxy>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
@@ -36,7 +36,7 @@ describe('DiscordService', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         presenceUpdaterMock = Mock.ofType<PresenceUpdater>();
         dateProxyMock = Mock.ofType<DateProxy>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock.setup((x) => x.get('playing')).returns(() => 'Playing');
@@ -89,7 +89,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.object,
             dateProxyMock.object,
             settingsMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
@@ -132,7 +132,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -152,7 +152,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -173,7 +173,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -194,7 +194,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -215,7 +215,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -236,7 +236,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -271,7 +271,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false)
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false),
             );
 
             // Assert
@@ -286,9 +286,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -318,9 +318,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -350,9 +350,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -382,9 +382,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -414,9 +414,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -462,7 +462,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -480,7 +480,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -498,7 +498,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -516,7 +516,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -534,7 +534,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'play', 'Playing', 'icon', 'Playing with Dopamine', true, 10, 100010),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -552,7 +552,7 @@ describe('DiscordService', () => {
             // Assert
             presenceUpdaterMock.verify(
                 (x) => x.updatePresence('title', 'artist1, artist2', 'pause', 'Paused', 'icon', 'Playing with Dopamine', false, 0, 0),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -581,7 +581,7 @@ describe('DiscordService', () => {
             presenceUpdaterMock.reset();
 
             playbackServicePlaybackStartedMock.next(
-                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false)
+                new PlaybackStarted(new TrackModel(new Track('Path1'), dateTimeMock.object, translatorServiceMock.object), false),
             );
 
             // Assert
@@ -596,9 +596,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -625,9 +625,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -654,9 +654,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -683,9 +683,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -712,9 +712,9 @@ describe('DiscordService', () => {
                         It.isAny(),
                         It.isAny(),
                         It.isAny(),
-                        It.isAny()
+                        It.isAny(),
                     ),
-                Times.never()
+                Times.never(),
             );
         });
 

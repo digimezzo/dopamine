@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
-import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable()
 export class TabSelectionGetter {
     private tabLabels: string[] = [];
 
-    public constructor(private settings: BaseSettings) {
+    public constructor(private settings: SettingsBase) {
         this.getTabLabels();
     }
 

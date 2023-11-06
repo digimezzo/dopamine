@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { WindowSize } from '../../../../common/io/window-size';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { ApplicationBase } from '../../../../common/io/application.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-now-playing-showcase',
@@ -12,7 +12,7 @@ import { ApplicationBase } from '../../../../common/io/application.base';
 })
 export class NowPlayingShowcaseComponent implements OnInit {
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         private application: ApplicationBase,
     ) {}
 

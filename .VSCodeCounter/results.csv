@@ -60,7 +60,7 @@
 "/home/raphael/Projects/dopamine/src/app/core/io/file-system.ts", "TypeScript", 0, 0, 44, 0, 0, 0, 0, 0, 0, 14, 58
 "/home/raphael/Projects/dopamine/src/app/core/logger.ts", "TypeScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 6, 26
 "/home/raphael/Projects/dopamine/src/app/core/scheduling.ts", "TypeScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 1, 6
-"/home/raphael/Projects/dopamine/src/app/core/settings/base-settings.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"/home/raphael/Projects/dopamine/src/app/core/settings/settings.base.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
 "/home/raphael/Projects/dopamine/src/app/core/settings/settings.ts", "TypeScript", 0, 0, 85, 0, 0, 0, 0, 0, 9, 25, 119
 "/home/raphael/Projects/dopamine/src/app/core/timer.ts", "TypeScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 5, 19
 "/home/raphael/Projects/dopamine/src/app/data/base-database-migrator.ts", "TypeScript", 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 4

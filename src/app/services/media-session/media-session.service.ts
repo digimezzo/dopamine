@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { PlaybackInformation } from '../playback-information/playback-information';
 import { MediaSessionServiceBase } from './media-session.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { PlaybackInformationServiceBase } from '../playback-information/playback-information.service.base';
 import { MediaSessionProxyBase } from '../../common/io/media-session-proxy.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 @Injectable()
 export class MediaSessionService implements MediaSessionServiceBase {
     private subscription: Subscription = new Subscription();
@@ -14,7 +14,7 @@ export class MediaSessionService implements MediaSessionServiceBase {
         private playbackService: PlaybackServiceBase,
         private playbackInformationService: PlaybackInformationServiceBase,
         private mediaSessionProxy: MediaSessionProxyBase,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
     ) {}
 
     public get enableMultimediaKeys(): boolean {

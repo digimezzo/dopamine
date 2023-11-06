@@ -4,7 +4,7 @@ import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
 import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
@@ -18,7 +18,7 @@ describe('ScrobblingService', () => {
     let playbackServiceMock: IMock<BasePlaybackService>;
     let lastfmApiMock: IMock<LastfmApi>;
     let dateTimeMock: IMock<DateTime>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
 
     let translatorServiceMock: IMock<BaseTranslatorService>;
@@ -38,7 +38,7 @@ describe('ScrobblingService', () => {
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         lastfmApiMock = Mock.ofType<LastfmApi>();
         dateTimeMock = Mock.ofType<DateTime>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
 
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
@@ -64,7 +64,7 @@ describe('ScrobblingService', () => {
             lastfmApiMock.object,
             dateTimeMock.object,
             settingsMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
@@ -72,8 +72,8 @@ describe('ScrobblingService', () => {
         enableLastFmScrobbling: boolean,
         lastFmUsername: string,
         lastFmPassword: string,
-        lastFmSessionKey: string
-    ): IMock<BaseSettings> {
+        lastFmSessionKey: string,
+    ): IMock<SettingsBase> {
         settingsMock.setup((x) => x.enableLastFmScrobbling).returns(() => enableLastFmScrobbling);
         settingsMock.setup((x) => x.lastFmUsername).returns(() => lastFmUsername);
         settingsMock.setup((x) => x.lastFmPassword).returns(() => lastFmPassword);
@@ -87,7 +87,7 @@ describe('ScrobblingService', () => {
         artists: string,
         title: string,
         albumTitle: string,
-        durationInMilliseconds: number
+        durationInMilliseconds: number,
     ): TrackModel {
         const track: Track = new Track(path);
         track.artists = artists;
@@ -326,7 +326,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -353,7 +353,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -380,7 +380,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -408,7 +408,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -435,7 +435,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -459,7 +459,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -486,7 +486,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
 
@@ -513,7 +513,7 @@ describe('ScrobblingService', () => {
             // Assert
             lastfmApiMock.verify(
                 (x) => x.scrobbleTrackAsync('key', 'artist1', 'title1', 'albumTitle1', currentTrackUTCStartTime),
-                Times.never()
+                Times.never(),
             );
         });
     });

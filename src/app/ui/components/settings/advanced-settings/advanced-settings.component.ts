@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { LogViewer } from '../../../../common/io/log-viewer';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-advanced-settings',
@@ -11,7 +11,7 @@ import { LogViewer } from '../../../../common/io/log-viewer';
 })
 export class AdvancedSettingsComponent {
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         private logViewer: LogViewer,
     ) {}
 

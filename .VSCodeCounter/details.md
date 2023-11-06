@@ -72,7 +72,7 @@ Total : 165 files,  20366 codes, 521 comments, 1094 blanks, all 21981 lines
 | [src/app/core/io/file-system.ts](/src/app/core/io/file-system.ts) | TypeScript | 44 | 0 | 14 | 58 |
 | [src/app/core/logger.ts](/src/app/core/logger.ts) | TypeScript | 20 | 0 | 6 | 26 |
 | [src/app/core/scheduling.ts](/src/app/core/scheduling.ts) | TypeScript | 5 | 0 | 1 | 6 |
-| [src/app/core/settings/base-settings.ts](/src/app/core/settings/base-settings.ts) | TypeScript | 10 | 0 | 1 | 11 |
+| [src/app/core/settings/settings.base.ts](/src/app/core/settings/settings.base.ts) | TypeScript | 10 | 0 | 1 | 11 |
 | [src/app/core/settings/settings.ts](/src/app/core/settings/settings.ts) | TypeScript | 85 | 9 | 25 | 119 |
 | [src/app/core/timer.ts](/src/app/core/timer.ts) | TypeScript | 14 | 0 | 5 | 19 |
 | [src/app/data/base-database-migrator.ts](/src/app/data/base-database-migrator.ts) | TypeScript | 3 | 0 | 1 | 4 |

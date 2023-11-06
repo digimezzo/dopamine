@@ -2,10 +2,10 @@ import { IMock, Mock } from 'typemoq';
 import { BaseApplication } from '../../../common/io/base-application';
 import { WindowSize } from '../../../common/io/window-size';
 import { NowPlayingShowcaseComponent } from './now-playing-showcase.component';
-import { BaseSettings } from '../../../common/settings/base-settings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 describe('NowPlayingShowcaseComponent', () => {
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let applicationMock: IMock<BaseApplication>;
 
     const flushPromises = () => new Promise(process.nextTick);
@@ -15,7 +15,7 @@ describe('NowPlayingShowcaseComponent', () => {
     }
 
     beforeEach(() => {
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         applicationMock = Mock.ofType<BaseApplication>();
 
         applicationMock.setup((x) => x.getWindowSize()).returns(() => new WindowSize(1000, 600));

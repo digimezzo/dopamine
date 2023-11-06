@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-manage-refresh',
@@ -10,7 +10,7 @@ import { IndexingServiceBase } from '../../../../services/indexing/indexing.serv
 })
 export class ManageRefreshComponent {
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         private indexingService: IndexingServiceBase,
     ) {}
 

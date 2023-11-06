@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { BaseDesktop } from '../../../common/io/base-desktop';
-import { BaseSettings } from '../../../common/settings/base-settings';
+import { SettingsBase } from '../../../common/settings/settings.base';
 import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AppearanceSettingsComponent } from './appearance-settings.component';
@@ -8,7 +8,7 @@ import { AppearanceSettingsComponent } from './appearance-settings.component';
 describe('AppearanceSettingsComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
     let translatorServiceMock: IMock<BaseTranslatorService>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let desktopMock: IMock<BaseDesktop>;
 
     let component: AppearanceSettingsComponent;
@@ -16,7 +16,7 @@ describe('AppearanceSettingsComponent', () => {
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         desktopMock = Mock.ofType<BaseDesktop>();
 
         appearanceServiceMock.setup((x) => x.themesDirectoryPath).returns(() => '/my/path');
@@ -25,7 +25,7 @@ describe('AppearanceSettingsComponent', () => {
             appearanceServiceMock.object,
             translatorServiceMock.object,
             settingsMock.object,
-            desktopMock.object
+            desktopMock.object,
         );
     });
 

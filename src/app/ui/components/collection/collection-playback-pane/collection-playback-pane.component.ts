@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection-playback-pane',
@@ -13,7 +13,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
 export class CollectionPlaybackPaneComponent {
     public constructor(
         public appearanceService: AppearanceServiceBase,
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         private navigationService: NavigationServiceBase,
     ) {}
 

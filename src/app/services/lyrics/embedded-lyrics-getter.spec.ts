@@ -9,7 +9,7 @@ import { PlaybackInformation } from '../playback-information/playback-informatio
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { MockCreator } from '../../testing/mock-creator';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';

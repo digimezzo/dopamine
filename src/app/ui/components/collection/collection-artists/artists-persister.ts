@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Strings } from '../../../../common/strings';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { ArtistOrder } from './artist-browser/artist-order';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Injectable()
 export class ArtistsPersister {
@@ -16,7 +16,7 @@ export class ArtistsPersister {
     private selectedArtistsChanged: Subject<string[]> = new Subject();
 
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         this.initializeFromSettings();

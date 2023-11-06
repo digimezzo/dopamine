@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { BasePlaybackService } from '../../services/playback/base-playback.service';
 import { BaseSearchService } from '../../services/search/base-search.service';
@@ -9,7 +9,7 @@ import { TabSelectionGetter } from './tab-selection-getter';
 
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let playbackServiceMock: IMock<BasePlaybackService>;
     let searchServiceMock: IMock<BaseSearchService>;
     let collectionPersisterStub: any;
@@ -22,13 +22,13 @@ describe('CollectionComponent', () => {
             playbackServiceMock.object,
             searchServiceMock.object,
             collectionPersisterStub,
-            tabSelectionGetterMock.object
+            tabSelectionGetterMock.object,
         );
     }
 
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         playbackServiceMock = Mock.ofType<BasePlaybackService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
         collectionPersisterStub = {};

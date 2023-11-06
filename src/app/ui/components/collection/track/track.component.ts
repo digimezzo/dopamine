@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { TrackModel } from '../../../../services/track/track-model';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-track',
@@ -12,7 +12,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 export class TrackComponent {
     public constructor(
         public appearanceService: AppearanceServiceBase,
-        public settings: BaseSettings,
+        public settings: SettingsBase,
     ) {}
 
     @Input() public track: TrackModel;

@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { TabSelectionGetter } from './tab-selection-getter';
 
 describe('TabSelectionGetter', () => {
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
 
     beforeEach(() => {
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
     });
 
     function createTabSelectionGetter(): TabSelectionGetter {

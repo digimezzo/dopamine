@@ -7,7 +7,7 @@ import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { Strings } from '../../common/strings';
 import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
@@ -31,7 +31,7 @@ export class AppearanceService implements AppearanceServiceBase {
     private _themesDirectoryPath: string;
 
     public constructor(
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
         private overlayContainer: OverlayContainer,
         private application: ApplicationBase,

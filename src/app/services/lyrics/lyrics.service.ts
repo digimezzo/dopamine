@@ -4,10 +4,10 @@ import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
 import { Strings } from '../../common/strings';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { LyricsModel } from './lyrics-model';
 import { Logger } from '../../common/logger';
-import {LyricsServiceBase} from "./lyrics.service.base";
+import { LyricsServiceBase } from './lyrics.service.base';
 
 @Injectable()
 export class LyricsService implements LyricsServiceBase {
@@ -15,7 +15,7 @@ export class LyricsService implements LyricsServiceBase {
         private embeddedLyricsGetter: EmbeddedLyricsGetter,
         private lrcLyricsGetter: LrcLyricsGetter,
         private onlineLyricsGetter: OnlineLyricsGetter,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 

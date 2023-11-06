@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Logger } from '../../../common/logger';
-import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { FolderModel } from '../../../services/folder/folder-model';
@@ -9,6 +8,7 @@ import { FolderServiceBase } from '../../../services/folder/folder.service.base'
 import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { DesktopBase } from '../../../common/io/desktop.base';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-add-folder',
@@ -24,7 +24,7 @@ export class AddFolderComponent implements OnInit {
         private folderService: FolderServiceBase,
         private dialogService: DialogServiceBase,
         public indexingService: IndexingServiceBase,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 

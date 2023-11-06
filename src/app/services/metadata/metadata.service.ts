@@ -4,9 +4,7 @@ import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
@@ -14,6 +12,8 @@ import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
 import { MetadataServiceBase } from './metadata.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class MetadataService implements MetadataServiceBase {
@@ -21,13 +21,13 @@ export class MetadataService implements MetadataServiceBase {
     private loveSaved: Subject<TrackModel> = new Subject();
 
     public constructor(
-        private fileMetadataFactory: BaseFileMetadataFactory,
+        private fileMetadataFactory: FileMetadataFactoryBase,
         private trackRepository: TrackRepositoryBase,
         private albumArtworkGetter: AlbumArtworkGetter,
         private cachedAlbumArtworkGetter: CachedAlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
         private fileAccess: FileAccessBase,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 

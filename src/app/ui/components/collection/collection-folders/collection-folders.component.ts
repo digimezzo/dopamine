@@ -7,7 +7,6 @@ import { Hacks } from '../../../../common/hacks';
 import { Logger } from '../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { FolderModel } from '../../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../../services/folder/subfolder-model';
@@ -27,6 +26,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection-folders',
@@ -49,7 +49,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private indexingService: IndexingServiceBase,
         private collectionService: CollectionServiceBase,
         private collectionPersister: CollectionPersister,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private navigationService: NavigationServiceBase,
         private trackService: TrackServiceBase,
         private playbackIndicationService: PlaybackIndicationServiceBase,

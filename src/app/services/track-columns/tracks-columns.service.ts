@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { TracksColumnsOrder } from './tracks-columns-order';
 import { TracksColumnsOrderColumn } from './tracks-columns-order-column';
 import { TracksColumnsOrderDirection } from './tracks-columns-order-direction';
 import { TracksColumnsVisibility } from './tracks-columns-visibility';
 import { TracksColumnsServiceBase } from './tracks-columns.service.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class TracksColumnsService implements TracksColumnsServiceBase {
@@ -28,7 +28,7 @@ export class TracksColumnsService implements TracksColumnsServiceBase {
     private tracksColumnsVisibilityChanged: Subject<TracksColumnsVisibility> = new Subject<TracksColumnsVisibility>();
     private tracksColumnsOrderChanged: Subject<TracksColumnsOrder> = new Subject<TracksColumnsOrder>();
 
-    public constructor(private settings: BaseSettings) {}
+    public constructor(private settings: SettingsBase) {}
 
     public tracksColumnsVisibilityChanged$: Observable<TracksColumnsVisibility> = this.tracksColumnsVisibilityChanged.asObservable();
     public tracksColumnsOrderChanged$: Observable<TracksColumnsOrder> = this.tracksColumnsOrderChanged.asObservable();

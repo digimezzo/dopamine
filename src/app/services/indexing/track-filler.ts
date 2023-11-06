@@ -3,17 +3,17 @@ import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { Strings } from '../../common/strings';
 import { TrackFieldCreator } from './track-field-creator';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 
 @Injectable()
 export class TrackFiller {
     public constructor(
-        private fileMetadataFactory: BaseFileMetadataFactory,
+        private fileMetadataFactory: FileMetadataFactoryBase,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
         private fileAccess: FileAccessBase,

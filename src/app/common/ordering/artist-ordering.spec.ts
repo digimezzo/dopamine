@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
 import { ArtistModel } from '../../services/artist/artist-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { ArtistOrdering } from './artist-ordering';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 
 describe('ArtistOrdering', () => {
     let artistModel1: ArtistModel;
@@ -9,13 +9,13 @@ describe('ArtistOrdering', () => {
     let artistModel3: ArtistModel;
     let artistModel4: ArtistModel;
 
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let artistOrdering: ArtistOrdering;
     let artists: ArtistModel[];
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         artistModel1 = new ArtistModel('Artist1', translatorServiceMock.object);
         artistModel2 = new ArtistModel('Artist2', translatorServiceMock.object);

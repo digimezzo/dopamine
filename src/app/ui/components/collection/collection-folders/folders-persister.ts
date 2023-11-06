@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Logger } from '../../../../common/logger';
 import { FolderModel } from '../../../../services/folder/folder-model';
 import { Strings } from '../../../../common/strings';
 import { SubfolderModel } from '../../../../services/folder/subfolder-model';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Injectable()
 export class FoldersPersister {
@@ -11,7 +11,7 @@ export class FoldersPersister {
     private openedSubfolderPath: string;
 
     public constructor(
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.initializeFromSettings();

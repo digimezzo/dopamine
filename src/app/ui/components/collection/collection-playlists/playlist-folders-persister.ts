@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Strings } from '../../../../common/strings';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Injectable()
 export class PlaylistFoldersPersister {
@@ -11,7 +11,7 @@ export class PlaylistFoldersPersister {
     private selectedPlaylistFoldersChanged: Subject<PlaylistFolderModel[]> = new Subject();
 
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         this.initializeFromSettings();

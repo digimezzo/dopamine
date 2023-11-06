@@ -7,7 +7,6 @@ import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
 import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { GenreOrdering } from '../../../../../common/ordering/genre-ordering';
-import { BaseScheduler } from '../../../../../common/scheduling/base-scheduler';
 import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
 import { PromiseUtils } from '../../../../../common/utils/promise-utils';
 import { GenreModel } from '../../../../../services/genre/genre-model';
@@ -17,6 +16,7 @@ import { GenreOrder } from './genre-order';
 import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
 import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
+import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-genre-browser',
@@ -41,7 +41,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         public mouseSelectionWatcher: MouseSelectionWatcher,
         private genreOrdering: GenreOrdering,
         private semanticZoomHeaderAdder: SemanticZoomHeaderAdder,
-        private scheduler: BaseScheduler,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

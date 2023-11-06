@@ -1,8 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Constants } from '../../../../common/application/constants';
-import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
 import { SemanticZoomable } from '../../../../common/semantic-zoomable';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-semantic-zoom',
@@ -27,7 +27,7 @@ import { SemanticZoomable } from '../../../../common/semantic-zoomable';
     ],
 })
 export class SemanticZoomComponent implements OnInit {
-    public constructor(private scheduler: BaseScheduler) {}
+    public constructor(private scheduler: SchedulerBase) {}
 
     public fadeIn: string = 'hidden';
 

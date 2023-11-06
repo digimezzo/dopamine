@@ -3,13 +3,13 @@ import { GitHubApi } from '../../common/api/git-hub/git-hub-api';
 import { ProductInformation } from '../../common/application/product-information';
 import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { UpdateService } from './update.service';
 
 jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 
 describe('UpdateService', () => {
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
     let gitHubMock: IMock<GitHubApi>;
     let desktopMock: IMock<BaseDesktop>;
@@ -17,7 +17,7 @@ describe('UpdateService', () => {
     let service: UpdateService;
 
     beforeEach(() => {
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
         gitHubMock = Mock.ofType<GitHubApi>();
         desktopMock = Mock.ofType<BaseDesktop>();

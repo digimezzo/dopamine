@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../../../common/logger';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { BaseAlbumsPersister } from '../base-albums-persister';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Injectable()
 export class AlbumsAlbumsPersister extends BaseAlbumsPersister {
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         super(settings, logger);

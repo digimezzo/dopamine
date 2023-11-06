@@ -3,12 +3,12 @@ import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { Language } from '../../common/application/language';
 import { BaseTranslateServiceProxy } from '../../common/io/base-translate-service-proxy';
-import { BaseSettings } from '../../common/settings/base-settings';
+import { SettingsBase } from '../../common/settings/settings.base';
 import { TranslatorService } from './translator.service';
 
 describe('TranslatorService', () => {
     let translateServiceProxyMock: IMock<BaseTranslateServiceProxy>;
-    let settingsMock: IMock<BaseSettings>;
+    let settingsMock: IMock<SettingsBase>;
 
     beforeEach(() => {
         translateServiceProxyMock = Mock.ofType<BaseTranslateServiceProxy>();
@@ -20,18 +20,18 @@ describe('TranslatorService', () => {
             .setup((x) =>
                 x.get('tracks-added', {
                     numberOfAddedTracks: 3,
-                })
+                }),
             )
             .returns(() => Promise.resolve('3 tracks added'));
         translateServiceProxyMock
             .setup((x) =>
                 x.instant('tracks-added', {
                     numberOfAddedTracks: 3,
-                })
+                }),
             )
             .returns(() => '3 tracks added');
 
-        settingsMock = Mock.ofType<BaseSettings>();
+        settingsMock = Mock.ofType<SettingsBase>();
         settingsMock.setup((x) => x.defaultLanguage).returns(() => 'en');
         settingsMock.setup((x) => x.language).returns(() => 'fr');
     });
@@ -127,7 +127,7 @@ describe('TranslatorService', () => {
             subscription.add(
                 service.languageChanged$.subscribe(() => {
                     languageChangedReceived = true;
-                })
+                }),
             );
 
             // Act

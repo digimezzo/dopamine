@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { Strings } from '../../../../common/strings';
 import { PlaylistModel } from '../../../../services/playlist/playlist-model';
 import { PlaylistOrder } from './playlist-order';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Injectable()
 export class PlaylistsPersister {
@@ -13,7 +13,7 @@ export class PlaylistsPersister {
     private selectedPlaylistsChanged: Subject<string[]> = new Subject();
 
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         this.initializeFromSettings();

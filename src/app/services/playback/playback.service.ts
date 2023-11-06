@@ -3,7 +3,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { TrackOrdering } from '../../common/ordering/track-ordering';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
@@ -24,6 +23,7 @@ import { TrackServiceBase } from '../track/track.service.base';
 import { PlaylistServiceBase } from '../playlist/playlist.service.base';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AudioPlayerBase } from './audio-player.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class PlaybackService implements PlaybackServiceBase {
@@ -53,7 +53,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
         private mathExtensions: MathExtensions,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {
         this.initializeSubscriptions();

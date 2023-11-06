@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BaseSettings } from '../../../../common/settings/base-settings';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { SignInState } from '../../../../services/scrobbling/sign-in-state';
-import {DiscordServiceBase} from "../../../../services/discord/discord.service.base";
-import {ScrobblingServiceBase} from "../../../../services/scrobbling/scrobbling.service.base";
-import {SnackBarServiceBase} from "../../../../services/snack-bar/snack-bar.service.base";
+import { DiscordServiceBase } from '../../../../services/discord/discord.service.base';
+import { ScrobblingServiceBase } from '../../../../services/scrobbling/scrobbling.service.base';
+import { SnackBarServiceBase } from '../../../../services/snack-bar/snack-bar.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-online-settings',
@@ -22,7 +22,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
         private discordService: DiscordServiceBase,
         private scrobblingService: ScrobblingServiceBase,
         private snackBarService: SnackBarServiceBase,
-        public settings: BaseSettings
+        public settings: SettingsBase,
     ) {}
 
     public signInStateEnum: typeof SignInState = SignInState;
@@ -57,7 +57,7 @@ export class OnlineSettingsComponent implements OnInit, OnDestroy {
                 if (signInState === SignInState.Error) {
                     PromiseUtils.noAwait(this.snackBarService.lastFmLoginFailedAsync());
                 }
-            })
+            }),
         );
 
         this._signInState = this.scrobblingService.signInState;

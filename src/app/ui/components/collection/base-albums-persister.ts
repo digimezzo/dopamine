@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
-import { BaseSettings } from '../../../common/settings/base-settings';
 import { Strings } from '../../../common/strings';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from './album-order';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable()
 export abstract class BaseAlbumsPersister {
@@ -13,7 +13,7 @@ export abstract class BaseAlbumsPersister {
     private selectedAlbumsChanged: Subject<string[]> = new Subject();
 
     public constructor(
-        public settings: BaseSettings,
+        public settings: SettingsBase,
         public logger: Logger,
     ) {
         this.initializeFromSettings();

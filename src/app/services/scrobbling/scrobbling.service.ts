@@ -3,7 +3,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
-import { BaseSettings } from '../../common/settings/base-settings';
 import { Strings } from '../../common/strings';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 
@@ -14,6 +13,7 @@ import { TrackModel } from '../track/track-model';
 import { SignInState } from './sign-in-state';
 import { ScrobblingServiceBase } from './scrobbling.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
 export class ScrobblingService implements ScrobblingServiceBase {
@@ -30,7 +30,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
         private playbackService: PlaybackServiceBase,
         private lastfmApi: LastfmApi,
         private dateTime: DateTime,
-        private settings: BaseSettings,
+        private settings: SettingsBase,
         private logger: Logger,
     ) {}
 
