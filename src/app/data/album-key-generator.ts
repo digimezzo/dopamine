@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Strings } from '../common/strings';
+import { StringUtils } from '../common/utils/string-utils';
 import { DataDelimiter } from './data-delimiter';
 
 @Injectable()
 export class AlbumKeyGenerator {
     public generateAlbumKey(albumTitle: string | undefined, albumArtists: string[] | undefined): string {
-        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
+        if (!StringUtils.isNullOrWhiteSpace(albumTitle)) {
             const albumKeyItems: string[] = [];
             albumKeyItems.push(albumTitle!);
 

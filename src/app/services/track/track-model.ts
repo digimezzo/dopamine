@@ -1,7 +1,7 @@
 import { DataDelimiter } from '../../data/data-delimiter';
 import { Track } from '../../data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 
@@ -47,7 +47,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get title(): string {
-        if (!Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.track.trackTitle)) {
             return this.track.trackTitle!;
         }
 
@@ -55,7 +55,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get rawTitle(): string {
-        if (Strings.isNullOrWhiteSpace(this.track.trackTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(this.track.trackTitle)) {
             return '';
         }
 
@@ -63,7 +63,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableTitle(): string {
-        return Strings.getSortableString(this.title, false);
+        return StringUtils.getSortableString(this.title, false);
     }
 
     public get artists(): string {
@@ -73,7 +73,7 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-artist');
         }
 
-        const commaSeparatedArtists: string = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
+        const commaSeparatedArtists: string = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).join(', ');
 
         if (commaSeparatedArtists.length === 0) {
             return this.translatorService.get('unknown-artist');
@@ -89,7 +89,7 @@ export class TrackModel implements ISelectable {
             return [];
         }
 
-        const nonEmptyArtists: string[] = trackArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+        const nonEmptyArtists: string[] = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
 
         return nonEmptyArtists;
     }
@@ -99,13 +99,13 @@ export class TrackModel implements ISelectable {
             return '';
         }
 
-        const nonEmptyArtists: string[] = this.rawArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+        const nonEmptyArtists: string[] = this.rawArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
 
         return nonEmptyArtists[0];
     }
 
     public get sortableArtists(): string {
-        return Strings.getSortableString(this.artists, false);
+        return StringUtils.getSortableString(this.artists, false);
     }
 
     public get genres(): string {
@@ -115,7 +115,7 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-genre');
         }
 
-        const commaSeparatedGenres: string = trackGenres.filter((x) => !Strings.isNullOrWhiteSpace(x)).join(', ');
+        const commaSeparatedGenres: string = trackGenres.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).join(', ');
 
         if (commaSeparatedGenres.length === 0) {
             return this.translatorService.get('unknown-genre');
@@ -125,7 +125,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableGenres(): string {
-        return Strings.getSortableString(this.genres, false);
+        return StringUtils.getSortableString(this.genres, false);
     }
 
     public get albumKey(): string {
@@ -133,7 +133,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get albumTitle(): string {
-        if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(this.track.albumTitle)) {
             return this.translatorService.get('unknown-album');
         }
 
@@ -141,7 +141,7 @@ export class TrackModel implements ISelectable {
     }
 
     public get rawAlbumTitle(): string {
-        if (Strings.isNullOrWhiteSpace(this.track.albumTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(this.track.albumTitle)) {
             return '';
         }
 
@@ -165,11 +165,11 @@ export class TrackModel implements ISelectable {
     }
 
     public get sortableAlbumArtists(): string {
-        return Strings.getSortableString(this.albumArtists, false);
+        return StringUtils.getSortableString(this.albumArtists, false);
     }
 
     public get sortableAlbumTitle(): string {
-        return Strings.getSortableString(this.albumTitle, false);
+        return StringUtils.getSortableString(this.albumTitle, false);
     }
 
     public get durationInMilliseconds(): number {

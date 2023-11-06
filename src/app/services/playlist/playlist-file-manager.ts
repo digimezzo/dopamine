@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
-import { Collections } from '../../common/collections';
-import { FileValidator } from '../../common/file-validator';
 import { GuidFactory } from '../../common/guid.factory';
 import { Logger } from '../../common/logger';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistModel } from './playlist-model';
 import { PlaylistModelFactory } from './playlist-model-factory';
-import {FileAccessBase} from "../../common/io/file-access.base";
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { CollectionUtils } from '../../common/utils/collections-utils';
+import { FileValidator } from '../../common/validation/file-validator';
 
 @Injectable()
 export class PlaylistFileManager {
@@ -20,7 +20,7 @@ export class PlaylistFileManager {
         private guidFactory: GuidFactory,
         private fileValidator: FileValidator,
         private fileAccess: FileAccessBase,
-        private logger: Logger
+        private logger: Logger,
     ) {
         this.initialize();
     }
@@ -52,8 +52,8 @@ export class PlaylistFileManager {
 
             if (this.fileValidator.isSupportedPlaylistFile(currentPath)) {
                 const playlistPath: string = currentPath;
-                const previousPath: string | undefined = Collections.getPreviousItem<string>(sortedFilePathsInPath, index);
-                const nextPath: string | undefined = Collections.getNextItem<string>(sortedFilePathsInPath, index);
+                const previousPath: string | undefined = CollectionUtils.getPreviousItem<string>(sortedFilePathsInPath, index);
+                const nextPath: string | undefined = CollectionUtils.getNextItem<string>(sortedFilePathsInPath, index);
 
                 let playlistImagePath: string = '';
 

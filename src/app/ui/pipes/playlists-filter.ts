@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 import { PlaylistModel } from '../../services/playlist/playlist-model';
 
@@ -8,7 +8,7 @@ export class PlaylistsFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 
     public transform(playlists: PlaylistModel[], textToContain: string | undefined): PlaylistModel[] {
-        if (Strings.isNullOrWhiteSpace(textToContain)) {
+        if (StringUtils.isNullOrWhiteSpace(textToContain)) {
             return playlists;
         }
 

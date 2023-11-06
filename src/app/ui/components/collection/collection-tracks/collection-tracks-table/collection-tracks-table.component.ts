@@ -1,8 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
 import { TracksColumnsOrder } from '../../../../../services/track-columns/tracks-columns-order';
 import { TracksColumnsOrderColumn } from '../../../../../services/track-columns/tracks-columns-order-column';
@@ -21,6 +19,8 @@ import { CollectionServiceBase } from '../../../../../services/collection/collec
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../../context-menu-opener';
 
 @Component({
     selector: 'app-collection-tracks-table',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FileFormats } from './application/file-formats';
-import { FileAccessBase } from './io/file-access.base';
+import { FileFormats } from '../application/file-formats';
+import { FileAccessBase } from '../io/file-access.base';
 
 @Injectable()
 export class FileValidator {

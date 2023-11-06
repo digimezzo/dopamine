@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { WebSearchResult } from './web-search-result';
-import { Strings } from '../../../strings';
+import { StringUtils } from '../../../utils/string-utils';
 
 @Injectable()
 export class WebSearchApi {
@@ -20,14 +20,14 @@ export class WebSearchApi {
     public async webSearchAsync(query: string): Promise<WebSearchResult[]> {
         const vqd: string = await this.getVqdAsync(query);
 
-        if (Strings.isNullOrWhiteSpace(vqd)) {
+        if (StringUtils.isNullOrWhiteSpace(vqd)) {
             throw new Error(`Failed to get the VQD for query "${query}".`);
         }
 
         const requestUrl: string = `https://links.duckduckgo.com/d.js?${this.getSearchRequestParams(query, vqd).toString()}`;
         const responseString: string = await this.performGetRequestAsync(requestUrl);
 
-        if (Strings.isNullOrWhiteSpace(responseString)) {
+        if (StringUtils.isNullOrWhiteSpace(responseString)) {
             return [];
         }
 
@@ -39,7 +39,7 @@ export class WebSearchApi {
 
         const rawSearchResults: string = matches[1].replace(/\\t/g, ' ');
 
-        if (Strings.isNullOrWhiteSpace(rawSearchResults)) {
+        if (StringUtils.isNullOrWhiteSpace(rawSearchResults)) {
             return [];
         }
 

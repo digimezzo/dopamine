@@ -8,7 +8,7 @@ import { ColorConverter } from '../../common/color-converter';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { DefaultThemesCreator } from './default-themes-creator';
 import { Palette } from './palette';
 import { Theme } from './theme/theme';
@@ -241,7 +241,7 @@ export class AppearanceService implements AppearanceServiceBase {
         if (this.settings.followSystemColor) {
             const systemAccentColor: string = this.getSystemAccentColor();
 
-            if (!Strings.isNullOrWhiteSpace(systemAccentColor)) {
+            if (!StringUtils.isNullOrWhiteSpace(systemAccentColor)) {
                 primaryColorToApply = systemAccentColor;
                 secondaryColorToApply = systemAccentColor;
                 accentColorToApply = systemAccentColor;

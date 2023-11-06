@@ -11,10 +11,6 @@ export class NativeElementProxy {
             return 0;
         }
 
-        // if (!(element.nativeElement instanceof HTMLElement)) {
-        //     return 0;
-        // }
-
         const htmlElement: HTMLElement = element.nativeElement;
 
         if (htmlElement.offsetWidth == undefined) {

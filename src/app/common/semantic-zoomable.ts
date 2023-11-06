@@ -1,5 +1,5 @@
 import { Constants } from './application/constants';
-import { Strings } from './strings';
+import { StringUtils } from './utils/string-utils';
 
 export abstract class SemanticZoomable {
     public abstract name: string;
@@ -8,7 +8,7 @@ export abstract class SemanticZoomable {
     public isZoomHeader: boolean = false;
 
     public get sortableName(): string {
-        return Strings.getSortableString(this.name, true);
+        return StringUtils.getSortableString(this.name, true);
     }
 
     public get zoomHeader(): string {

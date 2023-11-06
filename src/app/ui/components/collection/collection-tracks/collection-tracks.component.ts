@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { TrackModels } from '../../../../services/track/track-models';
@@ -10,6 +9,7 @@ import { CollectionPersister } from '../collection-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 
 @Component({
     selector: 'app-collection-tracks',

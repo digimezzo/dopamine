@@ -1,5 +1,5 @@
-import { Strings } from '../../strings';
 import { LastfmBiography } from './lastfm-biography';
+import { StringUtils } from '../../utils/string-utils';
 
 export class LastfmArtist {
     public name: string;
@@ -14,23 +14,23 @@ export class LastfmArtist {
     public biography: LastfmBiography | undefined;
 
     public largestImage(): string {
-        if (!Strings.isNullOrWhiteSpace(this.imageMega)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.imageMega)) {
             return this.imageMega;
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.imageExtraLarge)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.imageExtraLarge)) {
             return this.imageExtraLarge;
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.imageLarge)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.imageLarge)) {
             return this.imageLarge;
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.imageMedium)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.imageMedium)) {
             return this.imageMedium;
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.imageSmall)) {
+        if (!StringUtils.isNullOrWhiteSpace(this.imageSmall)) {
             return this.imageSmall;
         }
 

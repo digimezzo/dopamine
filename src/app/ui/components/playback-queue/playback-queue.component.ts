@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
 import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { TrackModel } from '../../../services/track/track-model';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { MouseSelectionWatcher } from '../mouse-selection-watcher';
+import {ContextMenuOpener} from "../context-menu-opener";
 
 @Component({
     selector: 'app-playback-queue',

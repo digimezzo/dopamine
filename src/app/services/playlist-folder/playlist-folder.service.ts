@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TextSanitizer } from '../../common/text-sanitizer';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
@@ -51,7 +51,7 @@ export class PlaylistFolderService implements PlaylistFolderServiceBase {
     }
 
     public createPlaylistFolder(playlistFolderName: string): void {
-        if (Strings.isNullOrWhiteSpace(playlistFolderName)) {
+        if (StringUtils.isNullOrWhiteSpace(playlistFolderName)) {
             throw new Error(`playlistFolderName is empty`);
         }
 

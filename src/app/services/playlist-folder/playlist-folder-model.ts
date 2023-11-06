@@ -1,4 +1,4 @@
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 
 export class PlaylistFolderModel implements ISelectable {
@@ -11,6 +11,6 @@ export class PlaylistFolderModel implements ISelectable {
     public isSelected: boolean = false;
 
     public get isDefault(): boolean {
-        return Strings.isNullOrWhiteSpace(this.name);
+        return StringUtils.isNullOrWhiteSpace(this.name);
     }
 }

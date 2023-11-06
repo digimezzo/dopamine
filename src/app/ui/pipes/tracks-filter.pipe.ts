@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TrackModels } from '../../services/track/track-models';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { SearchServiceBase } from '../../services/search/search.service.base';
 
 @Pipe({ name: 'tracksFilter' })
@@ -8,7 +8,7 @@ export class TracksFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 
     public transform(tracks: TrackModels, textToContain: string | undefined): TrackModels {
-        if (Strings.isNullOrWhiteSpace(textToContain)) {
+        if (StringUtils.isNullOrWhiteSpace(textToContain)) {
             return tracks;
         }
 

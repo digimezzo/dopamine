@@ -1,9 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
-import { Strings } from '../../../../../common/strings';
+import { StringUtils } from '../../../../../common/utils/string-utils';
 import { PlaylistFolderModel } from '../../../../../services/playlist-folder/playlist-folder-model';
 import { PlaylistFoldersPersister } from '../playlist-folders-persister';
 import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
@@ -12,6 +10,8 @@ import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.s
 import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../../context-menu-opener';
 
 @Component({
     selector: 'app-playlist-folder-browser',
@@ -100,7 +100,7 @@ export class PlaylistFolderBrowserComponent {
             playlistFolder.name,
         );
 
-        if (!Strings.isNullOrWhiteSpace(newPlaylistFolderName)) {
+        if (!StringUtils.isNullOrWhiteSpace(newPlaylistFolderName)) {
             try {
                 this.playlistFolderService.renamePlaylistFolder(playlistFolder, newPlaylistFolderName);
             } catch (e: unknown) {
@@ -120,7 +120,7 @@ export class PlaylistFolderBrowserComponent {
         );
 
         try {
-            if (!Strings.isNullOrWhiteSpace(playlistFolderName)) {
+            if (!StringUtils.isNullOrWhiteSpace(playlistFolderName)) {
                 this.playlistFolderService.createPlaylistFolder(playlistFolderName);
             }
         } catch (e: unknown) {

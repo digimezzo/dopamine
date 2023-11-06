@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FileValidator } from '../../common/file-validator';
 import { Logger } from '../../common/logger';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { TrackModel } from '../track/track-model';
@@ -9,6 +8,7 @@ import { FileServiceBase } from './file.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { EventListenerServiceBase } from '../event-listener/event-listener.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
+import { FileValidator } from '../../common/validation/file-validator';
 
 @Injectable()
 export class FileService implements FileServiceBase {

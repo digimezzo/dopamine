@@ -1,5 +1,5 @@
 import { Constants } from '../common/application/constants';
-import { Strings } from '../common/strings';
+import { StringUtils } from '../common/utils/string-utils';
 
 export class DataDelimiter {
     private static delimiter: string = Constants.columnValueDelimiter;
@@ -23,7 +23,7 @@ export class DataDelimiter {
     }
 
     public static fromDelimitedString(delimitedString: string | undefined): string[] {
-        if (Strings.isNullOrWhiteSpace(delimitedString)) {
+        if (StringUtils.isNullOrWhiteSpace(delimitedString)) {
             return [];
         }
 

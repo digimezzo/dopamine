@@ -2,10 +2,8 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Hacks } from '../../../../common/hacks';
 import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { FolderModel } from '../../../../services/folder/folder-model';
@@ -27,6 +25,8 @@ import { TrackServiceBase } from '../../../../services/track/track.service.base'
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import {ContextMenuOpener} from "../../context-menu-opener";
 
 @Component({
     selector: 'app-collection-folders',

@@ -6,12 +6,12 @@ import { WebSearchResult } from './web-search-result';
 import { WebSearchApi } from './web-search.api';
 import { IWebSearchLyricsSource } from './sources/i-web-search-lyrics-source';
 import { AZLyricsSource } from './sources/a-z-lyrics-source';
-import { Strings } from '../../../strings';
 import { HttpClient } from '@angular/common/http';
 import { GeniusSource } from './sources/genius-source';
 import { MusixmatchSource } from './sources/musixmatch-source';
 import { LyricsSource } from './sources/lyrics-source';
 import { Logger } from '../../../logger';
+import { StringUtils } from '../../../utils/string-utils';
 
 @Injectable()
 export class WebSearchLyricsApi implements ILyricsApi {
@@ -43,13 +43,13 @@ export class WebSearchLyricsApi implements ILyricsApi {
             webSearchResults.filter((x: WebSearchResult) => [...this.sources.keys()].includes(x.name)) || [];
 
         for (const possibleSite of possibleSites) {
-            if (!Strings.isNullOrWhiteSpace(possibleSite.name)) {
+            if (!StringUtils.isNullOrWhiteSpace(possibleSite.name)) {
                 try {
                     const source: IWebSearchLyricsSource = this.sources.get(possibleSite.name)!;
                     const htmlString: string = await this.httpClient.get(possibleSite.fullUrl, { responseType: 'text' }).toPromise();
                     const lyricsText: string = source.parse(htmlString);
 
-                    if (Strings.isNullOrWhiteSpace(lyricsText)) {
+                    if (StringUtils.isNullOrWhiteSpace(lyricsText)) {
                         continue;
                     }
 

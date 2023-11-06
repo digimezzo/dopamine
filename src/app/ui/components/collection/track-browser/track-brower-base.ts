@@ -1,8 +1,6 @@
 import { Directive, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { TrackModel } from '../../../../services/track/track-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
@@ -10,6 +8,8 @@ import { PlaybackServiceBase } from '../../../../services/playback/playback.serv
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import {ContextMenuOpener} from "../../context-menu-opener";
 
 @Directive()
 export class TrackBrowserBase {

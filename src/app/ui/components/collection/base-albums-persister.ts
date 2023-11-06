@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../common/logger';
-import { Strings } from '../../../common/strings';
+import { StringUtils } from '../../../common/utils/string-utils';
 import { AlbumModel } from '../../../services/album/album-model';
 import { AlbumOrder } from './album-order';
 import { SettingsBase } from '../../../common/settings/settings.base';
@@ -83,11 +83,11 @@ export abstract class BaseAlbumsPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedAlbumFromSettings())) {
             this.selectedAlbumKeys = [this.getSelectedAlbumFromSettings()];
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedAlbumOrderFromSettings())) {
             this.selectedAlbumOrder = AlbumOrder[this.getSelectedAlbumOrderFromSettings()] as AlbumOrder;
         }
     }

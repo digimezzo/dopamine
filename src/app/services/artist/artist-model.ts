@@ -1,5 +1,5 @@
 import { SemanticZoomable } from '../../common/semantic-zoomable';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 
@@ -14,7 +14,7 @@ export class ArtistModel extends SemanticZoomable implements ISelectable {
     public isSelected: boolean = false;
 
     public get displayName(): string {
-        if (Strings.isNullOrWhiteSpace(this.name)) {
+        if (StringUtils.isNullOrWhiteSpace(this.name)) {
             return this.translatorService.get('Artist.UnknownArtist');
         }
 

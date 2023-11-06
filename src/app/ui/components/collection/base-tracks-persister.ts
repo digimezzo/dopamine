@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../../../common/logger';
-import { Strings } from '../../../common/strings';
+import { StringUtils } from '../../../common/utils/string-utils';
 import { TrackOrder } from './track-order';
 import { SettingsBase } from '../../../common/settings/settings.base';
 
@@ -36,7 +36,7 @@ export abstract class BaseTracksPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedTrackOrderFromSettings())) {
             this.selectedTrackOrder = TrackOrder[this.getSelectedTrackOrderFromSettings()] as TrackOrder;
         }
     }

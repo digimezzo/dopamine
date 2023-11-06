@@ -6,7 +6,7 @@ import { LyricsModel } from './lyrics-model';
 import { Lyrics } from '../../common/api/lyrics/lyrics';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics.api';
 import { WebSearchLyricsApi } from '../../common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 
@@ -28,7 +28,7 @@ export class OnlineLyricsGetter implements ILyricsGetter {
             this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
         }
 
-        if (Strings.isNullOrWhiteSpace(lyrics.text)) {
+        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             try {
                 lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
             } catch (e) {
@@ -36,7 +36,7 @@ export class OnlineLyricsGetter implements ILyricsGetter {
             }
         }
 
-        if (Strings.isNullOrWhiteSpace(lyrics.text)) {
+        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             try {
                 lyrics = await this.webSearchLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
             } catch (e) {

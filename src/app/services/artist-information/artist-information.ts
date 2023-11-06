@@ -1,4 +1,4 @@
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { DesktopBase } from '../../common/io/desktop.base';
 
 export class ArtistInformation {
@@ -33,7 +33,7 @@ export class ArtistInformation {
     }
 
     public get isEmpty(): boolean {
-        return Strings.isNullOrWhiteSpace(this.name);
+        return StringUtils.isNullOrWhiteSpace(this.name);
     }
 
     public get hasSimilarArtists(): boolean {

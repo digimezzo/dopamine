@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { SubfolderModel } from '../../services/folder/subfolder-model';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
@@ -16,7 +16,7 @@ export class SubfolderNamePipe implements PipeTransform {
             return '..';
         }
 
-        if (Strings.isNullOrWhiteSpace(subfolder.path)) {
+        if (StringUtils.isNullOrWhiteSpace(subfolder.path)) {
             return '';
         }
 

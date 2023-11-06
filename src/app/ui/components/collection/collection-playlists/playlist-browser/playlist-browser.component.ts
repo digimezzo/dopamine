@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../../../common/native-element-proxy';
 import { PlaylistModel } from '../../../../../services/playlist/playlist-model';
 import { PlaylistRowsGetter } from '../playlist-folder-browser/playlist-rows-getter';
@@ -14,6 +12,8 @@ import { PlaylistServiceBase } from '../../../../../services/playlist/playlist.s
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../../context-menu-opener';
 
 @Component({
     selector: 'app-playlist-browser',

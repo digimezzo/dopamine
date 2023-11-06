@@ -2,9 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
-import { ContextMenuOpener } from '../../../../../common/context-menu-opener';
 import { Logger } from '../../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../../common/mouse-selection-watcher';
 import { PlaybackStarted } from '../../../../../services/playback/playback-started';
 import { TrackModel } from '../../../../../services/track/track-model';
 import { TrackModels } from '../../../../../services/track/track-models';
@@ -15,6 +13,8 @@ import { DialogServiceBase } from '../../../../../services/dialog/dialog.service
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
 import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../../context-menu-opener';
 
 @Component({
     selector: 'app-playlist-track-browser',

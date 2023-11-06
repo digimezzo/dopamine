@@ -1,12 +1,12 @@
-import { Strings } from './strings';
+import { StringUtils } from './string-utils';
 
-describe('Strings', () => {
+describe('StringUtils', () => {
     describe('empty', () => {
         it('should return an empty string', () => {
             // Arrange
 
             // Act
-            const emptyString: string = Strings.empty;
+            const emptyString: string = StringUtils.empty;
 
             // Assert
             expect(emptyString).toEqual('');
@@ -20,7 +20,7 @@ describe('Strings', () => {
             const string2: string | undefined = undefined;
 
             // Act
-            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = StringUtils.equalsIgnoreCase(string1, string2);
 
             // Assert
             expect(stringsAreEqual).toBeTruthy();
@@ -32,7 +32,7 @@ describe('Strings', () => {
             const string2: string = 'string 2';
 
             // Act
-            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = StringUtils.equalsIgnoreCase(string1, string2);
 
             // Assert
             expect(stringsAreEqual).toBeFalsy();
@@ -44,7 +44,7 @@ describe('Strings', () => {
             const string2: string | undefined = undefined;
 
             // Act
-            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = StringUtils.equalsIgnoreCase(string1, string2);
 
             // Assert
             expect(stringsAreEqual).toBeFalsy();
@@ -56,7 +56,7 @@ describe('Strings', () => {
             const string2: string = 'thisisastring';
 
             // Act
-            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = StringUtils.equalsIgnoreCase(string1, string2);
 
             // Assert
             expect(stringsAreEqual).toBeTruthy();
@@ -68,7 +68,7 @@ describe('Strings', () => {
             const string2: string = 'THISISASTRING';
 
             // Act
-            const stringsAreEqual: boolean = Strings.equalsIgnoreCase(string1, string2);
+            const stringsAreEqual: boolean = StringUtils.equalsIgnoreCase(string1, string2);
 
             // Assert
             expect(stringsAreEqual).toBeTruthy();
@@ -81,7 +81,7 @@ describe('Strings', () => {
             const stringToCheck: string | undefined = undefined;
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringUtils.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             expect(stringToCheckIsNullOrWhiteSpace).toBeTruthy();
@@ -92,7 +92,7 @@ describe('Strings', () => {
             const stringToCheck: string = '';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringUtils.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             expect(stringToCheckIsNullOrWhiteSpace).toBeTruthy();
@@ -103,7 +103,7 @@ describe('Strings', () => {
             const stringToCheck: string = ' ';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringUtils.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             expect(stringToCheckIsNullOrWhiteSpace).toBeTruthy();
@@ -114,7 +114,7 @@ describe('Strings', () => {
             const stringToCheck: string = '     ';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringUtils.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             expect(stringToCheckIsNullOrWhiteSpace).toBeTruthy();
@@ -125,7 +125,7 @@ describe('Strings', () => {
             const stringToCheck: string = 'myString 1';
 
             // Act
-            const stringToCheckIsNullOrWhiteSpace: boolean = Strings.isNullOrWhiteSpace(stringToCheck);
+            const stringToCheckIsNullOrWhiteSpace: boolean = StringUtils.isNullOrWhiteSpace(stringToCheck);
 
             // Assert
             expect(stringToCheckIsNullOrWhiteSpace).toBeFalsy();
@@ -138,7 +138,7 @@ describe('Strings', () => {
             const sourceString: string = `A string 'with' single 'quotes'`;
 
             // Act
-            const newString: string = Strings.replaceFirst(sourceString, `'`, `''`);
+            const newString: string = StringUtils.replaceFirst(sourceString, `'`, `''`);
 
             // Assert
             expect(newString).toEqual(`A string ''with' single 'quotes'`);
@@ -151,7 +151,7 @@ describe('Strings', () => {
             const sourceString: string = `A string 'with' single 'quotes'`;
 
             // Act
-            const newString: string = Strings.replaceAll(sourceString, `'`, `''`);
+            const newString: string = StringUtils.replaceAll(sourceString, `'`, `''`);
 
             // Assert
             expect(newString).toEqual(`A string ''with'' single ''quotes''`);
@@ -164,7 +164,7 @@ describe('Strings', () => {
             const sourceString: string = `Ça, c'était une très bonne crème Brulée. Raphaël l'a adoré!`;
 
             // Act
-            const newString: string = Strings.removeAccents(sourceString);
+            const newString: string = StringUtils.removeAccents(sourceString);
 
             // Assert
             expect(newString).toEqual(`Ca, c'etait une tres bonne creme Brulee. Raphael l'a adore!`);
@@ -176,7 +176,7 @@ describe('Strings', () => {
             // Arrange
 
             // Act
-            const sortableString: string = Strings.getSortableString(undefined, false);
+            const sortableString: string = StringUtils.getSortableString(undefined, false);
 
             // Assert
             expect(sortableString).toEqual('');
@@ -186,7 +186,7 @@ describe('Strings', () => {
             // Arrange
 
             // Act
-            const sortableString: string = Strings.getSortableString('', false);
+            const sortableString: string = StringUtils.getSortableString('', false);
 
             // Assert
             expect(sortableString).toEqual('');
@@ -197,7 +197,7 @@ describe('Strings', () => {
             const sourceString: string = 'Without prefix';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, false);
+            const sortableString: string = StringUtils.getSortableString(sourceString, false);
 
             // Assert
             expect(sortableString).toEqual('without prefix');
@@ -208,7 +208,7 @@ describe('Strings', () => {
             const sourceString: string = 'Without prefix';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, true);
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
 
             // Assert
             expect(sortableString).toEqual('without prefix');
@@ -219,7 +219,7 @@ describe('Strings', () => {
             const sourceString: string = 'Their big reward';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, false);
+            const sortableString: string = StringUtils.getSortableString(sourceString, false);
 
             // Assert
             expect(sortableString).toEqual('their big reward');
@@ -230,7 +230,7 @@ describe('Strings', () => {
             const sourceString: string = 'Their big reward';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, true);
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
 
             // Assert
             expect(sortableString).toEqual('their big reward');
@@ -241,7 +241,7 @@ describe('Strings', () => {
             const sourceString: string = 'The Gathering';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, false);
+            const sortableString: string = StringUtils.getSortableString(sourceString, false);
 
             // Assert
             expect(sortableString).toEqual('the gathering');
@@ -252,7 +252,7 @@ describe('Strings', () => {
             const sourceString: string = 'The Gathering';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, true);
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
 
             // Assert
             expect(sortableString).toEqual('gathering');
@@ -263,7 +263,7 @@ describe('Strings', () => {
             const sourceString: string = 'The    Gathering';
 
             // Act
-            const sortableString: string = Strings.getSortableString(sourceString, true);
+            const sortableString: string = StringUtils.getSortableString(sourceString, true);
 
             // Assert
             expect(sortableString).toEqual('gathering');

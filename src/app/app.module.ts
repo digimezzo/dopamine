@@ -34,7 +34,6 @@ import { AppComponent } from './app.component';
 import { FanartApi } from './common/api/fanart/fanart.api';
 import { GitHubApi } from './common/api/git-hub/git-hub.api';
 import { LastfmApi } from './common/api/lastfm/lastfm.api';
-import { ContextMenuOpener } from './common/context-menu-opener';
 import { AlbumKeyGenerator } from './data/album-key-generator';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
@@ -44,7 +43,6 @@ import { FolderTrackRepository } from './data/repositories/folder-track-reposito
 import { RemovedTrackRepository } from './data/repositories/removed-track-repository';
 import { TrackRepository } from './data/repositories/track-repository';
 import { DateTime } from './common/date-time';
-import { FileValidator } from './common/file-validator';
 import { GuidFactory } from './common/guid.factory';
 import { Hacks } from './common/hacks';
 import { ImageProcessor } from './common/image-processor';
@@ -65,7 +63,6 @@ import { NativeElementProxy } from './common/native-element-proxy';
 import { ArtistOrdering } from './common/ordering/artist-ordering';
 import { GenreOrdering } from './common/ordering/genre-ordering';
 import { TrackOrdering } from './common/ordering/track-ordering';
-import { PathValidator } from './common/path-validator';
 import { Scheduler } from './common/scheduling/scheduler';
 import { SemanticZoomHeaderAdder } from './common/semantic-zoom-header-adder';
 import { SettingsBase } from './common/settings/settings.base';
@@ -306,6 +303,9 @@ import { DesktopBase } from './common/io/desktop.base';
 import { FileAccessBase } from './common/io/file-access.base';
 import { FileMetadataFactoryBase } from './common/metadata/file-metadata.factory.base';
 import { SchedulerBase } from './common/scheduling/scheduler.base';
+import { ContextMenuOpener } from './ui/components/context-menu-opener';
+import { PathValidator } from './common/validation/path-validator';
+import { FileValidator } from './common/validation/file-validator';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');

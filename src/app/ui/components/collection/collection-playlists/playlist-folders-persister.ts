@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 
@@ -58,7 +58,7 @@ export class PlaylistFoldersPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedPlaylistFolderFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedPlaylistFolderFromSettings())) {
             this.selectedPlaylistFolderNames = [this.getSelectedPlaylistFolderFromSettings()];
         }
     }

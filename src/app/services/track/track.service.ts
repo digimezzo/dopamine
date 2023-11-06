@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
 import { Track } from '../../data/entities/track';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { ArtistType } from '../artist/artist-type';
 import { TrackModel } from './track-model';
 import { TrackModelFactory } from './track-model-factory';
@@ -19,7 +19,7 @@ export class TrackService implements TrackServiceBase {
     ) {}
 
     public async getTracksInSubfolderAsync(subfolderPath: string): Promise<TrackModels> {
-        if (Strings.isNullOrWhiteSpace(subfolderPath)) {
+        if (StringUtils.isNullOrWhiteSpace(subfolderPath)) {
             return new TrackModels();
         }
 

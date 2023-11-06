@@ -5,7 +5,7 @@ import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TrackFieldCreator } from './track-field-creator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
@@ -80,7 +80,7 @@ export class TrackFiller {
     }
 
     private getHasLyrics(lyrics: string): number {
-        if (!Strings.isNullOrWhiteSpace(lyrics)) {
+        if (!StringUtils.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }
 

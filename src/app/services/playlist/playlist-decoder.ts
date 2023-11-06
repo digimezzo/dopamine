@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileFormats } from '../../common/application/file-formats';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { PlaylistEntry } from './playlist-entry';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
@@ -27,10 +27,10 @@ export class PlaylistDecoder {
 
         for (const fileLine of fileLines) {
             // We don't process empty lines and lines containing comments
-            if (!Strings.isNullOrWhiteSpace(fileLine) && !fileLine.startsWith('#')) {
+            if (!StringUtils.isNullOrWhiteSpace(fileLine) && !fileLine.startsWith('#')) {
                 const fullTrackPath: string = this.ensureFullTrackPath(playlistPath, fileLine);
 
-                if (!Strings.isNullOrWhiteSpace(fullTrackPath)) {
+                if (!StringUtils.isNullOrWhiteSpace(fullTrackPath)) {
                     playlistEntries.push(new PlaylistEntry(fileLine, fullTrackPath));
                 }
             }

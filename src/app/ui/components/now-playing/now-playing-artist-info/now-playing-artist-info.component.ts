@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { ArtistInformation } from '../../../../services/artist-information/artist-information';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
@@ -86,7 +86,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
 
         this._artist = await this.artistInformationService.getArtistInformationAsync(track);
 
-        if (Strings.isNullOrWhiteSpace(this.artist.imageUrl)) {
+        if (StringUtils.isNullOrWhiteSpace(this.artist.imageUrl)) {
             // Makes sure that the content is shown when there is no image
             this._contentAnimation = 'fade-in';
             await this.scheduler.sleepAsync(250);

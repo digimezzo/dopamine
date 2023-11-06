@@ -3,7 +3,7 @@ import { TrackModel } from '../track/track-model';
 import { ILyricsGetter } from './i-lyrics-getter';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
         const lrcFilePath: string = this.getLrcFilePath(track);
 
-        if (Strings.isNullOrWhiteSpace(lrcFilePath)) {
+        if (StringUtils.isNullOrWhiteSpace(lrcFilePath)) {
             return LyricsModel.default();
         }
 
@@ -24,7 +24,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
             const lineParts: string[] = lines[i].split(']');
             const lineWithoutTimestamp: string = lineParts.length > 1 ? lineParts[1] : lineParts[0];
 
-            if (!Strings.isNullOrWhiteSpace(lineWithoutTimestamp) && !lineWithoutTimestamp.startsWith('[')) {
+            if (!StringUtils.isNullOrWhiteSpace(lineWithoutTimestamp) && !lineWithoutTimestamp.startsWith('[')) {
                 lyricsText += `${lineWithoutTimestamp}`;
 
                 if (i < lines.length - 1) {

@@ -1,6 +1,6 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { InputData } from '../../../../services/dialog/input-data';
 
 @Component({
@@ -18,7 +18,7 @@ export class InputDialogComponent {
     }
 
     public get hasInputText(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.data.inputText);
+        return !StringUtils.isNullOrWhiteSpace(this.data.inputText);
     }
 
     public closeDialog(): void {

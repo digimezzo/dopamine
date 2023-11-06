@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Collections } from '../../common/collections';
-import { FileValidator } from '../../common/file-validator';
 import { Logger } from '../../common/logger';
 import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
@@ -9,11 +7,9 @@ import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
 import { PlaylistFolderModel } from '../playlist-folder/playlist-folder-model';
 import { PlaylistFolderModelFactory } from '../playlist-folder/playlist-folder-model-factory';
-
 import { TrackModel } from '../track/track-model';
 import { TrackModelFactory } from '../track/track-model-factory';
 import { TrackModels } from '../track/track-models';
-
 import { PlaylistDecoder } from './playlist-decoder';
 import { PlaylistEntry } from './playlist-entry';
 import { PlaylistFileManager } from './playlist-file-manager';
@@ -22,7 +18,8 @@ import { PlaylistServiceBase } from './playlist.service.base';
 import { TrackServiceBase } from '../track/track.service.base';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
-
+import { CollectionUtils } from '../../common/utils/collections-utils';
+import { FileValidator } from '../../common/validation/file-validator';
 @Injectable()
 export class PlaylistService implements PlaylistServiceBase {
     private _playlistsParentFolderPath: string = '';
@@ -132,7 +129,7 @@ export class PlaylistService implements PlaylistServiceBase {
         }
 
         try {
-            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = Collections.groupBy(
+            const tracksToRemoveGroupedByPlaylistPath: Map<string, TrackModel[]> = CollectionUtils.groupBy(
                 tracksToRemove,
                 (track: TrackModel) => track.playlistPath,
             );

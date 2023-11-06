@@ -1,7 +1,7 @@
 import { IWebSearchLyricsSource } from './i-web-search-lyrics-source';
 import htmlParser from 'node-html-parser';
 import { HTMLElement } from 'node-html-parser';
-import { Strings } from '../../../../strings';
+import { StringUtils } from '../../../../utils/string-utils';
 
 export class AZLyricsSource implements IWebSearchLyricsSource {
     public get name(): string {
@@ -20,10 +20,10 @@ export class AZLyricsSource implements IWebSearchLyricsSource {
 
         const content: string | undefined = possibleContent?.textContent.trim();
 
-        if (Strings.isNullOrWhiteSpace(content)) {
+        if (StringUtils.isNullOrWhiteSpace(content)) {
             return '';
         }
 
-        return Strings.replaceAll(content!, '\n\n', '\n');
+        return StringUtils.replaceAll(content!, '\n\n', '\n');
     }
 }

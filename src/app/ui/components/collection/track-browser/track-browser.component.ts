@@ -1,10 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { GuidFactory } from '../../../../common/guid.factory';
 import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { TrackOrdering } from '../../../../common/ordering/track-ordering';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { TrackModel } from '../../../../services/track/track-model';
@@ -20,6 +18,8 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
 import {DesktopBase} from "../../../../common/io/desktop.base";
+import {MouseSelectionWatcher} from "../../mouse-selection-watcher";
+import {ContextMenuOpener} from "../../context-menu-opener";
 
 @Component({
     selector: 'app-track-browser',

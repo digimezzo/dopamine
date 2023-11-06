@@ -1,8 +1,8 @@
-import { Strings } from '../common/strings';
+import { StringUtils } from '../common/utils/string-utils';
 
 export class ClauseCreator {
     public static escapeQuotes(sourceString: string): string {
-        return Strings.replaceAll(sourceString, `'`, `''`);
+        return StringUtils.replaceAll(sourceString, `'`, `''`);
     }
 
     public static createTextInClause(columnName: string, clauseItems: string[]): string {
@@ -26,11 +26,11 @@ export class ClauseCreator {
         const orClauses: string[] = [];
 
         for (const clauseItem of clauseItems) {
-            if (Strings.isNullOrWhiteSpace(clauseItem)) {
+            if (StringUtils.isNullOrWhiteSpace(clauseItem)) {
                 orClauses.push(`(${columnName} IS NULL OR ${columnName}='')`);
             } else {
                 orClauses.push(
-                    `(LOWER(${columnName}) LIKE LOWER('%${delimiter}${Strings.replaceAll(clauseItem, `'`, `''`)}${delimiter}%'))`,
+                    `(LOWER(${columnName}) LIKE LOWER('%${delimiter}${StringUtils.replaceAll(clauseItem, `'`, `''`)}${delimiter}%'))`,
                 );
             }
         }

@@ -3,7 +3,7 @@ import { FanartApi } from '../../common/api/fanart/fanart.api';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { Logger } from '../../common/logger';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TrackModel } from '../track/track-model';
 import { ArtistInformation } from './artist-information';
 import { ArtistInformationFactory } from './artist-information-factory';
@@ -27,7 +27,7 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
             return artistInformation;
         }
 
-        if (Strings.isNullOrWhiteSpace(track.rawFirstArtist)) {
+        if (StringUtils.isNullOrWhiteSpace(track.rawFirstArtist)) {
             return artistInformation;
         }
 
@@ -39,7 +39,7 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
             if (
                 lastfmArtist == undefined ||
                 lastfmArtist.biography == undefined ||
-                Strings.isNullOrWhiteSpace(lastfmArtist.biography.content)
+                StringUtils.isNullOrWhiteSpace(lastfmArtist.biography.content)
             ) {
                 // In case there is no localized Biography, get the English one.
                 lastfmArtist = await this.lastfmApi.getArtistInfoAsync(track.rawFirstArtist, true, 'EN');
@@ -63,7 +63,7 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
 
         let biography: string = '';
 
-        if (lastfmArtist.biography != undefined && !Strings.isNullOrWhiteSpace(lastfmArtist.biography.content)) {
+        if (lastfmArtist.biography != undefined && !StringUtils.isNullOrWhiteSpace(lastfmArtist.biography.content)) {
             biography = this.removeUrlAndConvertLineBreaks(lastfmArtist.biography.content);
         }
 

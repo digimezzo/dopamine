@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constants } from '../../../../common/application/constants';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { PlaylistData } from '../../../../services/dialog/playlist-data';
 import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
@@ -36,7 +36,7 @@ export class EditPlaylistDialogComponent implements OnInit {
     }
 
     public get hasPlaylistName(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.playlistName);
+        return !StringUtils.isNullOrWhiteSpace(this.playlistName);
     }
 
     public get hasPlaylistImagePath(): boolean {
@@ -63,7 +63,7 @@ export class EditPlaylistDialogComponent implements OnInit {
     public async changeImageAsync(): Promise<void> {
         const selectedFile: string = await this.desktop.showSelectFileDialogAsync(this.translatorService.get('choose-image'));
 
-        if (!Strings.isNullOrWhiteSpace(selectedFile)) {
+        if (!StringUtils.isNullOrWhiteSpace(selectedFile)) {
             this.playlistImagePath = selectedFile;
         }
     }

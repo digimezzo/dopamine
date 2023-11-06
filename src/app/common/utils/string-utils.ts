@@ -1,6 +1,6 @@
-import { Constants } from './application/constants';
+import { Constants } from '../application/constants';
 
-export class Strings {
+export class StringUtils {
     public static get empty(): string {
         return '';
     }

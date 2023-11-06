@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { ArtistOrder } from './artist-browser/artist-order';
@@ -100,15 +100,15 @@ export class ArtistsPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedArtistFromSettings())) {
             this.selectedArtistNames = [this.getSelectedArtistFromSettings()];
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedArtistTypeFromSettings())) {
             this.selectedArtistType = ArtistType[this.getSelectedArtistTypeFromSettings()] as ArtistType;
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedArtistOrderFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedArtistOrderFromSettings())) {
             this.selectedArtistOrder = ArtistOrder[this.getSelectedArtistOrderFromSettings()] as ArtistOrder;
         }
     }

@@ -3,7 +3,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 
 import { PlaybackProgress } from '../playback/playback-progress';
@@ -52,7 +52,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
         try {
             this.sessionKey = await this.lastfmApi.getMobileSessionAsync(this.username, this.password);
 
-            if (!Strings.isNullOrWhiteSpace(this.sessionKey)) {
+            if (!StringUtils.isNullOrWhiteSpace(this.sessionKey)) {
                 this.settings.lastFmUsername = this.username;
                 this.settings.lastFmPassword = this.password;
                 this.settings.lastFmSessionKey = this.sessionKey;
@@ -90,7 +90,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
         }
 
         // We can't send track love for an unknown track title
-        if (Strings.isNullOrWhiteSpace(track.rawTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
             return;
         }
 
@@ -121,9 +121,9 @@ export class ScrobblingService implements ScrobblingServiceBase {
         this.sessionKey = this.settings.lastFmSessionKey;
 
         if (
-            !Strings.isNullOrWhiteSpace(this.username) &&
-            !Strings.isNullOrWhiteSpace(this.password) &&
-            !Strings.isNullOrWhiteSpace(this.sessionKey)
+            !StringUtils.isNullOrWhiteSpace(this.username) &&
+            !StringUtils.isNullOrWhiteSpace(this.password) &&
+            !StringUtils.isNullOrWhiteSpace(this.sessionKey)
         ) {
             this._signInState = SignInState.SignedIn;
         } else {
@@ -167,7 +167,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
         const trackTitle: string = this.currentTrack.rawTitle;
         const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
-        if (Strings.isNullOrWhiteSpace(artist) || Strings.isNullOrWhiteSpace(trackTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(artist) || StringUtils.isNullOrWhiteSpace(trackTitle)) {
             return;
         }
 
@@ -214,7 +214,7 @@ export class ScrobblingService implements ScrobblingServiceBase {
         const trackTitle: string = this.currentTrack.rawTitle;
         const albumTitle: string = this.currentTrack.rawAlbumTitle;
 
-        if (Strings.isNullOrWhiteSpace(artist) || Strings.isNullOrWhiteSpace(trackTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(artist) || StringUtils.isNullOrWhiteSpace(trackTitle)) {
             return;
         }
 

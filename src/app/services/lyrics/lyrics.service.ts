@@ -3,7 +3,7 @@ import { TrackModel } from '../track/track-model';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { LyricsModel } from './lyrics-model';
 import { Logger } from '../../common/logger';
@@ -28,7 +28,7 @@ export class LyricsService implements LyricsServiceBase {
             this.logger.error(e, 'Could not get embedded lyrics', 'LyricsService', 'getLyricsAsync');
         }
 
-        if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
+        if (!StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             return lyrics;
         }
 
@@ -38,7 +38,7 @@ export class LyricsService implements LyricsServiceBase {
             this.logger.error(e, 'Could not get LRC lyrics', 'LyricsService', 'getLyricsAsync');
         }
 
-        if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
+        if (!StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             return lyrics;
         }
 
@@ -50,7 +50,7 @@ export class LyricsService implements LyricsServiceBase {
             }
         }
 
-        if (!Strings.isNullOrWhiteSpace(lyrics.text)) {
+        if (!StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             return lyrics;
         }
 

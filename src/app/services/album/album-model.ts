@@ -1,10 +1,10 @@
 import { Constants } from '../../common/application/constants';
 import { DataDelimiter } from '../../data/data-delimiter';
 import { AlbumData } from '../../data/entities/album-data';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ISelectable } from '../../ui/interfaces/i-selectable';
-import {FileAccessBase} from "../../common/io/file-access.base";
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 export class AlbumModel implements ISelectable {
     public constructor(
@@ -18,7 +18,7 @@ export class AlbumModel implements ISelectable {
     public yearHeader: string = '';
 
     public get artworkPath(): string {
-        if (Strings.isNullOrWhiteSpace(this.albumData.artworkId)) {
+        if (StringUtils.isNullOrWhiteSpace(this.albumData.artworkId)) {
             return Constants.emptyImage;
         }
 
@@ -42,7 +42,7 @@ export class AlbumModel implements ISelectable {
     }
 
     public get albumTitle(): string {
-        if (Strings.isNullOrWhiteSpace(this.albumData.albumTitle)) {
+        if (StringUtils.isNullOrWhiteSpace(this.albumData.albumTitle)) {
             return this.translatorService.get('unknown-title');
         }
 

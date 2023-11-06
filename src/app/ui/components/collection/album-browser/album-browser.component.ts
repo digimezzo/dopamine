@@ -2,9 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { MatMenuTrigger } from '@angular/material/menu';
 import { debounceTime } from 'rxjs/operators';
 import { Constants } from '../../../../common/application/constants';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
 import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
 import { NativeElementProxy } from '../../../../common/native-element-proxy';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
@@ -14,6 +12,8 @@ import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import {ContextMenuOpener} from "../../context-menu-opener";
 
 @Component({
     selector: 'app-album-browser',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Constants } from '../../common/application/constants';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { SearchServiceBase } from './search.service.base';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class SearchService implements SearchServiceBase {
     }
 
     public get hasSearchText(): boolean {
-        return !Strings.isNullOrWhiteSpace(this.searchText);
+        return !StringUtils.isNullOrWhiteSpace(this.searchText);
     }
 
     public get isSearching(): boolean {
@@ -50,11 +50,11 @@ export class SearchService implements SearchServiceBase {
     }
 
     public matchesSearchText(originalText: string, searchText: string): boolean {
-        if (Strings.isNullOrWhiteSpace(originalText)) {
+        if (StringUtils.isNullOrWhiteSpace(originalText)) {
             return false;
         }
 
-        if (Strings.removeAccents(originalText).toLowerCase().includes(searchText.toLowerCase())) {
+        if (StringUtils.removeAccents(originalText).toLowerCase().includes(searchText.toLowerCase())) {
             return true;
         }
 

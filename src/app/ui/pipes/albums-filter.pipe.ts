@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Strings} from "../../common/strings";
-import {AlbumModel} from "../../services/album/album-model";
-import {SearchServiceBase} from "../../services/search/search.service.base";
+import { StringUtils } from '../../common/utils/string-utils';
+import { AlbumModel } from '../../services/album/album-model';
+import { SearchServiceBase } from '../../services/search/search.service.base';
 
 @Pipe({ name: 'albumsFilter' })
 export class AlbumsFilterPipe implements PipeTransform {
     public constructor(private searchService: SearchServiceBase) {}
 
     public transform(albums: AlbumModel[], textToContain: string | undefined): AlbumModel[] {
-        if (Strings.isNullOrWhiteSpace(textToContain)) {
+        if (StringUtils.isNullOrWhiteSpace(textToContain)) {
             return albums;
         }
 

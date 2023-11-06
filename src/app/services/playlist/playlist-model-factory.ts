@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../common/application/constants';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 import { PlaylistModel } from './playlist-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
@@ -43,7 +43,7 @@ export class PlaylistModelFactory {
     }
 
     private getPlaylistImage(playlistImagePath: string): string {
-        if (!Strings.isNullOrWhiteSpace(playlistImagePath)) {
+        if (!StringUtils.isNullOrWhiteSpace(playlistImagePath)) {
             return playlistImagePath;
         }
 

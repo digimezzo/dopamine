@@ -10,10 +10,10 @@ import { Md5 } from 'md5-typescript';
 import fetch from 'node-fetch';
 import { SensitiveInformation } from '../../application/sensitive-information';
 import { DateTime } from '../../date-time';
-import { Strings } from '../../strings';
 import { LastfmAlbum } from './lastfm-album';
 import { LastfmArtist } from './lastfm-artist';
 import { LastfmBiography } from './lastfm-biography';
+import {StringUtils} from "../../utils/string-utils";
 
 @Injectable()
 export class LastfmApi {
@@ -47,7 +47,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(languageCode)) {
+        if (!StringUtils.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -102,7 +102,7 @@ export class LastfmApi {
             ['api_key', SensitiveInformation.lastfmApiKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(languageCode)) {
+        if (!StringUtils.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
         }
 
@@ -129,7 +129,7 @@ export class LastfmApi {
         artist: string,
         trackTitle: string,
         albumTitle: string,
-        playbackStartTime: Date
+        playbackStartTime: Date,
     ): Promise<boolean> {
         let isScrobbleSuccessful: boolean = false;
 
@@ -143,7 +143,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
+        if (!StringUtils.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 
@@ -171,7 +171,7 @@ export class LastfmApi {
             ['sk', sessionKey],
         ]);
 
-        if (!Strings.isNullOrWhiteSpace(albumTitle)) {
+        if (!StringUtils.isNullOrWhiteSpace(albumTitle)) {
             parameters.set('album', albumTitle);
         }
 

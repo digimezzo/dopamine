@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../../../common/application/constants';
-import { Strings } from '../../../common/strings';
+import { StringUtils } from '../../../common/utils/string-utils';
 import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class TabSelectionGetter {
 
         const selectedTabLabel: string = this.tabLabels[tabIndex];
 
-        if (!Strings.isNullOrWhiteSpace(selectedTabLabel)) {
+        if (!StringUtils.isNullOrWhiteSpace(selectedTabLabel)) {
             return selectedTabLabel;
         }
 
@@ -24,7 +24,7 @@ export class TabSelectionGetter {
     }
 
     public getTabIndexForLabel(tabLabel: string | undefined): number {
-        if (Strings.isNullOrWhiteSpace(tabLabel)) {
+        if (StringUtils.isNullOrWhiteSpace(tabLabel)) {
             return 0;
         }
 

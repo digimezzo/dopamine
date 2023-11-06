@@ -1,4 +1,4 @@
-export class Collections {
+export class CollectionUtils {
     public static groupBy<S, T>(list: T[], keyGetter: (T) => S): Map<S, T[]> {
         const map: Map<S, T[]> = new Map();
 

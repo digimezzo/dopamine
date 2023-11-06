@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../../../common/logger';
-import { Strings } from '../../../../common/strings';
+import { StringUtils } from '../../../../common/utils/string-utils';
 import { GenreModel } from '../../../../services/genre/genre-model';
 import { GenreOrder } from './genre-browser/genre-order';
 import { SettingsBase } from '../../../../common/settings/settings.base';
@@ -77,11 +77,11 @@ export class GenresPersister {
     }
 
     private initializeFromSettings(): void {
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedGenreFromSettings())) {
             this.selectedGenreNames = [this.getSelectedGenreFromSettings()];
         }
 
-        if (!Strings.isNullOrWhiteSpace(this.getSelectedGenreOrderFromSettings())) {
+        if (!StringUtils.isNullOrWhiteSpace(this.getSelectedGenreOrderFromSettings())) {
             this.selectedGenreOrder = GenreOrder[this.getSelectedGenreOrderFromSettings()] as GenreOrder;
         }
     }

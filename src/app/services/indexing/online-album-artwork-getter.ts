@@ -4,7 +4,7 @@ import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
-import { Strings } from '../../common/strings';
+import { StringUtils } from '../../common/utils/string-utils';
 
 @Injectable()
 export class OnlineAlbumArtworkGetter {
@@ -23,24 +23,24 @@ export class OnlineAlbumArtworkGetter {
         const artists: string[] = [];
 
         // Title
-        if (!Strings.isNullOrWhiteSpace(fileMetadata.album)) {
+        if (!StringUtils.isNullOrWhiteSpace(fileMetadata.album)) {
             title = fileMetadata.album;
-        } else if (!Strings.isNullOrWhiteSpace(fileMetadata.title)) {
+        } else if (!StringUtils.isNullOrWhiteSpace(fileMetadata.title)) {
             title = fileMetadata.title;
         }
 
         // Artist
         if (fileMetadata.albumArtists != undefined && fileMetadata.albumArtists.length > 0) {
-            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceAlbumArtists: string[] = fileMetadata.albumArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceAlbumArtists);
         }
 
         if (fileMetadata.artists != undefined && fileMetadata.artists.length > 0) {
-            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter((x) => !Strings.isNullOrWhiteSpace(x));
+            const nonWhiteSpaceTrackArtists: string[] = fileMetadata.artists.filter((x) => !StringUtils.isNullOrWhiteSpace(x));
             artists.push(...nonWhiteSpaceTrackArtists);
         }
 
-        if (Strings.isNullOrWhiteSpace(title) || artists.length === 0) {
+        if (StringUtils.isNullOrWhiteSpace(title) || artists.length === 0) {
             return undefined;
         }
 
@@ -59,7 +59,7 @@ export class OnlineAlbumArtworkGetter {
             }
 
             if (lastfmAlbum != undefined) {
-                if (!Strings.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
+                if (!StringUtils.isNullOrWhiteSpace(lastfmAlbum.largestImage())) {
                     let artworkData: Buffer;
 
                     try {

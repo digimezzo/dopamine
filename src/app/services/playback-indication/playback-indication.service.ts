@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
-import {PlaybackIndicationServiceBase} from "./playback-indication.service.base";
+import { PlaybackIndicationServiceBase } from './playback-indication.service.base';
+import { PathValidator } from '../../common/validation/path-validator';
 
 @Injectable()
 export class PlaybackIndicationService implements PlaybackIndicationServiceBase {
