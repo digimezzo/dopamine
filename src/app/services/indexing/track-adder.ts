@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FolderTrack } from '../../data/entities/folder-track';
 import { Track } from '../../data/entities/track';
-import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
-import { BaseRemovedTrackRepository } from '../../data/repositories/base-removed-track-repository';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { BaseSettings } from '../../common/settings/base-settings';
@@ -11,13 +8,16 @@ import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
+import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
 
 @Injectable()
 export class TrackAdder {
     public constructor(
-        private trackRepository: BaseTrackRepository,
-        private folderTrackRepository: BaseFolderTrackRepository,
-        private removedTrackRepository: BaseRemovedTrackRepository,
+        private trackRepository: TrackRepositoryBase,
+        private folderTrackRepository: FolderTrackRepositoryBase,
+        private removedTrackRepository: RemovedTrackRepositoryBase,
         private indexablePathFetcher: IndexablePathFetcher,
         private trackFiller: TrackFiller,
         private settings: BaseSettings,

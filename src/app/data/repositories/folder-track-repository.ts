@@ -6,10 +6,10 @@
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { FolderTrack } from '../entities/folder-track';
-import { BaseFolderTrackRepository } from './base-folder-track-repository';
+import { FolderTrackRepositoryBase } from './folder-track-repository.base';
 
 @Injectable()
-export class FolderTrackRepository implements BaseFolderTrackRepository {
+export class FolderTrackRepository implements FolderTrackRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolderTrack(folderTrack: FolderTrack): void {
@@ -25,7 +25,7 @@ export class FolderTrackRepository implements BaseFolderTrackRepository {
         const statement = database.prepare(
             `SELECT COUNT(*) AS numberOfFolderTracks
             FROM FolderTrack
-            WHERE TrackID NOT IN (SELECT TrackID FROM Track);`
+            WHERE TrackID NOT IN (SELECT TrackID FROM Track);`,
         );
 
         const result: any = statement.get();

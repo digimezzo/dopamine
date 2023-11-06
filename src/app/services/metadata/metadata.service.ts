@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Constants } from '../../common/application/constants';
 import { FileFormats } from '../../common/application/file-formats';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { ImageProcessor } from '../../common/image-processor';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
@@ -13,7 +12,8 @@ import { Strings } from '../../common/strings';
 import { AlbumArtworkGetter } from '../indexing/album-artwork-getter';
 import { TrackModel } from '../track/track-model';
 import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
-import {MetadataServiceBase} from "./metadata.service.base";
+import { MetadataServiceBase } from './metadata.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 @Injectable()
 export class MetadataService implements MetadataServiceBase {
@@ -22,13 +22,13 @@ export class MetadataService implements MetadataServiceBase {
 
     public constructor(
         private fileMetadataFactory: BaseFileMetadataFactory,
-        private trackRepository: BaseTrackRepository,
+        private trackRepository: TrackRepositoryBase,
         private albumArtworkGetter: AlbumArtworkGetter,
         private cachedAlbumArtworkGetter: CachedAlbumArtworkGetter,
         private imageProcessor: ImageProcessor,
         private fileAccess: BaseFileAccess,
         private settings: BaseSettings,
-        private logger: Logger
+        private logger: Logger,
     ) {}
 
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();

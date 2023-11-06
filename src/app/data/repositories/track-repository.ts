@@ -11,11 +11,11 @@ import { ArtistData } from '../entities/artist-data';
 import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 import { QueryParts } from '../query-parts';
-import { BaseTrackRepository } from './base-track-repository';
 import { Constants } from '../../common/application/constants';
+import { TrackRepositoryBase } from './track-repository.base';
 
 @Injectable()
-export class TrackRepository implements BaseTrackRepository {
+export class TrackRepository implements TrackRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
     public getNumberOfTracksThatNeedIndexing(): number {

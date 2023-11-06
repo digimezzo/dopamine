@@ -3,7 +3,7 @@ import { ArtistData } from '../entities/artist-data';
 import { GenreData } from '../entities/genre-data';
 import { Track } from '../entities/track';
 
-export abstract class BaseTrackRepository {
+export abstract class TrackRepositoryBase {
     public abstract getNumberOfTracksThatNeedIndexing(): number;
     public abstract getNumberOfTracks(): number;
     public abstract getMaximumDateFileModified(): number;

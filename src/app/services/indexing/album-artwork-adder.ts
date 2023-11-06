@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { AlbumData } from '../../data/entities/album-data';
 import { Track } from '../../data/entities/track';
-import { BaseAlbumArtworkRepository } from '../../data/repositories/base-album-artwork-repository';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
@@ -11,13 +9,15 @@ import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-
 import { AlbumArtworkGetter } from './album-artwork-getter';
 import { AlbumArtworkCacheServiceBase } from '../album-artwork-cache/album-artwork-cache.service.base';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 @Injectable()
 export class AlbumArtworkAdder {
     public constructor(
         private albumArtworkCacheService: AlbumArtworkCacheServiceBase,
-        private albumArtworkRepository: BaseAlbumArtworkRepository,
-        private trackRepository: BaseTrackRepository,
+        private albumArtworkRepository: AlbumArtworkRepositoryBase,
+        private trackRepository: TrackRepositoryBase,
         private fileMetadataFactory: BaseFileMetadataFactory,
         private snackbarService: SnackBarServiceBase,
         private logger: Logger,

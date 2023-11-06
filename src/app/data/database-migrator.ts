@@ -5,15 +5,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@angular/core';
 import { Logger } from '../common/logger';
-import { BaseDatabaseMigrator } from './base-database-migrator';
 import { DatabaseFactory } from './database-factory';
 import { Migration } from './migration';
 import { Migration1 } from './migrations/migration1';
 import { Migration2 } from './migrations/migration2';
 import { Migration3 } from './migrations/migration3';
+import { DatabaseMigratorBase } from './database-migrator.base';
 
 @Injectable()
-export class DatabaseMigrator implements BaseDatabaseMigrator {
+export class DatabaseMigrator implements DatabaseMigratorBase {
     private migrations: Migration[] = [new Migration1(), new Migration2(), new Migration3()];
 
     public constructor(

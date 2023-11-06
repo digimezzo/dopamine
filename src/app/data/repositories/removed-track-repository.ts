@@ -6,10 +6,10 @@
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { RemovedTrack } from '../entities/removed-track';
-import { BaseRemovedTrackRepository } from './base-removed-track-repository';
+import { RemovedTrackRepositoryBase } from './removed-track-repository.base';
 
 @Injectable()
-export class RemovedTrackRepository implements BaseRemovedTrackRepository {
+export class RemovedTrackRepository implements RemovedTrackRepositoryBase {
     private folderModel: any;
 
     public constructor(private databaseFactory: DatabaseFactory) {}

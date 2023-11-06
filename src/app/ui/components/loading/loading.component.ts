@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseDatabaseMigrator } from '../../../data/base-database-migrator';
 import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { BaseSettings } from '../../../common/settings/base-settings';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
@@ -7,6 +6,7 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
 import { UpdateServiceBase } from '../../../services/update/update.service.base';
 import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 import { FileServiceBase } from '../../../services/file/file.service.base';
+import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
 
 @Component({
     selector: 'app-loading',
@@ -18,7 +18,7 @@ import { FileServiceBase } from '../../../services/file/file.service.base';
 export class LoadingComponent implements OnInit {
     public constructor(
         public navigationService: NavigationServiceBase,
-        private databaseMigrator: BaseDatabaseMigrator,
+        private databaseMigrator: DatabaseMigratorBase,
         public appearanceService: AppearanceServiceBase,
         private settings: BaseSettings,
         private updateService: UpdateServiceBase,

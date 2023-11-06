@@ -1,12 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { CollectionChecker } from './collection-checker';
 import { TrackIndexer } from './track-indexer';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -18,7 +18,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         private collectionChecker: CollectionChecker,
         private trackIndexer: TrackIndexer,
         private albumArtworkIndexer: AlbumArtworkIndexer,
-        private trackRepository: BaseTrackRepository,
+        private trackRepository: TrackRepositoryBase,
         private folderService: FolderServiceBase,
         private logger: Logger,
     ) {

@@ -36,15 +36,9 @@ import { GitHubApi } from './common/api/git-hub/git-hub.api';
 import { LastfmApi } from './common/api/lastfm/lastfm.api';
 import { ContextMenuOpener } from './common/context-menu-opener';
 import { AlbumKeyGenerator } from './data/album-key-generator';
-import { BaseDatabaseMigrator } from './data/base-database-migrator';
 import { DatabaseFactory } from './data/database-factory';
 import { DatabaseMigrator } from './data/database-migrator';
 import { AlbumArtworkRepository } from './data/repositories/album-artwork-repository';
-import { BaseAlbumArtworkRepository } from './data/repositories/base-album-artwork-repository';
-import { BaseFolderRepository } from './data/repositories/base-folder-repository';
-import { BaseFolderTrackRepository } from './data/repositories/base-folder-track-repository';
-import { BaseRemovedTrackRepository } from './data/repositories/base-removed-track-repository';
-import { BaseTrackRepository } from './data/repositories/base-track-repository';
 import { FolderRepository } from './data/repositories/folder-repository';
 import { FolderTrackRepository } from './data/repositories/folder-track-repository';
 import { RemovedTrackRepository } from './data/repositories/removed-track-repository';
@@ -305,7 +299,13 @@ import { AZLyricsApi } from './common/api/lyrics/a-z-lyrics.api';
 import { ChartLyricsApi } from './common/api/lyrics/chart-lyrics.api';
 import { WebSearchLyricsApi } from './common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 import { WebSearchApi } from './common/api/lyrics/web-search-lyrics/web-search.api';
-import {ArtistsFilterPipe} from "./ui/pipes/artists-filter.pipe";
+import { ArtistsFilterPipe } from './ui/pipes/artists-filter.pipe';
+import { AlbumArtworkRepositoryBase } from './data/repositories/album-artwork-repository.base';
+import { FolderTrackRepositoryBase } from './data/repositories/folder-track-repository.base';
+import { TrackRepositoryBase } from './data/repositories/track-repository.base';
+import { RemovedTrackRepositoryBase } from './data/repositories/removed-track-repository.base';
+import { FolderRepositoryBase } from './data/repositories/folder-repository.base';
+import { DatabaseMigratorBase } from './data/database-migrator.base';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -570,11 +570,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         IntegrationTestRunner,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
-        { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
-        { provide: BaseRemovedTrackRepository, useClass: RemovedTrackRepository },
-        { provide: BaseFolderTrackRepository, useClass: FolderTrackRepository },
-        { provide: BaseTrackRepository, useClass: TrackRepository },
-        { provide: BaseFolderRepository, useClass: FolderRepository },
+        { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
+        { provide: RemovedTrackRepositoryBase, useClass: RemovedTrackRepository },
+        { provide: FolderTrackRepositoryBase, useClass: FolderTrackRepository },
+        { provide: TrackRepositoryBase, useClass: TrackRepository },
+        { provide: FolderRepositoryBase, useClass: FolderRepository },
         { provide: ApplicationServiceBase, useClass: ApplicationService },
         { provide: AlbumArtworkCacheServiceBase, useClass: AlbumArtworkCacheService },
         { provide: NavigationServiceBase, useClass: NavigationService },
@@ -610,7 +610,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioPlayerBase, useClass: AudioPlayer },
         { provide: BaseSettings, useClass: Settings },
-        { provide: BaseDatabaseMigrator, useClass: DatabaseMigrator },
+        { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },
         { provide: BaseScheduler, useClass: Scheduler },
         { provide: BaseApplication, useClass: Application },
         { provide: BaseIpcProxy, useClass: IpcProxy },

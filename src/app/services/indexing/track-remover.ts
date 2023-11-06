@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../../data/entities/track';
-import { BaseFolderTrackRepository } from '../../data/repositories/base-folder-track-repository';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
 
 @Injectable()
 export class TrackRemover {
     public constructor(
-        private trackRepository: BaseTrackRepository,
-        private folderTrackRepository: BaseFolderTrackRepository,
+        private trackRepository: TrackRepositoryBase,
+        private folderTrackRepository: FolderTrackRepositoryBase,
         private snackBarService: SnackBarServiceBase,
         private fileAccess: BaseFileAccess,
         private logger: Logger,

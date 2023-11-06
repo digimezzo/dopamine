@@ -1,6 +1,6 @@
 import { Folder } from '../entities/folder';
 
-export abstract class BaseFolderRepository {
+export abstract class FolderRepositoryBase {
     public abstract addFolder(folder: Folder): void;
     public abstract getFolders(): Folder[] | undefined;
     public abstract getFolderByPath(folderPath: string): Folder | undefined;

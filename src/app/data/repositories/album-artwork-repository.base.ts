@@ -1,6 +1,6 @@
 import { AlbumArtwork } from '../entities/album-artwork';
 
-export abstract class BaseAlbumArtworkRepository {
+export abstract class AlbumArtworkRepositoryBase {
     public abstract getNumberOfAlbumArtwork(): number;
     public abstract getNumberOfAlbumArtworkThatHasNoTrack(): number;
     public abstract deleteAlbumArtworkThatHasNoTrack(): number;

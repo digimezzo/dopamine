@@ -6,10 +6,10 @@
 import { Injectable } from '@angular/core';
 import { DatabaseFactory } from '../database-factory';
 import { Folder } from '../entities/folder';
-import { BaseFolderRepository } from './base-folder-repository';
+import { FolderRepositoryBase } from './folder-repository.base';
 
 @Injectable()
-export class FolderRepository implements BaseFolderRepository {
+export class FolderRepository implements FolderRepositoryBase {
     public constructor(private databaseFactory: DatabaseFactory) {}
 
     public addFolder(folder: Folder): void {
@@ -24,7 +24,7 @@ export class FolderRepository implements BaseFolderRepository {
 
         const statement = database.prepare(
             `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
-            FROM Folder;`
+            FROM Folder;`,
         );
 
         const folders: Folder[] | undefined = statement.all();
@@ -38,7 +38,7 @@ export class FolderRepository implements BaseFolderRepository {
         const statement = database.prepare(
             `SELECT FolderID as folderId, Path as path, ShowInCollection as showInCollection
             FROM Folder
-            WHERE Path=?;`
+            WHERE Path=?;`,
         );
 
         const folder: Folder | undefined = statement.get(folderPath);

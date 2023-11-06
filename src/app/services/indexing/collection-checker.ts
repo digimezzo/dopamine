@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
+import {TrackRepositoryBase} from "../../data/repositories/track-repository.base";
 
 @Injectable()
 export class CollectionChecker {
     public constructor(
         private indexablePathFetcher: IndexablePathFetcher,
-        private trackRepository: BaseTrackRepository,
+        private trackRepository: TrackRepositoryBase,
         private logger: Logger,
     ) {}
 

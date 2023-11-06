@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AlbumData } from '../../data/entities/album-data';
-import { BaseTrackRepository } from '../../data/repositories/base-track-repository';
 import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Strings } from '../../common/strings';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 @Injectable()
 export class CachedAlbumArtworkGetter {
     public constructor(
-        private trackRepository: BaseTrackRepository,
+        private trackRepository: TrackRepositoryBase,
         private fileAccess: BaseFileAccess,
     ) {}
 
