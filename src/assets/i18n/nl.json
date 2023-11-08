@@ -249,5 +249,7 @@
     "no-lyrics": "Geen songteksten",
     "embedded-lyrics": "Ingebedde songteksten",
     "lrc-lyrics": "LRC songteksten",
-    "online-lyrics": "Online songteksten"
+    "online-lyrics": "Online songteksten",
+    "mute": "Mute",
+    "unmute": "Unmute"
 }

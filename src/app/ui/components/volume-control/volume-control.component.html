@@ -1,5 +1,5 @@
 <div class="app-volume-control">
-    <div class="pointer" (click)="this.toggleMute()">
+    <div class="pointer" (click)="this.toggleMute()" matTooltip="{{ (this.volume === 0 ? 'unmute' : 'mute') | translate }}">
         <i class="app-volume-control__icon__alt las la-volume-mute" *ngIf="this.volume === 0"></i>
         <i class="app-volume-control__icon__alt las la-volume-down" *ngIf="this.volume > 0 && this.volume < 0.5"></i>
         <i class="app-volume-control__icon las la-volume-up" *ngIf="this.volume >= 0.5"></i>

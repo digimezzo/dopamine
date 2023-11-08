@@ -7,12 +7,9 @@ import { AlbumModel } from '../album/album-model';
 import { ArtistModel } from '../artist/artist-model';
 import { ArtistType } from '../artist/artist-type';
 import { GenreModel } from '../genre/genre-model';
-
 import { PlaylistModel } from '../playlist/playlist-model';
-
 import { TrackModel } from '../track/track-model';
 import { TrackModels } from '../track/track-models';
-
 import { LoopMode } from './loop-mode';
 import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
@@ -40,7 +37,6 @@ export class PlaybackService implements PlaybackServiceBase {
     private _isPlaying: boolean = false;
     private _canPause: boolean = false;
     private _canResume: boolean = true;
-    private _isMuted: boolean = false;
     private _volumeBeforeMute: number = 0;
     private subscription: Subscription = new Subscription();
 
@@ -337,15 +333,12 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     public toggleMute(): void {
-        if (this._isMuted) {
+        if (this._volume === 0) {
             this.applyVolume(this._volumeBeforeMute > 0 ? this._volumeBeforeMute : 0.5);
         } else {
             this._volumeBeforeMute = this._volume;
             this.applyVolume(0);
         }
-
-        this._isMuted = !this._isMuted;
-        this.settings.isMuted = this._isMuted;
     }
 
     private play(trackToPlay: TrackModel, isPlayingPreviousTrack: boolean): void {
@@ -455,8 +448,7 @@ export class PlaybackService implements PlaybackServiceBase {
     }
 
     private applyVolumeFromSettings(): void {
-        this._isMuted = this.settings.isMuted;
-        this._volume = this._isMuted ? 0 : this.settings.volume;
+        this._volume = this.settings.volume;
         this.audioPlayer.setVolume(this._volume);
     }
 

@@ -249,5 +249,7 @@
     "no-lyrics": "Pas de paroles",
     "embedded-lyrics": "Paroles intégrées",
     "lrc-lyrics": "Paroles LRC",
-    "online-lyrics": "Paroles en ligne"
+    "online-lyrics": "Paroles en ligne",
+    "mute": "Mute",
+    "unmute": "Unmute"
 }
