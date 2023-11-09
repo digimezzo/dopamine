@@ -1,21 +1,21 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Constants } from '../../../../common/application/constants';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
-import { GenreOrdering } from '../../../../common/ordering/genre-ordering';
-import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
-import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
-import { BaseApplicationService } from '../../../../services/application/base-application.service';
-import { GenreModel } from '../../../../services/genre/genre-model';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { GenresPersister } from '../genres-persister';
 import { GenreBrowserComponent } from './genre-browser.component';
 import { GenreOrder } from './genre-order';
+import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
+import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { ContextMenuOpener } from '../../../context-menu-opener';
+import { GenreOrdering } from '../../../../../common/ordering/genre-ordering';
+import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
+import { Logger } from '../../../../../common/logger';
+import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
+import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
+import { GenreModel } from '../../../../../services/genre/genre-model';
+import { Constants } from '../../../../../common/application/constants';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -36,17 +36,17 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('GenreBrowserComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
-    let applicationServiceMock: IMock<BaseApplicationService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
+    let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreOrderingMock: IMock<GenreOrdering>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
-    let schedulerMock: IMock<BaseScheduler>;
+    let schedulerMock: IMock<SchedulerBase>;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let genresPersisterMock: IMock<GenresPersister>;
 
     let genre1: GenreModel;
@@ -67,24 +67,24 @@ describe('GenreBrowserComponent', () => {
             genreOrderingMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
-        applicationServiceMock = Mock.ofType<BaseApplicationService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
+        applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         genreOrderingMock = Mock.ofType<GenreOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
 
         semanticZoomService_zoomOutRequested = new Subject();
@@ -303,11 +303,11 @@ describe('GenreBrowserComponent', () => {
                             (genres: GenreModel[]) =>
                                 genres.length === 2 &&
                                 genres[0].displayName === genre1.displayName &&
-                                genres[1].displayName === genre2.displayName
+                                genres[1].displayName === genre2.displayName,
                         ),
-                        false
+                        false,
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -380,10 +380,10 @@ describe('GenreBrowserComponent', () => {
                             (genres: GenreModel[]) =>
                                 genres.length === 2 &&
                                 genres[0].displayName === genre2.displayName &&
-                                genres[1].displayName === genre1.displayName
-                        )
+                                genres[1].displayName === genre1.displayName,
+                        ),
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 

@@ -1,30 +1,30 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, Mock } from 'typemoq';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { BasePlaylistService } from '../../../services/playlist/base-playlist.service';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { EditPlaylistDialogComponent } from './edit-playlist-dialog.component';
+import { PlaylistServiceBase } from '../../../../services/playlist/playlist.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 describe('EditPlaylistDialogComponent', () => {
     let component: EditPlaylistDialogComponent;
     const dataMock: any = { inputText: '' };
     let dialogRefMock: IMock<MatDialogRef<EditPlaylistDialogComponent>>;
-    let playlistServiceMock: IMock<BasePlaylistService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let desktopMock: IMock<BaseDesktop>;
+    let playlistServiceMock: IMock<PlaylistServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
 
     beforeEach(() => {
         dialogRefMock = Mock.ofType<MatDialogRef<EditPlaylistDialogComponent>>();
-        playlistServiceMock = Mock.ofType<BasePlaylistService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        playlistServiceMock = Mock.ofType<PlaylistServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         component = new EditPlaylistDialogComponent(
             dataMock,
             dialogRefMock.object,
             playlistServiceMock.object,
             translatorServiceMock.object,
-            desktopMock.object
+            desktopMock.object,
         );
     });
 

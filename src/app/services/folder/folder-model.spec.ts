@@ -1,5 +1,5 @@
-import { Folder } from '../../common/data/entities/folder';
 import { FolderModel } from './folder-model';
+import { Folder } from '../../data/entities/folder';
 
 describe('FolderModel', () => {
     let folder: Folder;

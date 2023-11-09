@@ -1,20 +1,20 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { Scheduler } from '../../common/scheduling/scheduler';
-import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
-import { PlaybackInformation } from '../../services/playback-information/playback-information';
-import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackCoverArtComponent } from './playback-cover-art.component';
+import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
+import { Scheduler } from '../../../common/scheduling/scheduler';
+import { DateTime } from '../../../common/date-time';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { TrackModel } from '../../../services/track/track-model';
+import { Track } from '../../../data/entities/track';
+import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
-    let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
     let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
@@ -27,11 +27,11 @@ describe('PlaybackInformationComponent', () => {
     let trackModel1: TrackModel;
 
     beforeEach(() => {
-        playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
         schedulerMock = Mock.ofType<Scheduler>();
 
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         trackModel1 = new TrackModel(track1, dateTimeMock.object, translatorServiceMock.object);
 

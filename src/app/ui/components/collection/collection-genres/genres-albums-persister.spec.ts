@@ -1,16 +1,16 @@
 import { IMock, Mock } from 'typemoq';
-import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileAccess } from '../../../common/io/file-access';
-import { Logger } from '../../../common/logger';
-import { AlbumModel } from '../../../services/album/album-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { Logger } from '../../../../common/logger';
 import { AlbumOrder } from '../album-order';
 import { GenresAlbumsPersister } from './genres-albums-persister';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { FileAccess } from '../../../../common/io/file-access';
+import { AlbumData } from '../../../../data/entities/album-data';
+import { AlbumModel } from '../../../../services/album/album-model';
 
 describe('GenresPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
 
     let persister: GenresAlbumsPersister;
@@ -27,7 +27,7 @@ describe('GenresPersister', () => {
         settingsStub = { genresTabSelectedAlbum: '', genresTabSelectedAlbumOrder: '' };
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<FileAccess>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         albumData1 = new AlbumData();
         albumData1.albumKey = 'albumKey1';

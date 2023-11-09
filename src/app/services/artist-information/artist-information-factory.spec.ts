@@ -1,12 +1,12 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseDesktop } from '../../common/io/base-desktop';
 import { ArtistInformationFactory } from './artist-information-factory';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 describe('ArtistInformationFactory', () => {
-    let desktopMock: IMock<BaseDesktop>;
+    let desktopMock: IMock<DesktopBase>;
 
     beforeEach(() => {
-        desktopMock = Mock.ofType<BaseDesktop>();
+        desktopMock = Mock.ofType<DesktopBase>();
     });
 
     describe('constructor', () => {

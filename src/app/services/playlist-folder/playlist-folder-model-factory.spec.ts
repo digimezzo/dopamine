@@ -1,17 +1,17 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileAccess } from '../../common/io/base-file-access';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaylistFolderModel } from './playlist-folder-model';
 import { PlaylistFolderModelFactory } from './playlist-folder-model-factory';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('PlaylistFolderModelFactory', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         translatorServiceMock.setup((x) => x.get('unsorted')).returns(() => 'Unsorted');
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/username/Music/Dopamine/Playlists/Folder 1')).returns(() => 'Folder 1');
     });
 
@@ -22,7 +22,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Act
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileAccessMock.object
+                fileAccessMock.object,
             );
 
             // Assert
@@ -35,12 +35,12 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileAccessMock.object
+                fileAccessMock.object,
             );
 
             // Act
             const playlistFolderModel: PlaylistFolderModel = playlistFolderModelFactory.create(
-                '/home/username/Music/Dopamine/Playlists/Folder 1'
+                '/home/username/Music/Dopamine/Playlists/Folder 1',
             );
 
             // Assert
@@ -55,12 +55,12 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileAccessMock.object
+                fileAccessMock.object,
             );
 
             // Act
             const playlistFolderModel: PlaylistFolderModel = playlistFolderModelFactory.createUnsorted(
-                '/home/username/Music/Dopamine/Playlists'
+                '/home/username/Music/Dopamine/Playlists',
             );
 
             // Assert
@@ -75,7 +75,7 @@ describe('PlaylistFolderModelFactory', () => {
             // Arrange
             const playlistFolderModelFactory: PlaylistFolderModelFactory = new PlaylistFolderModelFactory(
                 translatorServiceMock.object,
-                fileAccessMock.object
+                fileAccessMock.object,
             );
 
             // Act

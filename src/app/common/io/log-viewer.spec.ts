@@ -1,11 +1,11 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseDesktop } from './base-desktop';
 import { Desktop } from './desktop';
 import { FileAccess } from './file-access';
 import { LogViewer } from './log-viewer';
+import { DesktopBase } from './desktop.base';
 
 describe('LogViewer', () => {
-    let desktopMock: IMock<BaseDesktop>;
+    let desktopMock: IMock<DesktopBase>;
     let fileAccessMock: IMock<FileAccess>;
 
     let logViewer: LogViewer;

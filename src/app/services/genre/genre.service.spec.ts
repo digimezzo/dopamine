@@ -1,19 +1,19 @@
 import { IMock, Mock } from 'typemoq';
-import { GenreData } from '../../common/data/entities/genre-data';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { GenreModel } from './genre-model';
 import { GenreService } from './genre.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { GenreData } from '../../data/entities/genre-data';
 
 describe('GenreService', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
 
     let service: GenreService;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
 
         service = new GenreService(translatorServiceMock.object, trackRepositoryMock.object);
     });

@@ -1,17 +1,14 @@
-import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
-import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { MockCreator } from '../../testing/mock-creator';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { TrackModel } from '../track/track-model';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
 import { IMock, Mock } from 'typemoq';
-import { ChartLyricsApi } from '../../common/api/lyrics/chart-lyrics-api';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { Lyrics } from '../../common/api/lyrics/lyrics';
-import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics-api';
-import { WebSearchLyricsApi } from '../../common/api/lyrics/web-search-lyrics/web-search-lyrics-api';
 import { Logger } from '../../common/logger';
+import { ChartLyricsApi } from '../../common/api/lyrics/chart-lyrics.api';
+import { AZLyricsApi } from '../../common/api/lyrics/a-z-lyrics.api';
+import { WebSearchLyricsApi } from '../../common/api/lyrics/web-search-lyrics/web-search-lyrics.api';
 
 describe('OnlineLyricsGetter', () => {
     let chartLyricsApiMock: IMock<ChartLyricsApi>;

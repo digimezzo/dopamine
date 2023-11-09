@@ -1,18 +1,18 @@
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAppearanceService } from '../appearance/base-appearance.service';
-import { BaseNavigationService } from './base-navigation.service';
 import { NavigationService } from './navigation.service';
+import { AppearanceServiceBase } from '../appearance/appearance.service.base';
+import { NavigationServiceBase } from './navigation.service.base';
 
 describe('NavigationService', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let routerMock: IMock<Router>;
-    let service: BaseNavigationService;
+    let service: NavigationServiceBase;
 
     beforeEach(() => {
         routerMock = Mock.ofType<Router>();
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         service = new NavigationService(appearanceServiceMock.object, routerMock.object);
     });
 
@@ -150,7 +150,7 @@ describe('NavigationService', () => {
             subscription.add(
                 service.showPlaybackQueueRequested$.subscribe(() => {
                     isPlaybackQueueRequested = true;
-                })
+                }),
             );
 
             // Act

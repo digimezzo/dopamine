@@ -1,19 +1,19 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { ContactInformation } from '../../../common/application/contact-information';
-import { ProductInformation } from '../../../common/application/product-information';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
 import { AboutComponent } from './about.component';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { ProductInformation } from '../../../../common/application/product-information';
+import { ContactInformation } from '../../../../common/application/contact-information';
 
 describe('AboutComponent', () => {
-    let dialogServiceMock: IMock<BaseDialogService>;
-    let desktopMock: IMock<BaseDesktop>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
 
     let component: AboutComponent;
 
     beforeEach(() => {
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         component = new AboutComponent(dialogServiceMock.object, desktopMock.object);
     });

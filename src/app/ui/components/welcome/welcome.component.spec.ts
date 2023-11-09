@@ -1,22 +1,22 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { WelcomeComponent } from './welcome.component';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 describe('WelcomeComponent', () => {
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let translatorService: IMock<BaseTranslatorService>;
-    let appearanceService: IMock<BaseAppearanceService>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
+    let translatorService: IMock<TranslatorServiceBase>;
+    let appearanceService: IMock<AppearanceServiceBase>;
     let settings: IMock<SettingsBase>;
 
     let component: WelcomeComponent;
 
     beforeEach(() => {
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        translatorService = Mock.ofType<BaseTranslatorService>();
-        appearanceService = Mock.ofType<BaseAppearanceService>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        translatorService = Mock.ofType<TranslatorServiceBase>();
+        appearanceService = Mock.ofType<AppearanceServiceBase>();
         settings = Mock.ofType<SettingsBase>();
 
         component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object, settings.object);

@@ -1,18 +1,18 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileAccess } from '../../../common/io/file-access';
-import { Logger } from '../../../common/logger';
-import { AlbumModel } from '../../../services/album/album-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { FileAccess } from '../../../../common/io/file-access';
+import { AlbumData } from '../../../../data/entities/album-data';
+import { AlbumModel } from '../../../../services/album/album-model';
+import { Logger } from '../../../../common/logger';
 
 describe('AlbumsAlbumsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let fileAccessMock: IMock<FileAccess>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let subscription: Subscription;
 
@@ -30,7 +30,7 @@ describe('AlbumsAlbumsPersister', () => {
         settingsStub = { albumsTabSelectedAlbum: '', albumsTabSelectedAlbumOrder: '' };
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<FileAccess>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         subscription = new Subscription();
 
@@ -204,7 +204,7 @@ describe('AlbumsAlbumsPersister', () => {
             subscription.add(
                 persister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
                     receivedAlbumKeys = albumKeys;
-                })
+                }),
             );
 
             // Act

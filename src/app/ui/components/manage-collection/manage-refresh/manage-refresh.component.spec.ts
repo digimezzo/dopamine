@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { ManageRefreshComponent } from './manage-refresh.component';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
 
 describe('ManageRefreshComponent', () => {
     let settingsMock: IMock<SettingsBase>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
 
     let component: ManageRefreshComponent;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
 
         component = new ManageRefreshComponent(settingsMock.object, indexingServiceMock.object);
     });

@@ -1,8 +1,8 @@
-import { BaseEventListenerService } from './base-event-listener.service';
 import { EventListenerService } from './event-listener.service';
+import { EventListenerServiceBase } from './event-listener.service.base';
 
 describe('EventListenerService', () => {
-    function createSut(): BaseEventListenerService {
+    function createSut(): EventListenerServiceBase {
         return new EventListenerService();
     }
 
@@ -11,7 +11,7 @@ describe('EventListenerService', () => {
             // Arrange
 
             // Act
-            const sut: BaseEventListenerService = createSut();
+            const sut: EventListenerServiceBase = createSut();
 
             // Assert
             expect(sut).toBeDefined();

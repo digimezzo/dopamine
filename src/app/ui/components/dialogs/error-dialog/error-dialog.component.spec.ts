@@ -1,7 +1,7 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { LogViewer } from '../../../common/io/log-viewer';
 import { ErrorDialogComponent } from './error-dialog.component';
+import { LogViewer } from '../../../../common/io/log-viewer';
 
 describe('ErrorDialogComponent', () => {
     let dialogRefMock: IMock<MatDialogRef<ErrorDialogComponent>>;

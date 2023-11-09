@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
-import { BaseNowPlayingNavigationService } from './base-now-playing-navigation.service';
 import { NowPlayingNavigationService } from './now-playing-navigation.service';
 import { NowPlayingPage } from './now-playing-page';
+import { NowPlayingNavigationServiceBase } from './now-playing-navigation.service.base';
 
 describe('NowPlayingNavigationService', () => {
     describe('constructor', () => {
@@ -9,7 +9,7 @@ describe('NowPlayingNavigationService', () => {
             // Arrange
 
             // Act
-            const service: BaseNowPlayingNavigationService = new NowPlayingNavigationService();
+            const service: NowPlayingNavigationServiceBase = new NowPlayingNavigationService();
 
             // Assert
             expect(service).toBeDefined();
@@ -19,7 +19,7 @@ describe('NowPlayingNavigationService', () => {
             // Arrange
 
             // Act
-            const service: BaseNowPlayingNavigationService = new NowPlayingNavigationService();
+            const service: NowPlayingNavigationServiceBase = new NowPlayingNavigationService();
 
             // Assert
             expect(service.navigated$).toBeDefined();
@@ -29,7 +29,7 @@ describe('NowPlayingNavigationService', () => {
     describe('navigate', () => {
         it('should trigger navigation', () => {
             // Arrange
-            const service: BaseNowPlayingNavigationService = new NowPlayingNavigationService();
+            const service: NowPlayingNavigationServiceBase = new NowPlayingNavigationService();
 
             let currentNowPlayingPage: NowPlayingPage = NowPlayingPage.showcase;
 
@@ -47,7 +47,7 @@ describe('NowPlayingNavigationService', () => {
 
         it('should set currentNowPlayingPage', () => {
             // Arrange
-            const service: BaseNowPlayingNavigationService = new NowPlayingNavigationService();
+            const service: NowPlayingNavigationServiceBase = new NowPlayingNavigationService();
 
             // Act
             const previousNowPlayingPage: NowPlayingPage = service.currentNowPlayingPage;

@@ -1,44 +1,44 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { Track } from '../../../../common/data/entities/track';
-import { DateTime } from '../../../../common/date-time';
-import { BaseDesktop } from '../../../../common/io/base-desktop';
-import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
-import { BaseCollectionService } from '../../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../../../services/metadata/base-metadata.service';
-import { BasePlaybackIndicationService } from '../../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../../../services/playback/playback-started';
-import { BaseTracksColumnsService } from '../../../../services/track-columns/base-tracks-columns.service';
-import { TracksColumnsOrder } from '../../../../services/track-columns/tracks-columns-order';
-import { TracksColumnsOrderColumn } from '../../../../services/track-columns/tracks-columns-order-column';
-import { TracksColumnsOrderDirection } from '../../../../services/track-columns/tracks-columns-order-direction';
-import { TracksColumnsOrdering } from '../../../../services/track-columns/tracks-columns-ordering';
-import { TracksColumnsVisibility } from '../../../../services/track-columns/tracks-columns-visibility';
-import { TrackModel } from '../../../../services/track/track-model';
-import { TrackModels } from '../../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
 import { CollectionTracksTableComponent } from './collection-tracks-table.component';
+import { ContextMenuOpener } from '../../../context-menu-opener';
+import { TracksColumnsOrdering } from '../../../../../services/track-columns/tracks-columns-ordering';
+import { DateTime } from '../../../../../common/date-time';
+import { Logger } from '../../../../../common/logger';
+import { PlaybackStarted } from '../../../../../services/playback/playback-started';
+import { TrackModel } from '../../../../../services/track/track-model';
+import { TracksColumnsVisibility } from '../../../../../services/track-columns/tracks-columns-visibility';
+import { TracksColumnsOrder } from '../../../../../services/track-columns/tracks-columns-order';
+import { Track } from '../../../../../data/entities/track';
+import { TrackModels } from '../../../../../services/track/track-models';
+import { TracksColumnsOrderColumn } from '../../../../../services/track-columns/tracks-columns-order-column';
+import { TracksColumnsOrderDirection } from '../../../../../services/track-columns/tracks-columns-order-direction';
+import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { MetadataServiceBase } from '../../../../../services/metadata/metadata.service.base';
+import { PlaybackIndicationServiceBase } from '../../../../../services/playback-indication/playback-indication.service.base';
+import { TracksColumnsServiceBase } from '../../../../../services/track-columns/tracks-columns.service.base';
+import { DesktopBase } from '../../../../../common/io/desktop.base';
+import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
+import { DialogServiceBase } from '../../../../../services/dialog/dialog.service.base';
+import { CollectionServiceBase } from '../../../../../services/collection/collection.service.base';
 
 describe('CollectionTracksTableComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
-    let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
-    let tracksColumnsServiceMock: IMock<BaseTracksColumnsService>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
+    let tracksColumnsServiceMock: IMock<TracksColumnsServiceBase>;
     let tracksColumnsOrderingMock: IMock<TracksColumnsOrdering>;
     let dateTimeMock: IMock<DateTime>;
 
-    let collectionServiceMock: IMock<BaseCollectionService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let desktopMock: IMock<BaseDesktop>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
 
     let playbackStartedMock: Subject<PlaybackStarted>;
@@ -75,27 +75,27 @@ describe('CollectionTracksTableComponent', () => {
             dialogServiceMock.object,
             translatorServiceMock.object,
             desktopMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
 
         return component;
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
-        tracksColumnsServiceMock = Mock.ofType<BaseTracksColumnsService>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
+        tracksColumnsServiceMock = Mock.ofType<TracksColumnsServiceBase>();
         tracksColumnsOrderingMock = Mock.ofType<TracksColumnsOrdering>();
         dateTimeMock = Mock.ofType<DateTime>();
 
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
 
         playbackStartedMock = new Subject();

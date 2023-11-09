@@ -1,8 +1,8 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../common/logger';
-import { MathExtensions } from '../../common/math-extensions';
-import { NativeElementProxy } from '../../common/native-element-proxy';
 import { SliderComponent } from './slider.component';
+import { NativeElementProxy } from '../../../common/native-element-proxy';
+import { MathExtensions } from '../../../common/math-extensions';
+import { Logger } from '../../../common/logger';
 
 describe('Slider', () => {
     let nativeElementProxyMock: IMock<NativeElementProxy>;

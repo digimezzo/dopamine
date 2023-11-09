@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
 import { InformationComponent } from './information.component';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 
 describe('InformationComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
 
     let component: InformationComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
 
         component = new InformationComponent(appearanceServiceMock.object);
     });

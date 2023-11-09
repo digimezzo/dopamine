@@ -1,23 +1,23 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { PathValidator } from '../../common/path-validator';
 import { SubfolderModel } from '../folder/subfolder-model';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { PlaybackIndicationService } from './playback-indication.service';
+import { PathValidator } from '../../common/validation/path-validator';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { Track } from '../../data/entities/track';
 
 describe('PlaybackIndicationService', () => {
     let pathValidator: IMock<PathValidator>;
 
     let service: PlaybackIndicationService;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     beforeEach(() => {
         pathValidator = Mock.ofType<PathValidator>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         service = new PlaybackIndicationService(pathValidator.object);
     });
@@ -39,7 +39,7 @@ describe('PlaybackIndicationService', () => {
             const playingTrack: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
 
             // Act
@@ -75,7 +75,7 @@ describe('PlaybackIndicationService', () => {
             const playingTrack: TrackModel = new TrackModel(
                 new Track('/home/user/Music/Subfolder1/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const isGoToParentSubfolder: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', true);
             const subfolder1: SubfolderModel = new SubfolderModel('/home/user/Music/Subfolder1', false);
@@ -151,7 +151,7 @@ describe('PlaybackIndicationService', () => {
             const playingTrack: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
 
             // Act
@@ -165,17 +165,17 @@ describe('PlaybackIndicationService', () => {
             const track1: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track2: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track2.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track3: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track3.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const tracks: TrackModel[] = [track1, track2, track3];
 
@@ -199,22 +199,22 @@ describe('PlaybackIndicationService', () => {
             const playingTrack: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track2.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track1: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track2: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track2.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track3: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track3.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const tracks: TrackModel[] = [track1, track2, track3];
 
@@ -243,17 +243,17 @@ describe('PlaybackIndicationService', () => {
             const track1: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track2: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track2.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track3: TrackModel = new TrackModel(
                 new Track('/home/user/Music/track3.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const tracks: TrackModel[] = [track1, track2, track3];
 

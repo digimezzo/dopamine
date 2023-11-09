@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseApplication } from '../../common/io/base-application';
 import { WindowControlsComponent } from './window-controls.component';
+import { ApplicationBase } from '../../../common/io/application.base';
 
 describe('WindowControlsComponent', () => {
-    let applicationMock: IMock<BaseApplication>;
+    let applicationMock: IMock<ApplicationBase>;
 
     let component: WindowControlsComponent;
 
     beforeEach(() => {
-        applicationMock = Mock.ofType<BaseApplication>();
+        applicationMock = Mock.ofType<ApplicationBase>();
         component = new WindowControlsComponent(applicationMock.object);
     });
 

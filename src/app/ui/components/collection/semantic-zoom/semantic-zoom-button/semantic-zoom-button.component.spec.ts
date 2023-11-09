@@ -1,14 +1,14 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { SemanticZoomButtonComponent } from './semantic-zoom-button.component';
+import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 
 describe('SemanticZoomButtonComponent', () => {
-    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
+    let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
 
     let component: SemanticZoomButtonComponent;
 
     beforeEach(() => {
-        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
+        semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         component = new SemanticZoomButtonComponent(semanticZoomServiceMock.object);
     });
 

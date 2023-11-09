@@ -1,48 +1,48 @@
 import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Constants } from '../../../common/application/constants';
-import { AlbumData } from '../../../common/data/entities/album-data';
-import { Track } from '../../../common/data/entities/track';
-import { DateTime } from '../../../common/date-time';
-import { FileAccess } from '../../../common/io/file-access';
-import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduling/scheduler';
-import { AlbumModel } from '../../../services/album/album-model';
-import { BaseAlbumService } from '../../../services/album/base-album-service';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseGenreService } from '../../../services/genre/base-genre.service';
-import { GenreModel } from '../../../services/genre/genre-model';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
-import { TrackModel } from '../../../services/track/track-model';
-import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AlbumOrder } from '../album-order';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionGenresComponent } from './collection-genres.component';
 import { GenresAlbumsPersister } from './genres-albums-persister';
 import { GenresPersister } from './genres-persister';
 import { GenresTracksPersister } from './genres-tracks-persister';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
+import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { GenreServiceBase } from '../../../../services/genre/genre.service.base';
+import { AlbumServiceBase } from '../../../../services/album/album-service.base';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { Scheduler } from '../../../../common/scheduling/scheduler';
+import { Logger } from '../../../../common/logger';
+import { DateTime } from '../../../../common/date-time';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { FileAccess } from '../../../../common/io/file-access';
+import { GenreModel } from '../../../../services/genre/genre-model';
+import { AlbumModel } from '../../../../services/album/album-model';
+import { AlbumData } from '../../../../data/entities/album-data';
+import { TrackModel } from '../../../../services/track/track-model';
+import { Track } from '../../../../data/entities/track';
+import { TrackModels } from '../../../../services/track/track-models';
+import { Constants } from '../../../../common/application/constants';
 
 describe('CollectionGenresComponent', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let genresPersisterMock: IMock<GenresPersister>;
     let albumsPersisterMock: IMock<GenresAlbumsPersister>;
     let tracksPersisterMock: IMock<GenresTracksPersister>;
     let collectionPersisterMock: IMock<CollectionPersister>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
-    let collectionServiceMock: IMock<BaseCollectionService>;
-    let genreServiceMock: IMock<BaseGenreService>;
-    let albumServiceMock: IMock<BaseAlbumService>;
-    let trackServiceMock: IMock<BaseTrackService>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
+    let genreServiceMock: IMock<GenreServiceBase>;
+    let albumServiceMock: IMock<AlbumServiceBase>;
+    let trackServiceMock: IMock<TrackServiceBase>;
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
 
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
 
     let selectedGenresChangedMock: Subject<string[]>;
@@ -76,7 +76,7 @@ describe('CollectionGenresComponent', () => {
             trackServiceMock.object,
             settingsStub,
             schedulerMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
 
         return component;
@@ -114,21 +114,21 @@ describe('CollectionGenresComponent', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
         albumsPersisterMock = Mock.ofType<GenresAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<GenresTracksPersister>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
-        genreServiceMock = Mock.ofType<BaseGenreService>();
-        albumServiceMock = Mock.ofType<BaseAlbumService>();
-        trackServiceMock = Mock.ofType<BaseTrackService>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        genreServiceMock = Mock.ofType<GenreServiceBase>();
+        albumServiceMock = Mock.ofType<AlbumServiceBase>();
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
         settingsStub = { genresLeftPaneWidthPercent: 25, genresRightPaneWidthPercent: 25 };
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
 
         selectedGenresChangedMock = new Subject();

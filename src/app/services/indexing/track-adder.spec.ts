@@ -1,38 +1,38 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FolderTrack } from '../../common/data/entities/folder-track';
-import { RemovedTrack } from '../../common/data/entities/removed-track';
-import { Track } from '../../common/data/entities/track';
-import { BaseFolderTrackRepository } from '../../common/data/repositories/base-folder-track-repository';
-import { BaseRemovedTrackRepository } from '../../common/data/repositories/base-removed-track-repository';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackAdder } from './track-adder';
 import { TrackFiller } from './track-filler';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
+import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { Track } from '../../data/entities/track';
+import { FolderTrack } from '../../data/entities/folder-track';
+import { RemovedTrack } from '../../data/entities/removed-track';
 
 describe('TrackAdder', () => {
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let folderTrackRepositoryMock: IMock<BaseFolderTrackRepository>;
-    let removedTrackRepositoryMock: IMock<BaseRemovedTrackRepository>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let folderTrackRepositoryMock: IMock<FolderTrackRepositoryBase>;
+    let removedTrackRepositoryMock: IMock<RemovedTrackRepositoryBase>;
     let indexablePathFetcherMock: IMock<IndexablePathFetcher>;
     let trackFillerMock: IMock<TrackFiller>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let trackAdder: TrackAdder;
 
     beforeEach(() => {
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        folderTrackRepositoryMock = Mock.ofType<BaseFolderTrackRepository>();
-        removedTrackRepositoryMock = Mock.ofType<BaseRemovedTrackRepository>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        folderTrackRepositoryMock = Mock.ofType<FolderTrackRepositoryBase>();
+        removedTrackRepositoryMock = Mock.ofType<RemovedTrackRepositoryBase>();
         indexablePathFetcherMock = Mock.ofType<IndexablePathFetcher>();
         trackFillerMock = Mock.ofType<TrackFiller>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         trackAdder = new TrackAdder(
             trackRepositoryMock.object,
             folderTrackRepositoryMock.object,

@@ -1,28 +1,28 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
-import { Track } from '../../../common/data/entities/track';
-import { DateTime } from '../../../common/date-time';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { TrackModel } from '../../../services/track/track-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { TrackBrowserBase } from './track-brower-base';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { Logger } from '../../../../common/logger';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { Track } from '../../../../data/entities/track';
+import { TrackModel } from '../../../../services/track/track-model';
+import { DateTime } from '../../../../common/date-time';
 
 describe('TrackBrowserBase', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let loggerMock: IMock<Logger>;
-    let collectionServiceMock: IMock<BaseCollectionService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let desktopMock: IMock<BaseDesktop>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
 
     let track1: Track;
     let track2: Track;
@@ -30,15 +30,15 @@ describe('TrackBrowserBase', () => {
     let trackModel2: TrackModel;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         loggerMock = Mock.ofType<Logger>();
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         translatorServiceMock.setup((x) => x.getAsync('delete-song')).returns(() => Promise.resolve('delete-song'));
         translatorServiceMock.setup((x) => x.getAsync('confirm-delete-song')).returns(() => Promise.resolve('confirm-delete-song'));
@@ -79,7 +79,7 @@ describe('TrackBrowserBase', () => {
             loggerMock.object,
             collectionServiceMock.object,
             translatorServiceMock.object,
-            desktopMock.object
+            desktopMock.object,
         );
     }
 

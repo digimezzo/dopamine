@@ -1,41 +1,41 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
-import { Track } from '../../../common/data/entities/track';
-import { DateTime } from '../../../common/date-time';
-import { GuidFactory } from '../../../common/guid.factory';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { TrackOrdering } from '../../../common/ordering/track-ordering';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseDialogService } from '../../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
-import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../../services/playback/playback-started';
-import { TrackModel } from '../../../services/track/track-model';
-import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { Track } from '../../../../data/entities/track';
+import { TrackModel } from '../../../../services/track/track-model';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { BaseTracksPersister } from '../base-tracks-persister';
 import { TrackOrder } from '../track-order';
 import { TrackBrowserComponent } from './track-browser.component';
+import { TrackModels } from '../../../../services/track/track-models';
+import { PlaybackStarted } from '../../../../services/playback/playback-started';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
+import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { TrackOrdering } from '../../../../common/ordering/track-ordering';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { Logger } from '../../../../common/logger';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { DialogServiceBase } from '../../../../services/dialog/dialog.service.base';
+import { DateTime } from '../../../../common/date-time';
+import { GuidFactory } from '../../../../common/guid.factory';
 
 describe('TrackBrowserComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
-    let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
+    let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let trackOrderingMock: IMock<TrackOrdering>;
-    let desktopMock: IMock<BaseDesktop>;
+    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let tracksPersisterMock: IMock<BaseTracksPersister>;
-    let collectionServiceMock: IMock<BaseCollectionService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
     let guidFactoryMock: IMock<GuidFactory>;
 
@@ -59,19 +59,19 @@ describe('TrackBrowserComponent', () => {
     let tracks: TrackModels;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
-        playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         trackOrderingMock = Mock.ofType<TrackOrdering>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         tracksPersisterMock = Mock.ofType<BaseTracksPersister>();
         dateTimeMock = Mock.ofType<DateTime>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
@@ -164,7 +164,7 @@ describe('TrackBrowserComponent', () => {
             translatorServiceMock.object,
             dialogServiceMock.object,
             desktopMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
@@ -269,11 +269,11 @@ describe('TrackBrowserComponent', () => {
                                 trackModels[0].path === trackModel1.path &&
                                 trackModels[1].path === trackModel2.path &&
                                 trackModels[2].path === trackModel3.path &&
-                                trackModels[3].path === trackModel4.path
+                                trackModels[3].path === trackModel4.path,
                         ),
-                        false
+                        false,
                     ),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 

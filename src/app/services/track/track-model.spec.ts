@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrackModel } from './track-model';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { Track } from '../../data/entities/track';
 
 describe('TrackModel', () => {
     let track: Track;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     beforeEach(() => {
         track = new Track('/home/user/Music/Track1.mp3');
@@ -33,7 +33,7 @@ describe('TrackModel', () => {
         track.dateLastPlayed = 74;
 
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         translatorServiceMock.setup((x) => x.get('unknown-album')).returns(() => 'Unknown album');
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');

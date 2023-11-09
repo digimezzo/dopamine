@@ -1,28 +1,28 @@
 import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { DateTime } from '../../common/date-time';
-import { BaseDesktop } from '../../common/io/base-desktop';
 import { Logger } from '../../common/logger';
-import { BasePlaybackService } from '../playback/base-playback.service';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
-import { BaseCollectionService } from './base-collection.service';
 import { CollectionService } from './collection.service';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { DesktopBase } from '../../common/io/desktop.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { Track } from '../../data/entities/track';
+import { CollectionServiceBase } from './collection.service.base';
 
 jest.mock('@electron/remote', () => ({ exec: jest.fn() }));
 
 describe('CollectionService', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let desktopMock: IMock<BaseDesktop>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
 
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
-    let service: BaseCollectionService;
+    let service: CollectionServiceBase;
 
     let track1: Track;
     let track2: Track;
@@ -32,13 +32,13 @@ describe('CollectionService', () => {
     let trackModel3: TrackModel;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
         loggerMock = Mock.ofType<Logger>();
 
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         track1 = new Track('path1');
         track1.trackId = 1;
@@ -116,7 +116,7 @@ describe('CollectionService', () => {
             subscription.add(
                 service.collectionChanged$.subscribe(() => {
                     collectionHasChanged = true;
-                })
+                }),
             );
 
             // Act

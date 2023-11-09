@@ -1,32 +1,34 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { FolderTrackRepository } from '../../common/data/repositories/folder-track-repository';
-import { TrackRepository } from '../../common/data/repositories/track-repository';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackRemover } from './track-remover';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { TrackRepository } from '../../data/repositories/track-repository';
+import { FolderTrackRepository } from '../../data/repositories/folder-track-repository';
+import { Track } from '../../data/entities/track';
 
 describe('Trackremover', () => {
-    let trackRepositoryMock: IMock<TrackRepository>;
-    let folderTrackRepositoryMock: IMock<FolderTrackRepository>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let folderTrackRepositoryMock: IMock<FolderTrackRepositoryBase>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
     let trackRemover: TrackRemover;
 
     beforeEach(() => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         folderTrackRepositoryMock = Mock.ofType<FolderTrackRepository>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
         trackRemover = new TrackRemover(
             trackRepositoryMock.object,
             folderTrackRepositoryMock.object,
             snackBarServiceMock.object,
             fileAccessMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 

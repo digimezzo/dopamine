@@ -1,57 +1,57 @@
 import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Constants } from '../../../common/application/constants';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
-import { Folder } from '../../../common/data/entities/folder';
-import { Track } from '../../../common/data/entities/track';
-import { DateTime } from '../../../common/date-time';
-import { Hacks } from '../../../common/hacks';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { Scheduler } from '../../../common/scheduling/scheduler';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseFolderService } from '../../../services/folder/base-folder.service';
-import { FolderModel } from '../../../services/folder/folder-model';
-import { SubfolderModel } from '../../../services/folder/subfolder-model';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
-import { BaseMetadataService } from '../../../services/metadata/base-metadata.service';
-import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
-import { BasePlaybackIndicationService } from '../../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../../services/playback/playback-started';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
-import { TrackModel } from '../../../services/track/track-model';
-import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionFoldersComponent } from './collection-folders.component';
 import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { MetadataServiceBase } from '../../../../services/metadata/metadata.service.base';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { FolderServiceBase } from '../../../../services/folder/folder.service.base';
+import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
+import { Scheduler } from '../../../../common/scheduling/scheduler';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { Logger } from '../../../../common/logger';
+import { Hacks } from '../../../../common/hacks';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { DateTime } from '../../../../common/date-time';
+import { PlaybackStarted } from '../../../../services/playback/playback-started';
+import { FolderModel } from '../../../../services/folder/folder-model';
+import { SubfolderModel } from '../../../../services/folder/subfolder-model';
+import { Track } from '../../../../data/entities/track';
+import { TrackModel } from '../../../../services/track/track-model';
+import { TrackModels } from '../../../../services/track/track-models';
+import { Folder } from '../../../../data/entities/folder';
+import { Constants } from '../../../../common/application/constants';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
-    let searchServiceMock: IMock<BaseSearchService>;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
-    let collectionServiceMock: IMock<BaseCollectionService>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
     let collectionPersisterMock: IMock<CollectionPersister>;
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let folderServiceMock: IMock<BaseFolderService>;
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let trackServiceMock: IMock<BaseTrackService>;
-    let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let folderServiceMock: IMock<FolderServiceBase>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
+    let trackServiceMock: IMock<TrackServiceBase>;
+    let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let foldersPersisterMock: IMock<FoldersPersister>;
     let schedulerMock: IMock<Scheduler>;
-    let desktopMock: IMock<BaseDesktop>;
+    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
@@ -109,7 +109,7 @@ describe('CollectionFoldersComponent', () => {
             schedulerMock.object,
             desktopMock.object,
             loggerMock.object,
-            hacksMock.object
+            hacksMock.object,
         );
 
         return component;
@@ -117,23 +117,23 @@ describe('CollectionFoldersComponent', () => {
 
     beforeEach(() => {
         settingsStub = { foldersLeftPaneWidthPercent: 30 };
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        folderServiceMock = Mock.ofType<BaseFolderService>();
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        trackServiceMock = Mock.ofType<BaseTrackService>();
-        playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        folderServiceMock = Mock.ofType<FolderServiceBase>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
+        playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
         foldersPersisterMock = Mock.ofType<FoldersPersister>();
         loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
         schedulerMock = Mock.ofType<Scheduler>();
-        desktopMock = Mock.ofType<BaseDesktop>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        desktopMock = Mock.ofType<DesktopBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
@@ -658,7 +658,7 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             foldersPersisterMock.verify(
                 (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -862,7 +862,7 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             foldersPersisterMock.verify(
                 (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
     });
@@ -1163,7 +1163,7 @@ describe('CollectionFoldersComponent', () => {
             // Assert
             foldersPersisterMock.verify(
                 (x) => x.setOpenedSubfolder(It.isObjectWith<SubfolderModel>({ path: subfolder1.path })),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 

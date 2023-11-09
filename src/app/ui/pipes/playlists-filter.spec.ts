@@ -1,13 +1,13 @@
 import { IMock, It, Mock } from 'typemoq';
-import { FileAccess } from '../common/io/file-access';
-import { PlaylistModel } from '../services/playlist/playlist-model';
-import { BaseSearchService } from '../services/search/base-search.service';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { PlaylistsFilterPipe } from './playlists-filter';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { SearchServiceBase } from '../../services/search/search.service.base';
+import { FileAccess } from '../../common/io/file-access';
+import { PlaylistModel } from '../../services/playlist/playlist-model';
 
 describe('PlaylistsFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
 
     function createPipe(): PlaylistsFilterPipe {
@@ -19,13 +19,13 @@ describe('PlaylistsFilterPipe', () => {
             'Playlist 1',
             'Playlist 1 folder name',
             'Playlist 1 path',
-            'Playlist 1 image path'
+            'Playlist 1 image path',
         );
         const playlist2: PlaylistModel = new PlaylistModel(
             'Playlist 2',
             'Playlist 2 folder name',
             'Playlist 2 path',
-            'Playlist 2 image path'
+            'Playlist 2 image path',
         );
         const playlists: PlaylistModel[] = [playlist1, playlist2];
 
@@ -33,8 +33,8 @@ describe('PlaylistsFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
     });
 

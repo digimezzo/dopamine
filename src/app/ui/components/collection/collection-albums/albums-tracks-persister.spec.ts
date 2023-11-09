@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../../common/logger';
 import { TrackOrder } from '../track-order';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
+import { Logger } from '../../../../common/logger';
 
 describe('AlbumsTracksPersister', () => {
     let settingsStub: any;

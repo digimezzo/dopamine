@@ -1,4 +1,3 @@
-import { BaseLyricsService } from './base-lyrics.service';
 import { LyricsService } from './lyrics.service';
 import { IMock, Mock } from 'typemoq';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
@@ -9,6 +8,7 @@ import { MockCreator } from '../../testing/mock-creator';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
+import { LyricsServiceBase } from './lyrics.service.base';
 
 describe('LyricsService', () => {
     let embeddedLyricsGetterMock: IMock<EmbeddedLyricsGetter>;
@@ -25,7 +25,7 @@ describe('LyricsService', () => {
         loggerMock = Mock.ofType<Logger>();
     });
 
-    function createSut(): BaseLyricsService {
+    function createSut(): LyricsServiceBase {
         return new LyricsService(
             embeddedLyricsGetterMock.object,
             lrcLyricsGetterMock.object,
@@ -38,7 +38,7 @@ describe('LyricsService', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange, Act
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Assert
             expect(sut).toBeDefined();
@@ -51,7 +51,7 @@ describe('LyricsService', () => {
             const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
             const lyricsMock: LyricsModel = new LyricsModel('embedded source', LyricsSourceType.embedded, 'embedded text');
             embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lyricsMock));
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -69,7 +69,7 @@ describe('LyricsService', () => {
             embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
             const lrcLyricsMock: LyricsModel = new LyricsModel('lrc source', LyricsSourceType.lrc, 'lrc text');
             lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -90,7 +90,7 @@ describe('LyricsService', () => {
             const onlineLyricsMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
             onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -111,7 +111,7 @@ describe('LyricsService', () => {
             const onlineLyricsMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
             onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => false);
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -132,7 +132,7 @@ describe('LyricsService', () => {
             const onlineLyricsMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, '');
             onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
-            const sut: BaseLyricsService = createSut();
+            const sut: LyricsServiceBase = createSut();
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);

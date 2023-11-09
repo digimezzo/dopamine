@@ -1,15 +1,15 @@
 import { IMock, It, Mock } from 'typemoq';
-import { ArtistModel } from '../services/artist/artist-model';
-import { BaseSearchService } from '../services/search/base-search.service';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
-import { ArtistFilterPipe } from './artists-filter.pipe';
+import { SearchServiceBase } from '../../services/search/search.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { ArtistsFilterPipe } from './artists-filter.pipe';
+import { ArtistModel } from '../../services/artist/artist-model';
 
 describe('ArtistFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
-    function createPipe(): ArtistFilterPipe {
-        return new ArtistFilterPipe(searchServiceMock.object);
+    function createPipe(): ArtistsFilterPipe {
+        return new ArtistsFilterPipe(searchServiceMock.object);
     }
 
     function createArtists(): ArtistModel[] {
@@ -20,15 +20,15 @@ describe('ArtistFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
     });
 
     describe('transform', () => {
         it('should return the given artists if textToContain is undefined', () => {
             // Arrange
             const artists: ArtistModel[] = createArtists();
-            const pipe: ArtistFilterPipe = createPipe();
+            const pipe: ArtistsFilterPipe = createPipe();
 
             // Act
             const filteredArtists: ArtistModel[] = pipe.transform(artists, undefined);
@@ -40,7 +40,7 @@ describe('ArtistFilterPipe', () => {
         it('should return the given artists if textToContain is empty', () => {
             // Arrange
             const artists: ArtistModel[] = createArtists();
-            const pipe: ArtistFilterPipe = createPipe();
+            const pipe: ArtistsFilterPipe = createPipe();
 
             // Act
             const filteredArtists: ArtistModel[] = pipe.transform(artists, '');
@@ -52,7 +52,7 @@ describe('ArtistFilterPipe', () => {
         it('should return the given artists if textToContain is space', () => {
             // Arrange
             const artists: ArtistModel[] = createArtists();
-            const pipe: ArtistFilterPipe = createPipe();
+            const pipe: ArtistsFilterPipe = createPipe();
 
             // Act
             const filteredArtists: ArtistModel[] = pipe.transform(artists, ' ');
@@ -67,7 +67,7 @@ describe('ArtistFilterPipe', () => {
             const artists: ArtistModel[] = createArtists();
             searchServiceMock.setup((x) => x.matchesSearchText('artist1', It.isAny())).returns(() => true);
             searchServiceMock.setup((x) => x.matchesSearchText('artist2', It.isAny())).returns(() => false);
-            const pipe: ArtistFilterPipe = createPipe();
+            const pipe: ArtistsFilterPipe = createPipe();
 
             // Act
             const filteredArtists: ArtistModel[] = pipe.transform(artists, 'dummy');
@@ -83,7 +83,7 @@ describe('ArtistFilterPipe', () => {
             const artists: ArtistModel[] = createArtists();
             searchServiceMock.setup((x) => x.matchesSearchText('artist1', It.isAny())).returns(() => false);
             searchServiceMock.setup((x) => x.matchesSearchText('artist2', It.isAny())).returns(() => false);
-            const pipe: ArtistFilterPipe = createPipe();
+            const pipe: ArtistsFilterPipe = createPipe();
 
             // Act
             const filteredArtists: ArtistModel[] = pipe.transform(artists, 'dummy');

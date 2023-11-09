@@ -1,18 +1,18 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { AlbumArtwork } from '../../common/data/entities/album-artwork';
-import { AlbumData } from '../../common/data/entities/album-data';
-import { Track } from '../../common/data/entities/track';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { GuidFactory } from '../../common/guid.factory';
 import { Logger } from '../../common/logger';
-import { FileMetadataFactory } from '../../common/metadata/file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
-import { BaseAlbumArtworkCacheService } from '../album-artwork-cache/base-album-artwork-cache.service';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkGetter } from './album-artwork-getter';
+import { AlbumArtworkCacheServiceBase } from '../album-artwork-cache/album-artwork-cache.service.base';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FileMetadataFactory } from '../../common/metadata/file-metadata.factory';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { AlbumData } from '../../data/entities/album-data';
+import { Track } from '../../data/entities/track';
+import { AlbumArtwork } from '../../data/entities/album-artwork';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
@@ -39,11 +39,11 @@ class FileMetadataImplementation implements IFileMetadata {
 }
 
 describe('AlbumArtworkAdder', () => {
-    let albumArtworkCacheServiceMock: IMock<BaseAlbumArtworkCacheService>;
-    let albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository>;
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
+    let albumArtworkCacheServiceMock: IMock<AlbumArtworkCacheServiceBase>;
+    let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let loggerMock: IMock<Logger>;
     let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
     let guidFactoryMock: IMock<GuidFactory>;
@@ -51,11 +51,11 @@ describe('AlbumArtworkAdder', () => {
     let albumArtworkAdder: AlbumArtworkAdder;
 
     beforeEach(() => {
-        albumArtworkCacheServiceMock = Mock.ofType<BaseAlbumArtworkCacheService>();
-        albumArtworkRepositoryMock = Mock.ofType<BaseAlbumArtworkRepository>();
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
+        albumArtworkCacheServiceMock = Mock.ofType<AlbumArtworkCacheServiceBase>();
+        albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
@@ -67,7 +67,7 @@ describe('AlbumArtworkAdder', () => {
             fileMetadataFactoryMock.object,
             snackBarServiceMock.object,
             loggerMock.object,
-            albumArtworkGetterMock.object
+            albumArtworkGetterMock.object,
         );
     });
 

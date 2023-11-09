@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileAccess } from '../common/io/base-file-access';
-import { SubfolderModel } from '../services/folder/subfolder-model';
 import { SubfolderNamePipe } from './subfolder-name.pipe';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { SubfolderModel } from '../../services/folder/subfolder-model';
 
 describe('SubfolderNamePipe', () => {
-    let fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+    let fileAccessMock: IMock<FileAccessBase> = Mock.ofType<FileAccessBase>();
     let subfolderNamePipe: SubfolderNamePipe;
 
     beforeEach(() => {
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music/Subfolder1')).returns(() => 'Subfolder1');
 
         subfolderNamePipe = new SubfolderNamePipe(fileAccessMock.object);

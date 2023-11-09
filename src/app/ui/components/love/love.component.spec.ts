@@ -1,22 +1,22 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FontSize } from '../../common/application/font-size';
-import { Track } from '../../common/data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BaseScrobblingService } from '../../services/scrobbling/base-scrobbling.service';
-import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { LoveComponent } from './love.component';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { ScrobblingServiceBase } from '../../../services/scrobbling/scrobbling.service.base';
+import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { DateTime } from '../../../common/date-time';
+import { FontSize } from '../../../common/application/font-size';
+import { Track } from '../../../data/entities/track';
+import { TrackModel } from '../../../services/track/track-model';
 
 describe('LoveComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let scrobblingServiceMock: IMock<BaseScrobblingService>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     function createComponent(): LoveComponent {
         return new LoveComponent(
@@ -24,17 +24,17 @@ describe('LoveComponent', () => {
             scrobblingServiceMock.object,
             metadataServiceMock.object,
             dialogServiceMock.object,
-            translatorServiceMock.object
+            translatorServiceMock.object,
         );
     }
 
     beforeEach(() => {
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        scrobblingServiceMock = Mock.ofType<BaseScrobblingService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
 
         translatorServiceMock.setup((x) => x.getAsync('save-love-error')).returns(() => Promise.resolve('save-love-error'));
     });

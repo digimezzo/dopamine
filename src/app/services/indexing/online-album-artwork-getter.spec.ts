@@ -1,10 +1,10 @@
 import { IMock, It, Mock } from 'typemoq';
 import { LastfmAlbum } from '../../common/api/lastfm/lastfm-album';
-import { LastfmApi } from '../../common/api/lastfm/lastfm-api';
 import { ImageProcessor } from '../../common/image-processor';
 import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { OnlineAlbumArtworkGetter } from './online-album-artwork-getter';
+import { LastfmApi } from '../../common/api/lastfm/lastfm.api';
 
 describe('OnlineAlbumArtworkGetter', () => {
     let imageProcessorMock: IMock<ImageProcessor>;

@@ -1,23 +1,26 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Constants } from '../../../common/application/constants';
-import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
-import { SemanticZoomable } from '../../../common/semantic-zoomable';
+import { SemanticZoomable } from '../../../../common/semantic-zoomable';
 import { SemanticZoomComponent } from './semantic-zoom.component';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { Constants } from '../../../../common/application/constants';
 
 export class SemanticZoomableImplementation extends SemanticZoomable {
-    public constructor(public name: string, public displayName: string) {
+    public constructor(
+        public name: string,
+        public displayName: string,
+    ) {
         super();
     }
 }
 
 describe('SemanticZoomComponent', () => {
-    let schedulerMock: IMock<BaseScheduler>;
+    let schedulerMock: IMock<SchedulerBase>;
     let component: SemanticZoomComponent;
 
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
         component = new SemanticZoomComponent(schedulerMock.object);
     });
 

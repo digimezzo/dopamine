@@ -1,16 +1,16 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAppearanceService } from '../../../../services/appearance/base-appearance.service';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
 import { ArtistComponent } from './artist.component';
+import { AppearanceServiceBase } from '../../../../../services/appearance/appearance.service.base';
+import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
 
 describe('GenreComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
     let component: ArtistComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
         component = new ArtistComponent(appearanceServiceMock.object, semanticZoomServiceMock.object);
     });
 

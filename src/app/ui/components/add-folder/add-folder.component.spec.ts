@@ -1,21 +1,21 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Folder } from '../../common/data/entities/folder';
-import { BaseDesktop } from '../../common/io/base-desktop';
-import { Logger } from '../../common/logger';
-import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseFolderService } from '../../services/folder/base-folder.service';
-import { FolderModel } from '../../services/folder/folder-model';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { AddFolderComponent } from './add-folder.component';
+import { SettingsBase } from '../../../common/settings/settings.base';
+import { Logger } from '../../../common/logger';
+import { DesktopBase } from '../../../common/io/desktop.base';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { FolderServiceBase } from '../../../services/folder/folder.service.base';
+import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
+import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { FolderModel } from '../../../services/folder/folder-model';
+import { Folder } from '../../../data/entities/folder';
 
 describe('AddFolderComponent', () => {
-    let desktopMock: IMock<BaseDesktop>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let folderServiceMock: IMock<BaseFolderService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
+    let desktopMock: IMock<DesktopBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let folderServiceMock: IMock<FolderServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
     let loggerMock: IMock<Logger>;
     let settingsStub: any;
     let settingsMock: IMock<SettingsBase>;
@@ -23,11 +23,11 @@ describe('AddFolderComponent', () => {
     let componentWithStub: AddFolderComponent;
 
     beforeEach(() => {
-        desktopMock = Mock.ofType<BaseDesktop>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        folderServiceMock = Mock.ofType<BaseFolderService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        desktopMock = Mock.ofType<DesktopBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        folderServiceMock = Mock.ofType<FolderServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         settingsStub = { showAllFoldersInCollection: false };
         settingsMock = Mock.ofType<SettingsBase>();

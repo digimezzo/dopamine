@@ -1,18 +1,16 @@
-import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
 import { LrcLyricsGetter } from './lrc-lyrics-getter';
 import { MockCreator } from '../../testing/mock-creator';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { TrackModel } from '../track/track-model';
 import { IMock, Mock } from 'typemoq';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
-import { BaseFileAccess } from '../../common/io/base-file-access';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('LrcLyricsGetter', () => {
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
 
     beforeEach(() => {
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
     });
 
     function createInstance(): LrcLyricsGetter {

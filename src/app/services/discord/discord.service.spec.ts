@@ -1,22 +1,22 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { DateProxy } from '../../common/io/date-proxy';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { BasePlaybackService } from '../playback/base-playback.service';
 import { PlaybackProgress } from '../playback/playback-progress';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { DiscordService } from './discord.service';
 import { PresenceUpdater } from './presence-updater';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { Track } from '../../data/entities/track';
 
 describe('DiscordService', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let presenceUpdaterMock: IMock<PresenceUpdater>;
     let dateProxyMock: IMock<DateProxy>;
     let settingsMock: IMock<SettingsBase>;
@@ -31,9 +31,9 @@ describe('DiscordService', () => {
     let trackModel: TrackModel;
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         presenceUpdaterMock = Mock.ofType<PresenceUpdater>();
         dateProxyMock = Mock.ofType<DateProxy>();
         settingsMock = Mock.ofType<SettingsBase>();

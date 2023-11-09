@@ -1,17 +1,17 @@
 import { IMock, It, Mock } from 'typemoq';
-import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileAccess } from '../../../common/io/file-access';
-import { Shuffler } from '../../../common/shuffler';
-import { AlbumModel } from '../../../services/album/album-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumOrder } from '../album-order';
 import { ItemSpaceCalculator } from '../item-space-calculator';
 import { AlbumRow } from './album-row';
 import { AlbumRowsGetter } from './album-rows-getter';
+import { FileAccess } from '../../../../common/io/file-access';
+import { Shuffler } from '../../../../common/shuffler';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { AlbumModel } from '../../../../services/album/album-model';
 
 describe('AlbumRowsGetter', () => {
     let itemSpaceCalculatorMock: IMock<ItemSpaceCalculator>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
     let shufflerMock: IMock<Shuffler>;
     let albumRowsGetter: AlbumRowsGetter;
@@ -68,7 +68,7 @@ describe('AlbumRowsGetter', () => {
 
     beforeEach(() => {
         itemSpaceCalculatorMock = Mock.ofType<ItemSpaceCalculator>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
         shufflerMock = Mock.ofType<Shuffler>();
 

@@ -1,27 +1,27 @@
 import { Subscription } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Folder } from '../../common/data/entities/folder';
-import { BaseFolderRepository } from '../../common/data/repositories/base-folder-repository';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { FolderModel } from './folder-model';
 import { FolderService } from './folder.service';
 import { SubfolderModel } from './subfolder-model';
+import { FolderRepositoryBase } from '../../data/repositories/folder-repository.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { Folder } from '../../data/entities/folder';
 
 describe('FolderService', () => {
-    let folderRepositoryMock: IMock<BaseFolderRepository>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let folderRepositoryMock: IMock<FolderRepositoryBase>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let loggerMock: IMock<Logger>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
 
     let service: FolderService;
 
     beforeEach(() => {
-        folderRepositoryMock = Mock.ofType<BaseFolderRepository>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        folderRepositoryMock = Mock.ofType<FolderRepositoryBase>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         loggerMock = Mock.ofType<Logger>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
 
         service = new FolderService(folderRepositoryMock.object, loggerMock.object, snackBarServiceMock.object, fileAccessMock.object);
     });
@@ -407,7 +407,7 @@ describe('FolderService', () => {
             // Act
             const subfolderBreadCrumbs: SubfolderModel[] = service.getSubfolderBreadCrumbs(
                 rootFolder,
-                '/home/user/Music/subfolder1/subfolder2/subfolder3'
+                '/home/user/Music/subfolder1/subfolder2/subfolder3',
             );
 
             // Assert
@@ -539,7 +539,7 @@ describe('FolderService', () => {
             subscription.add(
                 service.foldersChanged$.subscribe(() => {
                     foldersHaveChanged = true;
-                })
+                }),
             );
 
             // Act

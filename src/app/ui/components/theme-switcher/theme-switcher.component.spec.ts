@@ -1,19 +1,19 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { Theme } from '../../services/appearance/theme/theme';
-import { ThemeCoreColors } from '../../services/appearance/theme/theme-core-colors';
-import { ThemeCreator } from '../../services/appearance/theme/theme-creator';
-import { ThemeNeutralColors } from '../../services/appearance/theme/theme-neutral-colors';
-import { ThemeOptions } from '../../services/appearance/theme/theme-options';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { ThemeCreator } from '../../../services/appearance/theme/theme-creator';
+import { ThemeCoreColors } from '../../../services/appearance/theme/theme-core-colors';
+import { ThemeNeutralColors } from '../../../services/appearance/theme/theme-neutral-colors';
+import { ThemeOptions } from '../../../services/appearance/theme/theme-options';
+import { Theme } from '../../../services/appearance/theme/theme';
 
 describe('ColorSchemeSwitcherComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService> = Mock.ofType<BaseAppearanceService>();
+    let appearanceServiceMock: IMock<AppearanceServiceBase> = Mock.ofType<AppearanceServiceBase>();
 
     let component: ThemeSwitcherComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
 
         component = new ThemeSwitcherComponent(appearanceServiceMock.object);
     });
@@ -71,7 +71,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 '#fff',
                 '#fff',
                 '#fff',
-                '#fff'
+                '#fff',
             );
             const lightColors: ThemeNeutralColors = new ThemeNeutralColors(
                 'red',
@@ -101,7 +101,7 @@ describe('ColorSchemeSwitcherComponent', () => {
                 '#fff',
                 '#fff',
                 '#fff',
-                '#fff'
+                '#fff',
             );
 
             const options: ThemeOptions = new ThemeOptions(false);

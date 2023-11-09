@@ -1,14 +1,14 @@
 import { IMock, It, Mock } from 'typemoq';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { FileAccess } from '../../common/io/file-access';
 import { DirectoryWalkResult } from './directory-walk-result';
 import { DirectoryWalker } from './directory-walker';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('DirectoryWalker', () => {
     describe('getFilesInDirectoryAsync', () => {
         it('should collect all files in the directory and subdirectories', async () => {
             // Arrange
-            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            const fileAccessMock: IMock<FileAccessBase> = Mock.ofType<FileAccessBase>();
 
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music', true, It.isAny()))
@@ -29,7 +29,7 @@ describe('DirectoryWalker', () => {
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(() =>
-                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']),
                 );
 
             fileAccessMock
@@ -43,7 +43,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -57,7 +57,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -106,7 +106,7 @@ describe('DirectoryWalker', () => {
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(() =>
-                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']),
                 );
 
             fileAccessMock
@@ -120,7 +120,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -134,7 +134,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -177,7 +177,7 @@ describe('DirectoryWalker', () => {
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(() =>
-                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']),
                 );
 
             fileAccessMock
@@ -191,7 +191,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -205,7 +205,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 2/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 2/Track 3.mp3',
-                    ])
+                    ]),
                 );
 
             fileAccessMock
@@ -244,7 +244,7 @@ describe('DirectoryWalker', () => {
             fileAccessMock
                 .setup((x) => x.getFilesInDirectoryAsync('/home/user/Music/Images', true, It.isAny()))
                 .returns(() =>
-                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png'])
+                    Promise.resolve(['/home/user/Music/Images/Artist image 1.png', '/home/user/Music/Images/Artist image 2.png']),
                 );
 
             fileAccessMock
@@ -258,7 +258,7 @@ describe('DirectoryWalker', () => {
                         '/home/user/Music/Artist 1/Album 1/Track 1.mp3',
                         '/home/user/Music/Artist 1/Album 1/Track 2.mp3',
                         '/home/user/Music/Artist 1/Album 1/Album 1.jpg',
-                    ])
+                    ]),
                 );
 
             fileAccessMock

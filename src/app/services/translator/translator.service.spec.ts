@@ -2,16 +2,16 @@ import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { Language } from '../../common/application/language';
-import { BaseTranslateServiceProxy } from '../../common/io/base-translate-service-proxy';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { TranslatorService } from './translator.service';
+import { TranslateServiceProxyBase } from '../../common/io/translate-service-proxy.base';
 
 describe('TranslatorService', () => {
-    let translateServiceProxyMock: IMock<BaseTranslateServiceProxy>;
+    let translateServiceProxyMock: IMock<TranslateServiceProxyBase>;
     let settingsMock: IMock<SettingsBase>;
 
     beforeEach(() => {
-        translateServiceProxyMock = Mock.ofType<BaseTranslateServiceProxy>();
+        translateServiceProxyMock = Mock.ofType<TranslateServiceProxyBase>();
         translateServiceProxyMock
             .setup((x) => x.get('welcome-to-dopamine', undefined))
             .returns(() => Promise.resolve('Welcome to Dopamine'));

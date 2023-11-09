@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
 import { BackButtonComponent } from './back-button.component';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
 
 describe('BackButtonComponent', () => {
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
 
     let component: BackButtonComponent;
 
     beforeEach(() => {
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
 
         component = new BackButtonComponent(navigationServiceMock.object, indexingServiceMock.object);
     });

@@ -1,16 +1,16 @@
 import { IMock, It, Mock } from 'typemoq';
-import { Track } from '../common/data/entities/track';
-import { DateTime } from '../common/date-time';
-import { BaseSearchService } from '../services/search/base-search.service';
-import { TrackModel } from '../services/track/track-model';
-import { TrackModels } from '../services/track/track-models';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { TracksFilterPipe } from './tracks-filter.pipe';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { SearchServiceBase } from '../../services/search/search.service.base';
+import { DateTime } from '../../common/date-time';
+import { TrackModels } from '../../services/track/track-models';
+import { Track } from '../../data/entities/track';
+import { TrackModel } from '../../services/track/track-model';
 
 describe('TracksFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     function createPipe(): TracksFilterPipe {
         return new TracksFilterPipe(searchServiceMock.object);
@@ -39,9 +39,9 @@ describe('TracksFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
     });
 
     describe('transform', () => {

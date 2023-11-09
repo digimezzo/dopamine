@@ -1,21 +1,21 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseIpcProxy } from '../../common/io/base-ipc-proxy';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { TrayService } from './tray.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 describe('TrayService', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let ipcProxyMock: IMock<BaseIpcProxy>;
+    let ipcProxyMock: IMock<IpcProxyBase>;
 
     let translateServiceProxyLanguageChanged: Subject<void>;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
-        ipcProxyMock = Mock.ofType<BaseIpcProxy>();
+        ipcProxyMock = Mock.ofType<IpcProxyBase>();
 
         translateServiceProxyLanguageChanged = new Subject();
         const translateServiceProxyLanguageChanged$: Observable<void> = translateServiceProxyLanguageChanged.asObservable();

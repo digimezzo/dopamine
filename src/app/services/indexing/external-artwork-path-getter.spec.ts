@@ -1,15 +1,15 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { ExternalArtworkPathGetter } from './external-artwork-path-getter';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('ExternalArtworkPathGetter', () => {
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let externalArtworkPathGetter: ExternalArtworkPathGetter;
 
     const audioFilePath: string = '/home/MyUser/Music/MyMusicFile.mp3';
 
     beforeEach(() => {
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
 
         externalArtworkPathGetter = new ExternalArtworkPathGetter(fileAccessMock.object);
     });

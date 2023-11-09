@@ -1,20 +1,20 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { ArtistInformation } from '../../../services/artist-information/artist-information';
-import { BaseArtistInformationService } from '../../../services/artist-information/base-artist-information.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../../services/playback/playback-started';
-import { TrackModel } from '../../../services/track/track-model';
-import { MockCreator } from '../../../testing/mock-creator';
 import { NowPlayingArtistInfoComponent } from './now-playing-artist-info.component';
-import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { PlaybackStarted } from '../../../../services/playback/playback-started';
+import { MockCreator } from '../../../../testing/mock-creator';
+import { TrackModel } from '../../../../services/track/track-model';
+import { ArtistInformation } from '../../../../services/artist-information/artist-information';
 
 describe('NowPlayingArtistInfoComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let artistInformationServiceMock: IMock<BaseArtistInformationService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let artistInformationServiceMock: IMock<ArtistInformationServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let schedulerMock: IMock<BaseScheduler>;
+    let schedulerMock: IMock<SchedulerBase>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
 
@@ -30,9 +30,9 @@ describe('NowPlayingArtistInfoComponent', () => {
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        artistInformationServiceMock = Mock.ofType<BaseArtistInformationService>();
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        artistInformationServiceMock = Mock.ofType<ArtistInformationServiceBase>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
         settingsMock = Mock.ofType<SettingsBase>();
 
         playbackServicePlaybackStartedMock = new Subject();

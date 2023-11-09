@@ -1,21 +1,21 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { Scheduler } from '../../common/scheduling/scheduler';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BasePlaybackInformationService } from '../../services/playback-information/base-playback-information.service';
-import { PlaybackInformation } from '../../services/playback-information/playback-information';
-import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackInformationComponent } from './playback-information.component';
+import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
+import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { Scheduler } from '../../../common/scheduling/scheduler';
+import { DateTime } from '../../../common/date-time';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { PlaybackInformation } from '../../../services/playback-information/playback-information';
+import { TrackModel } from '../../../services/track/track-model';
+import { Track } from '../../../data/entities/track';
 
 describe('PlaybackInformationComponent', () => {
-    let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
     let schedulerMock: IMock<Scheduler>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let playbackInformationService_PlayingNextTrack: Subject<PlaybackInformation>;
     let playbackInformationService_PlayingPreviousTrack: Subject<PlaybackInformation>;
@@ -41,12 +41,12 @@ describe('PlaybackInformationComponent', () => {
     }
 
     beforeEach(() => {
-        playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
         schedulerMock = Mock.ofType<Scheduler>();
 
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         createComponent();
 

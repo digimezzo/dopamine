@@ -1,28 +1,28 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { Constants } from '../../../common/application/constants';
-import { Track } from '../../../common/data/entities/track';
-import { DateTime } from '../../../common/date-time';
-import { Logger } from '../../../common/logger';
-import { Scheduler } from '../../../common/scheduling/scheduler';
-import { BaseCollectionService } from '../../../services/collection/base-collection.service';
-import { BaseSearchService } from '../../../services/search/base-search.service';
-import { BaseTrackService } from '../../../services/track/base-track.service';
-import { TrackModel } from '../../../services/track/track-model';
-import { TrackModels } from '../../../services/track/track-models';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { CollectionPersister } from '../collection-persister';
 import { CollectionTracksComponent } from './collection-tracks.component';
+import { SearchServiceBase } from '../../../../services/search/search.service.base';
+import { TrackServiceBase } from '../../../../services/track/track.service.base';
+import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
+import { Scheduler } from '../../../../common/scheduling/scheduler';
+import { Logger } from '../../../../common/logger';
+import { DateTime } from '../../../../common/date-time';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { TrackModel } from '../../../../services/track/track-model';
+import { Track } from '../../../../data/entities/track';
+import { TrackModels } from '../../../../services/track/track-models';
+import { Constants } from '../../../../common/application/constants';
 
 describe('CollectionTracksComponent', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
-    let trackServiceMock: IMock<BaseTrackService>;
-    let collectionServiceMock: IMock<BaseCollectionService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let trackServiceMock: IMock<TrackServiceBase>;
+    let collectionServiceMock: IMock<CollectionServiceBase>;
     let collectionPersisterMock: IMock<CollectionPersister>;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let selectedTabChangedMock: Subject<void>;
     let selectedTabChangedMock$: Observable<void>;
@@ -39,7 +39,7 @@ describe('CollectionTracksComponent', () => {
             collectionServiceMock.object,
             collectionPersisterMock.object,
             schedulerMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
 
         return component;
@@ -63,14 +63,14 @@ describe('CollectionTracksComponent', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        trackServiceMock = Mock.ofType<BaseTrackService>();
-        collectionServiceMock = Mock.ofType<BaseCollectionService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        trackServiceMock = Mock.ofType<TrackServiceBase>();
+        collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         collectionPersisterMock = Mock.ofType<CollectionPersister>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         selectedTabChangedMock = new Subject();
         selectedTabChangedMock$ = selectedTabChangedMock.asObservable();

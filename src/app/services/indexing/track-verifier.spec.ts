@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { TrackVerifier } from './track-verifier';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { Track } from '../../data/entities/track';
 
 describe('TrackVerifier', () => {
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let trackVerifier: TrackVerifier;
 
     beforeEach(() => {
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         trackVerifier = new TrackVerifier(fileAccessMock.object);
     });
 
@@ -46,7 +46,7 @@ describe('TrackVerifier', () => {
             expect(trackIsOutOfDate).toBeTruthy();
         });
 
-        it('should report a track as out of date if its date modified is different than the date modified on disk', async () => {
+        it('should report a track as out of date if its date modified is different than the date modified on disk', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/Track.mp3');
             track.trackId = 1;
@@ -64,7 +64,7 @@ describe('TrackVerifier', () => {
             expect(trackIsOutOfDate).toBeTruthy();
         });
 
-        it('should not report a track as out of date if its file size is not 0 and it is equal to the file size on disk, and its date modified is equal to the date modified on disk.', async () => {
+        it('should not report a track as out of date if its file size is not 0 and it is equal to the file size on disk, and its date modified is equal to the date modified on disk.', () => {
             // Arrange
             const track: Track = new Track('/home/user/Music/Track.mp3');
             track.trackId = 1;

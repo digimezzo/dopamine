@@ -1,14 +1,14 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseTracksColumnsService } from '../../../services/track-columns/base-tracks-columns.service';
-import { TracksColumnsVisibility } from '../../../services/track-columns/tracks-columns-visibility';
 import { EditColumnsDialogComponent } from './edit-columns-dialog.component';
+import { TracksColumnsServiceBase } from '../../../../services/track-columns/tracks-columns.service.base';
+import { TracksColumnsVisibility } from '../../../../services/track-columns/tracks-columns-visibility';
 
 describe('EditColumnsDialogComponent', () => {
     let component: EditColumnsDialogComponent;
-    let tracksColumnsServiceMock: IMock<BaseTracksColumnsService>;
+    let tracksColumnsServiceMock: IMock<TracksColumnsServiceBase>;
 
     beforeEach(() => {
-        tracksColumnsServiceMock = Mock.ofType<BaseTracksColumnsService>();
+        tracksColumnsServiceMock = Mock.ofType<TracksColumnsServiceBase>();
 
         component = new EditColumnsDialogComponent(tracksColumnsServiceMock.object);
     });

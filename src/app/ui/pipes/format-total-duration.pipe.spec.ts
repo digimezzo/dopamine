@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { FormatTotalDurationPipe } from './format-total-duration.pipe';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
 
 describe('FormatTotalDurationPipe', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let formatTotalDurationPipe: FormatTotalDurationPipe;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         translatorServiceMock.setup((x) => x.get('day')).returns(() => 'day');
         translatorServiceMock.setup((x) => x.get('days')).returns(() => 'days');
         translatorServiceMock.setup((x) => x.get('hour')).returns(() => 'hour');

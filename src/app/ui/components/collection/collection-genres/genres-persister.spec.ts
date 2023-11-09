@@ -1,15 +1,15 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../../common/logger';
-import { GenreModel } from '../../../services/genre/genre-model';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { GenreOrder } from './genre-browser/genre-order';
 import { GenresPersister } from './genres-persister';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { Logger } from '../../../../common/logger';
+import { GenreModel } from '../../../../services/genre/genre-model';
 
 describe('GenresPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let persister: GenresPersister;
 
@@ -22,7 +22,7 @@ describe('GenresPersister', () => {
     beforeEach(() => {
         settingsStub = { genresTabSelectedGenre: '', genresTabSelectedGenreOrder: '' };
         loggerMock = Mock.ofType<Logger>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         persister = new GenresPersister(settingsStub, loggerMock.object);
 
         subscription = new Subscription();
@@ -152,7 +152,7 @@ describe('GenresPersister', () => {
             subscription.add(
                 persister.selectedGenresChanged$.subscribe((genreNames: string[]) => {
                     receivedGenreNames = genreNames;
-                })
+                }),
             );
 
             // Act

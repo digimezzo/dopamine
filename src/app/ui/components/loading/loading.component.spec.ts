@@ -1,22 +1,22 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseDatabaseMigrator } from '../../common/data/base-database-migrator';
-import { BaseScheduler } from '../../common/scheduling/base-scheduler';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseFileService } from '../../services/file/base-file.service';
-import { BaseIndexingService } from '../../services/indexing/base-indexing.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseUpdateService } from '../../services/update/base-update.service';
 import { LoadingComponent } from './loading.component';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { DatabaseMigratorBase } from '../../../data/database-migrator.base';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { UpdateServiceBase } from '../../../services/update/update.service.base';
+import { IndexingServiceBase } from '../../../services/indexing/indexing.service.base';
+import { FileServiceBase } from '../../../services/file/file.service.base';
+import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
 describe('LoadingComponent', () => {
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let databaseMigratorMock: IMock<BaseDatabaseMigrator>;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
+    let databaseMigratorMock: IMock<DatabaseMigratorBase>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsStub: any;
-    let updateServiceMock: IMock<BaseUpdateService>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
-    let fileServiceMock: IMock<BaseFileService>;
-    let schedulerMock: IMock<BaseScheduler>;
+    let updateServiceMock: IMock<UpdateServiceBase>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
+    let fileServiceMock: IMock<FileServiceBase>;
+    let schedulerMock: IMock<SchedulerBase>;
 
     function createComponent(): LoadingComponent {
         return new LoadingComponent(
@@ -27,19 +27,19 @@ describe('LoadingComponent', () => {
             updateServiceMock.object,
             indexingServiceMock.object,
             fileServiceMock.object,
-            schedulerMock.object
+            schedulerMock.object,
         );
     }
 
     beforeEach(() => {
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        databaseMigratorMock = Mock.ofType<BaseDatabaseMigrator>();
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        databaseMigratorMock = Mock.ofType<DatabaseMigratorBase>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsStub = { showWelcome: false, refreshCollectionAutomatically: false };
-        updateServiceMock = Mock.ofType<BaseUpdateService>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
-        fileServiceMock = Mock.ofType<BaseFileService>();
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        updateServiceMock = Mock.ofType<UpdateServiceBase>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
+        fileServiceMock = Mock.ofType<FileServiceBase>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
     });
 
     describe('constructor', () => {

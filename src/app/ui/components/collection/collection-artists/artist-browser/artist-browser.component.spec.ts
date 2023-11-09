@@ -1,22 +1,22 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Constants } from '../../../../common/application/constants';
-import { ContextMenuOpener } from '../../../../common/context-menu-opener';
-import { Logger } from '../../../../common/logger';
-import { MouseSelectionWatcher } from '../../../../common/mouse-selection-watcher';
-import { ArtistOrdering } from '../../../../common/ordering/artist-ordering';
-import { BaseScheduler } from '../../../../common/scheduling/base-scheduler';
-import { SemanticZoomHeaderAdder } from '../../../../common/semantic-zoom-header-adder';
-import { BaseApplicationService } from '../../../../services/application/base-application.service';
-import { ArtistModel } from '../../../../services/artist/artist-model';
-import { ArtistType } from '../../../../services/artist/artist-type';
-import { BasePlaybackService } from '../../../../services/playback/base-playback.service';
-import { BaseSemanticZoomService } from '../../../../services/semantic-zoom/base-semantic-zoom.service';
-import { BaseTranslatorService } from '../../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../../add-to-playlist-menu';
 import { ArtistsPersister } from '../artists-persister';
 import { ArtistBrowserComponent } from './artist-browser.component';
 import { ArtistOrder } from './artist-order';
+import { ArtistModel } from '../../../../../services/artist/artist-model';
+import { Logger } from '../../../../../common/logger';
+import { ArtistOrdering } from '../../../../../common/ordering/artist-ordering';
+import { ContextMenuOpener } from '../../../context-menu-opener';
+import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
+import { SemanticZoomHeaderAdder } from '../../../../../common/semantic-zoom-header-adder';
+import { ArtistType } from '../../../../../services/artist/artist-type';
+import { Constants } from '../../../../../common/application/constants';
+import { PlaybackServiceBase } from '../../../../../services/playback/playback.service.base';
+import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/semantic-zoom.service.base';
+import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
+import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
+import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -37,17 +37,17 @@ export class CdkVirtualScrollViewportMock {
 }
 
 describe('ArtistBrowserComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let semanticZoomServiceMock: IMock<BaseSemanticZoomService>;
-    let applicationServiceMock: IMock<BaseApplicationService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let semanticZoomServiceMock: IMock<SemanticZoomServiceBase>;
+    let applicationServiceMock: IMock<ApplicationServiceBase>;
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let artistOrderingMock: IMock<ArtistOrdering>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
-    let schedulerMock: IMock<BaseScheduler>;
+    let schedulerMock: IMock<SchedulerBase>;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
 
     let semanticZoomService_zoomOutRequested: Subject<void>;
@@ -68,24 +68,24 @@ describe('ArtistBrowserComponent', () => {
             artistOrderingMock.object,
             semanticZoomHeaderAdderMock.object,
             schedulerMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        semanticZoomServiceMock = Mock.ofType<BaseSemanticZoomService>();
-        applicationServiceMock = Mock.ofType<BaseApplicationService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        semanticZoomServiceMock = Mock.ofType<SemanticZoomServiceBase>();
+        applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         artistOrderingMock = Mock.ofType<ArtistOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
 
         semanticZoomService_zoomOutRequested = new Subject();
         semanticZoomService_zoomInRequested = new Subject();
@@ -324,11 +324,11 @@ describe('ArtistBrowserComponent', () => {
                             (artists: ArtistModel[]) =>
                                 artists.length === 2 &&
                                 artists[0].displayName === artist1.displayName &&
-                                artists[1].displayName === artist2.displayName
+                                artists[1].displayName === artist2.displayName,
                         ),
-                        false
+                        false,
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 
@@ -401,10 +401,10 @@ describe('ArtistBrowserComponent', () => {
                             (artists: ArtistModel[]) =>
                                 artists.length === 2 &&
                                 artists[0].displayName === artist2.displayName &&
-                                artists[1].displayName === artist1.displayName
-                        )
+                                artists[1].displayName === artist1.displayName,
+                        ),
                     ),
-                Times.once()
+                Times.once(),
             );
         });
 

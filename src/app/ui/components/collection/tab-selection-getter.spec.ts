@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { Constants } from '../../common/application/constants';
-import { SettingsBase } from '../../common/settings/settings.base';
 import { TabSelectionGetter } from './tab-selection-getter';
+import { SettingsBase } from '../../../common/settings/settings.base';
+import { Constants } from '../../../common/application/constants';
 
 describe('TabSelectionGetter', () => {
     let settingsMock: IMock<SettingsBase>;

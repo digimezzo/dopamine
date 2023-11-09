@@ -1,14 +1,14 @@
 import { IMock, It, Mock } from 'typemoq';
-import { AlbumData } from '../common/data/entities/album-data';
-import { FileAccess } from '../common/io/file-access';
-import { AlbumModel } from '../services/album/album-model';
-import { BaseSearchService } from '../services/search/base-search.service';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { AlbumsFilterPipe } from './albums-filter.pipe';
+import { SearchServiceBase } from '../../services/search/search.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { FileAccess } from '../../common/io/file-access';
+import { AlbumModel } from '../../services/album/album-model';
+import { AlbumData } from '../../data/entities/album-data';
 
 describe('AlbumsFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
 
     function createPipe(): AlbumsFilterPipe {
@@ -32,8 +32,8 @@ describe('AlbumsFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
     });
 

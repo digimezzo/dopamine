@@ -1,15 +1,15 @@
 import { Subscription } from 'rxjs';
-import { BaseTracksColumnsService } from './base-tracks-columns.service';
 import { TracksColumnsVisibility } from './tracks-columns-visibility';
 import { TracksColumnsService } from './tracks-columns.service';
+import { TracksColumnsServiceBase } from './tracks-columns.service.base';
 
 describe('TracksColumnsService', () => {
     let settingsStub: any;
-    let service: BaseTracksColumnsService;
+    let service: TracksColumnsServiceBase;
 
     let subscription: Subscription;
 
-    function createService(): BaseTracksColumnsService {
+    function createService(): TracksColumnsServiceBase {
         return new TracksColumnsService(settingsStub);
     }
 
@@ -89,7 +89,7 @@ describe('TracksColumnsService', () => {
 
             // Assert
             expect(settingsStub.tracksPageVisibleColumns).toEqual(
-                'rating;artists;genres;duration;trackNumber;year;skipCount;dateLastPlayed;dateAdded'
+                'rating;artists;genres;duration;trackNumber;year;skipCount;dateLastPlayed;dateAdded',
             );
         });
 
@@ -103,7 +103,7 @@ describe('TracksColumnsService', () => {
             subscription.add(
                 service.tracksColumnsVisibilityChanged$.subscribe((tracksColumnsVisibility: TracksColumnsVisibility) => {
                     receivedTracksColumnsVisibility = tracksColumnsVisibility;
-                })
+                }),
             );
 
             // Act

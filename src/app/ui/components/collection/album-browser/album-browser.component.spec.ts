@@ -1,27 +1,27 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
-import { ContextMenuOpener } from '../../../common/context-menu-opener';
-import { AlbumData } from '../../../common/data/entities/album-data';
-import { FileAccess } from '../../../common/io/file-access';
-import { Logger } from '../../../common/logger';
-import { MouseSelectionWatcher } from '../../../common/mouse-selection-watcher';
-import { NativeElementProxy } from '../../../common/native-element-proxy';
-import { AlbumModel } from '../../../services/album/album-model';
-import { BaseApplicationService } from '../../../services/application/base-application.service';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
 import { AlbumOrder } from '../album-order';
 import { BaseAlbumsPersister } from '../base-albums-persister';
 import { AlbumBrowserComponent } from './album-browser.component';
 import { AlbumRowsGetter } from './album-rows-getter';
+import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
+import { ApplicationServiceBase } from '../../../../services/application/application.service.base';
+import { NativeElementProxy } from '../../../../common/native-element-proxy';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import { FileAccess } from '../../../../common/io/file-access';
+import { Logger } from '../../../../common/logger';
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { AlbumData } from '../../../../data/entities/album-data';
+import { AlbumModel } from '../../../../services/album/album-model';
 
 describe('AlbumBrowserComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let applicationServiceMock: IMock<BaseApplicationService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let applicationServiceMock: IMock<ApplicationServiceBase>;
     let albumRowsGetterMock: IMock<AlbumRowsGetter>;
     let nativeElementProxyMock: IMock<NativeElementProxy>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let fileAccessMock: IMock<FileAccess>;
     let loggerMock: IMock<Logger>;
@@ -42,16 +42,16 @@ describe('AlbumBrowserComponent', () => {
             mouseSelectionWatcherMock.object,
             contextMenuOpenerMock.object,
             addToPlaylistMenuMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        applicationServiceMock = Mock.ofType<BaseApplicationService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        applicationServiceMock = Mock.ofType<ApplicationServiceBase>();
         albumRowsGetterMock = Mock.ofType<AlbumRowsGetter>();
         nativeElementProxyMock = Mock.ofType<NativeElementProxy>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         fileAccessMock = Mock.ofType<FileAccess>();
         loggerMock = Mock.ofType<Logger>();

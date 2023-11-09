@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { ArtistModel } from './artist-model';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 describe('ArtistModel', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let artistModel: ArtistModel;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         translatorServiceMock.setup((x) => x.get('Artist.UnknownArtist')).returns(() => 'Unknown artist');
         artistModel = new ArtistModel('My artist', translatorServiceMock.object);

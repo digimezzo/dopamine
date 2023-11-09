@@ -1,23 +1,21 @@
 import { IMock, Mock } from 'typemoq';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { NowPlayingLyricsComponent } from './now-playing-lyrics.component';
-import { BasePlaybackService } from '../../../services/playback/base-playback.service';
-import { BaseScheduler } from '../../../common/scheduling/base-scheduler';
 import { Observable, Subject } from 'rxjs';
-import { PlaybackStarted } from '../../../services/playback/playback-started';
-import { TrackModel } from '../../../services/track/track-model';
-import { MockCreator } from '../../../testing/mock-creator';
-import { BaseLyricsService } from '../../../services/lyrics/base-lyrics.service';
-import { LyricsModel } from '../../../services/lyrics/lyrics-model';
-import { LyricsSourceType } from '../../../common/api/lyrics/lyrics-source-type';
-import { BasePlaybackInformationService } from '../../../services/playback-information/base-playback-information.service';
-import { PlaybackInformation } from '../../../services/playback-information/playback-information';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
+import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { PlaybackInformation } from '../../../../services/playback-information/playback-information';
+import { MockCreator } from '../../../../testing/mock-creator';
+import { TrackModel } from '../../../../services/track/track-model';
+import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
+import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
 
 describe('NowPlayingLyricsComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let playbackInformationServiceMock: IMock<BasePlaybackInformationService>;
-    let lyricsServiceMock: IMock<BaseLyricsService>;
-    let schedulerMock: IMock<BaseScheduler>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
+    let lyricsServiceMock: IMock<LyricsServiceBase>;
+    let schedulerMock: IMock<SchedulerBase>;
 
     let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
     let playbackInformationService_playingPreviousTrack_Mock: Subject<PlaybackInformation>;
@@ -26,10 +24,10 @@ describe('NowPlayingLyricsComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        playbackInformationServiceMock = Mock.ofType<BasePlaybackInformationService>();
-        lyricsServiceMock = Mock.ofType<BaseLyricsService>();
-        schedulerMock = Mock.ofType<BaseScheduler>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
+        lyricsServiceMock = Mock.ofType<LyricsServiceBase>();
+        schedulerMock = Mock.ofType<SchedulerBase>();
 
         playbackInformationService_playingNextTrack_Mock = new Subject();
         playbackInformationService_playingPreviousTrack_Mock = new Subject();

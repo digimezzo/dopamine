@@ -1,23 +1,23 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BaseNowPlayingNavigationService } from '../../services/now-playing-navigation/base-now-playing-navigation.service';
-import { NowPlayingPage } from '../../services/now-playing-navigation/now-playing-page';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
-import { BaseSearchService } from '../../services/search/base-search.service';
-import { TrackModel } from '../../services/track/track-model';
 import { NowPlayingComponent } from './now-playing.component';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
+import { PlaybackStarted } from '../../../services/playback/playback-started';
+import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
+import { TrackModel } from '../../../services/track/track-model';
 
 describe('NowPlayingComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let navigationServiceMock: IMock<BaseNavigationService>;
-    let metadataServiceMock: IMock<BaseMetadataService>;
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let searchServiceMock: IMock<BaseSearchService>;
-    let nowPlayingNavigationServiceMock: IMock<BaseNowPlayingNavigationService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let nowPlayingNavigationServiceMock: IMock<NowPlayingNavigationServiceBase>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -33,17 +33,17 @@ describe('NowPlayingComponent', () => {
             metadataServiceMock.object,
             playbackServiceMock.object,
             searchServiceMock.object,
-            nowPlayingNavigationServiceMock.object
+            nowPlayingNavigationServiceMock.object,
         );
     }
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        nowPlayingNavigationServiceMock = Mock.ofType<BaseNowPlayingNavigationService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        nowPlayingNavigationServiceMock = Mock.ofType<NowPlayingNavigationServiceBase>();
 
         appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
 
@@ -600,7 +600,9 @@ describe('NowPlayingComponent', () => {
             // Arrange
             const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
             playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModelMock.object)).returns(() => Promise.resolve('dummy-background'));
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
             const component: NowPlayingComponent = createComponent();
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 

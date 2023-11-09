@@ -1,12 +1,12 @@
 import { IMock, It, Mock } from 'typemoq';
-import { GenreModel } from '../services/genre/genre-model';
-import { BaseSearchService } from '../services/search/base-search.service';
-import { BaseTranslatorService } from '../services/translator/base-translator.service';
 import { GenresFilterPipe } from './genres-filter.pipe';
+import { SearchServiceBase } from '../../services/search/search.service.base';
+import { TranslatorServiceBase } from '../../services/translator/translator.service.base';
+import { GenreModel } from '../../services/genre/genre-model';
 
 describe('GenresFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     function createPipe(): GenresFilterPipe {
         return new GenresFilterPipe(searchServiceMock.object);
@@ -20,8 +20,8 @@ describe('GenresFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
     });
 
     describe('transform', () => {

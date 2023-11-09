@@ -1,13 +1,13 @@
 import { IMock, Mock } from 'typemoq';
-import { AlbumData } from '../../common/data/entities/album-data';
-import { BaseFileAccess } from '../../common/io/base-file-access';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { AlbumModel } from './album-model';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { AlbumData } from '../../data/entities/album-data';
 
 describe('AlbumModel', () => {
     let albumData: AlbumData;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let albumModel: AlbumModel;
 
     beforeEach(() => {
@@ -21,8 +21,8 @@ describe('AlbumModel', () => {
         albumData.dateLastPlayed = 12369845;
         albumData.year = 2021;
 
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
 
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         translatorServiceMock.setup((x) => x.get('unknown-title')).returns(() => 'Unknown title');

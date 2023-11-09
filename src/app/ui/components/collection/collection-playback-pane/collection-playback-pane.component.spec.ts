@@ -1,19 +1,19 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseNavigationService } from '../../../services/navigation/base-navigation.service';
 import { CollectionPlaybackPaneComponent } from './collection-playback-pane.component';
-import { SettingsBase } from '../../../common/settings/settings.base';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 describe('CollectionPlaybackPaneComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let navigationServiceMock: IMock<BaseNavigationService>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
     let component: CollectionPlaybackPaneComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         component = new CollectionPlaybackPaneComponent(appearanceServiceMock.object, settingsMock.object, navigationServiceMock.object);
     });
 

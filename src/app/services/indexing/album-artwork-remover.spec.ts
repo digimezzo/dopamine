@@ -1,28 +1,28 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { AlbumArtwork } from '../../common/data/entities/album-artwork';
-import { BaseAlbumArtworkRepository } from '../../common/data/repositories/base-album-artwork-repository';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { AlbumArtworkRemover } from './album-artwork-remover';
+import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { AlbumArtwork } from '../../data/entities/album-artwork';
 
 describe('AlbumArtworkRemover', () => {
-    let albumArtworkRepositoryMock: IMock<BaseAlbumArtworkRepository>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let albumArtworkRemover: AlbumArtworkRemover;
 
     beforeEach(() => {
-        albumArtworkRepositoryMock = Mock.ofType<BaseAlbumArtworkRepository>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         albumArtworkRemover = new AlbumArtworkRemover(
             albumArtworkRepositoryMock.object,
             fileAccessMock.object,
             snackBarServiceMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 
@@ -192,7 +192,7 @@ describe('AlbumArtworkRemover', () => {
                     Promise.resolve([
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
-                    ])
+                    ]),
                 );
             fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
@@ -218,7 +218,7 @@ describe('AlbumArtworkRemover', () => {
                     Promise.resolve([
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
-                    ])
+                    ]),
                 );
             fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
@@ -260,7 +260,7 @@ describe('AlbumArtworkRemover', () => {
                     Promise.resolve([
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
-                    ])
+                    ]),
                 );
             fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
@@ -275,7 +275,7 @@ describe('AlbumArtworkRemover', () => {
             // Assert
             fileAccessMock.verify(
                 (x) => x.deleteFileIfExistsAsync('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg'),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
 
@@ -290,7 +290,7 @@ describe('AlbumArtworkRemover', () => {
                     Promise.resolve([
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg',
                         '/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId2.jpg',
-                    ])
+                    ]),
                 );
             fileAccessMock
                 .setup((x) => x.getFileNameWithoutExtension('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'))
@@ -305,7 +305,7 @@ describe('AlbumArtworkRemover', () => {
             // Assert
             fileAccessMock.verify(
                 (x) => x.deleteFileIfExistsAsync('/home/user/.config/Dopamine/Cache/CoverArt/album-artworkId1.jpg'),
-                Times.never()
+                Times.never(),
             );
         });
     });

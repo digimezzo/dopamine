@@ -2,16 +2,16 @@ import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { GuidFactory } from '../../common/guid.factory';
 import { ImageProcessor } from '../../common/image-processor';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkCacheId } from './album-artwork-cache-id';
 import { AlbumArtworkCacheIdFactory } from './album-artwork-cache-id-factory';
 import { AlbumArtworkCacheService } from './album-artwork-cache.service';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 describe('AlbumArtworkCacheService', () => {
     let albumArtworkCacheIdFactoryMock: IMock<AlbumArtworkCacheIdFactory>;
     let imageProcessorMock: IMock<ImageProcessor>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
     let service: AlbumArtworkCacheService;
     let guidFactoryMock: IMock<GuidFactory>;
@@ -19,7 +19,7 @@ describe('AlbumArtworkCacheService', () => {
     beforeEach(() => {
         albumArtworkCacheIdFactoryMock = Mock.ofType<AlbumArtworkCacheIdFactory>();
         imageProcessorMock = Mock.ofType<ImageProcessor>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
 
@@ -27,7 +27,7 @@ describe('AlbumArtworkCacheService', () => {
             albumArtworkCacheIdFactoryMock.object,
             imageProcessorMock.object,
             fileAccessMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 
@@ -45,13 +45,13 @@ describe('AlbumArtworkCacheService', () => {
                 albumArtworkCacheIdFactoryMock.object,
                 imageProcessorMock.object,
                 fileAccessMock.object,
-                loggerMock.object
+                loggerMock.object,
             );
 
             // Assert
             fileAccessMock.verify(
                 (x) => x.createFullDirectoryPathIfDoesNotExist('/home/user/.config/Dopamine/Cache/CoverArt'),
-                Times.exactly(1)
+                Times.exactly(1),
             );
         });
     });
@@ -106,8 +106,8 @@ describe('AlbumArtworkCacheService', () => {
                         imageBuffer,
                         Constants.cachedCoverArtMaximumSize,
                         Constants.cachedCoverArtMaximumSize,
-                        Constants.cachedCoverArtJpegQuality
-                    )
+                        Constants.cachedCoverArtJpegQuality,
+                    ),
                 )
                 .returns(() => resizedImageBuffer);
 

@@ -1,22 +1,22 @@
 import { IMock, Mock } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
 import { Shuffler } from '../../common/shuffler';
 import { TrackModel } from '../track/track-model';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { Queue } from './queue';
+import { Track } from '../../data/entities/track';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
 
 describe('Queue', () => {
     let shufflerMock: IMock<Shuffler>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     beforeEach(() => {
         shufflerMock = Mock.ofType<Shuffler>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         loggerMock = Mock.ofType<Logger>();
     });
 
@@ -176,17 +176,17 @@ describe('Queue', () => {
             const track1: TrackModel = new TrackModel(
                 new Track('/home/user/Music/Track1.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track2: TrackModel = new TrackModel(
                 new Track('/home/user/Music/Track2.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
             const track3: TrackModel = new TrackModel(
                 new Track('/home/user/Music/Track3.mp3'),
                 dateTimeMock.object,
-                translatorServiceMock.object
+                translatorServiceMock.object,
             );
 
             const queue: Queue = createQueue();

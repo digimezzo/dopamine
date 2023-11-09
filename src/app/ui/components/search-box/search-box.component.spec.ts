@@ -1,13 +1,13 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseSearchService } from '../../services/search/base-search.service';
 import { SearchBoxComponent } from './search-box.component';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
 
 describe('SearchBoxComponent', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let component: SearchBoxComponent;
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         component = new SearchBoxComponent(searchServiceMock.object);
     });
 

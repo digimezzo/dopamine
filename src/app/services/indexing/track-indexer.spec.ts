@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackAdder } from './track-adder';
 import { TrackIndexer } from './track-indexer';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 
 describe('TrackIndexer', () => {
     let trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
     let trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
     let trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
     let loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-    let snackBarServiceMock: IMock<BaseSnackBarService> = Mock.ofType<BaseSnackBarService>();
+    let snackBarServiceMock: IMock<SnackBarServiceBase> = Mock.ofType<SnackBarServiceBase>();
     let trackIndexer: TrackIndexer;
 
     beforeEach(() => {
@@ -19,13 +19,13 @@ describe('TrackIndexer', () => {
         trackUpdaterMock = Mock.ofType<TrackUpdater>();
         trackAdderMock = Mock.ofType<TrackAdder>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         trackIndexer = new TrackIndexer(
             trackRemoverMock.object,
             trackUpdaterMock.object,
             trackAdderMock.object,
             loggerMock.object,
-            snackBarServiceMock.object
+            snackBarServiceMock.object,
         );
     });
 

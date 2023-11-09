@@ -1,27 +1,16 @@
-import { BaseLyricsService } from './base-lyrics.service';
-import { LyricsService } from './lyrics.service';
 import { IMock, Mock } from 'typemoq';
-import { BasePlaybackService } from '../playback/base-playback.service';
-import { BasePlaybackInformationService } from '../playback-information/base-playback-information.service';
-import { BaseMediaSessionProxy } from '../../common/io/base-media-session-proxy';
-import { Subject } from 'rxjs';
-import { PlaybackInformation } from '../playback-information/playback-information';
 import { EmbeddedLyricsGetter } from './embedded-lyrics-getter';
-import { LrcLyricsGetter } from './lrc-lyrics-getter';
-import { OnlineLyricsGetter } from './online-lyrics-getter';
-import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { MockCreator } from '../../testing/mock-creator';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
-import { Lyrics } from '../../common/api/lyrics/lyrics';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 
 describe('EmbeddedLyricsGetter', () => {
-    let fileMetadataFactoryMock: IMock<BaseFileMetadataFactory>;
+    let fileMetadataFactoryMock: IMock<FileMetadataFactoryBase>;
 
     beforeEach(() => {
-        fileMetadataFactoryMock = Mock.ofType<BaseFileMetadataFactory>();
+        fileMetadataFactoryMock = Mock.ofType<FileMetadataFactoryBase>();
     });
 
     function createInstance(): EmbeddedLyricsGetter {

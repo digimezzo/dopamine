@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { Constants } from '../../common/application/constants';
-import { SettingsBase } from '../../common/settings/settings.base';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { BaseSearchService } from '../../services/search/base-search.service';
 import { CollectionComponent } from './collection.component';
 import { TabSelectionGetter } from './tab-selection-getter';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { SettingsBase } from '../../../common/settings/settings.base';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { SearchServiceBase } from '../../../services/search/search.service.base';
+import { Constants } from '../../../common/application/constants';
 
 describe('CollectionComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let playbackServiceMock: IMock<BasePlaybackService>;
-    let searchServiceMock: IMock<BaseSearchService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
+    let searchServiceMock: IMock<SearchServiceBase>;
     let collectionPersisterStub: any;
     let tabSelectionGetterMock: IMock<TabSelectionGetter>;
 
@@ -27,10 +27,10 @@ describe('CollectionComponent', () => {
     }
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
-        searchServiceMock = Mock.ofType<BaseSearchService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
         collectionPersisterStub = {};
         tabSelectionGetterMock = Mock.ofType<TabSelectionGetter>();
     });

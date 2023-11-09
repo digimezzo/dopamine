@@ -1,4 +1,3 @@
-import { BaseLyricsService } from './base-lyrics.service';
 import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 

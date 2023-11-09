@@ -1,18 +1,18 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
 import { Logger } from '../../common/logger';
 import { FolderServiceMock } from '../folder/folder-service-mock';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { CollectionChecker } from './collection-checker';
 import { IndexingService } from './indexing.service';
 import { TrackIndexer } from './track-indexer';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 
 describe('IndexingService', () => {
     let collectionCheckerMock: IMock<CollectionChecker>;
     let trackIndexerMock: IMock<TrackIndexer>;
     let albumArtworkIndexerMock: IMock<AlbumArtworkIndexer>;
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let folderServiceMock: FolderServiceMock;
     let loggerMock: IMock<Logger>;
     let service: IndexingService;
@@ -21,7 +21,7 @@ describe('IndexingService', () => {
         collectionCheckerMock = Mock.ofType<CollectionChecker>();
         trackIndexerMock = Mock.ofType<TrackIndexer>();
         albumArtworkIndexerMock = Mock.ofType<AlbumArtworkIndexer>();
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         folderServiceMock = new FolderServiceMock();
         loggerMock = Mock.ofType<Logger>();
         service = new IndexingService(
@@ -30,7 +30,7 @@ describe('IndexingService', () => {
             albumArtworkIndexerMock.object,
             trackRepositoryMock.object,
             folderServiceMock,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 
@@ -118,7 +118,7 @@ describe('IndexingService', () => {
             subscription.add(
                 service.indexingFinished$.subscribe(() => {
                     indexingIsFinished = true;
-                })
+                }),
             );
 
             // Act
@@ -182,7 +182,7 @@ describe('IndexingService', () => {
             subscription.add(
                 service.indexingFinished$.subscribe(() => {
                     indexingIsFinished = true;
-                })
+                }),
             );
 
             // Act
@@ -200,7 +200,7 @@ describe('IndexingService', () => {
             subscription.add(
                 service.indexingFinished$.subscribe(() => {
                     indexingIsFinished = true;
-                })
+                }),
             );
 
             // Act
@@ -240,7 +240,7 @@ describe('IndexingService', () => {
             subscription.add(
                 service.indexingFinished$.subscribe(() => {
                     indexingIsFinished = true;
-                })
+                }),
             );
 
             // Act
@@ -300,7 +300,7 @@ describe('IndexingService', () => {
             subscription.add(
                 service.indexingFinished$.subscribe(() => {
                     indexingIsFinished = true;
-                })
+                }),
             );
 
             // Act

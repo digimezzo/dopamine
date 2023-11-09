@@ -1,9 +1,9 @@
 import { IMock, Mock } from 'typemoq';
-import { Folder } from '../../../common/data/entities/folder';
-import { Logger } from '../../../common/logger';
-import { FolderModel } from '../../../services/folder/folder-model';
-import { SubfolderModel } from '../../../services/folder/subfolder-model';
 import { FoldersPersister } from './folders-persister';
+import { Logger } from '../../../../common/logger';
+import { FolderModel } from '../../../../services/folder/folder-model';
+import { Folder } from '../../../../data/entities/folder';
+import { SubfolderModel } from '../../../../services/folder/subfolder-model';
 
 describe('FoldersPersister', () => {
     let settingsStub: any;

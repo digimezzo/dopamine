@@ -1,16 +1,16 @@
 import { Subscription } from 'rxjs';
 import { IMock, Mock } from 'typemoq';
-import { Logger } from '../../../common/logger';
-import { ArtistModel } from '../../../services/artist/artist-model';
-import { ArtistType } from '../../../services/artist/artist-type';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
+import { Logger } from '../../../../common/logger';
 import { ArtistOrder } from './artist-browser/artist-order';
 import { ArtistsPersister } from './artists-persister';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { ArtistModel } from '../../../../services/artist/artist-model';
+import { ArtistType } from '../../../../services/artist/artist-type';
 
 describe('ArtistsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let persister: ArtistsPersister;
 
@@ -23,7 +23,7 @@ describe('ArtistsPersister', () => {
     beforeEach(() => {
         settingsStub = { artistsTabSelectedArtist: '', artistsTabSelectedArtistOrder: '', artistsTabSelectedArtistType: '' };
         loggerMock = Mock.ofType<Logger>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         persister = new ArtistsPersister(settingsStub, loggerMock.object);
 
         subscription = new Subscription();
@@ -132,7 +132,7 @@ describe('ArtistsPersister', () => {
             subscription.add(
                 persister.selectedArtistsChanged$.subscribe((artistNames: string[]) => {
                     receivedArtistNames = artistNames;
-                })
+                }),
             );
 
             // Act
@@ -183,7 +183,7 @@ describe('ArtistsPersister', () => {
             subscription.add(
                 persister.selectedArtistTypeChanged$.subscribe((artistType: ArtistType) => {
                     receivedArtistType = artistType;
-                })
+                }),
             );
 
             // Act

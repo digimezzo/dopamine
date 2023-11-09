@@ -1,26 +1,26 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { ContextMenuOpener } from '../../common/context-menu-opener';
-import { Track } from '../../common/data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { MouseSelectionWatcher } from '../../common/mouse-selection-watcher';
-import { BaseNavigationService } from '../../services/navigation/base-navigation.service';
-import { BasePlaybackIndicationService } from '../../services/playback-indication/base-playback-indication.service';
-import { BasePlaybackService } from '../../services/playback/base-playback.service';
-import { PlaybackStarted } from '../../services/playback/playback-started';
-import { TrackModel } from '../../services/track/track-model';
-import { TrackModels } from '../../services/track/track-models';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { PlaybackQueueComponent } from './playback-queue.component';
+import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
+import { ContextMenuOpener } from '../context-menu-opener';
+import { MouseSelectionWatcher } from '../mouse-selection-watcher';
+import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
+import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
+import { DateTime } from '../../../common/date-time';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { TrackModels } from '../../../services/track/track-models';
+import { PlaybackStarted } from '../../../services/playback/playback-started';
+import { TrackModel } from '../../../services/track/track-model';
+import { Track } from '../../../data/entities/track';
 
 describe('PlaybackQueueComponent', () => {
-    let playbackServiceMock: IMock<BasePlaybackService>;
+    let playbackServiceMock: IMock<PlaybackServiceBase>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
-    let playbackIndicationServiceMock: IMock<BasePlaybackIndicationService>;
-    let navigationServiceMock: IMock<BaseNavigationService>;
+    let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
+    let navigationServiceMock: IMock<NavigationServiceBase>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let playbackQueue: TrackModels;
     let playbackServicePlaybackStarted: Subject<PlaybackStarted>;
     let navigationServiceShowPlaybackQueueRequested: Subject<void>;
@@ -31,18 +31,18 @@ describe('PlaybackQueueComponent', () => {
             contextMenuOpenerMock.object,
             mouseSelectionWatcherMock.object,
             playbackIndicationServiceMock.object,
-            navigationServiceMock.object
+            navigationServiceMock.object,
         );
     }
 
     beforeEach(() => {
-        playbackServiceMock = Mock.ofType<BasePlaybackService>();
+        playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
-        playbackIndicationServiceMock = Mock.ofType<BasePlaybackIndicationService>();
-        navigationServiceMock = Mock.ofType<BaseNavigationService>();
+        playbackIndicationServiceMock = Mock.ofType<PlaybackIndicationServiceBase>();
+        navigationServiceMock = Mock.ofType<NavigationServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         playbackServicePlaybackStarted = new Subject();
         const playbackServicePlaybackStarted$: Observable<PlaybackStarted> = playbackServicePlaybackStarted.asObservable();

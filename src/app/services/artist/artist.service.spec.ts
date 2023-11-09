@@ -1,20 +1,20 @@
 import { IMock, Mock } from 'typemoq';
-import { ArtistData } from '../../common/data/entities/artist-data';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseTranslatorService } from '../translator/base-translator.service';
 import { ArtistModel } from './artist-model';
 import { ArtistType } from './artist-type';
 import { ArtistService } from './artist.service';
+import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { ArtistData } from '../../data/entities/artist-data';
 
 describe('ArtistService', () => {
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
 
     let service: ArtistService;
 
     beforeEach(() => {
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
 
         service = new ArtistService(translatorServiceMock.object, trackRepositoryMock.object);
     });

@@ -1,15 +1,15 @@
 import { IMock, Mock } from 'typemoq';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
 import { TrackComponent } from './track.component';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 describe('TrackComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let settingsMock: IMock<SettingsBase>;
     let component: TrackComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
 
         component = new TrackComponent(appearanceServiceMock.object, settingsMock.object);

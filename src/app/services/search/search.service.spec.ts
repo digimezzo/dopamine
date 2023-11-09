@@ -1,8 +1,8 @@
-import { BaseSearchService } from './base-search.service';
 import { SearchService } from './search.service';
+import { SearchServiceBase } from './search.service.base';
 
 describe('SearchService', () => {
-    let service: BaseSearchService;
+    let service: SearchServiceBase;
 
     beforeEach(() => {
         service = new SearchService();

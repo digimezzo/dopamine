@@ -1,15 +1,15 @@
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseDiscordService } from '../../../services/discord/base-discord.service';
-import { BaseScrobblingService } from '../../../services/scrobbling/base-scrobbling.service';
-import { SignInState } from '../../../services/scrobbling/sign-in-state';
-import { BaseSnackBarService } from '../../../services/snack-bar/base-snack-bar.service';
 import { OnlineSettingsComponent } from './online-settings.component';
+import { DiscordServiceBase } from '../../../../services/discord/discord.service.base';
+import { ScrobblingServiceBase } from '../../../../services/scrobbling/scrobbling.service.base';
+import { SnackBarServiceBase } from '../../../../services/snack-bar/snack-bar.service.base';
+import { SignInState } from '../../../../services/scrobbling/sign-in-state';
 
 describe('OnlineSettingsComponent', () => {
-    let discordServiceMock: IMock<BaseDiscordService>;
-    let scrobblingServiceMock: IMock<BaseScrobblingService>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let discordServiceMock: IMock<DiscordServiceBase>;
+    let scrobblingServiceMock: IMock<ScrobblingServiceBase>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let settingsStub: any;
 
     let scrobblingServiceMock_signInStateChanged: Subject<SignInState>;
@@ -22,7 +22,7 @@ describe('OnlineSettingsComponent', () => {
             discordServiceMock.object,
             scrobblingServiceMock.object,
             snackBarServiceMock.object,
-            settingsStub
+            settingsStub,
         );
     }
 
@@ -31,9 +31,9 @@ describe('OnlineSettingsComponent', () => {
     }
 
     beforeEach(() => {
-        discordServiceMock = Mock.ofType<BaseDiscordService>();
-        scrobblingServiceMock = Mock.ofType<BaseScrobblingService>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        discordServiceMock = Mock.ofType<DiscordServiceBase>();
+        scrobblingServiceMock = Mock.ofType<ScrobblingServiceBase>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         settingsStub = { enableDiscordRichPresence: true, enableLastFmScrobbling: true };
 
         scrobblingServiceMock_signInStateChanged = new Subject();

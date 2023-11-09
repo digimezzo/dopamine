@@ -1,36 +1,36 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { FontSize } from '../../common/application/font-size';
-import { Track } from '../../common/data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { BaseAppearanceService } from '../../services/appearance/base-appearance.service';
-import { BaseDialogService } from '../../services/dialog/base-dialog.service';
-import { BaseMetadataService } from '../../services/metadata/base-metadata.service';
-import { TrackModel } from '../../services/track/track-model';
-import { BaseTranslatorService } from '../../services/translator/base-translator.service';
 import { RatingComponent } from './rating.component';
+import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
+import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { DateTime } from '../../../common/date-time';
+import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
+import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { FontSize } from '../../../common/application/font-size';
+import { TrackModel } from '../../../services/track/track-model';
+import { Track } from '../../../data/entities/track';
 
 describe('RatingComponent', () => {
-    let metadataServiceMock: IMock<BaseMetadataService>;
-    let dialogServiceMock: IMock<BaseDialogService>;
+    let metadataServiceMock: IMock<MetadataServiceBase>;
+    let dialogServiceMock: IMock<DialogServiceBase>;
     let dateTimeMock: IMock<DateTime>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
 
     function createComponent(): RatingComponent {
         return new RatingComponent(
             metadataServiceMock.object,
             dialogServiceMock.object,
             translatorServiceMock.object,
-            appearanceServiceMock.object
+            appearanceServiceMock.object,
         );
     }
 
     beforeEach(() => {
-        metadataServiceMock = Mock.ofType<BaseMetadataService>();
-        dialogServiceMock = Mock.ofType<BaseDialogService>();
+        metadataServiceMock = Mock.ofType<MetadataServiceBase>();
+        dialogServiceMock = Mock.ofType<DialogServiceBase>();
         dateTimeMock = Mock.ofType<DateTime>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
 
         translatorServiceMock.setup((x) => x.getAsync('save-rating-error')).returns(() => Promise.resolve('save-rating-error'));
     });

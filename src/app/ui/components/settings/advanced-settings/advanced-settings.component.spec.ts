@@ -1,7 +1,7 @@
 import { IMock, Mock } from 'typemoq';
-import { LogViewer } from '../../../common/io/log-viewer';
-import { SettingsBase } from '../../../common/settings/settings.base';
 import { AdvancedSettingsComponent } from './advanced-settings.component';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { LogViewer } from '../../../../common/io/log-viewer';
 
 describe('AdvancedSettingsComponent', () => {
     let settingsMock: IMock<SettingsBase>;

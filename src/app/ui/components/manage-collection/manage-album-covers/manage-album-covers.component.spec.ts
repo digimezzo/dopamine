@@ -1,17 +1,17 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { BaseIndexingService } from '../../../services/indexing/base-indexing.service';
 import { ManageAlbumCoversComponent } from './manage-album-covers.component';
+import { IndexingServiceBase } from '../../../../services/indexing/indexing.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
 
 describe('ManageAlbumCoversComponent', () => {
     let settingsMock: IMock<SettingsBase>;
-    let indexingServiceMock: IMock<BaseIndexingService>;
+    let indexingServiceMock: IMock<IndexingServiceBase>;
 
     let component: ManageAlbumCoversComponent;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
-        indexingServiceMock = Mock.ofType<BaseIndexingService>();
+        indexingServiceMock = Mock.ofType<IndexingServiceBase>();
 
         component = new ManageAlbumCoversComponent(settingsMock.object, indexingServiceMock.object);
     });

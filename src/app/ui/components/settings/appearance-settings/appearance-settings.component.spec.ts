@@ -1,23 +1,23 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseDesktop } from '../../../common/io/base-desktop';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { BaseAppearanceService } from '../../../services/appearance/base-appearance.service';
-import { BaseTranslatorService } from '../../../services/translator/base-translator.service';
 import { AppearanceSettingsComponent } from './appearance-settings.component';
+import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
+import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 describe('AppearanceSettingsComponent', () => {
-    let appearanceServiceMock: IMock<BaseAppearanceService>;
-    let translatorServiceMock: IMock<BaseTranslatorService>;
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let translatorServiceMock: IMock<TranslatorServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let desktopMock: IMock<BaseDesktop>;
+    let desktopMock: IMock<DesktopBase>;
 
     let component: AppearanceSettingsComponent;
 
     beforeEach(() => {
-        appearanceServiceMock = Mock.ofType<BaseAppearanceService>();
-        translatorServiceMock = Mock.ofType<BaseTranslatorService>();
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
-        desktopMock = Mock.ofType<BaseDesktop>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         appearanceServiceMock.setup((x) => x.themesDirectoryPath).returns(() => '/my/path');
 

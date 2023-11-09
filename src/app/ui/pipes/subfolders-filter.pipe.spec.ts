@@ -1,10 +1,10 @@
 import { IMock, It, Mock } from 'typemoq';
-import { SubfolderModel } from '../services/folder/subfolder-model';
-import { BaseSearchService } from '../services/search/base-search.service';
 import { SubfoldersFilterPipe } from './subfolders-filter.pipe';
+import { SubfolderModel } from '../../services/folder/subfolder-model';
+import { SearchServiceBase } from '../../services/search/search.service.base';
 
 describe('SubfoldersFilterPipe', () => {
-    let searchServiceMock: IMock<BaseSearchService>;
+    let searchServiceMock: IMock<SearchServiceBase>;
 
     function createPipe(): SubfoldersFilterPipe {
         return new SubfoldersFilterPipe(searchServiceMock.object);
@@ -18,7 +18,7 @@ describe('SubfoldersFilterPipe', () => {
     }
 
     beforeEach(() => {
-        searchServiceMock = Mock.ofType<BaseSearchService>();
+        searchServiceMock = Mock.ofType<SearchServiceBase>();
     });
 
     describe('transform', () => {

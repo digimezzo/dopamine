@@ -1,17 +1,16 @@
 import { IMock, Mock, Times } from 'typemoq';
-import { BaseDesktop } from '../../common/io/base-desktop';
-import { Desktop } from '../../common/io/desktop';
-import { BaseSnackBarService } from '../../services/snack-bar/base-snack-bar.service';
 import { SnackBarComponent } from './snack-bar.component';
+import { SnackBarServiceBase } from '../../../services/snack-bar/snack-bar.service.base';
+import { DesktopBase } from '../../../common/io/desktop.base';
 
 describe('SnackBarComponent', () => {
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
-    let desktopMock: IMock<BaseDesktop>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let desktopMock: IMock<DesktopBase>;
     let component: SnackBarComponent;
 
     beforeEach(() => {
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
-        desktopMock = Mock.ofType<Desktop>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         component = new SnackBarComponent(snackBarServiceMock.object, {
             icon: 'My icon',

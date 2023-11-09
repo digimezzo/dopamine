@@ -1,16 +1,16 @@
 import { IMock, Mock } from 'typemoq';
-import { AlbumData } from '../../common/data/entities/album-data';
-import { BaseTrackRepository } from '../../common/data/repositories/base-track-repository';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
+import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { AlbumData } from '../../data/entities/album-data';
 
 describe('CachedAlbumArtworkGetter', () => {
-    let trackRepositoryMock: IMock<BaseTrackRepository>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let trackRepositoryMock: IMock<TrackRepositoryBase>;
+    let fileAccessMock: IMock<FileAccessBase>;
 
     beforeEach(() => {
-        trackRepositoryMock = Mock.ofType<BaseTrackRepository>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
     });
 
     function createInstance(): CachedAlbumArtworkGetter {

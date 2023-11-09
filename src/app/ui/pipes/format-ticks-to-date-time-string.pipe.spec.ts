@@ -1,6 +1,6 @@
 import { IMock, Mock } from 'typemoq';
-import { DateTime } from '../common/date-time';
 import { FormatTicksToDateTimeStringPipe } from './format-ticks-to-date-time-string.pipe';
+import { DateTime } from '../../common/date-time';
 
 describe('FormatTicksToDateTimeStringPipe', () => {
     let dateTimeMock: IMock<DateTime>;

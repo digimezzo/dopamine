@@ -1,5 +1,5 @@
-import { ExternalComponent } from '../../../common/application/external-component';
 import { ComponentsComponent } from './components.component';
+import { ExternalComponent } from '../../../../common/application/external-component';
 
 describe('ComponentsComponent', () => {
     let component: ComponentsComponent;

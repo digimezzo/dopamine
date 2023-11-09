@@ -1,19 +1,19 @@
 import { IMock, Mock } from 'typemoq';
-import { SettingsBase } from '../../../common/settings/settings.base';
-import { BaseMediaSessionService } from '../../../services/media-session/base-media-session.service';
-import { BaseTrayService } from '../../../services/tray/base-tray.service';
 import { BehaviorSettingsComponent } from './behavior-settings.component';
+import { MediaSessionServiceBase } from '../../../../services/media-session/media-session.service.base';
+import { SettingsBase } from '../../../../common/settings/settings.base';
+import { TrayServiceBase } from '../../../../services/tray/tray.service.base';
 
 describe('BehaviorSettingsComponent', () => {
     let component: BehaviorSettingsComponent;
-    let trayServiceMock: IMock<BaseTrayService>;
-    let mediaSessionServiceMock: IMock<BaseMediaSessionService>;
+    let trayServiceMock: IMock<TrayServiceBase>;
+    let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
     let settingsMock: IMock<SettingsBase>;
 
     beforeEach(() => {
         settingsMock = Mock.ofType<SettingsBase>();
-        trayServiceMock = Mock.ofType<BaseTrayService>();
-        mediaSessionServiceMock = Mock.ofType<BaseMediaSessionService>();
+        trayServiceMock = Mock.ofType<TrayServiceBase>();
+        mediaSessionServiceMock = Mock.ofType<MediaSessionServiceBase>();
         component = new BehaviorSettingsComponent(trayServiceMock.object, mediaSessionServiceMock.object, settingsMock.object);
     });
 

@@ -1,14 +1,14 @@
 import { IMock, Mock } from 'typemoq';
-import { Folder } from '../common/data/entities/folder';
-import { BaseFileAccess } from '../common/io/base-file-access';
-import { FolderModel } from '../services/folder/folder-model';
 import { FolderNamePipe } from './folder-name.pipe';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { FolderModel } from '../../services/folder/folder-model';
+import { Folder } from '../../data/entities/folder';
 
 describe('FolderNamePipe', () => {
     describe('transform', () => {
         it('should return empty string if folder is undefined', () => {
             // Arrange
-            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            const fileAccessMock: IMock<FileAccessBase> = Mock.ofType<FileAccessBase>();
             fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
 
@@ -21,7 +21,7 @@ describe('FolderNamePipe', () => {
 
         it('should return empty string if folder path is empty', () => {
             // Arrange
-            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            const fileAccessMock: IMock<FileAccessBase> = Mock.ofType<FileAccessBase>();
             fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
             const folder: FolderModel = new FolderModel(new Folder(''));
@@ -35,7 +35,7 @@ describe('FolderNamePipe', () => {
 
         it('should return the folder name of a folder path', () => {
             // Arrange
-            const fileAccessMock: IMock<BaseFileAccess> = Mock.ofType<BaseFileAccess>();
+            const fileAccessMock: IMock<FileAccessBase> = Mock.ofType<FileAccessBase>();
             fileAccessMock.setup((x) => x.getDirectoryOrFileName('/home/User/Music')).returns(() => 'Music');
             const directoryNamePipe: FolderNamePipe = new FolderNamePipe(fileAccessMock.object);
             const folder: FolderModel = new FolderModel(new Folder('/home/User/Music'));

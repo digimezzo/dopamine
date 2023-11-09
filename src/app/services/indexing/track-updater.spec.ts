@@ -1,17 +1,17 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { Track } from '../../common/data/entities/track';
-import { TrackRepository } from '../../common/data/repositories/track-repository';
 import { Logger } from '../../common/logger';
-import { BaseSnackBarService } from '../snack-bar/base-snack-bar.service';
 import { TrackFiller } from './track-filler';
 import { TrackUpdater } from './track-updater';
 import { TrackVerifier } from './track-verifier';
+import { TrackRepository } from '../../data/repositories/track-repository';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { Track } from '../../data/entities/track';
 
 describe('TrackUpdater', () => {
     let trackRepositoryMock: IMock<TrackRepository>;
     let trackFillerMock: IMock<TrackFiller>;
     let trackVerifierMock: IMock<TrackVerifier>;
-    let snackBarServiceMock: IMock<BaseSnackBarService>;
+    let snackBarServiceMock: IMock<SnackBarServiceBase>;
     let loggerMock: IMock<Logger>;
     let trackUpdater: TrackUpdater;
 
@@ -19,14 +19,14 @@ describe('TrackUpdater', () => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         trackFillerMock = Mock.ofType<TrackFiller>();
         trackVerifierMock = Mock.ofType<TrackVerifier>();
-        snackBarServiceMock = Mock.ofType<BaseSnackBarService>();
+        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         trackUpdater = new TrackUpdater(
             trackRepositoryMock.object,
             trackFillerMock.object,
             trackVerifierMock.object,
             snackBarServiceMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     });
 

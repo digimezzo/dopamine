@@ -1,14 +1,14 @@
 import { IMock, It, Mock, Times } from 'typemoq';
-import { AlbumKeyGenerator } from '../../common/data/album-key-generator';
-import { Track } from '../../common/data/entities/track';
 import { DateTime } from '../../common/date-time';
-import { BaseFileAccess } from '../../common/io/base-file-access';
 import { Logger } from '../../common/logger';
-import { BaseFileMetadataFactory } from '../../common/metadata/base-file-metadata-factory';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { TrackFieldCreator } from './track-field-creator';
 import { TrackFiller } from './track-filler';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { AlbumKeyGenerator } from '../../data/album-key-generator';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { Track } from '../../data/entities/track';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
@@ -35,10 +35,10 @@ class FileMetadataImplementation implements IFileMetadata {
 }
 
 describe('TrackFiller', () => {
-    let fileMetadataFactoryMock: IMock<BaseFileMetadataFactory>;
+    let fileMetadataFactoryMock: IMock<FileMetadataFactoryBase>;
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
-    let fileAccessMock: IMock<BaseFileAccess>;
+    let fileAccessMock: IMock<FileAccessBase>;
     let mimeTypesMock: IMock<MimeTypes>;
     let dateTimeMock: IMock<DateTime>;
     let loggerMock: IMock<Logger>;
@@ -51,15 +51,15 @@ describe('TrackFiller', () => {
             fileAccessMock.object,
             mimeTypesMock.object,
             dateTimeMock.object,
-            loggerMock.object
+            loggerMock.object,
         );
     }
 
     beforeEach(() => {
-        fileMetadataFactoryMock = Mock.ofType<BaseFileMetadataFactory>();
+        fileMetadataFactoryMock = Mock.ofType<FileMetadataFactoryBase>();
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
-        fileAccessMock = Mock.ofType<BaseFileAccess>();
+        fileAccessMock = Mock.ofType<FileAccessBase>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         dateTimeMock = Mock.ofType<DateTime>();
         loggerMock = Mock.ofType<Logger>();
