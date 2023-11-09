@@ -3,14 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.21] - 2023-11-04
+## [3.0.0-preview.21] - 2023-11-09
 
 ### Added
 
--   Clicking the volume icon now (un)mutes
+-   Clicking the volume icon now mutes/unmutes
 -   Dopamine now has a logarithmic volume control, because your ears are worth it!
 -   Added lyrics support
--   Dopamine now plays files that are dropped on the UI
+-   Dopamine now plays files that are dropped on the user interface
 
 ### Changed
 
@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Searching does not update counters on Folders screen
 -   Loading of songs is slow on Playlists and Folders screens
 -   Playlists screen always starts playing the first song even when another song is double-clicked
--   UI inconsistencies
+-   User interface inconsistencies
+-   Queue loops if it has the same song twice
 
 ## [3.0.0-preview.20] - 2023-09-17
 
