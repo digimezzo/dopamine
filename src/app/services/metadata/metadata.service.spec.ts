@@ -144,6 +144,40 @@ describe('MetadataService', () => {
             expect(imageUrl).toEqual('file:///cachedAlbumArtworkPath1');
         });
 
+        it('should create an empty image url if file metadata could be created and there is no album artwork', async () => {
+            // Arrange
+            const service: MetadataServiceBase = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(undefined));
+            cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
+
+            // Act
+            const imageUrl: string = await service.createImageUrlAsync(track);
+
+            // Assert
+            expect(imageUrl).toEqual(Constants.emptyImage);
+        });
+
+        it('should create an empty image url if file metadata could be created and there is empty album artwork', async () => {
+            // Arrange
+            const service: MetadataServiceBase = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
+            const coverArt: Buffer = Buffer.from([]);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
+            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
+            cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
+
+            // Act
+            const imageUrl: string = await service.createImageUrlAsync(track);
+
+            // Assert
+            expect(imageUrl).toEqual(Constants.emptyImage);
+        });
+
         it('should return cover art if album artwork was found', async () => {
             // Arrange
             const service: MetadataServiceBase = createService();

@@ -45,7 +45,7 @@ export class MetadataService implements MetadataServiceBase {
             if (fileMetaData != undefined) {
                 const coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
 
-                if (coverArt != undefined) {
+                if (coverArt != undefined && coverArt.length > 0) {
                     return this.imageProcessor.convertBufferToImageUrl(coverArt);
                 }
             }
