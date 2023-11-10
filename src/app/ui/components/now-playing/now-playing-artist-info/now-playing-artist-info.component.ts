@@ -30,7 +30,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private previousArtistName: string = '';
     private _artist: ArtistInformation = ArtistInformation.empty();
-    private _contentAnimation: string = 'fade-in';
+    private _contentAnimation: string = 'fade-out';
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -70,8 +70,11 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
 
     private async showArtistInfoAsync(track: TrackModel | undefined): Promise<void> {
         if (track == undefined) {
+            if (this._contentAnimation !== 'fade-out') {
+                this._contentAnimation = 'fade-out';
+                await this.scheduler.sleepAsync(150);
+            }
             this._artist = ArtistInformation.empty();
-
             return;
         }
 
@@ -81,8 +84,10 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
 
         this.previousArtistName = track.rawFirstArtist;
 
-        this._contentAnimation = 'fade-out';
-        await this.scheduler.sleepAsync(150);
+        if (this._contentAnimation !== 'fade-out') {
+            this._contentAnimation = 'fade-out';
+            await this.scheduler.sleepAsync(150);
+        }
 
         this._artist = await this.artistInformationService.getArtistInformationAsync(track);
 

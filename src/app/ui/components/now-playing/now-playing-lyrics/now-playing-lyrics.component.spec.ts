@@ -85,12 +85,12 @@ describe('NowPlayingLyricsComponent', () => {
             expect(component.lyricsSourceTypeEnum).toBeDefined();
         });
 
-        it('should set contentAnimation to fade-in', () => {
+        it('should set contentAnimation to fade-out', () => {
             // Arrange
             const component: NowPlayingLyricsComponent = createComponent();
 
             // Act, Assert
-            expect(component.contentAnimation).toEqual('fade-in');
+            expect(component.contentAnimation).toEqual('fade-out');
         });
     });
 

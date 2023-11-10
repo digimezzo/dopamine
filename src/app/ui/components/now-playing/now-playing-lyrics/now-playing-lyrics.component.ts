@@ -30,7 +30,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private _lyrics: LyricsModel | undefined;
     private previousTrackPath: string = '';
-    private _contentAnimation: string = 'fade-in';
+    private _contentAnimation: string = 'fade-out';
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -84,8 +84,10 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     private async showTrackInfoAsync(track: TrackModel | undefined): Promise<void> {
         if (track == undefined) {
-            this._contentAnimation = 'fade-out';
-            await this.scheduler.sleepAsync(150);
+            if (this._contentAnimation !== 'fade-out') {
+                this._contentAnimation = 'fade-out';
+                await this.scheduler.sleepAsync(150);
+            }
             this._lyrics = undefined;
             return;
         }
@@ -94,8 +96,10 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this._contentAnimation = 'fade-out';
-        await this.scheduler.sleepAsync(150);
+        if (this._contentAnimation !== 'fade-out') {
+            this._contentAnimation = 'fade-out';
+            await this.scheduler.sleepAsync(150);
+        }
 
         this._lyrics = await this.lyricsService.getLyricsAsync(track);
 
