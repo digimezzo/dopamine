@@ -10,10 +10,28 @@
     margin-bottom: -2px;
 }
 
+.app-collection-playback-pane__content {
+    position: relative;
+    width: 100%;
+    height: 70px;
+}
+
+.app-collection-playback-pane__spectrum-analyzer {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 50px;
+}
+
 .app-collection-playback-pane__controls {
+    position: absolute;
+    z-index: 1;
     display: flex;
     flex: 1;
     flex-direction: row;
+    height: 70px;
 }
 
 .app-collection-playback-pane-controls__left {
