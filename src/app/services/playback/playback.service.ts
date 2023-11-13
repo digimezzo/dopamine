@@ -69,6 +69,10 @@ export class PlaybackService implements PlaybackServiceBase {
         return trackModels;
     }
 
+    public get audio(): HTMLAudioElement {
+        return this.audioPlayer?.audio;
+    }
+
     public get volume(): number {
         return this._volume;
     }

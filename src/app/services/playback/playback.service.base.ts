@@ -11,6 +11,7 @@ import { PlaybackProgress } from './playback-progress';
 import { PlaybackStarted } from './playback-started';
 
 export abstract class PlaybackServiceBase {
+    public abstract audio: HTMLAudioElement;
     public abstract playbackQueue: TrackModels;
     public abstract progressChanged$: Observable<PlaybackProgress>;
     public abstract playbackStarted$: Observable<PlaybackStarted>;
