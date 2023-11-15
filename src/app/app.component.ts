@@ -20,8 +20,7 @@ import { MediaSessionServiceBase } from './services/media-session/media-session.
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
-import { SpectrumAnalyzer } from './ui/components/spectrum-analyzer/spectrum-analyzer';
-import { PlaybackServiceBase } from './services/playback/playback.service.base';
+import { SpectrumAnalyzer } from './services/playback/spectrum-analyzer';
 
 @Component({
     selector: 'app-root',
@@ -32,7 +31,6 @@ export class AppComponent implements OnInit {
     private subscription: Subscription = new Subscription();
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
         private navigationService: NavigationServiceBase,
         private appearanceService: AppearanceServiceBase,
         private translatorService: TranslatorServiceBase,
@@ -64,8 +62,7 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        this.spectrumAnalyzer.connectAudioElement(this.playbackService.audio);
+        this.spectrumAnalyzer.connectAudioElement();
 
         if (!AppConfig.production) {
             this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
