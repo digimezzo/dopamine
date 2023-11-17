@@ -17,6 +17,7 @@ import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/s
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
+import { GuidFactory } from '../../../../../common/guid.factory';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -44,12 +45,12 @@ describe('ArtistBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let artistOrderingMock: IMock<ArtistOrdering>;
-    let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
+    let guidFactoryMock: IMock<GuidFactory>;
     let schedulerMock: IMock<SchedulerBase>;
     let loggerMock: IMock<Logger>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let artistsPersisterMock: IMock<ArtistsPersister>;
-
     let semanticZoomService_zoomOutRequested: Subject<void>;
     let semanticZoomService_zoomInRequested: Subject<string>;
     let applicationService_mouseButtonReleased: Subject<void>;
@@ -58,6 +59,23 @@ describe('ArtistBrowserComponent', () => {
     let artist2: ArtistModel;
 
     function createComponent(): ArtistBrowserComponent {
+        const semanticZoomHeaderAdder: SemanticZoomHeaderAdder = new SemanticZoomHeaderAdder(guidFactoryMock.object);
+
+        return new ArtistBrowserComponent(
+            playbackServiceMock.object,
+            semanticZoomServiceMock.object,
+            applicationServiceMock.object,
+            addToPlaylistMenuMock.object,
+            mouseSelectionWatcherMock.object,
+            contextMenuOpenerMock.object,
+            artistOrderingMock.object,
+            semanticZoomHeaderAdder,
+            schedulerMock.object,
+            loggerMock.object,
+        );
+    }
+
+    function createComponentWithSemanticZoomAdderMock(): ArtistBrowserComponent {
         return new ArtistBrowserComponent(
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
@@ -83,9 +101,12 @@ describe('ArtistBrowserComponent', () => {
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         artistOrderingMock = Mock.ofType<ArtistOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
+
+        guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
 
         semanticZoomService_zoomOutRequested = new Subject();
         semanticZoomService_zoomInRequested = new Subject();
@@ -354,8 +375,8 @@ describe('ArtistBrowserComponent', () => {
             component.artists = [artist1, artist2];
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist1);
-            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[3]).toEqual(artist2);
         });
 
         it('should order the artists by artist descending if artistsPersister is not undefined and if the selected artist order is byArtistDescending', () => {
@@ -368,13 +389,13 @@ describe('ArtistBrowserComponent', () => {
             component.artists = [artist1, artist2];
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist2);
-            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[3]).toEqual(artist1);
         });
 
         it('should not show the headers for the ordered artists if artistsPersister is undefined', () => {
             // Arrange
-            const component: ArtistBrowserComponent = createComponent();
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
 
             // Act
@@ -386,7 +407,10 @@ describe('ArtistBrowserComponent', () => {
 
         it('should show the headers for the ordered artists if artistsPersister is not undefined', () => {
             // Arrange
-            const component: ArtistBrowserComponent = createComponent();
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([])).returns(() => []);
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([artist2, artist1])).returns(() => [artist2, artist1]);
+
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
             component.artistsPersister = artistsPersisterMock.object;
             component.selectedArtistOrder = ArtistOrder.byArtistDescending;
 
@@ -478,8 +502,8 @@ describe('ArtistBrowserComponent', () => {
             component.artistsPersister = artistsPersisterMock.object;
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist1);
-            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[3]).toEqual(artist2);
         });
 
         it('should order the artists by artist descending if the selected artist order is byArtistDescending', () => {
@@ -495,16 +519,18 @@ describe('ArtistBrowserComponent', () => {
             component.artistsPersister = artistsPersisterMock.object;
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist2);
-            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[3]).toEqual(artist1);
         });
 
         it('should show the headers for the ordered artists', () => {
             // Arrange
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([artist2, artist1])).returns(() => [artist2, artist1]);
+
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            const component: ArtistBrowserComponent = createComponent();
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
 
             component.artists = [artist1, artist2];
 
@@ -657,8 +683,8 @@ describe('ArtistBrowserComponent', () => {
             component.toggleArtistOrder();
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist2);
-            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[3]).toEqual(artist1);
         });
 
         it('should order the artists by artist ascending if the selected artist order is byArtistDescending', () => {
@@ -675,20 +701,23 @@ describe('ArtistBrowserComponent', () => {
             component.toggleArtistOrder();
 
             // Assert
-            expect(component.orderedArtists[0]).toEqual(artist1);
-            expect(component.orderedArtists[1]).toEqual(artist2);
+            expect(component.orderedArtists[1]).toEqual(artist1);
+            expect(component.orderedArtists[3]).toEqual(artist2);
         });
 
         it('should show the headers for the ordered artists', () => {
             // Arrange
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([artist2, artist1])).returns(() => [artist2, artist1]);
+
             artistsPersisterMock.reset();
             artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
 
-            const component: ArtistBrowserComponent = createComponent();
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
 
             component.artists = [artist1, artist2];
             component.artistsPersister = artistsPersisterMock.object;
             semanticZoomHeaderAdderMock.reset();
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([artist1, artist2])).returns(() => [artist1, artist2]);
 
             // Act
             component.toggleArtistOrder();

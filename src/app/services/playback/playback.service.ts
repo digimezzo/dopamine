@@ -138,8 +138,9 @@ export class PlaybackService implements PlaybackServiceBase {
             return;
         }
 
-        this.queue.setTracks(tracksToEnqueue, this.isShuffled);
-        this.play(trackToPlay, false);
+        const enqueuedTracks: TrackModel[] = this.queue.setTracks(tracksToEnqueue, this.isShuffled);
+        const enqueuedTrackToPlay: TrackModel = enqueuedTracks.filter((x) => x.path === trackToPlay.path)[0];
+        this.play(enqueuedTrackToPlay, false);
     }
 
     public enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void {

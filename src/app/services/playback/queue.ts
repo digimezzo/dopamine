@@ -8,7 +8,10 @@ export class Queue {
     private _tracks: TrackModel[] = [];
     private playbackOrder: number[] = [];
 
-    public constructor(private shuffler: Shuffler, private logger: Logger) {}
+    public constructor(
+        private shuffler: Shuffler,
+        private logger: Logger,
+    ) {}
 
     public get tracks(): TrackModel[] {
         return this._tracks;
@@ -28,7 +31,7 @@ export class Queue {
         return this._tracks.length;
     }
 
-    public setTracks(tracksToSet: TrackModel[], shuffle: boolean): void {
+    public setTracks(tracksToSet: TrackModel[], shuffle: boolean): TrackModel[] {
         this._tracks = tracksToSet.map((x) => x.clone());
 
         if (shuffle) {
@@ -38,6 +41,8 @@ export class Queue {
         }
 
         this.logger.info(`Set '${tracksToSet?.length}' tracks. Shuffle=${shuffle}`, 'Queue', 'setTracks');
+
+        return this._tracks;
     }
 
     public addTracks(tracksToAdd: TrackModel[]): void {

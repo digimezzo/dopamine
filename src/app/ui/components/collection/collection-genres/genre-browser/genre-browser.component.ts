@@ -155,7 +155,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.semanticZoomHeaderAdder.addZoomHeaders(orderedGenres);
+            orderedGenres = this.semanticZoomHeaderAdder.addZoomHeaders(orderedGenres) as GenreModel[];
             this.applySelectedGenres();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order genres', 'GenreBrowserComponent', 'orderGenres');

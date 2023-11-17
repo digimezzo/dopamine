@@ -612,7 +612,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== false) {
+            while (service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -627,7 +627,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== false) {
+            while (service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -642,7 +642,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== false) {
+            while (service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -657,7 +657,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== true) {
+            while (!service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -672,7 +672,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== true) {
+            while (!service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -687,7 +687,7 @@ describe('PlaybackService', () => {
             // Arrange
             const service: PlaybackServiceBase = createService();
 
-            while (service.isShuffled !== true) {
+            while (!service.isShuffled) {
                 service.toggleIsShuffled();
             }
 
@@ -831,6 +831,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue unshuffled if shuffle is disabled', () => {
             // Arrange
+            queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
             const service: PlaybackServiceBase = createService();
 
             // Act
@@ -842,6 +843,7 @@ describe('PlaybackService', () => {
 
         it('should add tracks to the queue shuffled if shuffle is enabled', () => {
             // Arrange
+            queueMock.setup((x) => x.setTracks(trackModels, true)).returns(() => trackModels);
             const service: PlaybackServiceBase = createService();
             service.toggleIsShuffled();
 
@@ -854,6 +856,7 @@ describe('PlaybackService', () => {
 
         it('should start playback', () => {
             // Arrange
+            queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
             const service: PlaybackServiceBase = createService();
 
             audioPlayerMock.reset();
@@ -874,6 +877,7 @@ describe('PlaybackService', () => {
 
         it('should raise an event that playback has started, containing the current track and if a next track is being played.', () => {
             // Arrange
+            queueMock.setup((x) => x.setTracks(trackModels, false)).returns(() => trackModels);
             const service: PlaybackServiceBase = createService();
 
             let receivedTrack: TrackModel | undefined;
