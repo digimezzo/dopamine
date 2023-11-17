@@ -16,6 +16,7 @@ import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { TranslatorServiceBase } from '../../../../../services/translator/translator.service.base';
 import { GenreModel } from '../../../../../services/genre/genre-model';
 import { Constants } from '../../../../../common/application/constants';
+import { GuidFactory } from '../../../../../common/guid.factory';
 
 export class CdkVirtualScrollViewportMock {
     private _scrollToIndexIndex: number = -1;
@@ -43,6 +44,7 @@ describe('GenreBrowserComponent', () => {
     let mouseSelectionWatcherMock: IMock<MouseSelectionWatcher>;
     let contextMenuOpenerMock: IMock<ContextMenuOpener>;
     let genreOrderingMock: IMock<GenreOrdering>;
+    let guidFactoryMock: IMock<GuidFactory>;
     let semanticZoomHeaderAdderMock: IMock<SemanticZoomHeaderAdder>;
     let schedulerMock: IMock<SchedulerBase>;
     let loggerMock: IMock<Logger>;
@@ -57,6 +59,23 @@ describe('GenreBrowserComponent', () => {
     let applicationService_mouseButtonReleased: Subject<void>;
 
     function createComponent(): GenreBrowserComponent {
+        const semanticZoomHeaderAdder: SemanticZoomHeaderAdder = new SemanticZoomHeaderAdder(guidFactoryMock.object);
+
+        return new GenreBrowserComponent(
+            playbackServiceMock.object,
+            semanticZoomServiceMock.object,
+            applicationServiceMock.object,
+            addToPlaylistMenuMock.object,
+            contextMenuOpenerMock.object,
+            mouseSelectionWatcherMock.object,
+            genreOrderingMock.object,
+            semanticZoomHeaderAdder,
+            schedulerMock.object,
+            loggerMock.object,
+        );
+    }
+
+    function createComponentWithSemanticZoomAdderMock(): GenreBrowserComponent {
         return new GenreBrowserComponent(
             playbackServiceMock.object,
             semanticZoomServiceMock.object,
@@ -82,10 +101,13 @@ describe('GenreBrowserComponent', () => {
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();
         genreOrderingMock = Mock.ofType<GenreOrdering>();
         semanticZoomHeaderAdderMock = Mock.ofType<SemanticZoomHeaderAdder>();
+        guidFactoryMock = Mock.ofType<GuidFactory>();
         schedulerMock = Mock.ofType<SchedulerBase>();
         loggerMock = Mock.ofType<Logger>();
         playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         genresPersisterMock = Mock.ofType<GenresPersister>();
+
+        guidFactoryMock.setup((x) => x.create()).returns(() => '91c70666-8ad0-4037-8590-47f0c453c97d');
 
         semanticZoomService_zoomOutRequested = new Subject();
         semanticZoomService_zoomInRequested = new Subject();
@@ -333,8 +355,8 @@ describe('GenreBrowserComponent', () => {
             component.genres = [genre1, genre2];
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre1);
-            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[3]).toEqual(genre2);
         });
 
         it('should order the genres by genre descending if genresPersister is not undefined and if the selected genre order is byGenreDescending', () => {
@@ -347,13 +369,13 @@ describe('GenreBrowserComponent', () => {
             component.genres = [genre1, genre2];
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre2);
-            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[3]).toEqual(genre1);
         });
 
         it('should not show the headers for the ordered genres if genresPersister is undefined', () => {
             // Arrange
-            const component: GenreBrowserComponent = createComponent();
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
 
             // Act
@@ -365,7 +387,10 @@ describe('GenreBrowserComponent', () => {
 
         it('should show the headers for the ordered genres if genresPersister is not undefined', () => {
             // Arrange
-            const component: GenreBrowserComponent = createComponent();
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([])).returns(() => []);
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([genre2, genre1])).returns(() => [genre2, genre1]);
+
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
             component.genresPersister = genresPersisterMock.object;
             component.selectedGenreOrder = GenreOrder.byGenreDescending;
 
@@ -457,8 +482,8 @@ describe('GenreBrowserComponent', () => {
             component.genresPersister = genresPersisterMock.object;
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre1);
-            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[3]).toEqual(genre2);
         });
 
         it('should order the genres by genre descending if the selected genre order is byGenreDescending', () => {
@@ -474,16 +499,18 @@ describe('GenreBrowserComponent', () => {
             component.genresPersister = genresPersisterMock.object;
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre2);
-            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[3]).toEqual(genre1);
         });
 
         it('should show the headers for the ordered genres', () => {
             // Arrange
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([genre2, genre1])).returns(() => [genre2, genre1]);
+
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            const component: GenreBrowserComponent = createComponent();
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
 
             component.genres = [genre1, genre2];
 
@@ -636,8 +663,8 @@ describe('GenreBrowserComponent', () => {
             component.toggleGenreOrder();
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre2);
-            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[3]).toEqual(genre1);
         });
 
         it('should order the genres by genre ascending if the selected genre order is byGenreDescending', () => {
@@ -654,20 +681,23 @@ describe('GenreBrowserComponent', () => {
             component.toggleGenreOrder();
 
             // Assert
-            expect(component.orderedGenres[0]).toEqual(genre1);
-            expect(component.orderedGenres[1]).toEqual(genre2);
+            expect(component.orderedGenres[1]).toEqual(genre1);
+            expect(component.orderedGenres[3]).toEqual(genre2);
         });
 
         it('should show the headers for the ordered genres', () => {
             // Arrange
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([genre2, genre1])).returns(() => [genre2, genre1]);
+
             genresPersisterMock.reset();
             genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
 
-            const component: GenreBrowserComponent = createComponent();
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
 
             component.genres = [genre1, genre2];
             component.genresPersister = genresPersisterMock.object;
             semanticZoomHeaderAdderMock.reset();
+            semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders([genre1, genre2])).returns(() => [genre1, genre2]);
 
             // Act
             component.toggleGenreOrder();

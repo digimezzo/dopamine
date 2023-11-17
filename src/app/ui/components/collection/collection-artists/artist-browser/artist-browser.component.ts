@@ -17,7 +17,7 @@ import { SemanticZoomServiceBase } from '../../../../../services/semantic-zoom/s
 import { ApplicationServiceBase } from '../../../../../services/application/application.service.base';
 import { SchedulerBase } from '../../../../../common/scheduling/scheduler.base';
 import { MouseSelectionWatcher } from '../../../mouse-selection-watcher';
-import {ContextMenuOpener} from "../../../context-menu-opener";
+import { ContextMenuOpener } from '../../../context-menu-opener';
 
 @Component({
     selector: 'app-artist-browser',
@@ -180,7 +180,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists);
+            orderedArtists = this.semanticZoomHeaderAdder.addZoomHeaders(orderedArtists) as ArtistModel[];
             this.applySelectedArtists();
         } catch (e: unknown) {
             this.logger.error(e, 'Could not order artists', 'ArtistBrowserComponent', 'orderArtists');
