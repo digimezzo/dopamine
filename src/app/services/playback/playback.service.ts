@@ -69,10 +69,6 @@ export class PlaybackService implements PlaybackServiceBase {
         return trackModels;
     }
 
-    public get audio(): HTMLAudioElement {
-        return this.audioPlayer?.audio;
-    }
-
     public get volume(): number {
         return this._volume;
     }
@@ -470,5 +466,9 @@ export class PlaybackService implements PlaybackServiceBase {
         } else {
             await this.snackBarService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
         }
+    }
+
+    public getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
+        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
     }
 }
