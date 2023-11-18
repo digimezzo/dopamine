@@ -30,8 +30,6 @@ export class AppearanceService implements AppearanceServiceBase {
 
     private _themesDirectoryPath: string;
 
-    private _accentRgb: number[];
-
     public constructor(
         private settings: SettingsBase,
         private logger: Logger,
@@ -43,10 +41,6 @@ export class AppearanceService implements AppearanceServiceBase {
         private documentProxy: DocumentProxy,
     ) {
         this.initialize();
-    }
-
-    public get accentRgb(): number[] {
-        return this._accentRgb;
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -262,8 +256,8 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
         element.style.setProperty('--theme-accent-color', accentColorToApply);
 
-        this._accentRgb = ColorConverter.stringToRgb(accentColorToApply);
-        element.style.setProperty('--theme-rgb-accent', this._accentRgb.join(','));
+        const accentRgb: number[] = ColorConverter.stringToRgb(accentColorToApply);
+        element.style.setProperty('--theme-rgb-accent', accentRgb.join(','));
 
         element.style.setProperty('--theme-accent-color-50', palette.color50);
         element.style.setProperty('--theme-accent-color-100', palette.color100);
