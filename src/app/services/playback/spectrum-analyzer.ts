@@ -17,7 +17,7 @@ export class SpectrumAnalyzer {
     ) {
         this.audioContext = new window.AudioContext();
         this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = 256;
+        this.analyser.fftSize = 128;
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
     }
 
