@@ -263,10 +263,12 @@ export class SpectrumAnalyzer {
             const secondaryGreen: number = secondaryRgb[1];
             const secondaryBlue: number = secondaryRgb[2];
 
+            const tranparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
+
             // Left
             const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
 
-            gradientLeft.addColorStop(0, 'transparent');
+            gradientLeft.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
             gradientLeft.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
             gradientLeft.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
 
@@ -277,7 +279,7 @@ export class SpectrumAnalyzer {
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
 
-            gradientRight.addColorStop(0, 'transparent');
+            gradientRight.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
             gradientRight.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
             gradientRight.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
 
