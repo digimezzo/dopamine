@@ -92,7 +92,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.previousTrackPath === track.path) {
+        if (this.previousTrackPath === track.path && this._lyrics != undefined) {
             return;
         }
 
