@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Re-ordering Artists and Genres adds empty Artists and Genres
 -   Queue plays first song instead of next song when pressing next
 -   Some lyrics bugs
+-   MP3 files containing ID3v2 frames with non-standard frame identifiers could not be loaded
 
 ## [3.0.0-preview.21] - 2023-11-09
 
