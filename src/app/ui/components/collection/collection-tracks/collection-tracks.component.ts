@@ -10,6 +10,7 @@ import { SearchServiceBase } from '../../../../services/search/search.service.ba
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
+import {SchedulerBase} from "../../../../common/scheduling/scheduler.base";
 
 @Component({
     selector: 'app-collection-tracks',
@@ -25,7 +26,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         private trackService: TrackServiceBase,
         private collectionService: CollectionServiceBase,
         private collectionPersister: CollectionPersister,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

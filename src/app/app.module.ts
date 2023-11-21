@@ -507,7 +507,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ExternalArtworkPathGetter,
         LastfmApi,
         Logger,
-        Scheduler,
         Hacks,
         Shuffler,
         ProgressUpdater,

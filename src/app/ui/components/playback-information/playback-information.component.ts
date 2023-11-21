@@ -7,6 +7,7 @@ import { PlaybackInformation } from '../../../services/playback-information/play
 import { TrackModel } from '../../../services/track/track-model';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-playback-information',
@@ -51,7 +52,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     public constructor(
         private playbackInformationService: PlaybackInformationServiceBase,
         private metadataService: MetadataServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
     ) {}
 
     @Input()

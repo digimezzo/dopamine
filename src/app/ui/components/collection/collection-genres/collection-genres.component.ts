@@ -20,6 +20,7 @@ import { GenreServiceBase } from '../../../../services/genre/genre.service.base'
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-genres',
@@ -42,7 +43,7 @@ export class CollectionGenresComponent implements OnInit, OnDestroy {
         private albumService: AlbumServiceBase,
         private trackService: TrackServiceBase,
         private settings: SettingsBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

@@ -5,6 +5,7 @@ import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
+import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -48,7 +49,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
     public constructor(
         private playbackInformationService: PlaybackInformationServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
     ) {}
 
     public contentAnimation: string = 'down';
