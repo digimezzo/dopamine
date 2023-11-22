@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { TrackModel } from '../../../services/track/track-model';
@@ -56,7 +55,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     ) {}
 
     @Input()
-    public isCentered: boolean = false;
+    public position: string = 'bottom';
 
     @Input()
     public showRating: boolean = false;
@@ -82,6 +81,23 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    public get flexPosition(): string {
+        switch (this.position) {
+            case 'top': {
+                return 'justify-content-flex-start';
+            }
+            case 'center': {
+                return 'justify-content-center';
+            }
+            case 'bottom': {
+                return 'justify-content-flex-end';
+            }
+            default: {
+                return 'justify-content-flex-end';
+            }
+        }
     }
 
     public async ngOnInit(): Promise<void> {
