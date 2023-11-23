@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
@@ -10,6 +10,8 @@ import { MetadataServiceBase } from '../../../services/metadata/metadata.service
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
+import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
+import { Constants } from '../../../common/application/constants';
 
 @Component({
     selector: 'app-now-playing',
@@ -33,6 +35,12 @@ import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-n
             ),
             transition('hidden => visible', animate('.25s')),
             transition('visible => hidden', animate('1s')),
+        ]),
+        trigger('pageSwitchAnimation', [
+            state('fade-out', style({ opacity: 0 })),
+            state('fade-in', style({ opacity: 1 })),
+            transition('fade-in => fade-out', animate('10ms ease-out')),
+            transition('fade-out => fade-in', animate(`${Constants.pageSwitchAnimationMilliseconds}ms ease-out`)),
         ]),
         trigger('background1Animation', [
             state(
@@ -82,7 +90,7 @@ import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-n
         ]),
     ],
 })
-export class NowPlayingComponent implements OnInit {
+export class NowPlayingComponent implements OnInit, AfterViewInit {
     private timerId: number = 0;
     private subscription: Subscription = new Subscription();
 
@@ -93,6 +101,7 @@ export class NowPlayingComponent implements OnInit {
         private playbackService: PlaybackServiceBase,
         private searchService: SearchServiceBase,
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
+        private scheduler: SchedulerBase,
     ) {}
 
     @ViewChild('stepper') public stepper: MatStepper;
@@ -103,6 +112,8 @@ export class NowPlayingComponent implements OnInit {
     public background1Animation: string = 'fade-out';
     public background2Animation: string = this.appearanceService.isUsingLightTheme ? 'fade-in-light' : 'fade-in-dark';
 
+    public pageSwitchAnimation: string = 'fade-out';
+
     public controlsVisibility: string = 'visible';
 
     @HostListener('document:keyup', ['$event'])
@@ -112,7 +123,7 @@ export class NowPlayingComponent implements OnInit {
         }
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe(() => {
                 PromiseUtils.noAwait(this.setBackgroundsAsync());
@@ -139,10 +150,7 @@ export class NowPlayingComponent implements OnInit {
             this.resetTimer();
         });
 
-        await this.setBackgroundsAsync();
-
         this.resetTimer();
-        this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
     }
 
     public async goBackToCollectionAsync(): Promise<void> {
@@ -193,5 +201,17 @@ export class NowPlayingComponent implements OnInit {
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
         this.stepper.selectedIndex = nowPlayingPage;
+    }
+
+    public async ngAfterViewInit(): Promise<void> {
+        this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
+
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.pageSwitchAnimation = 'fade-in';
+        }, 0);
+
+        await this.scheduler.sleepAsync(500);
+        await this.setBackgroundsAsync();
     }
 }

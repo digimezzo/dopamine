@@ -1,40 +1,42 @@
-<div
-    class="app-now-playing__backgroundimage"
-    [ngStyle]="{ 'background-image': 'url(' + background1 + ')' }"
-    [@background1Animation]="background1Animation"
-></div>
-<div
-    class="app-now-playing__backgroundimage"
-    [ngStyle]="{ 'background-image': 'url(' + background2 + ')' }"
-    [@background2Animation]="background2Animation"
-></div>
-<div class="window-frame">
-    <div class="window-frame__titlebar">
-        <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
-            <i class="back-button__icon las la-arrow-left"></i>
-        </div>
-        <div class="window-frame__dragarea"></div>
-        <app-window-controls
-            *ngIf="!appearanceService.windowHasNativeTitleBar"
-            [@controlsVisibility]="controlsVisibility"
-        ></app-window-controls>
-    </div>
-    <div class="window-frame__content">
-        <div class="app-now-playing">
-            <mat-horizontal-stepper [linear]="false" #stepper class="now-playing-stepper">
-                <!-- Showcase -->
-                <mat-step>
-                    <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
-                </mat-step>
-                <!-- Lyrics -->
-                <mat-step> <app-now-playing-lyrics class="collection-viewport"></app-now-playing-lyrics> </mat-step>
-                <!-- Artist  info -->
-                <mat-step> <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info> </mat-step>
-            </mat-horizontal-stepper>
-            <app-now-playing-playback-pane
-                class="app-now-playing__playbackpane"
+<div [@pageSwitchAnimation]="pageSwitchAnimation">
+    <div
+        class="app-now-playing__backgroundimage"
+        [ngStyle]="{ 'background-image': 'url(' + background1 + ')' }"
+        [@background1Animation]="background1Animation"
+    ></div>
+    <div
+        class="app-now-playing__backgroundimage"
+        [ngStyle]="{ 'background-image': 'url(' + background2 + ')' }"
+        [@background2Animation]="background2Animation"
+    ></div>
+    <div class="window-frame">
+        <div class="window-frame__titlebar">
+            <div class="window-button back-button" (click)="this.goBackToCollectionAsync()" [@controlsVisibility]="controlsVisibility">
+                <i class="back-button__icon las la-arrow-left"></i>
+            </div>
+            <div class="window-frame__dragarea"></div>
+            <app-window-controls
+                *ngIf="!appearanceService.windowHasNativeTitleBar"
                 [@controlsVisibility]="controlsVisibility"
-            ></app-now-playing-playback-pane>
+            ></app-window-controls>
+        </div>
+        <div class="window-frame__content">
+            <div class="app-now-playing">
+                <mat-horizontal-stepper [linear]="false" #stepper class="now-playing-stepper">
+                    <!-- Showcase -->
+                    <mat-step>
+                        <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
+                    </mat-step>
+                    <!-- Lyrics -->
+                    <mat-step> <app-now-playing-lyrics class="collection-viewport"></app-now-playing-lyrics> </mat-step>
+                    <!-- Artist  info -->
+                    <mat-step> <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info> </mat-step>
+                </mat-horizontal-stepper>
+                <app-now-playing-playback-pane
+                    class="app-now-playing__playbackpane"
+                    [@controlsVisibility]="controlsVisibility"
+                ></app-now-playing-playback-pane>
+            </div>
         </div>
     </div>
 </div>

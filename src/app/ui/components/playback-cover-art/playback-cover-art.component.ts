@@ -6,6 +6,7 @@ import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
+import { Constants } from '../../../common/application/constants';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -39,8 +40,8 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
                     transform: 'translateY(-100%)',
                 }),
             ),
-            transition('down => animated-up', animate('350ms ease-out')),
-            transition('up => animated-down', animate('350ms ease-out')),
+            transition('down => animated-up', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
+            transition('up => animated-down', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
         ]),
     ],
 })
@@ -100,7 +101,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         this.bottomImageUrl = newImage;
         this.currentImageUrl = newImage;
         this.contentAnimation = 'animated-up';
-        await this.scheduler.sleepAsync(350);
+        await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 
     private async switchDown(newImage: string, performAnimation: boolean): Promise<void> {
@@ -118,7 +119,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
         if (performAnimation) {
             this.contentAnimation = 'animated-down';
-            await this.scheduler.sleepAsync(350);
+            await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
         } else {
             this.contentAnimation = 'down';
         }
