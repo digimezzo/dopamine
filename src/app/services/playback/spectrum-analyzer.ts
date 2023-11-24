@@ -240,6 +240,55 @@ export class SpectrumAnalyzer {
     //     }
     // }
 
+    // private drawFlames(): void {
+    //     const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
+    //
+    //     for (let i: number = 0; i < this.dataArray.length; i++) {
+    //         const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
+    //         const barHeightRight: number = (this.dataArray[i] / 255) * this.canvas.height;
+    //         const xLeft: number = i * barWidth;
+    //         const xRight: number = i * barWidth + this.canvas.width / 2;
+    //         const yLeft: number = this.canvas.height - barHeightLeft;
+    //         const yRight: number = this.canvas.height - barHeightRight;
+    //
+    //         const theme: Theme = this.appearanceService.selectedTheme;
+    //         const primaryRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.primaryColor);
+    //         const secondaryRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.secondaryColor);
+    //
+    //         const primaryRed: number = primaryRgb[0];
+    //         const primaryGreen: number = primaryRgb[1];
+    //         const primaryBlue: number = primaryRgb[2];
+    //
+    //         const secondaryRed: number = secondaryRgb[0];
+    //         const secondaryGreen: number = secondaryRgb[1];
+    //         const secondaryBlue: number = secondaryRgb[2];
+    //
+    //         const tranparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
+    //
+    //         // Left
+    //         const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
+    //
+    //         gradientLeft.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
+    //         gradientLeft.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
+    //         gradientLeft.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
+    //
+    //         this.canvasContext.fillStyle = gradientLeft;
+    //
+    //         this.canvasContext.fillRect(xLeft - 4, yLeft, barWidth + 8, barHeightLeft);
+    //
+    //         // Right
+    //         const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
+    //
+    //         gradientRight.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
+    //         gradientRight.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
+    //         gradientRight.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
+    //
+    //         this.canvasContext.fillStyle = gradientRight;
+    //
+    //         this.canvasContext.fillRect(xRight - 4, yRight, barWidth + 8, barHeightRight);
+    //     }
+    // }
+
     private drawFlames(): void {
         const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
 
@@ -252,25 +301,19 @@ export class SpectrumAnalyzer {
             const yRight: number = this.canvas.height - barHeightRight;
 
             const theme: Theme = this.appearanceService.selectedTheme;
-            const primaryRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.primaryColor);
-            const secondaryRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.secondaryColor);
+            const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
 
-            const primaryRed: number = primaryRgb[0];
-            const primaryGreen: number = primaryRgb[1];
-            const primaryBlue: number = primaryRgb[2];
-
-            const secondaryRed: number = secondaryRgb[0];
-            const secondaryGreen: number = secondaryRgb[1];
-            const secondaryBlue: number = secondaryRgb[2];
+            const accentRed: number = accentRgb[0];
+            const accentGreen: number = accentRgb[1];
+            const accentBlue: number = accentRgb[2];
 
             const tranparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
 
             // Left
             const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
 
-            gradientLeft.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
-            gradientLeft.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
-            gradientLeft.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
+            gradientLeft.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0.2)`);
+            gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientLeft;
 
@@ -279,9 +322,8 @@ export class SpectrumAnalyzer {
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
 
-            gradientRight.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0)`);
-            gradientRight.addColorStop(0.3, `rgba(${secondaryRed}, ${secondaryGreen}, ${secondaryBlue}, 0.3)`);
-            gradientRight.addColorStop(1, `rgba(${primaryRed}, ${primaryGreen}, ${primaryBlue}, 0.3)`);
+            gradientRight.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0.2)`);
+            gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientRight;
 
