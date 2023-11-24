@@ -87,14 +87,14 @@ describe('PlaybackInformationComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should initialize isCentered as false', () => {
+        it('should initialize position as bottom', () => {
             // Arrange
 
             // Act
             const component: PlaybackInformationComponent = createComponent();
 
             // Assert
-            expect(component.isCentered).toBeFalsy();
+            expect(component.position).toEqual('bottom');
         });
 
         it('should initialize showRating as false', () => {
@@ -175,6 +175,53 @@ describe('PlaybackInformationComponent', () => {
 
             // Assert
             expect(component.smallFontSize).toEqual(0);
+        });
+    });
+
+    describe('flexPosition', () => {
+        it('should justify-content-flex-start when position is top', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'top';
+
+            // Act, Assert
+            expect(component.flexPosition).toEqual('justify-content-flex-start');
+        });
+
+        it('should justify-content-flex-start when position is top', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'top';
+
+            // Act, Assert
+            expect(component.flexPosition).toEqual('justify-content-flex-start');
+        });
+
+        it('should justify-content-center when position is center', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'center';
+
+            // Act, Assert
+            expect(component.flexPosition).toEqual('justify-content-center');
+        });
+
+        it('should justify-content-flex-end when position is bottom', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'bottom';
+
+            // Act, Assert
+            expect(component.flexPosition).toEqual('justify-content-flex-end');
+        });
+
+        it('should justify-content-flex-end when position is empty', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = '';
+
+            // Act, Assert
+            expect(component.flexPosition).toEqual('justify-content-flex-end');
         });
     });
 

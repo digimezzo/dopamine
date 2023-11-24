@@ -1,11 +1,12 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
-import { Constants } from '../../../common/application/constants';
+import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { CollectionPersister } from './collection-persister';
 import { TabSelectionGetter } from './tab-selection-getter';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Constants } from '../../../common/application/constants';
 
 @Component({
     selector: 'app-collection',
@@ -13,8 +14,16 @@ import { SettingsBase } from '../../../common/settings/settings.base';
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    animations: [
+        trigger('pageSwitchAnimation', [
+            state('fade-out', style({ opacity: 0 })),
+            state('fade-in', style({ opacity: 1 })),
+            transition('fade-in => fade-out', animate('10ms ease-out')),
+            transition('fade-out => fade-in', animate(`${Constants.pageSwitchAnimationMilliseconds}ms ease-out`)),
+        ]),
+    ],
 })
-export class CollectionComponent implements OnInit {
+export class CollectionComponent implements AfterViewInit {
     private _selectedIndex: number;
 
     public constructor(
@@ -25,6 +34,8 @@ export class CollectionComponent implements OnInit {
         private collectionPersister: CollectionPersister,
         private tabSelectionGetter: TabSelectionGetter,
     ) {}
+
+    public pageSwitchAnimation: string = 'fade-out';
 
     public get artistsTabLabel(): string {
         return Constants.artistsTabLabel;
@@ -71,7 +82,11 @@ export class CollectionComponent implements OnInit {
         window.dispatchEvent(new Event('tab-changed'));
     }
 
-    public ngOnInit(): void {
-        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
+    public ngAfterViewInit(): void {
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.pageSwitchAnimation = 'fade-in';
+            this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
+        }, 0);
     }
 }

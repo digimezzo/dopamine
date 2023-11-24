@@ -1230,8 +1230,9 @@ describe('PlaybackService', () => {
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.exactly(1));
         });
 
-        it('should not resume playback if not playing', () => {
+        it('should not resume playback if not playing and the queue is empty', () => {
             // Arrange
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => undefined);
             const service: PlaybackServiceBase = createService();
 
             // Act
@@ -1243,6 +1244,22 @@ describe('PlaybackService', () => {
             expect(service.canPause).toBeFalsy();
             expect(service.canResume).toBeTruthy();
             progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.never());
+        });
+
+        it('should start playing the first queued track if not playing and the queue is not empty', () => {
+            // Arrange
+            queueMock.setup((x) => x.getFirstTrack()).returns(() => trackModel1);
+            const service: PlaybackServiceBase = createService();
+
+            // Act
+            service.resume();
+
+            // Assert
+            audioPlayerMock.verify((x) => x.play(trackModel1.path), Times.once());
+            expect(service.isPlaying).toBeTruthy();
+            expect(service.canPause).toBeTruthy();
+            expect(service.canResume).toBeFalsy();
+            progressUpdaterMock.verify((x) => x.startUpdatingProgress(), Times.once());
         });
 
         it('should raise an event that playback is resumed if playing', () => {

@@ -5,7 +5,6 @@ import { ILyricsApi } from '../i-lyrics.api';
 import { WebSearchResult } from './web-search-result';
 import { WebSearchApi } from './web-search.api';
 import { IWebSearchLyricsSource } from './sources/i-web-search-lyrics-source';
-import { AZLyricsSource } from './sources/a-z-lyrics-source';
 import { HttpClient } from '@angular/common/http';
 import { GeniusSource } from './sources/genius-source';
 import { MusixmatchSource } from './sources/musixmatch-source';
@@ -23,7 +22,6 @@ export class WebSearchLyricsApi implements ILyricsApi {
         private httpClient: HttpClient,
         private logger: Logger,
     ) {
-        this.sources.set('azlyrics', new AZLyricsSource());
         this.sources.set('genius', new GeniusSource());
         this.sources.set('musixmatch', new MusixmatchSource());
         this.sources.set('lyrics', new LyricsSource());

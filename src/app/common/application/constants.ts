@@ -35,9 +35,10 @@ export class Constants {
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
     public static readonly searchDelayMilliseconds: number = 500;
-    public static readonly playlistSaveDelayMilliseconds: number = 3000;
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
     public static readonly semanticZoomOutDelayMilliseconds: number = 100;
+    public static readonly playbackInfoSwitchAnimationMilliseconds: number = 250;
+    public static readonly pageSwitchAnimationMilliseconds: number = 250;
 
     public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
 

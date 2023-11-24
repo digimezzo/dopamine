@@ -2,8 +2,8 @@
     <div class="h-24px d-flex flex-row align-items-center justify-content-between">
         <div class="d-flex flex-row align-items-center">
             <div class="mr-2 accent-color">{{ this.tracks.tracks.length }}</div>
-            <div *ngIf="this.tracks.tracks.length === 1">{{ 'song' | translate }}</div>
-            <div *ngIf="this.tracks.tracks.length !== 1">{{ 'songs' | translate }}</div>
+            <div *ngIf="this.tracks.tracks.length === 1">{{ 'track' | translate }}</div>
+            <div *ngIf="this.tracks.tracks.length !== 1">{{ 'tracks' | translate }}</div>
         </div>
         <i
             class="las la-columns secondary-text pointer"

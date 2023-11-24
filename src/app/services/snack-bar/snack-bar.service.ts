@@ -5,6 +5,7 @@ import { SnackBarComponent } from '../../ui/components/snack-bar/snack-bar.compo
 import { SnackBarData } from './snack-bar-data';
 import { SnackBarServiceBase } from './snack-bar.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
+import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 
 @Injectable()
 export class SnackBarService implements SnackBarServiceBase {
@@ -16,7 +17,7 @@ export class SnackBarService implements SnackBarServiceBase {
         private zone: NgZone,
         private matSnackBar: MatSnackBar,
         private translatorService: TranslatorServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
     ) {}
 
     public async folderAlreadyAddedAsync(): Promise<void> {

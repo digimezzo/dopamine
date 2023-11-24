@@ -1,12 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { TrackModel } from '../../../services/track/track-model';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
+import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
+import { Constants } from '../../../common/application/constants';
 
 @Component({
     selector: 'app-playback-information',
@@ -40,8 +41,8 @@ import { MetadataServiceBase } from '../../../services/metadata/metadata.service
                     transform: 'translateY(-100%)',
                 }),
             ),
-            transition('down => animated-up', animate('350ms ease-out')),
-            transition('up => animated-down', animate('350ms ease-out')),
+            transition('down => animated-up', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
+            transition('up => animated-down', animate(`${Constants.playbackInfoSwitchAnimationMilliseconds}ms ease-out`)),
         ]),
     ],
 })
@@ -51,11 +52,11 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     public constructor(
         private playbackInformationService: PlaybackInformationServiceBase,
         private metadataService: MetadataServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
     ) {}
 
     @Input()
-    public isCentered: boolean = false;
+    public position: string = 'bottom';
 
     @Input()
     public showRating: boolean = false;
@@ -81,6 +82,23 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    public get flexPosition(): string {
+        switch (this.position) {
+            case 'top': {
+                return 'justify-content-flex-start';
+            }
+            case 'center': {
+                return 'justify-content-center';
+            }
+            case 'bottom': {
+                return 'justify-content-flex-end';
+            }
+            default: {
+                return 'justify-content-flex-end';
+            }
+        }
     }
 
     public async ngOnInit(): Promise<void> {
@@ -148,7 +166,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         this.currentTrack = newTrack;
 
         this.contentAnimation = 'animated-up';
-        await this.scheduler.sleepAsync(350);
+        await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 
     private async switchDown(track: TrackModel | undefined, performAnimation: boolean): Promise<void> {
@@ -172,7 +190,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
         if (performAnimation) {
             this.contentAnimation = 'animated-down';
-            await this.scheduler.sleepAsync(350);
+            await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
         } else {
             this.contentAnimation = 'down';
         }

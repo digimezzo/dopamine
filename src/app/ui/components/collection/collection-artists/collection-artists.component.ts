@@ -21,6 +21,7 @@ import { ArtistServiceBase } from '../../../../services/artist/artist.service.ba
 import { AlbumServiceBase } from '../../../../services/album/album-service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-artists',
@@ -43,7 +44,7 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         private albumService: AlbumServiceBase,
         private trackService: TrackServiceBase,
         private settings: SettingsBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
 

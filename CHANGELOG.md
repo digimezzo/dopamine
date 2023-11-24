@@ -3,11 +3,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.22] - 2023-11-17
+## [3.0.0-preview.22] - 2023-11-19
+
+### Added
+
+-   Pressing play when the queue has finished playing now plays the first song of the queue
 
 ### Fixed
 
-- Re-ordering Artists and Genres adds empty Artists and Genres
+-   Re-ordering Artists and Genres adds empty Artists and Genres
+-   Queue plays first song instead of next song when pressing next
+-   Some lyrics bugs
+-   MP3 files containing ID3v2 frames with non-standard frame identifiers could not be loaded
 
 ## [3.0.0-preview.21] - 2023-11-09
 

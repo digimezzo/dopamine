@@ -10,6 +10,7 @@ import { PlaybackInformation } from '../../../../services/playback-information/p
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -36,7 +37,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         public appearanceService: AppearanceServiceBase,
         private playbackInformationService: PlaybackInformationServiceBase,
         private lyricsService: LyricsServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
@@ -55,25 +56,25 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.initializeSubscriptions();
         const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
-        await this.showTrackInfoAsync(currentPlaybackInformation.track);
+        await this.showLyricsAsync(currentPlaybackInformation.track);
     }
 
     private initializeSubscriptions(): void {
         this.subscription.add(
             this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+                PromiseUtils.noAwait(this.showLyricsAsync(playbackInformation.track));
             }),
         );
 
         this.subscription.add(
             this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+                PromiseUtils.noAwait(this.showLyricsAsync(playbackInformation.track));
             }),
         );
 
         this.subscription.add(
             this.playbackInformationService.playingNoTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.showTrackInfoAsync(playbackInformation.track));
+                PromiseUtils.noAwait(this.showLyricsAsync(playbackInformation.track));
             }),
         );
     }
@@ -82,7 +83,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    private async showTrackInfoAsync(track: TrackModel | undefined): Promise<void> {
+    private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {
         if (track == undefined) {
             if (this._contentAnimation !== 'fade-out') {
                 this._contentAnimation = 'fade-out';
@@ -92,7 +93,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.previousTrackPath === track.path) {
+        if (this.previousTrackPath === track.path && this._lyrics != undefined) {
             return;
         }
 

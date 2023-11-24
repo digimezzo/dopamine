@@ -260,10 +260,18 @@ export class PlaybackService implements PlaybackServiceBase {
 
     public resume(): void {
         if (!this.isPlaying) {
+            const firstTrack: TrackModel | undefined = this.queue.getFirstTrack();
+
+            if (firstTrack != undefined) {
+                this.play(this.queue.getFirstTrack()!, false);
+                return;
+            }
+
             return;
         }
 
         this.audioPlayer.resume();
+
         this._canPause = true;
         this._canResume = false;
         this.progressUpdater.startUpdatingProgress();

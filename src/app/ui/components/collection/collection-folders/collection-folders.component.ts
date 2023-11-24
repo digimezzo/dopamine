@@ -26,7 +26,8 @@ import { PlaybackIndicationServiceBase } from '../../../../services/playback-ind
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
-import {ContextMenuOpener} from "../../context-menu-opener";
+import { ContextMenuOpener } from '../../context-menu-opener';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-folders',
@@ -54,7 +55,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private trackService: TrackServiceBase,
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private foldersPersister: FoldersPersister,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
         private desktop: DesktopBase,
         private logger: Logger,
         private hacks: Hacks,

@@ -7,7 +7,7 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content">
+    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
         <mat-tab-group [(selectedIndex)]="selectedIndex">
             <mat-tab *ngIf="settings.showArtistsPage" [label]="artistsTabLabel">
                 <ng-template mat-tab-label>

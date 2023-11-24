@@ -12,11 +12,13 @@
                 {{ 'lrc-lyrics' | translate }}<i class="secondary-text las la-file-alt ml-1 font-large"></i>
             </div>
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.online">
-                {{ 'online-lyrics' | translate }}<i class="secondary-text las la-globe ml-1 font-large"></i>
+                {{ this.lyrics?.sourceName }}<i class="secondary-text las la-globe ml-1 font-large"></i>
             </div>
         </div>
         <app-playback-information
-            [height]="60"
+            class="app-now-playing-lyrics__playback-info"
+            height="120"
+            position="top"
             [largeFontSize]="this.appearanceService.selectedFontSize.extraLargeSize"
             [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
         ></app-playback-information>

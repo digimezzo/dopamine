@@ -10,6 +10,7 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-now-playing-artist-info',
@@ -35,7 +36,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
     public constructor(
         private playbackService: PlaybackServiceBase,
         private artistInformationService: ArtistInformationServiceBase,
-        private scheduler: Scheduler,
+        private scheduler: SchedulerBase,
         public settings: SettingsBase,
     ) {}
 

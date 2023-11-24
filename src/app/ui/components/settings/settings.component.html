@@ -6,7 +6,7 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content">
+    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
         <mat-tab-group>
             <mat-tab>
                 <ng-template mat-tab-label>
