@@ -13,6 +13,7 @@ export class SpectrumAnalyzer {
     private canvasContext: CanvasRenderingContext2D;
     private frameRate: number = 10;
     private animationFrameId: number | undefined = undefined;
+    private isAnalyzing: boolean = false;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -35,25 +36,37 @@ export class SpectrumAnalyzer {
     }
 
     private scheduleAudioAnalysis(): void {
-        const analyze = () => {
-            this.analyser.getByteFrequencyData(this.dataArray);
-            this.draw();
+        this.isAnalyzing = true;
+        this.analyze();
+    }
 
-            this.animationFrameId = requestAnimationFrame(analyze);
-        };
+    private analyze(): void {
+        if (!this.isAnalyzing) {
+            if (this.animationFrameId != undefined) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = undefined;
+            }
 
-        this.animationFrameId = requestAnimationFrame(analyze);
+            return;
+        }
+
+        setTimeout(
+            () => {
+                this.analyser.getByteFrequencyData(this.dataArray);
+                this.draw();
+
+                this.animationFrameId = requestAnimationFrame(() => this.analyze());
+            },
+            1000 / (this.playbackService.isPlaying ? this.frameRate : 1),
+        );
     }
 
     private stopAudioAnalysis(): void {
-        if (this.animationFrameId != undefined) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = undefined;
-        }
+        this.isAnalyzing = false;
     }
 
     public start(): void {
-        this.handleAudioPlayback();
+        this.scheduleAudioAnalysis();
     }
 
     public stop(): void {
@@ -64,20 +77,11 @@ export class SpectrumAnalyzer {
         this.disconnect();
         this.connectCanvas(newCanvas);
         this.analyser.connect(this.audioContext.destination);
-        this.scheduleAudioAnalysis();
     }
 
     private disconnect(): void {
         this.stopAudioAnalysis();
         this.analyser.disconnect();
-    }
-
-    private handleAudioPlayback(): void {
-        if (!this.playbackService.isPlaying) {
-            this.stopAudioAnalysis();
-        } else {
-            this.scheduleAudioAnalysis();
-        }
     }
 
     private draw(): void {

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
@@ -91,7 +91,7 @@ import { SpectrumAnalyzer } from '../../../services/playback/spectrum-analyzer';
         ]),
     ],
 })
-export class NowPlayingComponent implements OnInit, AfterViewInit {
+export class NowPlayingComponent implements OnInit, AfterViewInit, OnDestroy {
     private timerId: number = 0;
     private subscription: Subscription = new Subscription();
 
@@ -222,5 +222,10 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public setSpectrumAnalyzer(): void {
         const canvas: HTMLCanvasElement = document.getElementById('nowPlayingSpectrum') as HTMLCanvasElement;
         this.spectrumAnalyzer.connectNewCanvas(canvas);
+        this.spectrumAnalyzer.start();
+    }
+
+    public ngOnDestroy(): void {
+        this.spectrumAnalyzer.stop();
     }
 }
