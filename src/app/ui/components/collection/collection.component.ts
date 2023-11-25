@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { CollectionPersister } from './collection-persister';
 import { TabSelectionGetter } from './tab-selection-getter';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
@@ -24,7 +24,7 @@ import { SpectrumAnalyzer } from '../../../services/playback/spectrum-analyzer';
         ]),
     ],
 })
-export class CollectionComponent implements AfterViewInit, OnDestroy {
+export class CollectionComponent implements AfterViewInit {
     private _selectedIndex: number;
 
     public constructor(
@@ -96,11 +96,6 @@ export class CollectionComponent implements AfterViewInit, OnDestroy {
 
     public setSpectrumAnalyzer(): void {
         const canvas: HTMLCanvasElement = document.getElementById('collectionSpectrum') as HTMLCanvasElement;
-        this.spectrumAnalyzer.connectNewCanvas(canvas);
-        this.spectrumAnalyzer.start();
-    }
-
-    public ngOnDestroy(): void {
-        this.spectrumAnalyzer.stop();
+        this.spectrumAnalyzer.connectCanvas(canvas);
     }
 }

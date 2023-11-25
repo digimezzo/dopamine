@@ -4,7 +4,6 @@ import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { Theme } from '../appearance/theme/theme';
 import { ColorConverter } from '../../common/color-converter';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 
 @Injectable()
 export class SpectrumAnalyzer {
@@ -14,8 +13,7 @@ export class SpectrumAnalyzer {
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private frameRate: number = 10;
-    private animationFrameId: number | undefined = undefined;
-    private isAnalyzing: boolean = false;
+    private isAnalyzing: boolean;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -33,62 +31,33 @@ export class SpectrumAnalyzer {
         source.connect(this.analyser);
     }
 
-    private connectCanvas(canvas: HTMLCanvasElement): void {
-        this.canvas = canvas;
-        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-    }
-
-    private scheduleAudioAnalysis(): void {
-        this.isAnalyzing = true;
-        this.analyze();
-    }
-
     private shouldShowSpectrum(): boolean {
         return this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer;
     }
 
     private analyze(): void {
-        if (!this.isAnalyzing) {
-            if (this.animationFrameId != undefined) {
-                cancelAnimationFrame(this.animationFrameId);
-                this.animationFrameId = undefined;
-            }
-
-            return;
-        }
-
         setTimeout(
             () => {
                 this.analyser.getByteFrequencyData(this.dataArray);
                 this.draw();
 
-                this.animationFrameId = requestAnimationFrame(() => this.analyze());
+                requestAnimationFrame(() => this.analyze());
+                console.log('yo');
             },
             1000 / (this.shouldShowSpectrum() ? this.frameRate : 1),
         );
     }
 
-    private stopAudioAnalysis(): void {
-        this.isAnalyzing = false;
-    }
-
-    public start(): void {
-        this.scheduleAudioAnalysis();
-    }
-
-    public stop(): void {
-        this.stopAudioAnalysis();
-    }
-
-    public connectNewCanvas(newCanvas: HTMLCanvasElement): void {
-        this.disconnect();
-        this.connectCanvas(newCanvas);
-        this.analyser.connect(this.audioContext.destination);
-    }
-
-    private disconnect(): void {
-        this.stopAudioAnalysis();
+    public connectCanvas(canvas: HTMLCanvasElement): void {
         this.analyser.disconnect();
+        this.canvas = canvas;
+        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.analyser.connect(this.audioContext.destination);
+
+        if (!this.isAnalyzing) {
+            this.analyze();
+            this.isAnalyzing = true;
+        }
     }
 
     private draw(): void {
