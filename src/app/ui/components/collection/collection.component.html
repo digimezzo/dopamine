@@ -46,6 +46,10 @@
                 <app-collection-folders></app-collection-folders>
             </mat-tab>
         </mat-tab-group>
-        <app-collection-playback-pane class="collection-component__playbackpane"></app-collection-playback-pane>
+        <div class="app-collection-playback-controls__container">
+            <canvas id="collectionSpectrum" class="app-collection-playback-controls__spectrum-analyzer"></canvas>
+            <app-collection-playback-pane class="app-collection-playback-controls__playback-pane"></app-collection-playback-pane>
+        </div>
+        <div class="app-collection-playback-controls__footer theme-footer-background"></div>
     </div>
 </div>

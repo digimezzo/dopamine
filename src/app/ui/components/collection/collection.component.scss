@@ -9,13 +9,40 @@
 }
 
 .collection-component__playbackpane {
+}
+
+.app-collection-playback-controls__container {
     /* 
-    Absolute positioning because pagination of mat-tab-group does not work in flex container.
-    See: https://github.com/angular/components/issues/23157
-    */
+   Absolute positioning because pagination of mat-tab-group does not work in flex container.
+   See: https://github.com/angular/components/issues/23157
+   */
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1; // Without this, buttons in playback pane are not clickable.
+}
+
+.app-collection-playback-controls__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 74px;
+    z-index: 0;
+}
+
+.app-collection-playback-controls__spectrum-analyzer {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.app-collection-playback-controls__playback-pane {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
 }

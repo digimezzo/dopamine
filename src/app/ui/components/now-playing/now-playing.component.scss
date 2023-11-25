@@ -11,7 +11,7 @@
 }
 
 .app-now-playing__backgroundimage {
-    overflow: none;
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -41,4 +41,24 @@
     background: transparent !important;
     flex: 1;
     width: 100%;
+}
+
+.app-now-playing-playback-controls__container {
+    position: relative;
+}
+
+.app-now-playing-playback-controls__spectrum-analyzer {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: 0;
+    height: 30px;
+    width: 300px;
+    transform: translateX(-50%);
+}
+
+.app-now-playing-playback-controls__playback-pane {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
 }

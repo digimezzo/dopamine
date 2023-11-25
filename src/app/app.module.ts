@@ -306,8 +306,7 @@ import { SchedulerBase } from './common/scheduling/scheduler.base';
 import { ContextMenuOpener } from './ui/components/context-menu-opener';
 import { PathValidator } from './common/validation/path-validator';
 import { FileValidator } from './common/validation/file-validator';
-import { SpectrumAnalyzerComponent } from './ui/components/spectrum-analyzer/spectrum-analyzer.component';
-import {SpectrumAnalyzer} from "./services/playback/spectrum-analyzer";
+import { SpectrumAnalyzer } from './services/playback/spectrum-analyzer';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -438,7 +437,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingArtistInfoComponent,
         NowPlayingLyricsComponent,
         SimilarArtistComponent,
-        SpectrumAnalyzerComponent,
     ],
     imports: [
         BrowserAnimationsModule,

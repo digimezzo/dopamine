@@ -12,6 +12,7 @@ export class SpectrumAnalyzer {
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private frameRate: number = 10;
+    private animationFrameId: number | undefined = undefined;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -23,40 +24,67 @@ export class SpectrumAnalyzer {
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
     }
 
-    public attachToCanvas(canvas: HTMLCanvasElement): void {
-        this.canvas = canvas;
-        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-
-        this.draw();
-    }
-
     public connectAudioElement(): void {
         const source: MediaElementAudioSourceNode = this.playbackService.getSourceForAudioContext(this.audioContext);
         source.connect(this.analyser);
         this.analyser.connect(this.audioContext.destination);
     }
 
-    private draw(): void {
-        const drawFrame = () => {
-            setTimeout(
-                () => {
-                    if (!this.playbackService.isPlaying) {
-                        requestAnimationFrame(drawFrame);
-                        return;
-                    }
+    private connectCanvas(canvas: HTMLCanvasElement): void {
+        this.canvas = canvas;
+        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    }
 
-                    this.analyser.getByteFrequencyData(this.dataArray);
-                    this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    private scheduleAudioAnalysis(): void {
+        const analyze = () => {
+            this.analyser.getByteFrequencyData(this.dataArray);
+            this.draw();
 
-                    this.drawFlames();
-
-                    requestAnimationFrame(drawFrame);
-                },
-                1000 / (this.playbackService.isPlaying ? this.frameRate : 1),
-            );
+            this.animationFrameId = requestAnimationFrame(analyze);
         };
 
-        drawFrame();
+        this.animationFrameId = requestAnimationFrame(analyze);
+    }
+
+    private stopAudioAnalysis(): void {
+        if (this.animationFrameId != undefined) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = undefined;
+        }
+    }
+
+    public start(): void {
+        this.handleAudioPlayback();
+    }
+
+    public stop(): void {
+        this.stopAudioAnalysis();
+    }
+
+    private canvasId: string = '';
+
+    public connectNewCanvas(newCanvas: HTMLCanvasElement): void {
+        this.disconnect();
+        this.connectCanvas(newCanvas);
+        this.scheduleAudioAnalysis();
+    }
+
+    private disconnect(): void {
+        this.stopAudioAnalysis();
+        this.analyser.disconnect();
+    }
+
+    private handleAudioPlayback(): void {
+        if (!this.playbackService.isPlaying) {
+            this.stopAudioAnalysis();
+        } else {
+            this.scheduleAudioAnalysis();
+        }
+    }
+
+    private draw(): void {
+        this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawFlames();
     }
 
     // private drawThinBars(): void {

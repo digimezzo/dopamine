@@ -1,44 +1,41 @@
-<div class="app-collection-playback-pane theme-footer-background">
+<div class="app-collection-playback-pane">
     <div class="app-collection-playback-pane__progressbar">
         <app-playback-progress class="app-collection-playback-pane__progressbar"></app-playback-progress>
     </div>
-    <div class="app-collection-playback-pane__content">
-        <app-spectrum-analyzer class="app-collection-playback-pane__spectrum-analyzer"></app-spectrum-analyzer>
-        <div class="app-collection-playback-pane__controls">
-            <div class="app-collection-playback-pane-controls__left">
-                <app-playback-cover-art
-                    class="pointer"
-                    [size]="70"
-                    (click)="this.showNowPlayingAsync()"
-                    matTooltip="{{ 'now-playing' | translate }}"
-                ></app-playback-cover-art
-                ><app-playback-information
-                    class="app-collection-playback-pane-controls__playbackinformation ml-2"
-                    [height]="70"
-                    [largeFontSize]="this.appearanceService.selectedFontSize.normalSize"
-                    [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
-                    position="center"
-                    [showRating]="this.settings.showRating"
-                    [showLove]="this.settings.showLove"
-                ></app-playback-information>
-            </div>
-            <div class="app-collection-playback-pane-controls__center">
-                <app-playback-controls></app-playback-controls>
-            </div>
-            <div class="app-collection-playback-pane-controls__right">
-                <app-playback-time class="mr-4"></app-playback-time>
-                <i
-                    class="app-collection__playbackqueue las la-music pointer mr-2"
-                    (click)="this.showNowPlayingAsync()"
-                    matTooltip="{{ 'now-playing' | translate }}"
-                ></i>
-                <i
-                    class="app-collection__playbackqueue las la-tasks pointer mr-4"
-                    (click)="this.showPlaybackQueue()"
-                    matTooltip="{{ 'playback-queue' | translate }}"
-                ></i>
-                <app-volume-control class="app-collection-playback-pane_volume mr-3"></app-volume-control>
-            </div>
+    <div class="app-collection-playback-pane__controls">
+        <div class="app-collection-playback-pane-controls__left">
+            <app-playback-cover-art
+                class="pointer"
+                [size]="70"
+                (click)="this.showNowPlayingAsync()"
+                matTooltip="{{ 'now-playing' | translate }}"
+            ></app-playback-cover-art
+            ><app-playback-information
+                class="app-collection-playback-pane-controls__playbackinformation ml-2"
+                [height]="70"
+                [largeFontSize]="this.appearanceService.selectedFontSize.normalSize"
+                [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
+                position="center"
+                [showRating]="this.settings.showRating"
+                [showLove]="this.settings.showLove"
+            ></app-playback-information>
+        </div>
+        <div class="app-collection-playback-pane-controls__center">
+            <app-playback-controls></app-playback-controls>
+        </div>
+        <div class="app-collection-playback-pane-controls__right">
+            <app-playback-time class="mr-4"></app-playback-time>
+            <i
+                class="app-collection__playbackqueue las la-music pointer mr-2"
+                (click)="this.showNowPlayingAsync()"
+                matTooltip="{{ 'now-playing' | translate }}"
+            ></i>
+            <i
+                class="app-collection__playbackqueue las la-tasks pointer mr-4"
+                (click)="this.showPlaybackQueue()"
+                matTooltip="{{ 'playback-queue' | translate }}"
+            ></i>
+            <app-volume-control class="app-collection-playback-pane_volume mr-3"></app-volume-control>
         </div>
     </div>
 </div>
