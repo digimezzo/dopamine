@@ -67,4 +67,5 @@ export abstract class SettingsBase {
     public abstract enableMultimediaKeys: boolean;
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
+    public abstract showAudioVisualizer: boolean;
 }

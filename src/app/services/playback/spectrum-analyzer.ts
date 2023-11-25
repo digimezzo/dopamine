@@ -8,7 +8,7 @@ import { ColorConverter } from '../../common/color-converter';
 export class SpectrumAnalyzer {
     private readonly audioContext: AudioContext;
     private readonly analyser: AnalyserNode;
-    private dataArray: Uint8Array;
+    private readonly dataArray: Uint8Array;
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private frameRate: number = 10;
@@ -27,7 +27,6 @@ export class SpectrumAnalyzer {
     public connectAudioElement(): void {
         const source: MediaElementAudioSourceNode = this.playbackService.getSourceForAudioContext(this.audioContext);
         source.connect(this.analyser);
-        this.analyser.connect(this.audioContext.destination);
     }
 
     private connectCanvas(canvas: HTMLCanvasElement): void {
@@ -61,11 +60,10 @@ export class SpectrumAnalyzer {
         this.stopAudioAnalysis();
     }
 
-    private canvasId: string = '';
-
     public connectNewCanvas(newCanvas: HTMLCanvasElement): void {
         this.disconnect();
         this.connectCanvas(newCanvas);
+        this.analyser.connect(this.audioContext.destination);
         this.scheduleAudioAnalysis();
     }
 
