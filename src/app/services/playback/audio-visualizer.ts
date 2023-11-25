@@ -6,13 +6,12 @@ import { ColorConverter } from '../../common/color-converter';
 import { SettingsBase } from '../../common/settings/settings.base';
 
 @Injectable()
-export class SpectrumAnalyzer {
+export class AudioVisualizer {
     private readonly audioContext: AudioContext;
     private readonly analyser: AnalyserNode;
     private readonly dataArray: Uint8Array;
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
-    private frameRate: number = 10;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -38,7 +37,7 @@ export class SpectrumAnalyzer {
         this.analyser.connect(this.audioContext.destination);
     }
 
-    private shouldShowSpectrum(): boolean {
+    private shouldShow(): boolean {
         return this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer;
     }
 
@@ -50,14 +49,14 @@ export class SpectrumAnalyzer {
 
                 requestAnimationFrame(() => this.analyze());
             },
-            1000 / (this.shouldShowSpectrum() ? this.frameRate : 1),
+            1000 / (this.shouldShow() ? this.settings.audioVisualizerFrameRate : 1),
         );
     }
 
     private draw(): void {
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (!this.shouldShowSpectrum()) {
+        if (!this.shouldShow()) {
             return;
         }
 

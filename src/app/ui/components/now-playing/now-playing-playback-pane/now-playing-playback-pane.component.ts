@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { NowPlayingPage } from '../../../../services/now-playing-navigation/now-playing-page';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { NowPlayingNavigationServiceBase } from '../../../../services/now-playing-navigation/now-playing-navigation.service.base';
-import { SpectrumAnalyzer } from '../../../../services/playback/spectrum-analyzer';
 
 @Component({
     selector: 'app-now-playing-playback-pane',

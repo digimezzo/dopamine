@@ -7,7 +7,7 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Constants } from '../../../common/application/constants';
-import { SpectrumAnalyzer } from '../../../services/playback/spectrum-analyzer';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-collection',
@@ -34,7 +34,7 @@ export class CollectionComponent implements AfterViewInit {
         private searchService: SearchServiceBase,
         private collectionPersister: CollectionPersister,
         private tabSelectionGetter: TabSelectionGetter,
-        private spectrumAnalyzer: SpectrumAnalyzer,
+        private audioVisualizer: AudioVisualizer,
     ) {}
 
     public pageSwitchAnimation: string = 'fade-out';
@@ -91,11 +91,11 @@ export class CollectionComponent implements AfterViewInit {
             this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
         }, 0);
 
-        this.setSpectrumAnalyzer();
+        this.setAudioVisualizer();
     }
 
-    public setSpectrumAnalyzer(): void {
-        const canvas: HTMLCanvasElement = document.getElementById('collectionSpectrum') as HTMLCanvasElement;
-        this.spectrumAnalyzer.connectCanvas(canvas);
+    public setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = document.getElementById('collectionAudioVisualizer') as HTMLCanvasElement;
+        this.audioVisualizer.connectCanvas(canvas);
     }
 }

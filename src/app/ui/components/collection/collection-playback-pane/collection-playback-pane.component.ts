@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
-import { SpectrumAnalyzer } from '../../../../services/playback/spectrum-analyzer';
 
 @Component({
     selector: 'app-collection-playback-pane',

@@ -637,6 +637,16 @@ export class Settings implements SettingsBase {
         this.settings.set('audioVisualizerType', v);
     }
 
+    // audioVisualizerFrameRate
+
+    public get audioVisualizerFrameRate(): number {
+        return <number>this.settings.get('audioVisualizerFrameRate');
+    }
+
+    public set audioVisualizerFrameRate(v: number) {
+        this.settings.set('audioVisualizerFrameRate', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -909,6 +919,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('audioVisualizerType')) {
             this.settings.set('audioVisualizerType', 'flames');
+        }
+
+        if (!this.settings.has('audioVisualizerFrameRate')) {
+            this.settings.set('audioVisualizerFrameRate', 10);
         }
     }
 }

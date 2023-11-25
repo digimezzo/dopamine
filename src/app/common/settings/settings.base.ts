@@ -69,4 +69,5 @@ export abstract class SettingsBase {
     public abstract downloadLyricsOnline: boolean;
     public abstract showAudioVisualizer: boolean;
     public abstract audioVisualizerType: string;
+    public abstract audioVisualizerFrameRate: number;
 }

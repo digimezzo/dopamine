@@ -12,7 +12,7 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
-import { SpectrumAnalyzer } from '../../../services/playback/spectrum-analyzer';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-now-playing',
@@ -103,7 +103,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
         private searchService: SearchServiceBase,
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
         private scheduler: SchedulerBase,
-        private spectrumAnalyzer: SpectrumAnalyzer,
+        private audioVisualizer: AudioVisualizer,
     ) {}
 
     @ViewChild('stepper') public stepper: MatStepper;
@@ -213,14 +213,14 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
             this.pageSwitchAnimation = 'fade-in';
         }, 0);
 
-        this.setSpectrumAnalyzer();
+        this.setAudioVisualizer();
 
         await this.scheduler.sleepAsync(500);
         await this.setBackgroundsAsync();
     }
 
-    public setSpectrumAnalyzer(): void {
-        const canvas: HTMLCanvasElement = document.getElementById('nowPlayingSpectrum') as HTMLCanvasElement;
-        this.spectrumAnalyzer.connectCanvas(canvas);
+    private setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = document.getElementById('nowPlayingAudioVisualizer') as HTMLCanvasElement;
+        this.audioVisualizer.connectCanvas(canvas);
     }
 }
