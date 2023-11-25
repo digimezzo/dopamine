@@ -618,7 +618,7 @@ export class Settings implements SettingsBase {
     public set downloadLyricsOnline(v: boolean) {
         this.settings.set('downloadLyricsOnline', v);
     }
-    
+
     // showAudioVisualizer
     public get showAudioVisualizer(): boolean {
         return <boolean>this.settings.get('showAudioVisualizer');
@@ -627,7 +627,16 @@ export class Settings implements SettingsBase {
     public set showAudioVisualizer(v: boolean) {
         this.settings.set('showAudioVisualizer', v);
     }
-    
+
+    // audioVisualizerType
+    public get audioVisualizerType(): string {
+        return <string>this.settings.get('audioVisualizerType');
+    }
+
+    public set audioVisualizerType(v: string) {
+        this.settings.set('audioVisualizerType', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -896,6 +905,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('showAudioVisualizer')) {
             this.settings.set('showAudioVisualizer', true);
+        }
+
+        if (!this.settings.has('audioVisualizerType')) {
+            this.settings.set('audioVisualizerType', 'flames');
         }
     }
 }

@@ -13,7 +13,6 @@ export class SpectrumAnalyzer {
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
     private frameRate: number = 10;
-    private isAnalyzing: boolean;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -24,11 +23,19 @@ export class SpectrumAnalyzer {
         this.analyser = this.audioContext.createAnalyser();
         this.analyser.fftSize = 128;
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+        this.analyze();
     }
 
     public connectAudioElement(): void {
         const source: MediaElementAudioSourceNode = this.playbackService.getSourceForAudioContext(this.audioContext);
         source.connect(this.analyser);
+    }
+
+    public connectCanvas(canvas: HTMLCanvasElement): void {
+        this.analyser.disconnect();
+        this.canvas = canvas;
+        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.analyser.connect(this.audioContext.destination);
     }
 
     private shouldShowSpectrum(): boolean {
@@ -42,62 +49,64 @@ export class SpectrumAnalyzer {
                 this.draw();
 
                 requestAnimationFrame(() => this.analyze());
-                console.log('yo');
             },
             1000 / (this.shouldShowSpectrum() ? this.frameRate : 1),
         );
     }
 
-    public connectCanvas(canvas: HTMLCanvasElement): void {
-        this.analyser.disconnect();
-        this.canvas = canvas;
-        this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.analyser.connect(this.audioContext.destination);
-
-        if (!this.isAnalyzing) {
-            this.analyze();
-            this.isAnalyzing = true;
-        }
-    }
-
     private draw(): void {
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.shouldShowSpectrum()) {
-            this.drawFlames();
+        if (!this.shouldShowSpectrum()) {
+            return;
+        }
+
+        switch (this.settings.audioVisualizerType) {
+            case 'flames':
+                this.drawFlames();
+                break;
+            case 'lines':
+                this.drawLines();
+                break;
+            default:
+                this.drawFlames();
+                break;
         }
     }
 
-    // private drawThinBars(): void {
-    //     const barWidth: number = 1;
-    //     const margin: number = 3;
-    //     const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;
-    //     const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
-    //
-    //     for (let i: number = 0; i < this.dataArray.length; i++) {
-    //         const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
-    //         const barHeightRight: number = (this.dataArray[i + 1] / 255) * this.canvas.height;
-    //         const xLeft: number = i * barWidth + offsetForLeftPart + margin * i;
-    //         const xRight: number = i * barWidth + offsetForRightPart + margin * i;
-    //         const yLeft: number = this.canvas.height - barHeightLeft;
-    //         const yRight: number = this.canvas.height - barHeightRight;
-    //
-    //         const red: number = this.appearanceService.accentRgb[0];
-    //         const green: number = this.appearanceService.accentRgb[1];
-    //         const blue: number = this.appearanceService.accentRgb[2];
-    //
-    //         const alphaLeft: number = 1 - (this.canvas.height - barHeightLeft) / this.canvas.height;
-    //         const alphaRight: number = 1 - (this.canvas.height - barHeightRight) / this.canvas.height;
-    //
-    //         // Left
-    //         this.canvasContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alphaLeft})`;
-    //         this.canvasContext.fillRect(xLeft, yLeft, barWidth, barHeightLeft);
-    //
-    //         // Right
-    //         this.canvasContext.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alphaRight})`;
-    //         this.canvasContext.fillRect(xRight, yRight, barWidth, barHeightRight);
-    //     }
-    // }
+    private drawLines(): void {
+        const barWidth: number = 1;
+        const margin: number = 3;
+        const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;
+        const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
+
+        for (let i: number = 0; i < this.dataArray.length; i++) {
+            const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
+            const barHeightRight: number = (this.dataArray[i + 1] / 255) * this.canvas.height;
+            const xLeft: number = i * barWidth + offsetForLeftPart + margin * i + margin;
+            const xRight: number = i * barWidth + offsetForRightPart + margin * i + margin;
+            const yLeft: number = this.canvas.height - barHeightLeft;
+            const yRight: number = this.canvas.height - barHeightRight;
+
+            const theme: Theme = this.appearanceService.selectedTheme;
+            const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
+
+            const accentRed: number = accentRgb[0];
+            const accentGreen: number = accentRgb[1];
+            const accentBlue: number = accentRgb[2];
+
+            const alphaLeft: number = 1 - (this.canvas.height - barHeightLeft) / this.canvas.height;
+            const alphaRight: number = 1 - (this.canvas.height - barHeightRight) / this.canvas.height;
+
+            // Left
+            this.canvasContext.fillStyle = `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, ${alphaLeft})`;
+            this.canvasContext.fillRect(xLeft, yLeft, barWidth, barHeightLeft);
+
+            // Right
+            this.canvasContext.fillStyle = `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, ${alphaRight})`;
+            this.canvasContext.fillRect(xRight, yRight, barWidth, barHeightRight);
+        }
+    }
 
     // private drawRoundedBars(): void {
     //     const barWidth: number = 4;
