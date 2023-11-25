@@ -3,6 +3,8 @@ import { PlaybackServiceBase } from './playback.service.base';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { Theme } from '../appearance/theme/theme';
 import { ColorConverter } from '../../common/color-converter';
+import { SettingsBase } from '../../common/settings/settings.base';
+import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 
 @Injectable()
 export class SpectrumAnalyzer {
@@ -18,6 +20,7 @@ export class SpectrumAnalyzer {
     public constructor(
         private playbackService: PlaybackServiceBase,
         private appearanceService: AppearanceServiceBase,
+        private settings: SettingsBase,
     ) {
         this.audioContext = new window.AudioContext();
         this.analyser = this.audioContext.createAnalyser();
@@ -40,6 +43,10 @@ export class SpectrumAnalyzer {
         this.analyze();
     }
 
+    private shouldShowSpectrum(): boolean {
+        return this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer;
+    }
+
     private analyze(): void {
         if (!this.isAnalyzing) {
             if (this.animationFrameId != undefined) {
@@ -57,7 +64,7 @@ export class SpectrumAnalyzer {
 
                 this.animationFrameId = requestAnimationFrame(() => this.analyze());
             },
-            1000 / (this.playbackService.isPlaying ? this.frameRate : 1),
+            1000 / (this.shouldShowSpectrum() ? this.frameRate : 1),
         );
     }
 
@@ -86,7 +93,10 @@ export class SpectrumAnalyzer {
 
     private draw(): void {
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawFlames();
+
+        if (this.shouldShowSpectrum()) {
+            this.drawFlames();
+        }
     }
 
     // private drawThinBars(): void {
