@@ -73,7 +73,7 @@ export class TrackModel implements ISelectable {
             return this.translatorService.get('unknown-artist');
         }
 
-        const commaSeparatedArtists: string = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).join(', ');
+        const commaSeparatedArtists: string = trackArtists.filter((x) => !StringUtils.isNullOrWhiteSpace(x)).map(x => x.trim()).join(', ');
 
         if (commaSeparatedArtists.length === 0) {
             return this.translatorService.get('unknown-artist');
