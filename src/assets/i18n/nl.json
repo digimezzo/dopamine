@@ -252,6 +252,11 @@
     "online-lyrics": "Online songteksten",
     "mute": "Mute",
     "unmute": "Unmute",
-    "audio-visualizer": "Audiovisualisator",
-    "show-audio-visualizer": "Toon audiovisualisator"
+    "audio-visualizer": "Audio-visualisator",
+    "show-audio-visualizer": "Toon audio-visualisator",
+    "style": "Stijl",
+    "frame-rate": "Frame rate",
+    "fps": "FPS",
+    "flames": "Vlammen",
+    "stripes": "Strepen"
 }

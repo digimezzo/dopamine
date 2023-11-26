@@ -253,5 +253,10 @@
     "mute": "Mute",
     "unmute": "Unmute",
     "audio-visualizer": "Visualiseur audio",
-    "show-audio-visualizer": "Afficher le visualiseur audio"
+    "show-audio-visualizer": "Afficher le visualiseur audio",
+    "style": "Style",
+    "frame-rate": "Fréquence d’images",
+    "fps": "FPS",
+    "flames": "Flammes",
+    "stripes": "Rayures"
 }

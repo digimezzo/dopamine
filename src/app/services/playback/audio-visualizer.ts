@@ -54,18 +54,22 @@ export class AudioVisualizer {
     }
 
     private draw(): void {
+        if (this.canvasContext == undefined) {
+            return;
+        }
+
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (!this.shouldShow()) {
             return;
         }
 
-        switch (this.settings.audioVisualizerType) {
+        switch (this.settings.audioVisualizerStyle) {
             case 'flames':
                 this.drawFlames();
                 break;
-            case 'lines':
-                this.drawLines();
+            case 'stripes':
+                this.drawStripes();
                 break;
             default:
                 this.drawFlames();
@@ -73,7 +77,7 @@ export class AudioVisualizer {
         }
     }
 
-    private drawLines(): void {
+    private drawStripes(): void {
         const barWidth: number = 1;
         const margin: number = 3;
         const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;

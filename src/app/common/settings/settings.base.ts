@@ -68,6 +68,6 @@ export abstract class SettingsBase {
     public abstract downloadArtistInformationFromLastFm: boolean;
     public abstract downloadLyricsOnline: boolean;
     public abstract showAudioVisualizer: boolean;
-    public abstract audioVisualizerType: string;
+    public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;
 }

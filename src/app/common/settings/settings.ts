@@ -628,13 +628,13 @@ export class Settings implements SettingsBase {
         this.settings.set('showAudioVisualizer', v);
     }
 
-    // audioVisualizerType
-    public get audioVisualizerType(): string {
-        return <string>this.settings.get('audioVisualizerType');
+    // audioVisualizerStyle
+    public get audioVisualizerStyle(): string {
+        return <string>this.settings.get('audioVisualizerStyle');
     }
 
-    public set audioVisualizerType(v: string) {
-        this.settings.set('audioVisualizerType', v);
+    public set audioVisualizerStyle(v: string) {
+        this.settings.set('audioVisualizerStyle', v);
     }
 
     // audioVisualizerFrameRate
@@ -917,8 +917,8 @@ export class Settings implements SettingsBase {
             this.settings.set('showAudioVisualizer', true);
         }
 
-        if (!this.settings.has('audioVisualizerType')) {
-            this.settings.set('audioVisualizerType', 'flames');
+        if (!this.settings.has('audioVisualizerStyle')) {
+            this.settings.set('audioVisualizerStyle', 'flames');
         }
 
         if (!this.settings.has('audioVisualizerFrameRate')) {

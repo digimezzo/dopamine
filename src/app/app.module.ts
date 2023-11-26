@@ -307,6 +307,8 @@ import { ContextMenuOpener } from './ui/components/context-menu-opener';
 import { PathValidator } from './common/validation/path-validator';
 import { FileValidator } from './common/validation/file-validator';
 import { AudioVisualizer } from './services/playback/audio-visualizer';
+import { AudioVisualizerServiceBase } from './services/audio-visualizer/audio-visualizer.service.base';
+import { AudioVisualizerService } from './services/audio-visualizer/audio-visualizer.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -609,6 +611,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: ArtistInformationServiceBase, useClass: ArtistInformationService },
         { provide: LyricsServiceBase, useClass: LyricsService },
         { provide: EventListenerServiceBase, useClass: EventListenerService },
+        { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
         { provide: AudioPlayerBase, useClass: AudioPlayer },
         { provide: SettingsBase, useClass: Settings },
         { provide: DatabaseMigratorBase, useClass: DatabaseMigrator },

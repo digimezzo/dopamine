@@ -3,6 +3,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { AudioVisualizerServiceBase } from '../../../../services/audio-visualizer/audio-visualizer.service.base';
 
 @Component({
     selector: 'app-appearance-settings',
@@ -15,6 +16,7 @@ export class AppearanceSettingsComponent implements OnInit, OnDestroy {
     public constructor(
         public appearanceService: AppearanceServiceBase,
         public translatorService: TranslatorServiceBase,
+        public audioVisualizerService: AudioVisualizerServiceBase,
         public settings: SettingsBase,
         private desktop: DesktopBase,
     ) {}
