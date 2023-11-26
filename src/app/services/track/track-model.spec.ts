@@ -333,6 +333,18 @@ describe('TrackModel', () => {
             // Assert
             expect(artists).toEqual('Artist 1, Artist 3');
         });
+        
+        it('should return multiple artists without double space', () => {
+            // Arrange
+            track.artists = ';Artist 1; Artist 2;;Artist 3;';
+            const trackModel: TrackModel = createTrackModel();
+
+            // Act
+            const artists: string = trackModel.artists;
+
+            // Assert
+            expect(artists).toEqual('Artist 1, Artist 2, Artist 3');
+        });
     });
 
     describe('rawArtists', () => {
