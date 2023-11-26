@@ -12,6 +12,8 @@ export class AudioVisualizer {
     private readonly dataArray: Uint8Array;
     private canvas: HTMLCanvasElement;
     private canvasContext: CanvasRenderingContext2D;
+    private isStopped: boolean;
+    private stopRequestTime: Date | undefined;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -37,8 +39,12 @@ export class AudioVisualizer {
         this.analyser.connect(this.audioContext.destination);
     }
 
-    private shouldShow(): boolean {
-        return this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer;
+    private shouldStop(): boolean {
+        if (!this.settings.showAudioVisualizer) {
+            this.isStopped = true;
+        }
+
+        return !(this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer);
     }
 
     private analyze(): void {
@@ -49,7 +55,7 @@ export class AudioVisualizer {
 
                 requestAnimationFrame(() => this.analyze());
             },
-            1000 / (this.shouldShow() ? this.settings.audioVisualizerFrameRate : 1),
+            1000 / (!this.isStopped ? this.settings.audioVisualizerFrameRate : 1),
         );
     }
 
@@ -60,8 +66,24 @@ export class AudioVisualizer {
 
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (!this.shouldShow()) {
-            return;
+        if (this.shouldStop()) {
+            if (this.isStopped) {
+                return;
+            }
+
+            if (this.stopRequestTime == undefined) {
+                this.stopRequestTime = new Date();
+            } else {
+                const differenceInSeconds: number = Math.abs((new Date().getTime() - this.stopRequestTime.getTime()) / 1000);
+
+                if (differenceInSeconds > 5) {
+                    this.isStopped = true;
+                    return;
+                }
+            }
+        } else {
+            this.stopRequestTime = undefined;
+            this.isStopped = false;
         }
 
         switch (this.settings.audioVisualizerStyle) {
