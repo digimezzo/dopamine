@@ -334,7 +334,7 @@ describe('TrackModel', () => {
             expect(artists).toEqual('Artist 1, Artist 3');
         });
         
-        it('should return multplie artists without double space', () => {
+        it('should return multiple artists without double space', () => {
             // Arrange
             track.artists = ';Artist 1; Artist 2;;Artist 3;';
             const trackModel: TrackModel = createTrackModel();
