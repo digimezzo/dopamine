@@ -39,12 +39,12 @@ export class AudioVisualizer {
         this.analyser.connect(this.audioContext.destination);
     }
 
-    private shouldStop(): boolean {
-        if (!this.settings.showAudioVisualizer) {
-            this.isStopped = true;
-        }
+    private shouldStopDelayed(): boolean {
+        return !(this.playbackService.isPlaying && this.playbackService.canPause);
+    }
 
-        return !(this.playbackService.isPlaying && this.playbackService.canPause && this.settings.showAudioVisualizer);
+    private shouldStopNow(): boolean {
+        return !this.settings.showAudioVisualizer;
     }
 
     private analyze(): void {
@@ -66,7 +66,11 @@ export class AudioVisualizer {
 
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.shouldStop()) {
+        if (this.shouldStopNow()) {
+            this.stopRequestTime = undefined;
+            this.isStopped = true;
+            return;
+        } else if (this.shouldStopDelayed()) {
             if (this.isStopped) {
                 return;
             }
@@ -77,6 +81,7 @@ export class AudioVisualizer {
                 const differenceInSeconds: number = Math.abs((new Date().getTime() - this.stopRequestTime.getTime()) / 1000);
 
                 if (differenceInSeconds > 5) {
+                    this.stopRequestTime = undefined;
                     this.isStopped = true;
                     return;
                 }
