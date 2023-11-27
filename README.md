@@ -32,41 +32,41 @@ I recommend using JetBrains Rider or WebStorm to debug this project. The **.run*
 
 **Build prerequisites on Ubuntu:**
 
--   Install Node.js LTS
--   Install JetBrains Rider or WebStorm (or another IDE)
+-   Install Node.js 16
+-   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Install rpm (required to build rpm package) and libarchive-tools (contains bsdtar, which is required to build pacman package): `sudo apt install rpm libarchive-tools`
 
 Follow the build instructions below to start or build Dopamine for your platform.
 
 **Build prerequisites on Manjaro:**
 
--   Install Node.js LTS:
+-   Install Node.js 16:
     -   `yay -S nvm`
-    -   `nvm install 14`
--   Install JetBrains Rider or WebStorm (or another IDE)
+    -   `nvm install 16`
+-   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Install rpm (required to build rpm package): `sudo pacman -S rpm-tools`
 
 Follow the build instructions below to start or build Dopamine for your platform.
 
 **Build prerequisites on Windows:**
 
--   Download and install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install **Tools for Native Modules**).
+-   Download and install Node.js 16 from https://nodejs.org (During the installation, select all features and check the box to install **Tools for Native Modules**).
 -   After the installation of Node.js, restart computer to ensure that npm is added to the path.
--   Install JetBrains Rider or WebStorm (or another IDE)
+-   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Download the Dopamine source code
--   Open the "dopamine" folder (the folder containing package.json) in JetBrains Rider or WebStorm (or another IDE)
+-   Open the "dopamine" folder (the folder containing package.json) in your IDE
 
 Follow the build instructions below to start or build Dopamine for your platform.
 
 **Build prerequisites on MacOS:**
 
--   Install Node.js LTS from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
+-   Install Node.js 16 from https://nodejs.org (During the installation, select all features and check the box to install Tools for Native Modules).
 -   Make sure npm is accessible via the console
     -   Press command + space and search for console
     -   Write `npm --v` and press enter, this should give you the version number if npm is properly installed.
--   Install JetBrains Rider or WebStorm (or another IDE)
+-   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Download the Dopamine source code
--   Open the "dopamine" folder (the folder containing package.json) in JetBrains Rider (or another IDE)
+-   Open the "dopamine" folder (the folder containing package.json) in your IDE
 
 ## Build instructions
 
