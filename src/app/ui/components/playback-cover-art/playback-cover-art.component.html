@@ -8,10 +8,24 @@
     </div>
     <div class="app-playback-cover-art__content" [style.width.px]="size" [style.height.px]="size">
         <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
-            <img *ngIf="topImageUrl" [src]="topImageUrl" [width]="size" [height]="size" draggable="false" />
+            <img
+                *ngIf="topImageUrl"
+                class="app-playback-cover-art__content-background"
+                [src]="topImageUrl"
+                [width]="size"
+                [height]="size"
+                draggable="false"
+            />
         </div>
         <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
-            <img *ngIf="bottomImageUrl" [src]="bottomImageUrl" [width]="size" [height]="size" draggable="false" />
+            <img
+                *ngIf="bottomImageUrl"
+                class="app-playback-cover-art__content-background"
+                [src]="bottomImageUrl"
+                [width]="size"
+                [height]="size"
+                draggable="false"
+            />
         </div>
     </div>
 </div>
