@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.22] - 2023-11-19
+## [3.0.0-preview.22] - 2023-11-28
 
 ### Added
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Queue plays first song instead of next song when pressing next
 -   Some lyrics bugs
 -   MP3 files containing ID3v2 frames with non-standard frame identifiers could not be loaded
+-   Updated dependencies to fix some security vulnerabilities
 
 ## [3.0.0-preview.21] - 2023-11-09
 
