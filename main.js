@@ -153,7 +153,6 @@ function createMainWindow() {
         }
     };
     mainWindow.webContents.on('will-navigate', handleRedirect);
-    mainWindow.webContents.on('new-window', handleRedirect);
     mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
             // if (serve) {
