@@ -149,7 +149,7 @@ function createMainWindow(): void {
                 pathname: path.join(__dirname, 'dist/index.html'),
                 protocol: 'file:',
                 slashes: true,
-            })
+            }),
         );
     }
 
@@ -178,7 +178,6 @@ function createMainWindow(): void {
     };
 
     mainWindow.webContents.on('will-navigate', handleRedirect);
-    mainWindow.webContents.on('new-window', handleRedirect);
 
     mainWindow.webContents.on('before-input-event', (event, input) => {
         if (input.key.toLowerCase() === 'f12') {
