@@ -33,7 +33,7 @@ I recommend using JetBrains Rider or WebStorm to debug this project. The **.run*
 **Build prerequisites on Ubuntu:**
 
 -   Install Node.js 16
--   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
+-   Install your IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Install rpm (required to build rpm package) and libarchive-tools (contains bsdtar, which is required to build pacman package): `sudo apt install rpm libarchive-tools`
 
 Follow the build instructions below to start or build Dopamine for your platform.
@@ -43,7 +43,7 @@ Follow the build instructions below to start or build Dopamine for your platform
 -   Install Node.js 16:
     -   `yay -S nvm`
     -   `nvm install 16`
--   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
+-   Install your IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Install rpm (required to build rpm package): `sudo pacman -S rpm-tools`
 
 Follow the build instructions below to start or build Dopamine for your platform.
@@ -52,7 +52,7 @@ Follow the build instructions below to start or build Dopamine for your platform
 
 -   Download and install Node.js 16 from https://nodejs.org (During the installation, select all features and check the box to install **Tools for Native Modules**).
 -   After the installation of Node.js, restart computer to ensure that npm is added to the path.
--   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
+-   Install your IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Download the Dopamine source code
 -   Open the "dopamine" folder (the folder containing package.json) in your IDE
 
@@ -64,7 +64,7 @@ Follow the build instructions below to start or build Dopamine for your platform
 -   Make sure npm is accessible via the console
     -   Press command + space and search for console
     -   Write `npm --v` and press enter, this should give you the version number if npm is properly installed.
--   Install you IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
+-   Install your IDE of choice (Rider, WebStorm, Visual Studio Code, ...)
 -   Download the Dopamine source code
 -   Open the "dopamine" folder (the folder containing package.json) in your IDE
 
