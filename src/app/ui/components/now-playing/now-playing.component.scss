@@ -47,9 +47,17 @@
     position: relative;
 }
 
+.app-now-playing-playback-controls__background{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 74px;
+    z-index: 0;
+}
+
 .app-now-playing-playback-controls__audio-visualizer {
     position: absolute;
-    z-index: 0;
+    z-index: 1;
     left: 50%;
     bottom: 0;
     height: 30px;
@@ -60,5 +68,7 @@
 .app-now-playing-playback-controls__playback-pane {
     position: absolute;
     bottom: 0;
-    z-index: 1;
+    z-index: 2;
 }
+
+
