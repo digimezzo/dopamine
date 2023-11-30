@@ -78,3 +78,36 @@
         <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showFoldersPage"> {{ 'folders' | translate }}</mat-slide-toggle>
     </div>
 </div>
+<mat-divider></mat-divider>
+<div class="p-4">
+    <h2>{{ 'audio-visualizer' | translate }}</h2>
+    <div>
+        <mat-slide-toggle class="mt-3" [(ngModel)]="this.audioVisualizerService.showAudioVisualizer">
+            {{ 'show-audio-visualizer' | translate }}</mat-slide-toggle
+        >
+    </div>
+    <div [ngClass]="{ inactive: !this.audioVisualizerService.showAudioVisualizer }">
+        <div class="mt-3">{{ 'style' | translate }}</div>
+        <mat-form-field class="mt-2">
+            <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerStyle">
+                <mat-option
+                    *ngFor="let audioVisualizerStyle of this.audioVisualizerService.audioVisualizerStyles"
+                    [value]="audioVisualizerStyle"
+                >
+                    {{ audioVisualizerStyle | translate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="mt-3">{{ 'frame-rate' | translate }}</div>
+        <mat-form-field class="mt-2">
+            <mat-select [(ngModel)]="this.audioVisualizerService.selectedAudioVisualizerFrameRate">
+                <mat-option
+                    *ngFor="let audioVisualizerFrameRate of this.audioVisualizerService.audioVisualizerFrameRates"
+                    [value]="audioVisualizerFrameRate"
+                >
+                    {{ audioVisualizerFrameRate }} {{ 'fps' | translate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

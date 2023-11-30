@@ -3,14 +3,17 @@ import { Observable, Subject } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { MathExtensions } from '../../common/math-extensions';
 import { PromiseUtils } from '../../common/utils/promise-utils';
-import {AudioPlayerBase} from "./audio-player.base";
+import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
 export class AudioPlayer implements AudioPlayerBase {
-    private audio: HTMLAudioElement;
+    private _audio: HTMLAudioElement;
 
-    public constructor(private mathExtensions: MathExtensions, private logger: Logger) {
-        this.audio = new Audio();
+    public constructor(
+        private mathExtensions: MathExtensions,
+        private logger: Logger,
+    ) {
+        this._audio = new Audio();
 
         try {
             // This fails during unit tests because setSinkId() does not exist on HTMLAudioElement
@@ -34,6 +37,9 @@ export class AudioPlayer implements AudioPlayerBase {
     private playbackFinished: Subject<void> = new Subject();
     public playbackFinished$: Observable<void> = this.playbackFinished.asObservable();
 
+    public get audio(): HTMLAudioElement {
+        return this._audio;
+    }
     public get progressSeconds(): number {
         if (isNaN(this.audio.currentTime)) {
             return 0;

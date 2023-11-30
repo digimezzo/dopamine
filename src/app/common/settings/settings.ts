@@ -619,6 +619,34 @@ export class Settings implements SettingsBase {
         this.settings.set('downloadLyricsOnline', v);
     }
 
+    // showAudioVisualizer
+    public get showAudioVisualizer(): boolean {
+        return <boolean>this.settings.get('showAudioVisualizer');
+    }
+
+    public set showAudioVisualizer(v: boolean) {
+        this.settings.set('showAudioVisualizer', v);
+    }
+
+    // audioVisualizerStyle
+    public get audioVisualizerStyle(): string {
+        return <string>this.settings.get('audioVisualizerStyle');
+    }
+
+    public set audioVisualizerStyle(v: string) {
+        this.settings.set('audioVisualizerStyle', v);
+    }
+
+    // audioVisualizerFrameRate
+
+    public get audioVisualizerFrameRate(): number {
+        return <number>this.settings.get('audioVisualizerFrameRate');
+    }
+
+    public set audioVisualizerFrameRate(v: number) {
+        this.settings.set('audioVisualizerFrameRate', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -883,6 +911,18 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('downloadLyricsOnline')) {
             this.settings.set('downloadLyricsOnline', true);
+        }
+
+        if (!this.settings.has('showAudioVisualizer')) {
+            this.settings.set('showAudioVisualizer', true);
+        }
+
+        if (!this.settings.has('audioVisualizerStyle')) {
+            this.settings.set('audioVisualizerStyle', 'flames');
+        }
+
+        if (!this.settings.has('audioVisualizerFrameRate')) {
+            this.settings.set('audioVisualizerFrameRate', 10);
         }
     }
 }

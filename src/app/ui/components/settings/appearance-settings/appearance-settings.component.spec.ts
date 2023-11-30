@@ -4,10 +4,12 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { DesktopBase } from '../../../../common/io/desktop.base';
+import { AudioVisualizerServiceBase } from '../../../../services/audio-visualizer/audio-visualizer.service.base';
 
 describe('AppearanceSettingsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let audioVisualizerServiceMock: IMock<AudioVisualizerServiceBase>;
     let settingsMock: IMock<SettingsBase>;
     let desktopMock: IMock<DesktopBase>;
 
@@ -16,6 +18,7 @@ describe('AppearanceSettingsComponent', () => {
     beforeEach(() => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        audioVisualizerServiceMock = Mock.ofType<AudioVisualizerServiceBase>();
         settingsMock = Mock.ofType<SettingsBase>();
         desktopMock = Mock.ofType<DesktopBase>();
 
@@ -24,6 +27,7 @@ describe('AppearanceSettingsComponent', () => {
         component = new AppearanceSettingsComponent(
             appearanceServiceMock.object,
             translatorServiceMock.object,
+            audioVisualizerServiceMock.object,
             settingsMock.object,
             desktopMock.object,
         );
@@ -31,47 +35,34 @@ describe('AppearanceSettingsComponent', () => {
 
     describe('constructor', () => {
         it('should create', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component).toBeDefined();
         });
 
         it('should define appearanceService', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component.appearanceService).toBeDefined();
         });
 
         it('should define translatorService', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component.translatorService).toBeDefined();
         });
 
+        it('should define audioVisualizerService', () => {
+            // Arrange, Act, Assert
+            expect(component.audioVisualizerService).toBeDefined();
+        });
+
         it('should define settings', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
+            // Arrange, Act, Assert
             expect(component.settings).toBeDefined();
         });
     });
 
     describe('ngOnDestroy', () => {
         it('should stop watching of the themes directory', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             component.ngOnDestroy();
 
             // Assert
@@ -81,9 +72,7 @@ describe('AppearanceSettingsComponent', () => {
 
     describe('ngOnInit', () => {
         it('should start watching of the themes directory', () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             component.ngOnInit();
 
             // Assert
@@ -93,9 +82,7 @@ describe('AppearanceSettingsComponent', () => {
 
     describe('openThemesDirectory', () => {
         it('should open the themes directory', async () => {
-            // Arrange
-
-            // Act
+            // Arrange, Act
             await component.openThemesDirectoryAsync();
 
             // Assert

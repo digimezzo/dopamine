@@ -124,5 +124,14 @@ describe('AudioPlayer', () => {
             // Assert
             expect(player.skipToSeconds).toBeDefined();
         });
+
+        it('should define audio', () => {
+            // Arrange
+
+            // Act
+
+            // Assert
+            expect(player.audio).toBeDefined();
+        });
     });
 });

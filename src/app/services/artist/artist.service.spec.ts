@@ -5,12 +5,13 @@ import { ArtistService } from './artist.service';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { ArtistData } from '../../data/entities/artist-data';
+import { ArtistServiceBase } from './artist.service.base';
 
 describe('ArtistService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
 
-    let service: ArtistService;
+    let service: ArtistServiceBase;
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();

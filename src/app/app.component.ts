@@ -20,6 +20,7 @@ import { MediaSessionServiceBase } from './services/media-session/media-session.
 import { EventListenerServiceBase } from './services/event-listener/event-listener.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
+import { AudioVisualizer } from './services/playback/audio-visualizer';
 
 @Component({
     selector: 'app-root',
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit {
         private desktop: DesktopBase,
         private logger: Logger,
         private integrationTestRunner: IntegrationTestRunner,
+        private audioVisualizer: AudioVisualizer,
     ) {
         log.create('renderer');
         log.transports.file.resolvePath = () => path.join(this.desktop.getApplicationDataDirectory(), 'logs', 'Dopamine.log');
@@ -60,6 +62,8 @@ export class AppComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.audioVisualizer.connectAudioElement();
+
         if (!AppConfig.production) {
             this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
             await this.integrationTestRunner.executeTestsAsync();

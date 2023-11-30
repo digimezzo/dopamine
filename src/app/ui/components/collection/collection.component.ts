@@ -7,6 +7,8 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Constants } from '../../../common/application/constants';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
     selector: 'app-collection',
@@ -33,6 +35,8 @@ export class CollectionComponent implements AfterViewInit {
         private searchService: SearchServiceBase,
         private collectionPersister: CollectionPersister,
         private tabSelectionGetter: TabSelectionGetter,
+        private audioVisualizer: AudioVisualizer,
+        private documentProxy: DocumentProxy,
     ) {}
 
     public pageSwitchAnimation: string = 'fade-out';
@@ -88,5 +92,12 @@ export class CollectionComponent implements AfterViewInit {
             this.pageSwitchAnimation = 'fade-in';
             this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
         }, 0);
+
+        this.setAudioVisualizer();
+    }
+
+    private setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('collectionAudioVisualizer');
+        this.audioVisualizer.connectCanvas(canvas);
     }
 }

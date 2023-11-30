@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
 export abstract class AudioPlayerBase {
+    public audio: HTMLAudioElement;
     public playbackFinished$: Observable<void>;
     public abstract progressSeconds: number;
     public abstract totalSeconds: number;

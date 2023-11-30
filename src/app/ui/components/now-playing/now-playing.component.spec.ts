@@ -11,6 +11,8 @@ import { PlaybackStarted } from '../../../services/playback/playback-started';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
 import { TrackModel } from '../../../services/track/track-model';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 describe('NowPlayingComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -20,6 +22,8 @@ describe('NowPlayingComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let nowPlayingNavigationServiceMock: IMock<NowPlayingNavigationServiceBase>;
     let schedulerMock: IMock<SchedulerBase>;
+    let audioVisualizerMock: IMock<AudioVisualizer>;
+    let documentProxyMock: IMock<DocumentProxy>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -37,6 +41,8 @@ describe('NowPlayingComponent', () => {
             searchServiceMock.object,
             nowPlayingNavigationServiceMock.object,
             schedulerMock.object,
+            audioVisualizerMock.object,
+            documentProxyMock.object,
         );
     }
 
@@ -48,6 +54,8 @@ describe('NowPlayingComponent', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         nowPlayingNavigationServiceMock = Mock.ofType<NowPlayingNavigationServiceBase>();
         schedulerMock = Mock.ofType<SchedulerBase>();
+        audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        documentProxyMock = Mock.ofType<DocumentProxy>();
 
         appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
 
@@ -454,6 +462,20 @@ describe('NowPlayingComponent', () => {
 
             // Assert
             expect(component.stepper.selectedIndex).toEqual(NowPlayingPage.artistInformation);
+        });
+
+        it('should set the audio visualizer', async () => {
+            // Arrange
+            const canvasMock: IMock<HTMLCanvasElement> = Mock.ofType<HTMLCanvasElement>();
+            documentProxyMock.setup((x) => x.getCanvasById('nowPlayingAudioVisualizer')).returns(() => canvasMock.object);
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            // Act
+            await component.ngAfterViewInit();
+
+            // Assert
+            audioVisualizerMock.verify((x) => x.connectCanvas(canvasMock.object), Times.once());
         });
     });
 

@@ -44,7 +44,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private snackBarService: SnackBarServiceBase,
-        private audioPlayer: AudioPlayerBase,
+        private _audioPlayer: AudioPlayerBase,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
@@ -67,6 +67,10 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         return trackModels;
+    }
+
+    public get audioPlayer(): AudioPlayerBase {
+        return this._audioPlayer;
     }
 
     public get volume(): number {

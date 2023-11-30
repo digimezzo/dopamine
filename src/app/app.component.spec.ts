@@ -16,6 +16,7 @@ import { AppearanceServiceBase } from './services/appearance/appearance.service.
 import { NavigationServiceBase } from './services/navigation/navigation.service.base';
 import { AddToPlaylistMenu } from './ui/components/add-to-playlist-menu';
 import { DesktopBase } from './common/io/desktop.base';
+import { AudioVisualizer } from './services/playback/audio-visualizer';
 
 describe('AppComponent', () => {
     let navigationServiceMock: IMock<NavigationServiceBase>;
@@ -28,6 +29,7 @@ describe('AppComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let mediaSessionServiceMock: IMock<MediaSessionServiceBase>;
     let eventListenerServiceMock: IMock<EventListenerServiceBase>;
+    let audioVisualizerMock: IMock<AudioVisualizer>;
 
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let desktopMock: IMock<DesktopBase>;
@@ -55,6 +57,7 @@ describe('AppComponent', () => {
             desktopMock.object,
             loggerMock.object,
             integrationTestRunnerMock.object,
+            audioVisualizerMock.object,
         );
     }
 
@@ -74,6 +77,7 @@ describe('AppComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         matDrawerMock = Mock.ofType<MatDrawer>();
         integrationTestRunnerMock = Mock.ofType<IntegrationTestRunner>();
+        audioVisualizerMock = Mock.ofType<AudioVisualizer>();
 
         showNowPlayingRequestedMock = new Subject();
         showNowPlayingRequestedMock$ = showNowPlayingRequestedMock.asObservable();
@@ -203,6 +207,17 @@ describe('AppComponent', () => {
 
             // Assert
             scrobblingServiceMock.verify((x) => x.initialize(), Times.once());
+        });
+
+        it('should connect audio visualizer audio element', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            audioVisualizerMock.verify((x) => x.connectAudioElement(), Times.once());
         });
     });
 

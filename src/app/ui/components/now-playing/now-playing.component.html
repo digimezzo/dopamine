@@ -32,10 +32,13 @@
                     <!-- Artist  info -->
                     <mat-step> <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info> </mat-step>
                 </mat-horizontal-stepper>
-                <app-now-playing-playback-pane
-                    class="app-now-playing__playbackpane"
-                    [@controlsVisibility]="controlsVisibility"
-                ></app-now-playing-playback-pane>
+                <div class="app-now-playing-playback-controls__container">
+                    <canvas id="nowPlayingAudioVisualizer" class="app-now-playing-playback-controls__audio-visualizer"></canvas>
+                    <app-now-playing-playback-pane
+                        class="app-now-playing-playback-controls__playback-pane"
+                        [@controlsVisibility]="controlsVisibility"
+                    ></app-now-playing-playback-pane>
+                </div>
             </div>
         </div>
     </div>

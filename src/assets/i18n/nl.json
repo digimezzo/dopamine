@@ -251,5 +251,12 @@
     "lrc-lyrics": "LRC songteksten",
     "online-lyrics": "Online songteksten",
     "mute": "Mute",
-    "unmute": "Unmute"
+    "unmute": "Unmute",
+    "audio-visualizer": "Audio-visualisator",
+    "show-audio-visualizer": "Toon audio-visualisator",
+    "style": "Stijl",
+    "frame-rate": "Frame rate",
+    "fps": "FPS",
+    "flames": "Vlammen",
+    "stripes": "Strepen"
 }
