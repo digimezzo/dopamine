@@ -1,5 +1,6 @@
 export enum NowPlayingPage {
-    showcase = 0,
-    lyrics = 1,
-    artistInformation = 2,
+    nothingPlaying,
+    showcase = 1,
+    lyrics = 2,
+    artistInformation = 3,
 }

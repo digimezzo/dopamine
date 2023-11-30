@@ -69,6 +69,10 @@ export class PlaybackService implements PlaybackServiceBase {
         return trackModels;
     }
 
+    public get hasPlaybackQueue(): boolean {
+        return this.queue.tracks != undefined && this.queue.tracks.length > 0;
+    }
+
     public get audioPlayer(): AudioPlayerBase {
         return this._audioPlayer;
     }
