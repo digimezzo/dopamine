@@ -4,6 +4,7 @@ import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { Theme } from '../appearance/theme/theme';
 import { ColorConverter } from '../../common/color-converter';
 import { SettingsBase } from '../../common/settings/settings.base';
+import { AudioPlayerBase } from './audio-player.base';
 
 @Injectable()
 export class AudioVisualizer {
@@ -16,7 +17,7 @@ export class AudioVisualizer {
     private stopRequestTime: Date | undefined;
 
     public constructor(
-        private playbackService: PlaybackServiceBase,
+        private audioPlayer: AudioPlayerBase,
         private appearanceService: AppearanceServiceBase,
         private settings: SettingsBase,
     ) {
@@ -28,8 +29,12 @@ export class AudioVisualizer {
     }
 
     public connectAudioElement(): void {
-        const source: MediaElementAudioSourceNode = this.playbackService.getSourceForAudioContext(this.audioContext);
+        const source: MediaElementAudioSourceNode = this.getSourceForAudioContext(this.audioContext);
         source.connect(this.analyser);
+    }
+
+    private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
+        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
     }
 
     public connectCanvas(canvas: HTMLCanvasElement): void {
@@ -40,7 +45,7 @@ export class AudioVisualizer {
     }
 
     private shouldStopDelayed(): boolean {
-        return !(this.playbackService.isPlaying && this.playbackService.canPause);
+        return this.audioPlayer.audio.paused;
     }
 
     private shouldStopNow(): boolean {

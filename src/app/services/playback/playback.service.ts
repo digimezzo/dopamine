@@ -44,7 +44,7 @@ export class PlaybackService implements PlaybackServiceBase {
         private trackService: TrackServiceBase,
         private playlistService: PlaylistServiceBase,
         private snackBarService: SnackBarServiceBase,
-        private audioPlayer: AudioPlayerBase,
+        private _audioPlayer: AudioPlayerBase,
         private trackOrdering: TrackOrdering,
         private queue: Queue,
         private progressUpdater: ProgressUpdater,
@@ -67,6 +67,10 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         return trackModels;
+    }
+
+    public get audioPlayer(): AudioPlayerBase {
+        return this._audioPlayer;
     }
 
     public get volume(): number {
@@ -474,9 +478,5 @@ export class PlaybackService implements PlaybackServiceBase {
         } else {
             await this.snackBarService.multipleTracksAddedToPlaybackQueueAsync(numberOfAddedTracks);
         }
-    }
-
-    public getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
-        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
     }
 }

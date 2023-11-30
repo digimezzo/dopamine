@@ -49,5 +49,4 @@ export abstract class PlaybackServiceBase {
     public abstract pause(): void;
     public abstract resume(): void;
     public abstract toggleMute(): void;
-    public abstract getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode;
 }
