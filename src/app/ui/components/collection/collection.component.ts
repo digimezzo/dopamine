@@ -8,6 +8,7 @@ import { SettingsBase } from '../../../common/settings/settings.base';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
     selector: 'app-collection',
@@ -35,6 +36,7 @@ export class CollectionComponent implements AfterViewInit {
         private collectionPersister: CollectionPersister,
         private tabSelectionGetter: TabSelectionGetter,
         private audioVisualizer: AudioVisualizer,
+        private documentProxy: DocumentProxy,
     ) {}
 
     public pageSwitchAnimation: string = 'fade-out';
@@ -94,8 +96,8 @@ export class CollectionComponent implements AfterViewInit {
         this.setAudioVisualizer();
     }
 
-    public setAudioVisualizer(): void {
-        const canvas: HTMLCanvasElement = document.getElementById('collectionAudioVisualizer') as HTMLCanvasElement;
+    private setAudioVisualizer(): void {
+        const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('collectionAudioVisualizer');
         this.audioVisualizer.connectCanvas(canvas);
     }
 }

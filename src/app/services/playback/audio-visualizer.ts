@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PlaybackServiceBase } from './playback.service.base';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
 import { Theme } from '../appearance/theme/theme';
 import { ColorConverter } from '../../common/color-converter';
@@ -33,15 +32,15 @@ export class AudioVisualizer {
         source.connect(this.analyser);
     }
 
-    private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
-        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
-    }
-
     public connectCanvas(canvas: HTMLCanvasElement): void {
         this.analyser.disconnect();
         this.canvas = canvas;
         this.canvasContext = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.analyser.connect(this.audioContext.destination);
+    }
+
+    private getSourceForAudioContext(audioContext: AudioContext): MediaElementAudioSourceNode {
+        return audioContext.createMediaElementSource(this.audioPlayer.audio as HTMLMediaElement);
     }
 
     private shouldStopDelayed(): boolean {

@@ -13,6 +13,7 @@ import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-n
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 @Component({
     selector: 'app-now-playing',
@@ -104,6 +105,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
         private nowPlayingNavigationService: NowPlayingNavigationServiceBase,
         private scheduler: SchedulerBase,
         private audioVisualizer: AudioVisualizer,
+        private documentProxy: DocumentProxy,
     ) {}
 
     @ViewChild('stepper') public stepper: MatStepper;
@@ -220,7 +222,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private setAudioVisualizer(): void {
-        const canvas: HTMLCanvasElement = document.getElementById('nowPlayingAudioVisualizer') as HTMLCanvasElement;
+        const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('nowPlayingAudioVisualizer');
         this.audioVisualizer.connectCanvas(canvas);
     }
 }

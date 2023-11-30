@@ -6,6 +6,8 @@ import { SettingsBase } from '../../../common/settings/settings.base';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { Constants } from '../../../common/application/constants';
+import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
+import { DocumentProxy } from '../../../common/io/document-proxy';
 
 describe('CollectionComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -14,6 +16,8 @@ describe('CollectionComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let collectionPersisterStub: any;
     let tabSelectionGetterMock: IMock<TabSelectionGetter>;
+    let audioVisualizerMock: IMock<AudioVisualizer>;
+    let documentProxyMock: IMock<DocumentProxy>;
 
     function createComponent(): CollectionComponent {
         return new CollectionComponent(
@@ -23,6 +27,8 @@ describe('CollectionComponent', () => {
             searchServiceMock.object,
             collectionPersisterStub,
             tabSelectionGetterMock.object,
+            audioVisualizerMock.object,
+            documentProxyMock.object,
         );
     }
 
@@ -33,6 +39,8 @@ describe('CollectionComponent', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         collectionPersisterStub = {};
         tabSelectionGetterMock = Mock.ofType<TabSelectionGetter>();
+        audioVisualizerMock = Mock.ofType<AudioVisualizer>();
+        documentProxyMock = Mock.ofType<DocumentProxy>();
     });
 
     describe('constructor', () => {
@@ -168,6 +176,21 @@ describe('CollectionComponent', () => {
             // Assert
             tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel('playlists'), Times.once());
             expect(component.selectedIndex).toEqual(4);
+        });
+
+        it('should set the audio visualizer', () => {
+            // Arrange
+            const canvasMock: IMock<HTMLCanvasElement> = Mock.ofType<HTMLCanvasElement>();
+            documentProxyMock.setup((x) => x.getCanvasById('collectionAudioVisualizer')).returns(() => canvasMock.object);
+            const component: CollectionComponent = createComponent();
+
+            // Act
+            jest.useFakeTimers();
+            component.ngAfterViewInit();
+            jest.runAllTimers();
+
+            // Assert
+            audioVisualizerMock.verify((x) => x.connectCanvas(canvasMock.object), Times.once());
         });
     });
 
