@@ -472,9 +472,7 @@ describe('NowPlayingComponent', () => {
             component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
 
             // Act
-            jest.useFakeTimers();
             await component.ngAfterViewInit();
-            jest.runAllTimers();
 
             // Assert
             audioVisualizerMock.verify((x) => x.connectCanvas(canvasMock.object), Times.once());
