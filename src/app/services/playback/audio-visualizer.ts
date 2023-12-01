@@ -108,6 +108,48 @@ export class AudioVisualizer {
         }
     }
 
+    private drawFlames(): void {
+        const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
+
+        const theme: Theme = this.appearanceService.selectedTheme;
+        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
+
+        const accentRed: number = accentRgb[0];
+        const accentGreen: number = accentRgb[1];
+        const accentBlue: number = accentRgb[2];
+
+        const transparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
+
+        for (let i: number = 0; i < this.dataArray.length; i++) {
+            const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
+            const barHeightRight: number = (this.dataArray[i] / 255) * this.canvas.height;
+            const xLeft: number = i * barWidth;
+            const xRight: number = i * barWidth + this.canvas.width / 2;
+            const yLeft: number = this.canvas.height - barHeightLeft;
+            const yRight: number = this.canvas.height - barHeightRight;
+
+            // Left
+            const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
+
+            gradientLeft.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
+            gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
+
+            this.canvasContext.fillStyle = gradientLeft;
+
+            this.canvasContext.fillRect(xLeft - 4, yLeft, barWidth + 8, barHeightLeft);
+
+            // Right
+            const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
+
+            gradientRight.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
+            gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
+
+            this.canvasContext.fillStyle = gradientRight;
+
+            this.canvasContext.fillRect(xRight - 4, yRight, barWidth + 8, barHeightRight);
+        }
+    }
+
     private drawStripes(): void {
         const barWidth: number = 1;
         const margin: number = 3;
@@ -340,46 +382,4 @@ export class AudioVisualizer {
     //         this.canvasContext.fillRect(xRight - 4, yRight, barWidth + 8, barHeightRight);
     //     }
     // }
-
-    private drawFlames(): void {
-        const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
-
-        const theme: Theme = this.appearanceService.selectedTheme;
-        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
-
-        const accentRed: number = accentRgb[0];
-        const accentGreen: number = accentRgb[1];
-        const accentBlue: number = accentRgb[2];
-
-        const transparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
-
-        for (let i: number = 0; i < this.dataArray.length; i++) {
-            const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
-            const barHeightRight: number = (this.dataArray[i] / 255) * this.canvas.height;
-            const xLeft: number = i * barWidth;
-            const xRight: number = i * barWidth + this.canvas.width / 2;
-            const yLeft: number = this.canvas.height - barHeightLeft;
-            const yRight: number = this.canvas.height - barHeightRight;
-
-            // Left
-            const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
-
-            gradientLeft.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
-            gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
-
-            this.canvasContext.fillStyle = gradientLeft;
-
-            this.canvasContext.fillRect(xLeft - 4, yLeft, barWidth + 8, barHeightLeft);
-
-            // Right
-            const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
-
-            gradientRight.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
-            gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
-
-            this.canvasContext.fillStyle = gradientRight;
-
-            this.canvasContext.fillRect(xRight - 4, yRight, barWidth + 8, barHeightRight);
-        }
-    }
 }
