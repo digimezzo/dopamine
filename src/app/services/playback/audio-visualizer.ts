@@ -114,6 +114,13 @@ export class AudioVisualizer {
         const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;
         const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
 
+        const theme: Theme = this.appearanceService.selectedTheme;
+        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
+
+        const accentRed: number = accentRgb[0];
+        const accentGreen: number = accentRgb[1];
+        const accentBlue: number = accentRgb[2];
+
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
             const barHeightRight: number = (this.dataArray[i + 1] / 255) * this.canvas.height;
@@ -121,13 +128,6 @@ export class AudioVisualizer {
             const xRight: number = i * barWidth + offsetForRightPart + margin * i + margin;
             const yLeft: number = this.canvas.height - barHeightLeft;
             const yRight: number = this.canvas.height - barHeightRight;
-
-            const theme: Theme = this.appearanceService.selectedTheme;
-            const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
-
-            const accentRed: number = accentRgb[0];
-            const accentGreen: number = accentRgb[1];
-            const accentBlue: number = accentRgb[2];
 
             const alphaLeft: number = 1 - (this.canvas.height - barHeightLeft) / this.canvas.height;
             const alphaRight: number = 1 - (this.canvas.height - barHeightRight) / this.canvas.height;
@@ -344,6 +344,15 @@ export class AudioVisualizer {
     private drawFlames(): void {
         const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
 
+        const theme: Theme = this.appearanceService.selectedTheme;
+        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
+
+        const accentRed: number = accentRgb[0];
+        const accentGreen: number = accentRgb[1];
+        const accentBlue: number = accentRgb[2];
+
+        const transparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
+
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
             const barHeightRight: number = (this.dataArray[i] / 255) * this.canvas.height;
@@ -352,19 +361,10 @@ export class AudioVisualizer {
             const yLeft: number = this.canvas.height - barHeightLeft;
             const yRight: number = this.canvas.height - barHeightRight;
 
-            const theme: Theme = this.appearanceService.selectedTheme;
-            const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
-
-            const accentRed: number = accentRgb[0];
-            const accentGreen: number = accentRgb[1];
-            const accentBlue: number = accentRgb[2];
-
-            const tranparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
-
             // Left
             const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
 
-            gradientLeft.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0.2)`);
+            gradientLeft.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
             gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientLeft;
@@ -374,7 +374,7 @@ export class AudioVisualizer {
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
 
-            gradientRight.addColorStop(0, `rgba(${tranparentBase}, ${tranparentBase}, ${tranparentBase}, 0.2)`);
+            gradientRight.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
             gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientRight;
