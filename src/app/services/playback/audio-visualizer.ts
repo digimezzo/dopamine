@@ -118,7 +118,17 @@ export class AudioVisualizer {
         const accentGreen: number = accentRgb[1];
         const accentBlue: number = accentRgb[2];
 
-        const transparentBase: number = this.appearanceService.isUsingLightTheme ? 255 : 0;
+        let backgroundRgb: number[] = [];
+
+        if (this.appearanceService.isUsingLightTheme) {
+            backgroundRgb = ColorConverter.stringToRgb(theme.lightColors.mainBackground);
+        } else {
+            backgroundRgb = ColorConverter.stringToRgb(theme.darkColors.mainBackground);
+        }
+
+        const backgroundRed: number = backgroundRgb[0];
+        const backgroundGreen: number = backgroundRgb[1];
+        const backgroundBlue: number = backgroundRgb[2];
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
@@ -131,7 +141,7 @@ export class AudioVisualizer {
             // Left
             const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
 
-            gradientLeft.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
+            gradientLeft.addColorStop(0, `rgba(${backgroundRed}, ${backgroundGreen}, ${backgroundBlue}, 0.2)`);
             gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientLeft;
@@ -141,7 +151,7 @@ export class AudioVisualizer {
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
 
-            gradientRight.addColorStop(0, `rgba(${transparentBase}, ${transparentBase}, ${transparentBase}, 0.2)`);
+            gradientRight.addColorStop(0, `rgba(${backgroundRed}, ${backgroundGreen}, ${backgroundBlue}, 0.2)`);
             gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientRight;
