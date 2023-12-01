@@ -208,10 +208,9 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     public async ngAfterViewInit(): Promise<void> {
-        this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
-
         // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
         setTimeout(() => {
+            this.setNowPlayingPage(this.nowPlayingNavigationService.currentNowPlayingPage);
             this.pageSwitchAnimation = 'fade-in';
         }, 0);
 
