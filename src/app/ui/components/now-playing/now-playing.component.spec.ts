@@ -338,7 +338,10 @@ describe('NowPlayingComponent', () => {
             nowPlayingNavigationServiceMock.setup((x) => x.currentNowPlayingPage).returns(() => NowPlayingPage.artistInformation);
 
             // Act
+            jest.useFakeTimers();
             await component.ngAfterViewInit();
+            jest.runAllTimers();
+            jest.useRealTimers();
 
             // Assert
             expect(component.stepper.selectedIndex).toEqual(NowPlayingPage.artistInformation);
