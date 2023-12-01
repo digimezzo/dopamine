@@ -330,126 +330,6 @@ describe('NowPlayingComponent', () => {
             expect(component.background1IsUsed).toBeFalsy();
         });
 
-        it('should not set background2 if background1 is used and background1 is the same as the proposed background on playback started', async () => {
-            // Arrange
-            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock
-                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
-                .returns(() => Promise.resolve('dummy-background'));
-            const component: NowPlayingComponent = createComponent();
-            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
-
-            await component.ngAfterViewInit();
-
-            component.background1IsUsed = true;
-            component.background1 = 'dummy-background';
-
-            component.background2 = 'unset-value';
-            component.background1Animation = 'unset-value';
-            component.background2Animation = 'unset-value';
-
-            // Act
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModelMock.object, false));
-            await flushPromises();
-
-            // Assert
-            expect(component.background2).toEqual('unset-value');
-            expect(component.background1Animation).toEqual('unset-value');
-            expect(component.background2Animation).toEqual('unset-value');
-            expect(component.background1IsUsed).toBeTruthy();
-        });
-
-        it('should not set background1 if background1 is not used and background2 is the same as the proposed background on playback started', async () => {
-            // Arrange
-            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock
-                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
-                .returns(() => Promise.resolve('dummy-background'));
-            const component: NowPlayingComponent = createComponent();
-            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
-
-            await component.ngAfterViewInit();
-
-            component.background1IsUsed = false;
-            component.background2 = 'dummy-background';
-
-            component.background1 = 'unset-value';
-            component.background1Animation = 'unset-value';
-            component.background2Animation = 'unset-value';
-
-            // Act
-            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModelMock.object, false));
-            await flushPromises();
-
-            // Assert
-            expect(component.background1).toEqual('unset-value');
-            expect(component.background1Animation).toEqual('unset-value');
-            expect(component.background2Animation).toEqual('unset-value');
-            expect(component.background1IsUsed).toBeFalsy();
-        });
-
-        it('should not set background2 if background1 is used and background1 is the same as the proposed background on playback stopped', async () => {
-            // Arrange
-            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock
-                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
-                .returns(() => Promise.resolve('dummy-background'));
-            const component: NowPlayingComponent = createComponent();
-            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
-
-            await component.ngAfterViewInit();
-
-            component.background1IsUsed = true;
-            component.background1 = 'dummy-background';
-
-            component.background2 = 'unset-value';
-            component.background1Animation = 'unset-value';
-            component.background2Animation = 'unset-value';
-
-            // Act
-            playbackServicePlaybackStoppedMock.next();
-            await flushPromises();
-
-            // Assert
-            expect(component.background2).toEqual('unset-value');
-            expect(component.background1Animation).toEqual('unset-value');
-            expect(component.background2Animation).toEqual('unset-value');
-            expect(component.background1IsUsed).toBeTruthy();
-        });
-
-        it('should not set background1 if background1 is not used and background2 is the same as the proposed background on playback stopped', async () => {
-            // Arrange
-            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
-            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
-            metadataServiceMock
-                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
-                .returns(() => Promise.resolve('dummy-background'));
-            const component: NowPlayingComponent = createComponent();
-            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
-
-            await component.ngAfterViewInit();
-
-            component.background1IsUsed = false;
-            component.background2 = 'dummy-background';
-
-            component.background1 = 'unset-value';
-            component.background1Animation = 'unset-value';
-            component.background2Animation = 'unset-value';
-
-            // Act
-            playbackServicePlaybackStoppedMock.next();
-            await flushPromises();
-
-            // Assert
-            expect(component.background1).toEqual('unset-value');
-            expect(component.background1Animation).toEqual('unset-value');
-            expect(component.background2Animation).toEqual('unset-value');
-            expect(component.background1IsUsed).toBeFalsy();
-        });
-
         it('should set stepper.selectedIndex', async () => {
             // Arrange
             const component: NowPlayingComponent = createComponent();
@@ -458,7 +338,10 @@ describe('NowPlayingComponent', () => {
             nowPlayingNavigationServiceMock.setup((x) => x.currentNowPlayingPage).returns(() => NowPlayingPage.artistInformation);
 
             // Act
+            jest.useFakeTimers();
             await component.ngAfterViewInit();
+            jest.runAllTimers();
+            jest.useRealTimers();
 
             // Assert
             expect(component.stepper.selectedIndex).toEqual(NowPlayingPage.artistInformation);
@@ -574,6 +457,66 @@ describe('NowPlayingComponent', () => {
             expect(component.background1IsUsed).toBeTruthy();
         });
 
+        it('should not set background2 if background1 is used and background1 is the same as the proposed background on playback started', async () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            component.ngOnInit();
+
+            component.background1IsUsed = true;
+            component.background1 = 'dummy-background';
+
+            component.background2 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModelMock.object, false));
+            await flushPromises();
+
+            // Assert
+            expect(component.background2).toEqual('unset-value');
+            expect(component.background1Animation).toEqual('unset-value');
+            expect(component.background2Animation).toEqual('unset-value');
+            expect(component.background1IsUsed).toBeTruthy();
+        });
+
+        it('should not set background1 if background1 is not used and background2 is the same as the proposed background on playback started', async () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            component.ngOnInit();
+
+            component.background1IsUsed = false;
+            component.background2 = 'dummy-background';
+
+            component.background1 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStartedMock.next(new PlaybackStarted(trackModelMock.object, false));
+            await flushPromises();
+
+            // Assert
+            expect(component.background1).toEqual('unset-value');
+            expect(component.background1Animation).toEqual('unset-value');
+            expect(component.background2Animation).toEqual('unset-value');
+            expect(component.background1IsUsed).toBeFalsy();
+        });
+
         it('should set background2 if background1 is used and background1 is different than the proposed background on playback stopped and light theme is used', async () => {
             // Arrange
             appearanceServiceMock.reset();
@@ -666,6 +609,66 @@ describe('NowPlayingComponent', () => {
             expect(component.background1Animation).toEqual('fade-in-dark');
             expect(component.background2Animation).toEqual('fade-out');
             expect(component.background1IsUsed).toBeTruthy();
+        });
+
+        it('should not set background2 if background1 is used and background1 is the same as the proposed background on playback stopped', async () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            component.ngOnInit();
+
+            component.background1IsUsed = true;
+            component.background1 = 'dummy-background';
+
+            component.background2 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStoppedMock.next();
+            await flushPromises();
+
+            // Assert
+            expect(component.background2).toEqual('unset-value');
+            expect(component.background1Animation).toEqual('unset-value');
+            expect(component.background2Animation).toEqual('unset-value');
+            expect(component.background1IsUsed).toBeTruthy();
+        });
+
+        it('should not set background1 if background1 is not used and background2 is the same as the proposed background on playback stopped', async () => {
+            // Arrange
+            const trackModelMock: IMock<TrackModel> = Mock.ofType<TrackModel>();
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModelMock.object);
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModelMock.object))
+                .returns(() => Promise.resolve('dummy-background'));
+            const component: NowPlayingComponent = createComponent();
+            component.stepper = { selectedIndex: NowPlayingPage.showcase } as any;
+
+            component.ngOnInit();
+
+            component.background1IsUsed = false;
+            component.background2 = 'dummy-background';
+
+            component.background1 = 'unset-value';
+            component.background1Animation = 'unset-value';
+            component.background2Animation = 'unset-value';
+
+            // Act
+            playbackServicePlaybackStoppedMock.next();
+            await flushPromises();
+
+            // Assert
+            expect(component.background1).toEqual('unset-value');
+            expect(component.background1Animation).toEqual('unset-value');
+            expect(component.background2Animation).toEqual('unset-value');
+            expect(component.background1IsUsed).toBeFalsy();
         });
 
         it('should detect navigation request and set stepper.selectedIndex', () => {

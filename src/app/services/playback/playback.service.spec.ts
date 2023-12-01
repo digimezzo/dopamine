@@ -699,6 +699,38 @@ describe('PlaybackService', () => {
         });
     });
 
+    describe('forceShuffled', () => {
+        it('should enable shuffle', () => {
+            // Arrange
+            const service: PlaybackServiceBase = createService();
+
+            while (service.isShuffled) {
+                service.toggleIsShuffled();
+            }
+
+            // Act
+            service.toggleIsShuffled();
+
+            // Assert
+            expect(service.isShuffled).toBeTruthy();
+        });
+
+        it('should shuffle the queue', () => {
+            // Arrange
+            const service: PlaybackServiceBase = createService();
+
+            while (service.isShuffled) {
+                service.toggleIsShuffled();
+            }
+
+            // Act
+            service.toggleIsShuffled();
+
+            // Assert
+            queueMock.verify((x) => x.shuffle(), Times.exactly(1));
+        });
+    });
+
     describe('enqueueAndPlayTracks', () => {
         it('should not add tracks to the queue if tracks is empty', () => {
             // Arrange

@@ -12,6 +12,7 @@ import { PlaybackStarted } from './playback-started';
 
 export abstract class PlaybackServiceBase {
     public abstract playbackQueue: TrackModels;
+    public abstract hasPlaybackQueue: boolean;
     public abstract progressChanged$: Observable<PlaybackProgress>;
     public abstract playbackStarted$: Observable<PlaybackStarted>;
     public abstract playbackPaused$: Observable<void>;
@@ -29,6 +30,7 @@ export abstract class PlaybackServiceBase {
     public abstract togglePlayback(): void;
     public abstract toggleLoopMode(): void;
     public abstract toggleIsShuffled(): void;
+    public abstract forceShuffled(): void;
     public abstract enqueueAndPlayTracks(tracksToEnqueue: TrackModel[]): void;
     public abstract enqueueAndPlayTracksStartingFromGivenTrack(tracksToEnqueue: TrackModel[], trackToPlay: TrackModel): void;
     public abstract enqueueAndPlayArtist(artistToPlay: ArtistModel, artistType: ArtistType): void;

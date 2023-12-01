@@ -258,5 +258,8 @@
     "frame-rate": "Frame rate",
     "fps": "FPS",
     "flames": "Vlammen",
-    "stripes": "Strepen"
+    "stripes": "Strepen",
+    "nothing-is-playing": "Er wordt niets afgespeeld",
+    "play-all": "Alles afspelen",
+    "shuffle-all": "Willekeurig afspelen"
 }

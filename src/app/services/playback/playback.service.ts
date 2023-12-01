@@ -69,6 +69,10 @@ export class PlaybackService implements PlaybackServiceBase {
         return trackModels;
     }
 
+    public get hasPlaybackQueue(): boolean {
+        return this.queue.tracks != undefined && this.queue.tracks.length > 0;
+    }
+
     public get audioPlayer(): AudioPlayerBase {
         return this._audioPlayer;
     }
@@ -248,6 +252,13 @@ export class PlaybackService implements PlaybackServiceBase {
         }
 
         this.logger.info(`Toggled isShuffled from ${!this._isShuffled} to ${this._isShuffled}`, 'PlaybackService', 'toggleIsShuffled');
+    }
+
+    public forceShuffled(): void {
+        this._isShuffled = true;
+        this.queue.shuffle();
+
+        this.logger.info(`Forced isShuffled`, 'PlaybackService', 'forceShuffled');
     }
 
     public pause(): void {

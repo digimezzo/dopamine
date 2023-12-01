@@ -8,24 +8,29 @@
     </div>
     <div class="app-now-playing-playback-pane__controls">
         <div class="app-now-playing-playback-pane-controls__left">
-            <i
-                class="app-now-playing__button las la-tv pointer ml-4 mr-2"
-                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.showcase }"
-                (click)="this.navigateToShowcase()"
-                matTooltip="{{ 'showcase' | translate }}"
-            ></i>
-            <i
-                class="app-now-playing__button las la-microphone pointer mx-2"
-                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.lyrics }"
-                (click)="this.navigateToLyrics()"
-                matTooltip="{{ 'lyrics' | translate }}"
-            ></i>
-            <i
-                class="app-now-playing__button las la-user pointer mx-2"
-                [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
-                (click)="this.navigateToArtistInformation()"
-                matTooltip="{{ 'artist-information' | translate }}"
-            ></i>
+            <div
+                class="d-flex flex-row align-items-center justify-content-flex-start"
+                *ngIf="this.currentNowPlayingPage !== nowPlayingPageEnum.nothingPlaying"
+            >
+                <i
+                    class="app-now-playing__button las la-tv pointer ml-4 mr-2"
+                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.showcase }"
+                    (click)="this.navigateToShowcase()"
+                    matTooltip="{{ 'showcase' | translate }}"
+                ></i>
+                <i
+                    class="app-now-playing__button las la-microphone pointer mx-2"
+                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.lyrics }"
+                    (click)="this.navigateToLyrics()"
+                    matTooltip="{{ 'lyrics' | translate }}"
+                ></i>
+                <i
+                    class="app-now-playing__button las la-user pointer mx-2"
+                    [ngClass]="{ 'accent-color-important': this.currentNowPlayingPage === nowPlayingPageEnum.artistInformation }"
+                    (click)="this.navigateToArtistInformation()"
+                    matTooltip="{{ 'artist-information' | translate }}"
+                ></i>
+            </div>
         </div>
         <div class="app-now-playing-playback-pane-controls__center">
             <app-playback-controls></app-playback-controls>

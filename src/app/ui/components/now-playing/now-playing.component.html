@@ -23,6 +23,8 @@
         <div class="window-frame__content">
             <div class="app-now-playing">
                 <mat-horizontal-stepper [linear]="false" #stepper class="now-playing-stepper">
+                    <!-- Nothing playing -->
+                    <mat-step> <app-now-playing-nothing-playing class="collection-viewport"></app-now-playing-nothing-playing> </mat-step>
                     <!-- Showcase -->
                     <mat-step>
                         <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
@@ -33,7 +35,10 @@
                     <mat-step> <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info> </mat-step>
                 </mat-horizontal-stepper>
                 <div class="app-now-playing-playback-controls__container">
-                    <div class="app-now-playing-playback-controls__background theme-footer-background" [@controlsVisibility]="controlsVisibility"></div>
+                    <div
+                        class="app-now-playing-playback-controls__background theme-footer-background"
+                        [@controlsVisibility]="controlsVisibility"
+                    ></div>
                     <canvas id="nowPlayingAudioVisualizer" class="app-now-playing-playback-controls__audio-visualizer"></canvas>
                     <app-now-playing-playback-pane
                         class="app-now-playing-playback-controls__playback-pane"
