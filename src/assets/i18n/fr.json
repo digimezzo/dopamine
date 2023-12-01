@@ -258,5 +258,8 @@
     "frame-rate": "Fréquence d’images",
     "fps": "FPS",
     "flames": "Flammes",
-    "stripes": "Rayures"
+    "stripes": "Rayures",
+    "nothing-is-playing": "Aucune lecture en cours",
+    "play-all": "Lecture intégrale",
+    "shuffle-all": "Lecture aléatoire"
 }

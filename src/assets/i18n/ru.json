@@ -258,5 +258,8 @@
     "frame-rate": "Frame rate",
     "fps": "FPS",
     "flames": "Flames",
-    "stripes": "Stripes"
+    "stripes": "Stripes",
+    "nothing-is-playing": "Nothing is playing",
+    "play-all": "Play all",
+    "shuffle-all": "Shuffle all"
 }

@@ -310,6 +310,7 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { AudioVisualizerServiceBase } from './services/audio-visualizer/audio-visualizer.service.base';
 import { AudioVisualizerService } from './services/audio-visualizer/audio-visualizer.service';
 import { NowPlayingNothingPlayingComponent } from './ui/components/now-playing/now-playing-nothing-playing/now-playing-nothing-playing.component';
+import { LinkButtonComponent } from './ui/components/link-button/link-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -441,6 +442,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingLyricsComponent,
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
+        LinkButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,
