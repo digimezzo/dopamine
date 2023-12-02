@@ -17,6 +17,7 @@ import { DesktopBase } from '../../common/io/desktop.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { AppearanceServiceBase } from './appearance.service.base';
+import { RgbColor } from '../../common/rgb-color';
 
 describe('AppearanceService', () => {
     let settingsMock: IMock<SettingsBase>;
@@ -124,9 +125,7 @@ describe('AppearanceService', () => {
         const lightColors: ThemeNeutralColors = createLightColors();
         const options: ThemeOptions = new ThemeOptions(false);
 
-        const theme: Theme = new Theme(name, creator, coreColors, darkColors, lightColors, options);
-
-        return theme;
+        return new Theme(name, creator, coreColors, darkColors, lightColors, options);
     }
 
     function createServiceWithSettingsStub(settingsStub: any): AppearanceServiceBase {
@@ -326,6 +325,30 @@ describe('AppearanceService', () => {
             expect(service).toBeDefined();
         });
 
+        it('should set default accentRgbColor', () => {
+            // Arrange
+
+            // Act
+            const service: AppearanceServiceBase = createService();
+
+            // Assert
+            expect(service.accentRgbColor.red).toEqual(RgbColor.default().red);
+            expect(service.accentRgbColor.green).toEqual(RgbColor.default().green);
+            expect(service.accentRgbColor.blue).toEqual(RgbColor.default().blue);
+        });
+
+        it('should set default backgroundRgbColor', () => {
+            // Arrange
+
+            // Act
+            const service: AppearanceServiceBase = createService();
+
+            // Assert
+            expect(service.backgroundRgbColor.red).toEqual(RgbColor.default().red);
+            expect(service.backgroundRgbColor.green).toEqual(RgbColor.default().green);
+            expect(service.backgroundRgbColor.blue).toEqual(RgbColor.default().blue);
+        });
+
         it('should set windowHasNativeTitleBar to true if the window has a frame', () => {
             // Arrange
             applicationMock.reset();
@@ -427,11 +450,12 @@ describe('AppearanceService', () => {
             const settingsStub: any = { theme: 'Theme 2' };
 
             // Act
-            createServiceWithSettingsStub(settingsStub);
+            const service: AppearanceServiceBase = createServiceWithSettingsStub(settingsStub);
             desktopAccentColorChangedMock.next();
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
         });
 
         it('should listen to native theme updates of the OS and apply the theme', () => {
@@ -439,11 +463,12 @@ describe('AppearanceService', () => {
             const settingsStub: any = { theme: 'Theme 2' };
 
             // Act
-            createServiceWithSettingsStub(settingsStub);
+            const service: AppearanceServiceBase = createServiceWithSettingsStub(settingsStub);
             desktopNativeThemeUpdatedMock.next();
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
         });
     });
 
@@ -587,7 +612,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-light');
             expect(bodyMock.classList).toContain('default-theme-light');
         });
@@ -605,7 +632,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-dark');
             expect(bodyMock.classList).toContain('default-theme-dark');
         });
@@ -665,7 +694,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-light');
             expect(bodyMock.classList).toContain('default-theme-light');
         });
@@ -683,7 +714,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-dark');
             expect(bodyMock.classList).toContain('default-theme-dark');
         });
@@ -743,7 +776,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-light');
             expect(bodyMock.classList).toContain('default-theme-light');
         });
@@ -761,7 +796,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-dark');
             expect(bodyMock.classList).toContain('default-theme-dark');
         });
@@ -844,7 +881,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-light');
             expect(bodyMock.classList).toContain('default-theme-light');
         });
@@ -863,7 +902,9 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
             expect(containerElementMock.classList).toContain('default-theme-dark');
             expect(bodyMock.classList).toContain('default-theme-dark');
         });
@@ -1007,6 +1048,7 @@ describe('AppearanceService', () => {
 
             // Assert
             assertSelectedThemeAccentColorCssProperties();
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
         });
     });
 
@@ -1051,6 +1093,7 @@ describe('AppearanceService', () => {
 
             // Assert
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
         });
 
         it('should apply the light theme of the selected theme when follow the system theme is disabled and use light background theme is enabled', () => {
@@ -1072,6 +1115,7 @@ describe('AppearanceService', () => {
 
             // Assert
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
         });
 
         it('should apply the dark theme of the selected theme when follow the system theme is enabled and the desktop is using a dark theme', () => {
@@ -1093,6 +1137,7 @@ describe('AppearanceService', () => {
 
             // Assert
             assertDarkColorCssProperties('#0fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
         });
 
         it('should apply the light theme of the selected theme when follow the system theme is enabled and the desktop is using a light theme', () => {
@@ -1114,6 +1159,7 @@ describe('AppearanceService', () => {
 
             // Assert
             assertLightColorCssProperties('#1fffff');
+            expect(service.backgroundRgbColor.equals(new RgbColor(21, 85, 85))).toBeTruthy();
         });
 
         it('should apply the colors of the selected theme when follow the system color is disabled', () => {
@@ -1134,6 +1180,8 @@ describe('AppearanceService', () => {
             // Assert
             assertSelectedThemeAccentColorCssProperties();
             assertDarkColorCssProperties('#0fffff');
+            expect(service.accentRgbColor.equals(new RgbColor(204, 204, 204))).toBeTruthy();
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
         });
 
         it('should apply the colors of the system when follow the system color is enabled', () => {
@@ -1155,6 +1203,8 @@ describe('AppearanceService', () => {
             // Assert
             assertSystemThemeAccentColorCssProperties();
             assertDarkColorCssProperties('#00ff00');
+            expect(service.accentRgbColor.equals(new RgbColor(0, 255, 0))).toBeTruthy();
+            expect(service.backgroundRgbColor.equals(new RgbColor(5, 85, 85))).toBeTruthy();
         });
 
         it('should apply a correct margin when not using system title bar search is visible', () => {

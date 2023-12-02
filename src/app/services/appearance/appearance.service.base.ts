@@ -1,7 +1,10 @@
 import { FontSize } from '../../common/application/font-size';
 import { Theme } from './theme/theme';
+import { RgbColor } from '../../common/rgb-color';
 
 export abstract class AppearanceServiceBase {
+    public abstract get accentRgbColor(): RgbColor;
+    public abstract get backgroundRgbColor(): RgbColor;
     public abstract themesDirectoryPath: string;
     public abstract get windowHasNativeTitleBar(): boolean;
     public abstract get isUsingLightTheme(): boolean;

@@ -112,16 +112,8 @@ export class AudioVisualizer {
     private drawFlames(): void {
         const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
 
-        const theme: Theme = this.appearanceService.selectedTheme;
-        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(theme.coreColors.accentColor);
-
-        let backgroundRgbColor: RgbColor;
-
-        if (this.appearanceService.isUsingLightTheme) {
-            backgroundRgbColor = ColorConverter.stringToRgbColor(theme.lightColors.mainBackground);
-        } else {
-            backgroundRgbColor = ColorConverter.stringToRgbColor(theme.darkColors.mainBackground);
-        }
+        const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
+        const backgroundRgbColor: RgbColor = this.appearanceService.backgroundRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
@@ -159,8 +151,7 @@ export class AudioVisualizer {
         const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;
         const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
 
-        const theme: Theme = this.appearanceService.selectedTheme;
-        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(theme.coreColors.accentColor);
+        const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;

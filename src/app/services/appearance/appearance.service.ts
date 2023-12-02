@@ -31,6 +31,9 @@ export class AppearanceService implements AppearanceServiceBase {
 
     private _themesDirectoryPath: string;
 
+    private _accentRgbColor: RgbColor = RgbColor.default();
+    private _backgroundRgbColor: RgbColor = RgbColor.default();
+
     public constructor(
         private settings: SettingsBase,
         private logger: Logger,
@@ -42,6 +45,14 @@ export class AppearanceService implements AppearanceServiceBase {
         private documentProxy: DocumentProxy,
     ) {
         this.initialize();
+    }
+
+    public get accentRgbColor(): RgbColor {
+        return this._accentRgbColor;
+    }
+
+    public get backgroundRgbColor(): RgbColor {
+        return this._backgroundRgbColor;
     }
 
     public get windowHasNativeTitleBar(): boolean {
@@ -249,6 +260,8 @@ export class AppearanceService implements AppearanceServiceBase {
             }
         }
 
+        this._accentRgbColor = ColorConverter.stringToRgbColor(accentColorToApply);
+
         const palette: Palette = new Palette(accentColorToApply);
 
         // Core colors
@@ -256,8 +269,7 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
         element.style.setProperty('--theme-accent-color', accentColorToApply);
 
-        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(accentColorToApply);
-        element.style.setProperty('--theme-rgb-accent', accentRgbColor.toString());
+        element.style.setProperty('--theme-rgb-accent', this._accentRgbColor.toString());
 
         element.style.setProperty('--theme-accent-color-50', palette.color50);
         element.style.setProperty('--theme-accent-color-100', palette.color100);
@@ -277,10 +289,12 @@ export class AppearanceService implements AppearanceServiceBase {
         // Neutral colors
         let themeName: string = 'default-theme-dark';
         this.applyNeutralColors(element, this.selectedTheme.darkColors, scrollBarColorToApply);
+        this._backgroundRgbColor = ColorConverter.stringToRgbColor(this.selectedTheme.darkColors.mainBackground);
 
         if (this.isUsingLightTheme) {
             themeName = 'default-theme-light';
             this.applyNeutralColors(element, this.selectedTheme.lightColors, scrollBarColorToApply);
+            this._backgroundRgbColor = ColorConverter.stringToRgbColor(this.selectedTheme.lightColors.mainBackground);
         }
 
         // Options
@@ -291,8 +305,6 @@ export class AppearanceService implements AppearanceServiceBase {
 
         // Apply theme to body
         this.applyThemeClasses(this.documentProxy.getBody(), themeName);
-
-        // Apply helper properties
 
         this.logger.info(
             `Applied theme name=${this.selectedTheme.name}' and theme classes='${themeName}'`,
