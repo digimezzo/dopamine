@@ -4,6 +4,7 @@ import { Theme } from '../appearance/theme/theme';
 import { ColorConverter } from '../../common/color-converter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { AudioPlayerBase } from './audio-player.base';
+import { RgbColor } from '../../common/rgb-color';
 
 @Injectable()
 export class AudioVisualizer {
@@ -112,23 +113,15 @@ export class AudioVisualizer {
         const barWidth: number = this.canvas.width / (this.dataArray.length * 2);
 
         const theme: Theme = this.appearanceService.selectedTheme;
-        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
+        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(theme.coreColors.accentColor);
 
-        const accentRed: number = accentRgb[0];
-        const accentGreen: number = accentRgb[1];
-        const accentBlue: number = accentRgb[2];
-
-        let backgroundRgb: number[] = [];
+        let backgroundRgbColor: RgbColor;
 
         if (this.appearanceService.isUsingLightTheme) {
-            backgroundRgb = ColorConverter.stringToRgb(theme.lightColors.mainBackground);
+            backgroundRgbColor = ColorConverter.stringToRgbColor(theme.lightColors.mainBackground);
         } else {
-            backgroundRgb = ColorConverter.stringToRgb(theme.darkColors.mainBackground);
+            backgroundRgbColor = ColorConverter.stringToRgbColor(theme.darkColors.mainBackground);
         }
-
-        const backgroundRed: number = backgroundRgb[0];
-        const backgroundGreen: number = backgroundRgb[1];
-        const backgroundBlue: number = backgroundRgb[2];
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
@@ -141,8 +134,8 @@ export class AudioVisualizer {
             // Left
             const gradientLeft = this.canvasContext.createLinearGradient(xLeft, yLeft, xLeft, this.canvas.height);
 
-            gradientLeft.addColorStop(0, `rgba(${backgroundRed}, ${backgroundGreen}, ${backgroundBlue}, 0.2)`);
-            gradientLeft.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
+            gradientLeft.addColorStop(0, `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`);
+            gradientLeft.addColorStop(0.8, `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientLeft;
 
@@ -151,8 +144,8 @@ export class AudioVisualizer {
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, yRight, xRight, this.canvas.height);
 
-            gradientRight.addColorStop(0, `rgba(${backgroundRed}, ${backgroundGreen}, ${backgroundBlue}, 0.2)`);
-            gradientRight.addColorStop(0.8, `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, 0.8)`);
+            gradientRight.addColorStop(0, `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`);
+            gradientRight.addColorStop(0.8, `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, 0.8)`);
 
             this.canvasContext.fillStyle = gradientRight;
 
@@ -167,11 +160,7 @@ export class AudioVisualizer {
         const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
 
         const theme: Theme = this.appearanceService.selectedTheme;
-        const accentRgb: number[] = ColorConverter.stringToRgb(theme.coreColors.accentColor);
-
-        const accentRed: number = accentRgb[0];
-        const accentGreen: number = accentRgb[1];
-        const accentBlue: number = accentRgb[2];
+        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(theme.coreColors.accentColor);
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
@@ -185,11 +174,11 @@ export class AudioVisualizer {
             const alphaRight: number = 1 - (this.canvas.height - barHeightRight) / this.canvas.height;
 
             // Left
-            this.canvasContext.fillStyle = `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, ${alphaLeft})`;
+            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
             this.canvasContext.fillRect(xLeft, yLeft, barWidth, barHeightLeft);
 
             // Right
-            this.canvasContext.fillStyle = `rgba(${accentRed}, ${accentGreen}, ${accentBlue}, ${alphaRight})`;
+            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaRight})`;
             this.canvasContext.fillRect(xRight, yRight, barWidth, barHeightRight);
         }
     }

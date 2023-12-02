@@ -32,14 +32,14 @@ describe('Language', () => {
             expect(language.localizedName).toEqual('The Localized name');
         });
 
-        it('should set hasLatinCharacters', () => {
+        it('should set showEnglishName', () => {
             // Arrange
 
             // Act
             const language: Language = new Language('The code', 'The English name', 'The Localized name', true);
 
             // Assert
-            expect(language.hasLatinCharacters).toBeTruthy();
+            expect(language.showEnglishName).toBeTruthy();
         });
     });
 });

@@ -17,6 +17,7 @@ import { AppearanceServiceBase } from './appearance.service.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { RgbColor } from '../../common/rgb-color';
 
 @Injectable()
 export class AppearanceService implements AppearanceServiceBase {
@@ -211,10 +212,9 @@ export class AppearanceService implements AppearanceServiceBase {
             this.settings.theme = 'Dopamine';
             this.setSelectedThemeFromSettings();
             this.applyTheme();
-            const fallbackThemeName: string = this.selectedTheme.name;
 
             this.logger.warn(
-                `Could not apply theme '${selectedThemeName}'. Applying theme '${fallbackThemeName}' instead.`,
+                `Could not apply theme '${selectedThemeName}'. Applying theme '${this.selectedTheme.name}' instead.`,
                 'AppearanceService',
                 'safeApplyTheme',
             );
@@ -256,8 +256,8 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-color', secondaryColorToApply);
         element.style.setProperty('--theme-accent-color', accentColorToApply);
 
-        const accentRgb: number[] = ColorConverter.stringToRgb(accentColorToApply);
-        element.style.setProperty('--theme-rgb-accent', accentRgb.join(','));
+        const accentRgbColor: RgbColor = ColorConverter.stringToRgbColor(accentColorToApply);
+        element.style.setProperty('--theme-rgb-accent', accentRgbColor.toString());
 
         element.style.setProperty('--theme-accent-color-50', palette.color50);
         element.style.setProperty('--theme-accent-color-100', palette.color100);
@@ -292,6 +292,8 @@ export class AppearanceService implements AppearanceServiceBase {
         // Apply theme to body
         this.applyThemeClasses(this.documentProxy.getBody(), themeName);
 
+        // Apply helper properties
+
         this.logger.info(
             `Applied theme name=${this.selectedTheme.name}' and theme classes='${themeName}'`,
             'AppearanceService',
@@ -300,9 +302,9 @@ export class AppearanceService implements AppearanceServiceBase {
     }
 
     private applyNeutralColors(element: HTMLElement, neutralColors: ThemeNeutralColors, scrollBarColor: string): void {
-        const primaryTextRgbArray: number[] = ColorConverter.stringToRgb(neutralColors.primaryText);
+        const primaryTextRgbColor: RgbColor = ColorConverter.stringToRgbColor(neutralColors.primaryText);
 
-        element.style.setProperty('--theme-rgb-base', primaryTextRgbArray.join(','));
+        element.style.setProperty('--theme-rgb-base', primaryTextRgbColor.toString());
         element.style.setProperty('--theme-window-button-icon', neutralColors.windowButtonIcon);
         element.style.setProperty('--theme-hovered-item-background', neutralColors.hoveredItemBackground);
         element.style.setProperty('--theme-selected-item-background', neutralColors.selectedItemBackground);
