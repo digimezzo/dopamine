@@ -141,30 +141,26 @@ export class AudioVisualizer {
 
     private drawStripes(): void {
         const barWidth: number = 1;
-        const margin: number = 3;
-        const offsetForLeftPart: number = this.canvas.width / 2 - (barWidth + margin) * this.dataArray.length;
-        const offsetForRightPart: number = offsetForLeftPart + (barWidth + margin) * this.dataArray.length;
-
+        const barMargin: number = 3;
+        const canvasCenter: number = this.canvas.width / 2;
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
-            const barHeightLeft: number = (this.dataArray[this.dataArray.length - 1 - i] / 255) * this.canvas.height;
-            const barHeightRight: number = (this.dataArray[i + 1] / 255) * this.canvas.height;
-            const xLeft: number = i * barWidth + offsetForLeftPart + margin * i + margin;
-            const xRight: number = i * barWidth + offsetForRightPart + margin * i + margin;
-            const yLeft: number = this.canvas.height - barHeightLeft;
-            const yRight: number = this.canvas.height - barHeightRight;
+            const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
+            const xLeft: number = canvasCenter - i * (barWidth + barMargin);
+            const xRight: number = canvasCenter + i * (barWidth + barMargin);
+            const y: number = this.canvas.height - barHeight;
 
-            const alphaLeft: number = 1 - (this.canvas.height - barHeightLeft) / this.canvas.height;
-            const alphaRight: number = 1 - (this.canvas.height - barHeightRight) / this.canvas.height;
+            const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
+            const alphaRight: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
 
             // Left
             this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
-            this.canvasContext.fillRect(xLeft, yLeft, barWidth, barHeightLeft);
+            this.canvasContext.fillRect(xLeft, y, barWidth, barHeight);
 
             // Right
             this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaRight})`;
-            this.canvasContext.fillRect(xRight, yRight, barWidth, barHeightRight);
+            this.canvasContext.fillRect(xRight, y, barWidth, barHeight);
         }
     }
 
