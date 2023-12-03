@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AppearanceServiceBase } from '../appearance/appearance.service.base';
-import { Theme } from '../appearance/theme/theme';
-import { ColorConverter } from '../../common/color-converter';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { AudioPlayerBase } from './audio-player.base';
 import { RgbColor } from '../../common/rgb-color';
@@ -100,8 +98,11 @@ export class AudioVisualizer {
             case 'flames':
                 this.drawFlames();
                 break;
-            case 'stripes':
-                this.drawStripes();
+            case 'lines':
+                this.drawLines();
+                break;
+            case 'bars':
+                this.drawBars();
                 break;
             default:
                 this.drawFlames();
@@ -122,12 +123,17 @@ export class AudioVisualizer {
             const y: number = this.canvas.height - barHeight;
 
             // Left
-            const gradientLeft = this.canvasContext.createLinearGradient(xLeft, y, xLeft, this.canvas.height);
-            gradientLeft.addColorStop(0, `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`);
-            gradientLeft.addColorStop(0.8, `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, 0.8)`);
+            if (i > 0) {
+                const gradientLeft = this.canvasContext.createLinearGradient(xLeft, y, xLeft, this.canvas.height);
+                gradientLeft.addColorStop(
+                    0,
+                    `rgba(${backgroundRgbColor.red}, ${backgroundRgbColor.green}, ${backgroundRgbColor.blue}, 0.2)`,
+                );
+                gradientLeft.addColorStop(0.8, `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, 0.8)`);
 
-            this.canvasContext.fillStyle = gradientLeft;
-            this.canvasContext.fillRect(xLeft - 4, y, barWidth + 8, barHeight);
+                this.canvasContext.fillStyle = gradientLeft;
+                this.canvasContext.fillRect(xLeft - 4, y, barWidth + 8, barHeight);
+            }
 
             // Right
             const gradientRight = this.canvasContext.createLinearGradient(xRight, y, xRight, this.canvas.height);
@@ -139,7 +145,7 @@ export class AudioVisualizer {
         }
     }
 
-    private drawStripes(): void {
+    private drawLines(): void {
         const barWidth: number = 1;
         const barMargin: number = 3;
         const canvasCenter: number = this.canvas.width / 2;
@@ -155,8 +161,37 @@ export class AudioVisualizer {
             const alphaRight: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
 
             // Left
-            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
-            this.canvasContext.fillRect(xLeft, y, barWidth, barHeight);
+            if (i > 0) {
+                this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
+                this.canvasContext.fillRect(xLeft, y, barWidth, barHeight);
+            }
+
+            // Right
+            this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaRight})`;
+            this.canvasContext.fillRect(xRight, y, barWidth, barHeight);
+        }
+    }
+
+    private drawBars(): void {
+        const barWidth: number = 3;
+        const barMargin: number = 2;
+        const canvasCenter: number = this.canvas.width / 2;
+        const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
+
+        for (let i: number = 0; i < this.dataArray.length; i++) {
+            const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
+            const xLeft: number = canvasCenter - i * (barWidth + barMargin);
+            const xRight: number = canvasCenter + i * (barWidth + barMargin);
+            const y: number = this.canvas.height - barHeight;
+
+            const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
+            const alphaRight: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
+
+            // Left
+            if (i > 0) {
+                this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaLeft})`;
+                this.canvasContext.fillRect(xLeft, y, barWidth, barHeight);
+            }
 
             // Right
             this.canvasContext.fillStyle = `rgba(${accentRgbColor.red}, ${accentRgbColor.green}, ${accentRgbColor.blue}, ${alphaRight})`;

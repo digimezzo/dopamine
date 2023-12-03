@@ -20,7 +20,7 @@ export class AudioVisualizerService implements AudioVisualizerServiceBase {
         this.settings.showAudioVisualizer = v;
     }
 
-    public audioVisualizerStyles: string[] = ['flames', 'stripes'];
+    public audioVisualizerStyles: string[] = ['flames', 'lines', 'bars'];
     public audioVisualizerFrameRates: number[] = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
     public get selectedAudioVisualizerStyle(): string {

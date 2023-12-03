@@ -48,9 +48,10 @@ describe('AudioVisualizerService', () => {
             const sut: AudioVisualizerServiceBase = createSut();
 
             // Act, Assert
-            expect(sut.audioVisualizerStyles.length).toEqual(2);
+            expect(sut.audioVisualizerStyles.length).toEqual(3);
             expect(sut.audioVisualizerStyles[0]).toEqual('flames');
-            expect(sut.audioVisualizerStyles[1]).toEqual('stripes');
+            expect(sut.audioVisualizerStyles[1]).toEqual('lines');
+            expect(sut.audioVisualizerStyles[2]).toEqual('bars');
         });
     });
 
@@ -83,10 +84,10 @@ describe('AudioVisualizerService', () => {
             const sut: AudioVisualizerServiceBase = createSutWithSettingsStub();
 
             // Act
-            sut.selectedAudioVisualizerStyle = 'stripes';
+            sut.selectedAudioVisualizerStyle = 'lines';
 
             // Assert
-            expect(settingsStub.audioVisualizerStyle).toEqual('stripes');
+            expect(settingsStub.audioVisualizerStyle).toEqual('lines');
         });
     });
 
