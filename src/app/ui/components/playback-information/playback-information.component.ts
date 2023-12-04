@@ -84,7 +84,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    public get flexPosition(): string {
+    public get flexJustifyClass(): string {
         switch (this.position) {
             case 'top': {
                 return 'justify-content-flex-start';
@@ -97,6 +97,23 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
             }
             default: {
                 return 'justify-content-flex-end';
+            }
+        }
+    }
+
+    public get ellipsisClass(): string {
+        switch (this.position) {
+            case 'top': {
+                return 'ellipsis-two-lines';
+            }
+            case 'center': {
+                return 'ellipsis';
+            }
+            case 'bottom': {
+                return 'ellipsis-two-lines';
+            }
+            default: {
+                return 'ellipsis';
             }
         }
     }

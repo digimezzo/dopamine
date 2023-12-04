@@ -1,6 +1,6 @@
 <div class="d-flex flex-column overflow-hidden" [style.height.px]="height">
-    <div class="d-flex flex-column" [ngClass]="this.flexPosition" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div class="ml-1" [ngClass]="this.flexPosition" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
+    <div class="d-flex flex-column" [ngClass]="this.flexJustifyClass" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
+        <div class="ml-1" [ngClass]="this.ellipsisClass" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
             {{ this.topContentTrack?.title }}
         </div>
         <div class="secondary-text ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">
@@ -23,8 +23,8 @@
             ></app-love>
         </div>
     </div>
-    <div class="d-flex flex-column" [ngClass]="this.flexPosition" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
-        <div class="ml-1" [ngClass]="this.flexPosition" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
+    <div class="d-flex flex-column" [ngClass]="this.flexJustifyClass" [@contentAnimation]="contentAnimation" [style.min-height.px]="height">
+        <div class="ml-1" [ngClass]="this.ellipsisClass" [style.font-size.px]="largeFontSize" [style.line-height]="1.5">
             {{ this.bottomContentTrack?.title }}
         </div>
         <div class="secondary-text ellipsis ml-1" [style.font-size.px]="smallFontSize" [style.line-height]="1.5">

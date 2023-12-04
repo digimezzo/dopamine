@@ -178,50 +178,79 @@ describe('PlaybackInformationComponent', () => {
         });
     });
 
-    describe('flexPosition', () => {
-        it('should justify-content-flex-start when position is top', () => {
+    describe('flexJustifyClass', () => {
+        it('should be justify-content-flex-start when position is top', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'top';
 
             // Act, Assert
-            expect(component.flexPosition).toEqual('justify-content-flex-start');
+            expect(component.flexJustifyClass).toEqual('justify-content-flex-start');
         });
 
-        it('should justify-content-flex-start when position is top', () => {
-            // Arrange
-            const component: PlaybackInformationComponent = createComponent();
-            component.position = 'top';
-
-            // Act, Assert
-            expect(component.flexPosition).toEqual('justify-content-flex-start');
-        });
-
-        it('should justify-content-center when position is center', () => {
+        it('should be justify-content-center when position is center', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'center';
 
             // Act, Assert
-            expect(component.flexPosition).toEqual('justify-content-center');
+            expect(component.flexJustifyClass).toEqual('justify-content-center');
         });
 
-        it('should justify-content-flex-end when position is bottom', () => {
+        it('should be justify-content-flex-end when position is bottom', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'bottom';
 
             // Act, Assert
-            expect(component.flexPosition).toEqual('justify-content-flex-end');
+            expect(component.flexJustifyClass).toEqual('justify-content-flex-end');
         });
 
-        it('should justify-content-flex-end when position is empty', () => {
+        it('should be justify-content-flex-end when position is empty', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = '';
 
             // Act, Assert
-            expect(component.flexPosition).toEqual('justify-content-flex-end');
+            expect(component.flexJustifyClass).toEqual('justify-content-flex-end');
+        });
+    });
+
+    describe('ellipsisClass', () => {
+        it('should be ellipsis-two-lines when position is top', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'top';
+
+            // Act, Assert
+            expect(component.ellipsisClass).toEqual('ellipsis-two-lines');
+        });
+
+        it('should be ellipsis when position is center', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'center';
+
+            // Act, Assert
+            expect(component.ellipsisClass).toEqual('ellipsis');
+        });
+
+        it('should be ellipsis-two-lines when position is bottom', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = 'bottom';
+
+            // Act, Assert
+            expect(component.ellipsisClass).toEqual('ellipsis-two-lines');
+        });
+
+        it('should be ellipsis when position is empty', () => {
+            // Arrange
+            const component: PlaybackInformationComponent = createComponent();
+            component.position = '';
+
+            // Act, Assert
+            expect(component.ellipsisClass).toEqual('ellipsis');
         });
     });
 
