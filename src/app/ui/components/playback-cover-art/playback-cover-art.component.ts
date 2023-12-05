@@ -1,13 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
-import { StringUtils } from '../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -46,7 +44,7 @@ import { StringUtils } from '../../../common/utils/string-utils';
         ]),
     ],
 })
-export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
+export class PlaybackCoverArtComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private currentImageUrl: string = '';
 
@@ -83,10 +81,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    public async ngOnInit(): Promise<void> {
-        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
-        await this.switchDown(currentPlaybackInformation.imageUrl, false);
-
+    public ngOnInit(): void {
         this.subscription.add(
             this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
                 PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
@@ -95,7 +90,7 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.switchDown(playbackInformation.imageUrl, true));
+                PromiseUtils.noAwait(this.switchDown(playbackInformation.imageUrl));
             }),
         );
 
@@ -104,6 +99,12 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
                 PromiseUtils.noAwait(this.switchUp(playbackInformation.imageUrl));
             }),
         );
+    }
+
+    public async ngAfterViewInit(): Promise<void> {
+        await this.scheduler.sleepAsync(Constants.playbackInfoInitDelayMilliseconds);
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.switchUp(currentPlaybackInformation.imageUrl);
     }
 
     private async switchUp(newImage: string): Promise<void> {
@@ -120,24 +121,17 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 
-    private async switchDown(newImage: string, performAnimation: boolean): Promise<void> {
-        if (performAnimation) {
-            if (this.contentAnimation !== 'up') {
-                this.bottomImageUrl = this.currentImageUrl;
+    private async switchDown(newImage: string): Promise<void> {
+        if (this.contentAnimation !== 'up') {
+            this.bottomImageUrl = this.currentImageUrl;
 
-                this.contentAnimation = 'up';
-                await this.scheduler.sleepAsync(100);
-            }
+            this.contentAnimation = 'up';
+            await this.scheduler.sleepAsync(100);
         }
 
         this.topImageUrl = newImage;
         this.currentImageUrl = newImage;
-
-        if (performAnimation) {
-            this.contentAnimation = 'animated-down';
-            await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
-        } else {
-            this.contentAnimation = 'down';
-        }
+        this.contentAnimation = 'animated-down';
+        await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 }

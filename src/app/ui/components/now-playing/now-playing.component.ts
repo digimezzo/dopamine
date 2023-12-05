@@ -14,6 +14,7 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { AlbumOrder } from '../collection/album-order';
 
 @Component({
     selector: 'app-now-playing',
@@ -90,6 +91,13 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
+        trigger('inOutAnimation', [
+            transition(
+                ':enter',
+                [style({ 'margin-left': '{{theMargin}}', opacity: 0 }), animate('250ms ease-out', style({ 'margin-left': 0, opacity: 1 }))],
+                { params: { theMargin: '-100px' } },
+            ),
+        ]),
     ],
 })
 export class NowPlayingComponent implements OnInit, AfterViewInit {
@@ -108,7 +116,8 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
         private documentProxy: DocumentProxy,
     ) {}
 
-    @ViewChild('stepper') public stepper: MatStepper;
+    public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
+    public selectedNowPlayingPage: NowPlayingPage;
 
     public background1IsUsed: boolean = false;
     public background1: string = '';
@@ -117,8 +126,9 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public background2Animation: string = this.appearanceService.isUsingLightTheme ? 'fade-in-light' : 'fade-in-dark';
 
     public pageSwitchAnimation: string = 'fade-out';
-
     public controlsVisibility: string = 'visible';
+
+    public theMargin: string = '-100px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -204,7 +214,13 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
-        this.stepper.selectedIndex = nowPlayingPage;
+        if (this.selectedNowPlayingPage > nowPlayingPage) {
+            this.theMargin = '100px';
+        } else {
+            this.theMargin = '-100px';
+        }
+
+        this.selectedNowPlayingPage = nowPlayingPage;
     }
 
     public async ngAfterViewInit(): Promise<void> {

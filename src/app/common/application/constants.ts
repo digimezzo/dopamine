@@ -32,10 +32,12 @@ export class Constants {
 
     public static readonly albumSizeInPixels: number = 120;
     public static readonly itemMarginInPixels: number = 8;
+    public static readonly playbackInfoInitDelayMilliseconds: number = 250;
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;
     public static readonly albumsRedrawDelayMilliseconds: number = 150;
     public static readonly searchDelayMilliseconds: number = 500;
+    public static readonly semanticZoomOutAnimationMilliseconds: number = 250;
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
     public static readonly semanticZoomOutDelayMilliseconds: number = 100;
     public static readonly playbackInfoSwitchAnimationMilliseconds: number = 250;

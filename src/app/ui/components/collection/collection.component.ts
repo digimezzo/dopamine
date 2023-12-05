@@ -27,6 +27,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
 })
 export class CollectionComponent implements AfterViewInit {
     private _selectedIndex: number;
+    private previousSelectedIndex: number = 99;
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -37,9 +38,11 @@ export class CollectionComponent implements AfterViewInit {
         private tabSelectionGetter: TabSelectionGetter,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
-    ) {}
+    ) {
+        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
+    }
 
-    public pageSwitchAnimation: string = 'fade-out';
+    public pageSwitchAnimation: string = 'fade-in';
 
     public get artistsTabLabel(): string {
         return Constants.artistsTabLabel;
@@ -77,22 +80,19 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public set selectedIndex(v: number) {
-        this._selectedIndex = v;
-        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(v);
+        if (v !== this.previousSelectedIndex) {
+            this.previousSelectedIndex = v;
+            this._selectedIndex = v;
+            this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(v);
 
-        // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
-        // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
-        // selected tab is changed.
-        window.dispatchEvent(new Event('tab-changed'));
+            // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
+            // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
+            // selected tab is changed.
+            window.dispatchEvent(new Event('tab-changed'));
+        }
     }
 
     public ngAfterViewInit(): void {
-        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
-        setTimeout(() => {
-            this.pageSwitchAnimation = 'fade-in';
-            this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
-        }, 0);
-
         this.setAudioVisualizer();
     }
 

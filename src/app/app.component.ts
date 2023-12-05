@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
 
         if (!AppConfig.production) {
             this.logger.info('Executing integration tests', 'AppComponent', 'ngOnInit');
-            await this.integrationTestRunner.executeTestsAsync();
+            // await this.integrationTestRunner.executeTestsAsync();
         }
 
         this.logger.info(

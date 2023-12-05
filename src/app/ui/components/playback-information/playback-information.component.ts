@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
@@ -46,7 +46,7 @@ import { Constants } from '../../../common/application/constants';
         ]),
     ],
 })
-export class PlaybackInformationComponent implements OnInit, OnDestroy {
+export class PlaybackInformationComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
@@ -119,9 +119,6 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
-        await this.switchDown(currentPlaybackInformation.track, false);
-
         this.subscription.add(
             this.playbackInformationService.playingNextTrack$.subscribe((playbackInformation: PlaybackInformation) => {
                 PromiseUtils.noAwait(this.switchUp(playbackInformation.track));
@@ -130,7 +127,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playbackInformationService.playingPreviousTrack$.subscribe((playbackInformation: PlaybackInformation) => {
-                PromiseUtils.noAwait(this.switchDown(playbackInformation.track, true));
+                PromiseUtils.noAwait(this.switchDown(playbackInformation.track));
             }),
         );
 
@@ -151,6 +148,12 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
                 this.setLove(track);
             }),
         );
+    }
+
+    public async ngAfterViewInit(): Promise<void> {
+        await this.scheduler.sleepAsync(Constants.playbackInfoInitDelayMilliseconds);
+        const currentPlaybackInformation: PlaybackInformation = await this.playbackInformationService.getCurrentPlaybackInformationAsync();
+        await this.switchUp(currentPlaybackInformation.track);
     }
 
     private setRating(track: TrackModel): void {
@@ -186,30 +189,24 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 
-    private async switchDown(track: TrackModel | undefined, performAnimation: boolean): Promise<void> {
+    private async switchDown(track: TrackModel | undefined): Promise<void> {
         let newTrack: TrackModel | undefined;
 
         if (track != undefined) {
             newTrack = track;
         }
 
-        if (performAnimation) {
-            if (this.contentAnimation !== 'up') {
-                this.bottomContentTrack = this.currentTrack;
+        if (this.contentAnimation !== 'up') {
+            this.bottomContentTrack = this.currentTrack;
 
-                this.contentAnimation = 'up';
-                await this.scheduler.sleepAsync(100);
-            }
+            this.contentAnimation = 'up';
+            await this.scheduler.sleepAsync(100);
         }
 
         this.topContentTrack = newTrack;
         this.currentTrack = newTrack;
 
-        if (performAnimation) {
-            this.contentAnimation = 'animated-down';
-            await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
-        } else {
-            this.contentAnimation = 'down';
-        }
+        this.contentAnimation = 'animated-down';
+        await this.scheduler.sleepAsync(Constants.playbackInfoSwitchAnimationMilliseconds);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
@@ -37,7 +37,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionFoldersComponent implements OnInit, OnDestroy {
+export class CollectionFoldersComponent implements OnInit, AfterViewInit, OnDestroy {
     public constructor(
         public searchService: SearchServiceBase,
         public appearanceService: AppearanceServiceBase,
@@ -78,7 +78,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         this.clearLists();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
@@ -108,7 +108,9 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
                 PromiseUtils.noAwait(this.processListsAsync());
             }),
         );
+    }
 
+    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 

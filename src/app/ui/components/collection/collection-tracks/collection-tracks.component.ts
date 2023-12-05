@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
@@ -17,7 +17,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     styleUrls: ['./collection-tracks.component.scss'],
     providers: [MouseSelectionWatcher],
 })
-export class CollectionTracksComponent implements OnInit, OnDestroy {
+export class CollectionTracksComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
@@ -36,7 +36,7 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         this.clearLists();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
@@ -48,7 +48,9 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
                 PromiseUtils.noAwait(this.processListsAsync());
             }),
         );
+    }
 
+    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 

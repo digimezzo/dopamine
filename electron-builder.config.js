@@ -59,7 +59,7 @@ const config = {
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
     },
     linux: {
-        target: ['pacman'],
+        target: ['AppImage', 'deb', 'rpm', 'pacman', 'snap'],
         category: 'Audio',
         artifactName: `\${productName}-${getFullVersion()}.\${ext}`,
         desktop: {

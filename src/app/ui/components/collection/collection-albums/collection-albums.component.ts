@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
-import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { TrackModels } from '../../../../services/track/track-models';
@@ -24,7 +23,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     templateUrl: './collection-albums.component.html',
     styleUrls: ['./collection-albums.component.scss'],
 })
-export class CollectionAlbumsComponent implements OnInit, OnDestroy {
+export class CollectionAlbumsComponent implements OnInit, AfterViewInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
@@ -61,7 +60,7 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         this.clearLists();
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.subscription.add(
             this.albumsPersister.selectedAlbumsChanged$.subscribe((albumKeys: string[]) => {
                 this.getTracksForAlbumKeys(albumKeys);
@@ -87,6 +86,9 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
+    }
+
+    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 
