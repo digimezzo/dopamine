@@ -10,8 +10,8 @@
         <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
             <img
                 *ngIf="topImageUrl"
-                class="app-playback-cover-art__content-background"
-                [src]="topImageUrl"
+                [ngClass]="this.topImageBackgroundClass"
+                [src]="this.topImageUrl"
                 [width]="size"
                 [height]="size"
                 draggable="false"
@@ -20,8 +20,8 @@
         <div [@contentAnimation]="contentAnimation" [style.min-width.px]="size" [style.min-height.px]="size">
             <img
                 *ngIf="bottomImageUrl"
-                class="app-playback-cover-art__content-background"
-                [src]="bottomImageUrl"
+                [ngClass]="this.bottomImageBackgroundClass"
+                [src]="this.bottomImageUrl"
                 [width]="size"
                 [height]="size"
                 draggable="false"

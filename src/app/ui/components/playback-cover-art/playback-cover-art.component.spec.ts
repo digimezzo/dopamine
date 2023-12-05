@@ -8,6 +8,7 @@ import { TranslatorServiceBase } from '../../../services/translator/translator.s
 import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
+import { Constants } from '../../../common/application/constants';
 
 describe('PlaybackInformationComponent', () => {
     let component: PlaybackCoverArtComponent;
@@ -182,6 +183,62 @@ describe('PlaybackInformationComponent', () => {
             // Assert
             expect(component.bottomImageUrl).toEqual('');
             expect(component.contentAnimation).toEqual('animated-up');
+        });
+    });
+
+    describe('topImageBackgroundClass', () => {
+        it('should return "app-playback-cover-art__content-background" when topImageUrl is not empty', async () => {
+            // Arrange
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
+            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            await component.ngOnInit();
+            component.topImageUrl = 'image url';
+
+            // Act, Assert
+            expect(component.topImageBackgroundClass).toEqual('app-playback-cover-art__content-background');
+        });
+
+        it('should return empty string when topImageUrl is empty', async () => {
+            // Arrange
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
+            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            await component.ngOnInit();
+            component.topImageUrl = Constants.emptyImage;
+
+            // Act, Assert
+            expect(component.topImageBackgroundClass).toEqual('');
+        });
+    });
+
+    describe('bottomImageBackgroundClass', () => {
+        it('should return "app-playback-cover-art__content-background" when topImageUrl is not empty', async () => {
+            // Arrange
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
+            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            await component.ngOnInit();
+            component.bottomImageUrl = 'image url';
+
+            // Act, Assert
+            expect(component.bottomImageBackgroundClass).toEqual('app-playback-cover-art__content-background');
+        });
+
+        it('should return empty string when topImageUrl is empty', async () => {
+            // Arrange
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(new PlaybackInformation(trackModel1, 'image-url-mock')));
+            component = new PlaybackCoverArtComponent(playbackInformationServiceMock.object, schedulerMock.object);
+            await component.ngOnInit();
+            component.bottomImageUrl = Constants.emptyImage;
+
+            // Act, Assert
+            expect(component.bottomImageBackgroundClass).toEqual('');
         });
     });
 });

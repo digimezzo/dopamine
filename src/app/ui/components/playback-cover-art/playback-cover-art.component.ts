@@ -7,6 +7,7 @@ import { PlaybackInformation } from '../../../services/playback-information/play
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
+import { StringUtils } from '../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playback-cover-art',
@@ -47,6 +48,7 @@ import { Constants } from '../../../common/application/constants';
 })
 export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
+    private currentImageUrl: string = '';
 
     public constructor(
         private playbackInformationService: PlaybackInformationServiceBase,
@@ -61,7 +63,21 @@ export class PlaybackCoverArtComponent implements OnInit, OnDestroy {
     public topImageUrl: string = '';
     public bottomImageUrl: string = '';
 
-    private currentImageUrl: string = '';
+    public get topImageBackgroundClass(): string {
+        if (this.topImageUrl !== Constants.emptyImage) {
+            return 'app-playback-cover-art__content-background';
+        }
+
+        return '';
+    }
+
+    public get bottomImageBackgroundClass(): string {
+        if (this.bottomImageUrl !== Constants.emptyImage) {
+            return 'app-playback-cover-art__content-background';
+        }
+
+        return '';
+    }
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();

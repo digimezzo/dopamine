@@ -105,7 +105,7 @@
         "moment": "2.29.4",
         "node-fetch": "2.6.11",
         "node-html-parser": "6.1.11",
-        "node-taglib-sharp": "5.2.3",
+        "node-taglib-sharp": "5.2.2",
         "sanitize-filename": "1.6.3",
         "tinycolor2": "1.6.0",
         "tslib": "2.0.0",
