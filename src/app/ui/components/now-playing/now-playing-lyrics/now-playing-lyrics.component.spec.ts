@@ -10,6 +10,7 @@ import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
 import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
+import { Lyrics } from '../../../../common/api/lyrics/lyrics';
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -215,6 +216,66 @@ describe('NowPlayingLyricsComponent', () => {
 
             // Assert
             expect(lyrics).toBeUndefined();
+        });
+    });
+
+    describe('hasLyrics', () => {
+        it('should return true if there are lyrics and the lyrics text is not empty', async () => {
+            // Arrange
+            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
+            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
+
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            playbackInformationService_playingNextTrack_Mock.next(playbackInformation);
+            await flushPromises();
+
+            // Act, Assert
+            expect(component.hasLyrics).toBeTruthy();
+        });
+
+        it('should return false if there are lyrics but the lyrics text is empty', async () => {
+            // Arrange
+            const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
+            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, '');
+            lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
+
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            const playbackInformation: PlaybackInformation = new PlaybackInformation(trackModel, 'imageUrl');
+            playbackInformationService_playingNextTrack_Mock.next(playbackInformation);
+            await flushPromises();
+
+            // Act, Assert
+            expect(component.hasLyrics).toBeFalsy();
+        });
+
+        it('should return false if there are no lyrics', async () => {
+            // Arrange
+            const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
+            playbackInformationServiceMock
+                .setup((x) => x.getCurrentPlaybackInformationAsync())
+                .returns(() => Promise.resolve(emptyCurrentPlaybackInformation));
+
+            const component: NowPlayingLyricsComponent = createComponent();
+            await component.ngOnInit();
+
+            // Act, Assert
+            expect(component.hasLyrics).toBeFalsy();
         });
     });
 });

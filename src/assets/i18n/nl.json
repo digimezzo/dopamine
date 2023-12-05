@@ -262,5 +262,6 @@
     "bars": "Balken",
     "nothing-is-playing": "Er wordt niets afgespeeld",
     "play-all": "Alles afspelen",
-    "shuffle-all": "Willekeurig afspelen"
+    "shuffle-all": "Willekeurig afspelen",
+    "no-lyrics-found": "Er zijn geen songteksten gevonden"
 }

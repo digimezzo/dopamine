@@ -262,5 +262,6 @@
     "bars": "Bars",
     "nothing-is-playing": "Nothing is playing",
     "play-all": "Play all",
-    "shuffle-all": "Shuffle all"
+    "shuffle-all": "Shuffle all",
+    "no-lyrics-found": "No lyrics were found"
 }

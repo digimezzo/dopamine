@@ -262,5 +262,6 @@
     "bars": "Barres",
     "nothing-is-playing": "Aucune lecture en cours",
     "play-all": "Lecture intégrale",
-    "shuffle-all": "Lecture aléatoire"
+    "shuffle-all": "Lecture aléatoire",
+    "no-lyrics-found": "Aucune parole n'a été trouvée"
 }

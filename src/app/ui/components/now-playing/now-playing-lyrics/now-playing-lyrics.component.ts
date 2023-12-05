@@ -11,6 +11,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { StringUtils } from '../../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-now-playing-lyrics',
@@ -41,6 +42,10 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
+
+    public get hasLyrics(): boolean {
+        return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.text);
+    }
 
     public get contentAnimation(): string {
         return this._contentAnimation;
