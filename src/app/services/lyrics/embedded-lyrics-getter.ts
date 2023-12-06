@@ -13,6 +13,6 @@ export class EmbeddedLyricsGetter implements ILyricsGetter {
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
         const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
-        return new LyricsModel('', LyricsSourceType.embedded, fileMetadata.lyrics);
+        return new LyricsModel(track, '', LyricsSourceType.embedded, fileMetadata.lyrics);
     }
 }

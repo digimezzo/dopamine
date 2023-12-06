@@ -17,7 +17,7 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
 
-    private currentPlaybackinformation: PlaybackInformation | undefined;
+    private cachedPlaybackinformation: PlaybackInformation | undefined;
 
     public constructor(
         private playbackService: PlaybackServiceBase,
@@ -42,16 +42,16 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
 
     public async getCurrentPlaybackInformationAsync(): Promise<PlaybackInformation> {
         if (
-            this.currentPlaybackinformation?.track != undefined &&
+            this.cachedPlaybackinformation?.track != undefined &&
             this.playbackService.currentTrack != undefined &&
-            this.currentPlaybackinformation.track.path === this.playbackService.currentTrack.path
+            this.cachedPlaybackinformation.track.path === this.playbackService.currentTrack.path
         ) {
-            return this.currentPlaybackinformation;
+            return this.cachedPlaybackinformation;
         }
 
-        this.currentPlaybackinformation = await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
+        this.cachedPlaybackinformation = await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
 
-        return this.currentPlaybackinformation;
+        return this.cachedPlaybackinformation;
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {

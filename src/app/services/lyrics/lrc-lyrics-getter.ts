@@ -33,7 +33,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
             }
         }
 
-        return new LyricsModel('', LyricsSourceType.lrc, lyricsText);
+        return new LyricsModel(track, '', LyricsSourceType.lrc, lyricsText);
     }
 
     private getLrcFilePath(track: TrackModel): string {

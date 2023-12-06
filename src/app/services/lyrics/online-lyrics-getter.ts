@@ -44,6 +44,6 @@ export class OnlineLyricsGetter implements ILyricsGetter {
             }
         }
 
-        return new LyricsModel(lyrics.sourceName, LyricsSourceType.online, lyrics.text);
+        return new LyricsModel(track, lyrics.sourceName, LyricsSourceType.online, lyrics.text);
     }
 }
