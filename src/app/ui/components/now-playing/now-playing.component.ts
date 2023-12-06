@@ -183,7 +183,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private async setBackgroundsAsync(): Promise<void> {
-        const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
+        const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack, 0);
 
         if (this.background1IsUsed) {
             if (proposedBackground !== this.background1) {

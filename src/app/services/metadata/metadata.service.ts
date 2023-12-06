@@ -34,7 +34,7 @@ export class MetadataService implements MetadataServiceBase {
     public ratingSaved$: Observable<TrackModel> = this.ratingSaved.asObservable();
     public loveSaved$: Observable<TrackModel> = this.loveSaved.asObservable();
 
-    public async createImageUrlAsync(track: TrackModel | undefined): Promise<string> {
+    public async createImageUrlAsync(track: TrackModel | undefined, maximumSize: number): Promise<string> {
         if (track == undefined) {
             return Constants.emptyImage;
         }
@@ -43,9 +43,13 @@ export class MetadataService implements MetadataServiceBase {
             const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
             if (fileMetaData != undefined) {
-                const coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
+                let coverArt: Buffer | undefined = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetaData, false);
 
                 if (coverArt != undefined && coverArt.length > 0) {
+                    if (maximumSize > 0) {
+                        coverArt = this.imageProcessor.resizeImage(coverArt, maximumSize, maximumSize, 80);
+                    }
+
                     return this.imageProcessor.convertBufferToImageUrl(coverArt);
                 }
             }

@@ -9,6 +9,7 @@ import { PlaybackInformation } from './playback-information';
 import { PlaybackInformationServiceBase } from './playback-information.service.base';
 import { PlaybackServiceBase } from '../playback/playback.service.base';
 import { MetadataServiceBase } from '../metadata/metadata.service.base';
+import { Constants } from '../../common/application/constants';
 
 @Injectable()
 export class PlaybackInformationService implements PlaybackInformationServiceBase {
@@ -71,7 +72,7 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
 
     private async createPlaybackInformationAsync(track: TrackModel | undefined): Promise<PlaybackInformation> {
         if (track != undefined) {
-            const newImage: string = await this.metadataService.createImageUrlAsync(track);
+            const newImage: string = await this.metadataService.createImageUrlAsync(track, Constants.maximumNowPlayingArtSizePixels);
 
             return new PlaybackInformation(track, newImage);
         }
