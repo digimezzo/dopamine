@@ -20,6 +20,8 @@ jobs:
               run: sudo apt install rpm libarchive-tools
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:linux
             - name: fetch current version
@@ -63,6 +65,8 @@ jobs:
                   node-version: '16.x'
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:mac
             - name: fetch current version
@@ -86,6 +90,8 @@ jobs:
                   node-version: '16.x'
             - name: install dependencies
               run: npm install
+            - name: run unit tests
+              run: npm run test
             - name: build
               run: npm run electron:windows
             - name: fetch current version
