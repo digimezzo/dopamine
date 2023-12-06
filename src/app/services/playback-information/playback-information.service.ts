@@ -6,9 +6,9 @@ import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
 
 import { PlaybackInformation } from './playback-information';
-import {PlaybackInformationServiceBase} from "./playback-information.service.base";
-import {PlaybackServiceBase} from "../playback/playback.service.base";
-import {MetadataServiceBase} from "../metadata/metadata.service.base";
+import { PlaybackInformationServiceBase } from './playback-information.service.base';
+import { PlaybackServiceBase } from '../playback/playback.service.base';
+import { MetadataServiceBase } from '../metadata/metadata.service.base';
 
 @Injectable()
 export class PlaybackInformationService implements PlaybackInformationServiceBase {
@@ -17,17 +17,22 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
     private playingPreviousTrack: Subject<PlaybackInformation> = new Subject();
     private playingNoTrack: Subject<PlaybackInformation> = new Subject();
 
-    public constructor(private playbackService: PlaybackServiceBase, private metadataService: MetadataServiceBase) {
+    private currentPlaybackinformation: PlaybackInformation | undefined;
+
+    public constructor(
+        private playbackService: PlaybackServiceBase,
+        private metadataService: MetadataServiceBase,
+    ) {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 PromiseUtils.noAwait(this.handlePlaybackStartedAsync(playbackStarted));
-            })
+            }),
         );
 
         this.subscription.add(
             this.playbackService.playbackStopped$.subscribe(() => {
                 PromiseUtils.noAwait(this.handlePlaybackStoppedAsync());
-            })
+            }),
         );
     }
 
@@ -36,7 +41,17 @@ export class PlaybackInformationService implements PlaybackInformationServiceBas
     public playingNoTrack$: Observable<PlaybackInformation> = this.playingNoTrack.asObservable();
 
     public async getCurrentPlaybackInformationAsync(): Promise<PlaybackInformation> {
-        return await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
+        if (
+            this.currentPlaybackinformation?.track != undefined &&
+            this.playbackService.currentTrack != undefined &&
+            this.currentPlaybackinformation.track.path === this.playbackService.currentTrack.path
+        ) {
+            return this.currentPlaybackinformation;
+        }
+
+        this.currentPlaybackinformation = await this.createPlaybackInformationAsync(this.playbackService.currentTrack);
+
+        return this.currentPlaybackinformation;
     }
 
     private async handlePlaybackStartedAsync(playbackStarted: PlaybackStarted): Promise<void> {

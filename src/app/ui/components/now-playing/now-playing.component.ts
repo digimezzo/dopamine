@@ -1,6 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { AfterViewInit, Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
@@ -14,7 +13,6 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
-import { AlbumOrder } from '../collection/album-order';
 
 @Component({
     selector: 'app-now-playing',
@@ -94,8 +92,11 @@ import { AlbumOrder } from '../collection/album-order';
         trigger('inOutAnimation', [
             transition(
                 ':enter',
-                [style({ 'margin-left': '{{theMargin}}', opacity: 0 }), animate('250ms ease-out', style({ 'margin-left': 0, opacity: 1 }))],
-                { params: { theMargin: '-100px' } },
+                [
+                    style({ 'margin-left': '{{theMargin}}', opacity: 0 }),
+                    animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, opacity: 1 })),
+                ],
+                { params: { theMargin: `-${Constants.screenEaseMarginPixels}px` } },
             ),
         ]),
     ],
@@ -128,7 +129,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public pageSwitchAnimation: string = 'fade-out';
     public controlsVisibility: string = 'visible';
 
-    public theMargin: string = '-100px';
+    public theMargin: string = `-${Constants.screenEaseMarginPixels}px`;
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -215,9 +216,9 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
         if (this.selectedNowPlayingPage > nowPlayingPage) {
-            this.theMargin = '100px';
+            this.theMargin = `${Constants.screenEaseMarginPixels}px`;
         } else {
-            this.theMargin = '-100px';
+            this.theMargin = `-${Constants.screenEaseMarginPixels}px`;
         }
 
         this.selectedNowPlayingPage = nowPlayingPage;
