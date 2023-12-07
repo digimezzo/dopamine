@@ -20,6 +20,8 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
         private logger: Logger,
     ) {}
 
+    private cachedArtistInformation: ArtistInformation = ArtistInformation.empty();
+
     public async getArtistInformationAsync(track: TrackModel | undefined): Promise<ArtistInformation> {
         let artistInformation: ArtistInformation = ArtistInformation.empty();
 
@@ -29,6 +31,10 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
 
         if (StringUtils.isNullOrWhiteSpace(track.rawFirstArtist)) {
             return artistInformation;
+        }
+
+        if (this.cachedArtistInformation != ArtistInformation.empty() && this.cachedArtistInformation.name === track.rawFirstArtist) {
+            return this.cachedArtistInformation;
         }
 
         let lastfmArtist: LastfmArtist | undefined;
@@ -88,6 +94,8 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
                 }
             }
         }
+
+        this.cachedArtistInformation = artistInformation;
 
         return artistInformation;
     }

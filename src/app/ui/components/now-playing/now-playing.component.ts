@@ -93,8 +93,11 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition(
                 ':enter',
                 [
-                    style({ 'margin-left': '{{theMargin}}', opacity: 0 }),
-                    animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, opacity: 1 })),
+                    style({ 'margin-left': '{{theMarginLeft}}', 'margin-right': '{{theMarginRight}}', opacity: 0 }),
+                    animate(
+                        `${Constants.screenEaseSpeedMilliseconds}ms ease-out`,
+                        style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 }),
+                    ),
                 ],
                 { params: { theMargin: `-${Constants.screenEaseMarginPixels}px` } },
             ),
@@ -129,7 +132,8 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public pageSwitchAnimation: string = 'fade-out';
     public controlsVisibility: string = 'visible';
 
-    public theMargin: string = `-${Constants.screenEaseMarginPixels}px`;
+    public theMarginLeft: string = `-${Constants.screenEaseMarginPixels}px`;
+    public theMarginRight: string = `${Constants.screenEaseMarginPixels}px`;
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -216,9 +220,11 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
         if (this.selectedNowPlayingPage > nowPlayingPage) {
-            this.theMargin = `${Constants.screenEaseMarginPixels}px`;
+            this.theMarginLeft = `${Constants.screenEaseMarginPixels}px`;
+            this.theMarginRight = `-${Constants.screenEaseMarginPixels}px`;
         } else {
-            this.theMargin = `-${Constants.screenEaseMarginPixels}px`;
+            this.theMarginLeft = `-${Constants.screenEaseMarginPixels}px`;
+            this.theMarginRight = `${Constants.screenEaseMarginPixels}px`;
         }
 
         this.selectedNowPlayingPage = nowPlayingPage;
