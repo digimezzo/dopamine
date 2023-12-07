@@ -7,7 +7,7 @@ import { PlaybackServiceBase } from '../../../services/playback/playback.service
 import { PlaybackIndicationServiceBase } from '../../../services/playback-indication/playback-indication.service.base';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { MouseSelectionWatcher } from '../mouse-selection-watcher';
-import {ContextMenuOpener} from "../context-menu-opener";
+import { ContextMenuOpener } from '../context-menu-opener';
 
 @Component({
     selector: 'app-playback-queue',
@@ -28,6 +28,8 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         private navigationService: NavigationServiceBase,
     ) {}
 
+    public shouldShowList: boolean = false;
+
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
 
@@ -44,6 +46,15 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.navigationService.showPlaybackQueueRequested$.subscribe(() => {
+                // HACK: thanks to Angular for breaking cdk virtual scroll or the drawer (who knows, do they even know themselves?)
+                // After Angular 14, the cdk virtual scroll does not render all items when opening the drawer. A resize of the window
+                // with the drawer open, fixes drawing of all items in the list. This hack is an automatic workaround.
+                // I'm honestly very sick if this. Angular updates and deprecates their versions so quickly, forcing us to upgrade.
+                // But with each upgrade, something major breaks. I'm wasting countless days/weeks on such issues.
+                setTimeout(() => {
+                    this.shouldShowList = true;
+                }, 250);
+
                 this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);
             }),
         );
