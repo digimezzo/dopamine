@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Hacks } from '../../../../common/hacks';
 import { Logger } from '../../../../common/logger';
-import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { FolderModel } from '../../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../../services/folder/subfolder-model';
@@ -23,7 +22,6 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
-import { DesktopBase } from '../../../../common/io/desktop.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
@@ -37,7 +35,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     providers: [MouseSelectionWatcher],
     encapsulation: ViewEncapsulation.None,
 })
-export class CollectionFoldersComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public constructor(
         public searchService: SearchServiceBase,
         public appearanceService: AppearanceServiceBase,
@@ -56,7 +54,6 @@ export class CollectionFoldersComponent implements OnInit, AfterViewInit, OnDest
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private foldersPersister: FoldersPersister,
         private scheduler: SchedulerBase,
-        private desktop: DesktopBase,
         private logger: Logger,
         private hacks: Hacks,
     ) {}
@@ -78,7 +75,7 @@ export class CollectionFoldersComponent implements OnInit, AfterViewInit, OnDest
         this.clearLists();
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.playbackService.playbackStarted$.subscribe((playbackStarted: PlaybackStarted) => {
                 this.playbackIndicationService.setPlayingSubfolder(this.subfolders, playbackStarted.currentTrack);
@@ -108,9 +105,7 @@ export class CollectionFoldersComponent implements OnInit, AfterViewInit, OnDest
                 PromiseUtils.noAwait(this.processListsAsync());
             }),
         );
-    }
 
-    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 

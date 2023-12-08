@@ -19,6 +19,7 @@ import { ContextMenuOpener } from '../context-menu-opener';
 })
 export class PlaybackQueueComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
+    private _shouldShowList: boolean = false;
 
     public constructor(
         public playbackService: PlaybackServiceBase,
@@ -28,10 +29,12 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
         private navigationService: NavigationServiceBase,
     ) {}
 
-    public shouldShowList: boolean = false;
-
     @ViewChild('trackContextMenuAnchor', { read: MatMenuTrigger, static: false })
     public trackContextMenu: MatMenuTrigger;
+
+    public get shouldShowList(): boolean {
+        return this._shouldShowList;
+    }
 
     public ngOnDestroy(): void {
         this.subscription.unsubscribe();
@@ -52,7 +55,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                 // I'm honestly very sick if this. Angular updates and deprecates their versions so quickly, forcing us to upgrade.
                 // But with each upgrade, something major breaks. I'm wasting countless days/weeks on such issues.
                 setTimeout(() => {
-                    this.shouldShowList = true;
+                    this._shouldShowList = true;
                 }, 250);
 
                 this.mouseSelectionWatcher.initialize(this.playbackService.playbackQueue.tracks);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
@@ -26,7 +26,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
 })
-export class CollectionGenresComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CollectionGenresComponent implements OnInit, OnDestroy {
     private _selectedAlbumOrder: AlbumOrder;
     private subscription: Subscription = new Subscription();
 
@@ -67,7 +67,7 @@ export class CollectionGenresComponent implements OnInit, AfterViewInit, OnDestr
         this.clearLists();
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.genresPersister.selectedGenresChanged$.subscribe((genres: string[]) => {
                 this.albumsPersister.resetSelectedAlbums();
@@ -101,9 +101,6 @@ export class CollectionGenresComponent implements OnInit, AfterViewInit, OnDestr
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-    }
-
-    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 

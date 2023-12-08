@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
@@ -22,7 +22,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
     templateUrl: './collection-playlists.component.html',
     styleUrls: ['./collection-playlists.component.scss'],
 })
-export class CollectionPlaylistsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
 
     public constructor(
@@ -51,7 +51,7 @@ export class CollectionPlaylistsComponent implements OnInit, AfterViewInit, OnDe
         this.clearLists();
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.processListsAsync());
@@ -88,9 +88,7 @@ export class CollectionPlaylistsComponent implements OnInit, AfterViewInit, OnDe
                 PromiseUtils.noAwait(this.getTracksAsync());
             }),
         );
-    }
 
-    public async ngAfterViewInit(): Promise<void> {
         await this.processListsAsync();
     }
 

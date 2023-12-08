@@ -80,6 +80,7 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public set selectedIndex(v: number) {
+        // previousSelectedIndex ensures selected tab is changed only once
         if (v !== this.previousSelectedIndex) {
             this.previousSelectedIndex = v;
             this._selectedIndex = v;
