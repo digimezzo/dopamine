@@ -10,6 +10,7 @@ import { MetadataServiceBase } from '../metadata/metadata.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { PlaybackInformationServiceBase } from './playback-information.service.base';
+import { Constants } from '../../common/application/constants';
 
 describe('PlaybackInformationService', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -41,7 +42,9 @@ describe('PlaybackInformationService', () => {
         track = new Track('Path');
         trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
-        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel)).returns(() => Promise.resolve('imageUrl'));
+        metadataServiceMock
+            .setup((x) => x.createImageUrlAsync(trackModel, Constants.maximumNowPlayingArtSizePixels))
+            .returns(() => Promise.resolve('imageUrl'));
     });
 
     describe('constructor', () => {

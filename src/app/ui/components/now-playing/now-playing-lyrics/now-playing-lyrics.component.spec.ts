@@ -119,7 +119,7 @@ describe('NowPlayingLyricsComponent', () => {
             playbackInformationServiceMock
                 .setup((x) => x.getCurrentPlaybackInformationAsync())
                 .returns(() => Promise.resolve(playbackInformation));
-            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            const lyricsModelMock: LyricsModel = new LyricsModel(trackModel, 'online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
             const component: NowPlayingLyricsComponent = createComponent();
 
@@ -145,7 +145,7 @@ describe('NowPlayingLyricsComponent', () => {
         it('should return lyrics if playing next track', async () => {
             // Arrange
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            const lyricsModelMock: LyricsModel = new LyricsModel(trackModel, 'online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
 
             const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
@@ -172,7 +172,7 @@ describe('NowPlayingLyricsComponent', () => {
         it('should return lyrics if playing previous track', async () => {
             // Arrange
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            const lyricsModelMock: LyricsModel = new LyricsModel(trackModel, 'online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
 
             const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
@@ -223,7 +223,7 @@ describe('NowPlayingLyricsComponent', () => {
         it('should return true if there are lyrics and the lyrics text is not empty', async () => {
             // Arrange
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, 'online text');
+            const lyricsModelMock: LyricsModel = new LyricsModel(trackModel, 'online source', LyricsSourceType.online, 'online text');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
 
             const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
@@ -245,7 +245,7 @@ describe('NowPlayingLyricsComponent', () => {
         it('should return false if there are lyrics but the lyrics text is empty', async () => {
             // Arrange
             const trackModel: TrackModel = MockCreator.createTrackModel('path1', 'title', ';artist1;');
-            const lyricsModelMock: LyricsModel = new LyricsModel('online source', LyricsSourceType.online, '');
+            const lyricsModelMock: LyricsModel = new LyricsModel(trackModel, 'online source', LyricsSourceType.online, '');
             lyricsServiceMock.setup((x) => x.getLyricsAsync(trackModel)).returns(() => Promise.resolve(lyricsModelMock));
 
             const emptyCurrentPlaybackInformation: PlaybackInformation = new PlaybackInformation(undefined, '');
