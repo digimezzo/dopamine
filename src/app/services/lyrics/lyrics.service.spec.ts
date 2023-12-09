@@ -9,6 +9,7 @@ import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { Logger } from '../../common/logger';
 import { LyricsServiceBase } from './lyrics.service.base';
+import { TrackModel } from '../track/track-model';
 
 describe('LyricsService', () => {
     let embeddedLyricsGetterMock: IMock<EmbeddedLyricsGetter>;
@@ -17,12 +18,33 @@ describe('LyricsService', () => {
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
 
+    let trackMock: TrackModel;
+    let fullEmbeddedLyricsMock: LyricsModel;
+    let emptyEmbeddedLyricsMock: LyricsModel;
+
+    let fullLrcLyricsMock: LyricsModel;
+    let emptyLrcLyricsMock: LyricsModel;
+
+    let fullOnlineLyricsMock: LyricsModel;
+    let emptyOnlineLyricsMock: LyricsModel;
+
     beforeEach(() => {
         embeddedLyricsGetterMock = Mock.ofType<EmbeddedLyricsGetter>();
         lrcLyricsGetterMock = Mock.ofType<LrcLyricsGetter>();
         onlineLyricsGetterMock = Mock.ofType<OnlineLyricsGetter>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
+
+        trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
+
+        fullEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
+        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
+
+        fullLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
+        emptyLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
+
+        fullOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
+        emptyOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, '');
     });
 
     function createSut(): LyricsServiceBase {
@@ -48,9 +70,7 @@ describe('LyricsService', () => {
     describe('getLyricsAsync', () => {
         it('should return embedded lyrics if there are embedded lyrics', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const lyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullEmbeddedLyricsMock));
             const sut: LyricsServiceBase = createSut();
 
             // Act
@@ -63,15 +83,13 @@ describe('LyricsService', () => {
             expect(lyrics.text).toEqual('embedded text');
         });
 
-        it('should get embedded lyrics if there are cached lyrics', async () => {
+        it('should still get embedded lyrics even if there are cached lyrics', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const lyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullEmbeddedLyricsMock));
             const sut: LyricsServiceBase = createSut();
             await sut.getLyricsAsync(trackMock);
             embeddedLyricsGetterMock.reset();
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullEmbeddedLyricsMock));
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -86,11 +104,8 @@ describe('LyricsService', () => {
 
         it('should return lrc lyrics if there are no embedded lyrics but there are lrc lyrics', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullLrcLyricsMock));
             const sut: LyricsServiceBase = createSut();
 
             // Act
@@ -103,17 +118,14 @@ describe('LyricsService', () => {
             expect(lyrics.text).toEqual('lrc text');
         });
 
-        it('should get lrc lyrics even if there are cached lyrics', async () => {
+        it('should still get lrc lyrics even if there are cached lyrics', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyOnlineLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullLrcLyricsMock));
             const sut: LyricsServiceBase = createSut();
             await sut.getLyricsAsync(trackMock);
             lrcLyricsGetterMock.reset();
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullLrcLyricsMock));
 
             // Act
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
@@ -128,13 +140,9 @@ describe('LyricsService', () => {
 
         it('should return online lyrics if there are no embedded lyrics and no lrc lyrics but there are online lyrics and online download is enabled', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
-            const onlineLyricsMock: LyricsModel = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
             const sut: LyricsServiceBase = createSut();
 
@@ -150,13 +158,9 @@ describe('LyricsService', () => {
 
         it('should return empty lyrics if there are no embedded lyrics and no lrc lyrics but there are online lyrics and online download is disabled', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
-            const onlineLyricsMock: LyricsModel = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => false);
             const sut: LyricsServiceBase = createSut();
 
@@ -172,13 +176,9 @@ describe('LyricsService', () => {
 
         it('should return empty lyrics if there are no embedded lyrics and no lrc lyrics and no online lyrics', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
-            const onlineLyricsMock: LyricsModel = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, '');
-            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyOnlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
             const sut: LyricsServiceBase = createSut();
 
@@ -194,13 +194,9 @@ describe('LyricsService', () => {
 
         it('should return cached lyrics and not download lyrics when there are no embedded lyrics and no lrc lyrics but there are cached lyrics and online download is enabled', async () => {
             // Arrange
-            const trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
-            const embeddedLyricsMock: LyricsModel = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
-            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(embeddedLyricsMock));
-            const lrcLyricsMock: LyricsModel = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
-            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(lrcLyricsMock));
-            const onlineLyricsMock: LyricsModel = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(onlineLyricsMock));
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
             settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
             const sut: LyricsServiceBase = createSut();
             await sut.getLyricsAsync(trackMock);
