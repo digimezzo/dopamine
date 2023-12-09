@@ -1,5 +1,5 @@
 import { Observable, Subject, Subscription } from 'rxjs';
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { DateTime } from '../../common/date-time';
 import { PlaybackStarted } from '../playback/playback-started';
 import { TrackModel } from '../track/track-model';
@@ -11,6 +11,7 @@ import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { Track } from '../../data/entities/track';
 import { PlaybackInformationServiceBase } from './playback-information.service.base';
 import { Constants } from '../../common/application/constants';
+import { MockCreator } from '../../testing/mock-creator';
 
 describe('PlaybackInformationService', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
@@ -168,6 +169,63 @@ describe('PlaybackInformationService', () => {
             expect(playbackInformation).toBeDefined();
             expect(playbackInformation.track).toBe(trackModel);
             expect(playbackInformation.imageUrl).toEqual('imageUrl');
+        });
+
+        it('should return cached playback information if the track has not changed', async () => {
+            // Arrange
+            const service: PlaybackInformationServiceBase = new PlaybackInformationService(
+                playbackServiceMock.object,
+                metadataServiceMock.object,
+            );
+
+            await service.getCurrentPlaybackInformationAsync();
+            metadataServiceMock.reset();
+
+            // Act
+            const playbackInformation: PlaybackInformation = await service.getCurrentPlaybackInformationAsync();
+
+            // Assert
+            metadataServiceMock.verify((x) => x.createImageUrlAsync(It.isAny(), It.isAny()), Times.never());
+            expect(playbackInformation).toBeDefined();
+            expect(playbackInformation.track).toBe(trackModel);
+            expect(playbackInformation.imageUrl).toEqual('imageUrl');
+        });
+
+        it('should not return cached playback information if the track has changed', async () => {
+            // Arrange
+            const service: PlaybackInformationServiceBase = new PlaybackInformationService(
+                playbackServiceMock.object,
+                metadataServiceMock.object,
+            );
+
+            await service.getCurrentPlaybackInformationAsync();
+
+            const trackModel2 = MockCreator.createTrackModel('path2', 'title2', 'artists2');
+
+            metadataServiceMock.reset();
+
+            metadataServiceMock
+                .setup((x) => x.createImageUrlAsync(trackModel2, Constants.maximumNowPlayingArtSizePixels))
+                .returns(() => Promise.resolve('imageUrl2'));
+
+            playbackServiceMock.reset();
+
+            const playbackService_PlaybackStartedMock$: Observable<PlaybackStarted> = playbackService_PlaybackStartedMock.asObservable();
+            playbackServiceMock.setup((x) => x.playbackStarted$).returns(() => playbackService_PlaybackStartedMock$);
+            playbackServiceMock.setup((x) => x.currentTrack).returns(() => trackModel2);
+
+            playbackService_PlaybackStoppedMock = new Subject();
+            const playbackService_PlaybackStoppedMock$: Observable<void> = playbackService_PlaybackStoppedMock.asObservable();
+            playbackServiceMock.setup((x) => x.playbackStopped$).returns(() => playbackService_PlaybackStoppedMock$);
+
+            // Act
+            const playbackInformation: PlaybackInformation = await service.getCurrentPlaybackInformationAsync();
+
+            // Assert
+            metadataServiceMock.verify((x) => x.createImageUrlAsync(trackModel2, Constants.maximumNowPlayingArtSizePixels), Times.once());
+            expect(playbackInformation).toBeDefined();
+            expect(playbackInformation.track).toBe(trackModel2);
+            expect(playbackInformation.imageUrl).toEqual('imageUrl2');
         });
     });
 });
