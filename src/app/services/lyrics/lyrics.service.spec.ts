@@ -212,5 +212,36 @@ describe('LyricsService', () => {
             expect(lyrics.sourceType).toEqual(LyricsSourceType.online);
             expect(lyrics.text).toEqual('online text');
         });
+
+        it('should not return cached lyrics and should download new lyrics when the track has changed', async () => {
+            // Arrange
+            const trackMock2 = MockCreator.createTrackModel('path2', 'title2', 'artists2');
+
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock)).returns(() => Promise.resolve(fullOnlineLyricsMock));
+
+            settingsMock.setup((x) => x.downloadLyricsOnline).returns(() => true);
+            const sut: LyricsServiceBase = createSut();
+            await sut.getLyricsAsync(trackMock);
+            embeddedLyricsGetterMock.reset();
+            lrcLyricsGetterMock.reset();
+            onlineLyricsGetterMock.reset();
+
+            const fullOnlineLyricsMock2 = new LyricsModel(trackMock2, 'online source', LyricsSourceType.online, 'online text 2');
+            embeddedLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyEmbeddedLyricsMock));
+            lrcLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(emptyLrcLyricsMock));
+            onlineLyricsGetterMock.setup((x) => x.getLyricsAsync(trackMock2)).returns(() => Promise.resolve(fullOnlineLyricsMock2));
+
+            // Act
+            const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock2);
+
+            // Assert
+            onlineLyricsGetterMock.verify((x) => x.getLyricsAsync(trackMock2), Times.once());
+            expect(lyrics.track).toBe(trackMock2);
+            expect(lyrics.sourceName).toEqual('online source');
+            expect(lyrics.sourceType).toEqual(LyricsSourceType.online);
+            expect(lyrics.text).toEqual('online text 2');
+        });
     });
 });
