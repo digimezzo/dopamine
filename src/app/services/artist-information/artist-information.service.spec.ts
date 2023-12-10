@@ -129,6 +129,35 @@ describe('ArtistInformationService', () => {
         });
     });
 
+    describe('getQuickArtistInformation', () => {
+        it('should return empty ArtistInformation when track is undefined', () => {
+            // Arrange
+            const service: ArtistInformationServiceBase = createService();
+
+            // Act
+            const artist: ArtistInformation = service.getQuickArtistInformation(undefined);
+
+            // Assert
+            expect(artist.isEmpty).toBeTruthy();
+        });
+
+        it('should return ArtistInformation containing artist name when track is not undefined', () => {
+            // Arrange
+            const trackModel: TrackModel = createTrackModel('Madonna');
+            artistInformationFactoryMock
+                .setup((x) => x.create('Madonna', '', '', ''))
+                .returns(() => new ArtistInformation(undefined, 'Madonna', '', '', ''));
+            const service: ArtistInformationServiceBase = createService();
+
+            // Act
+            const artist: ArtistInformation = service.getQuickArtistInformation(trackModel);
+
+            // Assert
+            expect(artist.isEmpty).toBeFalsy();
+            expect(artist.name).toEqual('Madonna');
+        });
+    });
+
     describe('getArtistInformationAsync', () => {
         it('should return empty ArtistInformation when track is undefined', async () => {
             // Arrange
