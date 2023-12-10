@@ -44,6 +44,10 @@ export class OnlineLyricsGetter implements ILyricsGetter {
             }
         }
 
+        if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
+            return LyricsModel.empty(track);
+        }
+
         return new LyricsModel(track, lyrics.sourceName, LyricsSourceType.online, lyrics.text);
     }
 }

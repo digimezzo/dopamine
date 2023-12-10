@@ -49,6 +49,7 @@ describe('OnlineLyricsGetter', () => {
             const lyricsModel: LyricsModel = await instance.getLyricsAsync(track);
 
             // Assert
+            expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('ChartLyrics source');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.online);
             expect(lyricsModel.text).toEqual('ChartLyrics text');
@@ -68,6 +69,7 @@ describe('OnlineLyricsGetter', () => {
             const lyricsModel: LyricsModel = await instance.getLyricsAsync(track);
 
             // Assert
+            expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('AZLyrics source');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.online);
             expect(lyricsModel.text).toEqual('AZLyrics text');
@@ -90,9 +92,34 @@ describe('OnlineLyricsGetter', () => {
             const lyricsModel: LyricsModel = await instance.getLyricsAsync(track);
 
             // Assert
+            expect(lyricsModel.track).toEqual(track);
             expect(lyricsModel.sourceName).toEqual('WebSearchLyrics source');
             expect(lyricsModel.sourceType).toEqual(LyricsSourceType.online);
             expect(lyricsModel.text).toEqual('WebSearchLyrics text');
+        });
+
+        it('should return empty lyrics if no online lyrics are availalble', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
+            chartLyricsApiMock
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
+                .returns(() => Promise.resolve(Lyrics.default()));
+            azLyricsApiMock
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
+                .returns(() => Promise.resolve(Lyrics.default()));
+            webSearchLyricsApiMock
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
+                .returns(() => Promise.resolve(Lyrics.default()));
+            const instance: OnlineLyricsGetter = createInstance();
+
+            // Act
+            const lyricsModel: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyricsModel.track).toEqual(track);
+            expect(lyricsModel.sourceName).toEqual('');
+            expect(lyricsModel.sourceType).toEqual(LyricsSourceType.none);
+            expect(lyricsModel.text).toEqual('');
         });
     });
 });

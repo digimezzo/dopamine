@@ -19,10 +19,10 @@ export class LyricsService implements LyricsServiceBase {
         private logger: Logger,
     ) {}
 
-    private cachedLyrics: LyricsModel = LyricsModel.default();
+    private cachedLyrics: LyricsModel | undefined;
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
-        let lyrics: LyricsModel = LyricsModel.default();
+        let lyrics: LyricsModel = LyricsModel.empty(track);
 
         try {
             lyrics = await this.embeddedLyricsGetter.getLyricsAsync(track);
@@ -44,7 +44,7 @@ export class LyricsService implements LyricsServiceBase {
             return lyrics;
         }
 
-        if (this.cachedLyrics.track != undefined && track != undefined && this.cachedLyrics.track.path === track.path) {
+        if (this.cachedLyrics?.track != undefined && track != undefined && this.cachedLyrics.track.path === track.path) {
             return this.cachedLyrics;
         }
 
@@ -56,11 +56,8 @@ export class LyricsService implements LyricsServiceBase {
             }
         }
 
-        if (!StringUtils.isNullOrWhiteSpace(lyrics.text)) {
-            this.cachedLyrics = lyrics;
-            return lyrics;
-        }
+        this.cachedLyrics = lyrics;
 
-        return LyricsModel.default();
+        return lyrics;
     }
 }

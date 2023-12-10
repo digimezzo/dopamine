@@ -14,7 +14,7 @@ export class LrcLyricsGetter implements ILyricsGetter {
         const lrcFilePath: string = this.getLrcFilePath(track);
 
         if (StringUtils.isNullOrWhiteSpace(lrcFilePath)) {
-            return LyricsModel.default();
+            return LyricsModel.empty(track);
         }
 
         const lines: string[] = await this.fileAccess.readLinesAsync(lrcFilePath);
@@ -31,6 +31,10 @@ export class LrcLyricsGetter implements ILyricsGetter {
                     lyricsText += '\n';
                 }
             }
+        }
+
+        if (StringUtils.isNullOrWhiteSpace(lyricsText)) {
+            return LyricsModel.empty(track);
         }
 
         return new LyricsModel(track, '', LyricsSourceType.lrc, lyricsText);

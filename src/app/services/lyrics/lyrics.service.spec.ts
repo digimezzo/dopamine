@@ -38,13 +38,13 @@ describe('LyricsService', () => {
         trackMock = MockCreator.createTrackModel('path', 'title', 'artists');
 
         fullEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, 'embedded text');
-        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, 'embedded source', LyricsSourceType.embedded, '');
+        emptyEmbeddedLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
 
         fullLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, 'lrc text');
-        emptyLrcLyricsMock = new LyricsModel(trackMock, 'lrc source', LyricsSourceType.lrc, '');
+        emptyLrcLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
 
         fullOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, 'online text');
-        emptyOnlineLyricsMock = new LyricsModel(trackMock, 'online source', LyricsSourceType.online, '');
+        emptyOnlineLyricsMock = new LyricsModel(trackMock, '', LyricsSourceType.none, '');
     });
 
     function createSut(): LyricsServiceBase {
@@ -168,7 +168,7 @@ describe('LyricsService', () => {
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
 
             // Assert
-            expect(lyrics.track).toBeUndefined();
+            expect(lyrics.track).toEqual(trackMock);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
             expect(lyrics.text).toEqual('');
@@ -186,7 +186,7 @@ describe('LyricsService', () => {
             const lyrics: LyricsModel = await sut.getLyricsAsync(trackMock);
 
             // Assert
-            expect(lyrics.track).toBeUndefined();
+            expect(lyrics.track).toEqual(trackMock);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
             expect(lyrics.text).toEqual('');

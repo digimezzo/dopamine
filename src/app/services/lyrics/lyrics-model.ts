@@ -9,7 +9,7 @@ export class LyricsModel {
         public text: string,
     ) {}
 
-    public static default(): LyricsModel {
-        return new LyricsModel(undefined, '', LyricsSourceType.none, '');
+    public static empty(track: TrackModel | undefined): LyricsModel {
+        return new LyricsModel(track, '', LyricsSourceType.none, '');
     }
 }
