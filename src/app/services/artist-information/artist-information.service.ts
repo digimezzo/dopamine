@@ -22,6 +22,14 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
 
     private cachedArtistInformation: ArtistInformation = ArtistInformation.empty();
 
+    public getQuickArtistInformation(track: TrackModel | undefined): ArtistInformation {
+        if (track == undefined) {
+            return ArtistInformation.empty();
+        }
+
+        return this.artistInformationFactory.create(track.rawFirstArtist, '', '', '');
+    }
+
     public async getArtistInformationAsync(track: TrackModel | undefined): Promise<ArtistInformation> {
         let artistInformation: ArtistInformation = ArtistInformation.empty();
 

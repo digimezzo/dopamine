@@ -1,9 +1,6 @@
 <div class="app-now-playing-artist-info">
     <div class="d-flex h-100 w-100" *ngIf="this.settings.downloadArtistInformationFromLastFm">
-        <div *ngIf="this.isBusy" class="d-flex h-100 w-100 align-items-center justify-content-center">
-            <mat-spinner [diameter]="40"></mat-spinner>
-        </div>
-        <div *ngIf="!this.isBusy" class="d-flex flex-row h-100">
+        <div class="d-flex flex-row h-100 w-100">
             <div class="d-flex flex-column">
                 <div class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center">
                     <i class="app-now-playing-artist-info__icon las la-user" *ngIf="!this.artist.imageUrl"> </i>
@@ -11,7 +8,10 @@
                 </div>
                 <div class="mt-4 font-extra-large" *ngIf="!this.artist.isEmpty">{{ this.artist.name }}</div>
             </div>
-            <div class="app-now-playing-artist-info__text" *ngIf="!this.artist.isEmpty">
+            <div *ngIf="this.isBusy" class="app-now-playing-artist-info__spinner">
+                <mat-spinner [diameter]="40"></mat-spinner>
+            </div>
+            <div *ngIf="!this.isBusy && !this.artist.isEmpty" class="app-now-playing-artist-info__text">
                 <div [innerHTML]="this.artist.biography"></div>
 
                 <div class="mt-3">

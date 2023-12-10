@@ -10,7 +10,6 @@ import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
 import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
 import { LyricsSourceType } from '../../../../common/api/lyrics/lyrics-source-type';
-import { Lyrics } from '../../../../common/api/lyrics/lyrics';
 
 describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -84,14 +83,6 @@ describe('NowPlayingLyricsComponent', () => {
 
             // Assert
             expect(component.lyricsSourceTypeEnum).toBeDefined();
-        });
-
-        it('should set contentAnimation to fade-out', () => {
-            // Arrange
-            const component: NowPlayingLyricsComponent = createComponent();
-
-            // Act, Assert
-            expect(component.contentAnimation).toEqual('fade-out');
         });
     });
 

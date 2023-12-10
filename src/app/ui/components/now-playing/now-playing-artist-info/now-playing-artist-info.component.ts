@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
@@ -68,6 +67,8 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
         }
 
         this.previousArtistName = track.rawFirstArtist;
+
+        this._artist = this.artistInformationService.getQuickArtistInformation(track);
 
         this._isBusy = true;
         this._artist = await this.artistInformationService.getArtistInformationAsync(track);

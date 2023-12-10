@@ -4,7 +4,6 @@ import { NowPlayingArtistInfoComponent } from './now-playing-artist-info.compone
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
-import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
@@ -14,25 +13,18 @@ describe('NowPlayingArtistInfoComponent', () => {
     let playbackServiceMock: IMock<PlaybackServiceBase>;
     let artistInformationServiceMock: IMock<ArtistInformationServiceBase>;
     let settingsMock: IMock<SettingsBase>;
-    let schedulerMock: IMock<SchedulerBase>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
 
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): NowPlayingArtistInfoComponent {
-        return new NowPlayingArtistInfoComponent(
-            playbackServiceMock.object,
-            artistInformationServiceMock.object,
-            schedulerMock.object,
-            settingsMock.object,
-        );
+        return new NowPlayingArtistInfoComponent(playbackServiceMock.object, artistInformationServiceMock.object, settingsMock.object);
     }
 
     beforeEach(() => {
         playbackServiceMock = Mock.ofType<PlaybackServiceBase>();
         artistInformationServiceMock = Mock.ofType<ArtistInformationServiceBase>();
-        schedulerMock = Mock.ofType<SchedulerBase>();
         settingsMock = Mock.ofType<SettingsBase>();
 
         playbackServicePlaybackStartedMock = new Subject();
@@ -59,27 +51,6 @@ describe('NowPlayingArtistInfoComponent', () => {
 
             // Assert
             expect(component.settings).toBeDefined();
-        });
-
-        it('should set contentAnimation to fade-out', () => {
-            // Arrange
-            const component: NowPlayingArtistInfoComponent = createComponent();
-
-            // Act, Assert
-            expect(component.contentAnimation).toEqual('fade-out');
-        });
-    });
-
-    describe('imageIsLoaded', () => {
-        it('should set contentAnimation to fade-in', async () => {
-            // Arrange
-            const component: NowPlayingArtistInfoComponent = createComponent();
-
-            // Act
-            await component.imageIsLoadedAsync();
-
-            // Assert
-            expect(component.contentAnimation).toEqual('fade-in');
         });
     });
 
