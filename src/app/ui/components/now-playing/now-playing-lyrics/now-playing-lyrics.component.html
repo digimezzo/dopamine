@@ -23,7 +23,10 @@
             [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
         ></app-playback-information>
     </div>
-    <div class="app-now-playing-lyrics__text">
+    <div *ngIf="this.isBusy" class="app-now-playing-lyrics__spinner">
+        <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+    <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
         <div [@contentAnimation]="contentAnimation" class="break-on-newline">
             <div *ngIf="this.hasLyrics">{{ this.lyrics?.text }}</div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>

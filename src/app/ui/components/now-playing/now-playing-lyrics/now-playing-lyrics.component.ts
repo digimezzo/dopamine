@@ -33,6 +33,7 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private _lyrics: LyricsModel | undefined;
     private previousTrackPath: string = '';
     private _contentAnimation: string = 'fade-out';
+    private _isBusy: boolean = false;
 
     public constructor(
         public appearanceService: AppearanceServiceBase,
@@ -42,6 +43,10 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
+
+    public get isBusy(): boolean {
+        return this._isBusy;
+    }
 
     public get hasLyrics(): boolean {
         return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.text);
@@ -107,7 +112,9 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             await this.scheduler.sleepAsync(150);
         }
 
+        this._isBusy = true;
         this._lyrics = await this.lyricsService.getLyricsAsync(track);
+        this._isBusy = false;
 
         this.previousTrackPath = track.path;
 
