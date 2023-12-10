@@ -25,11 +25,11 @@
                 <div class="app-now-playing__content">
                     <!-- Nothing playing -->
                     <app-now-playing-nothing-playing
-                        [@inOutAnimation]="{
-                            value: inOutAnimation,
+                        [@enterAnimation]="{
+                            value: enterAnimation,
                             params: {
-                                theMarginLeft: this.theMarginLeft,
-                                theMarginRight: this.theMarginRight
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
                             }
                         }"
                         *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.nothingPlaying"
@@ -37,11 +37,11 @@
                     ></app-now-playing-nothing-playing>
                     <!-- Showcase -->
                     <app-now-playing-showcase
-                        [@inOutAnimation]="{
-                            value: inOutAnimation,
+                        [@enterAnimation]="{
+                            value: enterAnimation,
                             params: {
-                                theMarginLeft: this.theMarginLeft,
-                                theMarginRight: this.theMarginRight
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
                             }
                         }"
                         *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.showcase"
@@ -49,11 +49,11 @@
                     ></app-now-playing-showcase>
                     <!-- Lyrics -->
                     <app-now-playing-lyrics
-                        [@inOutAnimation]="{
-                            value: inOutAnimation,
+                        [@enterAnimation]="{
+                            value: enterAnimation,
                             params: {
-                                theMarginLeft: this.theMarginLeft,
-                                theMarginRight: this.theMarginRight
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
                             }
                         }"
                         *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.lyrics"
@@ -61,11 +61,11 @@
                     ></app-now-playing-lyrics>
                     <!-- Artist info -->
                     <app-now-playing-artist-info
-                        [@inOutAnimation]="{
-                            value: inOutAnimation,
+                        [@enterAnimation]="{
+                            value: enterAnimation,
                             params: {
-                                theMarginLeft: this.theMarginLeft,
-                                theMarginRight: this.theMarginRight
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
                             }
                         }"
                         *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.artistInformation"

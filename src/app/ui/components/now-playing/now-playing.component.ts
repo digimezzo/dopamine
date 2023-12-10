@@ -89,18 +89,11 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
-        trigger('inOutAnimation', [
-            transition(
-                ':enter',
-                [
-                    style({ 'margin-left': '{{theMarginLeft}}', 'margin-right': '{{theMarginRight}}', opacity: 0 }),
-                    animate(
-                        `${Constants.screenEaseSpeedMilliseconds}ms ease-out`,
-                        style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 }),
-                    ),
-                ],
-                { params: { theMargin: `-${Constants.screenEaseMarginPixels}px` } },
-            ),
+        trigger('enterAnimation', [
+            transition(':enter', [
+                style({ 'margin-left': '{{marginLeft}}', 'margin-right': '{{marginRight}}', opacity: 0 }),
+                animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 })),
+            ]),
         ]),
     ],
 })
@@ -132,8 +125,8 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public pageSwitchAnimation: string = 'fade-out';
     public controlsVisibility: string = 'visible';
 
-    public theMarginLeft: string = `-${Constants.screenEaseMarginPixels}px`;
-    public theMarginRight: string = `${Constants.screenEaseMarginPixels}px`;
+    public marginLeft: string = `-${Constants.screenEaseMarginPixels}px`;
+    public marginRight: string = `${Constants.screenEaseMarginPixels}px`;
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -219,13 +212,14 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
-        if (this.selectedNowPlayingPage > nowPlayingPage) {
-            this.theMarginLeft = `${Constants.screenEaseMarginPixels}px`;
-            this.theMarginRight = `-${Constants.screenEaseMarginPixels}px`;
-        } else {
-            this.theMarginLeft = `-${Constants.screenEaseMarginPixels}px`;
-            this.theMarginRight = `${Constants.screenEaseMarginPixels}px`;
+        let marginToApply: number = Constants.screenEaseMarginPixels;
+
+        if (this.selectedNowPlayingPage < nowPlayingPage) {
+            marginToApply = -Constants.screenEaseMarginPixels;
         }
+
+        this.marginLeft = `${marginToApply}px`;
+        this.marginRight = `${-marginToApply}px`;
 
         this.selectedNowPlayingPage = nowPlayingPage;
     }
