@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { TrackModel } from '../../../../services/track/track-model';
 import { LyricsModel } from '../../../../services/lyrics/lyrics-model';
@@ -19,20 +18,11 @@ import { StringUtils } from '../../../../common/utils/string-utils';
     templateUrl: './now-playing-lyrics.component.html',
     styleUrls: ['./now-playing-lyrics.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger('contentAnimation', [
-            state('fade-out', style({ opacity: 0 })),
-            state('fade-in', style({ opacity: 1 })),
-            transition('fade-in => fade-out', animate('150ms ease-out')),
-            transition('fade-out => fade-in', animate('500ms ease-out')),
-        ]),
-    ],
 })
 export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private subscription: Subscription = new Subscription();
     private _lyrics: LyricsModel | undefined;
     private previousTrackPath: string = '';
-    private _contentAnimation: string = 'fade-out';
     private _isBusy: boolean = false;
 
     public constructor(
@@ -50,10 +40,6 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     public get hasLyrics(): boolean {
         return this._lyrics != undefined && !StringUtils.isNullOrWhiteSpace(this._lyrics.text);
-    }
-
-    public get contentAnimation(): string {
-        return this._contentAnimation;
     }
 
     public get lyrics(): LyricsModel | undefined {
@@ -95,10 +81,6 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
 
     private async showLyricsAsync(track: TrackModel | undefined): Promise<void> {
         if (track == undefined) {
-            if (this._contentAnimation !== 'fade-out') {
-                this._contentAnimation = 'fade-out';
-                await this.scheduler.sleepAsync(150);
-            }
             this._lyrics = undefined;
             return;
         }
@@ -107,18 +89,10 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this._contentAnimation !== 'fade-out') {
-            this._contentAnimation = 'fade-out';
-            await this.scheduler.sleepAsync(150);
-        }
-
         this._isBusy = true;
         this._lyrics = await this.lyricsService.getLyricsAsync(track);
         this._isBusy = false;
 
         this.previousTrackPath = track.path;
-
-        this._contentAnimation = 'fade-in';
-        await this.scheduler.sleepAsync(250);
     }
 }

@@ -3,16 +3,8 @@
     height: 100%;
 }
 
-.app-now-playing-artist-info__enabled {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-}
-
-.app-now-playing-artist-info__disabled {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.yow {
+    background: red;
 }
 
 .app-now-playing-artist-info__picture {
@@ -20,7 +12,9 @@
     height: 300px;
     margin-right: 50px;
     background: var(--theme-album-cover-background);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    box-shadow:
+        0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
 .app-now-playing-artist-info__text {

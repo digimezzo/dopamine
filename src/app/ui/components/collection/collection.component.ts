@@ -42,7 +42,7 @@ export class CollectionComponent implements AfterViewInit {
         this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
     }
 
-    public pageSwitchAnimation: string = 'fade-in';
+    public pageSwitchAnimation: string = 'fade-out';
 
     public get artistsTabLabel(): string {
         return Constants.artistsTabLabel;
@@ -94,6 +94,11 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
+        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
+        setTimeout(() => {
+            this.pageSwitchAnimation = 'fade-in';
+        }, 0);
+
         this.setAudioVisualizer();
     }
 
