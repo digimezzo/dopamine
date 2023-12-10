@@ -125,8 +125,8 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public pageSwitchAnimation: string = 'fade-out';
     public controlsVisibility: string = 'visible';
 
-    public marginLeft: string = `-${Constants.screenEaseMarginPixels}px`;
-    public marginRight: string = `${Constants.screenEaseMarginPixels}px`;
+    public marginLeft: string = '0px';
+    public marginRight: string = '0px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
