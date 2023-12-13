@@ -263,5 +263,6 @@
     "nothing-is-playing": "Ничего не играет",
     "play-all": "Играть всё",
     "shuffle-all": "Перемешать все",
-    "no-lyrics-found": "Текст песни не найден"
+    "no-lyrics-found": "Текст песни не найден",
+    "no-biography-found": "No biography was found"
 }

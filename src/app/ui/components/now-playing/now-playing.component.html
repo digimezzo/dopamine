@@ -22,18 +22,56 @@
         </div>
         <div class="window-frame__content">
             <div class="app-now-playing">
-                <mat-horizontal-stepper [linear]="false" #stepper class="now-playing-stepper">
+                <div class="app-now-playing__content">
                     <!-- Nothing playing -->
-                    <mat-step> <app-now-playing-nothing-playing class="collection-viewport"></app-now-playing-nothing-playing> </mat-step>
+                    <app-now-playing-nothing-playing
+                        [@enterAnimation]="{
+                            value: enterAnimation,
+                            params: {
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
+                            }
+                        }"
+                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.nothingPlaying"
+                        class="collection-viewport"
+                    ></app-now-playing-nothing-playing>
                     <!-- Showcase -->
-                    <mat-step>
-                        <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
-                    </mat-step>
+                    <app-now-playing-showcase
+                        [@enterAnimation]="{
+                            value: enterAnimation,
+                            params: {
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
+                            }
+                        }"
+                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.showcase"
+                        class="collection-viewport"
+                    ></app-now-playing-showcase>
                     <!-- Lyrics -->
-                    <mat-step> <app-now-playing-lyrics class="collection-viewport"></app-now-playing-lyrics> </mat-step>
+                    <app-now-playing-lyrics
+                        [@enterAnimation]="{
+                            value: enterAnimation,
+                            params: {
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
+                            }
+                        }"
+                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.lyrics"
+                        class="collection-viewport"
+                    ></app-now-playing-lyrics>
                     <!-- Artist info -->
-                    <mat-step> <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info> </mat-step>
-                </mat-horizontal-stepper>
+                    <app-now-playing-artist-info
+                        [@enterAnimation]="{
+                            value: enterAnimation,
+                            params: {
+                                marginLeft: this.marginLeft,
+                                marginRight: this.marginRight
+                            }
+                        }"
+                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.artistInformation"
+                        class="collection-viewport"
+                    ></app-now-playing-artist-info>
+                </div>
                 <div class="app-now-playing-playback-controls__container">
                     <div
                         class="app-now-playing-playback-controls__background theme-footer-background"

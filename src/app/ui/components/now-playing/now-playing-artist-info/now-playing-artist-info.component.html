@@ -1,43 +1,44 @@
 <div class="app-now-playing-artist-info">
-    <div
-        [@contentAnimation]="contentAnimation"
-        class="app-now-playing-artist-info__enabled"
-        *ngIf="this.settings.downloadArtistInformationFromLastFm"
-    >
-        <div class="d-flex flex-column">
-            <div class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center">
-                <i class="app-now-playing-artist-info__icon las la-user" *ngIf="!this.artist.imageUrl"> </i>
-                <img
-                    *ngIf="this.artist.imageUrl"
-                    [src]="this.artist.imageUrl"
-                    [width]="300"
-                    [height]="300"
-                    draggable="false"
-                    (load)="imageIsLoadedAsync()"
-                />
-            </div>
-            <div class="mt-4 font-extra-large" *ngIf="!this.artist.isEmpty">{{ this.artist.name }}</div>
-        </div>
-        <div class="app-now-playing-artist-info__text" *ngIf="!this.artist.isEmpty">
-            <div [innerHTML]="this.artist.biography"></div>
-
-            <div class="mt-3">
-                <a (click)="this.artist.browseToUrlAsync()">{{ 'read-more-on-lastfm' | translate }}</a>
-            </div>
-
-            <div *ngIf="this.artist.hasSimilarArtists">
-                <h1 class="mt-4">{{ 'similar' | translate }}</h1>
-                <div class="d-flex flex-wrap">
-                    <similar-artist
-                        class="mr-2 mb-2"
-                        *ngFor="let similarArtist of this.artist.similarArtists"
-                        [similarArtist]="similarArtist"
-                    ></similar-artist>
+    <div class="d-flex h-100 w-100" *ngIf="this.settings.downloadArtistInformationFromLastFm">
+        <div class="d-flex flex-row h-100 w-100">
+            <div class="d-flex flex-column">
+                <div class="app-now-playing-artist-info__picture d-flex justify-content-center align-items-center">
+                    <i class="app-now-playing-artist-info__icon las la-user" *ngIf="!this.artist.imageUrl"> </i>
+                    <img *ngIf="this.artist.imageUrl" [src]="this.artist.imageUrl" [width]="300" [height]="300" draggable="false" />
                 </div>
+                <div class="mt-4">
+                    <div class="font-extra-large" *ngIf="this.artist.name">
+                        {{ this.artist.name }}
+                    </div>
+                    <div class="font-extra-large" *ngIf="!this.artist.name">{{ 'unknown-artist' | translate }}</div>
+                </div>
+            </div>
+            <div *ngIf="this.isBusy" class="app-now-playing-artist-info__spinner">
+                <mat-spinner [diameter]="40"></mat-spinner>
+            </div>
+            <div *ngIf="!this.isBusy" class="app-now-playing-artist-info__text">
+                <div *ngIf="this.artist.hasBiography">
+                    <div [innerHTML]="this.artist.biography"></div>
+
+                    <div class="mt-3">
+                        <a (click)="this.artist.browseToUrlAsync()">{{ 'read-more-on-lastfm' | translate }}</a>
+                    </div>
+                    <div *ngIf="this.artist.hasSimilarArtists">
+                        <h1 class="mt-4">{{ 'similar' | translate }}</h1>
+                        <div class="d-flex flex-wrap">
+                            <similar-artist
+                                class="mr-2 mb-2"
+                                *ngFor="let similarArtist of this.artist.similarArtists"
+                                [similarArtist]="similarArtist"
+                            ></similar-artist>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!this.artist.hasBiography">{{ 'no-biography-found' | translate }}</div>
             </div>
         </div>
     </div>
-    <div class="app-now-playing-artist-info__disabled" *ngIf="!this.settings.downloadArtistInformationFromLastFm">
+    <div class="d-flex flex-column h-100" *ngIf="!this.settings.downloadArtistInformationFromLastFm">
         <h1>{{ 'artist-information' | translate }}</h1>
         <div>{{ 'downloading-of-artist-information-from-lastfm-disabled' | translate }}</div>
         <div class="mt-3">

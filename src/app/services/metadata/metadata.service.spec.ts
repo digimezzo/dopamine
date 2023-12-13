@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { IMock, Mock, Times } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
 import { DateTime } from '../../common/date-time';
 import { ImageProcessor } from '../../common/image-processor';
@@ -107,7 +107,7 @@ describe('MetadataService', () => {
             const service: MetadataServiceBase = createService();
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(undefined);
+            const imageUrl: string = await service.createImageUrlAsync(undefined, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -122,7 +122,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track);
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -138,7 +138,7 @@ describe('MetadataService', () => {
             fileAccessMock.setup((x) => x.pathExists('cachedAlbumArtworkPath1')).returns(() => true);
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track);
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('file:///cachedAlbumArtworkPath1');
@@ -154,7 +154,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => '');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track);
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -172,7 +172,7 @@ describe('MetadataService', () => {
             cachedAlbumArtworkGetterMock.setup((x) => x.getCachedAlbumArtworkPath('albumKey1')).returns(() => 'cachedAlbumArtworkPath1');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track);
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual(Constants.emptyImage);
@@ -189,10 +189,61 @@ describe('MetadataService', () => {
             imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
 
             // Act
-            const imageUrl: string = await service.createImageUrlAsync(track);
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
 
             // Assert
             expect(imageUrl).toEqual('bufferAsImageUrl');
+        });
+
+        it('should not resize cover art if maximumSize of 0 is given', async () => {
+            // Arrange
+            const service: MetadataServiceBase = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
+            const coverArt: Buffer = Buffer.from([1, 2, 3]);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
+            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
+
+            // Act
+            const imageUrl: string = await service.createImageUrlAsync(track, 0);
+
+            // Assert
+            imageProcessorMock.verify((x) => x.resizeImage(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should not resize cover art if maximumSize smaller than 0 is given', async () => {
+            // Arrange
+            const service: MetadataServiceBase = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
+            const coverArt: Buffer = Buffer.from([1, 2, 3]);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
+            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
+
+            // Act
+            const imageUrl: string = await service.createImageUrlAsync(track, -1);
+
+            // Assert
+            imageProcessorMock.verify((x) => x.resizeImage(It.isAny(), It.isAny(), It.isAny(), It.isAny()), Times.never());
+        });
+
+        it('should resize cover art if maximumSize larger than 0 is given', async () => {
+            // Arrange
+            const service: MetadataServiceBase = createService();
+            const track: TrackModel = MockCreator.createTrackModelWithAlbumKey('path1', 'albumKey1');
+            const fileMetaDataMock: any = {};
+            fileMetadataFactoryMock.setup((x) => x.createAsync('path1')).returns(() => Promise.resolve(fileMetaDataMock));
+            const coverArt: Buffer = Buffer.from([1, 2, 3]);
+            albumArtworkGetterMock.setup((x) => x.getAlbumArtworkAsync(fileMetaDataMock, false)).returns(() => Promise.resolve(coverArt));
+            imageProcessorMock.setup((x) => x.convertBufferToImageUrl(coverArt)).returns(() => 'bufferAsImageUrl');
+
+            // Act
+            const imageUrl: string = await service.createImageUrlAsync(track, 500);
+
+            // Assert
+            imageProcessorMock.verify((x) => x.resizeImage(coverArt, 500, 500, 80), Times.once());
         });
     });
 

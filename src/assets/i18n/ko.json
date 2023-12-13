@@ -263,5 +263,6 @@
     "nothing-is-playing": "Nothing is playing",
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
-    "no-lyrics-found": "No lyrics were found"
+    "no-lyrics-found": "No lyrics were found",
+    "no-biography-found": "No biography was found"
 }

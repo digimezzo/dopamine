@@ -55,9 +55,49 @@ describe('LrcLyricsGetter', () => {
             const lyrics: LyricsModel = await instance.getLyricsAsync(track);
 
             // Assert
+            expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.lrc);
             expect(lyrics.text).toEqual('Line 1 lyrics\nLine 2 lyrics\nLine 3 lyrics\nLine 4 lyrics\nLine 5 lyrics\nLine 6 lyrics');
+        });
+
+        it('should return empty lyrics if lrc file exists but is empty', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('/path/to/audio/file.mp3', 'title', 'artists');
+            fileAccessMock.setup((x) => x.getPathWithoutExtension(track.path)).returns(() => '/path/to/audio/file');
+            fileAccessMock.setup((x) => x.pathExists('/path/to/audio/file.lrc')).returns(() => true);
+
+            const lrcFileLines: string[] = [];
+
+            fileAccessMock.setup((x) => x.readLinesAsync('/path/to/audio/file.lrc')).returns(() => Promise.resolve(lrcFileLines));
+            const instance: LrcLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.track).toEqual(track);
+            expect(lyrics.sourceName).toEqual('');
+            expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
+            expect(lyrics.text).toEqual('');
+        });
+
+        it('should return empty lyrics if lrc file does not exist', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('/path/to/audio/file.mp3', 'title', 'artists');
+            fileAccessMock.setup((x) => x.getPathWithoutExtension(track.path)).returns(() => '/path/to/audio/file');
+            fileAccessMock.setup((x) => x.pathExists('/path/to/audio/file.lrc')).returns(() => false);
+
+            const instance: LrcLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.track).toEqual(track);
+            expect(lyrics.sourceName).toEqual('');
+            expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
+            expect(lyrics.text).toEqual('');
         });
     });
 });

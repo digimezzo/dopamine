@@ -50,21 +50,21 @@ describe('ArtistInformation', () => {
         });
     });
 
-    describe('isEmpty', () => {
-        it('should be true when instance is empty', () => {
-            // Arrange
-            const artist: ArtistInformation = new ArtistInformation(undefined, '', '', '', '');
-
-            // Act, Assert
-            expect(artist.isEmpty).toBeTruthy();
-        });
-
-        it('should be false when instance is not empty', () => {
+    describe('hasBiography', () => {
+        it('should be true when there is a biography', () => {
             // Arrange
             const artist: ArtistInformation = new ArtistInformation(desktopMock.object, 'name', 'url', 'imageUrl', 'biography');
 
             // Act, Assert
-            expect(artist.isEmpty).toBeFalsy();
+            expect(artist.hasBiography).toBeTruthy();
+        });
+
+        it('should be false when there is no biography', () => {
+            // Arrange
+            const artist: ArtistInformation = new ArtistInformation(desktopMock.object, 'name', 'url', 'imageUrl', '');
+
+            // Act, Assert
+            expect(artist.hasBiography).toBeFalsy();
         });
     });
 
@@ -103,7 +103,7 @@ describe('ArtistInformation', () => {
     });
 
     describe('browseToUrlAsync', () => {
-        it('should browse to url when not empty', async () => {
+        it('should browse to url when desktop is defined and url is not empty', async () => {
             // Arrange
             const artist: ArtistInformation = new ArtistInformation(desktopMock.object, 'name', 'url', 'imageUrl', 'biography');
 
@@ -114,9 +114,19 @@ describe('ArtistInformation', () => {
             desktopMock.verify((x) => x.openLinkAsync('url'), Times.once());
         });
 
-        it('should not browse to url when empty', async () => {
+        it('should not browse to url when desktop is undefined', async () => {
             // Arrange
-            const artist: ArtistInformation = ArtistInformation.empty();
+            const artist: ArtistInformation = new ArtistInformation(undefined, 'name', 'url', 'imageUrl', 'biography');
+
+            // Act
+            await artist.browseToUrlAsync();
+
+            // Assert
+            desktopMock.verify((x) => x.openLinkAsync(It.isAny()), Times.never());
+        });
+        it('should not browse to url when url is empty', async () => {
+            // Arrange
+            const artist: ArtistInformation = new ArtistInformation(desktopMock.object, 'name', '', 'imageUrl', 'biography');
 
             // Act
             await artist.browseToUrlAsync();

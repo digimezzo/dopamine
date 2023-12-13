@@ -1,11 +1,11 @@
-<div class="playback-queue p-4">
+<div class="h-100vh w-100 d-flex flex-column p-4">
     <h2>{{ 'playback-queue' | translate }}</h2>
-    <div class="playback-queue__header m-1">
+    <div class="d-flex flex-row m-1">
         <div class="playback-queue__trackscount mr-2">{{ this.playbackService.playbackQueue.numberOfTracks }}</div>
         <div *ngIf="this.playbackService.playbackQueue.numberOfTracks === 1">{{ 'track' | translate }}</div>
         <div *ngIf="this.playbackService.playbackQueue.numberOfTracks !== 1">{{ 'tracks' | translate }}</div>
     </div>
-    <cdk-virtual-scroll-viewport class="playback-queue__tracks mt-3" itemSize="46">
+    <cdk-virtual-scroll-viewport *ngIf="this.shouldShowList" class="flex-grow mt-3" itemSize="46">
         <div *cdkVirtualFor="let track of this.playbackService.playbackQueue.tracks" (mousedown)="setSelectedTracks($event, track)">
             <app-track
                 [track]="track"

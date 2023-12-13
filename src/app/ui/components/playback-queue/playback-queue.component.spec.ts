@@ -108,6 +108,16 @@ describe('PlaybackQueueComponent', () => {
             // Assert
             expect(component.mouseSelectionWatcher).toBeDefined();
         });
+
+        it('should initialize shouldShowList as false', () => {
+            // Arrange
+
+            // Act
+            const component: PlaybackQueueComponent = createComponent();
+
+            // Assert
+            expect(component.shouldShowList).toBeFalsy();
+        });
     });
 
     describe('ngOnInit', () => {
@@ -135,6 +145,23 @@ describe('PlaybackQueueComponent', () => {
 
             // Assert
             mouseSelectionWatcherMock.verify((x) => x.initialize(playbackQueue.tracks), Times.once());
+        });
+
+        it('should set shouldShowList to true the playback queue is shown', () => {
+            // Arrange
+            const component: PlaybackQueueComponent = createComponent();
+
+            // Act
+            component.ngOnInit();
+            const shouldShowListBefore: boolean = component.shouldShowList;
+            jest.useFakeTimers();
+            navigationServiceShowPlaybackQueueRequested.next();
+            jest.runAllTimers();
+            const shouldShowListAfter: boolean = component.shouldShowList;
+
+            // Assert
+            expect(shouldShowListBefore).toBeFalsy();
+            expect(shouldShowListAfter).toBeTruthy();
         });
     });
 

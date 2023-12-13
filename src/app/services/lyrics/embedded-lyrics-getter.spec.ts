@@ -28,7 +28,7 @@ describe('EmbeddedLyricsGetter', () => {
     });
 
     describe('getLyricsAsync', () => {
-        it('should return the file metadata lyrics', async () => {
+        it('should return the file metadata lyrics if there are any', async () => {
             // Arrange
             const track = MockCreator.createTrackModel('path', 'title', 'artists');
             const metadataMock: IFileMetadata = { lyrics: 'lyrics' } as IFileMetadata;
@@ -39,9 +39,27 @@ describe('EmbeddedLyricsGetter', () => {
             const lyrics: LyricsModel = await instance.getLyricsAsync(track);
 
             // Assert
+            expect(lyrics.track).toEqual(track);
             expect(lyrics.sourceName).toEqual('');
             expect(lyrics.sourceType).toEqual(LyricsSourceType.embedded);
             expect(lyrics.text).toEqual('lyrics');
+        });
+
+        it('should return empty lyrics if there are no metadata lyrics', async () => {
+            // Arrange
+            const track = MockCreator.createTrackModel('path', 'title', 'artists');
+            const metadataMock: IFileMetadata = { lyrics: '' } as IFileMetadata;
+            fileMetadataFactoryMock.setup((x) => x.createAsync(track.path)).returns(() => Promise.resolve(metadataMock));
+            const instance: EmbeddedLyricsGetter = createInstance();
+
+            // Act
+            const lyrics: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            expect(lyrics.track).toEqual(track);
+            expect(lyrics.sourceName).toEqual('');
+            expect(lyrics.sourceType).toEqual(LyricsSourceType.none);
+            expect(lyrics.text).toEqual('');
         });
     });
 });

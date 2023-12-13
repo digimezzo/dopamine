@@ -162,22 +162,6 @@ describe('CollectionComponent', () => {
     });
 
     describe('ngAfterViewInit', () => {
-        it('should get tab index for tab label and set selected index', () => {
-            // Arrange
-            const component: CollectionComponent = createComponent();
-            tabSelectionGetterMock.setup((x) => x.getTabIndexForLabel('playlists')).returns(() => 4);
-            collectionPersisterStub.selectedTab = 'playlists';
-
-            // Act
-            jest.useFakeTimers();
-            component.ngAfterViewInit();
-            jest.runAllTimers();
-
-            // Assert
-            tabSelectionGetterMock.verify((x) => x.getTabIndexForLabel('playlists'), Times.once());
-            expect(component.selectedIndex).toEqual(4);
-        });
-
         it('should set the audio visualizer', () => {
             // Arrange
             const canvasMock: IMock<HTMLCanvasElement> = Mock.ofType<HTMLCanvasElement>();

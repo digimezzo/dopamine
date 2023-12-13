@@ -58,6 +58,6 @@ export class WebSearchLyricsApi implements ILyricsApi {
             }
         }
 
-        return Lyrics.default();
+        return Lyrics.empty();
     }
 }

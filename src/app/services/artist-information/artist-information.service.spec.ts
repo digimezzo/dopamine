@@ -1,4 +1,4 @@
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { LastfmArtist } from '../../common/api/lastfm/lastfm-artist';
 import { LastfmBiography } from '../../common/api/lastfm/lastfm-biography';
 import { DateTime } from '../../common/date-time';
@@ -13,12 +13,14 @@ import { FanartApi } from '../../common/api/fanart/fanart.api';
 import { ArtistInformationServiceBase } from './artist-information.service.base';
 import { Track } from '../../data/entities/track';
 import { DesktopBase } from '../../common/io/desktop.base';
+import { ImageProcessor } from '../../common/image-processor';
+import { OnlineArtistImageGetter } from './online-artist-image-getter';
 
 describe('ArtistInformationService', () => {
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let artistInformationFactoryMock: IMock<ArtistInformationFactory>;
+    let onlineArtistImageGetterMock: IMock<OnlineArtistImageGetter>;
     let lastfmApiMock: IMock<LastfmApi>;
-    let fanartApiMock: IMock<FanartApi>;
     let loggerMock: IMock<Logger>;
     let dateTimeMock: IMock<DateTime>;
 
@@ -26,8 +28,8 @@ describe('ArtistInformationService', () => {
         return new ArtistInformationService(
             translatorServiceMock.object,
             artistInformationFactoryMock.object,
+            onlineArtistImageGetterMock.object,
             lastfmApiMock.object,
-            fanartApiMock.object,
             loggerMock.object,
         );
     }
@@ -104,17 +106,17 @@ describe('ArtistInformationService', () => {
         return lastfmArtist;
     }
 
-    function createArtistInformation(biography: string, imageUrl: string): ArtistInformation {
+    function createArtistInformation(biography: string, url: string, imageUrl: string): ArtistInformation {
         const desktopMock: IMock<DesktopBase> = Mock.ofType<DesktopBase>();
 
-        return new ArtistInformation(desktopMock.object, 'Taylor Swift', 'url', imageUrl, biography);
+        return new ArtistInformation(desktopMock.object, 'Taylor Swift', url, imageUrl, biography);
     }
 
     beforeEach(() => {
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         artistInformationFactoryMock = Mock.ofType<ArtistInformationFactory>();
+        onlineArtistImageGetterMock = Mock.ofType<OnlineArtistImageGetter>();
         lastfmApiMock = Mock.ofType<LastfmApi>();
-        fanartApiMock = Mock.ofType<FanartApi>();
         loggerMock = Mock.ofType<Logger>();
         dateTimeMock = Mock.ofType<DateTime>();
     });
@@ -129,6 +131,37 @@ describe('ArtistInformationService', () => {
         });
     });
 
+    describe('getQuickArtistInformation', () => {
+        it('should return empty ArtistInformation when track is undefined', () => {
+            // Arrange
+            const service: ArtistInformationServiceBase = createService();
+
+            // Act
+            const artist: ArtistInformation = service.getQuickArtistInformation(undefined);
+
+            // Assert
+            expect(artist.name).toEqual('');
+            expect(artist.url).toEqual('');
+            expect(artist.imageUrl).toEqual('');
+            expect(artist.biography).toEqual('');
+        });
+
+        it('should return ArtistInformation containing artist name when track is not undefined', () => {
+            // Arrange
+            const trackModel: TrackModel = createTrackModel('Madonna');
+            artistInformationFactoryMock
+                .setup((x) => x.create('Madonna', '', '', ''))
+                .returns(() => new ArtistInformation(undefined, 'Madonna', '', '', ''));
+            const service: ArtistInformationServiceBase = createService();
+
+            // Act
+            const artist: ArtistInformation = service.getQuickArtistInformation(trackModel);
+
+            // Assert
+            expect(artist.name).toEqual('Madonna');
+        });
+    });
+
     describe('getArtistInformationAsync', () => {
         it('should return empty ArtistInformation when track is undefined', async () => {
             // Arrange
@@ -138,7 +171,10 @@ describe('ArtistInformationService', () => {
             const artist: ArtistInformation = await service.getArtistInformationAsync(undefined);
 
             // Assert
-            expect(artist.isEmpty).toBeTruthy();
+            expect(artist.name).toEqual('');
+            expect(artist.url).toEqual('');
+            expect(artist.imageUrl).toEqual('');
+            expect(artist.biography).toEqual('');
         });
 
         it('should return empty ArtistInformation when track.rawFirstArtist is empty', async () => {
@@ -150,7 +186,10 @@ describe('ArtistInformationService', () => {
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
 
             // Assert
-            expect(artist.isEmpty).toBeTruthy();
+            expect(artist.name).toEqual('');
+            expect(artist.url).toEqual('');
+            expect(artist.imageUrl).toEqual('');
+            expect(artist.biography).toEqual('');
         });
 
         it('should return non-empty ArtistInformation when Last.fm returns artist', async () => {
@@ -163,19 +202,22 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
                 .returns(() => Promise.resolve(createArtistWithGermanBiography()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
-                .returns(() => createArtistInformation('German biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('German biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
 
             // Assert
-            expect(artist.isEmpty).toBeFalsy();
+            expect(artist.name).toEqual('Taylor Swift');
+            expect(artist.url).toEqual('TaylorSwiftUrl');
+            expect(artist.imageUrl).toEqual('TaylorSwiftImageUrl');
+            expect(artist.biography).toEqual('German biography');
         });
 
         it('should return localized biography when available', async () => {
@@ -188,13 +230,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
                 .returns(() => Promise.resolve(createArtistWithGermanBiography()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
-                .returns(() => createArtistInformation('German biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('German biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -216,13 +258,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
                 .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
-                .returns(() => createArtistInformation('English biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('English biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -241,13 +283,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
                 .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
-                .returns(() => createArtistInformation('English biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('English biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -266,13 +308,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'EN'))
                 .returns(() => Promise.resolve(createArtistWithEnglishBiography()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .throws(new Error('An error occurred'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', '', 'English biography'))
-                .returns(() => createArtistInformation('English biography', ''));
+                .returns(() => createArtistInformation('English biography', 'TaylorSwiftUrl', ''));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -298,13 +340,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN'))
                 .returns(() => Promise.resolve(createGracieAbramsArtist()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
-                .returns(() => createArtistInformation('English biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('English biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -330,13 +372,13 @@ describe('ArtistInformationService', () => {
                 .setup((x) => x.getArtistInfoAsync('Gracie Abrams', true, 'EN'))
                 .returns(() => Promise.resolve(createGracieAbramsArtist()));
 
-            fanartApiMock
-                .setup((x) => x.getArtistThumbnailAsync('20244d07-534f-4eff-b4d4-930878889970'))
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
                 .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
 
             artistInformationFactoryMock
                 .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'English biography'))
-                .returns(() => createArtistInformation('English biography', 'TaylorSwiftImageUrl'));
+                .returns(() => createArtistInformation('English biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
 
             // Act
             const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
@@ -344,6 +386,104 @@ describe('ArtistInformationService', () => {
             // Assert
             expect(artist.similarArtists.length).toEqual(1);
             expect(artist.similarArtists[0].name).toEqual('Gracie Abrams');
+        });
+
+        it('should return ArtistInformation from Last.fm when there is no cached artist information', async () => {
+            // Arrange
+            const service: ArtistInformationServiceBase = createService();
+            const trackModel: TrackModel = createTrackModel('Taylor Swift');
+
+            translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
+
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
+
+            artistInformationFactoryMock
+                .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
+                .returns(() => createArtistInformation('German biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
+
+            // Act
+            const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
+
+            // Assert
+            lastfmApiMock.verify((x) => x.getArtistInfoAsync(trackModel.rawFirstArtist, true, 'DE'), Times.once());
+            expect(artist.name).toEqual('Taylor Swift');
+            expect(artist.url).toEqual('TaylorSwiftUrl');
+            expect(artist.imageUrl).toEqual('TaylorSwiftImageUrl');
+            expect(artist.biography).toEqual('German biography');
+        });
+
+        it('should return cached ArtistInformation when there is cached artist information and the artist has not changed', async () => {
+            // Arrange
+            const service: ArtistInformationServiceBase = createService();
+            const trackModel: TrackModel = createTrackModel('Taylor Swift');
+
+            translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
+
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
+
+            artistInformationFactoryMock
+                .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
+                .returns(() => createArtistInformation('German biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
+            await service.getArtistInformationAsync(trackModel);
+
+            lastfmApiMock.reset();
+
+            // Act
+            const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel);
+
+            // Assert
+            lastfmApiMock.verify((x) => x.getArtistInfoAsync(It.isAny(), It.isAny(), It.isAny()), Times.never());
+            expect(artist.name).toEqual('Taylor Swift');
+            expect(artist.url).toEqual('TaylorSwiftUrl');
+            expect(artist.imageUrl).toEqual('TaylorSwiftImageUrl');
+            expect(artist.biography).toEqual('German biography');
+        });
+
+        it('should return ArtistInformation from Last.fm when there is cached artist information and the artist has changed', async () => {
+            // Arrange
+            const service: ArtistInformationServiceBase = createService();
+            const trackModel: TrackModel = createTrackModel('Taylor Swift');
+
+            translatorServiceMock.setup((x) => x.get('language-code')).returns(() => 'DE');
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Taylor Swift', true, 'DE'))
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
+
+            onlineArtistImageGetterMock
+                .setup((x) => x.getResizedArtistImageAsync('20244d07-534f-4eff-b4d4-930878889970', 300))
+                .returns(() => Promise.resolve('TaylorSwiftImageUrl'));
+
+            artistInformationFactoryMock
+                .setup((x) => x.create('Taylor Swift', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl', 'German biography'))
+                .returns(() => createArtistInformation('German biography', 'TaylorSwiftUrl', 'TaylorSwiftImageUrl'));
+            await service.getArtistInformationAsync(trackModel);
+
+            const trackModel2: TrackModel = createTrackModel('Madonna');
+
+            lastfmApiMock.reset();
+            lastfmApiMock
+                .setup((x) => x.getArtistInfoAsync('Madonna', true, 'DE'))
+                .returns(() => Promise.resolve(createArtistWithGermanBiography()));
+
+            // Act
+            const artist: ArtistInformation = await service.getArtistInformationAsync(trackModel2);
+
+            // Assert
+            lastfmApiMock.verify((x) => x.getArtistInfoAsync(trackModel2.rawFirstArtist, true, 'DE'), Times.once());
+            expect(artist.name).toEqual('Taylor Swift');
+            expect(artist.url).toEqual('TaylorSwiftUrl');
+            expect(artist.imageUrl).toEqual('TaylorSwiftImageUrl');
+            expect(artist.biography).toEqual('German biography');
         });
     });
 });

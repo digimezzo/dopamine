@@ -17,7 +17,6 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
 import { Scheduler } from '../../../../common/scheduling/scheduler';
-import { DesktopBase } from '../../../../common/io/desktop.base';
 import { Logger } from '../../../../common/logger';
 import { Hacks } from '../../../../common/hacks';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
@@ -48,7 +47,6 @@ describe('CollectionFoldersComponent', () => {
     let playbackIndicationServiceMock: IMock<PlaybackIndicationServiceBase>;
     let foldersPersisterMock: IMock<FoldersPersister>;
     let schedulerMock: IMock<Scheduler>;
-    let desktopMock: IMock<DesktopBase>;
     let loggerMock: IMock<Logger>;
     let hacksMock: IMock<Hacks>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
@@ -107,7 +105,6 @@ describe('CollectionFoldersComponent', () => {
             playbackIndicationServiceMock.object,
             foldersPersisterMock.object,
             schedulerMock.object,
-            desktopMock.object,
             loggerMock.object,
             hacksMock.object,
         );
@@ -132,7 +129,6 @@ describe('CollectionFoldersComponent', () => {
         loggerMock = Mock.ofType<Logger>();
         hacksMock = Mock.ofType<Hacks>();
         schedulerMock = Mock.ofType<Scheduler>();
-        desktopMock = Mock.ofType<DesktopBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         contextMenuOpenerMock = Mock.ofType<ContextMenuOpener>();
         mouseSelectionWatcherMock = Mock.ofType<MouseSelectionWatcher>();

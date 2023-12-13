@@ -37,7 +37,7 @@
     color: #fff;
 }
 
-.now-playing-stepper {
+.app-now-playing__content {
     background: transparent !important;
     flex: 1;
     width: 100%;
@@ -47,7 +47,7 @@
     position: relative;
 }
 
-.app-now-playing-playback-controls__background{
+.app-now-playing-playback-controls__background {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -70,5 +70,3 @@
     bottom: 0;
     z-index: 2;
 }
-
-

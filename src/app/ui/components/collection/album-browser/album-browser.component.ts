@@ -181,7 +181,7 @@ export class AlbumBrowserComponent implements OnInit, AfterViewInit {
         this.contextMenuOpener.open(this.albumContextMenu, event, album);
     }
 
-    public onAddToQueue(album: AlbumModel): void {
-        this.playbackService.addAlbumToQueueAsync(album);
+    public async onAddToQueueAsync(album: AlbumModel): Promise<void> {
+        await this.playbackService.addAlbumToQueueAsync(album);
     }
 }

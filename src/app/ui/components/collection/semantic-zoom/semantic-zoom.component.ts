@@ -22,7 +22,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
                     opacity: 0,
                 }),
             ),
-            transition('hidden => visible', animate('.25s')),
+            transition('hidden => visible', animate(`${Constants.semanticZoomOutAnimationMilliseconds}ms`)),
         ]),
     ],
 })

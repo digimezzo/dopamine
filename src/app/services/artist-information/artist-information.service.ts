@@ -9,16 +9,29 @@ import { ArtistInformation } from './artist-information';
 import { ArtistInformationFactory } from './artist-information-factory';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { ArtistInformationServiceBase } from './artist-information.service.base';
+import { ImageProcessor } from '../../common/image-processor';
+import { OnlineArtistImageGetter } from './online-artist-image-getter';
 
 @Injectable()
 export class ArtistInformationService implements ArtistInformationServiceBase {
     public constructor(
         private translatorService: TranslatorServiceBase,
         private artistInformationFactory: ArtistInformationFactory,
+        private onlineArtistImageGetter: OnlineArtistImageGetter,
         private lastfmApi: LastfmApi,
-        private fanartApi: FanartApi,
+
         private logger: Logger,
     ) {}
+
+    private cachedArtistInformation: ArtistInformation = ArtistInformation.empty();
+
+    public getQuickArtistInformation(track: TrackModel | undefined): ArtistInformation {
+        if (track == undefined) {
+            return ArtistInformation.empty();
+        }
+
+        return this.artistInformationFactory.create(track.rawFirstArtist, '', '', '');
+    }
 
     public async getArtistInformationAsync(track: TrackModel | undefined): Promise<ArtistInformation> {
         let artistInformation: ArtistInformation = ArtistInformation.empty();
@@ -29,6 +42,10 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
 
         if (StringUtils.isNullOrWhiteSpace(track.rawFirstArtist)) {
             return artistInformation;
+        }
+
+        if (this.cachedArtistInformation != ArtistInformation.empty() && this.cachedArtistInformation.name === track.rawFirstArtist) {
+            return this.cachedArtistInformation;
         }
 
         let lastfmArtist: LastfmArtist | undefined;
@@ -55,8 +72,7 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
         let artistImageUrl: string = '';
 
         try {
-            // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.
-            artistImageUrl = await this.fanartApi.getArtistThumbnailAsync(lastfmArtist.musicBrainzId);
+            artistImageUrl = await this.onlineArtistImageGetter.getResizedArtistImageAsync(lastfmArtist.musicBrainzId, 300);
         } catch (e: unknown) {
             this.logger.error(e, 'Could not get artistImageUrl', 'ArtistInformationService', 'getArtistInformationAsync');
         }
@@ -76,7 +92,7 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
                     const lastfmArtist: LastfmArtist = await this.lastfmApi.getArtistInfoAsync(similarArtist.name, true, 'EN');
 
                     // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.
-                    const artistImageUrl: string = await this.fanartApi.getArtistThumbnailAsync(lastfmArtist.musicBrainzId);
+                    const artistImageUrl: string = await this.onlineArtistImageGetter.getArtistImageAsync(lastfmArtist.musicBrainzId);
                     artistInformation.addSimilarArtist(lastfmArtist.name, lastfmArtist.url, artistImageUrl);
                 } catch (e: unknown) {
                     this.logger.error(
@@ -88,6 +104,8 @@ export class ArtistInformationService implements ArtistInformationServiceBase {
                 }
             }
         }
+
+        this.cachedArtistInformation = artistInformation;
 
         return artistInformation;
     }

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
 import { Hacks } from '../../../../common/hacks';
 import { Logger } from '../../../../common/logger';
-import { Scheduler } from '../../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { FolderModel } from '../../../../services/folder/folder-model';
 import { SubfolderModel } from '../../../../services/folder/subfolder-model';
@@ -23,7 +22,6 @@ import { CollectionServiceBase } from '../../../../services/collection/collectio
 import { NavigationServiceBase } from '../../../../services/navigation/navigation.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { PlaybackIndicationServiceBase } from '../../../../services/playback-indication/playback-indication.service.base';
-import { DesktopBase } from '../../../../common/io/desktop.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
@@ -56,7 +54,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private playbackIndicationService: PlaybackIndicationServiceBase,
         private foldersPersister: FoldersPersister,
         private scheduler: SchedulerBase,
-        private desktop: DesktopBase,
         private logger: Logger,
         private hacks: Hacks,
     ) {}

@@ -712,14 +712,14 @@ describe('AlbumBrowserComponent', () => {
     });
 
     describe('onAddToQueueAsync', () => {
-        it('should add the selected album to the queue', () => {
+        it('should add the selected album to the queue', async () => {
             // Arrange
             const albumData1: AlbumData = new AlbumData();
             const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
             const component: AlbumBrowserComponent = createComponent();
 
             // Act
-            component.onAddToQueue(album1);
+            await component.onAddToQueueAsync(album1);
 
             // Assert
             playbackServiceMock.verify((x) => x.addAlbumToQueueAsync(album1), Times.once());

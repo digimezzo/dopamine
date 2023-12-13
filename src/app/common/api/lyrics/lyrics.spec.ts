@@ -4,26 +4,37 @@ describe('Lyrics', () => {
     describe('constructor', () => {
         it('should create', () => {
             // Arrange, Act
-            const instance: Lyrics = new Lyrics('sourceName', 'text');
+            const sut: Lyrics = new Lyrics('sourceName', 'text');
 
             // Assert
-            expect(instance).toBeDefined();
+            expect(sut).toBeDefined();
         });
 
         it('should set sourceName', () => {
             // Arrange, Act
-            const instance: Lyrics = new Lyrics('sourceName', 'text');
+            const sut: Lyrics = new Lyrics('sourceName', 'text');
 
             // Assert
-            expect(instance.sourceName).toEqual('sourceName');
+            expect(sut.sourceName).toEqual('sourceName');
         });
 
         it('should set text', () => {
             // Arrange, Act
-            const instance: Lyrics = new Lyrics('sourceName', 'text');
+            const sut: Lyrics = new Lyrics('sourceName', 'text');
 
             // Assert
-            expect(instance.text).toEqual('text');
+            expect(sut.text).toEqual('text');
+        });
+    });
+
+    describe('empty', () => {
+        it('should create empty lyrics', () => {
+            // Arrange, Act
+            const sut: Lyrics = Lyrics.empty();
+
+            // Assert
+            expect(sut.sourceName).toEqual('');
+            expect(sut.text).toEqual('');
         });
     });
 });

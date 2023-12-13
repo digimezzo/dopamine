@@ -1,6 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { AfterViewInit, Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { NowPlayingPage } from '../../../services/now-playing-navigation/now-playing-page';
@@ -90,6 +89,12 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
+        trigger('enterAnimation', [
+            transition(':enter', [
+                style({ 'margin-left': '{{marginLeft}}', 'margin-right': '{{marginRight}}', opacity: 0 }),
+                animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 })),
+            ]),
+        ]),
     ],
 })
 export class NowPlayingComponent implements OnInit, AfterViewInit {
@@ -108,7 +113,8 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
         private documentProxy: DocumentProxy,
     ) {}
 
-    @ViewChild('stepper') public stepper: MatStepper;
+    public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
+    public selectedNowPlayingPage: NowPlayingPage;
 
     public background1IsUsed: boolean = false;
     public background1: string = '';
@@ -117,8 +123,10 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     public background2Animation: string = this.appearanceService.isUsingLightTheme ? 'fade-in-light' : 'fade-in-dark';
 
     public pageSwitchAnimation: string = 'fade-out';
-
     public controlsVisibility: string = 'visible';
+
+    public marginLeft: string = '0px';
+    public marginRight: string = '0px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -172,7 +180,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private async setBackgroundsAsync(): Promise<void> {
-        const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack);
+        const proposedBackground: string = await this.metadataService.createImageUrlAsync(this.playbackService.currentTrack, 0);
 
         if (this.background1IsUsed) {
             if (proposedBackground !== this.background1) {
@@ -204,7 +212,16 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
-        this.stepper.selectedIndex = nowPlayingPage;
+        let marginToApply: number = Constants.screenEaseMarginPixels;
+
+        if (this.selectedNowPlayingPage < nowPlayingPage) {
+            marginToApply = -Constants.screenEaseMarginPixels;
+        }
+
+        this.marginLeft = `${marginToApply}px`;
+        this.marginRight = `${-marginToApply}px`;
+
+        this.selectedNowPlayingPage = nowPlayingPage;
     }
 
     public async ngAfterViewInit(): Promise<void> {

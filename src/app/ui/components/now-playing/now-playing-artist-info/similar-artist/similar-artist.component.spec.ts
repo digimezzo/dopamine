@@ -24,7 +24,10 @@ describe('NowPlayingArtistInfoComponent', () => {
 
             // Assert
             expect(component.similarArtist).toBeDefined();
-            expect(component.similarArtist.isEmpty).toBeTruthy();
+            expect(component.similarArtist.name).toEqual('');
+            expect(component.similarArtist.url).toEqual('');
+            expect(component.similarArtist.imageUrl).toEqual('');
+            expect(component.similarArtist.biography).toEqual('');
         });
     });
 });

@@ -1,13 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Scheduler } from '../../../common/scheduling/scheduler';
 import { PromiseUtils } from '../../../common/utils/promise-utils';
 import { PlaybackInformation } from '../../../services/playback-information/playback-information';
 import { PlaybackInformationServiceBase } from '../../../services/playback-information/playback-information.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
-import { StringUtils } from '../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-playback-cover-art',

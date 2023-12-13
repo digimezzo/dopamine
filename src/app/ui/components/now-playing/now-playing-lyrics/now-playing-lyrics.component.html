@@ -1,7 +1,7 @@
 <div class="app-now-playing-lyrics">
     <div class="d-flex flex-column">
         <app-playback-cover-art class="app-now-playing-lyrics__picture" [size]="300"></app-playback-cover-art>
-        <div class="mt-3 mx-1" [@contentAnimation]="contentAnimation">
+        <div class="mt-3 mx-1">
             <div class="secondary-text d-flex align-items-center" *ngIf="this.lyrics?.sourceType === lyricsSourceTypeEnum.none">
                 {{ 'no-lyrics' | translate }}<i class="secondary-text las la-frown ml-1 font-large"></i>
             </div>
@@ -23,8 +23,11 @@
             [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
         ></app-playback-information>
     </div>
-    <div class="app-now-playing-lyrics__text">
-        <div [@contentAnimation]="contentAnimation" class="break-on-newline">
+    <div *ngIf="this.isBusy" class="app-now-playing-lyrics__spinner">
+        <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+    <div *ngIf="!this.isBusy" class="app-now-playing-lyrics__text">
+        <div class="break-on-newline">
             <div *ngIf="this.hasLyrics">{{ this.lyrics?.text }}</div>
             <div *ngIf="!this.hasLyrics">{{ 'no-lyrics-found' | translate }}</div>
         </div>
