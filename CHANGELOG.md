@@ -3,16 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.22] - 2023-12-02
+## [3.0.0-preview.22] - 2023-12-13
 
 ### Added
 
 -   Pressing play when the queue has finished playing now plays the first song of the queue
 -   Added audio visualizer
+-   Added Swedish translation
 
 ### Changed
 
--   Added Swedish translation
+-   Updated Bulgarian translation
 
 ### Fixed
 
@@ -21,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Some lyrics bugs
 -   MP3 files containing ID3v2 frames with non-standard frame identifiers could not be loaded
 -   Updated dependencies to fix some security vulnerabilities
+-   Improved performance of Now Playing screens
+-   A lot of UI problems
 
 ## [3.0.0-preview.21] - 2023-11-09
 
