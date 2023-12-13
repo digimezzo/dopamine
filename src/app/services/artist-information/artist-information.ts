@@ -28,12 +28,12 @@ export class ArtistInformation {
         return this._biography;
     }
 
-    public get similarArtists(): ArtistInformation[] {
-        return this._similarArtists;
+    public get hasBiography(): boolean {
+        return !StringUtils.isNullOrWhiteSpace(this._biography);
     }
 
-    public get isEmpty(): boolean {
-        return StringUtils.isNullOrWhiteSpace(this.name);
+    public get similarArtists(): ArtistInformation[] {
+        return this._similarArtists;
     }
 
     public get hasSimilarArtists(): boolean {
@@ -45,11 +45,7 @@ export class ArtistInformation {
     }
 
     public async browseToUrlAsync(): Promise<void> {
-        if (this.isEmpty) {
-            return;
-        }
-
-        if (this.desktop != undefined) {
+        if (this.desktop != undefined && !StringUtils.isNullOrWhiteSpace(this.url)) {
             await this.desktop.openLinkAsync(this.url);
         }
     }

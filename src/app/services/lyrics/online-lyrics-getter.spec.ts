@@ -3,7 +3,7 @@ import { LyricsModel } from './lyrics-model';
 import { LyricsSourceType } from '../../common/api/lyrics/lyrics-source-type';
 import { TrackModel } from '../track/track-model';
 import { OnlineLyricsGetter } from './online-lyrics-getter';
-import { IMock, Mock } from 'typemoq';
+import { IMock, It, Mock, Times } from 'typemoq';
 import { Lyrics } from '../../common/api/lyrics/lyrics';
 import { Logger } from '../../common/logger';
 import { ChartLyricsApi } from '../../common/api/lyrics/chart-lyrics.api';
@@ -38,11 +38,30 @@ describe('OnlineLyricsGetter', () => {
     });
 
     describe('getLyricsAsync', () => {
+        it('should return empty lyrics if track has no artist and title', async () => {
+            // Arrange
+            const track: TrackModel = MockCreator.createTrackModel('path', '', '');
+            const lyrics: Lyrics = new Lyrics('ChartLyrics source', 'ChartLyrics text');
+            const instance: OnlineLyricsGetter = createInstance();
+
+            // Act
+            const lyricsModel: LyricsModel = await instance.getLyricsAsync(track);
+
+            // Assert
+            chartLyricsApiMock.verify((x) => x.getLyricsAsync(It.isAny(), It.isAny()), Times.never());
+            azLyricsApiMock.verify((x) => x.getLyricsAsync(It.isAny(), It.isAny()), Times.never());
+            webSearchLyricsApiMock.verify((x) => x.getLyricsAsync(It.isAny(), It.isAny()), Times.never());
+            expect(lyricsModel.track).toEqual(track);
+            expect(lyricsModel.sourceName).toEqual('');
+            expect(lyricsModel.sourceType).toEqual(LyricsSourceType.none);
+            expect(lyricsModel.text).toEqual('');
+        });
+
         it('should return lyrics from ChartLyrics if available', async () => {
             // Arrange
             const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
             const lyrics: Lyrics = new Lyrics('ChartLyrics source', 'ChartLyrics text');
-            chartLyricsApiMock.setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title)).returns(() => Promise.resolve(lyrics));
+            chartLyricsApiMock.setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle)).returns(() => Promise.resolve(lyrics));
             const instance: OnlineLyricsGetter = createInstance();
 
             // Act
@@ -60,9 +79,9 @@ describe('OnlineLyricsGetter', () => {
             const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
             const lyrics: Lyrics = new Lyrics('AZLyrics source', 'AZLyrics text');
             chartLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
-            azLyricsApiMock.setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title)).returns(() => Promise.resolve(lyrics));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
+            azLyricsApiMock.setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle)).returns(() => Promise.resolve(lyrics));
             const instance: OnlineLyricsGetter = createInstance();
 
             // Act
@@ -80,12 +99,14 @@ describe('OnlineLyricsGetter', () => {
             const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
             const lyrics: Lyrics = new Lyrics('WebSearchLyrics source', 'WebSearchLyrics text');
             chartLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
             azLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
-            webSearchLyricsApiMock.setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title)).returns(() => Promise.resolve(lyrics));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
+            webSearchLyricsApiMock
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(lyrics));
             const instance: OnlineLyricsGetter = createInstance();
 
             // Act
@@ -102,14 +123,14 @@ describe('OnlineLyricsGetter', () => {
             // Arrange
             const track: TrackModel = MockCreator.createTrackModel('path', 'title', 'artists');
             chartLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
             azLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
             webSearchLyricsApiMock
-                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.title))
-                .returns(() => Promise.resolve(Lyrics.default()));
+                .setup((x) => x.getLyricsAsync(track.rawFirstArtist, track.rawTitle))
+                .returns(() => Promise.resolve(Lyrics.empty()));
             const instance: OnlineLyricsGetter = createInstance();
 
             // Act

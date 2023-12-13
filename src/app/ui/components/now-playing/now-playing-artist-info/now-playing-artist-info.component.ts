@@ -7,6 +7,7 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { PlaybackServiceBase } from '../../../../services/playback/playback.service.base';
 import { ArtistInformationServiceBase } from '../../../../services/artist-information/artist-information.service.base';
 import { SettingsBase } from '../../../../common/settings/settings.base';
+import { StringUtils } from '../../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-now-playing-artist-info',
@@ -62,7 +63,7 @@ export class NowPlayingArtistInfoComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.previousArtistName === track.rawFirstArtist) {
+        if (!StringUtils.isNullOrWhiteSpace(track.rawFirstArtist) && this.previousArtistName === track.rawFirstArtist) {
             return;
         }
 

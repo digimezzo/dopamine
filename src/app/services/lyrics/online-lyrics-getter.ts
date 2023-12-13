@@ -20,17 +20,21 @@ export class OnlineLyricsGetter implements ILyricsGetter {
     ) {}
 
     public async getLyricsAsync(track: TrackModel): Promise<LyricsModel> {
-        let lyrics: Lyrics = Lyrics.default();
+        let lyrics: Lyrics = Lyrics.empty();
+
+        if (StringUtils.isNullOrWhiteSpace(track.rawFirstArtist) || StringUtils.isNullOrWhiteSpace(track.rawTitle)) {
+            return LyricsModel.empty(track);
+        }
 
         try {
-            lyrics = await this.chartLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
+            lyrics = await this.chartLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
         } catch (e) {
             this.logger.error(e, 'Could not get lyrics from ChartLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
         }
 
         if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             try {
-                lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
+                lyrics = await this.azLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
             } catch (e) {
                 this.logger.error(e, 'Could not get lyrics from AZLyrics', 'OnlineLyricsGetter', 'getLyricsAsync');
             }
@@ -38,7 +42,7 @@ export class OnlineLyricsGetter implements ILyricsGetter {
 
         if (StringUtils.isNullOrWhiteSpace(lyrics.text)) {
             try {
-                lyrics = await this.webSearchLyricsApi.getLyricsAsync(track.rawFirstArtist, track.title);
+                lyrics = await this.webSearchLyricsApi.getLyricsAsync(track.rawFirstArtist, track.rawTitle);
             } catch (e) {
                 this.logger.error(e, 'Could not get lyrics from WebSearchLyricsApi', 'OnlineLyricsGetter', 'getLyricsAsync');
             }

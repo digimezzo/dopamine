@@ -4,7 +4,7 @@ export class Lyrics {
         public text: string,
     ) {}
 
-    public static default(): Lyrics {
+    public static empty(): Lyrics {
         return new Lyrics('', '');
     }
 }
