@@ -10,11 +10,6 @@ import { WelcomeComponent } from './ui/components/welcome/welcome.component';
 
 const routes: Routes = [
     {
-        path: '',
-        redirectTo: '/loading',
-        pathMatch: 'full',
-    },
-    {
         path: 'loading',
         component: LoadingComponent,
     },

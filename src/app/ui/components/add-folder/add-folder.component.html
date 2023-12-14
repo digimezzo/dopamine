@@ -18,10 +18,10 @@
                     matTooltip="{{ 'show-in-the-collection' | translate }}"
                     (ngModelChange)="setFolderVisibility(folder)"
                 ></mat-checkbox>
-                <i class="folder__icon mr-2 lar la-folder"></i>
-                <div class="folder__path ellipsis" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
+                <i class="folder__icon m-1 lar la-folder"></i>
+                <div class="folder__path ellipsis m-1" matTooltip="{{ folder.path }}">{{ folder.path }}</div>
                 <i
-                    class="folder__action mx-2 las la-times"
+                    class="folder__action m-1 las la-times"
                     [ngStyle]="{ display: folder === selectedFolder ? 'block' : 'none' }"
                     matTooltip="{{ 'delete-folder' | translate }}"
                     (click)="deleteFolderAsync(folder)"

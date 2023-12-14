@@ -11,20 +11,21 @@
     align-items: center;
 }
 
-.welcome-stepper {
+.welcome-content {
     background: transparent !important;
     flex: 1;
     width: 100%;
     max-width: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.welcome-stepper-buttons {
+.welcome-navigation-buttons {
     display: flex;
     flex-direction: row;
 }
 
-.welcome-stepper-buttons__icon {
+.welcome-navigation-buttons__icon {
     font-size: 40px;
     color: var(--theme-accent-color);
 }

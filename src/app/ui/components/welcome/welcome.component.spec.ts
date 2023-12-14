@@ -32,22 +32,22 @@ describe('WelcomeComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should start at step 0', () => {
+        it('should start at page 0', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.currentStep).toEqual(0);
+            expect(component.currentPage).toEqual(0);
         });
 
-        it('should have 7 steps', () => {
+        it('should have 7 pages', () => {
             // Arrange
 
             // Act
 
             // Assert
-            expect(component.totalSteps).toEqual(7);
+            expect(component.totalPages).toEqual(7);
         });
 
         it('Cannot go back', () => {
