@@ -38,7 +38,7 @@ describe('WelcomeComponent', () => {
             // Act
 
             // Assert
-            expect(component.currentPage).toEqual(0);
+            expect(component.currentPage1).toEqual(0);
         });
 
         it('should have 7 pages', () => {

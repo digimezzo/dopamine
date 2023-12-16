@@ -5,10 +5,9 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { SettingsBase } from '../../../common/settings/settings.base';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { enterAnimation } from '../../animations/animations';
 
 @Component({
     selector: 'app-collection',
@@ -16,20 +15,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger('pageSwitchAnimation', [
-            state('fade-out', style({ opacity: 0 })),
-            state('fade-in', style({ opacity: 1 })),
-            transition('fade-in => fade-out', animate('10ms ease-out')),
-            transition('fade-out => fade-in', animate(`${Constants.pageSwitchAnimationMilliseconds}ms ease-out`)),
-        ]),
-        trigger('enterAnimation', [
-            transition(':enter', [
-                style({ 'margin-left': '{{marginLeft}}', 'margin-right': '{{marginRight}}', opacity: 0 }),
-                animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 })),
-            ]),
-        ]),
-    ],
+    animations: [enterAnimation],
 })
 export class CollectionComponent implements AfterViewInit {
     public constructor(
@@ -45,10 +31,7 @@ export class CollectionComponent implements AfterViewInit {
         this.page = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
     }
 
-    public pageSwitchAnimation: string = 'fade-out';
     public page: number = 0;
-    public marginLeft: string = '0px';
-    public marginRight: string = '0px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -58,11 +41,6 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        // HACK: avoids a ExpressionChangedAfterItHasBeenCheckedError in DEV mode.
-        setTimeout(() => {
-            this.pageSwitchAnimation = 'fade-in';
-        }, 0);
-
         this.setAudioVisualizer();
     }
 
@@ -72,15 +50,6 @@ export class CollectionComponent implements AfterViewInit {
     }
 
     public setPage(page: number): void {
-        let marginToApply: number = Constants.screenEaseMarginPixels;
-
-        if (this.page < page) {
-            marginToApply = -Constants.screenEaseMarginPixels;
-        }
-
-        this.marginLeft = `${marginToApply}px`;
-        this.marginRight = `${-marginToApply}px`;
-
         this.page = page;
 
         this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(page);

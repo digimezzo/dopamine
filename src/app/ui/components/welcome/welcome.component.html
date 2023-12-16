@@ -8,17 +8,7 @@
             <app-logo-full class="fade-in-animation animation-duration-2s animation-delay-1s"></app-logo-full>
             <div class="welcome-content mt-5">
                 <!-- Greeting -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 0"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 0" class="p-3">
                     <h1 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
                         {{ 'hi' | translate }}
                     </h1>
@@ -33,17 +23,7 @@
                     </h3>
                 </div>
                 <!-- Language -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 1"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 1" class="p-3">
                     <h1 class="mb-2">
                         {{ 'language' | translate }}
                     </h1>
@@ -60,17 +40,7 @@
                     </mat-form-field>
                 </div>
                 <!-- Appearance -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 2"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 2" class="p-3">
                     <h1 class="mb-2">
                         {{ 'appearance' | translate }}
                     </h1>
@@ -83,17 +53,7 @@
                     <app-theme-switcher class="mt-3"></app-theme-switcher>
                 </div>
                 <!-- Music -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 3"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 3" class="p-3">
                     <h1 class="mb-2">
                         {{ 'music' | translate }}
                     </h1>
@@ -103,17 +63,7 @@
                     <app-add-folder class="mt-3" [showCheckBoxes]="false"></app-add-folder>
                 </div>
                 <!-- Online -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 4"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 4" class="p-3">
                     <h1 class="mb-2">
                         {{ 'online' | translate }}
                     </h1>
@@ -132,17 +82,7 @@
                     </div>
                 </div>
                 <!-- Donate -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 5"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 5" class="p-3">
                     <h1 class="mb-2">
                         {{ 'donate' | translate }}
                     </h1>
@@ -154,17 +94,7 @@
                     </div>
                 </div>
                 <!-- Done -->
-                <div
-                    [@enterAnimation]="{
-                        value: enterAnimation,
-                        params: {
-                            marginLeft: this.marginLeft,
-                            marginRight: this.marginRight
-                        }
-                    }"
-                    *ngIf="this.currentPage === 6"
-                    class="p-3"
-                >
+                <div [@enterAnimation] *ngIf="this.currentPage === 6" class="p-3">
                     <h1 class="mb-2">
                         {{ 'done' | translate }}
                     </h1>

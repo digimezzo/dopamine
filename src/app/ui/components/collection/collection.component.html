@@ -56,73 +56,13 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <app-collection-artists
-            class="w-100"
-            *ngIf="this.page === 0"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-artists>
-        <app-collection-genres
-            class="w-100"
-            *ngIf="this.page === 1"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-genres>
-        <app-collection-albums
-            class="w-100"
-            *ngIf="this.page === 2"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-albums>
-        <app-collection-tracks
-            class="w-100"
-            *ngIf="this.page === 3"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-tracks>
-        <app-collection-playlists
-            class="w-100"
-            *ngIf="this.page === 4"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-playlists>
-        <app-collection-folders
-            class="w-100"
-            *ngIf="this.page === 5"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-collection-folders>
+    <div class="window-frame__content">
+        <app-collection-artists class="w-100" *ngIf="this.page === 0" [@enterAnimation]></app-collection-artists>
+        <app-collection-genres class="w-100" *ngIf="this.page === 1" [@enterAnimation]></app-collection-genres>
+        <app-collection-albums class="w-100" *ngIf="this.page === 2" [@enterAnimation]></app-collection-albums>
+        <app-collection-tracks class="w-100" *ngIf="this.page === 3" [@enterAnimation]></app-collection-tracks>
+        <app-collection-playlists class="w-100" *ngIf="this.page === 4" [@enterAnimation]></app-collection-playlists>
+        <app-collection-folders class="w-100" *ngIf="this.page === 5" [@enterAnimation]></app-collection-folders>
         <div class="app-collection-playback-controls__container">
             <canvas id="collectionAudioVisualizer" class="app-collection-playback-controls__audio-visualizer"></canvas>
             <app-collection-playback-pane class="app-collection-playback-controls__playback-pane"></app-collection-playback-pane>

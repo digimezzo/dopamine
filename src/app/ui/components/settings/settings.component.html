@@ -19,50 +19,10 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content overflow-y-only" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <app-appearance-settings
-            class="w-100"
-            *ngIf="this.page === 0"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-appearance-settings>
-        <app-behavior-settings
-            class="w-100"
-            *ngIf="this.page === 1"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-behavior-settings>
-        <app-advanced-settings
-            class="w-100"
-            *ngIf="this.page === 2"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-advanced-settings>
-        <app-online-settings
-            class="w-100"
-            *ngIf="this.page === 3"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-online-settings>
+    <div class="window-frame__content overflow-y-only">
+        <app-appearance-settings class="w-100" *ngIf="this.page === 0" [@enterAnimation]></app-appearance-settings>
+        <app-behavior-settings class="w-100" *ngIf="this.page === 1" [@enterAnimation]></app-behavior-settings>
+        <app-advanced-settings class="w-100" *ngIf="this.page === 2" [@enterAnimation]></app-advanced-settings>
+        <app-online-settings class="w-100" *ngIf="this.page === 3" [@enterAnimation]></app-online-settings>
     </div>
 </div>

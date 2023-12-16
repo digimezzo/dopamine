@@ -25,50 +25,26 @@
                 <div class="app-now-playing__content">
                     <!-- Nothing playing -->
                     <app-now-playing-nothing-playing
-                        [@enterAnimation]="{
-                            value: enterAnimation,
-                            params: {
-                                marginLeft: this.marginLeft,
-                                marginRight: this.marginRight
-                            }
-                        }"
-                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.nothingPlaying"
+                        [@enterAnimation]
+                        *ngIf="this.page === nowPlayingPageEnum.nothingPlaying"
                         class="collection-viewport"
                     ></app-now-playing-nothing-playing>
                     <!-- Showcase -->
                     <app-now-playing-showcase
-                        [@enterAnimation]="{
-                            value: enterAnimation,
-                            params: {
-                                marginLeft: this.marginLeft,
-                                marginRight: this.marginRight
-                            }
-                        }"
-                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.showcase"
+                        [@enterAnimation]
+                        *ngIf="this.page === nowPlayingPageEnum.showcase"
                         class="collection-viewport"
                     ></app-now-playing-showcase>
                     <!-- Lyrics -->
                     <app-now-playing-lyrics
-                        [@enterAnimation]="{
-                            value: enterAnimation,
-                            params: {
-                                marginLeft: this.marginLeft,
-                                marginRight: this.marginRight
-                            }
-                        }"
-                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.lyrics"
+                        [@enterAnimation]
+                        *ngIf="this.page === nowPlayingPageEnum.lyrics"
                         class="collection-viewport"
                     ></app-now-playing-lyrics>
                     <!-- Artist info -->
                     <app-now-playing-artist-info
-                        [@enterAnimation]="{
-                            value: enterAnimation,
-                            params: {
-                                marginLeft: this.marginLeft,
-                                marginRight: this.marginRight
-                            }
-                        }"
-                        *ngIf="this.selectedNowPlayingPage === nowPlayingPageEnum.artistInformation"
+                        [@enterAnimation]
+                        *ngIf="this.page === nowPlayingPageEnum.artistInformation"
                         class="collection-viewport"
                     ></app-now-playing-artist-info>
                 </div>

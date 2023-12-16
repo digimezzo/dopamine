@@ -13,6 +13,7 @@ import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { enterAnimation } from '../../animations/animations';
 
 @Component({
     selector: 'app-now-playing',
@@ -21,6 +22,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
     styleUrls: ['./now-playing.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
+        enterAnimation,
         trigger('controlsVisibility', [
             state(
                 'visible',
@@ -89,12 +91,6 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition('fade-out => fade-in-light', animate('1s')),
             transition('fade-in => fade-out', animate('1s')),
         ]),
-        trigger('enterAnimation', [
-            transition(':enter', [
-                style({ 'margin-left': '{{marginLeft}}', 'margin-right': '{{marginRight}}', opacity: 0 }),
-                animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 })),
-            ]),
-        ]),
     ],
 })
 export class NowPlayingComponent implements OnInit, AfterViewInit {
@@ -114,7 +110,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     ) {}
 
     public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
-    public selectedNowPlayingPage: NowPlayingPage;
+    public page: NowPlayingPage;
 
     public background1IsUsed: boolean = false;
     public background1: string = '';
@@ -124,9 +120,6 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
 
     public pageSwitchAnimation: string = 'fade-out';
     public controlsVisibility: string = 'visible';
-
-    public marginLeft: string = '0px';
-    public marginRight: string = '0px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -212,16 +205,7 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
     }
 
     private setNowPlayingPage(nowPlayingPage: NowPlayingPage): void {
-        let marginToApply: number = Constants.screenEaseMarginPixels;
-
-        if (this.selectedNowPlayingPage < nowPlayingPage) {
-            marginToApply = -Constants.screenEaseMarginPixels;
-        }
-
-        this.marginLeft = `${marginToApply}px`;
-        this.marginRight = `${-marginToApply}px`;
-
-        this.selectedNowPlayingPage = nowPlayingPage;
+        this.page = nowPlayingPage;
     }
 
     public async ngAfterViewInit(): Promise<void> {
