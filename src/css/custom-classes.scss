@@ -102,6 +102,11 @@
     overflow: hidden;
 }
 
+.overflow-y-only {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .overflow-hidden-important {
     overflow: hidden !important;
 }
@@ -116,6 +121,6 @@
     text-align: right !important;
 }
 
-.break-on-newline{
+.break-on-newline {
     white-space: pre-line;
 }

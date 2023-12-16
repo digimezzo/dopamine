@@ -1,0 +1,18 @@
+.sub-menu {
+    height: $titlebar-height;
+    display: flex;
+    flex-direction: row;
+}
+
+.sub-menu__item {
+    display: flex;
+    height: $titlebar-height;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.sub-menu__selected-item {
+    border-bottom: 2px solid var(--theme-accent-color);
+}

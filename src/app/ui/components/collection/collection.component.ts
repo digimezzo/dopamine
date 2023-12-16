@@ -23,12 +23,15 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
             transition('fade-in => fade-out', animate('10ms ease-out')),
             transition('fade-out => fade-in', animate(`${Constants.pageSwitchAnimationMilliseconds}ms ease-out`)),
         ]),
+        trigger('enterAnimation', [
+            transition(':enter', [
+                style({ 'margin-left': '{{marginLeft}}', 'margin-right': '{{marginRight}}', opacity: 0 }),
+                animate(`${Constants.screenEaseSpeedMilliseconds}ms ease-out`, style({ 'margin-left': 0, 'margin-right': 0, opacity: 1 })),
+            ]),
+        ]),
     ],
 })
 export class CollectionComponent implements AfterViewInit {
-    private _selectedIndex: number;
-    private previousSelectedIndex: number = 99;
-
     public constructor(
         public appearanceService: AppearanceServiceBase,
         public settings: SettingsBase,
@@ -39,57 +42,18 @@ export class CollectionComponent implements AfterViewInit {
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {
-        this.selectedIndex = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
+        this.page = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
     }
 
     public pageSwitchAnimation: string = 'fade-out';
-
-    public get artistsTabLabel(): string {
-        return Constants.artistsTabLabel;
-    }
-
-    public get genresTabLabel(): string {
-        return Constants.genresTabLabel;
-    }
-
-    public get albumsTabLabel(): string {
-        return Constants.albumsTabLabel;
-    }
-
-    public get tracksTabLabel(): string {
-        return Constants.tracksTabLabel;
-    }
-
-    public get playlistsTabLabel(): string {
-        return Constants.playlistsTabLabel;
-    }
-
-    public get foldersTabLabel(): string {
-        return Constants.foldersTabLabel;
-    }
+    public page: number = 0;
+    public marginLeft: string = '0px';
+    public marginRight: string = '0px';
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
         if (event.key === ' ' && !this.searchService.isSearching) {
             this.playbackService.togglePlayback();
-        }
-    }
-
-    public get selectedIndex(): number {
-        return this._selectedIndex;
-    }
-
-    public set selectedIndex(v: number) {
-        // previousSelectedIndex ensures selected tab is changed only once
-        if (v !== this.previousSelectedIndex) {
-            this.previousSelectedIndex = v;
-            this._selectedIndex = v;
-            this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(v);
-
-            // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
-            // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
-            // selected tab is changed.
-            window.dispatchEvent(new Event('tab-changed'));
         }
     }
 
@@ -105,5 +69,25 @@ export class CollectionComponent implements AfterViewInit {
     private setAudioVisualizer(): void {
         const canvas: HTMLCanvasElement = this.documentProxy.getCanvasById('collectionAudioVisualizer');
         this.audioVisualizer.connectCanvas(canvas);
+    }
+
+    public setPage(page: number): void {
+        let marginToApply: number = Constants.screenEaseMarginPixels;
+
+        if (this.page < page) {
+            marginToApply = -Constants.screenEaseMarginPixels;
+        }
+
+        this.marginLeft = `${marginToApply}px`;
+        this.marginRight = `${-marginToApply}px`;
+
+        this.page = page;
+
+        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(page);
+
+        // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
+        // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
+        // selected tab is changed.
+        window.dispatchEvent(new Event('tab-changed'));
     }
 }

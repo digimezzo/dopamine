@@ -32,7 +32,7 @@ export class Constants {
 
     public static readonly albumSizeInPixels: number = 120;
     public static readonly itemMarginInPixels: number = 8;
-    public static readonly screenEaseMarginPixels: number = 100;
+    public static readonly screenEaseMarginPixels: number = 50;
     public static readonly screenEaseSpeedMilliseconds: number = 500;
     public static readonly longListLoadDelayMilliseconds: number = 500;
     public static readonly shortListLoadDelayMilliseconds: number = 50;

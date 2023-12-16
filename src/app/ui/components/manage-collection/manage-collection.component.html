@@ -1,31 +1,54 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
-        <div class="window-frame__dragarea">
-            <app-back-button class="m-2"></app-back-button>
+        <app-back-button class="m-2"></app-back-button>
+        <div class="sub-menu">
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }" (click)="this.setPage(0)">
+                {{ 'music' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }" (click)="this.setPage(1)">
+                {{ 'refresh' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 2 }" (click)="this.setPage(2)">
+                {{ 'album-covers' | translate }}
+            </div>
         </div>
+        <div class="window-frame__dragarea"></div>
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <mat-tab-group>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'music' | translate }}
-                </ng-template>
-                <app-manage-music></app-manage-music>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'refresh' | translate }}
-                </ng-template>
-                <app-manage-refresh></app-manage-refresh>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'album-covers' | translate }}
-                </ng-template>
-                <app-manage-album-covers></app-manage-album-covers>
-            </mat-tab>
-        </mat-tab-group>
+    <div class="window-frame__content overflow-y-only" [@pageSwitchAnimation]="pageSwitchAnimation">
+        <app-manage-music
+            class="w-100"
+            *ngIf="this.page === 0"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-manage-music>
+        <app-manage-refresh
+            class="w-100"
+            *ngIf="this.page === 1"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-manage-refresh>
+        <app-manage-album-covers
+            class="w-100"
+            *ngIf="this.page === 2"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-manage-album-covers>
     </div>
 </div>

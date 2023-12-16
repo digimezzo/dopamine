@@ -172,39 +172,6 @@
     overflow-y: auto;
 }
 
-// Tab
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-mdc-tab-group {
-    height: 100%;
-    width: 100%;
-}
-
-.mat-mdc-tab-body-wrapper {
-    flex-grow: 1;
-    width: 100%;
-}
-
-.mat-mdc-tab-header {
-    margin-top: -48px;
-    margin-left: 50px;
-    margin-right: var(--mat-tab-header-margin-right);
-    height: 48px;
-}
-
-.mat-mdc-tab {
-    user-select: none;
-    -webkit-app-region: no-drag;
-    flex-grow: unset !important;
-}
-
-.mdc-tab__text-label {
-    color: var(--theme-tab-text) !important;
-}
-
-.mdc-tab--active .mdc-tab__text-label {
-    color: var(--theme-selected-tab-text) !important;
-}
-
 // Tooltip
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-tooltip__surface {

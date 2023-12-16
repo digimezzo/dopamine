@@ -1,37 +1,68 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
-        <div class="window-frame__dragarea">
-            <app-back-button class="m-2"></app-back-button>
+        <app-back-button class="m-2"></app-back-button>
+        <div class="sub-menu">
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }" (click)="this.setPage(0)">
+                {{ 'appearance' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }" (click)="this.setPage(1)">
+                {{ 'behavior' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 2 }" (click)="this.setPage(2)">
+                {{ 'advanced' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 3 }" (click)="this.setPage(3)">
+                {{ 'online' | translate }}
+            </div>
         </div>
+        <div class="window-frame__dragarea"></div>
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <mat-tab-group>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'appearance' | translate }}
-                </ng-template>
-                <app-appearance-settings></app-appearance-settings>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'behavior' | translate }}
-                </ng-template>
-                <app-behavior-settings></app-behavior-settings>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'advanced' | translate }}
-                </ng-template>
-                <app-advanced-settings></app-advanced-settings>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'online' | translate }}
-                </ng-template>
-                <app-online-settings></app-online-settings>
-            </mat-tab>
-        </mat-tab-group>
+    <div class="window-frame__content overflow-y-only" [@pageSwitchAnimation]="pageSwitchAnimation">
+        <app-appearance-settings
+            class="w-100"
+            *ngIf="this.page === 0"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-appearance-settings>
+        <app-behavior-settings
+            class="w-100"
+            *ngIf="this.page === 1"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-behavior-settings>
+        <app-advanced-settings
+            class="w-100"
+            *ngIf="this.page === 2"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-advanced-settings>
+        <app-online-settings
+            class="w-100"
+            *ngIf="this.page === 3"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-online-settings>
     </div>
 </div>

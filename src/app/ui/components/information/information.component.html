@@ -1,25 +1,40 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
-        <div class="window-frame__dragarea">
-            <app-back-button class="m-2"></app-back-button>
+        <app-back-button class="m-2"></app-back-button>
+        <div class="sub-menu">
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }" (click)="this.setPage(0)">
+                {{ 'about' | translate }}
+            </div>
+            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }" (click)="this.setPage(1)">
+                {{ 'components' | translate }}
+            </div>
         </div>
+        <div class="window-frame__dragarea"></div>
         <app-main-menu> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <mat-tab-group>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'about' | translate }}
-                </ng-template>
-                <app-about></app-about>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'components' | translate }}
-                </ng-template>
-                <app-components></app-components>
-            </mat-tab>
-        </mat-tab-group>
+    <div class="window-frame__content overflow-y-only" [@pageSwitchAnimation]="pageSwitchAnimation">
+        <app-about
+            class="w-100"
+            *ngIf="this.page === 0"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-about>
+        <app-components
+            class="w-100"
+            *ngIf="this.page === 1"
+            [@enterAnimation]="{
+                value: enterAnimation,
+                params: {
+                    marginLeft: this.marginLeft,
+                    marginRight: this.marginRight
+                }
+            }"
+        ></app-components>
     </div>
 </div>
