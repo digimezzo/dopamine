@@ -149,6 +149,10 @@
     visibility: hidden !important;
 }
 
+.mat-mdc-slide-toggle .mdc-label {
+    font-size: var(--fontsize-normal) !important;
+}
+
 // Snack Bar
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-snackbar__surface {
