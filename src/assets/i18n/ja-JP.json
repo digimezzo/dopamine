@@ -45,7 +45,7 @@
     "check-for-updates": "アップデートの更新確認",
     "also-check-for-pre-releases": "開発版の更新確認",
     "welcome-screen": "ウィザード画面",
-    "show-welcome-screen": "次の再起動時にウィザード画面を表示する",
+    "show-welcome-screen-on-next-restart": "次の再起動時にウィザード画面を表示する",
     "online": "通信関連設定",
     "discord": "Discord",
     "enable-discord-rich-presence": "Discord の Rich Presence機能を有効にする",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

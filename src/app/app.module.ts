@@ -311,6 +311,10 @@ import { AudioVisualizerService } from './services/audio-visualizer/audio-visual
 import { NowPlayingNothingPlayingComponent } from './ui/components/now-playing/now-playing-nothing-playing/now-playing-nothing-playing.component';
 import { LinkButtonComponent } from './ui/components/link-button/link-button.component';
 import { OnlineArtistImageGetter } from './services/artist-information/online-artist-image-getter';
+import { SubMenuComponent } from './ui/components/sub-menu/sub-menu.component';
+import { SubMenuItemComponent } from './ui/components/sub-menu/sub-menu-item/sub-menu-item.component';
+import { MetroPageContainerComponent } from './ui/components/metro-page-container/metro-page-container.component';
+import { MetroPageComponent } from './ui/components/metro-page-container/metro-page/metro-page.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -443,6 +447,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
         LinkButtonComponent,
+        SubMenuComponent,
+        SubMenuItemComponent,
+        MetroPageContainerComponent,
+        MetroPageComponent,
     ],
     imports: [
         BrowserAnimationsModule,

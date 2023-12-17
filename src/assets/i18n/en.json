@@ -45,7 +45,7 @@
     "check-for-updates": "Check for updates",
     "also-check-for-pre-releases": "Also check for pre-releases",
     "welcome-screen": "Welcome screen",
-    "show-welcome-screen": "Show the welcome screen on the next restart",
+    "show-welcome-screen-on-next-restart": "Show the welcome screen on the next restart",
     "online": "Online",
     "discord": "Discord",
     "enable-discord-rich-presence": "Enable Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

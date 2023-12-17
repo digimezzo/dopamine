@@ -45,7 +45,7 @@
     "check-for-updates": "Проверять наличие обновлений",
     "also-check-for-pre-releases": "Проверять наличие предварительных версий",
     "welcome-screen": "Экран приветствия",
-    "show-welcome-screen": "Показывать экран приветствия при следующем запуске",
+    "show-welcome-screen-on-next-restart": "Показывать экран приветствия при следующем запуске",
     "online": "Интернет",
     "discord": "Discord",
     "enable-discord-rich-presence": "Включить расширенный статус в Discord",
@@ -264,5 +264,6 @@
     "play-all": "Играть всё",
     "shuffle-all": "Перемешать все",
     "no-lyrics-found": "Текст песни не найден",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

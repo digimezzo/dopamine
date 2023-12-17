@@ -45,7 +45,7 @@
     "check-for-updates": "Έλεγχος για ενημερώσεις",
     "also-check-for-pre-releases": "Επίσης έλεγχος για pre-releases",
     "welcome-screen": "Οθόνη καλωσορίσματος",
-    "show-welcome-screen": "Δείξε μου την οθόνη καλωσορίσματος στην επόμενη επανεκκίνηση",
+    "show-welcome-screen-on-next-restart": "Δείξε μου την οθόνη καλωσορίσματος στην επόμενη επανεκκίνηση",
     "online": "Σε σύνδεση",
     "discord": "Discord",
     "enable-discord-rich-presence": "Ενεργοποίηση Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

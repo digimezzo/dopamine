@@ -1,0 +1,7 @@
+@import 'variables';
+
+.sub-menu {
+    height: $titlebar-height;
+    display: flex;
+    flex-direction: row;
+}

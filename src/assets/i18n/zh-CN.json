@@ -45,7 +45,7 @@
     "check-for-updates": "检查更新",
     "also-check-for-pre-releases": "同时检查测试版本",
     "welcome-screen": "欢迎页",
-    "show-welcome-screen": "下次启动时显示欢迎页",
+    "show-welcome-screen-on-next-restart": "下次启动时显示欢迎页",
     "online": "在线",
     "discord": "Discord",
     "enable-discord-rich-presence": "启用 Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

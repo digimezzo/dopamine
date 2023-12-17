@@ -45,7 +45,7 @@
     "check-for-updates": "Ji bo rojanekirinan kontrol bike",
     "also-check-for-pre-releases": "Her wiha bo gohertoyên berê kontrol bike",
     "welcome-screen": "Dîmendera pêşwaziyê",
-    "show-welcome-screen": "Dîmendera pêşwaziyê li ser ji nû ve destpêkirina nû nîşan bide",
+    "show-welcome-screen-on-next-restart": "Dîmendera pêşwaziyê li ser ji nû ve destpêkirina nû nîşan bide",
     "online": "Serhêl",
     "discord": "Discord",
     "enable-discord-rich-presence": "Hebûna Rich Discord çalak bike",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

@@ -45,7 +45,7 @@
     "check-for-updates": "Buscar actualizaciones",
     "also-check-for-pre-releases": "Compruebe también los prelanzamientos",
     "welcome-screen": "Pantalla de bienvenida",
-    "show-welcome-screen": "Mostrar la pantalla de bienvenida en el próximo reinicio",
+    "show-welcome-screen-on-next-restart": "Mostrar la pantalla de bienvenida en el próximo reinicio",
     "online": "En linea",
     "discord": "Discord",
     "enable-discord-rich-presence": "Habilitar Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

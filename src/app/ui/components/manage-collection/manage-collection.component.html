@@ -1,54 +1,30 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
         <app-back-button class="m-2"></app-back-button>
-        <div class="sub-menu">
-            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }" (click)="this.setPage(0)">
+        <app-sub-menu>
+            <app-sub-menu-item [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
                 {{ 'music' | translate }}
-            </div>
-            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }" (click)="this.setPage(1)">
+            </app-sub-menu-item>
+            <app-sub-menu-item [page]="1" [selectedPage]="this.page" (click)="this.setPage(1)">
                 {{ 'refresh' | translate }}
-            </div>
-            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 2 }" (click)="this.setPage(2)">
+            </app-sub-menu-item>
+            <app-sub-menu-item [page]="2" [selectedPage]="this.page" (click)="this.setPage(2)">
                 {{ 'album-covers' | translate }}
-            </div>
-        </div>
+            </app-sub-menu-item>
+        </app-sub-menu>
         <div class="window-frame__dragarea"></div>
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content overflow-y-only" [@pageSwitchAnimation]="pageSwitchAnimation">
-        <app-manage-music
-            class="w-100"
-            *ngIf="this.page === 0"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-manage-music>
-        <app-manage-refresh
-            class="w-100"
-            *ngIf="this.page === 1"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-manage-refresh>
-        <app-manage-album-covers
-            class="w-100"
-            *ngIf="this.page === 2"
-            [@enterAnimation]="{
-                value: enterAnimation,
-                params: {
-                    marginLeft: this.marginLeft,
-                    marginRight: this.marginRight
-                }
-            }"
-        ></app-manage-album-covers>
-    </div>
+    <app-metro-page-container class="window-frame__content">
+        <app-metro-page [page]="0" [selectedPage]="this.page">
+            <app-manage-music></app-manage-music>
+        </app-metro-page>
+        <app-metro-page [page]="1" [selectedPage]="this.page">
+            <app-manage-refresh></app-manage-refresh>
+        </app-metro-page>
+        <app-metro-page [page]="2" [selectedPage]="this.page">
+            <app-manage-album-covers></app-manage-album-covers>
+        </app-metro-page>
+    </app-metro-page-container>
 </div>

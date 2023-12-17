@@ -1,72 +1,54 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
         <app-logo-small class="m-2"></app-logo-small>
-        <div class="sub-menu">
-            <div
-                *ngIf="settings.showArtistsPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }"
-                (click)="this.setPage(0)"
-            >
+        <app-sub-menu>
+            <app-sub-menu-item *ngIf="settings.showArtistsPage" [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
                 {{ 'artists' | translate }}
-            </div>
-            <div
-                *ngIf="settings.showGenresPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }"
-                (click)="this.setPage(1)"
-            >
+            </app-sub-menu-item>
+            <app-sub-menu-item *ngIf="settings.showGenresPage" [page]="1" [selectedPage]="this.page" (click)="this.setPage(1)">
                 {{ 'genres' | translate }}
-            </div>
-            <div
-                *ngIf="settings.showAlbumsPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 2 }"
-                (click)="this.setPage(2)"
-            >
+            </app-sub-menu-item>
+            <app-sub-menu-item *ngIf="settings.showAlbumsPage" [page]="2" [selectedPage]="this.page" (click)="this.setPage(2)">
                 {{ 'albums' | translate }}
-            </div>
-            <div
-                *ngIf="settings.showTracksPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 3 }"
-                (click)="this.setPage(3)"
-            >
+            </app-sub-menu-item>
+            <app-sub-menu-item *ngIf="settings.showTracksPage" [page]="3" [selectedPage]="this.page" (click)="this.setPage(3)">
                 {{ 'tracks' | translate }}
-            </div>
-            <div
-                *ngIf="settings.showPlaylistsPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 4 }"
-                (click)="this.setPage(4)"
-            >
+            </app-sub-menu-item>
+            <app-sub-menu-item *ngIf="settings.showPlaylistsPage" [page]="4" [selectedPage]="this.page" (click)="this.setPage(4)">
                 {{ 'playlists' | translate }}
-            </div>
-            <div
-                *ngIf="settings.showFoldersPage"
-                class="sub-menu__item"
-                [ngClass]="{ 'sub-menu__selected-item': this.page === 5 }"
-                (click)="this.setPage(5)"
-            >
+            </app-sub-menu-item>
+            <app-sub-menu-item *ngIf="settings.showFoldersPage" [page]="5" [selectedPage]="this.page" (click)="this.setPage(5)">
                 {{ 'folders' | translate }}
-            </div>
-        </div>
+            </app-sub-menu-item>
+        </app-sub-menu>
         <div class="window-frame__dragarea"></div>
         <app-search-box class="collection-component__seachbox p-2"></app-search-box>
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content">
-        <app-collection-artists class="w-100" *ngIf="this.page === 0" [@enterAnimation]></app-collection-artists>
-        <app-collection-genres class="w-100" *ngIf="this.page === 1" [@enterAnimation]></app-collection-genres>
-        <app-collection-albums class="w-100" *ngIf="this.page === 2" [@enterAnimation]></app-collection-albums>
-        <app-collection-tracks class="w-100" *ngIf="this.page === 3" [@enterAnimation]></app-collection-tracks>
-        <app-collection-playlists class="w-100" *ngIf="this.page === 4" [@enterAnimation]></app-collection-playlists>
-        <app-collection-folders class="w-100" *ngIf="this.page === 5" [@enterAnimation]></app-collection-folders>
+    <app-metro-page-container class="window-frame__content">
+        <app-metro-page [page]="0" [selectedPage]="this.page">
+            <app-collection-artists></app-collection-artists>
+        </app-metro-page>
+        <app-metro-page [page]="1" [selectedPage]="this.page">
+            <app-collection-genres></app-collection-genres>
+        </app-metro-page>
+        <app-metro-page [page]="2" [selectedPage]="this.page">
+            <app-collection-albums></app-collection-albums>
+        </app-metro-page>
+        <app-metro-page [page]="3" [selectedPage]="this.page">
+            <app-collection-tracks></app-collection-tracks>
+        </app-metro-page>
+        <app-metro-page [page]="4" [selectedPage]="this.page">
+            <app-collection-playlists></app-collection-playlists>
+        </app-metro-page>
+        <app-metro-page [page]="5" [selectedPage]="this.page">
+            <app-collection-folders></app-collection-folders>
+        </app-metro-page>
         <div class="app-collection-playback-controls__container">
             <canvas id="collectionAudioVisualizer" class="app-collection-playback-controls__audio-visualizer"></canvas>
             <app-collection-playback-pane class="app-collection-playback-controls__playback-pane"></app-collection-playback-pane>
         </div>
         <div class="app-collection-playback-controls__background theme-footer-background"></div>
-    </div>
+    </app-metro-page-container>
 </div>

@@ -45,7 +45,7 @@
     "check-for-updates": "檢查更新",
     "also-check-for-pre-releases": "同時檢查預覽版更新",
     "welcome-screen": "歡迎頁面",
-    "show-welcome-screen": "下次重新啟動時展示歡迎頁面",
+    "show-welcome-screen-on-next-restart": "下次重新啟動時展示歡迎頁面",
     "online": "線上",
     "discord": "Discord",
     "enable-discord-rich-presence": "啟用 Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

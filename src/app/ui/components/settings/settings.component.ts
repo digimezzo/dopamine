@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
-import { enterAnimation } from '../../animations/animations';
 
 @Component({
     selector: 'app-settings',
@@ -8,7 +7,6 @@ import { enterAnimation } from '../../animations/animations';
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: [enterAnimation],
 })
 export class SettingsComponent {
     public constructor(public appearanceService: AppearanceServiceBase) {}

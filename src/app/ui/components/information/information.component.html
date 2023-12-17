@@ -1,20 +1,24 @@
 <div class="window-frame">
     <div class="window-frame__titlebar theme-header-background">
         <app-back-button class="m-2"></app-back-button>
-        <div class="sub-menu">
-            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 0 }" (click)="this.setPage(0)">
+        <app-sub-menu>
+            <app-sub-menu-item [page]="0" [selectedPage]="this.page" (click)="this.setPage(0)">
                 {{ 'about' | translate }}
-            </div>
-            <div class="sub-menu__item" [ngClass]="{ 'sub-menu__selected-item': this.page === 1 }" (click)="this.setPage(1)">
+            </app-sub-menu-item>
+            <app-sub-menu-item [page]="1" [selectedPage]="this.page" (click)="this.setPage(1)">
                 {{ 'components' | translate }}
-            </div>
-        </div>
+            </app-sub-menu-item>
+        </app-sub-menu>
         <div class="window-frame__dragarea"></div>
         <app-main-menu> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <div class="window-frame__content overflow-y-only">
-        <app-about class="w-100" *ngIf="this.page === 0" [@enterAnimation]></app-about>
-        <app-components class="w-100" *ngIf="this.page === 1" [@enterAnimation]></app-components>
-    </div>
+    <app-metro-page-container class="window-frame__content">
+        <app-metro-page [page]="0" [selectedPage]="this.page">
+            <app-about></app-about>
+        </app-metro-page>
+        <app-metro-page [page]="1" [selectedPage]="this.page">
+            <app-components></app-components>
+        </app-metro-page>
+    </app-metro-page-container>
 </div>

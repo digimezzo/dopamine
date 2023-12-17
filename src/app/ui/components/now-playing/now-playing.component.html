@@ -22,32 +22,24 @@
         </div>
         <div class="window-frame__content">
             <div class="app-now-playing">
-                <div class="app-now-playing__content">
+                <app-metro-page-container class="app-now-playing__content">
                     <!-- Nothing playing -->
-                    <app-now-playing-nothing-playing
-                        [@enterAnimation]
-                        *ngIf="this.page === nowPlayingPageEnum.nothingPlaying"
-                        class="collection-viewport"
-                    ></app-now-playing-nothing-playing>
+                    <app-metro-page [page]="nowPlayingPageEnum.nothingPlaying" [selectedPage]="this.page">
+                        <app-now-playing-nothing-playing class="collection-viewport"></app-now-playing-nothing-playing>
+                    </app-metro-page>
                     <!-- Showcase -->
-                    <app-now-playing-showcase
-                        [@enterAnimation]
-                        *ngIf="this.page === nowPlayingPageEnum.showcase"
-                        class="collection-viewport"
-                    ></app-now-playing-showcase>
+                    <app-metro-page [page]="nowPlayingPageEnum.showcase" [selectedPage]="this.page">
+                        <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
+                    </app-metro-page>
                     <!-- Lyrics -->
-                    <app-now-playing-lyrics
-                        [@enterAnimation]
-                        *ngIf="this.page === nowPlayingPageEnum.lyrics"
-                        class="collection-viewport"
-                    ></app-now-playing-lyrics>
+                    <app-metro-page [page]="nowPlayingPageEnum.lyrics" [selectedPage]="this.page">
+                        <app-now-playing-lyrics class="collection-viewport"></app-now-playing-lyrics>
+                    </app-metro-page>
                     <!-- Artist info -->
-                    <app-now-playing-artist-info
-                        [@enterAnimation]
-                        *ngIf="this.page === nowPlayingPageEnum.artistInformation"
-                        class="collection-viewport"
-                    ></app-now-playing-artist-info>
-                </div>
+                    <app-metro-page [page]="nowPlayingPageEnum.artistInformation" [selectedPage]="this.page">
+                        <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info>
+                    </app-metro-page>
+                </app-metro-page-container>
                 <div class="app-now-playing-playback-controls__container">
                     <div
                         class="app-now-playing-playback-controls__background theme-footer-background"

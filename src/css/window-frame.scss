@@ -1,12 +1,7 @@
 .window-frame {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
     flex-direction: column;
     overflow: hidden;
+    padding-top: $titlebar-height;
 }
 
 .window-frame__titlebar {
@@ -14,6 +9,9 @@
     height: $titlebar-height;
     display: flex;
     flex-direction: row;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
 .window-frame__dragarea {
@@ -31,19 +29,16 @@
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.2);
-    z-index: 99;
+    z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .window-frame__content {
-    position: absolute;
-    top: $titlebar-height;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
     align-items: stretch;
     justify-content: stretch;
+    max-height: calc(100vh - $titlebar-height);
+    overflow-y: auto;
 }

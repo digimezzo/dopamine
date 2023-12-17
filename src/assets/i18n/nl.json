@@ -45,7 +45,7 @@
     "check-for-updates": "Controleren op updates",
     "also-check-for-pre-releases": "Controleer ook op pre-releases",
     "welcome-screen": "Welkomstscherm",
-    "show-welcome-screen": "Toon het welkomstscherm bij de volgende herstart",
+    "show-welcome-screen-on-next-restart": "Toon het welkomstscherm bij de volgende herstart",
     "online": "Online",
     "discord": "Discord",
     "enable-discord-rich-presence": "Schakel Discord Rich Presence in",
@@ -264,5 +264,6 @@
     "play-all": "Alles afspelen",
     "shuffle-all": "Willekeurig afspelen",
     "no-lyrics-found": "Er zijn geen songteksten gevonden",
-    "no-biography-found": "Er is geen biografie gevonden"
+    "no-biography-found": "Er is geen biografie gevonden",
+    "show-welcome-screen": "Toon het welkomstscherm"
 }

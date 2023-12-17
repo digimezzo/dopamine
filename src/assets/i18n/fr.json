@@ -45,7 +45,7 @@
     "check-for-updates": "Contrôler les mises à jour",
     "also-check-for-pre-releases": "Contrôler également les pré-versions",
     "welcome-screen": "Ecran d'accueil",
-    "show-welcome-screen": "Afficher l'écran d'accueil au prochain redémarrage",
+    "show-welcome-screen-on-next-restart": "Afficher l'écran d'accueil au prochain redémarrage",
     "online": "En ligne",
     "discord": "Discord",
     "enable-discord-rich-presence": "Activer Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Lecture intégrale",
     "shuffle-all": "Lecture aléatoire",
     "no-lyrics-found": "Aucune parole n'a été trouvée",
-    "no-biography-found": "Aucune biographie n'a été trouvée"
+    "no-biography-found": "Aucune biographie n'a été trouvée",
+    "show-welcome-screen": "Afficher l'écran d'accueil"
 }

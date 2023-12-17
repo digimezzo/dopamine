@@ -45,7 +45,7 @@
     "check-for-updates": "Провери за актуализации",
     "also-check-for-pre-releases": "Провери и за предварителни издания",
     "welcome-screen": "Начален екран",
-    "show-welcome-screen": "Покажете началния екран при следващото рестартиране",
+    "show-welcome-screen-on-next-restart": "Покажете началния екран при следващото рестартиране",
     "online": "Online",
     "discord": "Discord",
     "enable-discord-rich-presence": "Активирайте Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Пусни всички",
     "shuffle-all": "Разбъркайте всички",
     "no-lyrics-found": "Няма намерени текстове",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }

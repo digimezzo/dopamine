@@ -45,7 +45,7 @@
     "check-for-updates": "Kiểm tra bản cập nhật mới",
     "also-check-for-pre-releases": "Kiểm tra các bản cập nhật thử nghiệm",
     "welcome-screen": "Màn hình chào mừng",
-    "show-welcome-screen": "Hiện màn hình chào mừng trong lần tới",
+    "show-welcome-screen-on-next-restart": "Hiện màn hình chào mừng trong lần tới",
     "online": "Trực tuyến",
     "discord": "Discord",
     "enable-discord-rich-presence": "Bật Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Phát toàn bộ",
     "shuffle-all": "Phát ngẫu nhiên",
     "no-lyrics-found": "Không tìm thấy lời bài hát",
-    "no-biography-found": "Không tìm thấy tiểu sử"
+    "no-biography-found": "Không tìm thấy tiểu sử",
+    "show-welcome-screen": "Show welcome screen"
 }

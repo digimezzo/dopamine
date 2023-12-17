@@ -7,7 +7,6 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
-import { enterAnimation } from '../../animations/animations';
 
 @Component({
     selector: 'app-collection',
@@ -15,7 +14,6 @@ import { enterAnimation } from '../../animations/animations';
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: [enterAnimation],
 })
 export class CollectionComponent implements AfterViewInit {
     public constructor(

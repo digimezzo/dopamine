@@ -45,7 +45,7 @@
     "check-for-updates": "Provjeri ima li ažuriranja",
     "also-check-for-pre-releases": "Provjeri i pretpreglede ažuriranja",
     "welcome-screen": "Zaslon dobrodošlice",
-    "show-welcome-screen": "Prikaži zaslon dobrodošlice kod sljedećeg pokretanja",
+    "show-welcome-screen-on-next-restart": "Prikaži zaslon dobrodošlice kod sljedećeg pokretanja",
     "online": "Na mreži",
     "discord": "Discord",
     "enable-discord-rich-presence": "Omogući Discord Rich Presence",
@@ -264,5 +264,6 @@
     "play-all": "Play all",
     "shuffle-all": "Shuffle all",
     "no-lyrics-found": "No lyrics were found",
-    "no-biography-found": "No biography was found"
+    "no-biography-found": "No biography was found",
+    "show-welcome-screen": "Show welcome screen"
 }
