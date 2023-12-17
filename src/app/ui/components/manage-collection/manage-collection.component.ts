@@ -8,14 +8,6 @@ import { Constants } from '../../../common/application/constants';
     templateUrl: './manage-collection.component.html',
     styleUrls: ['./manage-collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger('pageSwitchAnimation', [
-            state('fade-out', style({ opacity: 0 })),
-            state('fade-in', style({ opacity: 1 })),
-            transition('fade-in => fade-out', animate('10ms ease-out')),
-            transition('fade-out => fade-in', animate(`${Constants.pageSwitchAnimationMilliseconds}ms ease-out`)),
-        ]),
-    ],
 })
 export class ManageCollectionComponent {
     public constructor(public appearanceService: AppearanceServiceBase) {}
