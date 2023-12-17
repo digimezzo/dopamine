@@ -1,108 +1,41 @@
 <div class="window-frame">
     <div class="window-frame__titlebar">
         <div class="window-frame__dragarea"></div>
-        <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
+        <app-window-controls *ngIf="!this.appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <div class="window-frame__content">
         <div class="welcome-component">
             <app-logo-full class="fade-in-animation animation-duration-2s animation-delay-1s"></app-logo-full>
-            <div class="welcome-content mt-5">
+            <app-metro-page-container class="welcome-content mt-5 p-3">
                 <!-- Greeting -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 0" class="p-3">
-                    <h1 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
-                        {{ 'hi' | translate }}
-                    </h1>
-                    <h3 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
-                        {{ 'welcome-to-dopamine' | translate }}
-                    </h3>
-                    <h1 *ngIf="this.isLoaded" class="mb-2">
-                        {{ 'hi' | translate }}
-                    </h1>
-                    <h3 *ngIf="this.isLoaded" class="mb-2">
-                        {{ 'welcome-to-dopamine' | translate }}
-                    </h3>
-                </div>
+                <app-metro-page [page]="0" [selectedPage]="this.currentPage">
+                    <app-welcome-greeting></app-welcome-greeting>
+                </app-metro-page>
                 <!-- Language -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 1" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'language' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'pick-your-language' | translate }}
-                    </h3>
-                    <mat-form-field class="mt-3">
-                        <mat-select [(ngModel)]="translatorService.selectedLanguage">
-                            <mat-option *ngFor="let language of translatorService.languages" [value]="language">
-                                <div *ngIf="!language.showEnglishName">{{ language.localizedName }}</div>
-                                <div *ngIf="language.showEnglishName">{{ language.localizedName }} ({{ language.englishName }})</div>
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                <app-metro-page [page]="1" [selectedPage]="this.currentPage">
+                    <app-welcome-language></app-welcome-language>
+                </app-metro-page>
                 <!-- Appearance -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 2" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'appearance' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'what-should-dopamine-look-like' | translate }}
-                    </h3>
-                    <mat-slide-toggle class="mt-3" [(ngModel)]="appearanceService.useLightBackgroundTheme">
-                        {{ 'use-light-theme' | translate }}</mat-slide-toggle
-                    >
-                    <app-theme-switcher class="mt-3"></app-theme-switcher>
-                </div>
+                <app-metro-page [page]="2" [selectedPage]="this.currentPage">
+                    <app-welcome-appearance></app-welcome-appearance>
+                </app-metro-page>
                 <!-- Music -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 3" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'music' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'let-us-set-up-collection' | translate }}
-                    </h3>
-                    <app-add-folder class="mt-3" [showCheckBoxes]="false"></app-add-folder>
-                </div>
+                <app-metro-page [page]="3" [selectedPage]="this.currentPage">
+                    <app-welcome-music></app-welcome-music>
+                </app-metro-page>
                 <!-- Online -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 4" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'online' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'online-preferences' | translate }}
-                    </h3>
-                    <div>
-                        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.downloadMissingAlbumCovers">
-                            {{ 'download-missing-album-covers' | translate }}</mat-slide-toggle
-                        >
-                    </div>
-                    <div>
-                        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.enableDiscordRichPresence">
-                            {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle
-                        >
-                    </div>
-                </div>
+                <app-metro-page [page]="4" [selectedPage]="this.currentPage">
+                    <app-welcome-online></app-welcome-online>
+                </app-metro-page>
                 <!-- Donate -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 5" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'donate' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'please-consider-donating' | translate }}
-                    </h3>
-                    <div class="mt-3">
-                        <a href="{{ donateUrl }}"><i class="lar la-heart mr-1"></i>{{ 'donate-now' | translate }}</a>
-                    </div>
-                </div>
+                <app-metro-page [page]="5" [selectedPage]="this.currentPage">
+                    <app-welcome-donate></app-welcome-donate>
+                </app-metro-page>
                 <!-- Done -->
-                <div [@enterAnimation] *ngIf="this.currentPage === 6" class="p-3">
-                    <h1 class="mb-2">
-                        {{ 'done' | translate }}
-                    </h1>
-                    <h3>
-                        {{ 'let-us-start-dopamine' | translate }}
-                    </h3>
-                </div>
-            </div>
+                <app-metro-page [page]="6" [selectedPage]="this.currentPage">
+                    <app-welcome-done></app-welcome-done>
+                </app-metro-page>
+            </app-metro-page-container>
             <app-step-indicator
                 class="my-5 fade-in-animation animation-duration-2s animation-delay-3s"
                 [totalSteps]="totalPages"

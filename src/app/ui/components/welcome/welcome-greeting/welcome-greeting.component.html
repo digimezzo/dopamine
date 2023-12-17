@@ -1,0 +1,14 @@
+<div class="d-flex flex-column">
+    <h1 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+        {{ 'hi' | translate }}
+    </h1>
+    <h3 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+        {{ 'welcome-to-dopamine' | translate }}
+    </h3>
+    <h1 *ngIf="this.isLoaded" class="mb-2">
+        {{ 'hi' | translate }}
+    </h1>
+    <h3 *ngIf="this.isLoaded" class="mb-2">
+        {{ 'welcome-to-dopamine' | translate }}
+    </h3>
+</div>

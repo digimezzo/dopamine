@@ -1,25 +1,22 @@
 import { IMock, Mock, Times } from 'typemoq';
 import { WelcomeComponent } from './welcome.component';
 import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
-import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
-import { SettingsBase } from '../../../common/settings/settings.base';
+import { WelcomeServiceBase } from '../../../services/welcome/welcome.service.base';
 
 describe('WelcomeComponent', () => {
+    let appearanceServiceMock: IMock<AppearanceServiceBase>;
+    let welcomeServiceMock: IMock<WelcomeServiceBase>;
     let navigationServiceMock: IMock<NavigationServiceBase>;
-    let translatorService: IMock<TranslatorServiceBase>;
-    let appearanceService: IMock<AppearanceServiceBase>;
-    let settings: IMock<SettingsBase>;
 
     let component: WelcomeComponent;
 
     beforeEach(() => {
+        appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
+        welcomeServiceMock = Mock.ofType<WelcomeServiceBase>();
         navigationServiceMock = Mock.ofType<NavigationServiceBase>();
-        translatorService = Mock.ofType<TranslatorServiceBase>();
-        appearanceService = Mock.ofType<AppearanceServiceBase>();
-        settings = Mock.ofType<SettingsBase>();
 
-        component = new WelcomeComponent(navigationServiceMock.object, translatorService.object, appearanceService.object, settings.object);
+        component = new WelcomeComponent(appearanceServiceMock.object, welcomeServiceMock.object, navigationServiceMock.object);
     });
 
     describe('constructor', () => {
@@ -76,15 +73,6 @@ describe('WelcomeComponent', () => {
             // Assert
             expect(component.canFinish).toBeFalsy();
         });
-
-        it('should provide correct donate url', () => {
-            // Arrange
-
-            // Act
-
-            // Assert
-            expect(component.donateUrl).toEqual('https://digimezzo.github.io/site/donate');
-        });
     });
 
     describe('finish', () => {
@@ -95,7 +83,7 @@ describe('WelcomeComponent', () => {
             await component.finishAsync();
 
             // Assert
-            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.exactly(1));
+            navigationServiceMock.verify((x) => x.navigateToLoadingAsync(), Times.once());
         });
     });
 });

@@ -315,6 +315,15 @@ import { SubMenuComponent } from './ui/components/sub-menu/sub-menu.component';
 import { SubMenuItemComponent } from './ui/components/sub-menu/sub-menu-item/sub-menu-item.component';
 import { MetroPageContainerComponent } from './ui/components/metro-page-container/metro-page-container.component';
 import { MetroPageComponent } from './ui/components/metro-page-container/metro-page/metro-page.component';
+import { WelcomeGreetingComponent } from './ui/components/welcome/welcome-greeting/welcome-greeting.component';
+import { WelcomeService } from './services/welcome/welcome.service';
+import { WelcomeServiceBase } from './services/welcome/welcome.service.base';
+import { WelcomeLanguageComponent } from './ui/components/welcome/welcome-language/welcome-language.component';
+import { WelcomeAppearanceComponent } from './ui/components/welcome/welcome-appearance/welcome-appearance.component';
+import { WelcomeMusicComponent } from './ui/components/welcome/welcome-music/welcome-music.component';
+import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/welcome-online.component';
+import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
+import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -451,6 +460,13 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         SubMenuItemComponent,
         MetroPageContainerComponent,
         MetroPageComponent,
+        WelcomeGreetingComponent,
+        WelcomeLanguageComponent,
+        WelcomeAppearanceComponent,
+        WelcomeMusicComponent,
+        WelcomeOnlineComponent,
+        WelcomeDonateComponent,
+        WelcomeDoneComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -621,6 +637,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: ScrobblingServiceBase, useClass: ScrobblingService },
         { provide: NowPlayingNavigationServiceBase, useClass: NowPlayingNavigationService },
         { provide: ArtistInformationServiceBase, useClass: ArtistInformationService },
+        { provide: WelcomeServiceBase, useClass: WelcomeService },
         { provide: LyricsServiceBase, useClass: LyricsService },
         { provide: EventListenerServiceBase, useClass: EventListenerService },
         { provide: AudioVisualizerServiceBase, useClass: AudioVisualizerService },
