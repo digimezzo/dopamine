@@ -40,5 +40,7 @@
     align-items: stretch;
     justify-content: stretch;
     max-height: calc(100vh - $titlebar-height);
+    width: 100vw;
     overflow-y: auto;
+    overflow-x: hidden;
 }

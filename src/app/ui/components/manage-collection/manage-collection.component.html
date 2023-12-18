@@ -16,15 +16,15 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <app-metro-page-container class="window-frame__content">
-        <app-metro-page [page]="0" [selectedPage]="this.page">
-            <app-manage-music></app-manage-music>
-        </app-metro-page>
-        <app-metro-page [page]="1" [selectedPage]="this.page">
-            <app-manage-refresh></app-manage-refresh>
-        </app-metro-page>
-        <app-metro-page [page]="2" [selectedPage]="this.page">
-            <app-manage-album-covers></app-manage-album-covers>
-        </app-metro-page>
-    </app-metro-page-container>
+    <div class="window-frame__content">
+        <!-- Music -->
+        <app-manage-music *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-manage-music>
+        <app-manage-music *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-manage-music>
+        <!-- Refresh -->
+        <app-manage-refresh *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-manage-refresh>
+        <app-manage-refresh *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-manage-refresh>
+        <!-- Album-covers -->
+        <app-manage-album-covers *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-manage-album-covers>
+        <app-manage-album-covers *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-manage-album-covers>
+    </div>
 </div>

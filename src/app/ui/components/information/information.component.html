@@ -13,12 +13,12 @@
         <app-main-menu> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <app-metro-page-container class="window-frame__content">
-        <app-metro-page [page]="0" [selectedPage]="this.page">
-            <app-about></app-about>
-        </app-metro-page>
-        <app-metro-page [page]="1" [selectedPage]="this.page">
-            <app-components></app-components>
-        </app-metro-page>
-    </app-metro-page-container>
+    <div class="window-frame__content">
+        <!-- About -->
+        <app-about *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-about>
+        <app-about *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-about>
+        <!-- Components -->
+        <app-components *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-components>
+        <app-components *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-components>
+    </div>
 </div>

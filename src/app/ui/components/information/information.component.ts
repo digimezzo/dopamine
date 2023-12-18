@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
+import { AnimatedPage } from '../animated-page';
+import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 
 @Component({
     selector: 'app-information',
@@ -7,13 +9,10 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
     templateUrl: './information.component.html',
     styleUrls: ['./information.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    animations: [enterLeftToRight, enterRightToLeft],
 })
-export class InformationComponent {
-    public constructor(public appearanceService: AppearanceServiceBase) {}
-
-    public page: number = 0;
-
-    public setPage(page: number): void {
-        this.page = page;
+export class InformationComponent extends AnimatedPage {
+    public constructor(public appearanceService: AppearanceServiceBase) {
+        super();
     }
 }

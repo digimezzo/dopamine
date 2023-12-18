@@ -5,7 +5,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-behavior-settings',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './behavior-settings.component.html',
     styleUrls: ['./behavior-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,

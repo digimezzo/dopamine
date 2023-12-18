@@ -9,7 +9,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-online-settings',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './online-settings.component.html',
     styleUrls: ['./online-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,

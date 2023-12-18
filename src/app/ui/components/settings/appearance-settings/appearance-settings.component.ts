@@ -7,7 +7,7 @@ import { AudioVisualizerServiceBase } from '../../../../services/audio-visualize
 
 @Component({
     selector: 'app-appearance-settings',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './appearance-settings.component.html',
     styleUrls: ['./appearance-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,

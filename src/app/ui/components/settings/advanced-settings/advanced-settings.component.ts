@@ -5,7 +5,7 @@ import { NavigationServiceBase } from '../../../../services/navigation/navigatio
 
 @Component({
     selector: 'app-advanced-settings',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './advanced-settings.component.html',
     styleUrls: ['./advanced-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,

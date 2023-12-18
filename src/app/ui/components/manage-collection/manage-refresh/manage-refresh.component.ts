@@ -4,6 +4,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-manage-refresh',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './manage-refresh.component.html',
     styleUrls: ['./manage-refresh.component.scss'],
     encapsulation: ViewEncapsulation.None,

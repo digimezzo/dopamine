@@ -4,7 +4,7 @@ import { ExternalComponent } from '../../../../common/application/external-compo
 
 @Component({
     selector: 'app-components',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './components.component.html',
     styleUrls: ['./components.component.scss'],
     encapsulation: ViewEncapsulation.None,

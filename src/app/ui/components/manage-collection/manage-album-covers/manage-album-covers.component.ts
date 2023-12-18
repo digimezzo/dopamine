@@ -4,6 +4,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-manage-album-covers',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './manage-album-covers.component.html',
     styleUrls: ['./manage-album-covers.component.scss'],
     encapsulation: ViewEncapsulation.None,

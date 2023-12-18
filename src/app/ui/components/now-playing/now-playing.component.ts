@@ -10,10 +10,8 @@ import { PlaybackServiceBase } from '../../../services/playback/playback.service
 import { SearchServiceBase } from '../../../services/search/search.service.base';
 import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-navigation/now-playing-navigation.service.base';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
-import { Constants } from '../../../common/application/constants';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
-import { enterAnimation } from '../../animations/animations';
 
 @Component({
     selector: 'app-now-playing',
@@ -22,7 +20,6 @@ import { enterAnimation } from '../../animations/animations';
     styleUrls: ['./now-playing.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
-        enterAnimation,
         trigger('controlsVisibility', [
             state(
                 'visible',

@@ -19,18 +19,18 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
-    <app-metro-page-container class="window-frame__content">
-        <app-metro-page [page]="0" [selectedPage]="this.page">
-            <app-appearance-settings></app-appearance-settings>
-        </app-metro-page>
-        <app-metro-page [page]="1" [selectedPage]="this.page">
-            <app-behavior-settings></app-behavior-settings>
-        </app-metro-page>
-        <app-metro-page [page]="2" [selectedPage]="this.page">
-            <app-advanced-settings></app-advanced-settings>
-        </app-metro-page>
-        <app-metro-page [page]="3" [selectedPage]="this.page">
-            <app-online-settings></app-online-settings>
-        </app-metro-page>
-    </app-metro-page-container>
+    <div class="window-frame__content">
+        <!-- Appearance -->
+        <app-appearance-settings *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-appearance-settings>
+        <app-appearance-settings *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-appearance-settings>
+        <!-- Behavior -->
+        <app-behavior-settings *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-behavior-settings>
+        <app-behavior-settings *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-behavior-settings>
+        <!-- Advanced -->
+        <app-advanced-settings *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-advanced-settings>
+        <app-advanced-settings *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-advanced-settings>
+        <!-- Online -->
+        <app-online-settings *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-online-settings>
+        <app-online-settings *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-online-settings>
+    </div>
 </div>
