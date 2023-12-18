@@ -7,6 +7,8 @@ import { SearchServiceBase } from '../../../services/search/search.service.base'
 import { SettingsBase } from '../../../common/settings/settings.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { AnimatedPage } from '../animated-page';
+import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 
 @Component({
     selector: 'app-collection',
@@ -14,8 +16,9 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    animations: [enterLeftToRight, enterRightToLeft],
 })
-export class CollectionComponent implements AfterViewInit {
+export class CollectionComponent extends AnimatedPage implements AfterViewInit {
     public constructor(
         public appearanceService: AppearanceServiceBase,
         public settings: SettingsBase,
@@ -26,6 +29,7 @@ export class CollectionComponent implements AfterViewInit {
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {
+        super();
         this.page = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
     }
 
