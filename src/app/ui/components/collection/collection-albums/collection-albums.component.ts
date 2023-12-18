@@ -20,6 +20,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-albums',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-albums.component.html',
     styleUrls: ['./collection-albums.component.scss'],
 })

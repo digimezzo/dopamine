@@ -23,6 +23,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-genres',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-genres.component.html',
     styleUrls: ['./collection-genres.component.scss'],
 })

@@ -13,6 +13,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-tracks',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-tracks.component.html',
     styleUrls: ['./collection-tracks.component.scss'],
     providers: [MouseSelectionWatcher],

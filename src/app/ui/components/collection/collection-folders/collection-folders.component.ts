@@ -29,7 +29,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-folders',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-folders.component.html',
     styleUrls: ['./collection-folders.component.scss'],
     providers: [MouseSelectionWatcher],

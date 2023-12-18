@@ -24,6 +24,7 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 
 @Component({
     selector: 'app-collection-artists',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-artists.component.html',
     styleUrls: ['./collection-artists.component.scss'],
 })

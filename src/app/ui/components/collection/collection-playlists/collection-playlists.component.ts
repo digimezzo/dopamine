@@ -19,6 +19,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-collection-playlists',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './collection-playlists.component.html',
     styleUrls: ['./collection-playlists.component.scss'],
 })
