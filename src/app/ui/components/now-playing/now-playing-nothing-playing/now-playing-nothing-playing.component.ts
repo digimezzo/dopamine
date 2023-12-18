@@ -5,7 +5,7 @@ import { TrackModels } from '../../../../services/track/track-models';
 
 @Component({
     selector: 'app-now-playing-nothing-playing',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%; height: 100%;' },
     templateUrl: './now-playing-nothing-playing.component.html',
     styleUrls: ['./now-playing-nothing-playing.component.scss'],
     encapsulation: ViewEncapsulation.None,

@@ -11,7 +11,7 @@ import { StringUtils } from '../../../../common/utils/string-utils';
 
 @Component({
     selector: 'app-now-playing-artist-info',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%; height: 100%;' },
     templateUrl: './now-playing-artist-info.component.html',
     styleUrls: ['./now-playing-artist-info.component.scss'],
     encapsulation: ViewEncapsulation.None,

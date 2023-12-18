@@ -22,24 +22,20 @@
         </div>
         <div class="window-frame__content">
             <div class="app-now-playing">
-                <app-metro-page-container class="app-now-playing__content">
+                <div class="app-now-playing__content">
                     <!-- Nothing playing -->
-                    <app-metro-page [page]="nowPlayingPageEnum.nothingPlaying" [selectedPage]="this.page">
-                        <app-now-playing-nothing-playing class="collection-viewport"></app-now-playing-nothing-playing>
-                    </app-metro-page>
+                    <app-now-playing-nothing-playing *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-now-playing-nothing-playing>
+                    <app-now-playing-nothing-playing *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-now-playing-nothing-playing>
                     <!-- Showcase -->
-                    <app-metro-page [page]="nowPlayingPageEnum.showcase" [selectedPage]="this.page">
-                        <app-now-playing-showcase class="collection-viewport"></app-now-playing-showcase>
-                    </app-metro-page>
+                    <app-now-playing-showcase *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-now-playing-showcase>
+                    <app-now-playing-showcase *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-now-playing-showcase>
                     <!-- Lyrics -->
-                    <app-metro-page [page]="nowPlayingPageEnum.lyrics" [selectedPage]="this.page">
-                        <app-now-playing-lyrics class="collection-viewport"></app-now-playing-lyrics>
-                    </app-metro-page>
+                    <app-now-playing-lyrics *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-now-playing-lyrics>
+                    <app-now-playing-lyrics *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-now-playing-lyrics>
                     <!-- Artist info -->
-                    <app-metro-page [page]="nowPlayingPageEnum.artistInformation" [selectedPage]="this.page">
-                        <app-now-playing-artist-info class="collection-viewport"></app-now-playing-artist-info>
-                    </app-metro-page>
-                </app-metro-page-container>
+                    <app-now-playing-artist-info *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-now-playing-artist-info>
+                    <app-now-playing-artist-info *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-now-playing-artist-info>
+                </div>
                 <div class="app-now-playing-playback-controls__container">
                     <div
                         class="app-now-playing-playback-controls__background theme-footer-background"

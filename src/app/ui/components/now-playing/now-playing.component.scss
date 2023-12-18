@@ -40,10 +40,11 @@
 }
 
 .app-now-playing__content {
-    padding-top: $titlebar-height;
     background: transparent !important;
     flex: 1;
     width: 100vw;
+    height: 100vh;
+    padding-bottom: 37px;
 }
 
 .app-now-playing-playback-controls__container {

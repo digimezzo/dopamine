@@ -5,7 +5,7 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-now-playing-showcase',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%; height: 100%;' },
     templateUrl: './now-playing-showcase.component.html',
     styleUrls: ['./now-playing-showcase.component.scss'],
     encapsulation: ViewEncapsulation.None,

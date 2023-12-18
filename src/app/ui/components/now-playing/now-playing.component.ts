@@ -12,6 +12,8 @@ import { NowPlayingNavigationServiceBase } from '../../../services/now-playing-n
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
+import { AnimatedPage } from '../animated-page';
 
 @Component({
     selector: 'app-now-playing',
@@ -20,6 +22,8 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
     styleUrls: ['./now-playing.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
+        enterLeftToRight,
+        enterRightToLeft,
         trigger('controlsVisibility', [
             state(
                 'visible',
@@ -84,7 +88,7 @@ import { DocumentProxy } from '../../../common/io/document-proxy';
         ]),
     ],
 })
-export class NowPlayingComponent implements OnInit, AfterViewInit {
+export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterViewInit {
     private timerId: number = 0;
     private subscription: Subscription = new Subscription();
 
@@ -98,7 +102,9 @@ export class NowPlayingComponent implements OnInit, AfterViewInit {
         private scheduler: SchedulerBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
-    ) {}
+    ) {
+        super();
+    }
 
     public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
     public page: NowPlayingPage;
