@@ -3,6 +3,7 @@ import { AppearanceServiceBase } from '../../../../services/appearance/appearanc
 
 @Component({
     selector: 'app-welcome-appearance',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-appearance.component.html',
     styleUrls: ['./welcome-appearance.component.scss'],
 })

@@ -5,53 +5,47 @@
     </div>
     <div class="window-frame__content">
         <div class="welcome-component">
-            <app-logo-full class="fade-in-animation animation-duration-2s animation-delay-1s"></app-logo-full>
-            <app-metro-page-container class="welcome-content mt-5">
+            <app-logo-full *ngIf="!this.isLoaded" class="fade-in-animation animation-duration-2s animation-delay-1s"></app-logo-full>
+            <app-logo-full *ngIf="this.isLoaded"></app-logo-full>
+            <div class="welcome-content mt-5">
                 <!-- Greeting -->
-                <app-metro-page [page]="0" [selectedPage]="this.currentPage">
-                    <app-welcome-greeting></app-welcome-greeting>
-                </app-metro-page>
+                <app-welcome-greeting *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-welcome-greeting>
+                <app-welcome-greeting *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-welcome-greeting>
                 <!-- Language -->
-                <app-metro-page [page]="1" [selectedPage]="this.currentPage">
-                    <app-welcome-language></app-welcome-language>
-                </app-metro-page>
+                <app-welcome-language *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-welcome-language>
+                <app-welcome-language *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-welcome-language>
                 <!-- Appearance -->
-                <app-metro-page [page]="2" [selectedPage]="this.currentPage">
-                    <app-welcome-appearance></app-welcome-appearance>
-                </app-metro-page>
+                <app-welcome-appearance *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-welcome-appearance>
+                <app-welcome-appearance *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-welcome-appearance>
                 <!-- Music -->
-                <app-metro-page [page]="3" [selectedPage]="this.currentPage">
-                    <app-welcome-music></app-welcome-music>
-                </app-metro-page>
+                <app-welcome-music *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-welcome-music>
+                <app-welcome-music *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-welcome-music>
                 <!-- Online -->
-                <app-metro-page [page]="4" [selectedPage]="this.currentPage">
-                    <app-welcome-online></app-welcome-online>
-                </app-metro-page>
+                <app-welcome-online *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-welcome-online>
+                <app-welcome-online *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-welcome-online>
                 <!-- Donate -->
-                <app-metro-page [page]="5" [selectedPage]="this.currentPage">
-                    <app-welcome-donate></app-welcome-donate>
-                </app-metro-page>
+                <app-welcome-donate *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-welcome-donate>
+                <app-welcome-donate *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-welcome-donate>
                 <!-- Done -->
-                <app-metro-page [page]="6" [selectedPage]="this.currentPage">
-                    <app-welcome-done></app-welcome-done>
-                </app-metro-page>
-            </app-metro-page-container>
+                <app-welcome-done *ngIf="this.leftToRight(6)" [@enterLeftToRight]></app-welcome-done>
+                <app-welcome-done *ngIf="this.rightToLeft(6)" [@enterRightToLeft]></app-welcome-done>
+            </div>
             <app-step-indicator
                 class="my-5 fade-in-animation animation-duration-2s animation-delay-3s"
-                [totalSteps]="totalPages"
-                [currentStep]="currentPage"
+                [totalSteps]="this.totalPages"
+                [currentStep]="this.page"
             ></app-step-indicator>
-            <div class="welcome-navigation-buttons fade-in-animation animation-duration-2s animation-delay-3s">
-                <button *ngIf="canGoBack" class="transparent-button mx-5" (click)="goBack()">
-                    <i class="las la-angle-left welcome-navigation-buttons__icon"></i>
-                </button>
-                <button *ngIf="canGoForward" class="transparent-button mx-5" (click)="goForward()">
-                    <i class="las la-angle-right welcome-navigation-buttons__icon"></i>
-                </button>
-                <button *ngIf="canFinish" class="transparent-button mx-5" (click)="finishAsync()">
-                    <i class="las la-check welcome-navigation-buttons__icon"></i>
-                </button>
-            </div>
+            <app-welcome-navigation-buttons
+                *ngIf="!this.isLoaded"
+                class="fade-in-animation animation-duration-2s animation-delay-3s"
+                [totalPages]="this.totalPages"
+                [(page)]="this.currentPage"
+            ></app-welcome-navigation-buttons>
+            <app-welcome-navigation-buttons
+                *ngIf="this.isLoaded"
+                [totalPages]="this.totalPages"
+                [(page)]="this.currentPage"
+            ></app-welcome-navigation-buttons>
         </div>
     </div>
 </div>

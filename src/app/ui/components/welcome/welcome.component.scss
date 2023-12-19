@@ -20,13 +20,3 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-
-.welcome-navigation-buttons {
-    display: flex;
-    flex-direction: row;
-}
-
-.welcome-navigation-buttons__icon {
-    font-size: 40px;
-    color: var(--theme-accent-color);
-}

@@ -3,7 +3,7 @@ import { WelcomeServiceBase } from '../../../../services/welcome/welcome.service
 
 @Component({
     selector: 'app-welcome-greeting',
-    host: { style: 'display: block' },
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-greeting.component.html',
     styleUrls: ['./welcome-greeting.component.scss'],
 })

@@ -3,6 +3,7 @@ import { TranslatorServiceBase } from '../../../../services/translator/translato
 
 @Component({
     selector: 'app-welcome-language',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-language.component.html',
     styleUrls: ['./welcome-language.component.scss'],
 })

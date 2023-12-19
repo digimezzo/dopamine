@@ -1,0 +1,11 @@
+<div class="welcome-navigation-buttons">
+    <button *ngIf="canGoBack" class="transparent-button mx-5" (click)="goBack()">
+        <i class="las la-angle-left welcome-navigation-buttons__icon"></i>
+    </button>
+    <button *ngIf="canGoForward" class="transparent-button mx-5" (click)="goForward()">
+        <i class="las la-angle-right welcome-navigation-buttons__icon"></i>
+    </button>
+    <button *ngIf="canFinish" class="transparent-button mx-5" (click)="finishAsync()">
+        <i class="las la-check welcome-navigation-buttons__icon"></i>
+    </button>
+</div>

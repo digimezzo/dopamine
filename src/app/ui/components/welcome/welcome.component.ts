@@ -1,7 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { NavigationServiceBase } from '../../../services/navigation/navigation.service.base';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { WelcomeServiceBase } from '../../../services/welcome/welcome.service.base';
+import { AnimatedPage } from '../animated-page';
+import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 
 @Component({
     selector: 'app-welcome',
@@ -9,44 +10,27 @@ import { WelcomeServiceBase } from '../../../services/welcome/welcome.service.ba
     templateUrl: './welcome.component.html',
     styleUrls: ['./welcome.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    animations: [enterLeftToRight, enterRightToLeft],
 })
-export class WelcomeComponent {
+export class WelcomeComponent extends AnimatedPage {
     public constructor(
         public appearanceService: AppearanceServiceBase,
         private welcomeService: WelcomeServiceBase,
-        private navigationService: NavigationServiceBase,
-    ) {}
+    ) {
+        super();
+    }
 
-    public currentPage: number = 0;
     public totalPages: number = 7;
 
-    public get canGoBack(): boolean {
-        return this.currentPage > 0 && this.currentPage < this.totalPages - 1;
+    public get currentPage(): number {
+        return this.page;
     }
 
-    public get canGoForward(): boolean {
-        return this.currentPage < this.totalPages - 1;
+    public set currentPage(value: number) {
+        this.page = value;
     }
 
-    public get canFinish(): boolean {
-        return this.currentPage === this.totalPages - 1;
-    }
-
-    public goBack(): void {
-        if (this.canGoBack) {
-            this.currentPage--;
-        }
-    }
-
-    public goForward(): void {
-        this.welcomeService.isLoaded = true;
-
-        if (this.canGoForward) {
-            this.currentPage++;
-        }
-    }
-
-    public async finishAsync(): Promise<void> {
-        await this.navigationService.navigateToLoadingAsync();
+    public get isLoaded(): boolean {
+        return this.welcomeService.isLoaded;
     }
 }

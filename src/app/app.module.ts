@@ -324,6 +324,7 @@ import { WelcomeMusicComponent } from './ui/components/welcome/welcome-music/wel
 import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/welcome-online.component';
 import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
+import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -467,6 +468,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WelcomeOnlineComponent,
         WelcomeDonateComponent,
         WelcomeDoneComponent,
+        WelcomeNavigationButtonsComponent,
     ],
     imports: [
         BrowserAnimationsModule,

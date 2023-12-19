@@ -1,3 +1,3 @@
 export abstract class WelcomeServiceBase {
-    public isLoaded: boolean;
+    public abstract isLoaded: boolean;
 }

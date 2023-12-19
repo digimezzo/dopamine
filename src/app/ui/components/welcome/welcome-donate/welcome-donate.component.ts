@@ -3,6 +3,7 @@ import { ContactInformation } from '../../../../common/application/contact-infor
 
 @Component({
     selector: 'app-welcome-donate',
+    host: { style: 'display: block; width: 100%;' },
     templateUrl: './welcome-donate.component.html',
     styleUrls: ['./welcome-donate.component.scss'],
 })
