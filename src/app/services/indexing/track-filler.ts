@@ -9,6 +9,8 @@ import { StringUtils } from '../../common/utils/string-utils';
 import { TrackFieldCreator } from './track-field-creator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { IndexablePath } from './indexable-path';
+import { IndexableTrack } from './indexable-track';
 
 @Injectable()
 export class TrackFiller {
@@ -73,6 +75,22 @@ export class TrackFiller {
         }
 
         return track;
+    }
+
+    public async addFileMetadataToTracksAsync(
+        indexablePaths: IndexablePath[],
+        fillOnlyEssentialMetadata: boolean,
+    ): Promise<IndexableTrack[]> {
+        const filledIndexableTracks: IndexableTrack[] = [];
+
+        for (const indexablePath of indexablePaths) {
+            const track: Track = new Track(indexablePath.path);
+            await this.addFileMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
+
+            filledIndexableTracks.push(new IndexableTrack(track, indexablePath.dateModifiedTicks, indexablePath.folderId));
+        }
+
+        return filledIndexableTracks;
     }
 
     private getMimeType(filePath: string): string {

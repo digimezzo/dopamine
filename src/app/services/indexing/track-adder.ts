@@ -11,6 +11,8 @@ import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
+import { SchedulerBase } from '../../common/scheduling/scheduler.base';
+import { IndexableTrack } from './indexable-track';
 
 @Injectable()
 export class TrackAdder {
@@ -23,7 +25,37 @@ export class TrackAdder {
         private settings: SettingsBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
+        private scheduler: SchedulerBase,
     ) {}
+
+    private async processIndexablePathsAsync(indexablePaths: IndexablePath[]): Promise<number> {
+        let numberOfAddedTracks: number = 0;
+
+        const indexableTracks: IndexableTrack[] = await this.trackFiller.addFileMetadataToTracksAsync(indexablePaths, false);
+
+        for (let i = 0; i < indexableTracks.length; i++) {
+            try {
+                const newTrack: Track = new Track(indexableTracks[i].path);
+                await this.trackFiller.addFileMetadataToTrackAsync(newTrack, false);
+
+                this.trackRepository.addTrack(newTrack);
+                const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path)!;
+
+                this.folderTrackRepository.addFolderTrack(new FolderTrack(indexableTracks[i].folderId, addedTrack.trackId));
+
+                numberOfAddedTracks++;
+            } catch (e: unknown) {
+                this.logger.error(
+                    e,
+                    `A problem occurred while adding track with path='${indexableTracks[i].path}'`,
+                    'TrackAdder',
+                    'addTracksThatAreNotInTheDatabaseAsync',
+                );
+            }
+        }
+
+        return numberOfAddedTracks;
+    }
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
         const timer: Timer = new Timer();
@@ -33,30 +65,16 @@ export class TrackAdder {
             const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks: number = 0;
+            const batchSize: number = 10;
 
-            for (const indexablePath of indexablePaths) {
-                try {
-                    const newTrack: Track = new Track(indexablePath.path);
-                    await this.trackFiller.addFileMetadataToTrackAsync(newTrack, false);
+            for (let i = 0; i < indexablePaths.length; i += batchSize) {
+                const batch: IndexablePath[] = indexablePaths.slice(i, i + batchSize);
+                numberOfAddedTracks += await this.processIndexablePathsAsync(batch);
 
-                    this.trackRepository.addTrack(newTrack);
-                    const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path)!;
+                const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
+                await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
 
-                    this.folderTrackRepository.addFolderTrack(new FolderTrack(indexablePath.folderId, addedTrack.trackId));
-
-                    numberOfAddedTracks++;
-
-                    const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
-
-                    await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
-                } catch (e: unknown) {
-                    this.logger.error(
-                        e,
-                        `A problem occurred while adding track with path='${indexablePath.path}'`,
-                        'TrackAdder',
-                        'addTracksThatAreNotInTheDatabaseAsync',
-                    );
-                }
+                await this.scheduler.sleepAsync(10);
             }
 
             timer.stop();
