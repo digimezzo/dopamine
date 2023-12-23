@@ -17,6 +17,7 @@ const windowStateKeeper = require("electron-window-state");
 const os = require("os");
 const path = require("path");
 const url = require("url");
+const worker_threads_1 = require("worker_threads");
 /**
  * Command line parameters
  */
@@ -265,6 +266,14 @@ try {
                 return;
             }
             tray.setImage(getTrayIcon());
+        });
+        electron_1.ipcMain.on('indexer-test', (event, arg) => {
+            const workerThread = new worker_threads_1.Worker('./main/worker.ts', {
+                workerData: { arg },
+            });
+            workerThread.on('message', (filledIndexableTracks) => {
+                mainWindow.webContents.send('indexer-test-reply', { filledIndexableTracks: filledIndexableTracks });
+            });
         });
     }
 }

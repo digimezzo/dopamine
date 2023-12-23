@@ -15,6 +15,7 @@ import * as windowStateKeeper from 'electron-window-state';
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
+import { Worker, isMainThread } from 'worker_threads';
 
 /**
  * Command line parameters
@@ -312,6 +313,16 @@ try {
             }
 
             tray.setImage(getTrayIcon());
+        });
+
+        ipcMain.on('indexer-test', (event: any, arg: any) => {
+            const workerThread = new Worker('./main/worker.ts', {
+                workerData: { arg },
+            });
+
+            workerThread.on('message', (filledIndexableTracks): void => {
+                mainWindow!.webContents.send('indexer-test-reply', { filledIndexableTracks: filledIndexableTracks });
+            });
         });
     }
 } catch (e) {

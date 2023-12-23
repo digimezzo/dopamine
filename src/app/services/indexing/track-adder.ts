@@ -35,11 +35,8 @@ export class TrackAdder {
 
         for (let i = 0; i < indexableTracks.length; i++) {
             try {
-                const newTrack: Track = new Track(indexableTracks[i].path);
-                await this.trackFiller.addFileMetadataToTrackAsync(newTrack, false);
-
-                this.trackRepository.addTrack(newTrack);
-                const addedTrack: Track = this.trackRepository.getTrackByPath(newTrack.path)!;
+                this.trackRepository.addTrack(indexableTracks[i]);
+                const addedTrack: Track = this.trackRepository.getTrackByPath(indexableTracks[i].path)!;
 
                 this.folderTrackRepository.addFolderTrack(new FolderTrack(indexableTracks[i].folderId, addedTrack.trackId));
 
@@ -74,7 +71,7 @@ export class TrackAdder {
                 const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
                 await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
 
-                await this.scheduler.sleepAsync(10);
+                // await this.scheduler.sleepAsync(10);
             }
 
             timer.stop();

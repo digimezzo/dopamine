@@ -11,6 +11,8 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { IndexablePath } from './indexable-path';
 import { IndexableTrack } from './indexable-track';
+import { ipcRenderer } from 'electron';
+import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 
 @Injectable()
 export class TrackFiller {
@@ -22,6 +24,7 @@ export class TrackFiller {
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
         private logger: Logger,
+        private scheduler: SchedulerBase,
     ) {}
 
     public async addFileMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
@@ -81,13 +84,29 @@ export class TrackFiller {
         indexablePaths: IndexablePath[],
         fillOnlyEssentialMetadata: boolean,
     ): Promise<IndexableTrack[]> {
-        const filledIndexableTracks: IndexableTrack[] = [];
+        let filledIndexableTracks: IndexableTrack[] | undefined;
 
-        for (const indexablePath of indexablePaths) {
-            const track: Track = new Track(indexablePath.path);
-            await this.addFileMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
+        // for (const indexablePath of indexablePaths) {
+        //     const track: Track = new Track(indexablePath.path);
+        //     await this.addFileMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
+        //
+        //     filledIndexableTracks.push(new IndexableTrack(track, indexablePath.dateModifiedTicks, indexablePath.folderId));
+        // }
 
-            filledIndexableTracks.push(new IndexableTrack(track, indexablePath.dateModifiedTicks, indexablePath.folderId));
+        const arg: any = {
+            indexablePaths: indexablePaths,
+            fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
+        };
+
+        ipcRenderer.send('indexer-test', arg);
+
+        ipcRenderer.on('indexer-test-reply', (evt, message) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+            filledIndexableTracks = message.filledIndexableTracks;
+        });
+
+        while (filledIndexableTracks === undefined) {
+            await this.scheduler.sleepAsync(100);
         }
 
         return filledIndexableTracks;
