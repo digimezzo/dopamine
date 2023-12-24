@@ -25,7 +25,6 @@ export class TrackAdder {
         private settings: SettingsBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
-        private scheduler: SchedulerBase,
     ) {}
 
     private async processIndexablePathsAsync(indexablePaths: IndexablePath[]): Promise<number> {
@@ -70,8 +69,6 @@ export class TrackAdder {
 
                 const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
                 await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
-
-                // await this.scheduler.sleepAsync(10);
             }
 
             timer.stop();

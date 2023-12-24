@@ -1,7 +1,7 @@
-import { FileFormats } from '../src/app/common/application/file-formats';
+const { FileFormats } = require('./file-formats');
 
-export class MimeTypes {
-    public static getMimeTypeForFileExtension(fileExtension: string): string {
+class MimeTypes {
+    static getMimeTypeForFileExtension(fileExtension) {
         switch (fileExtension) {
             case FileFormats.mp3:
                 return 'audio/mpeg';
@@ -20,3 +20,5 @@ export class MimeTypes {
         }
     }
 }
+
+exports.MimeTypes = MimeTypes;

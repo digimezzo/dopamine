@@ -1,8 +1,8 @@
-export class MetadataPatcher {
-    public static joinUnsplittableMetadata(possiblySplittedMetadata: string[] | undefined): string[] {
-        const unsplittableMetadata: string[] = ['AC/DC', 'De/Vision', 'Ghost/Light'];
+class MetadataPatcher {
+    static joinUnsplittableMetadata(possiblySplittedMetadata) {
+        const unsplittableMetadata = ['AC/DC', 'De/Vision', 'Ghost/Light'];
 
-        if (possiblySplittedMetadata == undefined) {
+        if (possiblySplittedMetadata === undefined) {
             return [];
         }
 
@@ -10,17 +10,17 @@ export class MetadataPatcher {
             return possiblySplittedMetadata;
         }
 
-        const joinedMetadata: string[] = [];
+        const joinedMetadata = [];
 
-        const firstPartOfUnsplittableMetadataItems: string[] = [];
-        const secondPartOfUnsplittableMetadataItems: string[] = [];
+        const firstPartOfUnsplittableMetadataItems = [];
+        const secondPartOfUnsplittableMetadataItems = [];
 
         for (const unsplittableMetadataItem of unsplittableMetadata) {
             firstPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[0].toLowerCase());
             secondPartOfUnsplittableMetadataItems.push(unsplittableMetadataItem.split('/')[1].toLowerCase());
         }
 
-        for (let i: number = 0; i < possiblySplittedMetadata.length; i++) {
+        for (let i = 0; i < possiblySplittedMetadata.length; i++) {
             if (firstPartOfUnsplittableMetadataItems.includes(possiblySplittedMetadata[i].toLowerCase())) {
                 if (possiblySplittedMetadata.length > i + 1) {
                     if (secondPartOfUnsplittableMetadataItems.includes(possiblySplittedMetadata[i + 1].toLowerCase())) {
@@ -37,3 +37,5 @@ export class MetadataPatcher {
         return joinedMetadata;
     }
 }
+
+exports.MetadataPatcher = MetadataPatcher;

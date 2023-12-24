@@ -268,7 +268,7 @@ try {
             tray.setImage(getTrayIcon());
         });
         electron_1.ipcMain.on('indexer-test', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/worker.ts'), {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/worker.js'), {
                 workerData: { arg },
             });
             workerThread.on('message', (filledIndexableTracks) => {

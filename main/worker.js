@@ -1,5 +1,4 @@
 const { parentPort, workerData } = require('worker_threads');
-const { IndexableTrack } = require('../src/app/services/indexing/indexable-track');
 const { TrackFiller } = require('./track-filler');
 
 const { arg } = workerData;
