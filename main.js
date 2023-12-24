@@ -182,15 +182,15 @@ function createMainWindow() {
  * Main
  */
 try {
-    electron_log_1.default.info('[Main] [] +++ Starting +++');
+    electron_log_1.default.info('[Main] [Main] +++ Starting +++');
     const gotTheLock = electron_1.app.requestSingleInstanceLock();
     if (!gotTheLock) {
-        electron_log_1.default.info('[Main] [] There is already another instance running. Closing.');
+        electron_log_1.default.info('[Main] [Main] There is already another instance running. Closing.');
         electron_1.app.quit();
     }
     else {
         electron_1.app.on('second-instance', (event, argv, workingDirectory) => {
-            electron_log_1.default.info('[Main] [] Attempt to run second instance. Showing existing window.');
+            electron_log_1.default.info('[Main] [Main] Attempt to run second instance. Showing existing window.');
             mainWindow.webContents.send('arguments-received', argv);
             // Someone tried to run a second instance, we should focus the existing window.
             if (mainWindow) {
@@ -278,7 +278,7 @@ try {
     }
 }
 catch (e) {
-    electron_log_1.default.error(`[Main] [] Could not start. Error: ${e.message}`);
+    electron_log_1.default.error(`[Main] [Main] Could not start. Error: ${e.message}`);
     throw e;
 }
 //# sourceMappingURL=main.js.map

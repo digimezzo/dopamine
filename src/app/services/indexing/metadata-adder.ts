@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
-import { AlbumKeyGenerator } from '../../data/album-key-generator';
-import { Track } from '../../data/entities/track';
-import { DateTime } from '../../common/date-time';
-import { Logger } from '../../common/logger';
-import { IFileMetadata } from '../../common/metadata/i-file-metadata';
-import { MimeTypes } from '../../common/metadata/mime-types';
-import { StringUtils } from '../../common/utils/string-utils';
-import { TrackFieldCreator } from './track-field-creator';
-import { FileAccessBase } from '../../common/io/file-access.base';
-import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
-import { IndexablePath } from './indexable-path';
 import { IndexableTrack } from './indexable-track';
 import { ipcRenderer } from 'electron';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
+import { Track } from '../../data/entities/track';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
+import { Logger } from '../../common/logger';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { TrackFieldCreator } from './track-field-creator';
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { AlbumKeyGenerator } from '../../data/album-key-generator';
+import { DateTime } from '../../common/date-time';
+import { StringUtils } from '../../common/utils/string-utils';
+import { MimeTypes } from '../../common/metadata/mime-types';
 
-@Injectable()
-export class TrackFiller {
+@Injectable({
+    providedIn: 'root',
+})
+export class MetadataAdder {
     public constructor(
         private fileMetadataFactory: FileMetadataFactoryBase,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
         private fileAccess: FileAccessBase,
+        private scheduler: SchedulerBase,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
         private logger: Logger,
-        private scheduler: SchedulerBase,
     ) {}
 
-    public async addFileMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
+    public async addMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
         try {
             const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
@@ -66,35 +67,27 @@ export class TrackFiller {
             track.indexingFailureReason = '';
         } catch (e: unknown) {
             track.indexingSuccess = 0;
-
             track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
             this.logger.error(
                 e,
                 'Error while retrieving tag information for file ${track.path}',
-                'TrackFiller',
-                'addFileMetadataToTrackAsync',
+                'MetadataAdder',
+                'addMetadataToTrackAsync',
             );
         }
 
         return track;
     }
 
-    public async addFileMetadataToTracksAsync(
-        indexablePaths: IndexablePath[],
+    public async addMetadataToIndexableTracksAsync(
+        indexableTracks: IndexableTrack[],
         fillOnlyEssentialMetadata: boolean,
     ): Promise<IndexableTrack[]> {
         let filledIndexableTracks: IndexableTrack[] | undefined;
 
-        // for (const indexablePath of indexablePaths) {
-        //     const track: Track = new Track(indexablePath.path);
-        //     await this.addFileMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
-        //
-        //     filledIndexableTracks.push(new IndexableTrack(track, indexablePath.dateModifiedTicks, indexablePath.folderId));
-        // }
-
         const arg: any = {
-            indexablePaths: indexablePaths,
+            indexableTracks: indexableTracks,
             fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
         };
 

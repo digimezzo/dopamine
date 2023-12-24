@@ -213,16 +213,16 @@ function createMainWindow(): void {
  * Main
  */
 try {
-    log.info('[Main] [] +++ Starting +++');
+    log.info('[Main] [Main] +++ Starting +++');
 
     const gotTheLock = app.requestSingleInstanceLock();
 
     if (!gotTheLock) {
-        log.info('[Main] [] There is already another instance running. Closing.');
+        log.info('[Main] [Main] There is already another instance running. Closing.');
         app.quit();
     } else {
         app.on('second-instance', (event, argv, workingDirectory) => {
-            log.info('[Main] [] Attempt to run second instance. Showing existing window.');
+            log.info('[Main] [Main] Attempt to run second instance. Showing existing window.');
             mainWindow!.webContents.send('arguments-received', argv);
 
             // Someone tried to run a second instance, we should focus the existing window.
@@ -326,7 +326,7 @@ try {
         });
     }
 } catch (e) {
-    log.error(`[Main] [] Could not start. Error: ${e.message}`);
+    log.error(`[Main] [Main] Could not start. Error: ${e.message}`);
 
     throw e;
 }

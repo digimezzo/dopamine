@@ -6,13 +6,12 @@ import { Timer } from '../../common/scheduling/timer';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
-import { TrackFiller } from './track-filler';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
-import { SchedulerBase } from '../../common/scheduling/scheduler.base';
 import { IndexableTrack } from './indexable-track';
+import { MetadataAdder } from './metadata-adder';
 
 @Injectable()
 export class TrackAdder {
@@ -21,31 +20,28 @@ export class TrackAdder {
         private folderTrackRepository: FolderTrackRepositoryBase,
         private removedTrackRepository: RemovedTrackRepositoryBase,
         private indexablePathFetcher: IndexablePathFetcher,
-        private trackFiller: TrackFiller,
+        private metadataAdder: MetadataAdder,
         private settings: SettingsBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
     ) {}
 
-    private async processIndexablePathsAsync(indexablePaths: IndexablePath[]): Promise<number> {
+    private async addTracksInBatch(indexableTracks: IndexableTrack[]): Promise<number> {
         let numberOfAddedTracks: number = 0;
+        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToIndexableTracksAsync(indexableTracks, false);
 
-        const indexableTracks: IndexableTrack[] = await this.trackFiller.addFileMetadataToTracksAsync(indexablePaths, false);
-
-        for (let i = 0; i < indexableTracks.length; i++) {
+        for (const filledIndexableTrack of filledIndexableTracks) {
             try {
-                this.trackRepository.addTrack(indexableTracks[i]);
-                const addedTrack: Track = this.trackRepository.getTrackByPath(indexableTracks[i].path)!;
-
-                this.folderTrackRepository.addFolderTrack(new FolderTrack(indexableTracks[i].folderId, addedTrack.trackId));
-
+                this.trackRepository.addTrack(filledIndexableTrack);
+                const addedTrack: Track = this.trackRepository.getTrackByPath(filledIndexableTrack.path)!;
+                this.folderTrackRepository.addFolderTrack(new FolderTrack(filledIndexableTrack.folderId, addedTrack.trackId));
                 numberOfAddedTracks++;
             } catch (e: unknown) {
                 this.logger.error(
                     e,
-                    `A problem occurred while adding track with path='${indexableTracks[i].path}'`,
+                    `A problem occurred while adding track with path='${filledIndexableTrack.path}'`,
                     'TrackAdder',
-                    'addTracksThatAreNotInTheDatabaseAsync',
+                    'addTracksInBatch',
                 );
             }
         }
@@ -61,11 +57,13 @@ export class TrackAdder {
             const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks: number = 0;
-            const batchSize: number = 10;
+            const batchSize: number = 20;
 
             for (let i = 0; i < indexablePaths.length; i += batchSize) {
-                const batch: IndexablePath[] = indexablePaths.slice(i, i + batchSize);
-                numberOfAddedTracks += await this.processIndexablePathsAsync(batch);
+                const indexablePathsBatch: IndexablePath[] = indexablePaths.slice(i, i + batchSize);
+                numberOfAddedTracks += await this.addTracksInBatch(
+                    indexablePathsBatch.map((x) => new IndexableTrack(new Track(x.path), x.dateModifiedTicks, x.folderId)),
+                );
 
                 const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
                 await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);

@@ -1,10 +1,10 @@
 const { parentPort, workerData } = require('worker_threads');
-const { TrackFiller } = require('./track-filler');
+const { MetadataAdder } = require('./metadata-adder');
 
 const { arg } = workerData;
 
 function performTaskAsync() {
-    return TrackFiller.addFileMetadataToTracksAsync(arg.indexablePaths, arg.fillOnlyEssentialMetadata);
+    return MetadataAdder.addMetadataToIndexableTracksAsync(arg.indexableTracks, arg.fillOnlyEssentialMetadata);
 }
 
 performTaskAsync().then((filledIndexableTracks) => {
