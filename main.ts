@@ -316,7 +316,7 @@ try {
         });
 
         ipcMain.on('indexer-test', (event: any, arg: any) => {
-            const workerThread = new Worker('./main/worker.ts', {
+            const workerThread = new Worker(path.join(__dirname, 'main/worker.ts'), {
                 workerData: { arg },
             });
 
