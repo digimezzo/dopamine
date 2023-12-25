@@ -69,12 +69,7 @@ export class MetadataAdder {
             track.indexingSuccess = 0;
             track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
-            this.logger.error(
-                e,
-                'Error while retrieving tag information for file ${track.path}',
-                'MetadataAdder',
-                'addMetadataToTrackAsync',
-            );
+            this.logger.error(e, 'Could not get tag information for file ${track.path}', 'MetadataAdder', 'addMetadataToTrackAsync');
         }
 
         return track;
@@ -86,16 +81,16 @@ export class MetadataAdder {
     ): Promise<IndexableTrack[]> {
         let filledIndexableTracks: IndexableTrack[] | undefined;
 
-        const arg: any = {
+        const arg = {
             indexableTracks: indexableTracks,
             fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
         };
 
-        ipcRenderer.send('indexer-test', arg);
+        ipcRenderer.send('metadata-worker-request', arg);
 
-        ipcRenderer.on('indexer-test-reply', (evt, message) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-            filledIndexableTracks = message.filledIndexableTracks;
+        ipcRenderer.on('metadata-worker-response', (evt, message) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            filledIndexableTracks = message.filledIndexableTracks as IndexableTrack[];
         });
 
         while (filledIndexableTracks === undefined) {

@@ -49,7 +49,7 @@ class MetadataAdder {
             indexableTrack.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
             log.error(
-                `[MetadataAdder] [addMetadataToIndexableTrackAsync] Error while retrieving tag information for file ${indexableTrack.path}. Error: ${e.message}'`,
+                `[MetadataAdder] [addMetadataToIndexableTrackAsync] Could not get tag information for file ${indexableTrack.path}. Error: ${e.message}'`,
             );
         }
 

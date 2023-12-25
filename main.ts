@@ -315,13 +315,13 @@ try {
             tray.setImage(getTrayIcon());
         });
 
-        ipcMain.on('indexer-test', (event: any, arg: any) => {
-            const workerThread = new Worker(path.join(__dirname, 'main/worker.js'), {
+        ipcMain.on('metadata-worker-request', (event: any, arg: any) => {
+            const workerThread = new Worker(path.join(__dirname, 'main/metadata/metadata-worker.js'), {
                 workerData: { arg },
             });
 
             workerThread.on('message', (filledIndexableTracks): void => {
-                mainWindow!.webContents.send('indexer-test-reply', { filledIndexableTracks: filledIndexableTracks });
+                mainWindow!.webContents.send('metadata-worker-response', { filledIndexableTracks: filledIndexableTracks });
             });
         });
     }

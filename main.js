@@ -267,12 +267,12 @@ try {
             }
             tray.setImage(getTrayIcon());
         });
-        electron_1.ipcMain.on('indexer-test', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/worker.js'), {
+        electron_1.ipcMain.on('metadata-worker-request', (event, arg) => {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/metadata/metadata-worker.js'), {
                 workerData: { arg },
             });
             workerThread.on('message', (filledIndexableTracks) => {
-                mainWindow.webContents.send('indexer-test-reply', { filledIndexableTracks: filledIndexableTracks });
+                mainWindow.webContents.send('metadata-worker-response', { filledIndexableTracks: filledIndexableTracks });
             });
         });
     }
