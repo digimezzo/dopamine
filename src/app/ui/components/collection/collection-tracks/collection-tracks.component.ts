@@ -40,25 +40,17 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
-        await this.processListsAsync();
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.tracksTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
+        await this.fillListsAsync();
     }
 
     private async fillListsAsync(): Promise<void> {

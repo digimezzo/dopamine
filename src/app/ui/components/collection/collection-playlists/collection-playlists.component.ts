@@ -55,7 +55,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
@@ -68,7 +68,7 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.playlistFolderService.playlistFoldersChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
@@ -90,20 +90,12 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
             }),
         );
 
-        await this.processListsAsync();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: IOutputData): void {
         this.settings.playlistsLeftPaneWidthPercent = <number>event.sizes[0];
         this.settings.playlistsRightPaneWidthPercent = <number>event.sizes[2];
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.playlistsTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
     }
 
     private clearLists(): void {

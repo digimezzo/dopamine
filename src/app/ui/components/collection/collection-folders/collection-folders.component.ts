@@ -90,23 +90,23 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
-        await this.processListsAsync();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: IOutputData): void {
@@ -162,14 +162,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     public async goToManageCollectionAsync(): Promise<void> {
         await this.navigationService.navigateToManageCollectionAsync();
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.foldersTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
     }
 
     private async fillListsAsync(): Promise<void> {

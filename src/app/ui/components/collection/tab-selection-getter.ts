@@ -43,27 +43,27 @@ export class TabSelectionGetter {
         this.tabLabels = [];
 
         if (this.settings.showArtistsPage) {
-            this.tabLabels.push(Constants.artistsTabLabel);
+            this.tabLabels.push('artists');
         }
 
         if (this.settings.showGenresPage) {
-            this.tabLabels.push(Constants.genresTabLabel);
+            this.tabLabels.push('genres');
         }
 
         if (this.settings.showAlbumsPage) {
-            this.tabLabels.push(Constants.albumsTabLabel);
+            this.tabLabels.push('albums');
         }
 
         if (this.settings.showTracksPage) {
-            this.tabLabels.push(Constants.tracksTabLabel);
+            this.tabLabels.push('tracks');
         }
 
         if (this.settings.showPlaylistsPage) {
-            this.tabLabels.push(Constants.playlistsTabLabel);
+            this.tabLabels.push('playlists');
         }
 
         if (this.settings.showFoldersPage) {
-            this.tabLabels.push(Constants.foldersTabLabel);
+            this.tabLabels.push('folders');
         }
     }
 }

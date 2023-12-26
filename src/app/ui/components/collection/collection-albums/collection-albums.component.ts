@@ -70,36 +70,28 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        await this.processListsAsync();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: IOutputData): void {
         this.settings.albumsRightPaneWidthPercent = <number>event.sizes[1];
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.albumsTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
     }
 
     private async fillListsAsync(): Promise<void> {
