@@ -2,7 +2,6 @@ import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumOrder } from '../album-order';
-import { CollectionPersister } from '../collection-persister';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
@@ -32,7 +31,6 @@ describe('CollectionArtistsComponent', () => {
     let artistsPersisterMock: IMock<ArtistsPersister>;
     let albumsPersisterMock: IMock<ArtistsAlbumsPersister>;
     let tracksPersisterMock: IMock<ArtistsTracksPersister>;
-    let collectionPersisterMock: IMock<CollectionPersister>;
     let indexingServiceMock: IMock<IndexingServiceBase>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let artistServiceMock: IMock<ArtistServiceBase>;
@@ -61,9 +59,6 @@ describe('CollectionArtistsComponent', () => {
     let collectionChangedMock: Subject<void>;
     let collectionChangedMock$: Observable<void>;
 
-    let selectedTabChangedMock: Subject<void>;
-    let selectedTabChangedMock$: Observable<void>;
-
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionArtistsComponent {
@@ -72,7 +67,6 @@ describe('CollectionArtistsComponent', () => {
             artistsPersisterMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
-            collectionPersisterMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
             artistServiceMock.object,
@@ -122,7 +116,6 @@ describe('CollectionArtistsComponent', () => {
         artistsPersisterMock = Mock.ofType<ArtistsPersister>();
         albumsPersisterMock = Mock.ofType<ArtistsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<ArtistsTracksPersister>();
-        collectionPersisterMock = Mock.ofType<CollectionPersister>();
         indexingServiceMock = Mock.ofType<IndexingServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         artistServiceMock = Mock.ofType<ArtistServiceBase>();
@@ -155,10 +148,6 @@ describe('CollectionArtistsComponent', () => {
         collectionChangedMock = new Subject();
         collectionChangedMock$ = collectionChangedMock.asObservable();
         collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
-
-        selectedTabChangedMock = new Subject();
-        selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
-        collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
     });
 
     describe('constructor', () => {
@@ -360,9 +349,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should get all artists if artists type is allArtists and the selected tab is artists', async () => {
+        it('should get all artists if artists type is allArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
 
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
@@ -381,10 +369,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.artists[1]).toEqual(artist2);
         });
 
-        it('should get all track artists if artists type is trackArtists and the selected tab is artists', async () => {
+        it('should get all track artists if artists type is trackArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.trackArtists)).returns(() => [artist1]);
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.trackArtists);
@@ -400,9 +386,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.artists[0]).toEqual(artist1);
         });
 
-        it('should get all album artists if artists type is albumArtists and the selected tab is artists', async () => {
+        it('should get all album artists if artists type is albumArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
             const artist1: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.albumArtists)).returns(() => [artist1]);
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.albumArtists);
@@ -418,24 +403,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.artists[0]).toEqual(artist1);
         });
 
-        it('should not get artists if the selected tab is not artists', async () => {
+        it('should get all albums if there are no selected artists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTabLabel);
-
-            const component: CollectionArtistsComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(It.isAny()), Times.never());
-            expect(component.artists.length).toEqual(0);
-        });
-
-        it('should get all albums if there are no selected artists and the selected tab is artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.trackArtists)).returns(() => [artist1, artist2]);
@@ -459,10 +428,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.albums[1]).toEqual(album2);
         });
 
-        it('should get albums for all selected artists if there are selected artists and artists type is allArtists and the selected tab is artists', async () => {
+        it('should get albums for all selected artists if there are selected artists and artists type is allArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
@@ -488,10 +455,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.albums[1]).toEqual(album2);
         });
 
-        it('should get albums for selected track artists if there are selected artists and artists type is trackArtists and the selected tab is artists', async () => {
+        it('should get albums for selected track artists if there are selected artists and artists type is trackArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.trackArtists)).returns(() => [artist1, artist2]);
@@ -515,10 +480,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.albums[0]).toEqual(album1);
         });
 
-        it('should get albums for selected album artists if there are selected artists and artists type is albumArtists and the selected tab is artists', async () => {
+        it('should get albums for selected album artists if there are selected artists and artists type is albumArtists', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.albumArtists);
@@ -542,36 +505,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.albums[0]).toEqual(album1);
         });
 
-        it('should not get albums if the selected tab is not artists', async () => {
+        it('should get all tracks if there are no selected artists and no selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTabLabel);
-
-            const artist1: ArtistModel = createArtistModel('artist1');
-            const artist2: ArtistModel = createArtistModel('artist2');
-            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.albumArtists);
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.albumArtists)).returns(() => [artist1, artist2]);
-            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist1, artist2]);
-
-            const album1: AlbumModel = createAlbumModel('albumKey1');
-            albumServiceMock
-                .setup((x) => x.getAlbumsForArtists([artist1.name, artist2.name], ArtistType.albumArtists))
-                .returns(() => [album1]);
-
-            const component: CollectionArtistsComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            albumServiceMock.verify((x) => x.getAlbumsForArtists(It.isAny(), It.isAny()), Times.never());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            expect(component.albums.length).toEqual(0);
-        });
-
-        it('should get all tracks if there are no selected artists and no selected albums and the selected tab is artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -602,10 +537,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should get tracks for the selected artists if there are selected artists but no selected albums and the selected tab is artists', async () => {
+        it('should get tracks for the selected artists if there are selected artists but no selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -640,10 +573,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should get tracks for the selected albums if there are no selected artists but there are selected albums and the selected tab is artists', async () => {
+        it('should get tracks for the selected albums if there are no selected artists but there are selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -674,10 +605,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should get tracks for the selected albums if there are selected genres and there are selected albums and the selected tab is artists', async () => {
+        it('should get tracks for the selected albums if there are selected genres and there are selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -710,10 +639,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should not get tracks if the selected tab is artists', async () => {
+        it('should not get tracks', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const component: CollectionArtistsComponent = createComponent();
 
             // Act
@@ -987,10 +914,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should fill the lists when indexing is finished and the selected tab is artists', async () => {
+        it('should fill the lists when indexing is finished', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -1041,114 +966,8 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks[1]).toEqual(track2);
         });
 
-        it('should not fill the lists when indexing is finished and the selected tab is not artists', async () => {
+        it('should fill the lists when collection has changed ', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTabLabel);
-
-            const component: CollectionArtistsComponent = createComponent();
-            await component.ngOnInit();
-
-            component.artists = [];
-            component.albums = [];
-            component.tracks = new TrackModels();
-
-            // Act
-            indexingFinishedMock.next();
-            await flushPromises();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.never());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
-            expect(component.artists.length).toEqual(0);
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
-        });
-
-        it('should fill the lists if the selected tab has changed to artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
-            const artist1: ArtistModel = createArtistModel('artist1');
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
-            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
-            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1])).returns(() => []);
-
-            const album1: AlbumModel = createAlbumModel('albumKey1');
-            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1]);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums([album1])).returns(() => []);
-
-            const track1: TrackModel = createTrackModel('path1');
-            const trackModels: TrackModels = createTrackModels([track1]);
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
-
-            const component: CollectionArtistsComponent = createComponent();
-            await component.ngOnInit();
-
-            collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            // Act
-            selectedTabChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.once());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
-            expect(component.artists.length).toEqual(1);
-            expect(component.artists[0]).toEqual(artist1);
-            expect(component.albums.length).toEqual(1);
-            expect(component.albums[0]).toEqual(album1);
-            expect(component.tracks.tracks.length).toEqual(1);
-            expect(component.tracks.tracks[0]).toEqual(track1);
-        });
-
-        it('should clear the lists if the selected tab has changed to not artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            const artist1: ArtistModel = createArtistModel('artist1');
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
-            artistsPersisterMock.setup((x) => x.getSelectedArtistType()).returns(() => ArtistType.allArtists);
-            artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1])).returns(() => []);
-
-            const album1: AlbumModel = createAlbumModel('albumKey1');
-            albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => [album1]);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums([album1])).returns(() => []);
-
-            const track1: TrackModel = createTrackModel('path1');
-            const trackModels: TrackModels = createTrackModels([track1]);
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
-
-            const component: CollectionArtistsComponent = createComponent();
-            await component.ngOnInit();
-
-            artistServiceMock.reset();
-            artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1]);
-            albumServiceMock.reset();
-            trackServiceMock.reset();
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => trackModels);
-            collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
-            // Act
-            selectedTabChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(It.isAny()), Times.never());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
-            expect(component.artists.length).toEqual(0);
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
-        });
-
-        it('should fill the lists when collection has changed and the selected tab is artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
             const artist1: ArtistModel = createArtistModel('artist1');
             const artist2: ArtistModel = createArtistModel('artist2');
             artistServiceMock.setup((x) => x.getArtists(ArtistType.allArtists)).returns(() => [artist1, artist2]);
@@ -1197,30 +1016,6 @@ describe('CollectionArtistsComponent', () => {
             expect(component.tracks.tracks.length).toEqual(2);
             expect(component.tracks.tracks[0]).toEqual(track1);
             expect(component.tracks.tracks[1]).toEqual(track2);
-        });
-
-        it('should not fill the lists when collection has changed and the selected tab is not artists', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.genresTabLabel);
-
-            const component: CollectionArtistsComponent = createComponent();
-            await component.ngOnInit();
-
-            component.artists = [];
-            component.albums = [];
-            component.tracks = new TrackModels();
-
-            // Act
-            collectionChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            artistServiceMock.verify((x) => x.getArtists(ArtistType.allArtists), Times.never());
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
-            expect(component.artists.length).toEqual(0);
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
         });
     });
 });

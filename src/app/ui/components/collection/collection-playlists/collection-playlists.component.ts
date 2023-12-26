@@ -7,7 +7,6 @@ import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { PlaylistFolderModel } from '../../../../services/playlist-folder/playlist-folder-model';
 import { PlaylistModel } from '../../../../services/playlist/playlist-model';
 import { TrackModels } from '../../../../services/track/track-models';
-import { CollectionPersister } from '../collection-persister';
 import { PlaylistFoldersPersister } from './playlist-folders-persister';
 import { PlaylistsPersister } from './playlists-persister';
 import { PlaylistsTracksPersister } from './playlists-tracks-persister';
@@ -33,7 +32,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
         public tracksPersister: PlaylistsTracksPersister,
         private playlistFolderService: PlaylistFolderServiceBase,
         private playlistService: PlaylistServiceBase,
-        private collectionPersister: CollectionPersister,
         private settings: SettingsBase,
         private scheduler: SchedulerBase,
         private logger: Logger,
@@ -53,12 +51,6 @@ export class CollectionPlaylistsComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.fillListsAsync());
-            }),
-        );
-
         this.subscription.add(
             this.playlistFoldersPersister.selectedPlaylistFoldersChanged$.subscribe((playlistFolders: PlaylistFolderModel[]) => {
                 this.playlistsPersister.resetSelectedPlaylists();

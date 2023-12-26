@@ -92,7 +92,6 @@ import { GenreComponent } from './ui/components/collection/collection-genres/gen
 import { GenresAlbumsPersister } from './ui/components/collection/collection-genres/genres-albums-persister';
 import { GenresPersister } from './ui/components/collection/collection-genres/genres-persister';
 import { GenresTracksPersister } from './ui/components/collection/collection-genres/genres-tracks-persister';
-import { CollectionPersister } from './ui/components/collection/collection-persister';
 import { CollectionPlaybackPaneComponent } from './ui/components/collection/collection-playback-pane/collection-playback-pane.component';
 import { CollectionPlaylistsComponent } from './ui/components/collection/collection-playlists/collection-playlists.component';
 import { PlaylistBrowserComponent } from './ui/components/collection/collection-playlists/playlist-browser/playlist-browser.component';
@@ -110,7 +109,6 @@ import { CollectionComponent } from './ui/components/collection/collection.compo
 import { ItemSpaceCalculator } from './ui/components/collection/item-space-calculator';
 import { SemanticZoomButtonComponent } from './ui/components/collection/semantic-zoom/semantic-zoom-button/semantic-zoom-button.component';
 import { SemanticZoomComponent } from './ui/components/collection/semantic-zoom/semantic-zoom.component';
-import { TabSelectionGetter } from './ui/components/collection/tab-selection-getter';
 import { TotalsComponent } from './ui/components/collection/totals/totals.component';
 import { TrackBrowserComponent } from './ui/components/collection/track-browser/track-browser.component';
 import { TrackComponent } from './ui/components/collection/track/track.component';
@@ -544,7 +542,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         ProgressUpdater,
         Queue,
         MathExtensions,
-        CollectionPersister,
         PathValidator,
         AlbumRowsGetter,
         ItemSpaceCalculator,
@@ -591,7 +588,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         FileValidator,
         DateProxy,
         DateTime,
-        TabSelectionGetter,
         LogViewer,
         ArtistInformationFactory,
         GuidFactory,

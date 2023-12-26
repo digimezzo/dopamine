@@ -10,7 +10,6 @@ import { SubfolderModel } from '../../../../services/folder/subfolder-model';
 import { PlaybackStarted } from '../../../../services/playback/playback-started';
 import { TrackModels } from '../../../../services/track/track-models';
 import { AddToPlaylistMenu } from '../../add-to-playlist-menu';
-import { CollectionPersister } from '../collection-persister';
 import { FolderTracksPersister } from './folder-tracks-persister';
 import { FoldersPersister } from './folders-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
@@ -47,7 +46,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         public addToPlaylistMenu: AddToPlaylistMenu,
         private indexingService: IndexingServiceBase,
         private collectionService: CollectionServiceBase,
-        private collectionPersister: CollectionPersister,
         private settings: SettingsBase,
         private navigationService: NavigationServiceBase,
         private trackService: TrackServiceBase,
@@ -96,12 +94,6 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.fillListsAsync());
-            }),
-        );
-
-        this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );

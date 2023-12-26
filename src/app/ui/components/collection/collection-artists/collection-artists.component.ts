@@ -9,7 +9,6 @@ import { ArtistModel } from '../../../../services/artist/artist-model';
 import { ArtistType } from '../../../../services/artist/artist-type';
 import { TrackModels } from '../../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
-import { CollectionPersister } from '../collection-persister';
 import { ArtistsAlbumsPersister } from './artists-albums-persister';
 import { ArtistsPersister } from './artists-persister';
 import { ArtistsTracksPersister } from './artists-tracks-persister';
@@ -37,7 +36,6 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
         public artistsPersister: ArtistsPersister,
         public albumsPersister: ArtistsAlbumsPersister,
         public tracksPersister: ArtistsTracksPersister,
-        private collectionPersister: CollectionPersister,
         private indexingService: IndexingServiceBase,
         private collectionService: CollectionServiceBase,
         private artistService: ArtistServiceBase,
@@ -99,12 +97,6 @@ export class CollectionArtistsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.fillListsAsync());
-            }),
-        );
-
-        this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
                 PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
