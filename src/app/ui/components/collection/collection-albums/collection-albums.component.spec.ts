@@ -2,7 +2,6 @@ import { IOutputData } from 'angular-split';
 import { Observable, Subject } from 'rxjs';
 import { IMock, It, Mock, Times } from 'typemoq';
 import { AlbumOrder } from '../album-order';
-import { CollectionPersister } from '../collection-persister';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
 import { CollectionAlbumsComponent } from './collection-albums.component';
@@ -21,13 +20,11 @@ import { AlbumModel } from '../../../../services/album/album-model';
 import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
-import { Constants } from '../../../../common/application/constants';
 
 describe('CollectionAlbumsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let albumServiceMock: IMock<AlbumServiceBase>;
     let trackServiceMock: IMock<TrackServiceBase>;
-    let collectionPersisterMock: IMock<CollectionPersister>;
     let albumsPersisterMock: IMock<AlbumsAlbumsPersister>;
     let tracksPersisterMock: IMock<AlbumsTracksPersister>;
     let settingsStub: any;
@@ -47,9 +44,6 @@ describe('CollectionAlbumsComponent', () => {
 
     let collectionChangedMock: Subject<void>;
     let collectionChangedMock$: Observable<void>;
-
-    let selectedTabChangedMock: Subject<void>;
-    let selectedTabChangedMock$: Observable<void>;
 
     const albumData1: AlbumData = new AlbumData();
     albumData1.albumKey = 'albumKey1';
@@ -72,7 +66,6 @@ describe('CollectionAlbumsComponent', () => {
             searchServiceMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
-            collectionPersisterMock.object,
             indexingServiceMock.object,
             collectionServiceMock.object,
             albumServiceMock.object,
@@ -90,7 +83,6 @@ describe('CollectionAlbumsComponent', () => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         albumsPersisterMock = Mock.ofType<AlbumsAlbumsPersister>();
         tracksPersisterMock = Mock.ofType<AlbumsTracksPersister>();
-        collectionPersisterMock = Mock.ofType<CollectionPersister>();
         indexingServiceMock = Mock.ofType<IndexingServiceBase>();
         collectionServiceMock = Mock.ofType<CollectionServiceBase>();
         albumServiceMock = Mock.ofType<AlbumServiceBase>();
@@ -112,10 +104,6 @@ describe('CollectionAlbumsComponent', () => {
         collectionChangedMock = new Subject();
         collectionChangedMock$ = collectionChangedMock.asObservable();
         collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
-
-        selectedTabChangedMock = new Subject();
-        selectedTabChangedMock$ = selectedTabChangedMock.asObservable();
-        collectionPersisterMock.setup((x) => x.selectedTabChanged$).returns(() => selectedTabChangedMock$);
 
         album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
         album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
@@ -312,10 +300,8 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.selectedAlbumOrder).toEqual(AlbumOrder.byYearAscending);
         });
 
-        it('should get all albums and the selected tab is albums', async () => {
+        it('should get all albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumServiceMock.setup((x) => x.getAllAlbums()).returns(() => albums);
 
@@ -329,23 +315,8 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.albums).toEqual(albums);
         });
 
-        it('should not get all albums and the selected tab is not albums', async () => {
+        it('should get all tracks if there are no selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            const component: CollectionAlbumsComponent = createComponent();
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            expect(component.albums.length).toEqual(0);
-        });
-
-        it('should get all tracks if there are no selected albums and the selected tab is albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
@@ -366,10 +337,8 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should get tracks for the selected albums if there are selected albums and the selected tab is albums', async () => {
+        it('should get tracks for the selected albums if there are selected albums', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
             albumsPersisterMock.reset();
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byYearAscending);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => [album2]);
@@ -386,23 +355,6 @@ describe('CollectionAlbumsComponent', () => {
             // Assert
             trackServiceMock.verify((x) => x.getTracksForAlbums(['albumKey2']), Times.exactly(1));
             expect(component.tracks).toBe(tracks);
-        });
-
-        it('should not get tracks if the selected tab is not albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            const component: CollectionAlbumsComponent = createComponent();
-
-            component.albums = albums;
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-
-            // Act
-            await component.ngOnInit();
-
-            // Assert
-            trackServiceMock.verify((x) => x.getTracksForAlbums(It.isAny()), Times.never());
-            expect(component.tracks.tracks.length).toEqual(0);
         });
 
         it('should get tracks for the selected albums if the selected albums have changed and there are selected albums', async () => {
@@ -451,10 +403,8 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should fill the lists when indexing is finished and the selected tab is albums', async () => {
+        it('should fill the lists when indexing is finished', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
             trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
@@ -474,88 +424,8 @@ describe('CollectionAlbumsComponent', () => {
             expect(component.tracks).toBe(tracks);
         });
 
-        it('should not fill the lists when indexing is finished and the selected tab is not albums', async () => {
+        it('should fill the lists when collection has changed', async () => {
             // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
-            trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
-
-            const component: CollectionAlbumsComponent = createComponent();
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-
-            // Act
-            await component.ngOnInit();
-            component.albums = [];
-            indexingFinishedMock.next();
-            await flushPromises();
-
-            // Assert
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
-        });
-
-        it('should fill the lists if the selected tab has changed to albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            albumsPersisterMock.reset();
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
-
-            const component: CollectionAlbumsComponent = createComponent();
-            await component.ngOnInit();
-
-            collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
-            // Act
-            selectedTabChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.once());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.once());
-            expect(component.albums.length).toEqual(2);
-            expect(component.tracks.tracks.length).toEqual(2);
-        });
-
-        it('should clear the lists if the selected tab has changed to not albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
-            albumsPersisterMock.reset();
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumTitleAscending);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            albumsPersisterMock.setup((x) => x.selectedAlbumsChanged$).returns(() => selectedAlbumsChangedMock$);
-
-            const component: CollectionAlbumsComponent = createComponent();
-            await component.ngOnInit();
-
-            collectionPersisterMock.reset();
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            albumServiceMock.reset();
-            trackServiceMock.reset();
-
-            // Act
-            selectedTabChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            albumServiceMock.verify((x) => x.getAllAlbums(), Times.never());
-            trackServiceMock.verify((x) => x.getVisibleTracks(), Times.never());
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
-        });
-
-        it('should fill the lists when collection has changed and the selected tab is albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.albumsTabLabel);
-
             albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
             albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
             trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
@@ -573,29 +443,6 @@ describe('CollectionAlbumsComponent', () => {
             // Assert
             expect(component.albums).toBe(albums);
             expect(component.tracks).toBe(tracks);
-        });
-
-        it('should not fill the lists when collection has changed and the selected tab is not albums', async () => {
-            // Arrange
-            collectionPersisterMock.setup((x) => x.selectedTab).returns(() => Constants.artistsTabLabel);
-
-            albumsPersisterMock.setup((x) => x.getSelectedAlbumOrder()).returns(() => AlbumOrder.byAlbumArtist);
-            albumsPersisterMock.setup((x) => x.getSelectedAlbums(albums)).returns(() => []);
-            trackServiceMock.setup((x) => x.getVisibleTracks()).returns(() => tracks);
-            trackServiceMock.setup((x) => x.getTracksForAlbums(It.isAny())).returns(() => tracks);
-
-            const component: CollectionAlbumsComponent = createComponent();
-            component.selectedAlbumOrder = AlbumOrder.byAlbumArtist;
-
-            // Act
-            await component.ngOnInit();
-            component.albums = [];
-            collectionChangedMock.next();
-            await flushPromises();
-
-            // Assert
-            expect(component.albums.length).toEqual(0);
-            expect(component.tracks.tracks.length).toEqual(0);
         });
     });
 });

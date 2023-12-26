@@ -223,13 +223,13 @@ export class Settings implements SettingsBase {
         this.settings.set('volume', v);
     }
 
-    // selectedCollectionTab
-    public get selectedCollectionTab(): string {
-        return <string>this.settings.get('selectedCollectionTab');
+    // selectedCollectionPage
+    public get selectedCollectionPage(): number {
+        return <number>this.settings.get('selectedCollectionPage');
     }
 
-    public set selectedCollectionTab(v: string) {
-        this.settings.set('selectedCollectionTab', v);
+    public set selectedCollectionPage(v: number) {
+        this.settings.set('selectedCollectionPage', v);
     }
 
     // foldersTabOpenedFolder
@@ -741,8 +741,8 @@ export class Settings implements SettingsBase {
             this.settings.set('volume', 0.5);
         }
 
-        if (!this.settings.has('selectedCollectionTab')) {
-            this.settings.set('selectedCollectionTab', 'artists');
+        if (!this.settings.has('selectedCollectionPage')) {
+            this.settings.set('selectedCollectionPage', 0);
         }
 
         if (!this.settings.has('foldersTabOpenedFolder')) {
