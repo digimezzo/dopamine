@@ -27,24 +27,26 @@
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <div class="window-frame__content">
-        <!-- Artists -->
-        <app-collection-artists *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-collection-artists>
-        <app-collection-artists *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-collection-artists>
-        <!-- Genres -->
-        <app-collection-genres *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-collection-genres>
-        <app-collection-genres *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-collection-genres>
-        <!-- Albums -->
-        <app-collection-albums *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-collection-albums>
-        <app-collection-albums *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-collection-albums>
-        <!-- Tracks -->
-        <app-collection-tracks *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-collection-tracks>
-        <app-collection-tracks *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-collection-tracks>
-        <!-- Playlists -->
-        <app-collection-playlists *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-collection-playlists>
-        <app-collection-playlists *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-collection-playlists>
-        <!-- Folders -->
-        <app-collection-folders *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-collection-folders>
-        <app-collection-folders *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-collection-folders>
+        <div *ngIf="this.collectionNavigationService.hasVisiblePages()">
+            <!-- Artists -->
+            <app-collection-artists *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-collection-artists>
+            <app-collection-artists *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-collection-artists>
+            <!-- Genres -->
+            <app-collection-genres *ngIf="this.leftToRight(1)" [@enterLeftToRight]></app-collection-genres>
+            <app-collection-genres *ngIf="this.rightToLeft(1)" [@enterRightToLeft]></app-collection-genres>
+            <!-- Albums -->
+            <app-collection-albums *ngIf="this.leftToRight(2)" [@enterLeftToRight]></app-collection-albums>
+            <app-collection-albums *ngIf="this.rightToLeft(2)" [@enterRightToLeft]></app-collection-albums>
+            <!-- Tracks -->
+            <app-collection-tracks *ngIf="this.leftToRight(3)" [@enterLeftToRight]></app-collection-tracks>
+            <app-collection-tracks *ngIf="this.rightToLeft(3)" [@enterRightToLeft]></app-collection-tracks>
+            <!-- Playlists -->
+            <app-collection-playlists *ngIf="this.leftToRight(4)" [@enterLeftToRight]></app-collection-playlists>
+            <app-collection-playlists *ngIf="this.rightToLeft(4)" [@enterRightToLeft]></app-collection-playlists>
+            <!-- Folders -->
+            <app-collection-folders *ngIf="this.leftToRight(5)" [@enterLeftToRight]></app-collection-folders>
+            <app-collection-folders *ngIf="this.rightToLeft(5)" [@enterRightToLeft]></app-collection-folders>
+        </div>
         <!-- Playback controls -->
         <div class="app-collection-playback-controls__container">
             <canvas id="collectionAudioVisualizer" class="app-collection-playback-controls__audio-visualizer"></canvas>

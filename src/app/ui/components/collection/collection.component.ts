@@ -1,6 +1,4 @@
 import { AfterViewInit, Component, HostListener, ViewEncapsulation } from '@angular/core';
-import { CollectionPersister } from './collection-persister';
-import { TabSelectionGetter } from './tab-selection-getter';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { PlaybackServiceBase } from '../../../services/playback/playback.service.base';
 import { SearchServiceBase } from '../../../services/search/search.service.base';
@@ -9,6 +7,7 @@ import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { AnimatedPage } from '../animated-page';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
+import { CollectionNavigationService } from '../../../services/collection-navigation/collection-navigation.service';
 
 @Component({
     selector: 'app-collection',
@@ -21,19 +20,16 @@ import { enterLeftToRight, enterRightToLeft } from '../../animations/animations'
 export class CollectionComponent extends AnimatedPage implements AfterViewInit {
     public constructor(
         public appearanceService: AppearanceServiceBase,
+        public collectionNavigationService: CollectionNavigationService,
         public settings: SettingsBase,
         private playbackService: PlaybackServiceBase,
         private searchService: SearchServiceBase,
-        private collectionPersister: CollectionPersister,
-        private tabSelectionGetter: TabSelectionGetter,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
     ) {
         super();
-        this.page = this.tabSelectionGetter.getTabIndexForLabel(this.collectionPersister.selectedTab);
+        this.page = this.collectionNavigationService.page;
     }
-
-    public page: number = 0;
 
     @HostListener('document:keyup', ['$event'])
     public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -51,14 +47,15 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         this.audioVisualizer.connectCanvas(canvas);
     }
 
-    public setPage(page: number): void {
+    public override setPage(page: number): void {
+        this.previousPage = this.page;
         this.page = page;
 
-        this.collectionPersister.selectedTab = this.tabSelectionGetter.getTabLabelForIndex(page);
+        this.collectionNavigationService.page = page;
 
         // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
         // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
-        // selected tab is changed.
-        window.dispatchEvent(new Event('tab-changed'));
+        // selected page is changed.
+        window.dispatchEvent(new Event('page-changed'));
     }
 }

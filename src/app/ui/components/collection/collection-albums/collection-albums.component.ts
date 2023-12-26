@@ -7,7 +7,6 @@ import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { AlbumOrder } from '../album-order';
-import { CollectionPersister } from '../collection-persister';
 import { AlbumsAlbumsPersister } from './albums-albums-persister';
 import { AlbumsTracksPersister } from './albums-tracks-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
@@ -32,7 +31,6 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
         public searchService: SearchServiceBase,
         public albumsPersister: AlbumsAlbumsPersister,
         public tracksPersister: AlbumsTracksPersister,
-        private collectionPersister: CollectionPersister,
         private indexingService: IndexingServiceBase,
         private collectionService: CollectionServiceBase,
         private albumService: AlbumServiceBase,
@@ -70,36 +68,22 @@ export class CollectionAlbumsComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             this.indexingService.indexingFinished$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
-            }),
-        );
-
-        this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
         this.selectedAlbumOrder = this.albumsPersister.getSelectedAlbumOrder();
-        await this.processListsAsync();
+        await this.fillListsAsync();
     }
 
     public splitDragEnd(event: IOutputData): void {
         this.settings.albumsRightPaneWidthPercent = <number>event.sizes[1];
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.albumsTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
     }
 
     private async fillListsAsync(): Promise<void> {

@@ -4,7 +4,6 @@ import { Constants } from '../../../../common/application/constants';
 import { Logger } from '../../../../common/logger';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
 import { TrackModels } from '../../../../services/track/track-models';
-import { CollectionPersister } from '../collection-persister';
 import { SearchServiceBase } from '../../../../services/search/search.service.base';
 import { TrackServiceBase } from '../../../../services/track/track.service.base';
 import { CollectionServiceBase } from '../../../../services/collection/collection.service.base';
@@ -25,7 +24,6 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
         public searchService: SearchServiceBase,
         private trackService: TrackServiceBase,
         private collectionService: CollectionServiceBase,
-        private collectionPersister: CollectionPersister,
         private scheduler: SchedulerBase,
         private logger: Logger,
     ) {}
@@ -39,26 +37,12 @@ export class CollectionTracksComponent implements OnInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.subscription.add(
-            this.collectionPersister.selectedTabChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
-            }),
-        );
-
-        this.subscription.add(
             this.collectionService.collectionChanged$.subscribe(() => {
-                PromiseUtils.noAwait(this.processListsAsync());
+                PromiseUtils.noAwait(this.fillListsAsync());
             }),
         );
 
-        await this.processListsAsync();
-    }
-
-    private async processListsAsync(): Promise<void> {
-        if (this.collectionPersister.selectedTab === Constants.tracksTabLabel) {
-            await this.fillListsAsync();
-        } else {
-            this.clearLists();
-        }
+        await this.fillListsAsync();
     }
 
     private async fillListsAsync(): Promise<void> {
