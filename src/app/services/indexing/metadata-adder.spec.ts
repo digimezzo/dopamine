@@ -4,11 +4,15 @@ import { Logger } from '../../common/logger';
 import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { MimeTypes } from '../../common/metadata/mime-types';
 import { TrackFieldCreator } from './track-field-creator';
-import { TrackFiller } from './track-filler';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { Track } from '../../data/entities/track';
+import { MetadataAdder } from './metadata-adder';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { IndexableTrack } from './indexable-track';
+import { MockCreator } from '../../testing/mock-creator';
+import { IndexablePath } from './indexable-path';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
@@ -30,7 +34,9 @@ class FileMetadataImplementation implements IFileMetadata {
     public lyrics: string;
     public picture: Buffer;
     public rating: number;
+
     public save(): void {}
+
     public async loadAsync(): Promise<void> {}
 }
 
@@ -39,16 +45,20 @@ describe('TrackFiller', () => {
     let trackFieldCreatorMock: IMock<TrackFieldCreator>;
     let albumKeyGeneratorMock: IMock<AlbumKeyGenerator>;
     let fileAccessMock: IMock<FileAccessBase>;
+    let ipcProxyMock: IMock<IpcProxyBase>;
     let mimeTypesMock: IMock<MimeTypes>;
     let dateTimeMock: IMock<DateTime>;
     let loggerMock: IMock<Logger>;
 
-    function createTrackFiller(): TrackFiller {
-        return new TrackFiller(
+    const flushPromises = () => new Promise(process.nextTick);
+
+    function createSut(): MetadataAdder {
+        return new MetadataAdder(
             fileMetadataFactoryMock.object,
             trackFieldCreatorMock.object,
             albumKeyGeneratorMock.object,
             fileAccessMock.object,
+            ipcProxyMock.object,
             mimeTypesMock.object,
             dateTimeMock.object,
             loggerMock.object,
@@ -60,6 +70,7 @@ describe('TrackFiller', () => {
         trackFieldCreatorMock = Mock.ofType<TrackFieldCreator>();
         albumKeyGeneratorMock = Mock.ofType<AlbumKeyGenerator>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
+        ipcProxyMock = Mock.ofType<IpcProxyBase>();
         mimeTypesMock = Mock.ofType<MimeTypes>();
         dateTimeMock = Mock.ofType<DateTime>();
         loggerMock = Mock.ofType<Logger>();
@@ -93,7 +104,7 @@ describe('TrackFiller', () => {
         fileAccessMock.setup((x) => x.getDateCreatedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 456);
     });
 
-    describe('addFileMetadataToTrackAsync', () => {
+    describe('addMetadataToTrackAsync', () => {
         it('should fill in track artists with a multi value track field', async () => {
             // Arrange
             const fileMetadataStub = new FileMetadataImplementation();
@@ -103,11 +114,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Artist 1', 'Artist 2']), Times.exactly(1));
@@ -123,11 +134,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Genre 1', 'Genre 2']), Times.exactly(1));
@@ -143,11 +154,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createTextField('Album title'), Times.exactly(1));
@@ -163,11 +174,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createMultiTextField(['Album artist 1', 'Album artist 2']), Times.exactly(1));
@@ -184,11 +195,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             albumKeyGeneratorMock.verify((x) => x.generateAlbumKey('Album title', ['Album artist 1', 'Album artist 2']), Times.exactly(1));
@@ -203,11 +214,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             fileAccessMock.verify((x) => x.getFileName('/home/user/Music/Track 1.mp3'), Times.exactly(1));
@@ -222,11 +233,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             fileAccessMock.verify((x) => x.getFileExtension('/home/user/Music/Track 1.mp3'), Times.exactly(1));
@@ -242,11 +253,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             fileAccessMock.verify((x) => x.getFileSizeInBytes('/home/user/Music/Track 1.mp3'), Times.exactly(1));
@@ -263,11 +274,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(320), Times.exactly(1));
@@ -283,11 +294,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(44), Times.exactly(1));
@@ -303,11 +314,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createTextField('Track title'), Times.exactly(1));
@@ -323,11 +334,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
@@ -343,11 +354,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(15), Times.exactly(1));
@@ -363,11 +374,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(1), Times.exactly(1));
@@ -383,11 +394,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(2), Times.exactly(1));
@@ -406,11 +417,11 @@ describe('TrackFiller', () => {
 
             trackFieldCreatorMock.setup((x) => x.createNumberField(123456000)).returns(() => 123456000);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(123456000), Times.exactly(1));
@@ -426,11 +437,11 @@ describe('TrackFiller', () => {
                 .setup((x) => x.createAsync('/home/user/Music/Track 1.mp3'))
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(2020), Times.exactly(1));
@@ -447,11 +458,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.hasLyrics).toEqual(0);
@@ -467,11 +478,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.hasLyrics).toEqual(1);
@@ -487,11 +498,11 @@ describe('TrackFiller', () => {
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.dateAdded).toEqual(123456);
@@ -506,11 +517,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.dateFileCreated).toEqual(456);
@@ -526,11 +537,11 @@ describe('TrackFiller', () => {
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.dateLastSynced).toEqual(123456);
@@ -545,11 +556,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.dateFileModified).toEqual(789);
@@ -564,11 +575,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.needsIndexing).toEqual(0);
@@ -583,11 +594,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.needsAlbumArtworkIndexing).toEqual(1);
@@ -603,11 +614,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             trackFieldCreatorMock.verify((x) => x.createNumberField(4), Times.exactly(1));
@@ -623,11 +634,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.indexingSuccess).toEqual(1);
@@ -642,11 +653,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).returns(() => 789);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.indexingFailureReason).toEqual('');
@@ -661,11 +672,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.indexingSuccess).toEqual(0);
@@ -680,11 +691,11 @@ describe('TrackFiller', () => {
                 .returns(() => Promise.resolve(fileMetadataStub));
             fileAccessMock.setup((x) => x.getDateModifiedInTicks('/home/user/Music/Track 1.mp3')).throws(new Error('The error text'));
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.indexingFailureReason).toEqual('The error text');
@@ -718,11 +729,11 @@ describe('TrackFiller', () => {
             trackFieldCreatorMock.setup((x) => x.createNumberField(123456)).returns(() => 123456);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, false);
+            await metadataAdder.addMetadataToTrackAsync(track, false);
 
             // Assert
             expect(track.artists).toEqual(';Artist 1;;Artist 2;');
@@ -784,11 +795,11 @@ describe('TrackFiller', () => {
             trackFieldCreatorMock.setup((x) => x.createNumberField(123456)).returns(() => 123456);
             dateTimeMock.setup((x) => x.convertDateToTicks(It.isAny())).returns(() => 123456);
 
-            const trackFiller: TrackFiller = createTrackFiller();
+            const metadataAdder: MetadataAdder = createSut();
             const track: Track = new Track('/home/user/Music/Track 1.mp3');
 
             // Act
-            await trackFiller.addFileMetadataToTrackAsync(track, true);
+            await metadataAdder.addMetadataToTrackAsync(track, true);
 
             // Assert
             expect(track.artists).toEqual(';Artist 1;;Artist 2;');
@@ -820,6 +831,32 @@ describe('TrackFiller', () => {
             expect(track.needsAlbumArtworkIndexing).toEqual(1);
             expect(track.indexingSuccess).toEqual(1);
             expect(track.indexingFailureReason).toEqual('');
+        });
+    });
+
+    describe('addMetadataToTracksAsync', () => {
+        it('should request main to add metadata', async () => {
+            // Arrange
+            const indexablePath: IndexablePath = MockCreator.createIndexablePath('/home/user/Music/Track 1.mp3', 123, 1);
+            const indexableTrack: IndexableTrack = new IndexableTrack(indexablePath);
+            const indexableTracks: IndexableTrack[] = [indexableTrack];
+            const filledIndexableTracks: IndexableTrack[] = [indexableTrack];
+            const arg: any = {
+                tracks: indexableTracks,
+                fillOnlyEssentialMetadata: false,
+            };
+            const message: any = { filledIndexableTracks: filledIndexableTracks };
+            ipcProxyMock.setup((x) => x.sendToMainProcessAsync('metadata-worker', arg)).returns(() => Promise.resolve(message));
+
+            const metadataAdder: MetadataAdder = createSut();
+
+            // Act
+            const indexableTracksFromMain: IndexableTrack[] = await metadataAdder.addMetadataToTracksAsync(indexableTracks, false);
+            await flushPromises();
+
+            // Assert
+            ipcProxyMock.verify((x) => x.sendToMainProcessAsync('metadata-worker', arg), Times.once());
+            expect(indexableTracksFromMain).toEqual(filledIndexableTracks);
         });
     });
 });

@@ -18,21 +18,20 @@ export class TrackUpdater {
         private logger: Logger,
     ) {}
 
+    public batchSize: number = 20;
+
     private async updateTracksInBatch(tracks: Track[]): Promise<number> {
         let numberOfUpdatedTracks: number = 0;
-        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToIndexableTracksAsync(
-            tracks.map((x) => new IndexableTrack(x, 0, 0)),
-            false,
-        );
+        const filledTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToTracksAsync(tracks, false);
 
-        for (const filledIndexableTrack of filledIndexableTracks) {
+        for (const filledTrack of filledTracks) {
             try {
-                this.trackRepository.updateTrack(filledIndexableTrack);
+                this.trackRepository.updateTrack(filledTrack);
                 numberOfUpdatedTracks++;
             } catch (e: unknown) {
                 this.logger.error(
                     e,
-                    `A problem occurred while updating track with path='${filledIndexableTrack.path}'`,
+                    `A problem occurred while updating track with path='${filledTrack.path}'`,
                     'TrackUpdater',
                     'updateTracksInBatch',
                 );
@@ -50,12 +49,11 @@ export class TrackUpdater {
             const tracks: Track[] = this.trackRepository.getAllTracks() ?? [];
 
             let numberOfUpdatedTracks: number = 0;
-            const batchSize: number = 20;
             let isShowingSnackBar: boolean = false;
 
-            for (let i = 0; i < tracks.length; i += batchSize) {
+            for (let i = 0; i < tracks.length; i += this.batchSize) {
                 const tracksBatch: Track[] = tracks
-                    .slice(i, i + batchSize)
+                    .slice(i, i + this.batchSize)
                     .filter((x) => this.trackVerifier.doesTrackNeedIndexing(x) || this.trackVerifier.isTrackOutOfDate(x));
 
                 // Only trigger the snack bar once

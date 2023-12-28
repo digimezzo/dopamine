@@ -7,64 +7,62 @@ const { TagLibFileMetadata } = require('./tag-lib-file-metadata');
 const log = require('electron-log');
 
 class MetadataAdder {
-    static async addMetadataToIndexableTrackAsync(indexableTrack, fillOnlyEssentialMetadata) {
+    static async addMetadataToTrackAsync(track, fillOnlyEssentialMetadata) {
         try {
-            const fileMetadata = TagLibFileMetadata.getMetadata(indexableTrack.path);
+            const fileMetadata = TagLibFileMetadata.getMetadata(track.path);
 
-            indexableTrack.artists = TrackFieldCreator.createMultiTextField(fileMetadata.artists);
-            indexableTrack.rating = TrackFieldCreator.createNumberField(fileMetadata.rating);
-            indexableTrack.fileName = FileAccess.getFileName(indexableTrack.path);
-            indexableTrack.duration = TrackFieldCreator.createNumberField(fileMetadata.durationInMilliseconds);
-            indexableTrack.trackTitle = TrackFieldCreator.createTextField(fileMetadata.title);
-            indexableTrack.trackNumber = TrackFieldCreator.createNumberField(fileMetadata.trackNumber);
-            indexableTrack.fileSize = FileAccess.getFileSizeInBytes(indexableTrack.path);
-            indexableTrack.albumKey = AlbumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
+            track.artists = TrackFieldCreator.createMultiTextField(fileMetadata.artists);
+            track.rating = TrackFieldCreator.createNumberField(fileMetadata.rating);
+            track.fileName = FileAccess.getFileName(track.path);
+            track.duration = TrackFieldCreator.createNumberField(fileMetadata.durationInMilliseconds);
+            track.trackTitle = TrackFieldCreator.createTextField(fileMetadata.title);
+            track.trackNumber = TrackFieldCreator.createNumberField(fileMetadata.trackNumber);
+            track.fileSize = FileAccess.getFileSizeInBytes(track.path);
+            track.albumKey = AlbumKeyGenerator.generateAlbumKey(fileMetadata.album, fileMetadata.albumArtists);
 
             if (!fillOnlyEssentialMetadata) {
                 const dateNowTicks = DateTime.convertDateToTicks(new Date());
 
-                indexableTrack.genres = TrackFieldCreator.createMultiTextField(fileMetadata.genres);
-                indexableTrack.albumTitle = TrackFieldCreator.createTextField(fileMetadata.album);
-                indexableTrack.albumArtists = TrackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
-                indexableTrack.mimeType = this.getMimeType(indexableTrack.path);
-                indexableTrack.bitRate = TrackFieldCreator.createNumberField(fileMetadata.bitRate);
-                indexableTrack.sampleRate = TrackFieldCreator.createNumberField(fileMetadata.sampleRate);
-                indexableTrack.trackCount = TrackFieldCreator.createNumberField(fileMetadata.trackCount);
-                indexableTrack.discNumber = TrackFieldCreator.createNumberField(fileMetadata.discNumber);
-                indexableTrack.discCount = TrackFieldCreator.createNumberField(fileMetadata.discCount);
-                indexableTrack.year = TrackFieldCreator.createNumberField(fileMetadata.year);
-                indexableTrack.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
-                indexableTrack.dateAdded = dateNowTicks;
-                indexableTrack.dateFileCreated = FileAccess.getDateCreatedInTicks(indexableTrack.path);
-                indexableTrack.dateLastSynced = dateNowTicks;
-                indexableTrack.dateFileModified = FileAccess.getDateModifiedInTicks(indexableTrack.path);
+                track.genres = TrackFieldCreator.createMultiTextField(fileMetadata.genres);
+                track.albumTitle = TrackFieldCreator.createTextField(fileMetadata.album);
+                track.albumArtists = TrackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
+                track.mimeType = this.getMimeType(track.path);
+                track.bitRate = TrackFieldCreator.createNumberField(fileMetadata.bitRate);
+                track.sampleRate = TrackFieldCreator.createNumberField(fileMetadata.sampleRate);
+                track.trackCount = TrackFieldCreator.createNumberField(fileMetadata.trackCount);
+                track.discNumber = TrackFieldCreator.createNumberField(fileMetadata.discNumber);
+                track.discCount = TrackFieldCreator.createNumberField(fileMetadata.discCount);
+                track.year = TrackFieldCreator.createNumberField(fileMetadata.year);
+                track.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
+                track.dateAdded = dateNowTicks;
+                track.dateFileCreated = FileAccess.getDateCreatedInTicks(track.path);
+                track.dateLastSynced = dateNowTicks;
+                track.dateFileModified = FileAccess.getDateModifiedInTicks(track.path);
             }
 
-            indexableTrack.needsIndexing = 0;
-            indexableTrack.needsAlbumArtworkIndexing = 1;
-            indexableTrack.indexingSuccess = 1;
-            indexableTrack.indexingFailureReason = '';
+            track.needsIndexing = 0;
+            track.needsAlbumArtworkIndexing = 1;
+            track.indexingSuccess = 1;
+            track.indexingFailureReason = '';
         } catch (e) {
-            indexableTrack.indexingSuccess = 0;
-            indexableTrack.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
+            track.indexingSuccess = 0;
+            track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
-            log.error(
-                `[MetadataAdder] [addMetadataToIndexableTrackAsync] Could not get tag information for file ${indexableTrack.path}. Error: ${e.message}'`,
-            );
+            log.error(`[MetadataAdder] [addMetadataToTrackAsync] Could not get metadata for file ${track.path}. Error: ${e.message}'`);
         }
 
-        return indexableTrack;
+        return track;
     }
 
-    static async addMetadataToIndexableTracksAsync(indexableTracks, fillOnlyEssentialMetadata) {
-        const filledIndexableTracks = [];
+    static async addMetadataToTracksAsync(tracks, fillOnlyEssentialMetadata) {
+        const filledTracks = [];
 
-        for (const indexableTrack of indexableTracks) {
-            const filledIndexableTrack = await this.addMetadataToIndexableTrackAsync(indexableTrack, fillOnlyEssentialMetadata);
-            filledIndexableTracks.push(filledIndexableTrack);
+        for (const track of tracks) {
+            const filledTrack = await this.addMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
+            filledTracks.push(filledTrack);
         }
 
-        return filledIndexableTracks;
+        return filledTracks;
     }
 
     static getMimeType(filePath) {

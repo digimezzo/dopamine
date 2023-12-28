@@ -1,6 +1,6 @@
 import { IndexablePath } from './indexable-path';
 
-describe('FolderPathInfo', () => {
+describe('IndexablePath', () => {
     describe('constructor', () => {
         it('should set path', () => {
             // Arrange

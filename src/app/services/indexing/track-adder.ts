@@ -4,31 +4,30 @@ import { Track } from '../../data/entities/track';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { SettingsBase } from '../../common/settings/settings.base';
-import { IndexablePath } from './indexable-path';
-import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
-import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
 import { IndexableTrack } from './indexable-track';
 import { MetadataAdder } from './metadata-adder';
+import { IndexableTrackFetcher } from './indexable-track-fetcher';
 
 @Injectable()
 export class TrackAdder {
     public constructor(
         private trackRepository: TrackRepositoryBase,
         private folderTrackRepository: FolderTrackRepositoryBase,
-        private removedTrackRepository: RemovedTrackRepositoryBase,
-        private indexablePathFetcher: IndexablePathFetcher,
+        private indexableTrackFetcher: IndexableTrackFetcher,
         private metadataAdder: MetadataAdder,
         private settings: SettingsBase,
         private logger: Logger,
         private snackBarService: SnackBarServiceBase,
     ) {}
 
+    public batchSize: number = 20;
+
     private async addTracksInBatch(indexableTracks: IndexableTrack[]): Promise<number> {
         let numberOfAddedTracks: number = 0;
-        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToIndexableTracksAsync(indexableTracks, false);
+        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToTracksAsync(indexableTracks, false);
 
         for (const filledIndexableTrack of filledIndexableTracks) {
             try {
@@ -54,18 +53,17 @@ export class TrackAdder {
         timer.start();
 
         try {
-            const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(this.settings.skipRemovedFilesDuringRefresh);
+            const indexableTracks: IndexableTrack[] = await this.indexableTrackFetcher.getIndexableTracksAsync(
+                this.settings.skipRemovedFilesDuringRefresh,
+            );
 
             let numberOfAddedTracks: number = 0;
-            const batchSize: number = 20;
 
-            for (let i = 0; i < indexablePaths.length; i += batchSize) {
-                const indexablePathsBatch: IndexablePath[] = indexablePaths.slice(i, i + batchSize);
-                numberOfAddedTracks += await this.addTracksInBatch(
-                    indexablePathsBatch.map((x) => new IndexableTrack(new Track(x.path), x.dateModifiedTicks, x.folderId)),
-                );
+            for (let i = 0; i < indexableTracks.length; i += this.batchSize) {
+                const indexableTracksBatch: IndexableTrack[] = indexableTracks.slice(i, i + this.batchSize);
+                numberOfAddedTracks += await this.addTracksInBatch(indexableTracksBatch);
 
-                const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
+                const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexableTracks.length) * 100);
                 await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
             }
 
@@ -81,28 +79,5 @@ export class TrackAdder {
 
             this.logger.error(e, 'A problem occurred while adding tracks', 'TrackAdder', 'addTracksThatAreNotInTheDatabaseAsync');
         }
-    }
-
-    private async getIndexablePathsAsync(skipRemovedFiles: boolean): Promise<IndexablePath[]> {
-        const indexablePaths: IndexablePath[] = [];
-
-        const allIndexablePaths: IndexablePath[] = await this.indexablePathFetcher.getIndexablePathsForAllFoldersAsync();
-        const trackPaths: string[] = (this.trackRepository.getAllTracks() ?? []).map((x) => x.path);
-        const removedTrackPaths: string[] = (this.removedTrackRepository.getRemovedTracks() ?? []).map((x) => x.path);
-
-        for (const indexablePath of allIndexablePaths) {
-            const isTrackInDatabase: boolean = trackPaths.includes(indexablePath.path);
-            const isTrackThatWasPreviouslyRemoved: boolean = removedTrackPaths.includes(indexablePath.path);
-            const allowReAddingRemovedTracks: boolean = !skipRemovedFiles;
-            const isTrackThatWasPreviouslyRemovedAndCanBeReAdded: boolean = isTrackThatWasPreviouslyRemoved && allowReAddingRemovedTracks;
-
-            if (!isTrackInDatabase) {
-                if (!isTrackThatWasPreviouslyRemoved || isTrackThatWasPreviouslyRemovedAndCanBeReAdded) {
-                    indexablePaths.push(indexablePath);
-                }
-            }
-        }
-
-        return indexablePaths;
     }
 }

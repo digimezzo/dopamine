@@ -4,9 +4,9 @@ const { MetadataAdder } = require('./metadata-adder');
 const { arg } = workerData;
 
 function performTaskAsync() {
-    return MetadataAdder.addMetadataToIndexableTracksAsync(arg.indexableTracks, arg.fillOnlyEssentialMetadata);
+    return MetadataAdder.addMetadataToTracksAsync(arg.tracks, arg.fillOnlyEssentialMetadata);
 }
 
-performTaskAsync().then((filledIndexableTracks) => {
-    parentPort?.postMessage(filledIndexableTracks);
+performTaskAsync().then((filledTracks) => {
+    parentPort?.postMessage(filledTracks);
 });
