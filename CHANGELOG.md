@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0-preview.22] - 2023-12-15
+## [3.0.0-preview.22] - 2023-12-28
 
 ### Added
 
@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   MP3 files containing ID3v2 frames with non-standard frame identifiers could not be loaded
 -   Updated dependencies to fix some security vulnerabilities
 -   Improved performance of Now Playing screens
+-   Improved UI responsiveness during indexing
 -   A lot of UI problems
 
 ## [3.0.0-preview.21] - 2023-11-09
@@ -325,11 +326,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed a bug that causes incorrect detection of available updates
 -   Fixed high CPU usage caused by playback progress bar
 -   Fixed a crash caused by Discord Rich Presence which happens when the start or end of the playback queue is reached
--   Fixed a bug where the playing song is not cleared when playback stops when reaching the start or end of the playback queue
+-   Fixed a bug where the playing song is not cleared when playback stops when reaching the start or end of the playback
+    queue
 -   Fixed a bug that caused duplicate artists in the Artists screen
 -   Fixed a bug that caused duplicate genres in the Genres screen
 -   Fixed incorrect color of chevron text in Artists and Genres screens when using the light theme
--   Fixed a bug where the Dopamine 2 shortcut in Windows is overwritten and points to Dopamine 3 after installing Dopamine 3
+-   Fixed a bug where the Dopamine 2 shortcut in Windows is overwritten and points to Dopamine 3 after installing Dopamine
+    3
 
 ## [3.0.0-preview.1] - 2021-06-30
 
