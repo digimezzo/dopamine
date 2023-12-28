@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { FileFormats } from '../application/file-formats';
+const { FileFormats } = require('./file-formats');
 
-@Injectable()
-export class MimeTypes {
-    public getMimeTypeForFileExtension(fileExtension: string): string {
+class MimeTypes {
+    static getMimeTypeForFileExtension(fileExtension) {
         switch (fileExtension.toLowerCase()) {
             case FileFormats.mp3:
                 return 'audio/mpeg';
@@ -22,3 +20,5 @@ export class MimeTypes {
         }
     }
 }
+
+exports.MimeTypes = MimeTypes;
