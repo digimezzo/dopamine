@@ -265,5 +265,6 @@
     "shuffle-all": "Перемешать все",
     "no-lyrics-found": "Текст песни не найден",
     "no-biography-found": "No biography was found",
-    "show-welcome-screen-now": "Show welcome screen now"
+    "show-welcome-screen-now": "Show welcome screen now",
+    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page"
 }

@@ -647,6 +647,15 @@ export class Settings implements SettingsBase {
         this.settings.set('audioVisualizerFrameRate', v);
     }
 
+    // keepPlaybackControlsVisibleOnNowPlayingPage
+    public get keepPlaybackControlsVisibleOnNowPlayingPage(): boolean {
+        return <boolean>this.settings.get('keepPlaybackControlsVisibleOnNowPlayingPage');
+    }
+
+    public set keepPlaybackControlsVisibleOnNowPlayingPage(v: boolean) {
+        this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', v);
+    }
+
     // Initialize
     private initialize(): void {
         if (!this.settings.has('language')) {
@@ -923,6 +932,10 @@ export class Settings implements SettingsBase {
 
         if (!this.settings.has('audioVisualizerFrameRate')) {
             this.settings.set('audioVisualizerFrameRate', 10);
+        }
+
+        if (!this.settings.has('keepPlaybackControlsVisibleOnNowPlayingPage')) {
+            this.settings.set('keepPlaybackControlsVisibleOnNowPlayingPage', false);
         }
     }
 }

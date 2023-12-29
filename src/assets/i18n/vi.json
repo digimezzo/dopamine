@@ -265,5 +265,6 @@
     "shuffle-all": "Phát ngẫu nhiên",
     "no-lyrics-found": "Không tìm thấy lời bài hát",
     "no-biography-found": "Không tìm thấy tiểu sử",
-    "show-welcome-screen-now": "Show welcome screen now"
+    "show-welcome-screen-now": "Show welcome screen now",
+    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page"
 }

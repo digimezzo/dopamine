@@ -14,6 +14,7 @@ import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
 import { enterLeftToRight, enterRightToLeft } from '../../animations/animations';
 import { AnimatedPage } from '../animated-page';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 @Component({
     selector: 'app-now-playing',
@@ -102,12 +103,10 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
         private scheduler: SchedulerBase,
         private audioVisualizer: AudioVisualizer,
         private documentProxy: DocumentProxy,
+        private settings: SettingsBase,
     ) {
         super();
     }
-
-    public nowPlayingPageEnum: typeof NowPlayingPage = NowPlayingPage;
-    public page: NowPlayingPage;
 
     public background1IsUsed: boolean = false;
     public background1: string = '';
@@ -163,6 +162,10 @@ export class NowPlayingComponent extends AnimatedPage implements OnInit, AfterVi
         clearTimeout(this.timerId);
 
         this.controlsVisibility = 'visible';
+
+        if (this.settings.keepPlaybackControlsVisibleOnNowPlayingPage) {
+            return;
+        }
 
         this.timerId = window.setTimeout(() => {
             this.controlsVisibility = 'hidden';

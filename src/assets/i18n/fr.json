@@ -265,5 +265,6 @@
     "shuffle-all": "Lecture aléatoire",
     "no-lyrics-found": "Aucune parole n'a été trouvée",
     "no-biography-found": "Aucune biographie n'a été trouvée",
-    "show-welcome-screen": "Afficher l'écran d'accueil maintenant"
+    "show-welcome-screen": "Afficher l'écran d'accueil maintenant",
+    "keep-playback-controls-visible-on-now-playing-page": "Garder les commandes de lecture visibles sur la page 'Lecture en cours'"
 }

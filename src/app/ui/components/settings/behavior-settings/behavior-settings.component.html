@@ -49,3 +49,12 @@
         <mat-slide-toggle [(ngModel)]="this.settings.showLove"> {{ 'show-love' | translate }}</mat-slide-toggle>
     </div>
 </div>
+<mat-divider></mat-divider>
+<div class="p-4">
+    <h2>{{ 'now-playing' | translate }}</h2>
+    <div>
+        <mat-slide-toggle [(ngModel)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">
+            {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</mat-slide-toggle
+        >
+    </div>
+</div>

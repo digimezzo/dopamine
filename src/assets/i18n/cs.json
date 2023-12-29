@@ -265,5 +265,6 @@
     "shuffle-all": "Zamíchat vše",
     "no-lyrics-found": "Text skladby nenalezen",
     "no-biography-found": "Biografie nenalezena",
-    "show-welcome-screen-now": "Zobrazit uvítací obrazovku nyní"
+    "show-welcome-screen-now": "Zobrazit uvítací obrazovku nyní",
+    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page"
 }

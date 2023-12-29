@@ -265,5 +265,6 @@
     "shuffle-all": "Blanda alla",
     "no-lyrics-found": "Inga låttexter hittades",
     "no-biography-found": "Ingen biografi hittades",
-    "show-welcome-screen-now": "Show welcome screen now"
+    "show-welcome-screen-now": "Show welcome screen now",
+    "keep-playback-controls-visible-on-now-playing-page": "Keep playback controls visible on now playing page"
 }

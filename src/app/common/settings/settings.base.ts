@@ -70,4 +70,5 @@ export abstract class SettingsBase {
     public abstract showAudioVisualizer: boolean;
     public abstract audioVisualizerStyle: string;
     public abstract audioVisualizerFrameRate: number;
+    public abstract keepPlaybackControlsVisibleOnNowPlayingPage: boolean;
 }
