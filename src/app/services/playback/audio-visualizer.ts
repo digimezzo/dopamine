@@ -118,8 +118,8 @@ export class AudioVisualizer {
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
-            const xLeft: number = canvasCenter - i * barWidth;
-            const xRight: number = canvasCenter + i * barWidth;
+            const xLeft: number = canvasCenter - barWidth / 2 - i * barWidth;
+            const xRight: number = canvasCenter - barWidth / 2 + i * barWidth;
             const y: number = this.canvas.height - barHeight;
 
             // Left
@@ -148,13 +148,14 @@ export class AudioVisualizer {
     private drawLines(): void {
         const barWidth: number = 1;
         const barMargin: number = 3;
+        const totalBarWidth: number = barWidth + barMargin;
         const canvasCenter: number = this.canvas.width / 2;
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
-            const xLeft: number = canvasCenter - i * (barWidth + barMargin);
-            const xRight: number = canvasCenter + i * (barWidth + barMargin);
+            const xLeft: number = canvasCenter - totalBarWidth / 2 - i * (barWidth + barMargin);
+            const xRight: number = canvasCenter - totalBarWidth / 2 + i * (barWidth + barMargin);
             const y: number = this.canvas.height - barHeight;
 
             const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
@@ -175,13 +176,14 @@ export class AudioVisualizer {
     private drawBars(): void {
         const barWidth: number = 3;
         const barMargin: number = 2;
+        const totalBarWidth: number = barWidth + barMargin;
         const canvasCenter: number = this.canvas.width / 2;
         const accentRgbColor: RgbColor = this.appearanceService.accentRgbColor;
 
         for (let i: number = 0; i < this.dataArray.length; i++) {
             const barHeight: number = (this.dataArray[i] / 255) * this.canvas.height;
-            const xLeft: number = canvasCenter - i * (barWidth + barMargin);
-            const xRight: number = canvasCenter + i * (barWidth + barMargin);
+            const xLeft: number = canvasCenter - totalBarWidth / 2 - i * (barWidth + barMargin);
+            const xRight: number = canvasCenter - totalBarWidth / 2 + i * (barWidth + barMargin);
             const y: number = this.canvas.height - barHeight;
 
             const alphaLeft: number = 1 - (this.canvas.height - barHeight) / this.canvas.height;
