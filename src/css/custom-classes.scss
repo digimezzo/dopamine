@@ -125,3 +125,7 @@
 .break-on-newline {
     white-space: pre-line;
 }
+
+.draggable {
+    -webkit-app-region: drag;
+}
