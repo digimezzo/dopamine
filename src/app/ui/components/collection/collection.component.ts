@@ -52,10 +52,5 @@ export class CollectionComponent extends AnimatedPage implements AfterViewInit {
         this.page = page;
 
         this.collectionNavigationService.page = page;
-
-        // Manually trigger a custom event. Together with CdkVirtualScrollViewportPatchDirective,
-        // this will ensure that CdkVirtualScrollViewport triggers a viewport size check when the
-        // selected page is changed.
-        window.dispatchEvent(new Event('page-changed'));
     }
 }

@@ -6,6 +6,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 /**
  * A directive that is designed to work alongside CdkVirtualScrollViewport
  * which triggers the viewport size check when the windows is resized.
+ * See: https://github.com/angular/components/issues/10117
  */
 @Directive({
     selector: 'cdk-virtual-scroll-viewport',
@@ -17,12 +18,6 @@ export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy
 
     public ngOnInit(): void {
         fromEvent(window, 'resize')
-            .pipe(debounceTime(10), takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.viewportComponent.checkViewportSize();
-            });
-
-        fromEvent(window, 'page-changed')
             .pipe(debounceTime(10), takeUntil(this.destroy$))
             .subscribe(() => {
                 this.viewportComponent.checkViewportSize();
