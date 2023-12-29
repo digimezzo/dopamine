@@ -54,6 +54,7 @@ export class PlaybackQueueComponent implements OnInit, OnDestroy {
                 // with the drawer open, fixes drawing of all items in the list. This hack is an automatic workaround.
                 // I'm honestly very sick if this. Angular updates and deprecates their versions so quickly, forcing us to upgrade.
                 // But with each upgrade, something major breaks. I'm wasting countless days/weeks on such issues.
+                this._shouldShowList = false;
                 setTimeout(() => {
                     this._shouldShowList = true;
                 }, 250);
