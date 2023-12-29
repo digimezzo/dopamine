@@ -88,18 +88,20 @@ function getTrayIcon(): string {
 
     const invertColor: boolean = settings.get('invertNotificationAreaIconColor');
 
-    if (nativeTheme.shouldUseDarkColors) {
-        if (invertColor) {
-            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+    if (os.platform() === 'win32') {
+        if (!invertColor) {
+            // Defaulting to black for Windows
+            return path.join(globalAny.__static, 'icons/tray_black.ico');
         } else {
-            return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
+            return path.join(globalAny.__static, 'icons/tray_white.ico');
         }
-    }
-
-    if (invertColor) {
-        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_white.ico' : 'icons/tray_white.png');
     } else {
-        return path.join(globalAny.__static, os.platform() === 'win32' ? 'icons/tray_black.ico' : 'icons/tray_black.png');
+        if (!invertColor) {
+            // Defaulting to white for Linux
+            return path.join(globalAny.__static, 'icons/tray_white.png');
+        } else {
+            return path.join(globalAny.__static, 'icons/tray_black.png');
+        }
     }
 }
 
