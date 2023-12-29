@@ -109,6 +109,10 @@
 
 // Drawer
 // -----------------------------------------------------------------------------------------------------------------------------------------
+.mat-drawer-content {
+    overflow: unset !important;
+}
+
 .mat-drawer-backdrop.mat-drawer-shown {
     background: rgba(var(--theme-rgb-base), 1) !important;
 }
