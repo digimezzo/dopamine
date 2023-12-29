@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Audio visualization is not centered
 -   Playback queue does not always show all songs
--   It is not possible to drag the window by grapping the Dopamine logo
+-   It is not possible to drag the window by grabbing the Dopamine logo
+-   Album list empty when resizing from very small window
 
 ## [3.0.0-preview.22] - 2023-12-29
 
