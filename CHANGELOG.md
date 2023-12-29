@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-preview.23] - 2023-12-29
 
+### Added
+
+-   Added setting to keep playback controls visible on Now playing page
+
 ### Changed
 
 -   Updated Czech translation
