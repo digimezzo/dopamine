@@ -266,5 +266,6 @@
     "no-lyrics-found": "Er zijn geen songteksten gevonden",
     "no-biography-found": "Er is geen biografie gevonden",
     "show-welcome-screen-now": "Toon nu het welkomstscherm",
-    "keep-playback-controls-visible-on-now-playing-page": "Houd de afspeelknoppen zichtbaar op de 'Speel nu' pagina"
+    "keep-playback-controls-visible-on-now-playing-page": "Houd de afspeelknoppen zichtbaar op de 'Speel nu' pagina",
+    "open-folder": "Open folder"
 }

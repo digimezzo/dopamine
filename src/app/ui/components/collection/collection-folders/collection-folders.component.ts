@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IOutputData } from 'angular-split';
 import { Subscription } from 'rxjs';
 import { Constants } from '../../../../common/application/constants';
@@ -25,6 +25,8 @@ import { SettingsBase } from '../../../../common/settings/settings.base';
 import { MouseSelectionWatcher } from '../../mouse-selection-watcher';
 import { ContextMenuOpener } from '../../context-menu-opener';
 import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 @Component({
     selector: 'app-collection-folders',
@@ -35,6 +37,8 @@ import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
     encapsulation: ViewEncapsulation.None,
 })
 export class CollectionFoldersComponent implements OnInit, OnDestroy {
+    private subscription: Subscription = new Subscription();
+
     public constructor(
         public searchService: SearchServiceBase,
         public appearanceService: AppearanceServiceBase,
@@ -54,9 +58,11 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
         private scheduler: SchedulerBase,
         private logger: Logger,
         private hacks: Hacks,
+        private desktop: DesktopBase,
     ) {}
 
-    private subscription: Subscription = new Subscription();
+    @ViewChild('subfolderContextMenuAnchor', { read: MatMenuTrigger, static: false })
+    public subfolderContextMenu: MatMenuTrigger;
 
     public leftPaneSize: number = this.settings.foldersLeftPaneWidthPercent;
     public rightPaneSize: number = 100 - this.settings.foldersLeftPaneWidthPercent;
@@ -154,6 +160,14 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
     public async goToManageCollectionAsync(): Promise<void> {
         await this.navigationService.navigateToManageCollectionAsync();
+    }
+
+    public onSubfolderContextMenu(event: MouseEvent, subfolder: SubfolderModel): void {
+        this.contextMenuOpener.open(this.subfolderContextMenu, event, subfolder);
+    }
+
+    public async onOpenSubfolderAsync(subfolder: SubfolderModel): Promise<void> {
+        await this.desktop.openPathAsync(subfolder.path);
     }
 
     private async fillListsAsync(): Promise<void> {

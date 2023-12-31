@@ -13,6 +13,7 @@ import { TrackModel } from '../../../services/track/track-model';
 import { SchedulerBase } from '../../../common/scheduling/scheduler.base';
 import { AudioVisualizer } from '../../../services/playback/audio-visualizer';
 import { DocumentProxy } from '../../../common/io/document-proxy';
+import { SettingsBase } from '../../../common/settings/settings.base';
 
 describe('NowPlayingComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
@@ -24,6 +25,7 @@ describe('NowPlayingComponent', () => {
     let schedulerMock: IMock<SchedulerBase>;
     let audioVisualizerMock: IMock<AudioVisualizer>;
     let documentProxyMock: IMock<DocumentProxy>;
+    let settingsMock: IMock<SettingsBase>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -43,6 +45,7 @@ describe('NowPlayingComponent', () => {
             schedulerMock.object,
             audioVisualizerMock.object,
             documentProxyMock.object,
+            settingsMock.object,
         );
     }
 
@@ -56,6 +59,7 @@ describe('NowPlayingComponent', () => {
         schedulerMock = Mock.ofType<SchedulerBase>();
         audioVisualizerMock = Mock.ofType<AudioVisualizer>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
+        settingsMock = Mock.ofType<SettingsBase>();
 
         appearanceServiceMock.setup((x) => x.isUsingLightTheme).returns(() => false);
 
