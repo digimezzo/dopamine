@@ -30,6 +30,8 @@ import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
 import { Folder } from '../../../../data/entities/folder';
 import { Constants } from '../../../../common/application/constants';
+import { DesktopBase } from '../../../../common/io/desktop.base';
+import { TrackBrowserComponent } from '../track-browser/track-browser.component';
 
 describe('CollectionFoldersComponent', () => {
     let settingsStub: any;
@@ -53,6 +55,7 @@ describe('CollectionFoldersComponent', () => {
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let dateTimeMock: IMock<DateTime>;
     let folderTracksPersisterMock: IMock<FolderTracksPersister>;
+    let desktopMock: IMock<DesktopBase>;
 
     let playbackServicePlaybackStartedMock: Subject<PlaybackStarted>;
     let playbackServicePlaybackStoppedMock: Subject<void>;
@@ -82,7 +85,7 @@ describe('CollectionFoldersComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionFoldersComponent {
-        const component: CollectionFoldersComponent = new CollectionFoldersComponent(
+        return new CollectionFoldersComponent(
             searchServiceMock.object,
             appearanceServiceMock.object,
             folderServiceMock.object,
@@ -101,9 +104,8 @@ describe('CollectionFoldersComponent', () => {
             schedulerMock.object,
             loggerMock.object,
             hacksMock.object,
+            desktopMock.object,
         );
-
-        return component;
     }
 
     beforeEach(() => {
@@ -128,6 +130,7 @@ describe('CollectionFoldersComponent', () => {
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         dateTimeMock = Mock.ofType<DateTime>();
         folderTracksPersisterMock = Mock.ofType<FolderTracksPersister>();
+        desktopMock = Mock.ofType<DesktopBase>();
 
         folder1 = new FolderModel(new Folder('/home/user/Music'));
         folder2 = new FolderModel(new Folder('/home/user/Downloads'));
@@ -317,6 +320,16 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             expect(component.addToPlaylistMenu).toBeDefined();
+        });
+
+        it('should declare subfolderContextMenu', () => {
+            // Arrange
+
+            // Act
+            const component: CollectionFoldersComponent = createComponent();
+
+            // Assert
+            expect(component.subfolderContextMenu).toBeUndefined();
         });
     });
 
@@ -786,6 +799,35 @@ describe('CollectionFoldersComponent', () => {
 
             // Assert
             mouseSelectionWatcherMock.verify((x) => x.initialize(component.tracks.tracks, false), Times.exactly(1));
+        });
+    });
+
+    describe('onSubfolderContextMenu', () => {
+        it('should open the context menu', () => {
+            // Arrange
+            const component: CollectionFoldersComponent = createComponent();
+            const event: MouseEvent = new MouseEvent('contextmenu');
+            const subfolder: SubfolderModel = subfolder1;
+
+            // Act
+            component.onSubfolderContextMenu(event, subfolder);
+
+            // Assert
+            contextMenuOpenerMock.verify((x) => x.open(component.subfolderContextMenu, event, subfolder), Times.exactly(1));
+        });
+    });
+
+    describe('onOpenSubfolderAsync', () => {
+        it('should open the given folder in the desktop', async () => {
+            // Arrange
+            const component: CollectionFoldersComponent = createComponent();
+            desktopMock.setup((x) => x.openPathAsync(subfolder1.path)).returns(() => Promise.resolve());
+
+            // Act
+            await component.onOpenSubfolderAsync(subfolder1);
+
+            // Assert
+            desktopMock.verify((x) => x.openPathAsync(subfolder1.path), Times.exactly(1));
         });
     });
 });
