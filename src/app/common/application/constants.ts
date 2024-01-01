@@ -42,7 +42,6 @@ export class Constants {
     public static readonly semanticZoomInDelayMilliseconds: number = 100;
     public static readonly semanticZoomOutDelayMilliseconds: number = 100;
     public static readonly playbackInfoSwitchAnimationMilliseconds: number = 250;
-    public static readonly maximumNowPlayingArtSizePixels: number = 500;
 
     public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
 
