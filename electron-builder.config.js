@@ -43,7 +43,14 @@ const config = {
     ],
     nsis: {
         shortcutName: 'Dopamine 3',
-        perMachine: true,
+        perMachine: false,
+        oneClick: false,
+        deleteAppDataOnUninstall: false,
+        allowToChangeInstallationDirectory: true,
+        allowElevation: true,
+        include: 'build/uninstaller.nsh',
+        installerSidebar: 'build/Sidebar.bmp',
+        uninstallerSidebar: 'build/Sidebar.bmp',
     },
     directories: {
         output: 'release',
