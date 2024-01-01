@@ -33,7 +33,7 @@ describe('ProductInformation', () => {
             const applicationCopyright: string = ProductInformation.applicationCopyright;
 
             // Assert
-            expect(applicationCopyright).toEqual('Copyright Digimezzo Ⓒ 2014 - 2023');
+            expect(applicationCopyright).toEqual('Copyright Digimezzo Ⓒ 2014 - 2024');
         });
     });
 });
