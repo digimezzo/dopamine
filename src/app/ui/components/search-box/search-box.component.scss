@@ -1,10 +1,12 @@
 .app-search-box {
-    height: 100%;
-    width: 100%;
     position: relative;
     background-color: var(--theme-search-box);
     display: flex;
     flex-direction: row;
+    width: 170px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 0 10px;
 }
 
 .app-search-box__input {
