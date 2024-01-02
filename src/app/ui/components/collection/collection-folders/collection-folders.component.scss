@@ -18,11 +18,15 @@
 }
 
 .tracks-browser__breadcrumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     background-color: var(--theme-breadcrumb-background) !important;
     border-radius: 15px;
     height: 30px;
-    padding: 0 10px;
-    font-size: var(--fontsize-normal);
+    padding: 0 16px;
+    font-size: var(--fontsize-normal) !important;
     white-space: nowrap;
     overflow: hidden;
 }

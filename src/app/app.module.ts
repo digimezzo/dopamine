@@ -6,7 +6,6 @@ import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -322,6 +321,8 @@ import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/w
 import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
+import { BreadcrumbButtonComponent } from './ui/components/buttons/breadcrumb-button/breadcrumb-button.component';
+import { RoundedAccentButtonComponent } from './ui/components/buttons/rounded-accent-button/rounded-accent-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -466,6 +467,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WelcomeDonateComponent,
         WelcomeDoneComponent,
         WelcomeNavigationButtonsComponent,
+        BreadcrumbButtonComponent,
+        RoundedAccentButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -485,7 +488,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatMenuModule,
         MatDividerModule,
         MatCheckboxModule,
-        MatChipsModule,
         MatSortModule,
         DragDropModule,
         HammerModule,
