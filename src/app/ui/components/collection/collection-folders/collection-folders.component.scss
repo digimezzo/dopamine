@@ -19,10 +19,10 @@
 
 .tracks-browser__breadcrumb {
     background-color: var(--theme-breadcrumb-background) !important;
-    border-radius: 4px !important;
-    min-height: 26px !important;
-    padding: 2px 8px !important;
-    font-size: var(--fontsize-normal) !important;
+    border-radius: 15px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: var(--fontsize-normal);
     white-space: nowrap;
     overflow: hidden;
 }
