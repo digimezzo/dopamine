@@ -43,9 +43,7 @@ describe('PlaybackInformationService', () => {
         track = new Track('Path');
         trackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
 
-        metadataServiceMock
-            .setup((x) => x.createImageUrlAsync(trackModel, Constants.maximumNowPlayingArtSizePixels))
-            .returns(() => Promise.resolve('imageUrl'));
+        metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel, 0)).returns(() => Promise.resolve('imageUrl'));
     });
 
     describe('constructor', () => {
@@ -204,9 +202,7 @@ describe('PlaybackInformationService', () => {
 
             metadataServiceMock.reset();
 
-            metadataServiceMock
-                .setup((x) => x.createImageUrlAsync(trackModel2, Constants.maximumNowPlayingArtSizePixels))
-                .returns(() => Promise.resolve('imageUrl2'));
+            metadataServiceMock.setup((x) => x.createImageUrlAsync(trackModel2, 0)).returns(() => Promise.resolve('imageUrl2'));
 
             playbackServiceMock.reset();
 
@@ -222,7 +218,7 @@ describe('PlaybackInformationService', () => {
             const playbackInformation: PlaybackInformation = await service.getCurrentPlaybackInformationAsync();
 
             // Assert
-            metadataServiceMock.verify((x) => x.createImageUrlAsync(trackModel2, Constants.maximumNowPlayingArtSizePixels), Times.once());
+            metadataServiceMock.verify((x) => x.createImageUrlAsync(trackModel2, 0), Times.once());
             expect(playbackInformation).toBeDefined();
             expect(playbackInformation.track).toBe(trackModel2);
             expect(playbackInformation.imageUrl).toEqual('imageUrl2');
