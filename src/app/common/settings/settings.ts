@@ -863,7 +863,7 @@ export class Settings implements SettingsBase {
         }
 
         if (!this.settings.has('showAlbumsPage')) {
-            this.settings.set('showAlbumsPage', true);
+            this.settings.set('showAlbumsPage', false);
         }
 
         if (!this.settings.has('showTracksPage')) {

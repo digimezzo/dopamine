@@ -66,13 +66,13 @@
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
             <div class="h-100 d-flex flex-column p-3">
                 <div class="d-flex flex-row flex-wrap mb-3">
-                    <app-breadcrumb-button
+                    <app-transparent-button
                         class="mr-2 mb-2"
                         *ngFor="let subfolderBreadcrumb of subfolderBreadcrumbs"
                         (click)="setOpenedSubfolderAsync(subfolderBreadcrumb)"
                     >
                         {{ subfolderBreadcrumb | subfolderName }}
-                    </app-breadcrumb-button>
+                    </app-transparent-button>
                 </div>
                 <app-track-browser
                     class="fill"

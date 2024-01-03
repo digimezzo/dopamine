@@ -350,6 +350,7 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-button-background', neutralColors.secondaryButtonBackground);
         element.style.setProperty('--theme-secondary-button-text', neutralColors.secondaryButtonText);
         element.style.setProperty('--theme-tooltip-text', neutralColors.tooltipText);
+        element.style.setProperty('--theme-button-border', neutralColors.buttonBorder);
     }
 
     private setSelectedThemeFromSettings(): void {

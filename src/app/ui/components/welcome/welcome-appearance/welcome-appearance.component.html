@@ -1,10 +1,10 @@
 <div class="d-flex flex-column p-3">
-    <h1 class="mb-2">
+    <div class="title">
         {{ 'appearance' | translate }}
-    </h1>
-    <h3>
+    </div>
+    <div class="larger">
         {{ 'what-should-dopamine-look-like' | translate }}
-    </h3>
+    </div>
     <mat-slide-toggle class="mt-3" [(ngModel)]="this.appearanceService.useLightBackgroundTheme">
         {{ 'use-light-theme' | translate }}</mat-slide-toggle
     >

@@ -1,10 +1,10 @@
-import { BreadcrumbButtonComponent } from './breadcrumb-button.component';
+import { TransparentButtonComponent } from './transparent-button.component';
 
-describe('BreadcrumbButtonComponent', () => {
-    let component: BreadcrumbButtonComponent;
+describe('TransparentButtonComponent', () => {
+    let component: TransparentButtonComponent;
 
     beforeEach(() => {
-        component = new BreadcrumbButtonComponent();
+        component = new TransparentButtonComponent();
     });
 
     describe('constructor', () => {

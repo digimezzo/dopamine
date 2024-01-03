@@ -27,6 +27,7 @@ export class ThemeNeutralColors {
         public primaryButtonText: string,
         public secondaryButtonBackground: string,
         public secondaryButtonText: string,
-        public tooltipText: string
+        public tooltipText: string,
+        public buttonBorder: string,
     ) {}
 }

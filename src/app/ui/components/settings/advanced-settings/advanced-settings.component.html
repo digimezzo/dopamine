@@ -1,5 +1,5 @@
 <div class="d-flex flex-column p-4">
-    <h2>{{ 'welcome-screen' | translate }}</h2>
+    <div class="title">{{ 'welcome-screen' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</mat-slide-toggle>
     </div>
@@ -11,7 +11,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="d-flex flex-column p-4">
-    <h2>{{ 'log-file' | translate }}</h2>
+    <div class="title">{{ 'log-file' | translate }}</div>
     <div>{{ 'something-wrong-look-in-log-file' | translate }}</div>
     <div class="mt-4">
         <app-accent-button (click)="this.viewLog()">

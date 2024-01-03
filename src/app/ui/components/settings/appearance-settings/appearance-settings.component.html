@@ -1,5 +1,5 @@
 <div class="p-4">
-    <h2>{{ 'theme' | translate }}</h2>
+    <div class="title">{{ 'theme' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="appearanceService.followSystemTheme"> {{ 'follow-system-theme' | translate }}</mat-slide-toggle>
     </div>
@@ -15,7 +15,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'color' | translate }}</h2>
+    <div class="title">{{ 'color' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</mat-slide-toggle>
     </div>
@@ -29,12 +29,12 @@
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'title-bar' | translate }}</h2>
+    <div class="title">{{ 'title-bar' | translate }}</div>
     <mat-slide-toggle [(ngModel)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</mat-slide-toggle>
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'language' | translate }}</h2>
+    <div class="title">{{ 'language' | translate }}</div>
     <div>{{ 'choose-language' | translate }}</div>
     <mat-form-field class="mt-2">
         <mat-select [(ngModel)]="translatorService.selectedLanguage">
@@ -47,7 +47,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'text-size' | translate }}</h2>
+    <div class="title">{{ 'text-size' | translate }}</div>
     <div>{{ 'choose-text-size' | translate }}</div>
     <mat-form-field class="mt-2">
         <mat-select [(ngModel)]="appearanceService.selectedFontSize">
@@ -57,7 +57,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'pages' | translate }}</h2>
+    <div class="title">{{ 'pages' | translate }}</div>
     <div>{{ 'which-pages-should-be-visible' | translate }}</div>
     <div>
         <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showArtistsPage"> {{ 'artists' | translate }}</mat-slide-toggle>
@@ -80,7 +80,7 @@
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
-    <h2>{{ 'audio-visualizer' | translate }}</h2>
+    <div class="title">{{ 'audio-visualizer' | translate }}</div>
     <div>
         <mat-slide-toggle class="mt-3" [(ngModel)]="this.audioVisualizerService.showAudioVisualizer">
             {{ 'show-audio-visualizer' | translate }}</mat-slide-toggle

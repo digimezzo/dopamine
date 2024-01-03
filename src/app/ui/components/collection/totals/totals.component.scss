@@ -4,3 +4,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.app-totals__text {
+    font-size: calc(var(--fontsize-normal) * 0.9) !important;
+}

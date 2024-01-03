@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-totals',
+    host: { style: 'display: block;' },
     templateUrl: './totals.component.html',
     styleUrls: ['./totals.component.scss'],
 })

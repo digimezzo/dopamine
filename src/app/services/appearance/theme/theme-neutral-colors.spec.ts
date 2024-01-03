@@ -3,34 +3,35 @@ import { ThemeNeutralColors } from './theme-neutral-colors';
 describe('ThemeNeutralColors', () => {
     function createNeutralColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            'red', // windowButtonIcon
-            'green', // hoveredItemBackground
-            'blue', // selectedItemBackground
-            'black', // tabText
-            'white', // selectedTabText
-            '#aaa', // mainBackground
-            '#bbb', // headerBackground
-            '#ccc', // footerBackground
-            '#ddd', // sidePaneBackground
-            '#eee', // primaryText
-            '#fff', // secondaryText
-            '#111', // breadcrumbBackground
-            '#222', // sliderBackground
-            '#333', // sliderThumbBackground
-            '#444', // albumCoverLogo
-            '#555', // albumCoverBackground
-            '#666', // paneSeparators
-            '#777', // settingsSeparators
-            '#770', // contextMenuSeparators
-            '#888', // scrollBars
-            '#999', // searchBox
-            '#aaa', // searchBoxText
-            '#bbb', // searchBoxIcon
-            '#ccc', // dialogBackground
-            '#ddd', // primaryButtonText
-            '#eee', // secondaryButtonBackground
-            '#fff', // secondaryButtonText
-            '#fff' // tooltipText
+            'red',
+            'green',
+            'blue',
+            'black',
+            'white',
+            '#aaa',
+            '#bbb',
+            '#ccc',
+            '#ddd',
+            '#eee',
+            '#fff',
+            '#111',
+            '#222',
+            '#333',
+            '#444',
+            '#555',
+            '#666',
+            '#777',
+            '#770',
+            '#888',
+            '#999',
+            '#aaa',
+            '#bbb',
+            '#ccc',
+            '#ddd',
+            '#eee',
+            '#ffa',
+            '#ffb',
+            '#ffc',
         );
     }
 
@@ -312,7 +313,7 @@ describe('ThemeNeutralColors', () => {
             const colors: ThemeNeutralColors = createNeutralColors();
 
             // Assert
-            expect(colors.secondaryButtonText).toEqual('#fff');
+            expect(colors.secondaryButtonText).toEqual('#ffa');
         });
 
         it('should set tooltipText', () => {
@@ -322,7 +323,17 @@ describe('ThemeNeutralColors', () => {
             const colors: ThemeNeutralColors = createNeutralColors();
 
             // Assert
-            expect(colors.tooltipText).toEqual('#fff');
+            expect(colors.tooltipText).toEqual('#ffb');
+        });
+
+        it('should set buttonBorder', () => {
+            // Arrange
+
+            // Act
+            const colors: ThemeNeutralColors = createNeutralColors();
+
+            // Assert
+            expect(colors.buttonBorder).toEqual('#ffc');
         });
     });
 });

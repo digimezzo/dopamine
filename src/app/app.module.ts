@@ -320,8 +320,8 @@ import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/w
 import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
-import { BreadcrumbButtonComponent } from './ui/components/buttons/breadcrumb-button/breadcrumb-button.component';
 import { AccentButtonComponent } from './ui/components/buttons/accent-button/accent-button.component';
+import { TransparentButtonComponent } from './ui/components/buttons/transparent-button/transparent-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -466,8 +466,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WelcomeDonateComponent,
         WelcomeDoneComponent,
         WelcomeNavigationButtonsComponent,
-        BreadcrumbButtonComponent,
         AccentButtonComponent,
+        TransparentButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,
