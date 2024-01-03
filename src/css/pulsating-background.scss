@@ -1,7 +1,7 @@
 .pulsating-bg {
     background-color: transparent;
     animation-name: color;
-    animation-duration: 2s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
 }
 
@@ -10,7 +10,7 @@
         background-color: transparent;
     }
     50% {
-        background-color: rgba(var(--theme-rgb-accent), 0.6);
+        background-color: rgba(var(--theme-rgb-accent), 0.8);
     }
     100% {
         background-color: transparent;
