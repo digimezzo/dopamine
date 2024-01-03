@@ -15,7 +15,7 @@
 <div class="p-3">
     <h2>{{ 'manual-refresh' | translate }}</h2>
     <div>{{ 'refresh-collection-now' | translate }}</div>
-    <button class="mt-3" mat-raised-button color="primary" (click)="refreshNowAsync()">
-        {{ 'refresh-now' | translate | uppercase }}
-    </button>
+    <app-accent-button class="mt-3" (click)="refreshNowAsync()">
+        {{ 'refresh-now' | translate }}
+    </app-accent-button>
 </div>

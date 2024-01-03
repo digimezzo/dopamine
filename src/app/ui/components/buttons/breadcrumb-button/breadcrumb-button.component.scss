@@ -1,0 +1,18 @@
+.app-breadcrumb-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    height: 30px;
+    padding: 0 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: var(--theme-breadcrumb-background);
+    cursor: pointer;
+}
+
+.app-breadcrumb-button-container:hover {
+    filter: brightness(var(--theme-brightness));
+    transition: all 0.25s;
+}

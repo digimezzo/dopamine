@@ -6,17 +6,17 @@
         <strong> {{ applicationVersion }}</strong>
         <br />{{ applicationCopyright }}
     </div>
-    <button class="mt-3" mat-raised-button color="primary" (click)="showLicenseDialog()">
-        {{ 'license' | translate | uppercase }}
-    </button>
+    <app-accent-button class="mt-3" (click)="showLicenseDialog()">
+        {{ 'license' | translate }}
+    </app-accent-button>
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">
     <h2>{{ 'donate' | translate }}</h2>
     <div>{{ 'donate-instructions' | translate }}</div>
-    <button class="mt-3" mat-raised-button color="primary" (click)="browseToDonateLinkAsync()">
-        {{ 'donate' | translate | uppercase }}
-    </button>
+    <app-accent-button class="mt-3" (click)="browseToDonateLinkAsync()">
+        {{ 'donate' | translate }}
+    </app-accent-button>
 </div>
 <mat-divider></mat-divider>
 <div class="p-4">

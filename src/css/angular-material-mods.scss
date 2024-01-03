@@ -36,24 +36,6 @@
     color: var(--theme-primary-text) !important;
 }
 
-// Button
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-mdc-raised-button {
-    background: var(--theme-secondary-button-background) !important;
-}
-
-.mat-mdc-raised-button > * {
-    color: var(--theme-secondary-button-text) !important;
-}
-
-.mat-mdc-raised-button.mat-primary {
-    background: var(--theme-accent-color) !important;
-}
-
-.mat-mdc-raised-button.mat-primary > * {
-    color: var(--theme-primary-button-text) !important;
-}
-
 // Checkbox
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-checkbox__ripple {

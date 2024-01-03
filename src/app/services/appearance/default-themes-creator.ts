@@ -26,6 +26,9 @@ export class DefaultThemesCreator {
         const darkColors: ThemeNeutralColors = this.defaultDarkColors();
         const lightColors: ThemeNeutralColors = this.defaultLightColors();
 
+        darkColors.scrollBars = '#4883e0';
+        lightColors.scrollBars = '#4883e0';
+
         const options: ThemeOptions = new ThemeOptions(false);
 
         return new Theme('Dopamine', this.creator, new ThemeCoreColors('#6260e3', '#3fdcdd', '#4883e0'), darkColors, lightColors, options);
@@ -34,6 +37,9 @@ export class DefaultThemesCreator {
     private createZuneTheme(): Theme {
         const darkColors: ThemeNeutralColors = this.defaultDarkColors();
         const lightColors: ThemeNeutralColors = this.defaultLightColors();
+
+        darkColors.scrollBars = '#f0266f';
+        lightColors.scrollBars = '#f0266f';
 
         const options: ThemeOptions = new ThemeOptions(false);
 
@@ -44,6 +50,9 @@ export class DefaultThemesCreator {
         const darkColors: ThemeNeutralColors = this.defaultDarkColors();
         const lightColors: ThemeNeutralColors = this.defaultLightColors();
 
+        darkColors.scrollBars = '#e21839';
+        lightColors.scrollBars = '#e21839';
+
         const options: ThemeOptions = new ThemeOptions(false);
 
         return new Theme('Beats', this.creator, new ThemeCoreColors('#98247f', '#e21839', '#e21839'), darkColors, lightColors, options);
@@ -52,6 +61,9 @@ export class DefaultThemesCreator {
     private createNaughtyTheme(): Theme {
         const darkColors: ThemeNeutralColors = this.defaultDarkColors();
         const lightColors: ThemeNeutralColors = this.defaultLightColors();
+
+        darkColors.scrollBars = '#f5004a';
+        lightColors.scrollBars = '#f5004a';
 
         const options: ThemeOptions = new ThemeOptions(false);
 

@@ -5,6 +5,6 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button [disabled]="!hasInputText" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
+    <app-accent-button class="mr-2" [disabled]="!hasInputText" [mat-dialog-close]="true">{{ 'ok' | translate }}</app-accent-button>
+    <app-accent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-accent-button>
 </mat-dialog-actions>

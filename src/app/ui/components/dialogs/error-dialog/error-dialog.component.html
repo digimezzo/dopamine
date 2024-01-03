@@ -4,6 +4,6 @@
     <p *ngIf="data?.isGlobalError">{{ 'global-error' | translate }}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button color="primary" [mat-dialog-close]>{{ 'ok' | translate | uppercase }}</button>
-    <button mat-raised-button [mat-dialog-close] (click)="viewLog()">{{ 'view-log' | translate | uppercase }}</button>
+    <app-accent-button class="mr-2" [mat-dialog-close]>{{ 'ok' | translate }}</app-accent-button>
+    <app-accent-button [mat-dialog-close] (click)="viewLog()">{{ 'view-log' | translate }}</app-accent-button>
 </mat-dialog-actions>

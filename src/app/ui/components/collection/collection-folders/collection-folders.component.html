@@ -56,9 +56,9 @@
                         *ngIf="!this.folderService.collectionHasFolders"
                     >
                         {{ 'no-folders-in-collection' | translate }}
-                        <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollectionAsync()">
+                        <app-accent-button class="mt-3" (click)="goToManageCollectionAsync()">
                             {{ 'add-folder' | translate }}
-                        </button>
+                        </app-accent-button>
                     </div>
                 </div>
             </div>

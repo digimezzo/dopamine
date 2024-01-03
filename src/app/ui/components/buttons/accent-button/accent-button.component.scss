@@ -1,0 +1,52 @@
+//.app-accent-button-container {
+//    display: flex;
+//    flex-direction: row;
+//    justify-content: center;
+//    align-items: center;
+//    border-radius: 15px;
+//    height: 30px;
+//    padding: 0 16px;
+//    white-space: nowrap;
+//    overflow: hidden;
+//    background: var(--theme-accent-color);
+//    color: white;
+//    cursor: pointer;
+//}
+//
+//.app-accent-button-container:hover {
+//    filter: brightness(130%);
+//    transition: all 0.25s;
+//}
+
+.app-accent-button-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-accent-button-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px;
+    height: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px !important;
+    background: rgba(var(--theme-rgb-base), 0.1);
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    font-size: calc(var(--fontsize-normal) * 0.8);
+}
+
+.app-accent-button-button:hover {
+    background-color: var(--theme-accent-color);
+    box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
+    color: #fff;
+    transform: translateY(-5px);
+}
