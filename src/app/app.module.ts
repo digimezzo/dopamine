@@ -304,7 +304,6 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { AudioVisualizerServiceBase } from './services/audio-visualizer/audio-visualizer.service.base';
 import { AudioVisualizerService } from './services/audio-visualizer/audio-visualizer.service';
 import { NowPlayingNothingPlayingComponent } from './ui/components/now-playing/now-playing-nothing-playing/now-playing-nothing-playing.component';
-import { LinkButtonComponent } from './ui/components/link-button/link-button.component';
 import { OnlineArtistImageGetter } from './services/artist-information/online-artist-image-getter';
 import { SubMenuComponent } from './ui/components/sub-menu/sub-menu.component';
 import { SubMenuItemComponent } from './ui/components/sub-menu/sub-menu-item/sub-menu-item.component';
@@ -322,6 +321,7 @@ import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welco
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
 import { AccentButtonComponent } from './ui/components/buttons/accent-button/accent-button.component';
 import { TransparentButtonComponent } from './ui/components/buttons/transparent-button/transparent-button.component';
+import { IconButtonComponent } from './ui/components/buttons/icon-button/icon-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -453,7 +453,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingLyricsComponent,
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
-        LinkButtonComponent,
         SubMenuComponent,
         SubMenuItemComponent,
         MetroPageContainerComponent,
@@ -468,6 +467,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WelcomeNavigationButtonsComponent,
         AccentButtonComponent,
         TransparentButtonComponent,
+        IconButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,

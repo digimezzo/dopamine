@@ -20,11 +20,11 @@
         <mat-slide-toggle [(ngModel)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</mat-slide-toggle>
     </div>
     <app-theme-switcher class="mt-3" [ngClass]="{ inactive: appearanceService.followSystemColor }"> </app-theme-switcher>
-    <div class="mt-3">
-        <a (click)="this.appearanceService.refreshThemes()"><i class="las la-sync mr-1"></i>{{ 'refresh-themes' | translate }}</a>
-    </div>
-    <div class="mt-1">
-        <a (click)="this.openThemesDirectoryAsync()"><i class="las la-plus mr-1"></i>{{ 'add-more-themes' | translate }}</a>
+    <div class="d-flex flex-row mt-3">
+        <app-icon-button class="mr-2" (click)="this.appearanceService.refreshThemes()" icon="las la-sync">{{
+            'refresh-themes' | translate
+        }}</app-icon-button>
+        <app-icon-button (click)="this.openThemesDirectoryAsync()" icon="las la-plus">{{ 'add-more-themes' | translate }}</app-icon-button>
     </div>
 </div>
 <mat-divider></mat-divider>

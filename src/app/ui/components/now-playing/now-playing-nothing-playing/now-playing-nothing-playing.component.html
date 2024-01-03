@@ -1,5 +1,7 @@
 ﻿<div class="h-100 d-flex flex-column align-items-center justify-content-center">
-    <div class="app-now-playing-nothing-playing__title">{{ 'nothing-is-playing' | translate }}</div>
-    <app-link-button (click)="playAll()" class="mt-5" icon="las la-play" text="{{ 'play-all' | translate }}"></app-link-button>
-    <app-link-button (click)="shuffleAll()" class="mt-3" icon="las la-random" text="{{ 'shuffle-all' | translate }}"></app-link-button>
+    <div class="title">{{ 'nothing-is-playing' | translate }}</div>
+    <div class="d-flex flex-row mt-3">
+        <app-icon-button class="mr-2" (click)="playAll()" icon="las la-play">{{ 'play-all' | translate }}</app-icon-button>
+        <app-icon-button (click)="shuffleAll()" icon="las la-random">{{ 'shuffle-all' | translate }}</app-icon-button>
+    </div>
 </div>

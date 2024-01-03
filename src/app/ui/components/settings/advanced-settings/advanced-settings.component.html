@@ -4,9 +4,9 @@
         <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</mat-slide-toggle>
     </div>
     <div class="mt-4">
-        <app-accent-button (click)="this.showWelcomeScreenAsync()">
+        <app-transparent-button (click)="this.showWelcomeScreenAsync()">
             {{ 'show-welcome-screen-now' | translate }}
-        </app-accent-button>
+        </app-transparent-button>
     </div>
 </div>
 <mat-divider></mat-divider>
@@ -14,8 +14,8 @@
     <div class="title">{{ 'log-file' | translate }}</div>
     <div>{{ 'something-wrong-look-in-log-file' | translate }}</div>
     <div class="mt-4">
-        <app-accent-button (click)="this.viewLog()">
+        <app-transparent-button (click)="this.viewLog()">
             {{ 'view-log' | translate }}
-        </app-accent-button>
+        </app-transparent-button>
     </div>
 </div>
