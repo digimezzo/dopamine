@@ -9,6 +9,11 @@
     padding: 0 8px;
 }
 
+.app-search-box-highlight {
+    border: 1px solid var(--theme-accent-color);
+    box-shadow: 0 0 5px var(--theme-accent-color);
+}
+
 .app-search-box__input {
     height: 100%;
     width: 100%;
