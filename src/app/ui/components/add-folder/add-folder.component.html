@@ -1,6 +1,8 @@
 <div class="add-folder-component" [ngClass]="{ inactive: indexingService.isIndexingCollection }">
-    <app-icon-text-button (click)="addFolderAsync()" icon="las la-plus">{{ 'add-folder' | translate }}</app-icon-text-button>
-    <mat-checkbox class="mt-3" [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
+    <div class="mb-3">
+        <app-icon-text-button (click)="addFolderAsync()" icon="las la-plus">{{ 'add-folder' | translate }}</app-icon-text-button>
+    </div>
+    <mat-checkbox [(ngModel)]="showAllFoldersInCollection" *ngIf="showCheckBoxes">
         {{ 'show-all-folders-in-the-collection' | translate }}</mat-checkbox
     >
     <ul class="mt-1">

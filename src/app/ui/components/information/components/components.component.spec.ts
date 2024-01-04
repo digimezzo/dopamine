@@ -1,11 +1,15 @@
 import { ComponentsComponent } from './components.component';
 import { ExternalComponent } from '../../../../common/application/external-component';
+import { IMock, Mock } from 'typemoq';
+import { DesktopBase } from '../../../../common/io/desktop.base';
 
 describe('ComponentsComponent', () => {
+    let desktopMock: IMock<DesktopBase>;
     let component: ComponentsComponent;
 
     beforeEach(() => {
-        component = new ComponentsComponent();
+        desktopMock = Mock.ofType<DesktopBase>();
+        component = new ComponentsComponent(desktopMock.object);
     });
 
     describe('constructor', () => {
