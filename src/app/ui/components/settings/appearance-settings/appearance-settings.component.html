@@ -12,9 +12,7 @@
             {{ 'use-light-theme' | translate }}</mat-slide-toggle
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'color' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</mat-slide-toggle>
@@ -28,14 +26,10 @@
             'add-more-themes' | translate
         }}</app-icon-text-button>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'title-bar' | translate }}</div>
     <mat-slide-toggle [(ngModel)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</mat-slide-toggle>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'language' | translate }}</div>
     <div>{{ 'choose-language' | translate }}</div>
     <mat-form-field class="mt-2">
@@ -46,9 +40,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'text-size' | translate }}</div>
     <div>{{ 'choose-text-size' | translate }}</div>
     <mat-form-field class="mt-2">
@@ -56,9 +48,7 @@
             <mat-option *ngFor="let fontSize of appearanceService.fontSizes" [value]="fontSize"> {{ fontSize.normalSize }} px </mat-option>
         </mat-select>
     </mat-form-field>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'pages' | translate }}</div>
     <div>{{ 'which-pages-should-be-visible' | translate }}</div>
     <div>
@@ -79,9 +69,7 @@
     <div>
         <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showFoldersPage"> {{ 'folders' | translate }}</mat-slide-toggle>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'audio-visualizer' | translate }}</div>
     <div>
         <mat-slide-toggle class="mt-3" [(ngModel)]="this.audioVisualizerService.showAudioVisualizer">

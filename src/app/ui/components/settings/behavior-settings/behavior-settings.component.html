@@ -5,9 +5,7 @@
             {{ 'enable-multimedia-keys' | translate }}</mat-slide-toggle
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'notification-area' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.showIconInNotificationArea">
@@ -29,9 +27,7 @@
             {{ 'invert-notification-area-icon-color' | translate }}</mat-slide-toggle
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'rating' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.showRating"> {{ 'show-rating' | translate }}</mat-slide-toggle>
@@ -41,16 +37,12 @@
             {{ 'save-rating-to-audio-files' | translate }}</mat-slide-toggle
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'love' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.showLove"> {{ 'show-love' | translate }}</mat-slide-toggle>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'now-playing' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">

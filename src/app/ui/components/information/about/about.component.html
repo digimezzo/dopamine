@@ -9,17 +9,13 @@
     <app-transparent-button class="mt-3" (click)="showLicenseDialog()">
         {{ 'license' | translate }}
     </app-transparent-button>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'donate' | translate }}</div>
     <div>{{ 'donate-instructions' | translate }}</div>
     <app-accent-button class="mt-3" (click)="browseToDonateLinkAsync()">
         {{ 'donate' | translate }}
     </app-accent-button>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'contact-us' | translate }}</div>
     <div class="contact-item mb-2 mt-3">
         <i class="contact-item-icon mr-2 las la-globe"></i>
@@ -33,9 +29,7 @@
         <i class="contact-item-icon mr-2 lab la-github"></i>
         <a href="{{ githubUrl }}" matTooltip="{{ githubUrl }}">GitHub</a>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'thanks' | translate }}</div>
     <div>{{ 'thanks-to-sharlee' | translate }} (<a href="https://www.itssharl.ee/" matTooltip="https://www.itssharl.ee/">Sharlee</a>)</div>
     <div>{{ 'thanks-to-donaters' | translate }}</div>

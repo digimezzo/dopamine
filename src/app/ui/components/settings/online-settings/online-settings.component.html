@@ -8,16 +8,12 @@
             {{ 'also-check-for-pre-releases' | translate }}</mat-slide-toggle
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'discord' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.enableDiscordRichPresence"> {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="d-flex flex-column p-4">
+    <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'last-fm' | translate }}</div>
     <div>
         <mat-slide-toggle [(ngModel)]="this.settings.downloadArtistInformationFromLastFm">
