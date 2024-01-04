@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatPlaybackTimePipe implements PipeTransform {
     public transform(progressSeconds: number | undefined): string {
         if (progressSeconds == undefined || progressSeconds < 0) {
-            return '00:00';
+            return '0:00';
         }
 
         const progressSecondsWithoutMilliseconds: number = Math.floor(progressSeconds);
@@ -17,9 +17,9 @@ export class FormatPlaybackTimePipe implements PipeTransform {
         const seconds: number = progressSecondsWithoutMilliseconds % 60;
 
         if (hours > 0) {
-            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            return `${hours.toString().padStart(1, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        return `${minutes.toString().padStart(1, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 }
