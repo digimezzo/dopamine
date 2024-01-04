@@ -21,10 +21,12 @@
     </div>
     <app-theme-switcher class="mt-3" [ngClass]="{ inactive: appearanceService.followSystemColor }"> </app-theme-switcher>
     <div class="d-flex flex-row mt-3">
-        <app-icon-button class="mr-2" (click)="this.appearanceService.refreshThemes()" icon="las la-sync">{{
+        <app-icon-text-button class="mr-2" (click)="this.appearanceService.refreshThemes()" icon="las la-sync">{{
             'refresh-themes' | translate
-        }}</app-icon-button>
-        <app-icon-button (click)="this.openThemesDirectoryAsync()" icon="las la-plus">{{ 'add-more-themes' | translate }}</app-icon-button>
+        }}</app-icon-text-button>
+        <app-icon-text-button (click)="this.openThemesDirectoryAsync()" icon="las la-plus">{{
+            'add-more-themes' | translate
+        }}</app-icon-text-button>
     </div>
 </div>
 <mat-divider></mat-divider>

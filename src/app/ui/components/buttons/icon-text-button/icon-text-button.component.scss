@@ -1,11 +1,11 @@
-.app-icon-button-wrap {
+.app-icon-text-button-wrap {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.app-icon-button-button {
+.app-icon-text-button-button {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -24,17 +24,17 @@
     font-size: calc(var(--fontsize-normal) * 0.8);
 }
 
-.app-icon-button-button:hover {
+.app-icon-text-button-button:hover {
     background-color: var(--theme-accent-color);
     box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
     color: #fff;
     transform: translateY(-3px);
 }
 
-.app-icon-button-icon {
+.app-icon-text-button-icon {
     color: var(--theme-accent-color);
 }
 
-.app-icon-button-button:hover .app-icon-button-icon {
+.app-icon-text-button-button:hover .app-icon-text-button-icon {
     color: #fff;
 }

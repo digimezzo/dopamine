@@ -1,10 +1,10 @@
-import { IconButtonComponent } from './icon-button.component';
+import { IconTextButtonComponent } from './icon-text-button.component';
 
-describe('IconButtonComponent', () => {
-    let component: IconButtonComponent;
+describe('IconTextButtonComponent', () => {
+    let component: IconTextButtonComponent;
 
     beforeEach(() => {
-        component = new IconButtonComponent();
+        component = new IconTextButtonComponent();
     });
 
     describe('constructor', () => {
