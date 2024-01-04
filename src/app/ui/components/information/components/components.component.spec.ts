@@ -1,6 +1,6 @@
 import { ComponentsComponent } from './components.component';
 import { ExternalComponent } from '../../../../common/application/external-component';
-import { IMock, Mock } from 'typemoq';
+import { IMock, Mock, Times } from 'typemoq';
 import { DesktopBase } from '../../../../common/io/desktop.base';
 
 describe('ComponentsComponent', () => {
@@ -32,6 +32,18 @@ describe('ComponentsComponent', () => {
 
             // Assert
             expect(externalComponents.length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('browseToUrlAsync', () => {
+        it('should browse to given url', async () => {
+            // Arrange
+
+            // Act
+            await component.browseToUrlAsync('myUrl');
+
+            // Assert
+            desktopMock.verify((desktop) => desktop.openLinkAsync('myUrl'), Times.once());
         });
     });
 });
