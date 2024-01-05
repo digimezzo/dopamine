@@ -244,11 +244,9 @@ export class AppearanceService implements AppearanceServiceBase {
         let secondaryColorToApply: string = this.selectedTheme.coreColors.secondaryColor;
         let accentColorToApply: string = this.selectedTheme.coreColors.accentColor;
         let scrollBarColorToApply: string = this.selectedTheme.darkColors.scrollBars;
-        let brightnessToApply: string = '130%';
 
         if (this.isUsingLightTheme) {
             scrollBarColorToApply = this.selectedTheme.lightColors.scrollBars;
-            brightnessToApply = '90%';
         }
 
         if (this.settings.followSystemColor) {
@@ -265,9 +263,6 @@ export class AppearanceService implements AppearanceServiceBase {
         this._accentRgbColor = ColorConverter.stringToRgbColor(accentColorToApply);
 
         const palette: Palette = new Palette(accentColorToApply);
-
-        // Brightness
-        element.style.setProperty('--theme-brightness', brightnessToApply);
 
         // Core colors
         element.style.setProperty('--theme-primary-color', primaryColorToApply);

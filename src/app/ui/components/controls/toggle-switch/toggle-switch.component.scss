@@ -2,7 +2,7 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 40px;
+    width: 32px;
     height: 5px;
 }
 
@@ -22,7 +22,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 40px;
+    width: 32px;
     height: 16px;
 }
 
@@ -46,6 +46,7 @@
     bottom: -6px;
     background-color: var(--theme-slider-thumb-background);
     transition: 0.15s;
+    filter: brightness(0.5);
 }
 
 input:checked + .slider {
@@ -53,7 +54,8 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(24px);
+    transform: translateX(16px);
+    filter: brightness(1);
 }
 
 .slider {
