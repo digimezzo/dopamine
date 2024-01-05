@@ -1,13 +1,13 @@
 <div class="p-4">
     <div class="title">{{ 'automatic-refresh' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="settings.refreshCollectionAutomatically">
-            {{ 'refresh-collection-automatically' | translate }}</mat-slide-toggle
+        <app-toggle-switch [(isChecked)]="settings.refreshCollectionAutomatically">
+            {{ 'refresh-collection-automatically' | translate }}</app-toggle-switch
         >
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.skipRemovedFilesDuringRefresh">
-            {{ 'skip-previously-removed-files' | translate }}</mat-slide-toggle
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.skipRemovedFilesDuringRefresh">
+            {{ 'skip-previously-removed-files' | translate }}</app-toggle-switch
         >
     </div>
     <mat-divider class="my-4"></mat-divider>

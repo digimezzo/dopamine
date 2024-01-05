@@ -43,8 +43,8 @@
             <div class="title">{{ 'artist-information' | translate }}</div>
             <div>{{ 'downloading-of-artist-information-from-lastfm-disabled' | translate }}</div>
             <div class="mt-3">
-                <mat-slide-toggle [(ngModel)]="this.settings.downloadArtistInformationFromLastFm">
-                    {{ 'download-artist-information-from-lastfm' | translate }}</mat-slide-toggle
+                <app-toggle-switch [(isChecked)]="this.settings.downloadArtistInformationFromLastFm">
+                    {{ 'download-artist-information-from-lastfm' | translate }}</app-toggle-switch
                 >
             </div>
         </div>

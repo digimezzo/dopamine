@@ -119,20 +119,6 @@
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
 }
 
-// Slide toggle
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mdc-switch {
-    margin-right: 12px !important;
-}
-
-.mdc-switch__icons {
-    visibility: hidden !important;
-}
-
-.mat-mdc-slide-toggle .mdc-label {
-    font-size: var(--fontsize-normal) !important;
-}
-
 // Snack Bar
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-snackbar__surface {
@@ -141,19 +127,6 @@
 
 .cdk-global-overlay-wrapper > .cdk-overlay-pane {
     margin-top: 50px !important;
-}
-
-// Stepper
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-horizontal-stepper-header-container {
-    display: none !important;
-}
-
-.mat-horizontal-content-container {
-    padding: 0px !important;
-    width: 100% !important;
-
-    overflow-y: auto;
 }
 
 // Tooltip

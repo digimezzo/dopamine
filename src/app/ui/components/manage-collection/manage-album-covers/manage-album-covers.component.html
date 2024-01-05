@@ -1,9 +1,9 @@
 <div class="p-4">
     <div class="title">{{ 'download' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="settings.downloadMissingAlbumCovers">{{
+        <app-toggle-switch [(isChecked)]="settings.downloadMissingAlbumCovers">{{
             'download-missing-album-covers' | translate
-        }}</mat-slide-toggle>
+        }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'refresh' | translate }}</div>

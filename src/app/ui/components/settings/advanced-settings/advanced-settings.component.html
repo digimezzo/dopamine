@@ -1,7 +1,7 @@
 <div class="d-flex flex-column p-4">
     <div class="title">{{ 'welcome-screen' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</app-toggle-switch>
     </div>
     <div class="mt-4">
         <app-transparent-button (click)="this.showWelcomeScreenAsync()">

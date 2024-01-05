@@ -1,21 +1,23 @@
 <div class="p-4">
     <div class="title">{{ 'theme' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="appearanceService.followSystemTheme"> {{ 'follow-system-theme' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="this.appearanceService.followSystemTheme">{{
+            'follow-system-theme' | translate
+        }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle
+        <app-toggle-switch
             class="mt-3"
             [ngClass]="{ inactive: appearanceService.followSystemTheme }"
-            [(ngModel)]="appearanceService.useLightBackgroundTheme"
+            [(isChecked)]="appearanceService.useLightBackgroundTheme"
         >
-            {{ 'use-light-theme' | translate }}</mat-slide-toggle
+            {{ 'use-light-theme' | translate }}</app-toggle-switch
         >
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'color' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="appearanceService.followSystemColor"> {{ 'follow-system-color' | translate }}</app-toggle-switch>
     </div>
     <app-theme-switcher class="mt-3" [ngClass]="{ inactive: appearanceService.followSystemColor }"> </app-theme-switcher>
     <div class="d-flex flex-row mt-3">
@@ -28,7 +30,7 @@
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'title-bar' | translate }}</div>
-    <mat-slide-toggle [(ngModel)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</mat-slide-toggle>
+    <app-toggle-switch [(isChecked)]="settings.useSystemTitleBar"> {{ 'use-system-title-bar' | translate }}</app-toggle-switch>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'language' | translate }}</div>
     <div>{{ 'choose-language' | translate }}</div>
@@ -52,28 +54,28 @@
     <div class="title">{{ 'pages' | translate }}</div>
     <div>{{ 'which-pages-should-be-visible' | translate }}</div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showArtistsPage"> {{ 'artists' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showArtistsPage"> {{ 'artists' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showGenresPage"> {{ 'genres' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showGenresPage"> {{ 'genres' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showAlbumsPage"> {{ 'albums' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showAlbumsPage"> {{ 'albums' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showTracksPage"> {{ 'tracks' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showTracksPage"> {{ 'tracks' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showPlaylistsPage"> {{ 'playlists' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showPlaylistsPage"> {{ 'playlists' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.showFoldersPage"> {{ 'folders' | translate }}</mat-slide-toggle>
+        <app-toggle-switch class="mt-3" [(isChecked)]="settings.showFoldersPage"> {{ 'folders' | translate }}</app-toggle-switch>
     </div>
     <mat-divider class="my-4"></mat-divider>
     <div class="title">{{ 'audio-visualizer' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.audioVisualizerService.showAudioVisualizer">
-            {{ 'show-audio-visualizer' | translate }}</mat-slide-toggle
+        <app-toggle-switch [(isChecked)]="this.audioVisualizerService.showAudioVisualizer">
+            {{ 'show-audio-visualizer' | translate }}</app-toggle-switch
         >
     </div>
     <div [ngClass]="{ inactive: !this.audioVisualizerService.showAudioVisualizer }">

@@ -14,10 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -319,10 +317,11 @@ import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/w
 import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
-import { AccentButtonComponent } from './ui/components/buttons/accent-button/accent-button.component';
-import { TransparentButtonComponent } from './ui/components/buttons/transparent-button/transparent-button.component';
-import { IconTextButtonComponent } from './ui/components/buttons/icon-text-button/icon-text-button.component';
-import { BigIconButtonComponent } from './ui/components/buttons/big-icon-button/big-icon-button.component';
+import { AccentButtonComponent } from './ui/components/controls/accent-button/accent-button.component';
+import { TransparentButtonComponent } from './ui/components/controls/transparent-button/transparent-button.component';
+import { IconTextButtonComponent } from './ui/components/controls/icon-text-button/icon-text-button.component';
+import { BigIconButtonComponent } from './ui/components/controls/big-icon-button/big-icon-button.component';
+import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -470,17 +469,16 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         TransparentButtonComponent,
         IconTextButtonComponent,
         BigIconButtonComponent,
+        ToggleSwitchComponent,
     ],
     imports: [
         BrowserAnimationsModule,
         BrowserModule,
         MatSidenavModule,
         MatProgressSpinnerModule,
-        MatStepperModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatSlideToggleModule,
         MatTooltipModule,
         MatSnackBarModule,
         MatRippleModule,

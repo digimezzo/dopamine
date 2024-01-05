@@ -1,0 +1,8 @@
+<div class="d-flex flex-row align-items-center my-2">
+    <label class="switch mr-3">
+        <input #theCheckBox type="checkbox" [checked]="this.isChecked" (change)="this.onCheckedChanged(theCheckBox.checked)" />
+        <span class="slider"></span>
+        <span class="invisible-background"></span>
+    </label>
+    <ng-content></ng-content>
+</div>
