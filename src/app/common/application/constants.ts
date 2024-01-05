@@ -161,6 +161,12 @@ export class Constants {
             'https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/LICENSE',
         ),
         new ExternalComponent(
+            'Font Awesome Free',
+            "Font Awesome is the Internet's icon library and toolkit, used by millions of designers, developers, and content creators.",
+            'https://github.com/FortAwesome/Font-Awesome',
+            'https://github.com/FortAwesome/Font-Awesome/blob/6.x/LICENSE.txt',
+        ),
+        new ExternalComponent(
             'fs-extra',
             `fs-extra adds file system methods that aren't included in the native fs module and adds promise support to the fs methods.`,
             'https://github.com/jprichardson/node-fs-extra',

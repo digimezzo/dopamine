@@ -4,7 +4,6 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -487,7 +486,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatDialogModule,
         MatMenuModule,
         MatDividerModule,
-        MatCheckboxModule,
         MatSortModule,
         DragDropModule,
         HammerModule,
