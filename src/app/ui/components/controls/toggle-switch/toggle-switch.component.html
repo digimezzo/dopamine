@@ -4,5 +4,7 @@
         <span class="slider"></span>
         <span class="invisible-background"></span>
     </label>
-    <ng-content></ng-content>
+    <div class="inactive-opacity" [ngClass]="{ 'full-opacity': this.isChecked }">
+        <ng-content></ng-content>
+    </div>
 </div>

@@ -65,3 +65,11 @@ input:checked + .slider:before {
 .slider:before {
     border-radius: 50%;
 }
+
+.inactive-opacity {
+    opacity: 0.4;
+}
+
+.full-opacity {
+    opacity: 1;
+}
