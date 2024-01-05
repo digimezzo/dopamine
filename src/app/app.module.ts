@@ -322,6 +322,7 @@ import { TransparentButtonComponent } from './ui/components/controls/transparent
 import { IconTextButtonComponent } from './ui/components/controls/icon-text-button/icon-text-button.component';
 import { BigIconButtonComponent } from './ui/components/controls/big-icon-button/big-icon-button.component';
 import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
+import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -470,6 +471,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         IconTextButtonComponent,
         BigIconButtonComponent,
         ToggleSwitchComponent,
+        IconButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,

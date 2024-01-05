@@ -1,11 +1,7 @@
 <div class="p-4">
     <div class="title">{{ 'about' | translate }}</div>
     <app-logo-full></app-logo-full>
-    <div class="mt-3">
-        {{ 'version' | translate }}:
-        <strong> {{ applicationVersion }}</strong>
-        <br />{{ applicationCopyright }}
-    </div>
+    <div class="mt-3">{{ 'version' | translate }}: {{ applicationVersion }} <br />{{ applicationCopyright }}</div>
     <app-transparent-button class="mt-3" (click)="showLicenseDialog()">
         {{ 'license' | translate }}
     </app-transparent-button>
