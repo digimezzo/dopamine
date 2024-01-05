@@ -34,7 +34,7 @@
     right: 0;
     bottom: 0;
     background-color: var(--theme-slider-background);
-    transition: 0.15s;
+    transition: 0.25s;
 }
 
 .slider:before {
@@ -45,7 +45,7 @@
     left: 0;
     bottom: -6px;
     background-color: var(--theme-slider-thumb-background);
-    transition: 0.15s;
+    transition: 0.25s;
     filter: brightness(0.5);
 }
 

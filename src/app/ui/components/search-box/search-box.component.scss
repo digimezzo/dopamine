@@ -8,9 +8,11 @@
     border-radius: 15px;
     padding: 0 8px;
     border: 1px solid transparent;
+    transition: all 0.25s ease 0s;
 }
 
 .app-search-box-highlight {
+    transition: all 0.15s ease 0s;
     border: 1px solid var(--theme-accent-color);
     box-shadow: 0 0 5px var(--theme-accent-color);
 }
