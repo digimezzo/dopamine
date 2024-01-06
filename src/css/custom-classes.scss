@@ -139,5 +139,13 @@
 
 .larger {
     font-weight: lighter !important;
-    font-size: calc(var(--fontsize-normal) * 1.15) !important;
+    font-size: calc(var(--fontsize-normal) * 1.7) !important;
+}
+
+.smaller {
+    font-size: calc(var(--fontsize-normal) * 0.9) !important;
+}
+
+.lighter {
+    font-weight: lighter !important;
 }
