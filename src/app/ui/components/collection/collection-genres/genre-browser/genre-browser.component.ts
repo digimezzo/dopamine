@@ -180,7 +180,7 @@ export class GenreBrowserComponent implements OnInit, OnDestroy {
         this.shouldZoomOut = false;
         await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
 
-        const selectedIndex = this._genres.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
+        const selectedIndex = this.orderedGenres.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');
