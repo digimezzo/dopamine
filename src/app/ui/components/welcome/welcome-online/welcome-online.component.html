@@ -1,18 +1,14 @@
 <div class="d-flex flex-column p-3">
-    <h1 class="mb-2">
+    <div class="title">
         {{ 'online' | translate }}
-    </h1>
-    <h3>
+    </div>
+    <div class="larger">
         {{ 'online-preferences' | translate }}
-    </h3>
-    <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.downloadMissingAlbumCovers">
-            {{ 'download-missing-album-covers' | translate }}</mat-slide-toggle
-        >
     </div>
-    <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="settings.enableDiscordRichPresence">
-            {{ 'enable-discord-rich-presence' | translate }}</mat-slide-toggle
-        >
-    </div>
+    <app-toggle-switch class="mt-3" [(isChecked)]="settings.downloadMissingAlbumCovers">
+        {{ 'download-missing-album-covers' | translate }}</app-toggle-switch
+    >
+    <app-toggle-switch [(isChecked)]="settings.enableDiscordRichPresence">
+        {{ 'enable-discord-rich-presence' | translate }}</app-toggle-switch
+    >
 </div>

@@ -8,94 +8,94 @@ describe('FormatPlaybackTimePipe', () => {
     });
 
     describe('transform', () => {
-        it('should return 00:00 when progress seconds is undefined', () => {
+        it('should return 0:00 when progress seconds is undefined', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(undefined);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:00');
+            expect(formattedPlaybackTime).toEqual('0:00');
         });
 
-        it('should return 00:00 when progress seconds is 0 seconds', () => {
+        it('should return 0:00 when progress seconds is 0 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(0);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:00');
+            expect(formattedPlaybackTime).toEqual('0:00');
         });
 
-        it('should return 00:00 when progress seconds is -6 seconds', () => {
+        it('should return 0:00 when progress seconds is -6 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(-6);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:00');
+            expect(formattedPlaybackTime).toEqual('0:00');
         });
 
-        it('should return 00:08 when progress seconds is 8.1 seconds', () => {
+        it('should return 0:08 when progress seconds is 8.1 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(8.1);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:08');
+            expect(formattedPlaybackTime).toEqual('0:08');
         });
 
-        it('should return 00:09 when progress seconds is 9.4 seconds', () => {
+        it('should return 0:09 when progress seconds is 9.4 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(9.4);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:09');
+            expect(formattedPlaybackTime).toEqual('0:09');
         });
 
-        it('should return 00:14 when progress seconds is 14.6 seconds', () => {
+        it('should return 0:14 when progress seconds is 14.6 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(14.6);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:14');
+            expect(formattedPlaybackTime).toEqual('0:14');
         });
 
-        it('should return 00:58 when progress seconds is 58.9 seconds', () => {
+        it('should return 0:58 when progress seconds is 58.9 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(58.9);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:58');
+            expect(formattedPlaybackTime).toEqual('0:58');
         });
 
-        it('should return "00:59" if progress seconds is 59000 seconds', () => {
+        it('should return "0:59" if progress seconds is 59000 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(59);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('00:59');
+            expect(formattedPlaybackTime).toEqual('0:59');
         });
 
-        it('should return "01:00" if progress seconds is 60 seconds', () => {
+        it('should return "1:00" if progress seconds is 60 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(60);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('01:00');
+            expect(formattedPlaybackTime).toEqual('1:00');
         });
 
         it('should return "59:59" if progress seconds is 3599 seconds', () => {
@@ -108,14 +108,14 @@ describe('FormatPlaybackTimePipe', () => {
             expect(formattedPlaybackTime).toEqual('59:59');
         });
 
-        it('should return "01:00:00" if progress seconds is 3600 seconds', () => {
+        it('should return "1:00:00" if progress seconds is 3600 seconds', () => {
             // Arrange
 
             // Act
             const formattedPlaybackTime: string = formatPlaybackTimePipe.transform(3600);
 
             // Assert
-            expect(formattedPlaybackTime).toEqual('01:00:00');
+            expect(formattedPlaybackTime).toEqual('1:00:00');
         });
 
         it('should return "15:27:42" if progress seconds is 55662 seconds', () => {

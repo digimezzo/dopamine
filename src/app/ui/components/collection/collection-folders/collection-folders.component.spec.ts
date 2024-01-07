@@ -140,7 +140,7 @@ describe('CollectionFoldersComponent', () => {
         subfolder2 = new SubfolderModel('/home/user/Music/subfolder2', false);
         subfolders = [subfolder1, subfolder2];
         folderServiceMock.setup((x) => x.getSubfoldersAsync(It.isAny(), It.isAny())).returns(() => Promise.resolve(subfolders));
-        folderServiceMock.setup((x) => x.getSubfolderBreadCrumbs(It.isAny(), It.isAny())).returns(() => subfolders);
+        folderServiceMock.setup((x) => x.getSubfolderBreadcrumbs(It.isAny(), It.isAny())).returns(() => subfolders);
 
         foldersPersisterMock.setup((x) => x.getOpenedFolder(It.isAny())).returns(() => folder1);
         foldersPersisterMock.setup((x) => x.getOpenedSubfolder()).returns(() => subfolder1);
@@ -232,14 +232,14 @@ describe('CollectionFoldersComponent', () => {
             expect(component.subfolders).toBeDefined();
         });
 
-        it('should define subfolderBreadCrumbs', () => {
+        it('should define subfolderBreadcrumbs', () => {
             // Arrange
 
             // Act
             const component: CollectionFoldersComponent = createComponent();
 
             // Assert
-            expect(component.subfolderBreadCrumbs).toBeDefined();
+            expect(component.subfolderBreadcrumbs).toBeDefined();
         });
 
         it('should define tracks', () => {
@@ -382,7 +382,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, folder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, folder1.path), Times.exactly(1));
         });
 
         it('should get breadcrumbs for the opened folder if there are subfolders but none is go to parent', async () => {
@@ -400,7 +400,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, folder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, folder1.path), Times.exactly(1));
         });
 
         it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
@@ -411,7 +411,7 @@ describe('CollectionFoldersComponent', () => {
             await component.ngOnInit();
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, subfolder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, subfolder1.path), Times.exactly(1));
         });
 
         it('should get tracks for the opened folder if there are no subfolders', async () => {
@@ -684,7 +684,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setOpenedSubfolderAsync(subfolder1);
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, folder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, folder1.path), Times.exactly(1));
         });
 
         it('should get breadcrumbs for the opened folder if there are subfolders but none is go to parent', async () => {
@@ -703,7 +703,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setOpenedSubfolderAsync(subfolder1);
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, folder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, folder1.path), Times.exactly(1));
         });
 
         it('should get breadcrumbs for the first go to parent subfolder if there are subfolders and at least one is go to parent', async () => {
@@ -718,7 +718,7 @@ describe('CollectionFoldersComponent', () => {
             await component.setOpenedSubfolderAsync(subfolder1);
 
             // Assert
-            folderServiceMock.verify((x) => x.getSubfolderBreadCrumbs(folder1, subfolder1.path), Times.exactly(1));
+            folderServiceMock.verify((x) => x.getSubfolderBreadcrumbs(folder1, subfolder1.path), Times.exactly(1));
         });
 
         it('should get tracks for the opened folder if there are no subfolders', async () => {

@@ -12,7 +12,7 @@ export abstract class FolderServiceBase {
         rootFolder: FolderModel | undefined,
         subfolder: SubfolderModel | undefined,
     ): Promise<SubfolderModel[]>;
-    public abstract getSubfolderBreadCrumbs(rootFolder: FolderModel, subfolderPath: string): SubfolderModel[];
+    public abstract getSubfolderBreadcrumbs(rootFolder: FolderModel, subfolderPath: string): SubfolderModel[];
     public abstract deleteFolder(folder: FolderModel): void;
     public abstract setFolderVisibility(folder: FolderModel): void;
     public abstract setAllFoldersVisible(): void;

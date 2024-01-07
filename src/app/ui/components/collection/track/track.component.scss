@@ -1,18 +1,3 @@
-.app-track {
-    display: flex;
-    flex-direction: column;
-}
-
-.app-track__header {
-    display: flex;
-    flex-direction: column;
-}
-
-.app-track__header__top {
-    font-weight: lighter !important;
-    font-size: var(--fontsize-large);
-}
-
 .app-track__body {
     display: flex;
     flex-direction: row;
@@ -30,7 +15,6 @@
     height: 46px;
     align-items: center;
     justify-content: center;
-    font-size: var(--fontsize-medium);
 }
 
 .app-track__right {
@@ -46,7 +30,7 @@
     flex-direction: row;
     height: 23px;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .app-track__bottom {
@@ -63,3 +47,11 @@
     align-items: center;
     justify-content: center;
 }
+
+//.app-track__rating {
+//    height: 23px;
+//}
+//
+//.app-track__love {
+//    height: 23px;
+//}

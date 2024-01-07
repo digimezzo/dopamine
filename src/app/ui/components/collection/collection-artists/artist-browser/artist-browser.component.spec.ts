@@ -131,6 +131,8 @@ describe('ArtistBrowserComponent', () => {
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist2]);
         artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
+
+        semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders(It.isAny())).returns(() => [artist2, artist1]);
     });
 
     describe('constructor', () => {
@@ -282,9 +284,10 @@ describe('ArtistBrowserComponent', () => {
 
         it('should scroll to zoom header when zoom in is requested', async () => {
             // Arrange
-            const component: ArtistBrowserComponent = createComponent();
+            const component: ArtistBrowserComponent = createComponentWithSemanticZoomAdderMock();
             artist1.isZoomHeader = true;
             artist2.isZoomHeader = true;
+            component.artistsPersister = artistsPersisterMock.object;
             component.artists = [artist1, artist2];
             component.shouldZoomOut = true;
 
@@ -300,7 +303,7 @@ describe('ArtistBrowserComponent', () => {
             expect(component.shouldZoomOut).toBeFalsy();
             schedulerMock.verify((x) => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
 
-            expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(0);
             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
         });
 

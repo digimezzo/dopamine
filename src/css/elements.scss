@@ -7,7 +7,7 @@
     border: 0;
     outline: none; // Removes yellow outline on elements
     -webkit-font-smoothing: subpixel-antialiased;
-    font-size: var(--fontsize-normal);
+    font-size: var(--fontsize);
     color: var(--theme-primary-text);
 }
 
@@ -29,23 +29,6 @@ body {
 
 body {
     overflow-y: hidden;
-}
-
-h1 {
-    color: var(--theme-accent-color);
-    font-weight: lighter !important;
-    font-size: var(--fontsize-mega) !important;
-}
-
-h2 {
-    color: var(--theme-accent-color);
-    font-weight: lighter !important;
-    font-size: var(--fontsize-extra-large) !important;
-}
-
-h3 {
-    font-weight: lighter !important;
-    font-size: var(--fontsize-medium) !important;
 }
 
 a {

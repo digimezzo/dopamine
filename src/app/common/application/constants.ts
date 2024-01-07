@@ -1,5 +1,4 @@
 import { ExternalComponent } from './external-component';
-import { FontSize } from './font-size';
 import { Language } from './language';
 
 export class Constants {
@@ -43,7 +42,7 @@ export class Constants {
     public static readonly semanticZoomOutDelayMilliseconds: number = 100;
     public static readonly playbackInfoSwitchAnimationMilliseconds: number = 250;
 
-    public static readonly fontSizes: FontSize[] = [new FontSize(12), new FontSize(13), new FontSize(14), new FontSize(15)];
+    public static readonly fontSizes: number[] = [12, 13, 14, 15];
 
     public static readonly cachedCoverArtMaximumSize: number = 360;
     public static readonly cachedCoverArtJpegQuality: number = 80;
@@ -159,6 +158,12 @@ export class Constants {
             'Validate XML, Parse XML to JS Object, or Build XML from JS Object without C/C++ based libraries and no callback.',
             'https://github.com/NaturalIntelligence/fast-xml-parser',
             'https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/LICENSE',
+        ),
+        new ExternalComponent(
+            'Font Awesome Free',
+            "Font Awesome is the Internet's icon library and toolkit, used by millions of designers, developers, and content creators.",
+            'https://github.com/FortAwesome/Font-Awesome',
+            'https://github.com/FortAwesome/Font-Awesome/blob/6.x/LICENSE.txt',
         ),
         new ExternalComponent(
             'fs-extra',

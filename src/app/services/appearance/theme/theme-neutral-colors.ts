@@ -11,7 +11,6 @@ export class ThemeNeutralColors {
         public sidePaneBackground: string,
         public primaryText: string,
         public secondaryText: string,
-        public breadcrumbBackground: string,
         public sliderBackground: string,
         public sliderThumbBackground: string,
         public albumCoverLogo: string,
@@ -27,6 +26,7 @@ export class ThemeNeutralColors {
         public primaryButtonText: string,
         public secondaryButtonBackground: string,
         public secondaryButtonText: string,
-        public tooltipText: string
+        public tooltipText: string,
+        public buttonBorder: string,
     ) {}
 }

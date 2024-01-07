@@ -71,7 +71,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     public openedFolder: FolderModel;
     public subfolders: SubfolderModel[] = [];
     public selectedSubfolder: SubfolderModel | undefined;
-    public subfolderBreadCrumbs: SubfolderModel[] = [];
+    public subfolderBreadcrumbs: SubfolderModel[] = [];
     public tracks: TrackModels = new TrackModels();
 
     public ngOnDestroy(): void {
@@ -130,7 +130,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
 
             this.foldersPersister.setOpenedSubfolder(new SubfolderModel(openedSubfolderPath, false));
 
-            this.subfolderBreadCrumbs = this.folderService.getSubfolderBreadCrumbs(this.openedFolder, openedSubfolderPath);
+            this.subfolderBreadcrumbs = this.folderService.getSubfolderBreadcrumbs(this.openedFolder, openedSubfolderPath);
             this.tracks = await this.trackService.getTracksInSubfolderAsync(openedSubfolderPath);
             this.mouseSelectionWatcher.initialize(this.tracks.tracks, false);
 
@@ -185,7 +185,7 @@ export class CollectionFoldersComponent implements OnInit, OnDestroy {
     private clearLists(): void {
         this.folders = [];
         this.subfolders = [];
-        this.subfolderBreadCrumbs = [];
+        this.subfolderBreadcrumbs = [];
         this.tracks = new TrackModels();
     }
 

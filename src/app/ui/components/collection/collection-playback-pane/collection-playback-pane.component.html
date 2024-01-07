@@ -6,15 +6,15 @@
         <div class="app-collection-playback-pane-controls__left">
             <app-playback-cover-art
                 class="pointer"
-                [size]="70"
+                [size]="75"
                 (click)="this.showNowPlayingAsync()"
                 matTooltip="{{ 'now-playing' | translate }}"
             ></app-playback-cover-art
             ><app-playback-information
                 class="app-collection-playback-pane-controls__playbackinformation ml-2"
-                [height]="70"
-                [largeFontSize]="this.appearanceService.selectedFontSize.normalSize"
-                [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
+                [height]="75"
+                [largeFontSize]="this.appearanceService.selectedFontSize"
+                [smallFontSize]="this.appearanceService.selectedFontSize"
                 position="center"
                 [showRating]="this.settings.showRating"
                 [showLove]="this.settings.showLove"
@@ -26,12 +26,12 @@
         <div class="app-collection-playback-pane-controls__right">
             <app-playback-time class="mr-4"></app-playback-time>
             <i
-                class="app-collection__playbackqueue las la-music pointer mr-2"
+                class="app-collection-playback-pane-controls__buttons las la-music pointer mr-2"
                 (click)="this.showNowPlayingAsync()"
                 matTooltip="{{ 'now-playing' | translate }}"
             ></i>
             <i
-                class="app-collection__playbackqueue las la-tasks pointer mr-4"
+                class="app-collection-playback-pane-controls__buttons las la-tasks pointer mr-4"
                 (click)="this.showPlaybackQueue()"
                 matTooltip="{{ 'playback-queue' | translate }}"
             ></i>

@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
-import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { PlaybackInformation } from '../../../../services/playback-information/playback-information';
 import { MockCreator } from '../../../../testing/mock-creator';
 import { TrackModel } from '../../../../services/track/track-model';
@@ -15,7 +14,6 @@ describe('NowPlayingLyricsComponent', () => {
     let appearanceServiceMock: IMock<AppearanceServiceBase>;
     let playbackInformationServiceMock: IMock<PlaybackInformationServiceBase>;
     let lyricsServiceMock: IMock<LyricsServiceBase>;
-    let schedulerMock: IMock<SchedulerBase>;
 
     let playbackInformationService_playingNextTrack_Mock: Subject<PlaybackInformation>;
     let playbackInformationService_playingPreviousTrack_Mock: Subject<PlaybackInformation>;
@@ -27,7 +25,6 @@ describe('NowPlayingLyricsComponent', () => {
         appearanceServiceMock = Mock.ofType<AppearanceServiceBase>();
         playbackInformationServiceMock = Mock.ofType<PlaybackInformationServiceBase>();
         lyricsServiceMock = Mock.ofType<LyricsServiceBase>();
-        schedulerMock = Mock.ofType<SchedulerBase>();
 
         playbackInformationService_playingNextTrack_Mock = new Subject();
         playbackInformationService_playingPreviousTrack_Mock = new Subject();
@@ -48,12 +45,7 @@ describe('NowPlayingLyricsComponent', () => {
     });
 
     function createComponent(): NowPlayingLyricsComponent {
-        return new NowPlayingLyricsComponent(
-            appearanceServiceMock.object,
-            playbackInformationServiceMock.object,
-            lyricsServiceMock.object,
-            schedulerMock.object,
-        );
+        return new NowPlayingLyricsComponent(appearanceServiceMock.object, playbackInformationServiceMock.object, lyricsServiceMock.object);
     }
 
     describe('constructor', () => {
@@ -65,16 +57,6 @@ describe('NowPlayingLyricsComponent', () => {
             expect(component).toBeDefined();
         });
 
-        it('should define appearanceService', () => {
-            // Arrange
-
-            // Act
-            const component: NowPlayingLyricsComponent = createComponent();
-
-            // Assert
-            expect(component.appearanceService).toBeDefined();
-        });
-
         it('should define lyricsSourceTypeEnum', () => {
             // Arrange
 
@@ -83,6 +65,28 @@ describe('NowPlayingLyricsComponent', () => {
 
             // Assert
             expect(component.lyricsSourceTypeEnum).toBeDefined();
+        });
+    });
+
+    describe('largeFontSize', () => {
+        it('should be selected font size times 1.7', () => {
+            // Arrange, Act
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
+            const component: NowPlayingLyricsComponent = createComponent();
+
+            // Assert
+            expect(component.largeFontSize).toBeCloseTo(22.1, 1);
+        });
+    });
+
+    describe('smallFontSize', () => {
+        it('should be selected font size', () => {
+            // Arrange, Act
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
+            const component: NowPlayingLyricsComponent = createComponent();
+
+            // Assert
+            expect(component.smallFontSize).toEqual(13);
         });
     });
 

@@ -1,6 +1,11 @@
 <div class="app-album">
     <div class="app-album-content">
-        <div class="app-album__year mt-2 mb-1" *ngIf="this.album.showYear">{{ album.yearHeader }}</div>
+        <div class="app-album__year-wrapper" *ngIf="this.album.showYear" [ngClass]="{ hidden: !album.yearHeader }">
+            <div class="app-album__year my-2">
+                {{ album.yearHeader }}
+            </div>
+        </div>
+
         <div class="app-album-border" [ngClass]="{ 'selected-item-background-important': this.isSelected }" matRipple>
             <div class="app-album__cover">
                 <div class="app-album__cover__placeholder">
@@ -18,7 +23,7 @@
                 <div class="app-album__information__line1 ellipsis" matTooltip="{{ album.albumTitle }}">
                     {{ album.albumTitle }}
                 </div>
-                <div class="app-album__information__line2 ellipsis secondary-text" matTooltip="{{ album.albumArtist }}">
+                <div class="app-album__information__line2 ellipsis secondary-text smaller" matTooltip="{{ album.albumArtist }}">
                     {{ album.albumArtist }}
                 </div>
             </div>

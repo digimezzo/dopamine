@@ -4,9 +4,6 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -16,10 +13,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -306,7 +301,6 @@ import { AudioVisualizer } from './services/playback/audio-visualizer';
 import { AudioVisualizerServiceBase } from './services/audio-visualizer/audio-visualizer.service.base';
 import { AudioVisualizerService } from './services/audio-visualizer/audio-visualizer.service';
 import { NowPlayingNothingPlayingComponent } from './ui/components/now-playing/now-playing-nothing-playing/now-playing-nothing-playing.component';
-import { LinkButtonComponent } from './ui/components/link-button/link-button.component';
 import { OnlineArtistImageGetter } from './services/artist-information/online-artist-image-getter';
 import { SubMenuComponent } from './ui/components/sub-menu/sub-menu.component';
 import { SubMenuItemComponent } from './ui/components/sub-menu/sub-menu-item/sub-menu-item.component';
@@ -322,6 +316,12 @@ import { WelcomeOnlineComponent } from './ui/components/welcome/welcome-online/w
 import { WelcomeDonateComponent } from './ui/components/welcome/welcome-donate/welcome-donate.component';
 import { WelcomeDoneComponent } from './ui/components/welcome/welcome-done/welcome-done.component';
 import { WelcomeNavigationButtonsComponent } from './ui/components/welcome/welcome-navigation-buttons/welcome-navigation-buttons';
+import { AccentButtonComponent } from './ui/components/controls/accent-button/accent-button.component';
+import { TransparentButtonComponent } from './ui/components/controls/transparent-button/transparent-button.component';
+import { IconTextButtonComponent } from './ui/components/controls/icon-text-button/icon-text-button.component';
+import { BigIconButtonComponent } from './ui/components/controls/big-icon-button/big-icon-button.component';
+import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
+import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -453,7 +453,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         NowPlayingLyricsComponent,
         SimilarArtistComponent,
         NowPlayingNothingPlayingComponent,
-        LinkButtonComponent,
         SubMenuComponent,
         SubMenuItemComponent,
         MetroPageContainerComponent,
@@ -466,26 +465,27 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         WelcomeDonateComponent,
         WelcomeDoneComponent,
         WelcomeNavigationButtonsComponent,
+        AccentButtonComponent,
+        TransparentButtonComponent,
+        IconTextButtonComponent,
+        BigIconButtonComponent,
+        ToggleSwitchComponent,
+        IconButtonComponent,
     ],
     imports: [
         BrowserAnimationsModule,
         BrowserModule,
         MatSidenavModule,
         MatProgressSpinnerModule,
-        MatStepperModule,
         MatFormFieldModule,
         MatInputModule,
-        MatButtonModule,
         MatSelectModule,
-        MatSlideToggleModule,
         MatTooltipModule,
         MatSnackBarModule,
         MatRippleModule,
         MatDialogModule,
         MatMenuModule,
         MatDividerModule,
-        MatCheckboxModule,
-        MatChipsModule,
         MatSortModule,
         DragDropModule,
         HammerModule,

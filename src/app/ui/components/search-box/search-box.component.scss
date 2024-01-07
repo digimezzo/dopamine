@@ -1,10 +1,20 @@
 .app-search-box {
-    height: 100%;
-    width: 100%;
     position: relative;
     background-color: var(--theme-search-box);
     display: flex;
     flex-direction: row;
+    width: 170px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 0 8px;
+    border: 1px solid transparent;
+    transition: all 0.25s ease 0s;
+}
+
+.app-search-box-highlight {
+    transition: all 0.15s ease 0s;
+    border: 1px solid var(--theme-accent-color);
+    box-shadow: 0 0 5px var(--theme-accent-color);
 }
 
 .app-search-box__input {

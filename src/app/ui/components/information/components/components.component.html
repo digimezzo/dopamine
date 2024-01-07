@@ -1,15 +1,21 @@
 <div class="p-4">
-    <h2>{{ 'components' | translate }}</h2>
-    <div class="mb-3" *ngFor="let externalComponent of externalComponents">
-        <strong>{{ externalComponent.name }}</strong
-        ><br />
-        {{ externalComponent.description }}<br />
-        <a href="{{ externalComponent.url }}">{{ 'website' | translate }}</a>
-        <a
-            *ngIf="externalComponent.licenseUrl != undefined && externalComponent.licenseUrl != ''"
-            class="ml-2"
-            href="{{ externalComponent.licenseUrl }}"
-            >{{ 'license' | translate }}</a
-        >
+    <div class="title">{{ 'components' | translate }}</div>
+    <div class="d-flex flex-column" *ngFor="let externalComponent of externalComponents">
+        <div class="component__name mb-2">
+            {{ externalComponent.name }}
+        </div>
+        {{ externalComponent.description }}
+        <div class="d-flex flex-row mt-3">
+            <app-transparent-button class="mr-2" (click)="this.browseToUrlAsync(externalComponent.url)">{{
+                'website' | translate
+            }}</app-transparent-button>
+            <app-transparent-button
+                *ngIf="externalComponent.licenseUrl != undefined && externalComponent.licenseUrl != ''"
+                (click)="this.browseToUrlAsync(externalComponent.licenseUrl)"
+                >{{ 'license' | translate }}</app-transparent-button
+            >
+        </div>
+
+        <mat-divider class="my-4"></mat-divider>
     </div>
 </div>

@@ -22,7 +22,7 @@
                             </button>
                         </mat-menu>
                     </div>
-                    <cdk-virtual-scroll-viewport *ngIf="folders.length > 0" class="mt-3 folder-browser__list" itemSize="28">
+                    <cdk-virtual-scroll-viewport *ngIf="folders.length > 0" class="mt-3 folder-browser__list" itemSize="30">
                         <div
                             *cdkVirtualFor="let subfolder of subfolders | subfoldersFilter: this.searchService.delayedSearchText"
                             matRipple
@@ -34,7 +34,7 @@
                                 class="subfolder d-flex flex-row align-items-center flex-grow p-1"
                                 [ngClass]="{ 'selected-item-background-important': subfolder === selectedSubfolder }"
                             >
-                                <i *ngIf="!subfolder.isPlaying" class="font-20px rotate-90ccw mr-2 lar la-folder accent-color"></i>
+                                <i *ngIf="!subfolder.isPlaying" class="font-18px rotate-90ccw mr-2 lar la-folder accent-color"></i>
                                 <app-playback-indicator
                                     *ngIf="subfolder.isPlaying"
                                     class="ml-1 mr-2"
@@ -56,24 +56,24 @@
                         *ngIf="!this.folderService.collectionHasFolders"
                     >
                         {{ 'no-folders-in-collection' | translate }}
-                        <button class="mt-3" mat-raised-button color="primary" (click)="goToManageCollectionAsync()">
+                        <app-accent-button class="mt-3" (click)="goToManageCollectionAsync()">
                             {{ 'add-folder' | translate }}
-                        </button>
+                        </app-accent-button>
                     </div>
                 </div>
             </div>
         </as-split-area>
         <as-split-area [size]="rightPaneSize" minSize="5" maxSize="95">
             <div class="h-100 d-flex flex-column p-3">
-                <mat-chip-listbox class="d-flex flex-row flex-wrap mb-3">
-                    <mat-chip-option
-                        class="tracks-browser__breadcrumb"
-                        *ngFor="let subfolderBreadCrumb of subfolderBreadCrumbs"
-                        (click)="setOpenedSubfolderAsync(subfolderBreadCrumb)"
+                <div class="d-flex flex-row flex-wrap mb-3">
+                    <app-transparent-button
+                        class="mr-2 mb-2"
+                        *ngFor="let subfolderBreadcrumb of subfolderBreadcrumbs"
+                        (click)="setOpenedSubfolderAsync(subfolderBreadcrumb)"
                     >
-                        {{ subfolderBreadCrumb | subfolderName }}
-                    </mat-chip-option>
-                </mat-chip-listbox>
+                        {{ subfolderBreadcrumb | subfolderName }}
+                    </app-transparent-button>
+                </div>
                 <app-track-browser
                     class="fill"
                     [tracks]="this.tracks | tracksFilter: this.searchService.delayedSearchText"

@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TrackModel } from '../../../services/track/track-model';
 import { AppearanceServiceBase } from '../../../services/appearance/appearance.service.base';
 import { ScrobblingServiceBase } from '../../../services/scrobbling/scrobbling.service.base';
@@ -8,10 +8,9 @@ import { TranslatorServiceBase } from '../../../services/translator/translator.s
 
 @Component({
     selector: 'app-love',
-    host: { style: 'display: block' },
+    host: { style: 'display: flex; align-items: center' },
     templateUrl: './love.component.html',
     styleUrls: ['./love.component.scss'],
-    encapsulation: ViewEncapsulation.None,
 })
 export class LoveComponent {
     private _track: TrackModel;
@@ -24,12 +23,8 @@ export class LoveComponent {
         private translatorService: TranslatorServiceBase,
     ) {}
 
-    public get largerFontSize(): number {
-        return this.fontSize + 4;
-    }
-
     @Input()
-    public fontSize: number = this.appearanceService.selectedFontSize.normalSize;
+    public fontSize: number = this.appearanceService.selectedFontSize;
 
     @Input()
     public lineHeight: number = 1;
@@ -41,6 +36,17 @@ export class LoveComponent {
 
     public get track(): TrackModel {
         return this._track;
+    }
+
+    public get loveClasses(): string {
+        switch (this._track.love) {
+            case 1:
+                return 'fas fa-heart accent-color-important';
+            case -1:
+                return 'fas fa-heart-crack accent-color-important';
+            default:
+                return 'far fa-heart secondary-text';
+        }
     }
 
     public async toggleLoveAsync(): Promise<void> {

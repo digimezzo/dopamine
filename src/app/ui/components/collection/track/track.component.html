@@ -1,6 +1,6 @@
-<div class="app-track">
-    <div class="app-track__header mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
-        <div class="app-track__header__top pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
+<div class="d-flex flex-column">
+    <div class="d-flex flex-column mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
+        <div class="largest pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
         <div class="secondary-text ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
             {{ track.albumTitle }}
         </div>
@@ -19,7 +19,7 @@
         [matRippleTrigger]="trigger"
         #trigger
     >
-        <div class="app-track__left accent-color">
+        <div class="app-track__left secondary-text">
             {{ track.number | formatTrackNumber }}
         </div>
         <div class="app-track__right">
@@ -33,11 +33,11 @@
                 </div>
             </div>
             <div class="app-track__bottom">
-                <span class="ellipsis secondary-text">{{ track.artists }}</span>
+                <span class="ellipsis secondary-text smaller">{{ track.artists }}</span>
                 <span></span>
-                <div class="d-flex flex-row align-items-center">
-                    <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
-                    <app-love [track]="track" class="ml-2" *ngIf="this.settings.showLove"></app-love>
+                <div class="d-flex flex-row align-items-center justify-content-center red">
+                    <app-rating class="app-track__rating" [track]="track" *ngIf="this.settings.showRating"></app-rating>
+                    <app-love class="app-track__love ml-2" [track]="track" *ngIf="this.settings.showLove"></app-love>
                 </div>
             </div>
         </div>

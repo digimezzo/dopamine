@@ -363,7 +363,7 @@ describe('FolderService', () => {
         });
     });
 
-    describe('getSubfolderBreadCrumbs', () => {
+    describe('getSubfolderBreadcrumbs', () => {
         it('should always contain the root folder in first position', () => {
             // Arrange
             const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
@@ -372,10 +372,10 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = service.getSubfolderBreadCrumbs(rootFolder, '/home/user/Music/subfolder1');
+            const subfolderBreadcrumbs: SubfolderModel[] = service.getSubfolderBreadcrumbs(rootFolder, '/home/user/Music/subfolder1');
 
             // Assert
-            expect(subfolderBreadCrumbs[0].path).toEqual(rootFolder.path);
+            expect(subfolderBreadcrumbs[0].path).toEqual(rootFolder.path);
         });
 
         it('should only contain the root folder if the subfolder path is the root folder path', () => {
@@ -383,11 +383,11 @@ describe('FolderService', () => {
             const rootFolder: FolderModel = new FolderModel(new Folder('/home/user/Music'));
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = service.getSubfolderBreadCrumbs(rootFolder, rootFolder.path);
+            const subfolderBreadcrumbs: SubfolderModel[] = service.getSubfolderBreadcrumbs(rootFolder, rootFolder.path);
 
             // Assert
-            expect(subfolderBreadCrumbs.length).toEqual(1);
-            expect(subfolderBreadCrumbs[0].path).toEqual(rootFolder.path);
+            expect(subfolderBreadcrumbs.length).toEqual(1);
+            expect(subfolderBreadcrumbs[0].path).toEqual(rootFolder.path);
         });
 
         it('should contain subdirectories of the root folder until the given subfolder path included', () => {
@@ -405,17 +405,17 @@ describe('FolderService', () => {
             fileAccessMock.setup((x) => x.getDirectoryPath('/home/user/Music/subfolder1')).returns(() => '/home/user/Music');
 
             // Act
-            const subfolderBreadCrumbs: SubfolderModel[] = service.getSubfolderBreadCrumbs(
+            const subfolderBreadcrumbs: SubfolderModel[] = service.getSubfolderBreadcrumbs(
                 rootFolder,
                 '/home/user/Music/subfolder1/subfolder2/subfolder3',
             );
 
             // Assert
-            expect(subfolderBreadCrumbs.length).toEqual(4);
-            expect(subfolderBreadCrumbs[0].path).toEqual('/home/user/Music');
-            expect(subfolderBreadCrumbs[1].path).toEqual('/home/user/Music/subfolder1');
-            expect(subfolderBreadCrumbs[2].path).toEqual('/home/user/Music/subfolder1/subfolder2');
-            expect(subfolderBreadCrumbs[3].path).toEqual('/home/user/Music/subfolder1/subfolder2/subfolder3');
+            expect(subfolderBreadcrumbs.length).toEqual(4);
+            expect(subfolderBreadcrumbs[0].path).toEqual('/home/user/Music');
+            expect(subfolderBreadcrumbs[1].path).toEqual('/home/user/Music/subfolder1');
+            expect(subfolderBreadcrumbs[2].path).toEqual('/home/user/Music/subfolder1/subfolder2');
+            expect(subfolderBreadcrumbs[3].path).toEqual('/home/user/Music/subfolder1/subfolder2/subfolder3');
         });
     });
 

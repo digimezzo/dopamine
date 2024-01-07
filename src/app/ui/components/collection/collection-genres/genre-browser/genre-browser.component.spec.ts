@@ -131,6 +131,8 @@ describe('GenreBrowserComponent', () => {
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
         genresPersisterMock.setup((x) => x.getSelectedGenres([genre1, genre2])).returns(() => [genre2]);
         genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
+
+        semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders(It.isAny())).returns(() => [genre2, genre1]);
     });
 
     describe('constructor', () => {
@@ -262,9 +264,10 @@ describe('GenreBrowserComponent', () => {
 
         it('should scroll to zoom header when zoom in is requested', async () => {
             // Arrange
-            const component: GenreBrowserComponent = createComponent();
+            const component: GenreBrowserComponent = createComponentWithSemanticZoomAdderMock();
             genre1.isZoomHeader = true;
             genre2.isZoomHeader = true;
+            component.genresPersister = genresPersisterMock.object;
             component.genres = [genre1, genre2];
             component.shouldZoomOut = true;
 
@@ -280,7 +283,7 @@ describe('GenreBrowserComponent', () => {
             expect(component.shouldZoomOut).toBeFalsy();
             schedulerMock.verify((x) => x.sleepAsync(Constants.semanticZoomInDelayMilliseconds), Times.once());
 
-            expect(viewportMockAny.scrollToIndexIndex).toEqual(1);
+            expect(viewportMockAny.scrollToIndexIndex).toEqual(0);
             expect(viewportMockAny.scrollToIndexbehavior).toEqual('smooth');
         });
 

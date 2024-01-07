@@ -35,6 +35,6 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button [disabled]="!hasPlaylistName" mat-raised-button [mat-dialog-close]="true">{{ 'ok' | translate | uppercase }}</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="false">{{ 'cancel' | translate | uppercase }}</button>
+    <app-accent-button class="mr-2" [disabled]="!hasPlaylistName" [mat-dialog-close]="true">{{ 'ok' | translate }}</app-accent-button>
+    <app-transparent-button [mat-dialog-close]="false">{{ 'cancel' | translate }}</app-transparent-button>
 </mat-dialog-actions>

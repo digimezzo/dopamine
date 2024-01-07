@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PromiseUtils } from '../../../../common/utils/promise-utils';
@@ -9,7 +8,6 @@ import { PlaybackInformation } from '../../../../services/playback-information/p
 import { AppearanceServiceBase } from '../../../../services/appearance/appearance.service.base';
 import { PlaybackInformationServiceBase } from '../../../../services/playback-information/playback-information.service.base';
 import { LyricsServiceBase } from '../../../../services/lyrics/lyrics.service.base';
-import { SchedulerBase } from '../../../../common/scheduling/scheduler.base';
 import { StringUtils } from '../../../../common/utils/string-utils';
 
 @Component({
@@ -26,13 +24,15 @@ export class NowPlayingLyricsComponent implements OnInit, OnDestroy {
     private _isBusy: boolean = false;
 
     public constructor(
-        public appearanceService: AppearanceServiceBase,
+        private appearanceService: AppearanceServiceBase,
         private playbackInformationService: PlaybackInformationServiceBase,
         private lyricsService: LyricsServiceBase,
-        private scheduler: SchedulerBase,
     ) {}
 
     public lyricsSourceTypeEnum: typeof LyricsSourceType = LyricsSourceType;
+
+    public largeFontSize: number = this.appearanceService.selectedFontSize * 1.7;
+    public smallFontSize: number = this.appearanceService.selectedFontSize;
 
     public get isBusy(): boolean {
         return this._isBusy;

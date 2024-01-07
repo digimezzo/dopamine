@@ -36,52 +36,6 @@
     color: var(--theme-primary-text) !important;
 }
 
-// Button
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-mdc-raised-button {
-    background: var(--theme-secondary-button-background) !important;
-}
-
-.mat-mdc-raised-button > * {
-    color: var(--theme-secondary-button-text) !important;
-}
-
-.mat-mdc-raised-button.mat-primary {
-    background: var(--theme-accent-color) !important;
-}
-
-.mat-mdc-raised-button.mat-primary > * {
-    color: var(--theme-primary-button-text) !important;
-}
-
-// Chips
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mdc-evolution-chip__text-label {
-    color: var(--theme-primary-text) !important;
-}
-
-// Checkbox
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mdc-checkbox__ripple {
-    display: none !important;
-}
-
-.mat-mdc-checkbox-ripple.mat-mdc-focus-indicator {
-    display: none !important;
-}
-
-.mat-mdc-checkbox
-    .mdc-checkbox
-    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
-    ~ .mdc-checkbox__background {
-    border-width: 1px !important;
-    border-color: var(--theme-secondary-text) !important;
-}
-
-.mdc-checkbox__checkmark-path {
-    stroke: var(--theme-primary-button-text) !important;
-}
-
 // Dialog
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-mdc-dialog-surface {
@@ -90,7 +44,7 @@
 
 .mat-mdc-dialog-content {
     color: var(--theme-primary-text) !important;
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-dialog-actions {
@@ -124,7 +78,7 @@
 // Menu
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-mdc-menu-item > * {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-menu-item {
@@ -137,24 +91,11 @@
 
 .mat-mdc-menu-content .mat-divider {
     border-top-color: var(--theme-context-menu-separators) !important;
+    margin: 4px;
 }
 
 .mat-mdc-menu-item:hover {
     background-color: rgba(var(--theme-rgb-base), 0.06) !important;
-}
-
-// Slide toggle
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mdc-switch {
-    margin-right: 12px !important;
-}
-
-.mdc-switch__icons {
-    visibility: hidden !important;
-}
-
-.mat-mdc-slide-toggle .mdc-label {
-    font-size: var(--fontsize-normal) !important;
 }
 
 // Snack Bar
@@ -167,23 +108,10 @@
     margin-top: 50px !important;
 }
 
-// Stepper
-// -----------------------------------------------------------------------------------------------------------------------------------------
-.mat-horizontal-stepper-header-container {
-    display: none !important;
-}
-
-.mat-horizontal-content-container {
-    padding: 0px !important;
-    width: 100% !important;
-
-    overflow-y: auto;
-}
-
 // Tooltip
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-tooltip__surface {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
     background-color: var(--theme-accent-color) !important;
     color: var(--theme-tooltip-text) !important;
 }
@@ -198,11 +126,11 @@
 }
 
 .mdc-form-field {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-option {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
     min-height: unset !important;
     padding-top: 4px !important;
     padding-bottom: 4px !important;
