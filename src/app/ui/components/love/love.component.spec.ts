@@ -38,6 +38,13 @@ describe('LoveComponent', () => {
         translatorServiceMock.setup((x) => x.getAsync('save-love-error')).returns(() => Promise.resolve('save-love-error'));
     });
 
+    function createTrackModelWithLove(love: number): TrackModel {
+        const track: Track = new Track('Path');
+        track.love = love;
+
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+    }
+
     describe('constructor', () => {
         it('should initialize fontSize from the selected font size', () => {
             // Arrange
@@ -50,7 +57,7 @@ describe('LoveComponent', () => {
             expect(loveComponent.fontSize).toEqual(13);
         });
 
-        it('should initialize largerFontSize from the selected font size plus 4px', () => {
+        it('should initialize fontSize from the selected font', () => {
             // Arrange
             appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
 
@@ -58,7 +65,7 @@ describe('LoveComponent', () => {
             const loveComponent: LoveComponent = createComponent();
 
             // Assert
-            expect(loveComponent.largerFontSize).toEqual(17);
+            expect(loveComponent.fontSize).toEqual(13);
         });
 
         it('should initialize lineHeight as 1', () => {
@@ -69,6 +76,44 @@ describe('LoveComponent', () => {
 
             // Assert
             expect(loveComponent.lineHeight).toEqual(1);
+        });
+    });
+
+    describe('loveClasses', () => {
+        it('should be "fas fa-heart accent-color-important" if love is 1', () => {
+            // Arrange
+            const loveComponent: LoveComponent = createComponent();
+            loveComponent.track = createTrackModelWithLove(1);
+
+            // Act
+            const loveClasses: string = loveComponent.loveClasses;
+
+            // Assert
+            expect(loveClasses).toEqual('fas fa-heart accent-color-important');
+        });
+
+        it('should be "fas fa-heart accent-color-important" if love is -1', () => {
+            // Arrange
+            const loveComponent: LoveComponent = createComponent();
+            loveComponent.track = createTrackModelWithLove(-1);
+
+            // Act
+            const loveClasses: string = loveComponent.loveClasses;
+
+            // Assert
+            expect(loveClasses).toEqual('fas fa-heart-crack accent-color-important');
+        });
+
+        it('should be "fas fa-heart accent-color-important" if love is 0', () => {
+            // Arrange
+            const loveComponent: LoveComponent = createComponent();
+            loveComponent.track = createTrackModelWithLove(0);
+
+            // Act
+            const loveClasses: string = loveComponent.loveClasses;
+
+            // Assert
+            expect(loveClasses).toEqual('far fa-heart secondary-text');
         });
     });
 
@@ -150,9 +195,7 @@ describe('LoveComponent', () => {
 
         it('should scrobble track love', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.love = 0;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel: TrackModel = createTrackModelWithLove(0);
             const loveComponent: LoveComponent = createComponent();
             loveComponent.track = trackModel;
 
@@ -165,9 +208,7 @@ describe('LoveComponent', () => {
 
         it('should save track love', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.love = 0;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel: TrackModel = createTrackModelWithLove(0);
             const loveComponent: LoveComponent = createComponent();
             loveComponent.track = trackModel;
 
@@ -180,9 +221,7 @@ describe('LoveComponent', () => {
 
         it('should show an error message if saving track love fails', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.love = 0;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+            const trackModel: TrackModel = createTrackModelWithLove(0);
             metadataServiceMock.setup((x) => x.saveTrackLove(It.isAny())).throws(new Error('The error text'));
             const loveComponent: LoveComponent = createComponent();
             loveComponent.track = trackModel;
@@ -197,11 +236,8 @@ describe('LoveComponent', () => {
 
         it('should not show an error dialog when saving track love is successful', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.love = 0;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const loveComponent: LoveComponent = createComponent();
-            loveComponent.track = trackModel;
+            loveComponent.track = createTrackModelWithLove(0);
 
             // Act
             await loveComponent.toggleLoveAsync();
