@@ -131,6 +131,8 @@ describe('GenreBrowserComponent', () => {
         translatorServiceMock.setup((x) => x.get('unknown-genre')).returns(() => 'Unknown genre');
         genresPersisterMock.setup((x) => x.getSelectedGenres([genre1, genre2])).returns(() => [genre2]);
         genresPersisterMock.setup((x) => x.getSelectedGenreOrder()).returns(() => GenreOrder.byGenreDescending);
+
+        semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders(It.isAny())).returns(() => [genre2, genre1]);
     });
 
     describe('constructor', () => {
@@ -265,6 +267,7 @@ describe('GenreBrowserComponent', () => {
             const component: GenreBrowserComponent = createComponent();
             genre1.isZoomHeader = true;
             genre2.isZoomHeader = true;
+            component.genresPersister = genresPersisterMock.object;
             component.genres = [genre1, genre2];
             component.shouldZoomOut = true;
 

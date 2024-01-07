@@ -29,7 +29,7 @@ export class LoveComponent {
     }
 
     @Input()
-    public fontSize: number = this.appearanceService.selectedFontSize.normalSize;
+    public fontSize: number = this.appearanceService.selectedFontSize;
 
     @Input()
     public lineHeight: number = 1;

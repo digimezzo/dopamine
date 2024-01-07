@@ -14,7 +14,6 @@ describe('ThemeNeutralColors', () => {
             '#ddd',
             '#eee',
             '#fff',
-            '#111',
             '#222',
             '#333',
             '#444',
@@ -154,16 +153,6 @@ describe('ThemeNeutralColors', () => {
 
             // Assert
             expect(colors.secondaryText).toEqual('#fff');
-        });
-
-        it('should set breadcrumbBackground', () => {
-            // Arrange
-
-            // Act
-            const colors: ThemeNeutralColors = createNeutralColors();
-
-            // Assert
-            expect(colors.breadcrumbBackground).toEqual('#111');
         });
 
         it('should set sliderBackground', () => {

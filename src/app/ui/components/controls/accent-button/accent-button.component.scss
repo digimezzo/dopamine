@@ -21,7 +21,7 @@
     transition: all 0.25s ease 0s;
     cursor: pointer;
     outline: none;
-    font-size: calc(var(--fontsize-normal) * 0.8);
+    font-size: calc(var(--fontsize) * 0.8);
 }
 
 .app-accent-button-button:hover {

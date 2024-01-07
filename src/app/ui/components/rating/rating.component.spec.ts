@@ -5,7 +5,6 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
 import { DateTime } from '../../../common/date-time';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
-import { FontSize } from '../../../common/application/font-size';
 import { TrackModel } from '../../../services/track/track-model';
 import { Track } from '../../../data/entities/track';
 
@@ -36,10 +35,9 @@ describe('RatingComponent', () => {
     });
 
     describe('constructor', () => {
-        it('should initialize fontSize from the selected font size normal size', () => {
+        it('should initialize fontSize from the selected font size', () => {
             // Arrange
-            const fontSize: FontSize = new FontSize(13);
-            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => fontSize);
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
 
             // Act
             const ratingComponent: RatingComponent = createComponent();

@@ -7,10 +7,10 @@
                     <img *ngIf="this.artist.imageUrl" [src]="this.artist.imageUrl" [width]="300" [height]="300" draggable="false" />
                 </div>
                 <div class="mt-4">
-                    <div class="font-extra-large" *ngIf="this.artist.name">
+                    <div class="larger" *ngIf="this.artist.name">
                         {{ this.artist.name }}
                     </div>
-                    <div class="font-extra-large" *ngIf="!this.artist.name">{{ 'unknown-artist' | translate }}</div>
+                    <div class="larger" *ngIf="!this.artist.name">{{ 'unknown-artist' | translate }}</div>
                 </div>
             </div>
             <div *ngIf="this.isBusy" class="app-now-playing-artist-info__spinner">

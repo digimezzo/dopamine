@@ -11,7 +11,6 @@ export class ThemeNeutralColors {
         public sidePaneBackground: string,
         public primaryText: string,
         public secondaryText: string,
-        public breadcrumbBackground: string,
         public sliderBackground: string,
         public sliderThumbBackground: string,
         public albumCoverLogo: string,

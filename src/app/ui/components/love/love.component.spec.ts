@@ -6,7 +6,6 @@ import { MetadataServiceBase } from '../../../services/metadata/metadata.service
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
 import { TranslatorServiceBase } from '../../../services/translator/translator.service.base';
 import { DateTime } from '../../../common/date-time';
-import { FontSize } from '../../../common/application/font-size';
 import { Track } from '../../../data/entities/track';
 import { TrackModel } from '../../../services/track/track-model';
 
@@ -40,10 +39,9 @@ describe('LoveComponent', () => {
     });
 
     describe('constructor', () => {
-        it('should initialize fontSize from the selected font size normal size', () => {
+        it('should initialize fontSize from the selected font size', () => {
             // Arrange
-            const fontSize: FontSize = new FontSize(13);
-            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => fontSize);
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
 
             // Act
             const loveComponent: LoveComponent = createComponent();
@@ -52,10 +50,9 @@ describe('LoveComponent', () => {
             expect(loveComponent.fontSize).toEqual(13);
         });
 
-        it('should initialize largerFontSize from the selected font size normal size plus 4px', () => {
+        it('should initialize largerFontSize from the selected font size plus 4px', () => {
             // Arrange
-            const fontSize: FontSize = new FontSize(13);
-            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => fontSize);
+            appearanceServiceMock.setup((x) => x.selectedFontSize).returns(() => 13);
 
             // Act
             const loveComponent: LoveComponent = createComponent();

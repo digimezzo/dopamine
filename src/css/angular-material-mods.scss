@@ -44,7 +44,7 @@
 
 .mat-mdc-dialog-content {
     color: var(--theme-primary-text) !important;
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-dialog-actions {
@@ -78,7 +78,7 @@
 // Menu
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mat-mdc-menu-item > * {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-menu-item {
@@ -111,7 +111,7 @@
 // Tooltip
 // -----------------------------------------------------------------------------------------------------------------------------------------
 .mdc-tooltip__surface {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
     background-color: var(--theme-accent-color) !important;
     color: var(--theme-tooltip-text) !important;
 }
@@ -126,11 +126,11 @@
 }
 
 .mdc-form-field {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
 }
 
 .mat-mdc-option {
-    font-size: var(--fontsize-normal) !important;
+    font-size: var(--fontsize) !important;
     min-height: unset !important;
     padding-top: 4px !important;
     padding-bottom: 4px !important;

@@ -21,7 +21,7 @@
     transition: all 0.25s ease 0s;
     cursor: pointer;
     outline: none;
-    font-size: calc(var(--fontsize-normal) * 0.8);
+    font-size: calc(var(--fontsize) * 0.8);
 }
 
 .app-icon-text-button-button:hover {
@@ -33,7 +33,7 @@
 
 .app-icon-text-button-icon {
     color: var(--theme-accent-color);
-    font-size: calc(var(--fontsize-normal) * 1.2);
+    font-size: calc(var(--fontsize) * 1.2);
 }
 
 .app-icon-text-button-button:hover .app-icon-text-button-icon {

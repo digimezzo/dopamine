@@ -131,6 +131,8 @@ describe('ArtistBrowserComponent', () => {
         translatorServiceMock.setup((x) => x.get('unknown-artist')).returns(() => 'Unknown artist');
         artistsPersisterMock.setup((x) => x.getSelectedArtists([artist1, artist2])).returns(() => [artist2]);
         artistsPersisterMock.setup((x) => x.getSelectedArtistOrder()).returns(() => ArtistOrder.byArtistDescending);
+
+        semanticZoomHeaderAdderMock.setup((x) => x.addZoomHeaders(It.isAny())).returns(() => [artist2, artist1]);
     });
 
     describe('constructor', () => {
@@ -285,6 +287,7 @@ describe('ArtistBrowserComponent', () => {
             const component: ArtistBrowserComponent = createComponent();
             artist1.isZoomHeader = true;
             artist2.isZoomHeader = true;
+            component.artistsPersister = artistsPersisterMock.object;
             component.artists = [artist1, artist2];
             component.shouldZoomOut = true;
 

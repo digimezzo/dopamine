@@ -133,17 +133,17 @@
 .title {
     color: var(--theme-accent-color);
     font-weight: lighter !important;
-    font-size: calc(var(--fontsize-normal) * 1.7) !important;
+    font-size: calc(var(--fontsize) * 1.7) !important;
     margin-bottom: 24px;
 }
 
 .larger {
     font-weight: lighter !important;
-    font-size: calc(var(--fontsize-normal) * 1.7) !important;
+    font-size: calc(var(--fontsize) * 1.7) !important;
 }
 
 .smaller {
-    font-size: calc(var(--fontsize-normal) * 0.9) !important;
+    font-size: calc(var(--fontsize) * 0.9) !important;
 }
 
 .lighter {

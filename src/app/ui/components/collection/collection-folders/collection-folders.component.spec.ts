@@ -232,14 +232,14 @@ describe('CollectionFoldersComponent', () => {
             expect(component.subfolders).toBeDefined();
         });
 
-        it('should define subfolderBreadCrumbs', () => {
+        it('should define subfolderBreadcrumbs', () => {
             // Arrange
 
             // Act
             const component: CollectionFoldersComponent = createComponent();
 
             // Assert
-            expect(component.subfolderBreadCrumbs).toBeDefined();
+            expect(component.subfolderBreadcrumbs).toBeDefined();
         });
 
         it('should define tracks', () => {

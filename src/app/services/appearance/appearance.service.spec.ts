@@ -2,7 +2,6 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { FontSize } from '../../common/application/font-size';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
@@ -65,7 +64,6 @@ describe('AppearanceService', () => {
             '#088888',
             '#099999',
             '#0aaaaa',
-            '#0bbbbb',
             '#0ccccc',
             '#0ddddd',
             '#0eeeee',
@@ -99,7 +97,6 @@ describe('AppearanceService', () => {
             '#188888',
             '#199999',
             '#1aaaaa',
-            '#1bbbbb',
             '#1ccccc',
             '#1ddddd',
             '#1eeeee',
@@ -195,7 +192,6 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-side-pane-background')).toEqual('#088888');
         expect(documentElementMock.style.getPropertyValue('--theme-primary-text')).toEqual('#099999');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-text')).toEqual('#0aaaaa');
-        expect(documentElementMock.style.getPropertyValue('--theme-breadcrumb-background')).toEqual('#0bbbbb');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-background')).toEqual('#0ccccc');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#0ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#0eeeee');
@@ -227,7 +223,6 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-side-pane-background')).toEqual('#188888');
         expect(documentElementMock.style.getPropertyValue('--theme-primary-text')).toEqual('#199999');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-text')).toEqual('#1aaaaa');
-        expect(documentElementMock.style.getPropertyValue('--theme-breadcrumb-background')).toEqual('#1bbbbb');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-background')).toEqual('#1ccccc');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#1ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#1eeeee');
@@ -446,7 +441,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Assert
-            expect(service.selectedFontSize).toEqual(new FontSize(14));
+            expect(service.selectedFontSize).toEqual(14);
         });
 
         it('should listen to accent color changes of the OS and apply the theme', () => {
@@ -920,7 +915,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Act
-            const fontSizes: FontSize[] = service.fontSizes;
+            const fontSizes: number[] = service.fontSizes;
 
             // Assert
             expect(fontSizes).toEqual(Constants.fontSizes);
@@ -933,7 +928,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Act
-            const fontSizes: FontSize[] = service.fontSizes;
+            const fontSizes: number[] = service.fontSizes;
 
             // Assert
             expect(fontSizes).toEqual(Constants.fontSizes);
@@ -946,7 +941,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createServiceWithSettingsStub(settingsStub);
 
             // Act
-            service.selectedFontSize = new FontSize(13);
+            service.selectedFontSize = 13;
 
             // Assert
             expect(settingsStub.fontSize).toEqual(13);
@@ -960,14 +955,10 @@ describe('AppearanceService', () => {
             resetElements();
 
             // Act
-            service.selectedFontSize = new FontSize(13);
+            service.selectedFontSize = 13;
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize')).toEqual('13px');
         });
     });
 
@@ -1071,11 +1062,7 @@ describe('AppearanceService', () => {
             service.applyAppearance();
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize')).toEqual('13px');
         });
 
         it('should apply the dark theme of the selected theme when follow the system theme is disabled and use light background theme is disabled', () => {
