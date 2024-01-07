@@ -19,8 +19,8 @@
             class="app-now-playing-lyrics__playback-info"
             height="120"
             position="top"
-            [largeFontSize]="this.appearanceService.selectedFontSize.extraLargeSize"
-            [smallFontSize]="this.appearanceService.selectedFontSize.normalSize"
+            [largeFontSize]="this.largeFontSize"
+            [smallFontSize]="this.smallFontSize"
         ></app-playback-information>
     </div>
     <div *ngIf="this.isBusy" class="app-now-playing-lyrics__spinner">
