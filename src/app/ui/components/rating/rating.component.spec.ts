@@ -24,6 +24,13 @@ describe('RatingComponent', () => {
         );
     }
 
+    function createTrackModelWithRating(rating: number): TrackModel {
+        const track: Track = new Track('Path');
+        track.rating = rating;
+
+        return new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
+    }
+
     beforeEach(() => {
         metadataServiceMock = Mock.ofType<MetadataServiceBase>();
         dialogServiceMock = Mock.ofType<DialogServiceBase>();
@@ -120,10 +127,8 @@ describe('RatingComponent', () => {
 
         it('should save the track rating', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
+            const trackModel: TrackModel = createTrackModelWithRating(3);
             ratingComponent.track = trackModel;
 
             // Act
@@ -135,11 +140,8 @@ describe('RatingComponent', () => {
 
         it('should show an error dialog when saving the track rating failed', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
-            ratingComponent.track = trackModel;
+            ratingComponent.track = createTrackModelWithRating(3);
 
             metadataServiceMock.setup((x) => x.saveTrackRatingAsync(It.isAny())).throws(new Error('The error text'));
 
@@ -152,17 +154,159 @@ describe('RatingComponent', () => {
 
         it('should not show an error dialog when saving the track rating is successful', async () => {
             // Arrange
-            const track: Track = new Track('Path');
-            track.rating = 3;
-            const trackModel: TrackModel = new TrackModel(track, dateTimeMock.object, translatorServiceMock.object);
             const ratingComponent: RatingComponent = createComponent();
-            ratingComponent.track = trackModel;
+            ratingComponent.track = createTrackModelWithRating(3);
 
             // Act
             await ratingComponent.setRatingAsync(3);
 
             // Assert
             dialogServiceMock.verify((x) => x.showErrorDialog('save-rating-error'), Times.never());
+        });
+    });
+
+    describe('star1Classes', () => {
+        it('should be "fas fa-star accent-color-important" when rating is larger than 1', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(2);
+
+            // Assert
+            expect(ratingComponent.star1Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "fas fa-star accent-color-important" when rating is equal to 1', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(1);
+
+            // Assert
+            expect(ratingComponent.star1Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "far fa-star secondary-text" when rating is smaller than 1', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(0);
+
+            // Assert
+            expect(ratingComponent.star1Classes).toEqual('far fa-star secondary-text');
+        });
+    });
+
+    describe('star2Classes', () => {
+        it('should be "fas fa-star accent-color-important" when rating is larger than 2', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(3);
+
+            // Assert
+            expect(ratingComponent.star2Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "fas fa-star accent-color-important" when rating is equal to 2', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(2);
+
+            // Assert
+            expect(ratingComponent.star2Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "far fa-star secondary-text" when rating is smaller than 2', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(1);
+
+            // Assert
+            expect(ratingComponent.star2Classes).toEqual('far fa-star secondary-text');
+        });
+    });
+
+    describe('star3Classes', () => {
+        it('should be "fas fa-star accent-color-important" when rating is larger than 3', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(4);
+
+            // Assert
+            expect(ratingComponent.star3Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "fas fa-star accent-color-important" when rating is equal to 3', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(3);
+
+            // Assert
+            expect(ratingComponent.star3Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "far fa-star secondary-text" when rating is smaller than 3', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(2);
+
+            // Assert
+            expect(ratingComponent.star3Classes).toEqual('far fa-star secondary-text');
+        });
+    });
+
+    describe('star4Classes', () => {
+        it('should be "fas fa-star accent-color-important" when rating is larger than 4', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(5);
+
+            // Assert
+            expect(ratingComponent.star4Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "fas fa-star accent-color-important" when rating is equal to 4', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(4);
+
+            // Assert
+            expect(ratingComponent.star4Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "far fa-star secondary-text" when rating is smaller than 4', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(3);
+
+            // Assert
+            expect(ratingComponent.star4Classes).toEqual('far fa-star secondary-text');
+        });
+    });
+
+    describe('star5Classes', () => {
+        it('should be "fas fa-star accent-color-important" when rating is larger than 5', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(6);
+
+            // Assert
+            expect(ratingComponent.star5Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "fas fa-star accent-color-important" when rating is equal to 5', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(5);
+
+            // Assert
+            expect(ratingComponent.star5Classes).toEqual('fas fa-star accent-color-important');
+        });
+
+        it('should be "far fa-star secondary-text" when rating is smaller than 5', () => {
+            // Arrange, Act
+            const ratingComponent: RatingComponent = createComponent();
+            ratingComponent.track = createTrackModelWithRating(4);
+
+            // Assert
+            expect(ratingComponent.star5Classes).toEqual('far fa-star secondary-text');
         });
     });
 });

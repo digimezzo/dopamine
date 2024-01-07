@@ -35,9 +35,9 @@
             <div class="app-track__bottom">
                 <span class="ellipsis secondary-text smaller">{{ track.artists }}</span>
                 <span></span>
-                <div class="d-flex flex-row align-items-center">
-                    <app-rating [track]="track" *ngIf="this.settings.showRating"></app-rating>
-                    <app-love [track]="track" class="ml-2" *ngIf="this.settings.showLove"></app-love>
+                <div class="d-flex flex-row align-items-center justify-content-center red">
+                    <app-rating class="app-track__rating" [track]="track" *ngIf="this.settings.showRating"></app-rating>
+                    <app-love class="app-track__love ml-2" [track]="track" *ngIf="this.settings.showLove"></app-love>
                 </div>
             </div>
         </div>

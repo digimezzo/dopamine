@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TrackModel } from '../../../services/track/track-model';
 import { MetadataServiceBase } from '../../../services/metadata/metadata.service.base';
 import { DialogServiceBase } from '../../../services/dialog/dialog.service.base';
@@ -7,10 +7,9 @@ import { AppearanceServiceBase } from '../../../services/appearance/appearance.s
 
 @Component({
     selector: 'app-rating',
-    host: { style: 'display: block' },
+    host: { style: 'display: flex; align-items: center' },
     templateUrl: './rating.component.html',
     styleUrls: ['./rating.component.scss'],
-    encapsulation: ViewEncapsulation.None,
 })
 export class RatingComponent {
     private _track: TrackModel;
@@ -35,6 +34,26 @@ export class RatingComponent {
 
     public get track(): TrackModel {
         return this._track;
+    }
+
+    public get star1Classes(): string {
+        return this._track.rating >= 1 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    }
+
+    public get star2Classes(): string {
+        return this._track.rating >= 2 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    }
+
+    public get star3Classes(): string {
+        return this._track.rating >= 3 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    }
+
+    public get star4Classes(): string {
+        return this._track.rating >= 4 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
+    }
+
+    public get star5Classes(): string {
+        return this._track.rating >= 5 ? 'fas fa-star accent-color-important' : 'far fa-star secondary-text';
     }
 
     public async setRatingAsync(rating: number): Promise<void> {
