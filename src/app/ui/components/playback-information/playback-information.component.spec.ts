@@ -259,44 +259,44 @@ describe('PlaybackInformationComponent', () => {
 
         // YO
 
-        it('should be ellipsis-two-lines when position is top and largeFontSize is larger than 20', () => {
+        it('should be "ellipsis-two-lines thinner" when position is top and largeFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'top';
             component.largeFontSize = 21;
 
             // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines lighter');
+            expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
         });
 
-        it('should be ellipsis when position is center and largeFontSize is larger than 20', () => {
+        it('should be "ellipsis thinner" when position is center and largeFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'center';
             component.largeFontSize = 21;
 
             // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis lighter');
+            expect(component.largeFontClasses).toEqual('ellipsis thinner');
         });
 
-        it('should be ellipsis-two-lines when position is bottom and largeFontSize is larger than 20', () => {
+        it('should be "ellipsis-two-lines thinner" when position is bottom and largeFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = 'bottom';
             component.largeFontSize = 21;
 
             // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis-two-lines lighter');
+            expect(component.largeFontClasses).toEqual('ellipsis-two-lines thinner');
         });
 
-        it('should be ellipsis when position is empty and largeFontSize is larger than 20', () => {
+        it('should be "ellipsis thinner" when position is empty and largeFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.position = '';
             component.largeFontSize = 21;
 
             // Act, Assert
-            expect(component.largeFontClasses).toEqual('ellipsis lighter');
+            expect(component.largeFontClasses).toEqual('ellipsis thinner');
         });
     });
 
@@ -310,13 +310,13 @@ describe('PlaybackInformationComponent', () => {
             expect(component.smallFontClasses).toEqual('');
         });
 
-        it('should be "lighter" when smallFontSize is larger than 20', () => {
+        it('should be "thinner" when smallFontSize is larger than 20', () => {
             // Arrange
             const component: PlaybackInformationComponent = createComponent();
             component.smallFontSize = 21;
 
             // Act, Assert
-            expect(component.smallFontClasses).toEqual('lighter');
+            expect(component.smallFontClasses).toEqual('thinner');
         });
     });
 

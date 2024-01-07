@@ -1,6 +1,6 @@
 <div class="d-flex flex-column">
     <div class="d-flex flex-column mt-3 mb-1" *ngIf="this.canShowHeader && track.showHeader">
-        <div class="larger pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
+        <div class="largest pb-2 ellipsis" matTooltip="{{ track.albumArtists }}">{{ track.albumArtists }}</div>
         <div class="secondary-text ellipsis" *ngIf="!(track.discNumber > 0 && track.discCount > 1)" matTooltip="{{ track.albumTitle }}">
             {{ track.albumTitle }}
         </div>

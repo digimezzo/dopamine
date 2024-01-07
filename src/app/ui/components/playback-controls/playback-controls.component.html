@@ -1,6 +1,6 @@
 <div class="app-playback-controls">
     <!-- Loop -->
-    <button
+    <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.toggleLoopMode()"
         matRipple
@@ -17,20 +17,20 @@
             *ngIf="this.playbackService.loopMode === loopModeEnum.One"
             class="app-playback-controls__icon app-playback-controls__accent las la-redo"
         ></i>
-    </button>
+    </div>
 
     <!-- Play previous -->
-    <button
+    <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.playPrevious()"
         matRipple
         matTooltip="{{ 'previous' | translate }}"
     >
         <i class="app-playback-controls__icon las la-step-backward"></i>
-    </button>
+    </div>
 
     <!-- Play/Pause -->
-    <button
+    <div
         *ngIf="playbackService.canPause"
         class="app-playback-controls__circled-button pointer mx-1"
         (click)="playbackService.pause()"
@@ -38,8 +38,8 @@
         matTooltip="{{ 'pause' | translate }}"
     >
         <i class="app-playback-controls__icon las la-pause"></i>
-    </button>
-    <button
+    </div>
+    <div
         *ngIf="playbackService.canResume"
         class="app-playback-controls__circled-button pointer mx-1"
         (click)="playbackService.resume()"
@@ -47,20 +47,20 @@
         matTooltip="{{ 'play' | translate }}"
     >
         <i class="app-playback-controls__icon las la-play"></i>
-    </button>
+    </div>
 
     <!-- Play next -->
-    <button
+    <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.playNext()"
         matRipple
         matTooltip="{{ 'next' | translate }}"
     >
         <i class="app-playback-controls__icon las la-step-forward"></i>
-    </button>
+    </div>
 
     <!-- Shuffle -->
-    <button
+    <div
         class="app-playback-controls__button pointer mx-1"
         (click)="playbackService.toggleIsShuffled()"
         matRipple
@@ -70,5 +70,5 @@
             class="app-playback-controls__icon las la-random"
             [ngClass]="{ 'app-playback-controls__accent': this.playbackService.isShuffled }"
         ></i>
-    </button>
+    </div>
 </div>

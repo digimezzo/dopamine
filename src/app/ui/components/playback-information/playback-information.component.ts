@@ -124,7 +124,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     private getLargeFontWeightClass(): string {
         if (this.largeFontSize >= 20) {
-            return 'lighter';
+            return 'thinner';
         }
 
         return '';
@@ -132,7 +132,7 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
 
     private getSmallFontWeightClass(): string {
         if (this.smallFontSize >= 20) {
-            return 'lighter';
+            return 'thinner';
         }
 
         return '';

@@ -137,15 +137,20 @@
     margin-bottom: 24px;
 }
 
-.larger {
+.largest {
     font-weight: lighter !important;
     font-size: calc(var(--fontsize) * 1.7) !important;
+}
+
+.larger {
+    font-weight: lighter !important;
+    font-size: calc(var(--fontsize) * 1.15) !important;
 }
 
 .smaller {
     font-size: calc(var(--fontsize) * 0.9) !important;
 }
 
-.lighter {
+.thinner {
     font-weight: lighter !important;
 }
