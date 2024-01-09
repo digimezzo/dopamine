@@ -1,36 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { IndexableTrack } from './indexable-track';
+import { AlbumKeyGenerator } from '../../data/album-key-generator';
 import { Track } from '../../data/entities/track';
-import { IFileMetadata } from '../../common/metadata/i-file-metadata';
+import { DateTime } from '../../common/date-time';
 import { Logger } from '../../common/logger';
-import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { IFileMetadata } from '../../common/metadata/i-file-metadata';
+import { MimeTypes } from '../../common/metadata/mime-types';
+import { StringUtils } from '../../common/utils/string-utils';
 import { TrackFieldCreator } from './track-field-creator';
 import { FileAccessBase } from '../../common/io/file-access.base';
-import { AlbumKeyGenerator } from '../../data/album-key-generator';
-import { DateTime } from '../../common/date-time';
-import { StringUtils } from '../../common/utils/string-utils';
-import { MimeTypes } from '../../common/metadata/mime-types';
-import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
 
-@Injectable({
-    providedIn: 'root',
-})
-export class MetadataAdder {
+@Injectable()
+export class TrackFiller {
     public constructor(
         private fileMetadataFactory: FileMetadataFactoryBase,
         private trackFieldCreator: TrackFieldCreator,
         private albumKeyGenerator: AlbumKeyGenerator,
         private fileAccess: FileAccessBase,
-        private ipcProxy: IpcProxyBase,
         private mimeTypes: MimeTypes,
         private dateTime: DateTime,
         private logger: Logger,
     ) {}
 
-    public async addMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
+    public async addFileMetadataToTrackAsync(track: Track, fillOnlyEssentialMetadata: boolean): Promise<Track> {
         try {
             const fileMetadata: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path);
 
@@ -69,37 +61,18 @@ export class MetadataAdder {
             track.indexingFailureReason = '';
         } catch (e: unknown) {
             track.indexingSuccess = 0;
+
             track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
-            this.logger.error(e, 'Could not get metadata for file ${track.path}', 'MetadataAdder', 'addMetadataToTrackAsync');
+            this.logger.error(
+                e,
+                'Error while retrieving tag information for file ${track.path}',
+                'TrackFiller',
+                'addFileMetadataToTrackAsync',
+            );
         }
 
         return track;
-    }
-
-    public async addMetadataToTracksAsync(tracks: Track[], fillOnlyEssentialMetadata: boolean): Promise<Track[]> {
-        const arg: { tracks: Track[]; fillOnlyEssentialMetadata: boolean } = {
-            tracks: tracks,
-            fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
-        };
-
-        const message: any = await this.ipcProxy.sendToMainProcessAsync('metadata-worker', arg);
-
-        return message.filledIndexableTracks as Track[];
-    }
-
-    public async addMetadataToIndexableTracksAsync(
-        tracks: IndexableTrack[],
-        fillOnlyEssentialMetadata: boolean,
-    ): Promise<IndexableTrack[]> {
-        const arg: { tracks: IndexableTrack[]; fillOnlyEssentialMetadata: boolean } = {
-            tracks: tracks,
-            fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
-        };
-
-        const message: any = await this.ipcProxy.sendToMainProcessAsync('metadata-worker', arg);
-
-        return message.filledIndexableTracks as IndexableTrack[];
     }
 
     private getMimeType(filePath: string): string {

@@ -322,6 +322,7 @@ import { IconTextButtonComponent } from './ui/components/controls/icon-text-butt
 import { BigIconButtonComponent } from './ui/components/controls/big-icon-button/big-icon-button.component';
 import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
 import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
+import { TrackFiller } from './services/indexing/track-filler';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -595,6 +596,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         IntegrationTestRunner,
         AudioVisualizer,
         OnlineArtistImageGetter,
+        TrackFiller,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: FileAccessBase, useClass: FileAccess },
         { provide: AlbumArtworkRepositoryBase, useClass: AlbumArtworkRepository },
