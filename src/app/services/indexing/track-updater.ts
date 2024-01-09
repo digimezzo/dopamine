@@ -5,7 +5,6 @@ import { Timer } from '../../common/scheduling/timer';
 import { TrackVerifier } from './track-verifier';
 import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
-import { IndexableTrack } from './indexable-track';
 import { MetadataAdder } from './metadata-adder';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class TrackUpdater {
 
     private async updateTracksInBatch(tracks: Track[]): Promise<number> {
         let numberOfUpdatedTracks: number = 0;
-        const filledTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToTracksAsync(tracks, false);
+        const filledTracks: Track[] = await this.metadataAdder.addMetadataToTracksAsync(tracks, false);
 
         for (const filledTrack of filledTracks) {
             try {
