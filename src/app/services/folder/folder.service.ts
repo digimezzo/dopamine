@@ -132,25 +132,25 @@ export class FolderService implements FolderServiceBase {
         this.logger.info('Set all folders visible', 'FolderService', 'setAllFoldersVisible');
     }
 
-    public getSubfolderBreadCrumbs(rootFolder: FolderModel, subfolderPath: string): SubfolderModel[] {
+    public getSubfolderBreadcrumbs(rootFolder: FolderModel, subfolderPath: string): SubfolderModel[] {
         let parentFolderPath: string = subfolderPath;
-        const subfolderBreadCrumbs: SubfolderModel[] = [];
+        const subfolderBreadcrumbs: SubfolderModel[] = [];
 
         // Add subfolders, if applicable.
         while (parentFolderPath !== rootFolder.path) {
             this.logger.info(
                 `parentFolderPath=${parentFolderPath}, rootFolder.path=${rootFolder.path}`,
                 'FolderService',
-                'getSubfolderBreadCrumbs',
+                'getSubfolderBreadcrumbs',
             );
-            subfolderBreadCrumbs.push(new SubfolderModel(parentFolderPath, false));
+            subfolderBreadcrumbs.push(new SubfolderModel(parentFolderPath, false));
             parentFolderPath = this.fileAccess.getDirectoryPath(parentFolderPath);
         }
 
         // Always add the root folder
-        subfolderBreadCrumbs.push(new SubfolderModel(rootFolder.path, false));
+        subfolderBreadcrumbs.push(new SubfolderModel(rootFolder.path, false));
 
-        return subfolderBreadCrumbs.reverse();
+        return subfolderBreadcrumbs.reverse();
     }
 
     private checkIfCollectionHasFolders(): void {

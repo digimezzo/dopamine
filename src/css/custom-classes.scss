@@ -129,3 +129,28 @@
 .draggable {
     -webkit-app-region: drag;
 }
+
+.title {
+    color: var(--theme-accent-color);
+    font-weight: lighter !important;
+    font-size: calc(var(--fontsize) * 1.7) !important;
+    margin-bottom: 24px;
+}
+
+.largest {
+    font-weight: lighter !important;
+    font-size: calc(var(--fontsize) * 1.7) !important;
+}
+
+.larger {
+    font-weight: lighter !important;
+    font-size: calc(var(--fontsize) * 1.15) !important;
+}
+
+.smaller {
+    font-size: calc(var(--fontsize) * 0.9) !important;
+}
+
+.thinner {
+    font-weight: lighter !important;
+}

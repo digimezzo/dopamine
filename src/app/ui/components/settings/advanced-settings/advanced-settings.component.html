@@ -1,21 +1,19 @@
 <div class="d-flex flex-column p-4">
-    <h2>{{ 'welcome-screen' | translate }}</h2>
+    <div class="title">{{ 'welcome-screen' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="settings.showWelcome"> {{ 'show-welcome-screen-on-next-restart' | translate }}</app-toggle-switch>
     </div>
     <div class="mt-4">
-        <button mat-raised-button color="primary" (click)="this.showWelcomeScreenAsync()">
-            {{ 'show-welcome-screen-now' | translate | uppercase }}
-        </button>
+        <app-transparent-button (click)="this.showWelcomeScreenAsync()">
+            {{ 'show-welcome-screen-now' | translate }}
+        </app-transparent-button>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="d-flex flex-column p-4">
-    <h2>{{ 'log-file' | translate }}</h2>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'log-file' | translate }}</div>
     <div>{{ 'something-wrong-look-in-log-file' | translate }}</div>
     <div class="mt-4">
-        <button mat-raised-button color="primary" (click)="this.viewLog()">
-            {{ 'view-log' | translate | uppercase }}
-        </button>
+        <app-transparent-button (click)="this.viewLog()">
+            {{ 'view-log' | translate }}
+        </app-transparent-button>
     </div>
 </div>

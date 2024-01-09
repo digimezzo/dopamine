@@ -205,7 +205,7 @@ export class ArtistBrowserComponent implements OnInit, OnDestroy {
         this.shouldZoomOut = false;
         await this.scheduler.sleepAsync(Constants.semanticZoomInDelayMilliseconds);
 
-        const selectedIndex = this._artists.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
+        const selectedIndex = this.orderedArtists.findIndex((elem) => elem.zoomHeader === text && elem.isZoomHeader);
 
         if (selectedIndex > -1) {
             this.viewPort.scrollToIndex(selectedIndex, 'smooth');

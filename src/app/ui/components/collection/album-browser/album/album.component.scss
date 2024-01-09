@@ -21,11 +21,20 @@
     flex-direction: column;
 }
 
+.app-album__year-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
 .app-album__year {
-    font-weight: lighter !important;
-    height: 30px;
-    color: var(--theme-accent-color);
-    font-size: var(--fontsize-extra-large);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+    color: white;
+    height: 24px;
+    border-radius: 12px 0px 12px 12px;
+    padding: 0px 8px;
 }
 
 .app-album__cover {
@@ -67,19 +76,17 @@
 
 .app-album__information__line1 {
     height: 24px;
-    line-height: 22px;
+    line-height: 20px;
     padding-left: 4px;
     padding-right: 4px;
-    font-size: 12px;
     text-align: var(--theme-album-info-text-align);
-    padding-top: 2px;
+    padding-top: 4px;
 }
 
 .app-album__information__line2 {
     height: 22px;
-    line-height: 22px;
+    line-height: 20px;
     padding-left: 4px;
     padding-right: 4px;
-    font-size: 12px;
     text-align: var(--theme-album-info-text-align);
 }

@@ -1,6 +1,6 @@
 .app-collection-playback-pane {
     width: 100%;
-    height: 74px;
+    height: 80px;
     display: flex;
     flex-direction: column;
 }
@@ -47,8 +47,8 @@
     justify-content: flex-end;
 }
 
-.app-collection__playbackqueue {
-    font-size: 20px;
+.app-collection-playback-pane-controls__buttons {
+    font-size: 18px;
 }
 
 .app-collection-playback-pane_volume {

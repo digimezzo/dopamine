@@ -30,6 +30,14 @@
     align-items: center;
 }
 
+.align-items-flex-start {
+    align-items: flex-start;
+}
+
+.align-items-flex-end {
+    align-items: flex-end;
+}
+
 .flex-grow {
     flex: 1;
 }

@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatTrackDurationPipe implements PipeTransform {
     public transform(durationInMilliseconds: number | undefined): string {
         if (durationInMilliseconds == undefined || durationInMilliseconds < 0) {
-            return '00:00';
+            return '0:00';
         }
 
         const durationInSeconds: number = Math.floor(durationInMilliseconds / 1000);
@@ -17,9 +17,9 @@ export class FormatTrackDurationPipe implements PipeTransform {
         const seconds: number = durationInSeconds % 60;
 
         if (hours > 0) {
-            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            return `${hours.toString().padStart(1, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        return `${minutes.toString().padStart(1, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 }

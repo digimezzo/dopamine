@@ -2,7 +2,6 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { IMock, Mock, Times } from 'typemoq';
 import { Constants } from '../../common/application/constants';
-import { FontSize } from '../../common/application/font-size';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
 import { SettingsBase } from '../../common/settings/settings.base';
@@ -54,67 +53,67 @@ describe('AppearanceService', () => {
 
     function createDarkColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#000000', // windowButtonIcon
-            '#011111', // hoveredItemBackground
-            '#022222', // selectedItemBackground
-            '#033333', // tabText
-            '#044444', // selectedTabText
-            '#055555', // mainBackground
-            '#066666', // headerBackground
-            '#077777', // footerBackground
-            '#088888', // sidePaneBackground
-            '#099999', // primaryText
-            '#0aaaaa', // secondaryText
-            '#0bbbbb', // breadcrumbBackground
-            '#0ccccc', // sliderBackground
-            '#0ddddd', // sliderThumbBackground
-            '#0eeeee', // albumCoverLogo
-            '#0fffff', // albumCoverBackground
-            '#0fffff', // paneSeparators
-            '#0fffff', // settingsSeparators
-            '#0fffff', // contextMenuSeparators
-            '#0fffff', // scrollBars
-            '#0fffff', // searchBox
-            '#0fffff', // searchBoxText
-            '#0fffff', // searchBoxIcon
-            '#0fffff', // dialogBackground
-            '#0fffff', // primaryButtonText
-            '#0fffff', // secondaryButtonBackground
-            '#0fffff', // secondaryButtonText
-            '#0fffff', // tooltipText
+            '#000000',
+            '#011111',
+            '#022222',
+            '#033333',
+            '#044444',
+            '#055555',
+            '#066666',
+            '#077777',
+            '#088888',
+            '#099999',
+            '#0aaaaa',
+            '#0ccccc',
+            '#0ddddd',
+            '#0eeeee',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
+            '#0fffff',
         );
     }
 
     function createLightColors(): ThemeNeutralColors {
         return new ThemeNeutralColors(
-            '#100000', // windowButtonIcon
-            '#111111', // hoveredItemBackground
-            '#122222', // selectedItemBackground
-            '#133333', // tabText
-            '#144444', // selectedTabText
-            '#155555', // mainBackground
-            '#166666', // headerBackground
-            '#177777', // footerBackground
-            '#188888', // sidePaneBackground
-            '#199999', // primaryText
-            '#1aaaaa', // secondaryText
-            '#1bbbbb', // breadcrumbBackground
-            '#1ccccc', // sliderBackground
-            '#1ddddd', // sliderThumbBackground
-            '#1eeeee', // albumCoverLogo
-            '#1fffff', // albumCoverBackground
-            '#1fffff', // paneSeparators
-            '#1fffff', // settingsSeparators
-            '#1fffff', // contextMenuSeparators
-            '#1fffff', // scrollBars
-            '#1fffff', // searchBox
-            '#1fffff', // searchBoxText
-            '#1fffff', // searchBoxIcon
-            '#1fffff', // dialogBackground
-            '#1fffff', // primaryButtonText
-            '#1fffff', // secondaryButtonBackground
-            '#1fffff', // secondaryButtonText
-            '#1fffff', // tooltipText
+            '#100000',
+            '#111111',
+            '#122222',
+            '#133333',
+            '#144444',
+            '#155555',
+            '#166666',
+            '#177777',
+            '#188888',
+            '#199999',
+            '#1aaaaa',
+            '#1ccccc',
+            '#1ddddd',
+            '#1eeeee',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
+            '#1fffff',
         );
     }
 
@@ -193,7 +192,6 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-side-pane-background')).toEqual('#088888');
         expect(documentElementMock.style.getPropertyValue('--theme-primary-text')).toEqual('#099999');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-text')).toEqual('#0aaaaa');
-        expect(documentElementMock.style.getPropertyValue('--theme-breadcrumb-background')).toEqual('#0bbbbb');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-background')).toEqual('#0ccccc');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#0ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#0eeeee');
@@ -210,6 +208,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#0fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#0fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-button-border')).toEqual('#0fffff');
     }
 
     function assertLightColorCssProperties(scrollBars: string): void {
@@ -224,7 +223,6 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-side-pane-background')).toEqual('#188888');
         expect(documentElementMock.style.getPropertyValue('--theme-primary-text')).toEqual('#199999');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-text')).toEqual('#1aaaaa');
-        expect(documentElementMock.style.getPropertyValue('--theme-breadcrumb-background')).toEqual('#1bbbbb');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-background')).toEqual('#1ccccc');
         expect(documentElementMock.style.getPropertyValue('--theme-slider-thumb-background')).toEqual('#1ddddd');
         expect(documentElementMock.style.getPropertyValue('--theme-album-cover-logo')).toEqual('#1eeeee');
@@ -241,6 +239,7 @@ describe('AppearanceService', () => {
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-background')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-secondary-button-text')).toEqual('#1fffff');
         expect(documentElementMock.style.getPropertyValue('--theme-tooltip-text')).toEqual('#1fffff');
+        expect(documentElementMock.style.getPropertyValue('--theme-button-border')).toEqual('#1fffff');
     }
 
     function resetElements(): void {
@@ -442,7 +441,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Assert
-            expect(service.selectedFontSize).toEqual(new FontSize(14));
+            expect(service.selectedFontSize).toEqual(14);
         });
 
         it('should listen to accent color changes of the OS and apply the theme', () => {
@@ -916,7 +915,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Act
-            const fontSizes: FontSize[] = service.fontSizes;
+            const fontSizes: number[] = service.fontSizes;
 
             // Assert
             expect(fontSizes).toEqual(Constants.fontSizes);
@@ -929,7 +928,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createService();
 
             // Act
-            const fontSizes: FontSize[] = service.fontSizes;
+            const fontSizes: number[] = service.fontSizes;
 
             // Assert
             expect(fontSizes).toEqual(Constants.fontSizes);
@@ -942,7 +941,7 @@ describe('AppearanceService', () => {
             const service: AppearanceServiceBase = createServiceWithSettingsStub(settingsStub);
 
             // Act
-            service.selectedFontSize = new FontSize(13);
+            service.selectedFontSize = 13;
 
             // Assert
             expect(settingsStub.fontSize).toEqual(13);
@@ -956,14 +955,10 @@ describe('AppearanceService', () => {
             resetElements();
 
             // Act
-            service.selectedFontSize = new FontSize(13);
+            service.selectedFontSize = 13;
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize')).toEqual('13px');
         });
     });
 
@@ -1067,11 +1062,7 @@ describe('AppearanceService', () => {
             service.applyAppearance();
 
             // Assert
-            expect(documentElementMock.style.getPropertyValue('--fontsize-normal')).toEqual('13px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-medium')).toEqual('14.859px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-large')).toEqual('20.423px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-extra-large')).toEqual('24.141px');
-            expect(documentElementMock.style.getPropertyValue('--fontsize-mega')).toEqual('33.423px');
+            expect(documentElementMock.style.getPropertyValue('--fontsize')).toEqual('13px');
         });
 
         it('should apply the dark theme of the selected theme when follow the system theme is disabled and use light background theme is disabled', () => {

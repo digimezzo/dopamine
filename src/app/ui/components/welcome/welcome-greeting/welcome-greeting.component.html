@@ -1,14 +1,14 @@
 <div class="d-flex flex-column p-3">
-    <h1 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+    <div *ngIf="!this.isLoaded" class="title fade-in-animation animation-duration-2s animation-delay-2s">
         {{ 'hi' | translate }}
-    </h1>
-    <h3 *ngIf="!this.isLoaded" class="mb-2 fade-in-animation animation-duration-2s animation-delay-2s">
+    </div>
+    <div *ngIf="!this.isLoaded" class="larger fade-in-animation animation-duration-2s animation-delay-2s">
         {{ 'welcome-to-dopamine' | translate }}
-    </h3>
-    <h1 *ngIf="this.isLoaded" class="mb-2">
+    </div>
+    <div *ngIf="this.isLoaded" class="title">
         {{ 'hi' | translate }}
-    </h1>
-    <h3 *ngIf="this.isLoaded" class="mb-2">
+    </div>
+    <div *ngIf="this.isLoaded" class="larger">
         {{ 'welcome-to-dopamine' | translate }}
-    </h3>
+    </div>
 </div>

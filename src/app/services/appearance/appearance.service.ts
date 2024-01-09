@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationPaths } from '../../common/application/application-paths';
 import { Constants } from '../../common/application/constants';
-import { FontSize } from '../../common/application/font-size';
 import { ColorConverter } from '../../common/color-converter';
 import { DocumentProxy } from '../../common/io/document-proxy';
 import { Logger } from '../../common/logger';
@@ -26,7 +25,7 @@ export class AppearanceService implements AppearanceServiceBase {
 
     private _windowHasNativeTitleBar: boolean;
     private _selectedTheme: Theme;
-    private _selectedFontSize: FontSize;
+    private _selectedFontSize: number;
     private subscription: Subscription = new Subscription();
 
     private _themesDirectoryPath: string;
@@ -111,15 +110,15 @@ export class AppearanceService implements AppearanceServiceBase {
         this.safeApplyTheme();
     }
 
-    public fontSizes: FontSize[] = Constants.fontSizes;
+    public fontSizes: number[] = Constants.fontSizes;
 
-    public get selectedFontSize(): FontSize {
+    public get selectedFontSize(): number {
         return this._selectedFontSize;
     }
 
-    public set selectedFontSize(v: FontSize) {
+    public set selectedFontSize(v: number) {
         this._selectedFontSize = v;
-        this.settings.fontSize = v.normalSize;
+        this.settings.fontSize = v;
         this.applyFontSize();
     }
 
@@ -173,11 +172,7 @@ export class AppearanceService implements AppearanceServiceBase {
 
     private applyFontSize(): void {
         const element: HTMLElement = this.documentProxy.getDocumentElement();
-        element.style.setProperty('--fontsize-normal', `${this._selectedFontSize.normalSize}px`);
-        element.style.setProperty('--fontsize-medium', `${this._selectedFontSize.mediumSize}px`);
-        element.style.setProperty('--fontsize-large', `${this._selectedFontSize.largeSize}px`);
-        element.style.setProperty('--fontsize-extra-large', `${this._selectedFontSize.extraLargeSize}px`);
-        element.style.setProperty('--fontsize-mega', `${this._selectedFontSize.megaSize}px`);
+        element.style.setProperty('--fontsize', `${this._selectedFontSize}px`);
     }
 
     public applyMargins(isSearchVisible: boolean): void {
@@ -328,7 +323,6 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-side-pane-background', neutralColors.sidePaneBackground);
         element.style.setProperty('--theme-primary-text', neutralColors.primaryText);
         element.style.setProperty('--theme-secondary-text', neutralColors.secondaryText);
-        element.style.setProperty('--theme-breadcrumb-background', neutralColors.breadcrumbBackground);
         element.style.setProperty('--theme-slider-background', neutralColors.sliderBackground);
         element.style.setProperty('--theme-slider-thumb-background', neutralColors.sliderThumbBackground);
         element.style.setProperty('--theme-album-cover-logo', neutralColors.albumCoverLogo);
@@ -345,6 +339,7 @@ export class AppearanceService implements AppearanceServiceBase {
         element.style.setProperty('--theme-secondary-button-background', neutralColors.secondaryButtonBackground);
         element.style.setProperty('--theme-secondary-button-text', neutralColors.secondaryButtonText);
         element.style.setProperty('--theme-tooltip-text', neutralColors.tooltipText);
+        element.style.setProperty('--theme-button-border', neutralColors.buttonBorder);
     }
 
     private setSelectedThemeFromSettings(): void {
@@ -368,7 +363,7 @@ export class AppearanceService implements AppearanceServiceBase {
     }
 
     private setSelectedFontSizeFromSettings(): void {
-        this._selectedFontSize = this.fontSizes.find((x) => x.normalSize === this.settings.fontSize)!;
+        this._selectedFontSize = this.fontSizes.find((x) => x === this.settings.fontSize)!;
     }
 
     private isSystemUsingDarkTheme(): boolean {

@@ -1,60 +1,52 @@
 <div class="p-4">
-    <h2>{{ 'multimedia-keys' | translate }}</h2>
+    <div class="title">{{ 'multimedia-keys' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.mediaSessionService.enableMultimediaKeys">
-            {{ 'enable-multimedia-keys' | translate }}</mat-slide-toggle
+        <app-toggle-switch [(isChecked)]="this.mediaSessionService.enableMultimediaKeys">
+            {{ 'enable-multimedia-keys' | translate }}</app-toggle-switch
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
-    <h2>{{ 'notification-area' | translate }}</h2>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'notification-area' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.settings.showIconInNotificationArea">
-            {{ 'show-icon-in-notification-area' | translate }}</mat-slide-toggle
-        >
-    </div>
-    <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="this.settings.minimizeToNotificationArea">
-            {{ 'minimize-to-notification-area' | translate }}</mat-slide-toggle
+        <app-toggle-switch [(isChecked)]="this.settings.showIconInNotificationArea">
+            {{ 'show-icon-in-notification-area' | translate }}</app-toggle-switch
         >
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="this.settings.closeToNotificationArea">
-            {{ 'close-to-notification-area' | translate }}</mat-slide-toggle
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.minimizeToNotificationArea">
+            {{ 'minimize-to-notification-area' | translate }}</app-toggle-switch
+        >
+    </div>
+    <div>
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.closeToNotificationArea">
+            {{ 'close-to-notification-area' | translate }}</app-toggle-switch
         >
     </div>
     <div *ngIf="this.trayService.needInvertNotificationAreaIconColor">
-        <mat-slide-toggle class="mt-3" [(ngModel)]="this.trayService.invertNotificationAreaIconColor">
-            {{ 'invert-notification-area-icon-color' | translate }}</mat-slide-toggle
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.trayService.invertNotificationAreaIconColor">
+            {{ 'invert-notification-area-icon-color' | translate }}</app-toggle-switch
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
-    <h2>{{ 'rating' | translate }}</h2>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'rating' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.settings.showRating"> {{ 'show-rating' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="this.settings.showRating"> {{ 'show-rating' | translate }}</app-toggle-switch>
     </div>
     <div>
-        <mat-slide-toggle class="mt-3" [(ngModel)]="this.settings.saveRatingToAudioFiles">
-            {{ 'save-rating-to-audio-files' | translate }}</mat-slide-toggle
+        <app-toggle-switch class="mt-3" [(isChecked)]="this.settings.saveRatingToAudioFiles">
+            {{ 'save-rating-to-audio-files' | translate }}</app-toggle-switch
         >
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
-    <h2>{{ 'love' | translate }}</h2>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'love' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.settings.showLove"> {{ 'show-love' | translate }}</mat-slide-toggle>
+        <app-toggle-switch [(isChecked)]="this.settings.showLove"> {{ 'show-love' | translate }}</app-toggle-switch>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div class="p-4">
-    <h2>{{ 'now-playing' | translate }}</h2>
+    <mat-divider class="my-4"></mat-divider>
+    <div class="title">{{ 'now-playing' | translate }}</div>
     <div>
-        <mat-slide-toggle [(ngModel)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">
-            {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</mat-slide-toggle
+        <app-toggle-switch [(isChecked)]="this.settings.keepPlaybackControlsVisibleOnNowPlayingPage">
+            {{ 'keep-playback-controls-visible-on-now-playing-page' | translate }}</app-toggle-switch
         >
     </div>
 </div>

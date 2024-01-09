@@ -1,0 +1,32 @@
+.app-transparent-button-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-transparent-button-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px;
+    height: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.7px !important;
+    background: transparent;
+    border: 1px solid var(--theme-button-border);
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease 0s;
+    cursor: pointer;
+    outline: none;
+    font-size: calc(var(--fontsize) * 0.8);
+}
+
+.app-transparent-button-button:hover {
+    background-color: var(--theme-accent-color);
+    box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
+    color: #fff;
+    transform: translateY(-3px);
+}

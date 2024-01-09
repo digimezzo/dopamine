@@ -1,0 +1,42 @@
+.app-big-icon-button-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-big-icon-button-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 45px;
+    background: transparent;
+    border: 1px solid var(--theme-button-border);
+    border-radius: 45px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.app-big-icon-button-button:hover {
+    background-color: var(--theme-accent-color);
+    box-shadow: 0 5px 15px rgba(var(--theme-rgb-accent), 0.4);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.app-big-icon-button-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: var(--theme-accent-color);
+}
+
+.app-big-icon-button-button:hover .app-big-icon-button-icon {
+    color: #fff;
+}

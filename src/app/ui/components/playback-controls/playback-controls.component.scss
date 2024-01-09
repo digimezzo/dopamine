@@ -14,23 +14,24 @@
     background-color: transparent;
 }
 
+.app-playback-controls__circled-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: transparent;
+    border: 1px solid var(--theme-button-border);
+}
+
 .app-playback-controls__icon {
-    margin-top: 1px; // HACK
-    font-size: 20px;
+    font-size: 18px;
     color: var(--theme-primary-text);
+    transition: all 0.25s ease 0s;
 }
 
-.app-playback-controls__accenticon {
-    @extend .app-playback-controls__icon;
+.app-playback-controls__accent {
     color: var(--theme-accent-color);
-}
-
-.loop-one-button__number {
-    color: var(--theme-accent-color);
-    font-size: 9px;
-    position: absolute;
-    margin-top: 2px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    transition: all 0.25s ease 0s;
 }

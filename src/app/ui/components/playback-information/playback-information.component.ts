@@ -101,21 +101,41 @@ export class PlaybackInformationComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get ellipsisClass(): string {
+    public get largeFontClasses(): string {
         switch (this.position) {
             case 'top': {
-                return 'ellipsis-two-lines';
+                return `ellipsis-two-lines ${this.getLargeFontWeightClass()}`.trim();
             }
             case 'center': {
-                return 'ellipsis';
+                return `ellipsis ${this.getLargeFontWeightClass()}`.trim();
             }
             case 'bottom': {
-                return 'ellipsis-two-lines';
+                return `ellipsis-two-lines ${this.getLargeFontWeightClass()}`.trim();
             }
             default: {
-                return 'ellipsis';
+                return `ellipsis ${this.getLargeFontWeightClass()}`.trim();
             }
         }
+    }
+
+    public get smallFontClasses(): string {
+        return this.getSmallFontWeightClass();
+    }
+
+    private getLargeFontWeightClass(): string {
+        if (this.largeFontSize >= 20) {
+            return 'thinner';
+        }
+
+        return '';
+    }
+
+    private getSmallFontWeightClass(): string {
+        if (this.smallFontSize >= 20) {
+            return 'thinner';
+        }
+
+        return '';
     }
 
     public async ngOnInit(): Promise<void> {
