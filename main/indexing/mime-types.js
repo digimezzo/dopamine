@@ -1,4 +1,4 @@
-const { FileFormats } = require('./file-formats');
+const { FileFormats } = require('../common/file-formats');
 
 class MimeTypes {
     static getMimeTypeForFileExtension(fileExtension) {

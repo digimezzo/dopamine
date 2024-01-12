@@ -1,15 +1,14 @@
-const { TrackFieldCreator } = require('./track-field-creator');
-const { FileAccess } = require('./file-access');
-const { DateTime } = require('./date-time');
 const { MimeTypes } = require('./mime-types');
+const { Logger } = require('../common/logger');
+const { FileAccess } = require('../common/file-access');
 const { AlbumKeyGenerator } = require('./album-key-generator');
-const { TagLibFileMetadata } = require('./tag-lib-file-metadata');
-const log = require('electron-log');
+const { TrackFieldCreator } = require('./track-field-creator');
+const { FileMetadataFactory } = require('./file-metadata-factory');
 
-class MetadataAdder {
-    static async addMetadataToTrackAsync(track, fillOnlyEssentialMetadata) {
+class TrackFiller {
+    static addFileMetadataToTrack(track, fillOnlyEssentialMetadata) {
         try {
-            const fileMetadata = TagLibFileMetadata.getMetadata(track.path);
+            const fileMetadata = FileMetadataFactory.create(track.path);
 
             track.artists = TrackFieldCreator.createMultiTextField(fileMetadata.artists);
             track.rating = TrackFieldCreator.createNumberField(fileMetadata.rating);
@@ -26,14 +25,14 @@ class MetadataAdder {
                 track.genres = TrackFieldCreator.createMultiTextField(fileMetadata.genres);
                 track.albumTitle = TrackFieldCreator.createTextField(fileMetadata.album);
                 track.albumArtists = TrackFieldCreator.createMultiTextField(fileMetadata.albumArtists);
-                track.mimeType = this.getMimeType(track.path);
+                track.mimeType = this.#getMimeType(track.path);
                 track.bitRate = TrackFieldCreator.createNumberField(fileMetadata.bitRate);
                 track.sampleRate = TrackFieldCreator.createNumberField(fileMetadata.sampleRate);
                 track.trackCount = TrackFieldCreator.createNumberField(fileMetadata.trackCount);
                 track.discNumber = TrackFieldCreator.createNumberField(fileMetadata.discNumber);
                 track.discCount = TrackFieldCreator.createNumberField(fileMetadata.discCount);
                 track.year = TrackFieldCreator.createNumberField(fileMetadata.year);
-                track.hasLyrics = this.getHasLyrics(fileMetadata.lyrics);
+                track.hasLyrics = this.#getHasLyrics(fileMetadata.lyrics);
                 track.dateAdded = dateNowTicks;
                 track.dateFileCreated = FileAccess.getDateCreatedInTicks(track.path);
                 track.dateLastSynced = dateNowTicks;
@@ -48,29 +47,18 @@ class MetadataAdder {
             track.indexingSuccess = 0;
             track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
-            log.error(`[MetadataAdder] [addMetadataToTrackAsync] Could not get metadata for file ${track.path}. Error: ${e.message}'`);
+            Logger.error(e, 'Error while retrieving tag information for file ${track.path}', 'TrackFiller', 'addFileMetadataToTrackAsync');
         }
 
         return track;
     }
 
-    static async addMetadataToTracksAsync(tracks, fillOnlyEssentialMetadata) {
-        const filledTracks = [];
-
-        for (const track of tracks) {
-            const filledTrack = await this.addMetadataToTrackAsync(track, fillOnlyEssentialMetadata);
-            filledTracks.push(filledTrack);
-        }
-
-        return filledTracks;
-    }
-
-    static getMimeType(filePath) {
+    #getMimeType(filePath) {
         return MimeTypes.getMimeTypeForFileExtension(FileAccess.getFileExtension(filePath));
     }
 
-    static getHasLyrics(lyrics) {
-        if (lyrics !== undefined && lyrics.length > 0) {
+    #getHasLyrics(lyrics) {
+        if (!StringUtils.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }
 
@@ -78,4 +66,4 @@ class MetadataAdder {
     }
 }
 
-exports.MetadataAdder = MetadataAdder;
+exports.TrackFiller = TrackFiller;

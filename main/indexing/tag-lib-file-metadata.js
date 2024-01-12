@@ -1,15 +1,13 @@
-// import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
-// import { RatingConverter } from './rating-converter';
 const { File } = require('node-taglib-sharp');
 
 class TagLibFileMetadata {
-    #rating = 0;
-    #ratingHasChanged = false;
-    #windowsPopMUser = 'Windows Media Player 9 Series';
+    constructor(path) {
+        this.#load(path);
+    }
 
-    static getMetadata(path) {
+    #load(path) {
         const metadata = {
-            path: '',
+            path: path,
             bitRate: 0,
             sampleRate: 0,
             durationInMilliseconds: 0,

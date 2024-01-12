@@ -1,26 +1,23 @@
-﻿const {IndexablePath} = require("./indexable-path");
-const {FileFormats} = require("../common/file-formats");
+﻿const { IndexablePath } = require('./indexable-path');
+const { FileFormats } = require('../common/file-formats');
+const { FileAccess } = require('../common/file-access');
+const { Logger } = require('../common/logger');
+const { DirectoryWalker } = require('./directory-walker');
+const { FolderRepository } = require('../data/folder-repository');
 
 class IndexablePathFetcher {
-    constructor(fileAccess, directoryWalker, logger, folderRepository) {
-        this.fileAccess = fileAccess;
-        this.directoryWalker = directoryWalker;
-        this.logger = logger;
-        this.folderRepository = folderRepository;
-    }
-
-    async getIndexablePathsForAllFoldersAsync() {
+    static async getIndexablePathsForAllFoldersAsync() {
         const indexablePaths = [];
         let folders = [];
 
         try {
-            folders = this.folderRepository.getFolders() ?? [];
+            folders = FolderRepository.getFolders() ?? [];
         } catch (e) {
-            this.logger.error(e, 'An error occurred while getting folders', 'IndexablePathFetcher', 'getIndexablePathsForAllFoldersAsync');
+            Logger.error(e, 'An error occurred while getting folders', 'IndexablePathFetcher', 'getIndexablePathsForAllFoldersAsync');
         }
 
         for (const folder of folders) {
-            if (this.fileAccess.pathExists(folder.path)) {
+            if (FileAccess.pathExists(folder.path)) {
                 try {
                     const indexablePathsForFolder = await this.getIndexablePathsForSingleFolderAsync(
                         folder,
@@ -29,7 +26,7 @@ class IndexablePathFetcher {
 
                     indexablePaths.push(...indexablePathsForFolder);
                 } catch (e) {
-                    this.logger.error(
+                    Logger.error(
                         e,
                         `Could not get indexable paths for folder '${folder.path}'`,
                         'IndexablePathFetcher',
@@ -42,14 +39,14 @@ class IndexablePathFetcher {
         return indexablePaths;
     }
 
-    async getIndexablePathsForSingleFolderAsync(folder, validFileExtensions) {
+    static async getIndexablePathsForSingleFolderAsync(folder, validFileExtensions) {
         const indexablePaths = [];
 
         try {
-            const directoryWalkResult = await this.directoryWalker.getFilesInDirectoryAsync(folder.path);
+            const directoryWalkResult = await DirectoryWalker.getFilesInDirectoryAsync(folder.path);
 
             for (const e of directoryWalkResult.errors) {
-                this.logger.error(
+                Logger.error(
                     e,
                     `Error occurred while getting files recursively for folder '${folder.path}'`,
                     'IndexablePathFetcher',
@@ -59,14 +56,14 @@ class IndexablePathFetcher {
 
             for (const filePath of directoryWalkResult.filePaths) {
                 try {
-                    const fileExtension = this.fileAccess.getFileExtension(filePath);
+                    const fileExtension = FileAccess.getFileExtension(filePath);
 
                     if (validFileExtensions.includes(fileExtension.toLowerCase())) {
-                        const dateModifiedInTicks = this.fileAccess.getDateModifiedInTicks(filePath);
+                        const dateModifiedInTicks = FileAccess.getDateModifiedInTicks(filePath);
                         indexablePaths.push(new IndexablePath(filePath, dateModifiedInTicks, folder.folderId));
                     }
                 } catch (e) {
-                    this.logger.error(
+                    Logger.error(
                         e,
                         `Error occurred while getting indexable path for file '${filePath}'`,
                         'IndexablePathFetcher',
@@ -75,7 +72,7 @@ class IndexablePathFetcher {
                 }
             }
         } catch (e) {
-            this.logger.error(
+            Logger.error(
                 e,
                 `An error occurred while fetching indexable paths for folder '${folder.path}'`,
                 'IndexablePathFetcher',
@@ -86,6 +83,5 @@ class IndexablePathFetcher {
         return indexablePaths;
     }
 }
-
 
 exports.IndexablePathFetcher = IndexablePathFetcher;
