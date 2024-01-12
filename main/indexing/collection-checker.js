@@ -31,7 +31,7 @@ class CollectionChecker {
         return collectionIsOutdated;
     }
 
-    #getLastDateFileModifiedOnDisk(indexablePathsOnDisk) {
+    static #getLastDateFileModifiedOnDisk(indexablePathsOnDisk) {
         if (indexablePathsOnDisk.length <= 1) {
             return 0;
         }

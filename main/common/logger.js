@@ -13,11 +13,11 @@ class Logger {
         log.error(this.#formattedMessageWithError(error, message, callerClass, callerMethod));
     }
 
-    #formattedMessage(message, callerClass, callerMethod) {
+    static #formattedMessage(message, callerClass, callerMethod) {
         return `[${callerClass}] [${callerMethod}] ${message}`;
     }
 
-    #formattedMessageWithError(error, message, callerClass, callerMethod) {
+    static #formattedMessageWithError(error, message, callerClass, callerMethod) {
         return `[${callerClass}] [${callerMethod}]  ${message.endsWith('.') ? message : message + '.'}${
             error instanceof Error ? ' Error: ' + error.message : ''
         }`;

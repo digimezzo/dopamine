@@ -5,3 +5,5 @@ class FolderTrack {
         this.trackId = trackId;
     }
 }
+
+exports.FolderTrack = FolderTrack;

@@ -7,6 +7,7 @@ import { TrackIndexer } from './track-indexer';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -20,6 +21,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private trackRepository: TrackRepositoryBase,
         private folderService: FolderServiceBase,
+        private ipcProxy: IpcProxyBase,
         private logger: Logger,
     ) {
         this.subscription.add(
@@ -53,12 +55,13 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         if (collectionIsOutdated) {
             this.logger.info('Collection is outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-            await this.trackIndexer.indexTracksAsync();
+            // await this.trackIndexer.indexTracksAsync();
+            await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'outdated' });
         } else {
             this.logger.info('Collection is not outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
         }
 
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
         this.indexingFinished.next();
@@ -84,8 +87,10 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
 
-        await this.trackIndexer.indexTracksAsync();
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        // await this.trackIndexer.indexTracksAsync();
+        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'foldersChanged' });
+
+        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
         this.indexingFinished.next();
@@ -103,8 +108,10 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionAlwaysAsync');
 
-        await this.trackIndexer.indexTracksAsync();
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        // await this.trackIndexer.indexTracksAsync();
+        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'always' });
+
+        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
         this.isIndexingCollection = false;
         this.indexingFinished.next();

@@ -7,6 +7,7 @@ const { TrackRepository } = require('../data/track-repository');
 const { Track } = require('../data/entities/track');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
 const { RemovedTrackRepository } = require('../data/removed-track-repository');
+const { FolderTrack } = require('../data/entities/folder-track');
 
 class TrackAdder {
     static async addTracksThatAreNotInTheDatabaseAsync() {
@@ -56,7 +57,7 @@ class TrackAdder {
         }
     }
 
-    async #getIndexablePathsAsync(skipRemovedFiles) {
+    static async #getIndexablePathsAsync(skipRemovedFiles) {
         const indexablePaths = [];
 
         const allIndexablePaths = await IndexablePathFetcher.getIndexablePathsForAllFoldersAsync();

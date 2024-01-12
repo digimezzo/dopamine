@@ -1,6 +1,5 @@
 const { DatabaseFactory } = require('./database-factory');
-const { QueryParts } = require('../../src/app/data/query-parts');
-const { Track } = require('../../src/app/data/entities/track');
+const { QueryParts } = require('./query-parts');
 
 class TrackRepository {
     static getNumberOfTracksThatNeedIndexing() {

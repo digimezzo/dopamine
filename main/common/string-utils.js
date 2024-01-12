@@ -15,3 +15,5 @@ class StringUtils {
         return false;
     }
 }
+
+exports.StringUtils = StringUtils;

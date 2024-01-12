@@ -4,7 +4,7 @@ const { app } = require('electron');
 const { DateTime } = require('./date-time');
 
 class FileAccess {
-    #pathSeparator = path.sep;
+    static #pathSeparator = path.sep;
 
     static pathExists(pathToCheck) {
         return fs.existsSync(pathToCheck);
@@ -41,7 +41,8 @@ class FileAccess {
     }
 
     static applicationDataDirectory() {
-        return app.getPath('userData');
+        // return app.getPath('userData');
+        return '/home/raphael/.config/Dopamine';
     }
 
     static async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {

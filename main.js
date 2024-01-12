@@ -271,12 +271,21 @@ try {
             }
             tray.setImage(getTrayIcon());
         });
-        electron_1.ipcMain.on('metadata-worker-request', (event, arg) => {
-            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/metadata/metadata-worker.js'), {
+        // ipcMain.on('metadata-worker-request', (event: any, arg: any) => {
+        //     const workerThread = new Worker(path.join(__dirname, 'main/metadata/metadata-worker.js'), {
+        //         workerData: { arg },
+        //     });
+        //
+        //     workerThread.on('message', (filledIndexableTracks): void => {
+        //         mainWindow!.webContents.send('metadata-worker-response', { filledIndexableTracks: filledIndexableTracks });
+        //     });
+        // });
+        electron_1.ipcMain.on('indexing-worker-request', (event, arg) => {
+            const workerThread = new worker_threads_1.Worker(path.join(__dirname, 'main/workers/indexing-worker.js'), {
                 workerData: { arg },
             });
-            workerThread.on('message', (filledIndexableTracks) => {
-                mainWindow.webContents.send('metadata-worker-response', { filledIndexableTracks: filledIndexableTracks });
+            workerThread.on('message', () => {
+                mainWindow.webContents.send('indexing-worker-response', 'Done');
             });
         });
     }

@@ -4,6 +4,8 @@ const { FileAccess } = require('../common/file-access');
 const { AlbumKeyGenerator } = require('./album-key-generator');
 const { TrackFieldCreator } = require('./track-field-creator');
 const { FileMetadataFactory } = require('./file-metadata-factory');
+const { DateTime } = require('../common/date-time');
+const { StringUtils } = require('../common/string-utils');
 
 class TrackFiller {
     static addFileMetadataToTrack(track, fillOnlyEssentialMetadata) {
@@ -47,17 +49,17 @@ class TrackFiller {
             track.indexingSuccess = 0;
             track.indexingFailureReason = e instanceof Error ? e.message : 'Unknown error';
 
-            Logger.error(e, 'Error while retrieving tag information for file ${track.path}', 'TrackFiller', 'addFileMetadataToTrackAsync');
+            Logger.error(e, `Error while retrieving tag information for file ${track.path}`, 'TrackFiller', 'addFileMetadataToTrackAsync');
         }
 
         return track;
     }
 
-    #getMimeType(filePath) {
+    static #getMimeType(filePath) {
         return MimeTypes.getMimeTypeForFileExtension(FileAccess.getFileExtension(filePath));
     }
 
-    #getHasLyrics(lyrics) {
+    static #getHasLyrics(lyrics) {
         if (!StringUtils.isNullOrWhiteSpace(lyrics)) {
             return 1;
         }
