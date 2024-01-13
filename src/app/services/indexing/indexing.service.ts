@@ -8,6 +8,8 @@ import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
+import { SettingsBase } from '../../common/settings/settings.base';
+import { FileAccessBase } from '../../common/io/file-access.base';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -17,10 +19,11 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
     public constructor(
         private collectionChecker: CollectionChecker,
-        private trackIndexer: TrackIndexer,
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private trackRepository: TrackRepositoryBase,
         private folderService: FolderServiceBase,
+        private fileAccess: FileAccessBase,
+        private settings: SettingsBase,
         private ipcProxy: IpcProxyBase,
         private logger: Logger,
     ) {
@@ -56,7 +59,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         if (collectionIsOutdated) {
             this.logger.info('Collection is outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
             // await this.trackIndexer.indexTracksAsync();
-            await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'outdated' });
+            await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('outdated'));
         } else {
             this.logger.info('Collection is not outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
         }
@@ -88,7 +91,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
 
         // await this.trackIndexer.indexTracksAsync();
-        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'foldersChanged' });
+        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('foldersChanged'));
 
         // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
@@ -109,7 +112,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionAlwaysAsync');
 
         // await this.trackIndexer.indexTracksAsync();
-        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', { task: 'always' });
+        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('always'));
 
         // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
 
@@ -134,5 +137,13 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.isIndexingCollection = false;
         this.indexingFinished.next();
+    }
+
+    private createWorkerArgs(task: string) {
+        return {
+            task: task,
+            skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
+            applicationDataDirectory: this.fileAccess.applicationDataDirectory(),
+        };
     }
 }

@@ -1,4 +1,3 @@
-const { Settings } = require('../common/settings');
 const { Timer } = require('../common/timer');
 const { TrackFiller } = require('./track-filler');
 const { Logger } = require('../common/logger');
@@ -8,6 +7,9 @@ const { Track } = require('../data/entities/track');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
 const { RemovedTrackRepository } = require('../data/removed-track-repository');
 const { FolderTrack } = require('../data/entities/folder-track');
+const { workerData } = require('worker_threads');
+
+const { arg } = workerData;
 
 class TrackAdder {
     static async addTracksThatAreNotInTheDatabaseAsync() {
@@ -15,7 +17,7 @@ class TrackAdder {
         timer.start();
 
         try {
-            const indexablePaths = await this.#getIndexablePathsAsync(Settings.getSkipRemovedFilesDuringRefresh());
+            const indexablePaths = await this.#getIndexablePathsAsync(arg.skipRemovedFilesDuringRefresh);
 
             let numberOfAddedTracks = 0;
 

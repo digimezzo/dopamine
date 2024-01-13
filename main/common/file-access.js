@@ -40,11 +40,6 @@ class FileAccess {
         return pathPieces.join(this.#pathSeparator);
     }
 
-    static applicationDataDirectory() {
-        // return app.getPath('userData');
-        return '/home/raphael/.config/Dopamine';
-    }
-
     static async getFilesInDirectoryAsync(directoryPath, continueOnError, errors) {
         const possibleFileNames = await fs.readdir(directoryPath);
         const confirmedFilePaths = [];
