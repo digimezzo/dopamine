@@ -1,6 +1,7 @@
 const { Logger } = require('../common/logger');
 const { CollectionChecker } = require('./collection-checker');
 const { TrackIndexer } = require('./track-indexer');
+const { parentPort } = require('worker_threads');
 
 class Indexer {
     static async indexCollectionIfOutdatedAsync() {

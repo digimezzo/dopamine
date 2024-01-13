@@ -48,7 +48,7 @@ export class LoadingComponent implements OnInit {
         await this.scheduler.sleepAsync(2000);
 
         if (this.settings.refreshCollectionAutomatically) {
-            await this.indexingService.indexCollectionIfOutdatedAsync();
+            this.indexingService.indexCollectionIfOutdated();
         }
 
         await this.updateService.checkForUpdatesAsync();

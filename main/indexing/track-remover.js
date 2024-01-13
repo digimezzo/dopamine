@@ -3,6 +3,8 @@ const { Logger } = require('../common/logger');
 const { FileAccess } = require('../common/file-access');
 const { TrackRepository } = require('../data/track-repository');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
+const { parentPort } = require('worker_threads');
+const { RemovingTracksMessage } = require('./messages/removing-tracks-message');
 
 class TrackRemover {
     static async removeTracksThatDoNoNotBelongToFoldersAsync() {
@@ -26,7 +28,7 @@ class TrackRemover {
 
             Logger.info(`Found ${numberOfTracksToRemove} tracks to remove.`, 'TrackRemover', 'removeTracksThatDoNoNotBelongToFoldersAsync');
 
-            // await this.snackBarService.removingTracksAsync();
+            parentPort?.postMessage(new RemovingTracksMessage());
 
             const numberOfRemovedTracks = TrackRepository.deleteTracksThatDoNotBelongFolders();
 
@@ -61,10 +63,10 @@ class TrackRemover {
                     numberOfRemovedTracks++;
                 }
 
-                // Only trigger the snack bar once
-                // if (numberOfRemovedTracks === 1) {
-                //   await this.snackBarService.removingTracksAsync();
-                // }
+                // Only send message once
+                if (numberOfRemovedTracks === 1) {
+                    parentPort?.postMessage(new RemovingTracksMessage());
+                }
             }
 
             timer.stop();
@@ -106,7 +108,7 @@ class TrackRemover {
                 'removeFolderTracksForInexistingTracksAsync',
             );
 
-            // await this.snackBarService.removingTracksAsync();
+            parentPort?.postMessage(new RemovingTracksMessage());
 
             const numberOfRemovedFolderTracks = FolderTrackRepository.deleteFolderTracksForInexistingTracks();
 

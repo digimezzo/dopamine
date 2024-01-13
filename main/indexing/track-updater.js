@@ -3,6 +3,8 @@ const { TrackRepository } = require('../data/track-repository');
 const { Logger } = require('../common/logger');
 const { TrackVerifier } = require('./track-verifier');
 const { TrackFiller } = require('./track-filler');
+const { parentPort } = require('worker_threads');
+const { UpdatingTracksMessage } = require('./messages/updating-tracks-message');
 
 class TrackUpdater {
     static async updateTracksThatAreOutOfDateAsync() {
@@ -21,10 +23,10 @@ class TrackUpdater {
                         TrackRepository.updateTrack(filledTrack);
                         numberOfUpdatedTracks++;
 
-                        // if (numberOfUpdatedTracks === 1) {
-                        //   // Only trigger the snack bar once
-                        //   await this.snackBarService.updatingTracksAsync();
-                        // }
+                        // Only send message once
+                        if (numberOfUpdatedTracks === 1) {
+                            parentPort?.postMessage(new UpdatingTracksMessage());
+                        }
                     }
                 } catch (e) {
                     Logger.error(

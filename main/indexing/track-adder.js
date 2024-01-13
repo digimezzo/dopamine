@@ -7,7 +7,8 @@ const { Track } = require('../data/entities/track');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
 const { RemovedTrackRepository } = require('../data/removed-track-repository');
 const { FolderTrack } = require('../data/entities/folder-track');
-const { workerData } = require('worker_threads');
+const { workerData, parentPort } = require('worker_threads');
+const { AddingTracksMessage } = require('./messages/adding-tracks-message');
 
 const { arg } = workerData;
 
@@ -33,8 +34,12 @@ class TrackAdder {
 
                     numberOfAddedTracks++;
 
-                    // const percentageOfAddedTracks = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
-                    // await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
+                    const percentageOfAddedTracks = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
+
+                    // Only send message once every 20 tracks or when all tracks have been added
+                    if (numberOfAddedTracks % 20 === 0 || percentageOfAddedTracks === 100) {
+                        parentPort?.postMessage(new AddingTracksMessage(numberOfAddedTracks, percentageOfAddedTracks));
+                    }
                 } catch (e) {
                     Logger.error(
                         e,

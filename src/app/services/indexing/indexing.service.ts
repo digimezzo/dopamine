@@ -3,13 +3,15 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { CollectionChecker } from './collection-checker';
-import { TrackIndexer } from './track-indexer';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { ipcRenderer } from 'electron';
+import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { PromiseUtils } from '../../common/utils/promise-utils';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -18,13 +20,12 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
     private foldersHaveChanged: boolean = false;
 
     public constructor(
-        private collectionChecker: CollectionChecker,
+        private snackBarService: SnackBarServiceBase,
         private albumArtworkIndexer: AlbumArtworkIndexer,
         private trackRepository: TrackRepositoryBase,
         private folderService: FolderServiceBase,
         private fileAccess: FileAccessBase,
         private settings: SettingsBase,
-        private ipcProxy: IpcProxyBase,
         private logger: Logger,
     ) {
         this.subscription.add(
@@ -42,82 +43,16 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    public async indexCollectionIfOutdatedAsync(): Promise<void> {
-        if (this.isIndexingCollection) {
-            this.logger.info('Already indexing.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-
-            return;
-        }
-
-        this.isIndexingCollection = true;
-        this.foldersHaveChanged = false;
-
-        this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-
-        const collectionIsOutdated: boolean = await this.collectionChecker.isCollectionOutdatedAsync();
-
-        if (collectionIsOutdated) {
-            this.logger.info('Collection is outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-            // await this.trackIndexer.indexTracksAsync();
-            await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('outdated'));
-        } else {
-            this.logger.info('Collection is not outdated.', 'IndexingService', 'indexCollectionIfOutdatedAsync');
-        }
-
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-
-        this.isIndexingCollection = false;
-        this.indexingFinished.next();
+    public indexCollectionIfOutdated(): void {
+        this.indexCollection('outdated');
     }
 
-    public async indexCollectionIfFoldersHaveChangedAsync(): Promise<void> {
-        if (!this.foldersHaveChanged) {
-            this.logger.info('Folders have not changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-            return;
-        }
-
-        this.logger.info('Folders have changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-        if (this.isIndexingCollection) {
-            this.logger.info('Already indexing.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-            return;
-        }
-
-        this.isIndexingCollection = true;
-        this.foldersHaveChanged = false;
-
-        this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
-
-        // await this.trackIndexer.indexTracksAsync();
-        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('foldersChanged'));
-
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-
-        this.isIndexingCollection = false;
-        this.indexingFinished.next();
+    public indexCollectionIfFoldersHaveChanged(): void {
+        this.indexCollection('foldersChanged');
     }
 
-    public async indexCollectionAlwaysAsync(): Promise<void> {
-        if (this.isIndexingCollection) {
-            this.logger.info('Already indexing.', 'IndexingService', 'indexCollectionAlwaysAsync');
-
-            return;
-        }
-
-        this.isIndexingCollection = true;
-        this.foldersHaveChanged = false;
-
-        this.logger.info('Indexing collection.', 'IndexingService', 'indexCollectionAlwaysAsync');
-
-        // await this.trackIndexer.indexTracksAsync();
-        await this.ipcProxy.sendToMainProcessAsync('indexing-worker', this.createWorkerArgs('always'));
-
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-
-        this.isIndexingCollection = false;
-        this.indexingFinished.next();
+    public indexCollectionAlways(): void {
+        this.indexCollection('always');
     }
 
     public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
@@ -145,5 +80,50 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
             applicationDataDirectory: this.fileAccess.applicationDataDirectory(),
         };
+    }
+
+    private async showSnackBarMessage(message: any): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        switch (message.type) {
+            case 'addingTracks':
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+                await this.snackBarService.addedTracksAsync(message.numberOfAddedTracks, message.percentageOfAddedTracks);
+                break;
+            case 'removingTracks':
+                await this.snackBarService.removingTracksAsync();
+                break;
+            case 'updatingTracks':
+                await this.snackBarService.updatingTracksAsync();
+                break;
+            case 'dismiss':
+                await this.snackBarService.dismissDelayedAsync();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private indexCollection(task: string): void {
+        if (this.isIndexingCollection) {
+            this.logger.info('Already indexing.', 'IndexingService', 'indexCollection');
+
+            return;
+        }
+
+        this.isIndexingCollection = true;
+        this.foldersHaveChanged = false;
+
+        this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
+
+        ipcRenderer.send('indexing-worker', this.createWorkerArgs(task));
+
+        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: any): void => {
+            PromiseUtils.noAwait(this.showSnackBarMessage(message));
+        });
+
+        ipcRenderer.on('indexing-worker-exit', (): void => {
+            this.isIndexingCollection = false;
+            this.indexingFinished.next();
+        });
     }
 }
