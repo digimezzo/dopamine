@@ -1,4 +1,4 @@
-const { File } = require('node-taglib-sharp');
+const { File, PictureType } = require('node-taglib-sharp');
 
 class TagLibFileMetadata {
     constructor(path) {
@@ -84,7 +84,7 @@ class TagLibFileMetadata {
             if (tagLibFile.tag.pictures !== undefined && tagLibFile.tag.pictures.length > 0) {
                 let couldGetPicture = false;
 
-                for (const picture of tagLibFile.tag.pictures) {
+                for (const picture of tagLibFile.tag.pictures.filter((x) => x.type !== PictureType.NotAPicture)) {
                     if (!couldGetPicture) {
                         try {
                             this.picture = Buffer.from(picture.data.toBase64String(), 'base64');
