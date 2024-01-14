@@ -18,7 +18,7 @@ class AlbumArtworkCache {
         try {
             const albumArtworkCacheId = AlbumArtworkCacheIdFactory.create();
             const cachedArtworkFilePath = this.coverArtFullPath(albumArtworkCacheId.id);
-            const resizedImageBuffer = ImageProcessor.resizeImage(
+            const resizedImageBuffer = await ImageProcessor.resizeImageAsync(
                 imageBuffer,
                 Constants.cachedCoverArtMaximumSize,
                 Constants.cachedCoverArtMaximumSize,

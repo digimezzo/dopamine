@@ -1,6 +1,7 @@
 const { StringUtils } = require('../common/string-utils');
 const { Logger } = require('../common/logger');
 const { ImageProcessor } = require('../common/image-processor');
+const { LastfmApi } = require('../common/api/lastfm-api');
 
 class OnlineAlbumArtworkGetter {
     static async getOnlineArtworkAsync(fileMetadata) {

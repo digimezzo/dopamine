@@ -6,6 +6,7 @@ const { TrackAdder } = require('./track-adder');
 const { parentPort } = require('worker_threads');
 const { UpdatingTracksMessage } = require('./messages/updating-tracks-message');
 const { DismissMessage } = require('./messages/dismiss-message');
+const { RefreshingMessage } = require('./messages/refreshing-message');
 
 class TrackIndexer {
     static async indexTracksAsync() {
@@ -14,7 +15,7 @@ class TrackIndexer {
         const timer = new Timer();
         timer.start();
 
-        // await this.snackBarService.refreshing();
+        parentPort?.postMessage(new RefreshingMessage());
 
         // Remove tracks
         await TrackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();

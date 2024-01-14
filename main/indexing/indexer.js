@@ -20,13 +20,6 @@ class Indexer {
         await AlbumArtworkIndexer.indexAlbumArtworkAsync();
     }
 
-    static async indexCollectionIfFoldersHaveChangedAsync() {
-        Logger.info('Indexing collection.', 'Indexer', 'indexCollectionIfFoldersHaveChangedAsync');
-
-        await TrackIndexer.indexTracksAsync();
-        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
-    }
-
     static async indexCollectionAlwaysAsync() {
         Logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 

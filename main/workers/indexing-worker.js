@@ -8,8 +8,6 @@ async function performTaskAsync() {
     try {
         if (arg.task === 'outdated') {
             await Indexer.indexCollectionIfOutdatedAsync();
-        } else if (arg.task === 'foldersChanged') {
-            await Indexer.indexCollectionIfFoldersHaveChangedAsync();
         } else if (arg.task === 'always') {
             await Indexer.indexCollectionAlwaysAsync();
         } else if (arg.task === 'albumArtwork') {

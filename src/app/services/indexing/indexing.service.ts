@@ -19,8 +19,6 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
     public constructor(
         private snackBarService: SnackBarServiceBase,
-        private albumArtworkIndexer: AlbumArtworkIndexer,
-        private trackRepository: TrackRepositoryBase,
         private folderService: FolderServiceBase,
         private fileAccess: FileAccessBase,
         private settings: SettingsBase,
@@ -46,7 +44,13 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
     }
 
     public indexCollectionIfFoldersHaveChanged(): void {
-        this.indexCollection('foldersChanged');
+        if (!this.foldersHaveChanged) {
+            this.logger.info('Folders have not changed.', 'IndexingService', 'indexCollectionIfFoldersHaveChangedAsync');
+
+            return;
+        }
+
+        this.indexCollection('always');
     }
 
     public indexCollectionAlways(): void {
@@ -90,6 +94,9 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
     private async showSnackBarMessage(message: any): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         switch (message.type) {
+            case 'refreshing':
+                await this.snackBarService.refreshing();
+                break;
             case 'addingTracks':
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
                 await this.snackBarService.addedTracksAsync(message.numberOfAddedTracks, message.percentageOfAddedTracks);

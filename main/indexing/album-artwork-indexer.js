@@ -20,7 +20,7 @@ class AlbumArtworkIndexer {
         timer.stop();
 
         Logger.info(
-            `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds} ms) +++`,
+            `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.getElapsedMilliseconds()} ms) +++`,
             'AlbumArtworkIndexer',
             'indexAlbumArtworkAsync',
         );

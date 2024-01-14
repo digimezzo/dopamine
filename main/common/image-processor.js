@@ -1,6 +1,6 @@
 const { FileAccess } = require('./file-access');
-const { nativeImage } = require('electron');
 const fs = require('fs-extra');
+const Jimp = require('jimp');
 
 class ImageProcessor {
     static async convertOnlineImageToBufferAsync(imageUrl) {
@@ -13,15 +13,14 @@ class ImageProcessor {
         return await FileAccess.getFileContentAsBufferAsync(imagePath);
     }
 
-    static resizeImage(imageBuffer, maxWidth, maxHeight, jpegQuality) {
-        let image = nativeImage.createFromBuffer(imageBuffer);
-        const imageSize = image.getSize();
+    static async resizeImageAsync(imageBuffer, maxWidth, maxHeight, jpegQuality) {
+        let image = await Jimp.read(imageBuffer);
 
-        if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
-            image = image.resize({ width: maxWidth, height: maxHeight, quality: 'best' });
+        if (image.bitmap.width > maxWidth || image.bitmap.height > maxHeight) {
+            await image.resize(maxWidth, maxHeight);
         }
 
-        return image.toJPEG(jpegQuality);
+        return await image.getBufferAsync(Jimp.MIME_JPEG);
     }
 
     static async convertImageBufferToFileAsync(imageBuffer, imagePath) {
