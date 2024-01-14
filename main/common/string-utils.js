@@ -14,6 +14,10 @@ class StringUtils {
 
         return false;
     }
+
+    static replaceAll(sourceString, oldValue, newValue) {
+        return sourceString.split(oldValue).join(newValue);
+    }
 }
 
 exports.StringUtils = StringUtils;

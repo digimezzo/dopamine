@@ -13,7 +13,7 @@ async function performTaskAsync() {
         } else if (arg.task === 'always') {
             await Indexer.indexCollectionAlwaysAsync();
         } else if (arg.task === 'albumArtwork') {
-            // TODO
+            await Indexer.indexAlbumArtworkOnlyAsync();
         }
     } catch (e) {
         Logger.error(e, 'Unexpected error', 'IndexingWorker', 'performTaskAsync');

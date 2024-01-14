@@ -11,9 +11,9 @@ import { DesktopBase } from './desktop.base';
 
 @Injectable()
 export class FileAccess implements FileAccessBase {
-    private _applicationDataDirectory: string = '';
-    private _musicDirectory: string = '';
-    private _pathSeparator: string = '';
+    private readonly _applicationDataDirectory: string = '';
+    private readonly _musicDirectory: string = '';
+    private readonly _pathSeparator: string = '';
 
     public constructor(
         private desktop: DesktopBase,
@@ -36,18 +36,22 @@ export class FileAccess implements FileAccessBase {
         return pathPieces.join(this._pathSeparator);
     }
 
+    // TODO: this function does not belong here
     public applicationDataDirectory(): string {
         return this._applicationDataDirectory;
     }
 
+    // TODO: this function does not belong here
     public musicDirectory(): string {
         return this._musicDirectory;
     }
 
+    // TODO: this function does not belong here
     public coverArtCacheFullPath(): string {
         return this.combinePath([this._applicationDataDirectory, ApplicationPaths.cacheFolder, ApplicationPaths.coverArtCacheFolder]);
     }
 
+    // TODO: this function does not belong here
     public coverArtFullPath(artworkId: string): string {
         return this.combinePath([this.coverArtCacheFullPath(), `${artworkId}.jpg`]);
     }
@@ -149,9 +153,7 @@ export class FileAccess implements FileAccessBase {
     public getPathWithoutExtension(filePath: string): string {
         const parentDirectoryPath: string = this.getDirectoryPath(filePath);
         const fileNameWithoutExtension: string = this.getFileNameWithoutExtension(filePath);
-        const pathWithNewFileExtension: string = this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}`]);
-
-        return pathWithNewFileExtension;
+        return this.combinePath([parentDirectoryPath, `${fileNameWithoutExtension}`]);
     }
 
     public getDateModifiedInTicks(fileOrDirectory: string): number {
@@ -174,9 +176,7 @@ export class FileAccess implements FileAccessBase {
 
     public getFileSizeInBytes(filePath: string): number {
         const stats = fs.statSync(filePath);
-        const fileSizeInBytes = stats.size;
-
-        return fileSizeInBytes;
+        return stats.size;
     }
 
     public createFullDirectoryPathIfDoesNotExist(directoryPath: string): void {
@@ -230,16 +230,12 @@ export class FileAccess implements FileAccessBase {
     public changeFileName(filePath: string, newFileName: string): string {
         const parentDirectoryPath: string = this.getDirectoryPath(filePath);
         const fileExtension: string = this.getFileExtension(filePath);
-        const pathWithNewFileName: string = this.combinePath([parentDirectoryPath, `${newFileName}${fileExtension}`]);
-
-        return pathWithNewFileName;
+        return this.combinePath([parentDirectoryPath, `${newFileName}${fileExtension}`]);
     }
 
     public changeFolderName(folderPath: string, newFolderName: string): string {
         const parentDirectoryPath: string = this.getDirectoryPath(folderPath);
-        const pathWithNewFolderName: string = this.combinePath([parentDirectoryPath, newFolderName]);
-
-        return pathWithNewFolderName;
+        return this.combinePath([parentDirectoryPath, newFolderName]);
     }
 
     public isAbsolutePath(directoryOrFilePath: string): boolean {

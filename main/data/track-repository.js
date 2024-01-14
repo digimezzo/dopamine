@@ -262,6 +262,46 @@ class TrackRepository {
         const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.Path=?;`);
         return statement.get(path);
     }
+
+    static disableNeedsAlbumArtworkIndexing(albumKey) {
+        const database = DatabaseFactory.create();
+        const statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;`);
+        statement.run(albumKey);
+    }
+
+    static getLastModifiedTrackForAlbumKeyAsync(albumKey) {
+        const database = DatabaseFactory.create();
+        const statement = database.prepare(`${QueryParts.selectTracksQueryPart(false)} WHERE t.AlbumKey=?;`);
+        return statement.get(albumKey);
+    }
+
+    static getAlbumDataThatNeedsIndexing() {
+        const database = DatabaseFactory.create();
+
+        const statement = database.prepare(
+            `${QueryParts.selectAlbumDataQueryPart(false)}
+                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
+                AND (t.AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) OR NeedsAlbumArtworkIndexing=1)
+                GROUP BY t.AlbumKey;`,
+        );
+
+        return statement.all();
+    }
+
+    static enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover) {
+        const database = DatabaseFactory.create();
+        let statement;
+
+        if (onlyWhenHasNoCover) {
+            statement = database.prepare(
+                `UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);`,
+            );
+        } else {
+            statement = database.prepare(`UPDATE Track SET NeedsAlbumArtworkIndexing=1;`);
+        }
+
+        statement.run();
+    }
 }
 
 exports.TrackRepository = TrackRepository;

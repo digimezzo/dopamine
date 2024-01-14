@@ -6,5 +6,5 @@ export abstract class IndexingServiceBase {
     public abstract indexCollectionIfOutdated(): void;
     public abstract indexCollectionIfFoldersHaveChanged(): void;
     public abstract indexCollectionAlways(): void;
-    public abstract indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void>;
+    public abstract indexAlbumArtworkOnly(onlyWhenHasNoCover: boolean): void;
 }

@@ -2,11 +2,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Logger } from '../../common/logger';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
-import { CollectionChecker } from './collection-checker';
 import { IndexingServiceBase } from './indexing.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
-import { IpcProxyBase } from '../../common/io/ipc-proxy.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { ipcRenderer } from 'electron';
@@ -55,7 +53,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
         this.indexCollection('always');
     }
 
-    public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
+    public indexAlbumArtworkOnly(onlyWhenHasNoCover: boolean): void {
         if (this.isIndexingCollection) {
             this.logger.info('Already indexing.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
@@ -67,18 +65,25 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
 
-        this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
-        await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        ipcRenderer.send('indexing-worker', this.createWorkerArgs('albumArtwork', onlyWhenHasNoCover));
 
-        this.isIndexingCollection = false;
-        this.indexingFinished.next();
+        ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: any): void => {
+            PromiseUtils.noAwait(this.showSnackBarMessage(message));
+        });
+
+        ipcRenderer.on('indexing-worker-exit', (): void => {
+            this.isIndexingCollection = false;
+            this.indexingFinished.next();
+        });
     }
 
-    private createWorkerArgs(task: string) {
+    private createWorkerArgs(task: string, onlyWhenHasNoCover: boolean) {
         return {
             task: task,
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
+            downloadMissingAlbumCovers: this.settings.downloadMissingAlbumCovers,
             applicationDataDirectory: this.fileAccess.applicationDataDirectory(),
+            onlyWhenHasNoCover: onlyWhenHasNoCover,
         };
     }
 
@@ -94,6 +99,9 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
                 break;
             case 'updatingTracks':
                 await this.snackBarService.updatingTracksAsync();
+                break;
+            case 'updatingAlbumArtwork':
+                await this.snackBarService.updatingAlbumArtworkAsync();
                 break;
             case 'dismiss':
                 await this.snackBarService.dismissDelayedAsync();
@@ -115,7 +123,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
 
         this.logger.info('Indexing collection.', 'IndexingService', 'indexCollection');
 
-        ipcRenderer.send('indexing-worker', this.createWorkerArgs(task));
+        ipcRenderer.send('indexing-worker', this.createWorkerArgs(task, false));
 
         ipcRenderer.on('indexing-worker-message', (_: Electron.IpcRendererEvent, message: any): void => {
             PromiseUtils.noAwait(this.showSnackBarMessage(message));

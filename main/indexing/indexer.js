@@ -1,7 +1,8 @@
 const { Logger } = require('../common/logger');
 const { CollectionChecker } = require('./collection-checker');
 const { TrackIndexer } = require('./track-indexer');
-const { parentPort } = require('worker_threads');
+const { AlbumArtworkIndexer } = require('./album-artwork-indexer');
+const { TrackRepository } = require('../data/track-repository');
 
 class Indexer {
     static async indexCollectionIfOutdatedAsync() {
@@ -16,41 +17,29 @@ class Indexer {
             Logger.info('Collection is not outdated.', 'Indexer', 'indexCollectionIfOutdatedAsync');
         }
 
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
     }
 
     static async indexCollectionIfFoldersHaveChangedAsync() {
         Logger.info('Indexing collection.', 'Indexer', 'indexCollectionIfFoldersHaveChangedAsync');
 
         await TrackIndexer.indexTracksAsync();
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
     }
 
     static async indexCollectionAlwaysAsync() {
         Logger.info('Indexing collection.', 'Indexer', 'indexCollectionAlwaysAsync');
 
         await TrackIndexer.indexTracksAsync();
-        // await this.albumArtworkIndexer.indexAlbumArtworkAsync();
+        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
     }
 
-    // public async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover: boolean): Promise<void> {
-    //   if (this.isIndexingCollection) {
-    //     this.logger.info('Already indexing.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
-    //
-    //     return;
-    //   }
-    //
-    //   this.isIndexingCollection = true;
-    //   this.foldersHaveChanged = false;
-    //
-    //   this.logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
-    //
-    //   this.trackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
-    //   await this.albumArtworkIndexer.indexAlbumArtworkAsync();
-    //
-    //   this.isIndexingCollection = false;
-    //   this.indexingFinished.next();
-    // }
+    static async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover) {
+        Logger.info('Indexing collection.', 'IndexingService', 'indexAlbumArtworkOnlyAsync');
+
+        TrackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
+        await AlbumArtworkIndexer.indexAlbumArtworkAsync();
+    }
 }
 
 exports.Indexer = Indexer;

@@ -102,6 +102,25 @@ class FileAccess {
     static getFileName(fileNameOrPath) {
         return path.basename(fileNameOrPath);
     }
+
+    static getFileNameWithoutExtension(fileNameOrPath) {
+        const extension = path.extname(fileNameOrPath);
+        return path.basename(fileNameOrPath, extension);
+    }
+
+    static async deleteFileIfExistsAsync(filePath) {
+        if (fs.existsSync(filePath)) {
+            await fs.unlink(filePath);
+        }
+    }
+
+    static async getFileContentAsBufferAsync(filePath) {
+        return await fs.readFile(filePath);
+    }
+
+    static getDirectoryPath(directoryOrFilePath) {
+        return path.dirname(directoryOrFilePath);
+    }
 }
 
 exports.FileAccess = FileAccess;
