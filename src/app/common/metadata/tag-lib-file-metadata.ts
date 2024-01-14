@@ -1,4 +1,12 @@
-import { File, Id3v2FrameClassType, Id3v2FrameIdentifiers, Id3v2PopularimeterFrame, Id3v2Tag, TagTypes } from 'node-taglib-sharp';
+import {
+    File,
+    Id3v2FrameClassType,
+    Id3v2FrameIdentifiers,
+    Id3v2PopularimeterFrame,
+    Id3v2Tag,
+    PictureType,
+    TagTypes,
+} from 'node-taglib-sharp';
 import { IFileMetadata } from './i-file-metadata';
 import { RatingConverter } from './rating-converter';
 
@@ -108,7 +116,7 @@ export class TagLibFileMetadata implements IFileMetadata {
             if (tagLibFile.tag.pictures != undefined && tagLibFile.tag.pictures.length > 0) {
                 let couldGetPicture: boolean = false;
 
-                for (const picture of tagLibFile.tag.pictures) {
+                for (const picture of tagLibFile.tag.pictures.filter((x) => x.type !== PictureType.NotAPicture)) {
                     if (!couldGetPicture) {
                         try {
                             this.picture = Buffer.from(picture.data.toBase64String(), 'base64');
@@ -147,7 +155,7 @@ export class TagLibFileMetadata implements IFileMetadata {
     private readRatingFromFile(tagLibFile: File): number {
         const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
         const allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
-            Id3v2FrameClassType.PopularimeterFrame
+            Id3v2FrameClassType.PopularimeterFrame,
         );
 
         if (allPopularimeterFrames.length === 0) {
@@ -155,7 +163,7 @@ export class TagLibFileMetadata implements IFileMetadata {
         }
 
         const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
-            (x) => x.user === this.windowsPopMUser
+            (x) => x.user === this.windowsPopMUser,
         );
 
         if (popularimeterFramesForWindowsUser.length > 0) {
@@ -168,7 +176,7 @@ export class TagLibFileMetadata implements IFileMetadata {
     private writeRatingToFile(tagLibFile: File, rating: number): void {
         const id3v2Tag: Id3v2Tag = <Id3v2Tag>tagLibFile.getTag(TagTypes.Id3v2, true);
         const allPopularimeterFrames: Id3v2PopularimeterFrame[] = id3v2Tag.getFramesByClassType<Id3v2PopularimeterFrame>(
-            Id3v2FrameClassType.PopularimeterFrame
+            Id3v2FrameClassType.PopularimeterFrame,
         );
 
         if (allPopularimeterFrames.length === 0) {
@@ -181,7 +189,7 @@ export class TagLibFileMetadata implements IFileMetadata {
         }
 
         const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
-            (x) => x.user === this.windowsPopMUser
+            (x) => x.user === this.windowsPopMUser,
         );
 
         if (popularimeterFramesForWindowsUser.length > 0) {
