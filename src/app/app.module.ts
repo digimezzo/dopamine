@@ -323,6 +323,7 @@ import { BigIconButtonComponent } from './ui/components/controls/big-icon-button
 import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/toggle-switch.component';
 import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
 import { TrackFiller } from './services/indexing/track-filler';
+import { NotificationBarComponent } from './ui/components/notification-bar/notification-bar.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -472,6 +473,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         BigIconButtonComponent,
         ToggleSwitchComponent,
         IconButtonComponent,
+        NotificationBarComponent,
     ],
     imports: [
         BrowserAnimationsModule,

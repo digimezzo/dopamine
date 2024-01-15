@@ -1,17 +1,22 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { Scheduler } from '../../common/scheduling/scheduler';
 import { SnackBarComponent } from '../../ui/components/snack-bar/snack-bar.component';
 import { SnackBarData } from './snack-bar-data';
 import { SnackBarServiceBase } from './snack-bar.service.base';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { SchedulerBase } from '../../common/scheduling/scheduler.base';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class SnackBarService implements SnackBarServiceBase {
+    private _mustShowNotification: boolean;
+
     private currentDismissibleSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private currentSelfClosingSnackBar: MatSnackBarRef<SnackBarComponent> | undefined;
     private isDismissRequested: boolean = false;
+
+    private showNotification: Subject<void> = new Subject();
+    private dismissNotification: Subject<void> = new Subject();
 
     public constructor(
         private zone: NgZone,
@@ -19,6 +24,13 @@ export class SnackBarService implements SnackBarServiceBase {
         private translatorService: TranslatorServiceBase,
         private scheduler: SchedulerBase,
     ) {}
+
+    public get mustShowNotification(): boolean {
+        return this._mustShowNotification;
+    }
+
+    public showNotification$: Observable<void> = this.showNotification.asObservable();
+    public dismissNotification$: Observable<void> = this.dismissNotification.asObservable();
 
     public async folderAlreadyAddedAsync(): Promise<void> {
         const message: string = await this.translatorService.getAsync('folder-already-added');
@@ -89,11 +101,14 @@ export class SnackBarService implements SnackBarServiceBase {
     }
 
     public dismiss(): void {
-        if (this.currentDismissibleSnackBar != undefined) {
-            this.isDismissRequested = true;
-            this.currentDismissibleSnackBar.dismiss();
-            this.currentDismissibleSnackBar = undefined;
-        }
+        // if (this.currentDismissibleSnackBar != undefined) {
+        //     this.isDismissRequested = true;
+        //     this.currentDismissibleSnackBar.dismiss();
+        //     this.currentDismissibleSnackBar = undefined;
+        // }
+
+        this._mustShowNotification = false;
+        this.dismissNotification.next();
     }
 
     public async dismissDelayedAsync(): Promise<void> {
@@ -136,17 +151,19 @@ export class SnackBarService implements SnackBarServiceBase {
     }
 
     private showDismissibleSnackBar(icon: string, message: string, animateIcon: boolean, showCloseButton: boolean): void {
-        this.zone.run(() => {
-            if (this.currentDismissibleSnackBar == undefined) {
-                this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
-                    data: new SnackBarData(icon, message, animateIcon, showCloseButton),
-                    panelClass: ['accent-snack-bar'],
-                    verticalPosition: 'top',
-                });
-            } else {
-                this.currentDismissibleSnackBar.instance.data = new SnackBarData(icon, message, animateIcon, showCloseButton);
-            }
-        });
+        // this.zone.run(() => {
+        //     if (this.currentDismissibleSnackBar == undefined) {
+        //         this.currentDismissibleSnackBar = this.matSnackBar.openFromComponent(SnackBarComponent, {
+        //             data: new SnackBarData(icon, message, animateIcon, showCloseButton),
+        //             panelClass: ['accent-snack-bar'],
+        //             verticalPosition: 'top',
+        //         });
+        //     } else {
+        //         this.currentDismissibleSnackBar.instance.data = new SnackBarData(icon, message, animateIcon, showCloseButton);
+        //     }
+        // });
+        this._mustShowNotification = true;
+        this.showNotification.next();
     }
 
     private calculateDuration(message: string): number {

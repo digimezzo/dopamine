@@ -26,6 +26,7 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
+    <app-notification-bar></app-notification-bar>
     <div class="window-frame__content">
         <div *ngIf="this.collectionNavigationService.hasVisiblePages()">
             <!-- Artists -->

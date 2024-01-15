@@ -19,6 +19,7 @@
         <app-main-menu class="main-menu"> </app-main-menu>
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
+    <app-notification-bar></app-notification-bar>
     <div class="window-frame__content">
         <!-- Appearance -->
         <app-appearance-settings *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-appearance-settings>
