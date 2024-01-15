@@ -5,12 +5,12 @@ const { SensitiveInformation } = require('../application/sensitive-information')
 class LastfmApi {
     static async getAlbumInfoAsync(artist, album, autoCorrect, languageCode) {
         const method = 'album.getInfo';
-        const parameters = [
+        const parameters = new Map([
             ['artist', artist],
             ['album', album],
             ['autocorrect', autoCorrect ? '1' : '0'],
             ['api_key', SensitiveInformation.lastfmApiKey],
-        ];
+        ]);
 
         if (!StringUtils.isNullOrWhiteSpace(languageCode)) {
             parameters.set('lang', languageCode);
