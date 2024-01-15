@@ -17,7 +17,7 @@
         <app-window-controls *ngIf="!appearanceService.windowHasNativeTitleBar"></app-window-controls>
     </div>
     <app-notification-bar></app-notification-bar>
-    <div class="window-frame__content">
+    <div class="window-frame__content__with__notification__bar">
         <!-- Music -->
         <app-manage-music *ngIf="this.leftToRight(0)" [@enterLeftToRight]></app-manage-music>
         <app-manage-music *ngIf="this.rightToLeft(0)" [@enterRightToLeft]></app-manage-music>

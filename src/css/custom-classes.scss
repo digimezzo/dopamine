@@ -28,8 +28,8 @@
 
 .collection-viewport {
     /* The splitter resize gutter is not displayed when the height is not set explicitly */
-    height: calc(100vh - 120px);
-    max-height: calc(100vh - 120px);
+    height: calc(100vh - 120px - var(--notification-bar-correction));
+    max-height: calc(100vh - 120px - var(--notification-bar-correction));
     width: 100vw;
     overflow: hidden;
 }
