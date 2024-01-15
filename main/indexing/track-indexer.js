@@ -35,8 +35,6 @@ class TrackIndexer {
             'TrackIndexer',
             'indexTracksAsync',
         );
-
-        parentPort?.postMessage(new DismissMessage());
     }
 }
 

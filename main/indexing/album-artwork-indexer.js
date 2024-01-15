@@ -24,8 +24,6 @@ class AlbumArtworkIndexer {
             'AlbumArtworkIndexer',
             'indexAlbumArtworkAsync',
         );
-
-        parentPort?.postMessage(new DismissMessage());
     }
 }
 
