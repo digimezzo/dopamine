@@ -7,10 +7,10 @@ import { SettingsBase } from '../../common/settings/settings.base';
 import { IndexablePath } from './indexable-path';
 import { IndexablePathFetcher } from './indexable-path-fetcher';
 import { TrackFiller } from './track-filler';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class TrackAdder {
@@ -22,7 +22,7 @@ export class TrackAdder {
         private trackFiller: TrackFiller,
         private settings: SettingsBase,
         private logger: Logger,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
     ) {}
 
     public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
@@ -48,7 +48,7 @@ export class TrackAdder {
 
                     const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100);
 
-                    await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
+                    await this.notificationService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks);
                 } catch (e: unknown) {
                     this.logger.error(
                         e,

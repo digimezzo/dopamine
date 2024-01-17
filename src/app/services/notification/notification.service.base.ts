@@ -1,9 +1,11 @@
 import { Observable } from 'rxjs';
+import { NotificationData } from './notification-data';
 
-export abstract class SnackBarServiceBase {
-    public abstract showNotification$: Observable<void>;
+export abstract class NotificationServiceBase {
+    public abstract showNotification$: Observable<NotificationData>;
     public abstract dismissNotification$: Observable<void>;
-    public abstract readonly mustShowNotification: boolean;
+    public abstract readonly notificationData: NotificationData | undefined;
+    public abstract readonly hasNotificationData: boolean;
     public abstract folderAlreadyAddedAsync(): Promise<void>;
     public abstract refreshing(): Promise<void>;
     public abstract removingTracksAsync(): Promise<void>;

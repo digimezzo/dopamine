@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Track } from '../../data/entities/track';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class TrackRemover {
     public constructor(
         private trackRepository: TrackRepositoryBase,
         private folderTrackRepository: FolderTrackRepositoryBase,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private fileAccess: FileAccessBase,
         private logger: Logger,
     ) {}
@@ -42,7 +42,7 @@ export class TrackRemover {
                 'removeTracksThatDoNoNotBelongToFoldersAsync',
             );
 
-            await this.snackBarService.removingTracksAsync();
+            await this.notificationService.removingTracksAsync();
 
             const numberOfRemovedTracks: number = this.trackRepository.deleteTracksThatDoNotBelongFolders();
 
@@ -79,7 +79,7 @@ export class TrackRemover {
 
                 // Only trigger the snack bar once
                 if (numberOfRemovedTracks === 1) {
-                    await this.snackBarService.removingTracksAsync();
+                    await this.notificationService.removingTracksAsync();
                 }
             }
 
@@ -122,7 +122,7 @@ export class TrackRemover {
                 'removeFolderTracksForInexistingTracksAsync',
             );
 
-            await this.snackBarService.removingTracksAsync();
+            await this.notificationService.removingTracksAsync();
 
             const numberOfRemovedFolderTracks: number = this.folderTrackRepository.deleteFolderTracksForInexistingTracks();
 

@@ -1,8 +1,0 @@
-<div class="d-flex flex-row justify-content-between">
-    <div class="d-flex flex-row align-items-center">
-        <i *ngIf="!data?.animateIcon" class="snack-bar-component__icon mr-2" [ngClass]="data?.icon"></i>
-        <i *ngIf="data?.animateIcon" class="snack-bar-component__icon mr-2 rotation" [ngClass]="data?.icon"></i>
-        <div class="snack-bar-component__text">{{ data?.message }}</div>
-    </div>
-    <i class="snack-bar-component__closebutton las la-times pl-4" *ngIf="data?.showCloseButton" (click)="dismiss()"></i>
-</div>

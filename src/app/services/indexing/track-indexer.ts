@@ -4,7 +4,7 @@ import { Timer } from '../../common/scheduling/timer';
 import { TrackAdder } from './track-adder';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
-import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class TrackIndexer {
@@ -13,7 +13,7 @@ export class TrackIndexer {
         private trackUpdater: TrackUpdater,
         private trackAdder: TrackAdder,
         private logger: Logger,
-        private snackBarService: SnackBarServiceBase 
+        private notificationService: NotificationServiceBase,
     ) {}
 
     public async indexTracksAsync(): Promise<void> {
@@ -22,7 +22,7 @@ export class TrackIndexer {
         const timer: Timer = new Timer();
         timer.start();
 
-        await this.snackBarService.refreshing();
+        await this.notificationService.refreshing();
 
         // Remove tracks
         await this.trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
@@ -40,9 +40,9 @@ export class TrackIndexer {
         this.logger.info(
             `+++ FINISHED INDEXING TRACKS (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'TrackIndexer',
-            'indexTracksAsync'
+            'indexTracksAsync',
         );
 
-        await this.snackBarService.dismissDelayedAsync();
+        await this.notificationService.dismissDelayedAsync();
     }
 }

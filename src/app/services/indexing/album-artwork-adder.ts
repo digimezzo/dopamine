@@ -7,10 +7,10 @@ import { IFileMetadata } from '../../common/metadata/i-file-metadata';
 import { AlbumArtworkCacheId } from '../album-artwork-cache/album-artwork-cache-id';
 import { AlbumArtworkGetter } from './album-artwork-getter';
 import { AlbumArtworkCacheServiceBase } from '../album-artwork-cache/album-artwork-cache.service.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileMetadataFactoryBase } from '../../common/metadata/file-metadata.factory.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class AlbumArtworkAdder {
@@ -19,7 +19,7 @@ export class AlbumArtworkAdder {
         private albumArtworkRepository: AlbumArtworkRepositoryBase,
         private trackRepository: TrackRepositoryBase,
         private fileMetadataFactory: FileMetadataFactoryBase,
-        private snackbarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private logger: Logger,
         private albumArtworkGetter: AlbumArtworkGetter,
     ) {}
@@ -49,7 +49,7 @@ export class AlbumArtworkAdder {
             // TODO: remove this when album artwork fetching is async
             // For now, as a workaround, we only show this notification the 1st time indexing runs.
             if (numberOfAlbumArtwork === 0) {
-                await this.snackbarService.updatingAlbumArtworkAsync();
+                await this.notificationService.updatingAlbumArtworkAsync();
             }
 
             for (const albumData of albumDataThatNeedsIndexing) {

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
 import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
-import {FileAccessBase} from "../../common/io/file-access.base";
+import { FileAccessBase } from '../../common/io/file-access.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class AlbumArtworkRemover {
     public constructor(
         private albumArtworkRepository: AlbumArtworkRepositoryBase,
         private fileAccess: FileAccessBase,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private logger: Logger,
     ) {}
 
@@ -40,7 +40,7 @@ export class AlbumArtworkRemover {
                 'removeAlbumArtworkThatHasNoTrackAsync',
             );
 
-            await this.snackBarService.updatingAlbumArtworkAsync();
+            await this.notificationService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number = this.albumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
@@ -84,7 +84,7 @@ export class AlbumArtworkRemover {
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
-            await this.snackBarService.updatingAlbumArtworkAsync();
+            await this.notificationService.updatingAlbumArtworkAsync();
 
             const numberOfRemovedAlbumArtwork: number =
                 this.albumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
@@ -146,8 +146,8 @@ export class AlbumArtworkRemover {
                 }
 
                 if (numberOfRemovedAlbumArtwork === 1) {
-                    // Only trigger the snack bar once
-                    await this.snackBarService.updatingAlbumArtworkAsync();
+                    // Only trigger notification once
+                    await this.notificationService.updatingAlbumArtworkAsync();
                 }
             }
         } catch (e: unknown) {

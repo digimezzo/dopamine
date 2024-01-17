@@ -4,8 +4,8 @@ import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { TrackFiller } from './track-filler';
 import { TrackVerifier } from './track-verifier';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
+import { NotificationServiceBase } from "../notification/notification.service.base";
 
 @Injectable()
 export class TrackUpdater {
@@ -13,7 +13,7 @@ export class TrackUpdater {
         private trackRepository: TrackRepositoryBase,
         private trackFiller: TrackFiller,
         private trackVerifier: TrackVerifier,
-        private snackBarService: SnackBarServiceBase,
+        private notificationService: NotificationServiceBase,
         private logger: Logger,
     ) {}
 
@@ -35,7 +35,7 @@ export class TrackUpdater {
 
                         if (numberOfUpdatedTracks === 1) {
                             // Only trigger the snack bar once
-                            await this.snackBarService.updatingTracksAsync();
+                            await this.notificationService.updatingTracksAsync();
                         }
                     }
                 } catch (e: unknown) {

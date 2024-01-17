@@ -3,15 +3,15 @@ import { Logger } from '../../common/logger';
 import { Timer } from '../../common/scheduling/timer';
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkRemover } from './album-artwork-remover';
-import {SnackBarServiceBase} from "../snack-bar/snack-bar.service.base";
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 @Injectable()
 export class AlbumArtworkIndexer {
     public constructor(
         private albumArtworkRemover: AlbumArtworkRemover,
         private albumArtworkAdder: AlbumArtworkAdder,
-        private snackBarService: SnackBarServiceBase,
-        private logger: Logger
+        private notificationService: NotificationServiceBase,
+        private logger: Logger,
     ) {}
 
     public async indexAlbumArtworkAsync(): Promise<void> {
@@ -30,9 +30,9 @@ export class AlbumArtworkIndexer {
         this.logger.info(
             `+++ FINISHED INDEXING ALBUM ARTWORK (Time required: ${timer.elapsedMilliseconds} ms) +++`,
             'AlbumArtworkIndexer',
-            'indexAlbumArtworkAsync'
+            'indexAlbumArtworkAsync',
         );
 
-        await this.snackBarService.dismissDelayedAsync();
+        await this.notificationService.dismissDelayedAsync();
     }
 }

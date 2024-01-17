@@ -13,7 +13,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
@@ -147,7 +146,6 @@ import { BehaviorSettingsComponent } from './ui/components/settings/behavior-set
 import { OnlineSettingsComponent } from './ui/components/settings/online-settings/online-settings.component';
 import { SettingsComponent } from './ui/components/settings/settings.component';
 import { SliderComponent } from './ui/components/slider/slider.component';
-import { SnackBarComponent } from './ui/components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './ui/components/step-indicator/step-indicator.component';
 import { ThemeSwitcherComponent } from './ui/components/theme-switcher/theme-switcher.component';
 import { VolumeControlComponent } from './ui/components/volume-control/volume-control.component';
@@ -226,7 +224,6 @@ import { PlaylistService } from './services/playlist/playlist.service';
 import { ScrobblingService } from './services/scrobbling/scrobbling.service';
 import { SearchService } from './services/search/search.service';
 import { SemanticZoomService } from './services/semantic-zoom/semantic-zoom.service';
-import { SnackBarService } from './services/snack-bar/snack-bar.service';
 import { TracksColumnsOrdering } from './services/track-columns/tracks-columns-ordering';
 import { TracksColumnsService } from './services/track-columns/tracks-columns.service';
 import { TrackModelFactory } from './services/track/track-model-factory';
@@ -268,7 +265,6 @@ import { GenreServiceBase } from './services/genre/genre.service.base';
 import { ArtistServiceBase } from './services/artist/artist.service.base';
 import { DialogServiceBase } from './services/dialog/dialog.service.base';
 import { PlaybackServiceBase } from './services/playback/playback.service.base';
-import { SnackBarServiceBase } from './services/snack-bar/snack-bar.service.base';
 import { UpdateServiceBase } from './services/update/update.service.base';
 import { TranslatorServiceBase } from './services/translator/translator.service.base';
 import { IndexingServiceBase } from './services/indexing/indexing.service.base';
@@ -324,6 +320,8 @@ import { ToggleSwitchComponent } from './ui/components/controls/toggle-switch/to
 import { IconButtonComponent } from './ui/components/controls/icon-button/icon-button.component';
 import { TrackFiller } from './services/indexing/track-filler';
 import { NotificationBarComponent } from './ui/components/notification-bar/notification-bar.component';
+import { NotificationServiceBase } from './services/notification/notification.service.base';
+import { NotificationService } from './services/notification/notification.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -394,7 +392,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         BehaviorSettingsComponent,
         AboutComponent,
         ComponentsComponent,
-        SnackBarComponent,
         CollectionFoldersComponent,
         CollectionPlaybackPaneComponent,
         VolumeControlComponent,
@@ -484,7 +481,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         MatInputModule,
         MatSelectModule,
         MatTooltipModule,
-        MatSnackBarModule,
         MatRippleModule,
         MatDialogModule,
         MatMenuModule,
@@ -612,7 +608,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: IndexingServiceBase, useClass: IndexingService },
         { provide: TranslatorServiceBase, useClass: TranslatorService },
         { provide: UpdateServiceBase, useClass: UpdateService },
-        { provide: SnackBarServiceBase, useClass: SnackBarService },
+        { provide: NotificationServiceBase, useClass: NotificationService },
         { provide: PlaybackServiceBase, useClass: PlaybackService },
         { provide: DialogServiceBase, useClass: DialogService },
         { provide: ArtistServiceBase, useClass: ArtistService },

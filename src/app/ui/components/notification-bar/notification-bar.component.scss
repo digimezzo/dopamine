@@ -1,3 +1,8 @@
-.notification-bar__content {
+.notification-bar__background {
     background: linear-gradient(45deg, var(--theme-primary-color) 30%, var(--theme-secondary-color) 100%);
+}
+
+.notification-bar__icon {
+    color: white;
+    font-size: 20px;
 }
