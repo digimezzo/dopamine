@@ -51,6 +51,10 @@ export class NotificationBarComponent implements OnInit {
 
     public isExpanded = false;
 
+    public dismiss(): void {
+        this.notificationService.dismiss();
+    }
+
     private showNotification(notificationData: NotificationData): void {
         this.notificationData = notificationData;
         const element: HTMLElement = this.documentProxy.getDocumentElement();
