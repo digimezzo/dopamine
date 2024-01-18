@@ -8,10 +8,10 @@ import { TrackFiller } from './track-filler';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
 import { RemovedTrackRepositoryBase } from '../../data/repositories/removed-track-repository.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { Track } from '../../data/entities/track';
 import { FolderTrack } from '../../data/entities/folder-track';
 import { RemovedTrack } from '../../data/entities/removed-track';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('TrackAdder', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
@@ -21,7 +21,7 @@ describe('TrackAdder', () => {
     let trackFillerMock: IMock<TrackFiller>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let trackAdder: TrackAdder;
 
     beforeEach(() => {
@@ -32,7 +32,7 @@ describe('TrackAdder', () => {
         trackFillerMock = Mock.ofType<TrackFiller>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         trackAdder = new TrackAdder(
             trackRepositoryMock.object,
             folderTrackRepositoryMock.object,
@@ -41,7 +41,7 @@ describe('TrackAdder', () => {
             trackFillerMock.object,
             settingsMock.object,
             loggerMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
         );
     });
 

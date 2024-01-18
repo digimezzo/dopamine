@@ -4,14 +4,14 @@ import { TrackFiller } from './track-filler';
 import { TrackUpdater } from './track-updater';
 import { TrackVerifier } from './track-verifier';
 import { TrackRepository } from '../../data/repositories/track-repository';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { Track } from '../../data/entities/track';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('TrackUpdater', () => {
     let trackRepositoryMock: IMock<TrackRepository>;
     let trackFillerMock: IMock<TrackFiller>;
     let trackVerifierMock: IMock<TrackVerifier>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let loggerMock: IMock<Logger>;
     let trackUpdater: TrackUpdater;
 
@@ -19,13 +19,13 @@ describe('TrackUpdater', () => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         trackFillerMock = Mock.ofType<TrackFiller>();
         trackVerifierMock = Mock.ofType<TrackVerifier>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         trackUpdater = new TrackUpdater(
             trackRepositoryMock.object,
             trackFillerMock.object,
             trackVerifierMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             loggerMock.object,
         );
     });
@@ -232,7 +232,7 @@ describe('TrackUpdater', () => {
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingTracksAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.updatingTracksAsync(), Times.exactly(1));
         });
 
         it('should not notify that tracks are being updated, if tracks do not need indexing and are not out of date.', async () => {
@@ -260,7 +260,7 @@ describe('TrackUpdater', () => {
             await trackUpdater.updateTracksThatAreOutOfDateAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingTracksAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingTracksAsync(), Times.never());
         });
     });
 });

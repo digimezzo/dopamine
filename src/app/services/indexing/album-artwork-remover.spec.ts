@@ -3,25 +3,25 @@ import { Logger } from '../../common/logger';
 import { AlbumArtworkRemover } from './album-artwork-remover';
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('AlbumArtworkRemover', () => {
     let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
     let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let albumArtworkRemover: AlbumArtworkRemover;
 
     beforeEach(() => {
         albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         albumArtworkRemover = new AlbumArtworkRemover(
             albumArtworkRepositoryMock.object,
             fileAccessMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             loggerMock.object,
         );
     });
@@ -45,7 +45,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('should not notify that album artwork is being updated, if there is no album artwork that has no track.', async () => {
@@ -56,7 +56,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatHasNoTrackAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
         it('should delete album artwork that has no track from the database', async () => {
@@ -101,7 +101,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('should not notify that album artwork is being updated, if there are no tracks that need album artwork indexing.', async () => {
@@ -112,7 +112,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
         it('should delete album artwork for tracks that need album artwork indexing from the database', async () => {
@@ -177,7 +177,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
         it('should not notify that artwork is being updated if there are artwork files on disk but they are all found in the database', async () => {
@@ -205,7 +205,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
         it('should notify exactly once that artwork is being updated if there are artwork files on disk which are not found in the database', async () => {
@@ -231,7 +231,7 @@ describe('AlbumArtworkRemover', () => {
             await albumArtworkRemover.removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('should not delete any artwork files if none are found on disk', async () => {

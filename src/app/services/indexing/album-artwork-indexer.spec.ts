@@ -3,16 +3,16 @@ import { Logger } from '../../common/logger';
 import { AlbumArtworkAdder } from './album-artwork-adder';
 import { AlbumArtworkIndexer } from './album-artwork-indexer';
 import { AlbumArtworkRemover } from './album-artwork-remover';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { TrackRepository } from '../../data/repositories/track-repository';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('AlbumArtworkIndexer', () => {
     let trackRepositoryMock: IMock<TrackRepository>;
     let albumArtworkRepository: IMock<AlbumArtworkRepositoryBase>;
     let albumArtworkRemoverMock: IMock<AlbumArtworkRemover>;
     let albumArtworkAdderMock: IMock<AlbumArtworkAdder>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let loggerMock: IMock<Logger>;
     let albumArtworkIndexer: AlbumArtworkIndexer;
 
@@ -21,12 +21,12 @@ describe('AlbumArtworkIndexer', () => {
         albumArtworkRepository = Mock.ofType<AlbumArtworkRepositoryBase>();
         albumArtworkRemoverMock = Mock.ofType<AlbumArtworkRemover>();
         albumArtworkAdderMock = Mock.ofType<AlbumArtworkAdder>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         albumArtworkIndexer = new AlbumArtworkIndexer(
             albumArtworkRemoverMock.object,
             albumArtworkAdderMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             loggerMock.object,
         );
     });
@@ -84,7 +84,7 @@ describe('AlbumArtworkIndexer', () => {
             await albumArtworkIndexer.indexAlbumArtworkAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.dismissDelayedAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.dismissDelayedAsync(), Times.exactly(1));
         });
     });
 });

@@ -9,10 +9,10 @@ import { AlbumArtworkCacheServiceBase } from '../album-artwork-cache/album-artwo
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileMetadataFactory } from '../../common/metadata/file-metadata.factory';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { Track } from '../../data/entities/track';
 import { AlbumArtwork } from '../../data/entities/album-artwork';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 class FileMetadataImplementation implements IFileMetadata {
     public path: string;
@@ -43,7 +43,7 @@ describe('AlbumArtworkAdder', () => {
     let albumArtworkRepositoryMock: IMock<AlbumArtworkRepositoryBase>;
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let fileMetadataFactoryMock: IMock<FileMetadataFactory>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let loggerMock: IMock<Logger>;
     let albumArtworkGetterMock: IMock<AlbumArtworkGetter>;
     let guidFactoryMock: IMock<GuidFactory>;
@@ -55,7 +55,7 @@ describe('AlbumArtworkAdder', () => {
         albumArtworkRepositoryMock = Mock.ofType<AlbumArtworkRepositoryBase>();
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
         fileMetadataFactoryMock = Mock.ofType<FileMetadataFactory>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         loggerMock = Mock.ofType<Logger>();
         albumArtworkGetterMock = Mock.ofType<AlbumArtworkGetter>();
         guidFactoryMock = Mock.ofType<GuidFactory>();
@@ -65,7 +65,7 @@ describe('AlbumArtworkAdder', () => {
             albumArtworkRepositoryMock.object,
             trackRepositoryMock.object,
             fileMetadataFactoryMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             loggerMock.object,
             albumArtworkGetterMock.object,
         );
@@ -94,7 +94,7 @@ describe('AlbumArtworkAdder', () => {
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.exactly(1));
         });
 
         it('should not notify that album artwork is being updated if it is not the first time that indexing runs', async () => {
@@ -109,7 +109,7 @@ describe('AlbumArtworkAdder', () => {
             await albumArtworkAdder.addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.updatingAlbumArtworkAsync(), Times.never());
         });
 
         it('should not get the last modified track for an album key if there is no album data that needs indexing', async () => {

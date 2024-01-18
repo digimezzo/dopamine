@@ -3,16 +3,16 @@ import { Logger } from '../../common/logger';
 import { TrackRemover } from './track-remover';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FolderTrackRepositoryBase } from '../../data/repositories/folder-track-repository.base';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { TrackRepository } from '../../data/repositories/track-repository';
 import { FolderTrackRepository } from '../../data/repositories/folder-track-repository';
 import { Track } from '../../data/entities/track';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('Trackremover', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
     let folderTrackRepositoryMock: IMock<FolderTrackRepositoryBase>;
-    let snackBarServiceMock: IMock<SnackBarServiceBase>;
+    let notificationServiceMock: IMock<NotificationServiceBase>;
     let fileAccessMock: IMock<FileAccessBase>;
     let loggerMock: IMock<Logger>;
     let trackRemover: TrackRemover;
@@ -20,13 +20,13 @@ describe('Trackremover', () => {
     beforeEach(() => {
         trackRepositoryMock = Mock.ofType<TrackRepository>();
         folderTrackRepositoryMock = Mock.ofType<FolderTrackRepository>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         fileAccessMock = Mock.ofType<FileAccessBase>();
         loggerMock = Mock.ofType<Logger>();
         trackRemover = new TrackRemover(
             trackRepositoryMock.object,
             folderTrackRepositoryMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
             fileAccessMock.object,
             loggerMock.object,
         );
@@ -51,7 +51,7 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
         });
 
         it('should not notify that track are being removed, if there are no tracks that do not belong to folders.', async () => {
@@ -62,7 +62,7 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
         });
 
         it('should delete tracks that do not belong to folders from the database, if there are tracks that do not belong to folders.', async () => {
@@ -166,7 +166,7 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
         });
 
         it('should not notify that tracks are being removed as long as they are found on disk', async () => {
@@ -183,7 +183,7 @@ describe('Trackremover', () => {
             await trackRemover.removeTracksThatAreNotFoundOnDiskAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
         });
     });
 
@@ -206,7 +206,7 @@ describe('Trackremover', () => {
             await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.exactly(1));
         });
 
         it('should not notify that track are being removed, if there are no folder tracks for inexisting tracks.', async () => {
@@ -217,7 +217,7 @@ describe('Trackremover', () => {
             await trackRemover.removeFolderTracksForInexistingTracksAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
+            notificationServiceMock.verify((x) => x.removingTracksAsync(), Times.never());
         });
 
         it('should delete folder tracks from the database, if there are folder tracks for indexisting tracks.', async () => {

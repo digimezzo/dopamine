@@ -4,14 +4,14 @@ import { TrackAdder } from './track-adder';
 import { TrackIndexer } from './track-indexer';
 import { TrackRemover } from './track-remover';
 import { TrackUpdater } from './track-updater';
-import { SnackBarServiceBase } from '../snack-bar/snack-bar.service.base';
+import { NotificationServiceBase } from '../notification/notification.service.base';
 
 describe('TrackIndexer', () => {
     let trackRemoverMock: IMock<TrackRemover> = Mock.ofType<TrackRemover>();
     let trackUpdaterMock: IMock<TrackUpdater> = Mock.ofType<TrackUpdater>();
     let trackAdderMock: IMock<TrackAdder> = Mock.ofType<TrackAdder>();
     let loggerMock: IMock<Logger> = Mock.ofType<Logger>();
-    let snackBarServiceMock: IMock<SnackBarServiceBase> = Mock.ofType<SnackBarServiceBase>();
+    let notificationServiceMock: IMock<NotificationServiceBase> = Mock.ofType<NotificationServiceBase>();
     let trackIndexer: TrackIndexer;
 
     beforeEach(() => {
@@ -19,13 +19,13 @@ describe('TrackIndexer', () => {
         trackUpdaterMock = Mock.ofType<TrackUpdater>();
         trackAdderMock = Mock.ofType<TrackAdder>();
         loggerMock = Mock.ofType<Logger>();
-        snackBarServiceMock = Mock.ofType<SnackBarServiceBase>();
+        notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         trackIndexer = new TrackIndexer(
             trackRemoverMock.object,
             trackUpdaterMock.object,
             trackAdderMock.object,
             loggerMock.object,
-            snackBarServiceMock.object,
+            notificationServiceMock.object,
         );
     });
 
@@ -37,7 +37,7 @@ describe('TrackIndexer', () => {
             await trackIndexer.indexTracksAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.refreshing(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.refreshing(), Times.exactly(1));
         });
 
         it('should dismiss the indexing notification with a short delay', async () => {
@@ -47,7 +47,7 @@ describe('TrackIndexer', () => {
             await trackIndexer.indexTracksAsync();
 
             // Assert
-            snackBarServiceMock.verify((x) => x.dismissDelayedAsync(), Times.exactly(1));
+            notificationServiceMock.verify((x) => x.dismissDelayedAsync(), Times.exactly(1));
         });
 
         it('should remove tracks that do not belong to folders', async () => {
