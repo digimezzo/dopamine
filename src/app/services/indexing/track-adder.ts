@@ -27,7 +27,7 @@ export class TrackAdder {
 
     private async addTracksInBatch(indexableTracks: IndexableTrack[]): Promise<number> {
         let numberOfAddedTracks: number = 0;
-        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToTracksAsync(indexableTracks, false);
+        const filledIndexableTracks: IndexableTrack[] = await this.metadataAdder.addMetadataToIndexableTracksAsync(indexableTracks, false);
 
         for (const filledIndexableTrack of filledIndexableTracks) {
             try {

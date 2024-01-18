@@ -77,11 +77,22 @@ export class MetadataAdder {
         return track;
     }
 
-    public async addMetadataToTracksAsync(
-        tracks: IndexableTrack[] | Track[],
+    public async addMetadataToTracksAsync(tracks: Track[], fillOnlyEssentialMetadata: boolean): Promise<Track[]> {
+        const arg: { tracks: Track[]; fillOnlyEssentialMetadata: boolean } = {
+            tracks: tracks,
+            fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
+        };
+
+        const message: any = await this.ipcProxy.sendToMainProcessAsync('metadata-worker', arg);
+
+        return message.filledIndexableTracks as Track[];
+    }
+
+    public async addMetadataToIndexableTracksAsync(
+        tracks: IndexableTrack[],
         fillOnlyEssentialMetadata: boolean,
     ): Promise<IndexableTrack[]> {
-        const arg: { tracks: IndexableTrack[] | Track[]; fillOnlyEssentialMetadata: boolean } = {
+        const arg: { tracks: IndexableTrack[]; fillOnlyEssentialMetadata: boolean } = {
             tracks: tracks,
             fillOnlyEssentialMetadata: fillOnlyEssentialMetadata,
         };
