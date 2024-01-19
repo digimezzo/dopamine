@@ -2,11 +2,11 @@ const { TrackRepository } = require('../data/track-repository');
 const { Logger } = require('../common/logger');
 const { AlbumArtworkRepository } = require('../data/entities/album-artwork-repository');
 const { AlbumArtworkGetter } = require('./album-artwork-getter');
-const { FileMetadataFactory } = require('./file-metadata-factory');
+const { FileMetadataFactory } = require('./file-metadata.factory');
 const { AlbumArtwork } = require('../data/entities/album-artwork');
 const { AlbumArtworkCache } = require('./album-artwork-cache');
-const { parentPort } = require('worker_threads');
 const { UpdatingAlbumArtworkMessage } = require('./messages/updating-album-artwork-message');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class AlbumArtworkAdder {
     static async addAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync() {
@@ -33,7 +33,7 @@ class AlbumArtworkAdder {
 
             // Only show message the first time that album artwork is added
             if (numberOfAlbumArtwork === 0) {
-                parentPort?.postMessage(new UpdatingAlbumArtworkMessage());
+                WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
             }
 
             for (const albumData of albumDataThatNeedsIndexing) {

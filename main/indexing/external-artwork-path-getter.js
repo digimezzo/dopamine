@@ -1,5 +1,5 @@
-const { StringUtils } = require('../common/string-utils');
-const { FileAccess } = require('../common/file-access');
+const { StringUtils } = require('../common/utils/string-utils');
+const { FileAccess } = require('../common/io/file-access');
 const { Constants } = require('../common/application/constants');
 
 class ExternalArtworkPathGetter {

@@ -1,4 +1,4 @@
-const { DatabaseFactory } = require('./database-factory');
+const { DatabaseFactory } = require('./database.factory');
 
 class FolderTrackRepository {
     static addFolderTrack(folderTrack) {

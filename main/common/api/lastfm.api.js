@@ -1,4 +1,4 @@
-const { StringUtils } = require('../string-utils');
+const { StringUtils } = require('../utils/string-utils');
 const { LastfmAlbum } = require('./lastfm-album');
 const { SensitiveInformation } = require('../application/sensitive-information');
 

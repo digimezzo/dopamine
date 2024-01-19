@@ -1,16 +1,14 @@
-const { parentPort, workerData } = require('worker_threads');
 const { Indexer } = require('../indexing/indexer');
 const { Logger } = require('../common/logger');
-
-const { arg } = workerData;
+const { WorkerProxy } = require('./worker-proxy');
 
 async function performTaskAsync() {
     try {
-        if (arg.task === 'outdated') {
+        if (WorkerProxy.task() === 'outdated') {
             await Indexer.indexCollectionIfOutdatedAsync();
-        } else if (arg.task === 'always') {
+        } else if (WorkerProxy.task() === 'always') {
             await Indexer.indexCollectionAlwaysAsync();
-        } else if (arg.task === 'albumArtwork') {
+        } else if (WorkerProxy.task() === 'albumArtwork') {
             await Indexer.indexAlbumArtworkOnlyAsync();
         }
     } catch (e) {
@@ -19,5 +17,5 @@ async function performTaskAsync() {
 }
 
 performTaskAsync().then(() => {
-    parentPort?.postMessage('Done');
+    WorkerProxy.postMessage('Done');
 });

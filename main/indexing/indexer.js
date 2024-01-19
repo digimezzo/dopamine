@@ -3,8 +3,8 @@ const { CollectionChecker } = require('./collection-checker');
 const { TrackIndexer } = require('./track-indexer');
 const { AlbumArtworkIndexer } = require('./album-artwork-indexer');
 const { TrackRepository } = require('../data/track-repository');
-const { parentPort } = require('worker_threads');
 const { DismissMessage } = require('./messages/dismiss-message');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class Indexer {
     static async indexCollectionIfOutdatedAsync() {
@@ -21,7 +21,7 @@ class Indexer {
 
         await AlbumArtworkIndexer.indexAlbumArtworkAsync();
 
-        parentPort?.postMessage(new DismissMessage());
+        WorkerProxy.postMessage(new DismissMessage());
     }
 
     static async indexCollectionAlwaysAsync() {
@@ -30,7 +30,7 @@ class Indexer {
         await TrackIndexer.indexTracksAsync();
         await AlbumArtworkIndexer.indexAlbumArtworkAsync();
 
-        parentPort?.postMessage(new DismissMessage());
+        WorkerProxy.postMessage(new DismissMessage());
     }
 
     static async indexAlbumArtworkOnlyAsync(onlyWhenHasNoCover) {
@@ -39,7 +39,7 @@ class Indexer {
         TrackRepository.enableNeedsAlbumArtworkIndexingForAllTracks(onlyWhenHasNoCover);
         await AlbumArtworkIndexer.indexAlbumArtworkAsync();
 
-        parentPort?.postMessage(new DismissMessage());
+        WorkerProxy.postMessage(new DismissMessage());
     }
 }
 

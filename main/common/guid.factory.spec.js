@@ -1,4 +1,4 @@
-const { GuidFactory } = require('./guid-factory');
+const { GuidFactory } = require('./guid.factory');
 
 describe('GuidFactory', () => {
     describe('create', () => {

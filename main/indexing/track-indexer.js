@@ -1,12 +1,10 @@
 const { Logger } = require('../common/logger');
-const { Timer } = require('../common/timer');
+const { Timer } = require('../common/scheduling/timer');
 const { TrackRemover } = require('./track-remover');
 const { TrackUpdater } = require('./track-updater');
 const { TrackAdder } = require('./track-adder');
-const { parentPort } = require('worker_threads');
-const { UpdatingTracksMessage } = require('./messages/updating-tracks-message');
-const { DismissMessage } = require('./messages/dismiss-message');
 const { RefreshingMessage } = require('./messages/refreshing-message');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackIndexer {
     static async indexTracksAsync() {
@@ -15,7 +13,7 @@ class TrackIndexer {
         const timer = new Timer();
         timer.start();
 
-        parentPort?.postMessage(new RefreshingMessage());
+        WorkerProxy.postMessage(new RefreshingMessage());
 
         // Remove tracks
         await TrackRemover.removeTracksThatDoNoNotBelongToFoldersAsync();

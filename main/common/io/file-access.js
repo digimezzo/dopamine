@@ -1,7 +1,6 @@
 ﻿const fs = require('fs-extra');
 const path = require('path');
-const { app } = require('electron');
-const { DateTime } = require('./date-time');
+const { DateTime } = require('../date-time');
 
 class FileAccess {
     static #pathSeparator = path.sep;

@@ -1,9 +1,7 @@
 const { Logger } = require('../common/logger');
 const { AlbumArtworkRemover } = require('./album-artwork-remover');
 const { AlbumArtworkAdder } = require('./album-artwork-adder');
-const { parentPort } = require('worker_threads');
-const { DismissMessage } = require('./messages/dismiss-message');
-const { Timer } = require('../common/timer');
+const { Timer } = require('../common/scheduling/timer');
 
 class AlbumArtworkIndexer {
     static async indexAlbumArtworkAsync() {

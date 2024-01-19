@@ -1,10 +1,10 @@
-const { Timer } = require('../common/timer');
+const { Timer } = require('../common/scheduling/timer');
 const { Logger } = require('../common/logger');
-const { FileAccess } = require('../common/file-access');
+const { FileAccess } = require('../common/io/file-access');
 const { TrackRepository } = require('../data/track-repository');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
-const { parentPort } = require('worker_threads');
 const { RemovingTracksMessage } = require('./messages/removing-tracks-message');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackRemover {
     static async removeTracksThatDoNoNotBelongToFoldersAsync() {
@@ -28,7 +28,7 @@ class TrackRemover {
 
             Logger.info(`Found ${numberOfTracksToRemove} tracks to remove.`, 'TrackRemover', 'removeTracksThatDoNoNotBelongToFoldersAsync');
 
-            parentPort?.postMessage(new RemovingTracksMessage());
+            WorkerProxy.postMessage(new RemovingTracksMessage());
 
             const numberOfRemovedTracks = TrackRepository.deleteTracksThatDoNotBelongFolders();
 
@@ -65,7 +65,7 @@ class TrackRemover {
 
                 // Only send message once
                 if (numberOfRemovedTracks === 1) {
-                    parentPort?.postMessage(new RemovingTracksMessage());
+                    WorkerProxy.postMessage(new RemovingTracksMessage());
                 }
             }
 
@@ -108,7 +108,7 @@ class TrackRemover {
                 'removeFolderTracksForInexistingTracksAsync',
             );
 
-            parentPort?.postMessage(new RemovingTracksMessage());
+            WorkerProxy.postMessage(new RemovingTracksMessage());
 
             const numberOfRemovedFolderTracks = FolderTrackRepository.deleteFolderTracksForInexistingTracks();
 

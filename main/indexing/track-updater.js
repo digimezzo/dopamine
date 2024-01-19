@@ -1,10 +1,10 @@
-const { Timer } = require('../common/timer');
+const { Timer } = require('../common/scheduling/timer');
 const { TrackRepository } = require('../data/track-repository');
 const { Logger } = require('../common/logger');
 const { TrackVerifier } = require('./track-verifier');
 const { TrackFiller } = require('./track-filler');
-const { parentPort } = require('worker_threads');
 const { UpdatingTracksMessage } = require('./messages/updating-tracks-message');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackUpdater {
     static async updateTracksThatAreOutOfDateAsync() {
@@ -25,7 +25,7 @@ class TrackUpdater {
 
                         // Only send message once
                         if (numberOfUpdatedTracks === 1) {
-                            parentPort?.postMessage(new UpdatingTracksMessage());
+                            WorkerProxy.postMessage(new UpdatingTracksMessage());
                         }
                     }
                 } catch (e) {

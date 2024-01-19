@@ -1,4 +1,4 @@
-const { FileAccess } = require('../common/file-access');
+const { FileAccess } = require('../common/io/file-access');
 
 class TrackVerifier {
     static isTrackOutOfDate(track) {

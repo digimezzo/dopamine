@@ -1,8 +1,7 @@
-const { workerData } = require('worker_threads');
 const { EmbeddedAlbumArtworkGetter } = require('./embedded-album-artwork-getter');
 const { ExternalAlbumArtworkGetter } = require('./external-album-artwork-getter');
 const { OnlineAlbumArtworkGetter } = require('./online-album-artwork-getter');
-const { arg } = workerData;
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class AlbumArtworkGetter {
     static async getAlbumArtworkAsync(fileMetadata, getOnlineArtwork) {
@@ -18,7 +17,7 @@ class AlbumArtworkGetter {
             return externalArtwork;
         }
 
-        if (getOnlineArtwork && arg.downloadMissingAlbumCovers) {
+        if (getOnlineArtwork && WorkerProxy.downloadMissingAlbumCovers()) {
             const onlineArtwork = await OnlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata);
 
             if (onlineArtwork !== undefined && onlineArtwork !== null) {

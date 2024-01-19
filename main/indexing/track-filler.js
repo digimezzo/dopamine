@@ -1,11 +1,11 @@
 const { MimeTypes } = require('./mime-types');
 const { Logger } = require('../common/logger');
-const { FileAccess } = require('../common/file-access');
+const { FileAccess } = require('../common/io/file-access');
 const { AlbumKeyGenerator } = require('./album-key-generator');
 const { TrackFieldCreator } = require('./track-field-creator');
-const { FileMetadataFactory } = require('./file-metadata-factory');
+const { FileMetadataFactory } = require('./file-metadata.factory');
 const { DateTime } = require('../common/date-time');
-const { StringUtils } = require('../common/string-utils');
+const { StringUtils } = require('../common/utils/string-utils');
 
 class TrackFiller {
     static addFileMetadataToTrack(track, fillOnlyEssentialMetadata) {

@@ -1,4 +1,4 @@
-﻿const { FileAccess } = require('../common/file-access');
+﻿const { FileAccess } = require('../common/io/file-access');
 const { DirectoryWalkResult } = require('./directory-walk-result');
 
 class DirectoryWalker {

@@ -1,7 +1,7 @@
 const { Logger } = require('../common/logger');
 const { Constants } = require('../common/application/constants');
 const { ImageProcessor } = require('../common/image-processor');
-const { FileAccess } = require('../common/file-access');
+const { FileAccess } = require('../common/io/file-access');
 const { ApplicationPaths } = require('../common/application/application-paths');
 const { AlbumArtworkCacheIdFactory } = require('./album-artwork-cache-id-factory');
 

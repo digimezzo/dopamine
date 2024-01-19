@@ -1,4 +1,4 @@
-const { FileAccess } = require('./file-access');
+const { FileAccess } = require('./io/file-access');
 const fs = require('fs-extra');
 const Jimp = require('jimp');
 

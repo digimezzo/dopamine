@@ -1,4 +1,4 @@
-const { Timer } = require('../common/timer');
+const { Timer } = require('../common/scheduling/timer');
 const { TrackFiller } = require('./track-filler');
 const { Logger } = require('../common/logger');
 const { IndexablePathFetcher } = require('./indexable-path-fetcher');
@@ -7,10 +7,8 @@ const { Track } = require('../data/entities/track');
 const { FolderTrackRepository } = require('../data/folder-track-repository');
 const { RemovedTrackRepository } = require('../data/removed-track-repository');
 const { FolderTrack } = require('../data/entities/folder-track');
-const { workerData, parentPort } = require('worker_threads');
 const { AddingTracksMessage } = require('./messages/adding-tracks-message');
-
-const { arg } = workerData;
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class TrackAdder {
     static async addTracksThatAreNotInTheDatabaseAsync() {
@@ -18,7 +16,7 @@ class TrackAdder {
         timer.start();
 
         try {
-            const indexablePaths = await this.#getIndexablePathsAsync(arg.skipRemovedFilesDuringRefresh);
+            const indexablePaths = await this.#getIndexablePathsAsync(WorkerProxy.skipRemovedFilesDuringRefresh());
 
             let numberOfAddedTracks = 0;
 
@@ -38,7 +36,7 @@ class TrackAdder {
 
                     // Only send message once every 20 tracks or when all tracks have been added
                     if (numberOfAddedTracks % 20 === 0 || percentageOfAddedTracks === 100) {
-                        parentPort?.postMessage(new AddingTracksMessage(numberOfAddedTracks, percentageOfAddedTracks));
+                        WorkerProxy.postMessage(new AddingTracksMessage(numberOfAddedTracks, percentageOfAddedTracks));
                     }
                 } catch (e) {
                     Logger.error(

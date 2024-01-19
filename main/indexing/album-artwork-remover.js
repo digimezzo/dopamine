@@ -1,10 +1,10 @@
 const { Logger } = require('../common/logger');
-const { FileAccess } = require('../common/file-access');
-const { Timer } = require('../common/timer');
+const { FileAccess } = require('../common/io/file-access');
+const { Timer } = require('../common/scheduling/timer');
 const { AlbumArtworkRepository } = require('../data/entities/album-artwork-repository');
-const { parentPort } = require('worker_threads');
 const { UpdatingAlbumArtworkMessage } = require('./messages/updating-album-artwork-message');
 const { ApplicationPaths } = require('../common/application/application-paths');
+const { WorkerProxy } = require('../workers/worker-proxy');
 
 class AlbumArtworkRemover {
     static async removeAlbumArtworkThatHasNoTrackAsync() {
@@ -32,7 +32,7 @@ class AlbumArtworkRemover {
                 'removeAlbumArtworkThatHasNoTrackAsync',
             );
 
-            parentPort?.postMessage(new UpdatingAlbumArtworkMessage());
+            WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
 
             const numberOfRemovedAlbumArtwork = AlbumArtworkRepository.deleteAlbumArtworkThatHasNoTrack();
 
@@ -75,7 +75,7 @@ class AlbumArtworkRemover {
                 'removeAlbumArtworkForTracksThatNeedAlbumArtworkIndexingAsync',
             );
 
-            parentPort?.postMessage(new UpdatingAlbumArtworkMessage());
+            WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
 
             const numberOfRemovedAlbumArtwork = AlbumArtworkRepository.deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing();
 
@@ -137,7 +137,7 @@ class AlbumArtworkRemover {
 
                 // Only send message once
                 if (numberOfRemovedAlbumArtwork === 1) {
-                    parentPort?.postMessage(new UpdatingAlbumArtworkMessage());
+                    WorkerProxy.postMessage(new UpdatingAlbumArtworkMessage());
                 }
             }
         } catch (e) {

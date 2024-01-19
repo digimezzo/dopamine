@@ -1,5 +1,5 @@
 const { Logger } = require('../common/logger');
-const { StringUtils } = require('../common/string-utils');
+const { StringUtils } = require('../common/utils/string-utils');
 const { ImageProcessor } = require('../common/image-processor');
 const { ExternalArtworkPathGetter } = require('./external-artwork-path-getter');
 

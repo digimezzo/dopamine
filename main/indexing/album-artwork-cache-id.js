@@ -1,4 +1,4 @@
-const { GuidFactory } = require('../common/guid-factory');
+const { GuidFactory } = require('../common/guid.factory');
 
 class AlbumArtworkCacheId {
     constructor() {

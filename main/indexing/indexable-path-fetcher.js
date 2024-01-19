@@ -1,6 +1,6 @@
 ﻿const { IndexablePath } = require('./indexable-path');
-const { FileFormats } = require('../common/file-formats');
-const { FileAccess } = require('../common/file-access');
+const { FileFormats } = require('../common/application/file-formats');
+const { FileAccess } = require('../common/io/file-access');
 const { Logger } = require('../common/logger');
 const { DirectoryWalker } = require('./directory-walker');
 const { FolderRepository } = require('../data/folder-repository');
