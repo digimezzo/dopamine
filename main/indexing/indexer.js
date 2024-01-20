@@ -5,9 +5,12 @@ const { AlbumArtworkIndexer } = require('./album-artwork-indexer');
 const { TrackRepository } = require('../data/track-repository');
 const { DismissMessage } = require('./messages/dismiss-message');
 const { WorkerProxy } = require('../workers/worker-proxy');
+const { Ioc } = require('../ioc/ioc');
 
 class Indexer {
     static async indexCollectionIfOutdatedAsync() {
+        const parent = Ioc.get('Parent');
+        Logger.info(`Parent says: ${parent.getName()}`, 'Indexer', 'indexCollectionIfOutdatedAsync');
         Logger.info('Indexing collection.', 'Indexer', 'indexCollectionIfOutdatedAsync');
 
         const collectionIsOutdated = await CollectionChecker.isCollectionOutdatedAsync();
