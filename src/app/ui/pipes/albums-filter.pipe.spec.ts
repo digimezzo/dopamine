@@ -5,11 +5,13 @@ import { TranslatorServiceBase } from '../../services/translator/translator.serv
 import { FileAccess } from '../../common/io/file-access';
 import { AlbumModel } from '../../services/album/album-model';
 import { AlbumData } from '../../data/entities/album-data';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('AlbumsFilterPipe', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
     let fileAccessMock: IMock<FileAccess>;
+    let applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
     function createPipe(): AlbumsFilterPipe {
         return new AlbumsFilterPipe(searchServiceMock.object);
@@ -20,21 +22,20 @@ describe('AlbumsFilterPipe', () => {
         albumData1.albumTitle = 'album_title1';
         albumData1.albumArtists = ';album_artist1_1;;album_artist1_2;';
         albumData1.year = 2001;
-        const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        const album1: AlbumModel = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
         const albumData2: AlbumData = new AlbumData();
         albumData2.albumTitle = 'album_title2';
         albumData2.albumArtists = ';album_artist2_1;;album_artist2_2;';
         albumData2.year = 2002;
-        const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
-        const albums: AlbumModel[] = [album1, album2];
-
-        return albums;
+        const album2: AlbumModel = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+        return [album1, album2];
     }
 
     beforeEach(() => {
         searchServiceMock = Mock.ofType<SearchServiceBase>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
         fileAccessMock = Mock.ofType<FileAccess>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
     });
 
     describe('transform', () => {

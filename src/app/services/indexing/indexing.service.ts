@@ -8,6 +8,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { ipcRenderer } from 'electron';
 import { PromiseUtils } from '../../common/utils/promise-utils';
 import { NotificationServiceBase } from '../notification/notification.service.base';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 @Injectable()
 export class IndexingService implements IndexingServiceBase, OnDestroy {
@@ -18,7 +19,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
     public constructor(
         private notificationService: NotificationServiceBase,
         private folderService: FolderServiceBase,
-        private fileAccess: FileAccessBase,
+        private desktop: DesktopBase,
         private settings: SettingsBase,
         private logger: Logger,
     ) {
@@ -84,7 +85,7 @@ export class IndexingService implements IndexingServiceBase, OnDestroy {
             task: task,
             skipRemovedFilesDuringRefresh: this.settings.skipRemovedFilesDuringRefresh,
             downloadMissingAlbumCovers: this.settings.downloadMissingAlbumCovers,
-            applicationDataDirectory: this.fileAccess.applicationDataDirectory(),
+            applicationDataDirectory: this.desktop.getApplicationDataDirectory(),
             onlyWhenHasNoCover: onlyWhenHasNoCover,
         };
     }

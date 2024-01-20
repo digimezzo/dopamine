@@ -4,23 +4,14 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 import * as readline from 'readline';
-import { ApplicationPaths } from '../application/application-paths';
 import { DateTime } from '../date-time';
 import { FileAccessBase } from './file-access.base';
-import { DesktopBase } from './desktop.base';
 
 @Injectable()
 export class FileAccess implements FileAccessBase {
-    private readonly _applicationDataDirectory: string = '';
-    private readonly _musicDirectory: string = '';
     private readonly _pathSeparator: string = '';
 
-    public constructor(
-        private desktop: DesktopBase,
-        private dateTime: DateTime,
-    ) {
-        this._applicationDataDirectory = this.desktop.getApplicationDataDirectory();
-        this._musicDirectory = this.desktop.getMusicDirectory();
+    public constructor(private dateTime: DateTime) {
         this._pathSeparator = path.sep;
     }
 
@@ -34,26 +25,6 @@ export class FileAccess implements FileAccessBase {
         }
 
         return pathPieces.join(this._pathSeparator);
-    }
-
-    // TODO: this function does not belong here
-    public applicationDataDirectory(): string {
-        return this._applicationDataDirectory;
-    }
-
-    // TODO: this function does not belong here
-    public musicDirectory(): string {
-        return this._musicDirectory;
-    }
-
-    // TODO: this function does not belong here
-    public coverArtCacheFullPath(): string {
-        return this.combinePath([this._applicationDataDirectory, ApplicationPaths.cacheFolder, ApplicationPaths.coverArtCacheFolder]);
-    }
-
-    // TODO: this function does not belong here
-    public coverArtFullPath(artworkId: string): string {
-        return this.combinePath([this.coverArtCacheFullPath(), `${artworkId}.jpg`]);
     }
 
     public async getFilesInDirectoryAsync(directoryPath: string, continueOnError?: boolean, errors?: Error[]): Promise<string[]> {

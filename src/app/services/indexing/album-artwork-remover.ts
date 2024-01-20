@@ -5,11 +5,13 @@ import { Timer } from '../../common/scheduling/timer';
 import { AlbumArtworkRepositoryBase } from '../../data/repositories/album-artwork-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { NotificationServiceBase } from '../notification/notification.service.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 @Injectable()
 export class AlbumArtworkRemover {
     public constructor(
         private albumArtworkRepository: AlbumArtworkRepositoryBase,
+        private applicationPaths: ApplicationPaths,
         private fileAccess: FileAccessBase,
         private notificationService: NotificationServiceBase,
         private logger: Logger,
@@ -126,7 +128,7 @@ export class AlbumArtworkRemover {
                 'removeAlbumArtworkThatIsNotInTheDatabaseFromDiskAsync',
             );
 
-            const coverArtCacheFullPath: string = this.fileAccess.coverArtCacheFullPath();
+            const coverArtCacheFullPath: string = this.applicationPaths.coverArtCacheFullPath();
             const allAlbumArtworkFilePaths: string[] = await this.fileAccess.getFilesInDirectoryAsync(coverArtCacheFullPath);
 
             this.logger.info(

@@ -7,12 +7,14 @@ import { FileAccess } from '../../../../common/io/file-access';
 import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumModel } from '../../../../services/album/album-model';
 import { Logger } from '../../../../common/logger';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('AlbumsAlbumsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
     let fileAccessMock: IMock<FileAccess>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     let subscription: Subscription;
 
@@ -31,6 +33,7 @@ describe('AlbumsAlbumsPersister', () => {
         loggerMock = Mock.ofType<Logger>();
         fileAccessMock = Mock.ofType<FileAccess>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         subscription = new Subscription();
 
@@ -40,9 +43,9 @@ describe('AlbumsAlbumsPersister', () => {
         albumData2.albumKey = 'albumKey2';
         albumData3 = new AlbumData();
         albumData3.albumKey = 'albumKey3';
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
-        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, applicationPathsMock.object);
         availableAlbums = [album1, album2, album3];
 
         persister = new AlbumsAlbumsPersister(settingsStub, loggerMock.object);

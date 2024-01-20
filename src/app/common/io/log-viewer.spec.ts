@@ -14,7 +14,7 @@ describe('LogViewer', () => {
         desktopMock = Mock.ofType<Desktop>();
         fileAccessMock = Mock.ofType<FileAccess>();
 
-        fileAccessMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/.config/Dopamine');
+        desktopMock.setup((x) => x.getApplicationDataDirectory()).returns(() => '/home/.config/Dopamine');
         fileAccessMock
             .setup((x) => x.combinePath(['/home/.config/Dopamine', 'logs', 'Dopamine.log']))
             .returns(() => '/home/.config/Dopamine/logs/Dopamine.log');

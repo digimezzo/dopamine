@@ -17,6 +17,7 @@ import { FileAccessBase } from '../../common/io/file-access.base';
 import { ApplicationBase } from '../../common/io/application.base';
 import { AppearanceServiceBase } from './appearance.service.base';
 import { RgbColor } from '../../common/rgb-color';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('AppearanceService', () => {
     let settingsMock: IMock<SettingsBase>;
@@ -27,6 +28,7 @@ describe('AppearanceService', () => {
     let desktopMock: IMock<DesktopBase>;
     let defaultThemesCreatorMock: IMock<DefaultThemesCreator>;
     let documentProxyMock: IMock<DocumentProxy>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     let containerElementMock: HTMLElement;
     let documentElementMock: HTMLElement;
@@ -48,6 +50,7 @@ describe('AppearanceService', () => {
             desktopMock.object,
             defaultThemesCreatorMock.object,
             documentProxyMock.object,
+            applicationPathsMock.object,
         );
     }
 
@@ -137,6 +140,7 @@ describe('AppearanceService', () => {
             desktopMock.object,
             defaultThemesCreatorMock.object,
             documentProxyMock.object,
+            applicationPathsMock.object,
         );
     }
 
@@ -253,7 +257,6 @@ describe('AppearanceService', () => {
         fileAccessMock
             .setup((x) => x.getFilesInDirectory('/home/user/.config/Dopamine/Themes'))
             .returns(() => ['/home/user/.config/Dopamine/Themes/Theme 1.theme', '/home/user/.config/Dopamine/Themes/Theme 2.theme']);
-        fileAccessMock.setup((x) => x.applicationDataDirectory()).returns(() => '/home/user/.config/Dopamine');
         fileAccessMock
             .setup((x) => x.combinePath(['/home/user/.config/Dopamine', 'Themes']))
             .returns(() => '/home/user/.config/Dopamine/Themes');
@@ -288,12 +291,15 @@ describe('AppearanceService', () => {
         desktopMock = Mock.ofType<DesktopBase>();
         defaultThemesCreatorMock = Mock.ofType<DefaultThemesCreator>();
         documentProxyMock = Mock.ofType<DocumentProxy>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
 
         theme1 = createTheme('Theme 1');
         theme2 = createTheme('Theme 2');
 
         resetDefaultThemesCreatorMock();
         resetFileAccessMock();
+
+        applicationPathsMock.setup((x) => x.themesDirectoryFullPath()).returns(() => '/home/user/.config/Dopamine/Themes');
 
         containerElementMock = document.createElement('div');
         overlayContainerMock.setup((x) => x.getContainerElement()).returns(() => containerElementMock);

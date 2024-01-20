@@ -20,6 +20,7 @@ import { AlbumModel } from '../../../../services/album/album-model';
 import { Track } from '../../../../data/entities/track';
 import { TrackModel } from '../../../../services/track/track-model';
 import { TrackModels } from '../../../../services/track/track-models';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('CollectionAlbumsComponent', () => {
     let searchServiceMock: IMock<SearchServiceBase>;
@@ -30,7 +31,7 @@ describe('CollectionAlbumsComponent', () => {
     let settingsStub: any;
     let schedulerMock: IMock<Scheduler>;
     let loggerMock: IMock<Logger>;
-    let fileAccessMock: IMock<FileAccess>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
     let indexingServiceMock: IMock<IndexingServiceBase>;
     let collectionServiceMock: IMock<CollectionServiceBase>;
     let dateTimeMock: IMock<DateTime>;
@@ -62,7 +63,7 @@ describe('CollectionAlbumsComponent', () => {
     const flushPromises = () => new Promise(process.nextTick);
 
     function createComponent(): CollectionAlbumsComponent {
-        const component: CollectionAlbumsComponent = new CollectionAlbumsComponent(
+        return new CollectionAlbumsComponent(
             searchServiceMock.object,
             albumsPersisterMock.object,
             tracksPersisterMock.object,
@@ -74,8 +75,6 @@ describe('CollectionAlbumsComponent', () => {
             schedulerMock.object,
             loggerMock.object,
         );
-
-        return component;
     }
 
     beforeEach(() => {
@@ -89,7 +88,7 @@ describe('CollectionAlbumsComponent', () => {
         trackServiceMock = Mock.ofType<TrackServiceBase>();
         schedulerMock = Mock.ofType<Scheduler>();
         loggerMock = Mock.ofType<Logger>();
-        fileAccessMock = Mock.ofType<FileAccess>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
         settingsStub = { albumsRightPaneWidthPercent: 30 };
         dateTimeMock = Mock.ofType<DateTime>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
@@ -105,8 +104,8 @@ describe('CollectionAlbumsComponent', () => {
         collectionChangedMock$ = collectionChangedMock.asObservable();
         collectionServiceMock.setup((x) => x.collectionChanged$).returns(() => collectionChangedMock$);
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
         albums = [album1, album2];
 
         track1 = new Track('Path1');

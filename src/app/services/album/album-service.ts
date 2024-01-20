@@ -5,14 +5,14 @@ import { AlbumModel } from './album-model';
 import { TranslatorServiceBase } from '../translator/translator.service.base';
 import { AlbumServiceBase } from './album-service.base';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
-import { FileAccessBase } from '../../common/io/file-access.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 @Injectable()
 export class AlbumService implements AlbumServiceBase {
     public constructor(
         private trackRepository: TrackRepositoryBase,
         private translatorService: TranslatorServiceBase,
-        private fileAccess: FileAccessBase,
+        private applicationPaths: ApplicationPaths,
     ) {}
 
     public getAllAlbums(): AlbumModel[] {
@@ -55,9 +55,7 @@ export class AlbumService implements AlbumServiceBase {
 
     private createAlbumsFromAlbumData(albumDatas: AlbumData[]): AlbumModel[] {
         if (albumDatas != undefined) {
-            const albums: AlbumModel[] = albumDatas.map((x) => new AlbumModel(x, this.translatorService, this.fileAccess));
-
-            return albums;
+            return albumDatas.map((x) => new AlbumModel(x, this.translatorService, this.applicationPaths));
         }
 
         return [];

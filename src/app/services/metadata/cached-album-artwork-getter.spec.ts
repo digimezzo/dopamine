@@ -3,18 +3,19 @@ import { CachedAlbumArtworkGetter } from './cached-album-artwork-getter';
 import { TrackRepositoryBase } from '../../data/repositories/track-repository.base';
 import { FileAccessBase } from '../../common/io/file-access.base';
 import { AlbumData } from '../../data/entities/album-data';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('CachedAlbumArtworkGetter', () => {
     let trackRepositoryMock: IMock<TrackRepositoryBase>;
-    let fileAccessMock: IMock<FileAccessBase>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     beforeEach(() => {
         trackRepositoryMock = Mock.ofType<TrackRepositoryBase>();
-        fileAccessMock = Mock.ofType<FileAccessBase>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
     });
 
     function createInstance(): CachedAlbumArtworkGetter {
-        return new CachedAlbumArtworkGetter(trackRepositoryMock.object, fileAccessMock.object);
+        return new CachedAlbumArtworkGetter(trackRepositoryMock.object, applicationPathsMock.object);
     }
 
     function createAlbumData(artworkId: string): AlbumData {
@@ -58,7 +59,7 @@ describe('CachedAlbumArtworkGetter', () => {
             const albumData1: AlbumData = createAlbumData('id1');
             const albumData2: AlbumData = createAlbumData('id2');
             trackRepositoryMock.setup((x) => x.getAlbumDataForAlbumKey(albumKey)).returns(() => [albumData1, albumData2]);
-            fileAccessMock.setup((x) => x.coverArtFullPath('id1')).returns(() => '/my/path/id1');
+            applicationPathsMock.setup((x) => x.coverArtFullPath('id1')).returns(() => '/my/path/id1');
 
             // Act
             const cachedAlbumArtworkPath: string = instance.getCachedAlbumArtworkPath(albumKey);

@@ -6,11 +6,12 @@ import { FileAccess } from '../../../../common/io/file-access';
 import { TranslatorServiceBase } from '../../../../services/translator/translator.service.base';
 import { AlbumData } from '../../../../data/entities/album-data';
 import { AlbumModel } from '../../../../services/album/album-model';
+import { ApplicationPaths } from '../../../../common/application/application-paths';
 
 describe('ArtistsAlbumsPersister', () => {
     let settingsStub: any;
     let loggerMock: IMock<Logger>;
-    let fileAccessMock: IMock<FileAccess>;
+    let applicationPathsMock: IMock<ApplicationPaths>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
 
     let persister: ArtistsAlbumsPersister;
@@ -26,7 +27,7 @@ describe('ArtistsAlbumsPersister', () => {
     beforeEach(() => {
         settingsStub = { artistsTabSelectedAlbum: '', genresTabSelectedAlbumOrder: '' };
         loggerMock = Mock.ofType<Logger>();
-        fileAccessMock = Mock.ofType<FileAccess>();
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
         translatorServiceMock = Mock.ofType<TranslatorServiceBase>();
 
         albumData1 = new AlbumData();
@@ -35,9 +36,9 @@ describe('ArtistsAlbumsPersister', () => {
         albumData2.albumKey = 'albumKey2';
         albumData3 = new AlbumData();
         albumData3.albumKey = 'albumKey3';
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
-        album2 = new AlbumModel(albumData2, translatorServiceMock.object, fileAccessMock.object);
-        album3 = new AlbumModel(albumData3, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
+        album2 = new AlbumModel(albumData2, translatorServiceMock.object, applicationPathsMock.object);
+        album3 = new AlbumModel(albumData3, translatorServiceMock.object, applicationPathsMock.object);
         availableAlbums = [album1, album2, album3];
 
         persister = new ArtistsAlbumsPersister(settingsStub, loggerMock.object);

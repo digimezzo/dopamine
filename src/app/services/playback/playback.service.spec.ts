@@ -25,6 +25,7 @@ import { AudioPlayerBase } from './audio-player.base';
 import { PlaybackServiceBase } from './playback.service.base';
 import { AlbumData } from '../../data/entities/album-data';
 import { NotificationServiceBase } from '../notification/notification.service.base';
+import { ApplicationPaths } from '../../common/application/application-paths';
 
 describe('PlaybackService', () => {
     let trackServiceMock: IMock<TrackServiceBase>;
@@ -43,6 +44,8 @@ describe('PlaybackService', () => {
     let subscription: Subscription;
     let dateTimeMock: IMock<DateTime>;
     let translatorServiceMock: IMock<TranslatorServiceBase>;
+
+    let applicationPathsMock: IMock<ApplicationPaths>;
 
     const albumData1: AlbumData = new AlbumData();
     albumData1.albumKey = 'albumKey1';
@@ -77,6 +80,9 @@ describe('PlaybackService', () => {
         queueMock = Mock.ofType<Queue>();
         progressUpdaterMock = Mock.ofType<ProgressUpdater>();
         mathExtensionsMock = Mock.ofType<MathExtensions>();
+
+        applicationPathsMock = Mock.ofType<ApplicationPaths>();
+
         settingsStub = { volume: 0.6 };
         playbackFinished = new Subject();
         progressUpdaterProgressChanged = new Subject();
@@ -88,7 +94,7 @@ describe('PlaybackService', () => {
 
         subscription = new Subscription();
 
-        album1 = new AlbumModel(albumData1, translatorServiceMock.object, fileAccessMock.object);
+        album1 = new AlbumModel(albumData1, translatorServiceMock.object, applicationPathsMock.object);
 
         track1 = new Track('Path 1');
         track1.trackTitle = 'Title 1';

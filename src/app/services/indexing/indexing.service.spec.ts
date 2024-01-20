@@ -2,17 +2,16 @@ import { IMock, Mock } from 'typemoq';
 import { Logger } from '../../common/logger';
 import { NotificationServiceBase } from '../notification/notification.service.base';
 import { FolderServiceBase } from '../folder/folder.service.base';
-import { FileAccessBase } from '../../common/io/file-access.base';
 import { SettingsBase } from '../../common/settings/settings.base';
 import { IndexingService } from './indexing.service';
 import { IndexingServiceBase } from './indexing.service.base';
 import { Observable, Subject } from 'rxjs';
-import { NotificationData } from '../notification/notification-data';
+import { DesktopBase } from '../../common/io/desktop.base';
 
 describe('IndexingService', () => {
     let notificationServiceMock: IMock<NotificationServiceBase>;
     let folderServiceMock: IMock<FolderServiceBase>;
-    let fileAccessMock: IMock<FileAccessBase>;
+    let desktopMock: IMock<DesktopBase>;
     let settingsMock: IMock<SettingsBase>;
     let loggerMock: IMock<Logger>;
 
@@ -21,7 +20,7 @@ describe('IndexingService', () => {
     beforeEach(() => {
         notificationServiceMock = Mock.ofType<NotificationServiceBase>();
         folderServiceMock = Mock.ofType<FolderServiceBase>();
-        fileAccessMock = Mock.ofType<FileAccessBase>();
+        desktopMock = Mock.ofType<DesktopBase>();
         settingsMock = Mock.ofType<SettingsBase>();
         loggerMock = Mock.ofType<Logger>();
 
@@ -34,7 +33,7 @@ describe('IndexingService', () => {
         return new IndexingService(
             notificationServiceMock.object,
             folderServiceMock.object,
-            fileAccessMock.object,
+            desktopMock.object,
             settingsMock.object,
             loggerMock.object,
         );
